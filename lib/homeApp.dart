@@ -68,7 +68,7 @@ class _homeAppState extends State<homeApp>{
 
                                     return Container(
                                       width: double.infinity,
-                                      height: heig - 439,
+                                      height: heig / 2.5,
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                           color: Colors.black,
@@ -90,27 +90,31 @@ class _homeAppState extends State<homeApp>{
                                                   showDialog(
                                                     context: context,
                                                     builder: (BuildContext context) {
-                                                      return AlertDialog(
-                                                        title: const Text('Aviso!'),
-                                                        actions: [
-                                                          Center(
-                                                            child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                              children: [
-                                                                Text(documents["Aviso"]),
-                                                                Container(
-                                                                  padding: const EdgeInsets.all(16),
-                                                                  child: ElevatedButton(onPressed: (){
-                                                                    Navigator.pop(context);
-                                                                  },
-                                                                      child: const Text('Fechar')
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          )
-                                                        ],
+                                                      return Center(
+                                                        child: SingleChildScrollView(
+                                                          child: AlertDialog(
+                                                            title: const Text('Aviso!'),
+                                                            actions: [
+                                                              Center(
+                                                                child: Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  children: [
+                                                                    Text(documents["Aviso"]),
+                                                                    Container(
+                                                                      padding: const EdgeInsets.all(16),
+                                                                      child: ElevatedButton(onPressed: (){
+                                                                        Navigator.pop(context);
+                                                                      },
+                                                                          child: const Text('Fechar')
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
                                                       );
                                                     },
                                                   );
@@ -409,47 +413,65 @@ class _homeAppState extends State<homeApp>{
                         ),
                       ),
                       Expanded(
-                        child: ip != "" ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: ip != "" ? Stack(
                           children: [
-                            Row(
+                            Container(
+                              alignment: Alignment.topRight,
+                              child: IconButton(
+                                onPressed: (){
+                                  setState(() {
+                                    ip = '';
+                                    user = "";
+                                    pass = "";
+                                    porta = null;
+                                  });
+                                },
+                                icon: const Icon(Icons.close),
+                              ),
+                            ),
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Expanded(child:
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(child:
                                     videoStream(user, pass, ip, porta!, 1)
-                                ),
-                                Expanded(child:
+                                    ),
+                                    Expanded(child:
                                     videoStream(user, pass, ip, porta!, 2)
-                                ),
-                                Expanded(child:
+                                    ),
+                                    Expanded(child:
                                     videoStream(user, pass, ip, porta!, 3)
-                                ),
-                                Expanded(child:
+                                    ),
+                                    Expanded(child:
                                     videoStream(user, pass, ip, porta!, 4)
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(child:
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(child:
                                     videoStream(user, pass, ip, porta!, 5)
-                                ),
-                                Expanded(child:
-                                   videoStream(user, pass, ip, porta!, 6)
-                                ),
-                                Expanded(child:
+                                    ),
+                                    Expanded(child:
+                                    videoStream(user, pass, ip, porta!, 6)
+                                    ),
+                                    Expanded(child:
                                     videoStream(user, pass, ip, porta!, 7)
-                                ),
-                                Expanded(child:
-                                      videoStream(user, pass, ip, porta!, 8)
+                                    ),
+                                    Expanded(child:
+                                    videoStream(user, pass, ip, porta!, 8)
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
+                          ]
                         ): Container(
                             alignment: Alignment.center,
                             child: const Text('Abra algum condominio para exibir as cameras!')
