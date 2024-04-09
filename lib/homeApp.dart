@@ -60,8 +60,10 @@ class _homeAppState extends State<homeApp>{
                                       .snapshots(),
                                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
 
-                                    if(snapshot.data!.docs.isEmpty){
-                                      return const Center(child: CircularProgressIndicator());
+                                    if (!snapshot.hasData) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
                                     }
 
                                     return Container(
