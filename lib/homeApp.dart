@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sparta_monitoramento/getIds.dart';
 import 'package:sparta_monitoramento/videoStream/videoStream.dart';
 import 'package:uuid/uuid.dart';
@@ -12,6 +16,8 @@ String user = "";
 String pass = "";
 int? porta;
 bool pesquisando = false;
+
+String idCondominio = "";
 
 String pesquisa = '';
 
@@ -136,6 +142,7 @@ class _homeAppState extends State<homeApp>{
                                                   user = documents["UserAccess"];
                                                   pass = documents["PassAccess"];
                                                   porta = documents["PortaCameras"];
+                                                  idCondominio = documents["idCondominio"];
                                                 });
                                                 if(documents["Aviso"] != ""){
                                                   showDialog(
@@ -538,9 +545,7 @@ class _homeAppState extends State<homeApp>{
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: idCondominio != "" ? Stack(
                           children: [
                             //UI começa aqui!
                             Column(
@@ -548,7 +553,7 @@ class _homeAppState extends State<homeApp>{
                                 AppBar(
                                   backgroundColor: Colors.deepPurpleAccent,
                                   centerTitle: true,
-                                  title: const Text('Pessoas'),
+                                  title: const Text('Visitantes e Moradores'),
                                 ),
                                 Center(
                                   child: Container(
@@ -583,7 +588,7 @@ class _homeAppState extends State<homeApp>{
                                               color: Colors.black
                                           ),
                                         ),
-                                        hintText: 'Pesquisar',
+                                        hintText: 'Pesquisar (CPF)',
                                       ),
                                     ),
                                   ),
@@ -591,13 +596,13 @@ class _homeAppState extends State<homeApp>{
                                 StreamBuilder(
                                   stream: pesquisando == false ? FirebaseFirestore.instance
                                       .collection("Pessoas")
-                                      .where("IDEmpresaPertence", isEqualTo: UID)
+                                      .where("idCondominio", isEqualTo: idCondominio)
                                       .snapshots():
                                   FirebaseFirestore.instance
                                       .collection("Pessoas")
-                                      .where("IDEmpresaPertence", isEqualTo: UID)
-                                      .where("Nome", isGreaterThanOrEqualTo: pesquisa2)
-                                      .where("Nome", isLessThan: "${pesquisa2}z")
+                                      .where("idCondominio", isEqualTo: idCondominio)
+                                      .where("CPF", isGreaterThanOrEqualTo: pesquisa2)
+                                      .where("CPF", isLessThan: "${pesquisa2}z")
                                       .snapshots(),
                                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
 
@@ -622,51 +627,20 @@ class _homeAppState extends State<homeApp>{
                                           return InkWell(
                                             onTap: (){
                                               setState(() {
-                                                ip = documents["IpCamera"];
-                                                user = documents["UserAccess"];
-                                                pass = documents["PassAccess"];
-                                                porta = documents["PortaCameras"];
+                                                //setState
                                               });
-                                              if(documents["Aviso"] != ""){
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (BuildContext context) {
-                                                    return Center(
-                                                      child: SingleChildScrollView(
-                                                        child: AlertDialog(
-                                                          title: const Text('Aviso!'),
-                                                          actions: [
-                                                            Center(
-                                                              child: Column(
-                                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                children: [
-                                                                  Text(documents["Aviso"]),
-                                                                  Container(
-                                                                    padding: const EdgeInsets.all(16),
-                                                                    child: ElevatedButton(onPressed: (){
-                                                                      Navigator.pop(context);
-                                                                    },
-                                                                        child: const Text('Fechar')
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              }
                                             },
                                             child: Container(
                                               padding: const EdgeInsets.all(16),
                                               child: SizedBox(
                                                 width: double.infinity,
                                                 height: 50,
-                                                child: Text(documents['Nome']),
+                                                child: Column(
+                                                  children: [
+                                                    Text("Nome: ${documents['Nome']}"),
+                                                    Text("Tipo: ${documents['tipoDeUser']}"),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           );
@@ -677,10 +651,288 @@ class _homeAppState extends State<homeApp>{
                                 ),
                               ],
                             ),
+                            Container(
+                              alignment: Alignment.bottomRight,
+                              padding: const EdgeInsets.all(16),
+                              child: FloatingActionButton(onPressed: (){
+                                String NomeV = "";
+                                String CPFV = "";
+                                String RGV = "";
+                                DateTime selectedDate = DateTime.now();
+                                String dropdownValue = 'Morador';
+                                File? _imageFile;
+                                final picker = ImagePicker();
+
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                      return Center(
+                                        child: SingleChildScrollView(
+                                          child: AlertDialog(
+                                            title: Center(
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  const Text('Cadastre-se um morador ou visitante'),
+                                                  IconButton(onPressed: (){
+                                                    Navigator.pop(context);
+                                                  }, icon: const Icon(Icons.close)
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            actions: [
+                                              Center(
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(16),
+                                                  child: TextField(
+                                                    keyboardType: TextInputType.emailAddress,
+                                                    enableSuggestions: false,
+                                                    autocorrect: false,
+                                                    onChanged: (value){
+                                                      setState(() {
+                                                        NomeV = value;
+                                                      });
+                                                    },
+                                                    decoration: const InputDecoration(
+                                                      border: OutlineInputBorder(),
+                                                      enabledBorder: OutlineInputBorder(
+                                                        borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                      ),
+                                                      focusedBorder: OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            width: 3,
+                                                            color: Colors.black
+                                                        ),
+                                                      ),
+                                                      labelText: 'Nome',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Center(
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(16),
+                                                  child: TextField(
+                                                    keyboardType: TextInputType.emailAddress,
+                                                    enableSuggestions: false,
+                                                    autocorrect: false,
+                                                    onChanged: (value){
+                                                      setState(() {
+                                                        CPFV = value;
+                                                      });
+                                                    },
+                                                    decoration: const InputDecoration(
+                                                      border: OutlineInputBorder(),
+                                                      enabledBorder: OutlineInputBorder(
+                                                        borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                      ),
+                                                      focusedBorder: OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            width: 3,
+                                                            color: Colors.black
+                                                        ),
+                                                      ),
+                                                      labelText: 'CPF',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Center(
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(16),
+                                                  child: TextField(
+                                                    keyboardType: TextInputType.emailAddress,
+                                                    enableSuggestions: false,
+                                                    autocorrect: false,
+                                                    onChanged: (value){
+                                                      setState(() {
+                                                        RGV = value;
+                                                      });
+                                                    },
+                                                    decoration: const InputDecoration(
+                                                      border: OutlineInputBorder(),
+                                                      enabledBorder: OutlineInputBorder(
+                                                        borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                      ),
+                                                      focusedBorder: OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            width: 3,
+                                                            color: Colors.black
+                                                        ),
+                                                      ),
+                                                      labelText: 'RG',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Center(
+                                                child: Container(
+                                                    padding: const EdgeInsets.all(16),
+                                                    child: Text(selectedDate == null ? 'Selecione a data de nascimento' :
+                                                    "Data de nacimento ${selectedDate.year}/${selectedDate.month}/${selectedDate.day}")
+                                                ),
+                                              ),
+                                              Center(
+                                                child: Container(
+                                                    padding: const EdgeInsets.all(16),
+                                                    child: const Text('Selecione se é Morador ou Visitante')
+                                                ),
+                                              ),
+                                              Center(
+                                                child: DropdownButton<String>(
+                                                  value: dropdownValue,
+                                                  onChanged: (String? newValue) {
+                                                    setState(() {
+                                                      dropdownValue = newValue!;
+                                                    });
+                                                  },
+                                                  items: <String>['Morador', 'Visitante']
+                                                      .map<DropdownMenuItem<String>>((String value) {
+                                                    return DropdownMenuItem<String>(
+                                                      value: value,
+                                                      child: Text(value),
+                                                    );
+                                                  }).toList(),
+                                                ),
+                                              ),
+                                              Center(
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(16),
+                                                  child: ElevatedButton(
+                                                    onPressed: () async {
+                                                      final DateTime? picked = await showDatePicker(
+                                                        context: context,
+                                                        initialDate: selectedDate,
+                                                        firstDate: DateTime(1800, 8),
+                                                        lastDate: DateTime(2101),
+                                                      );
+                                                      if (picked != null && picked != selectedDate) {
+                                                        setState(() {
+                                                          selectedDate = picked;
+                                                        });
+                                                      }
+                                                    },
+                                                    child: const Text('Selecione uma data'),
+                                                  )
+                                                ),
+                                              ),
+                                              _imageFile != null ? Center(
+                                                child: SizedBox(
+                                                  width: 300,
+                                                  height: 300,
+                                                  child: Image.file(_imageFile!),
+                                                ),
+                                              ): Container(),
+                                              Center(
+                                                child: ElevatedButton(
+                                                  onPressed: () async {
+                                                    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+                                                    setState(() {
+                                                      if (pickedFile != null) {
+                                                        _imageFile = File(pickedFile.path);
+                                                      } else {
+                                                        showToast("Imagem não selecionada!",context:context);
+                                                      }
+                                                    });
+                                                  },
+                                                  child: const Text('Selecione uma Imagem de perfil'),
+                                                ),
+                                              ),
+                                              ElevatedButton(onPressed: () async {
+                                                if(NomeV == ""){
+                                                  showToast("O nome está vazio!",context:context);
+                                                }else{
+                                                  if(CPFV == ""){
+                                                    showToast("O CPF está vazio!",context:context);
+                                                  }else{
+                                                    if(RGV == ""){
+                                                      showToast("O RG está vazio!",context:context);
+                                                    }else{
+                                                      if(selectedDate == null){
+                                                        showToast("A data está vazia!",context:context);
+                                                      }else{
+                                                        if(dropdownValue == ""){
+                                                          showToast("Selecione se é morador ou visitante",context:context);
+                                                        }else{
+                                                          if(_imageFile == null){
+                                                            showToast("Selecione uma foto!",context:context);
+                                                          }else{
+                                                            showDialog(
+                                                              context: context,
+                                                              builder: (BuildContext context) {
+                                                                return const AlertDialog(
+                                                                  title: Text('Aguarde!'),
+                                                                  actions: [
+                                                                    Center(
+                                                                      child: CircularProgressIndicator(),
+                                                                    )
+                                                                  ],
+                                                                );
+                                                              },
+                                                            );
+                                                            Uuid uuid = const Uuid();
+                                                            String UUID = uuid.v4();
+
+                                                            FirebaseStorage storage = FirebaseStorage.instance;
+                                                            Reference ref = storage.ref().child('images/$idCondominio/$UUID');
+                                                            await ref.putFile(_imageFile!).whenComplete(() {
+                                                              showToast("Imagem carregada!",context:context);
+                                                            }).catchError((e){
+                                                              showToast("Houve uma falha no carregamento! codigo do erro: $e",context:context);
+                                                              showToast("Repasse esse erro para o desenvolvedor!",context:context);
+                                                            });
+
+
+                                                            FirebaseFirestore.instance.collection('Pessoas').doc(UUID).set({
+                                                              "id": UUID,
+                                                              "idCondominio": idCondominio,
+                                                              "Nome": NomeV,
+                                                              "CPF": CPFV,
+                                                              "RG": RGV,
+                                                              "DataNascimento": "${selectedDate.year}/${selectedDate.month}/${selectedDate.day}",
+                                                              "tipoDeUser": dropdownValue,
+                                                              "imageURI": await ref.getDownloadURL()
+                                                            }).whenComplete(() {
+                                                              Navigator.pop(context);
+                                                              Navigator.pop(context);
+                                                            });
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              },child: const Text('Registrar novo Condominio')
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },);
+                                  },
+                                );
+                              },
+                                child: const Icon(Icons.add),
+                              ),
+                            ),
                           ],
+                        ):  Center(
+                          child: Column(
+                            children: [
+                              AppBar(
+                                backgroundColor: Colors.deepPurpleAccent,
+                                centerTitle: true,
+                                title: const Text('Visitantes e Moradores'),
+                              ),
+                              const Center(child: Text('Selecione o condominio')),
+                            ],
+                          ),
                         )
                       ),
-                      Expanded(
+                      const Expanded(
                         child: SizedBox(
                             child: Placeholder()
                         ),
