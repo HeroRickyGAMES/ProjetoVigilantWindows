@@ -11,6 +11,12 @@ String ip = '';
 String user = "";
 String pass = "";
 int? porta;
+bool pesquisando = false;
+
+String pesquisa = '';
+
+bool pesquisando2 = false;
+String pesquisa2 = '';
 
 class homeApp extends StatefulWidget {
   const homeApp({super.key});
@@ -53,10 +59,55 @@ class _homeAppState extends State<homeApp>{
                                   centerTitle: true,
                                   title: const Text('Condominios'),
                                 ),
+                                Center(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    child: TextField(
+                                      keyboardType: TextInputType.name,
+                                      enableSuggestions: true,
+                                      autocorrect: true,
+                                      onChanged: (value){
+                                        setState(() {
+                                          pesquisa = value;
+                                        });
+
+                                        if(value == ""){
+                                          setState(() {
+                                            pesquisando = false;
+                                          });
+                                        }else{
+                                          setState(() {
+                                            pesquisando = true;
+                                          });
+                                        }
+                                      },
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 3,
+                                              color: Colors.black
+                                          ),
+                                        ),
+                                        hintText: 'Pesquisar',
+
+                                      ),
+                                    ),
+                                  ),
+                                ),
                                 StreamBuilder(
-                                  stream: FirebaseFirestore.instance
+                                  stream: pesquisando == false ? FirebaseFirestore.instance
                                       .collection("Condominios")
                                       .where("IDEmpresaPertence", isEqualTo: UID)
+                                      .snapshots():
+                                  FirebaseFirestore.instance
+                                      .collection("Condominios")
+                                      .where("IDEmpresaPertence", isEqualTo: UID)
+                                      .where("Nome", isGreaterThanOrEqualTo: pesquisa)
+                                      .where("Nome", isLessThan: "${pesquisa}z")
                                       .snapshots(),
                                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
 
@@ -68,7 +119,7 @@ class _homeAppState extends State<homeApp>{
 
                                     return Container(
                                       width: double.infinity,
-                                      height: heig / 2.5,
+                                      height: heig / 3.3,
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                           color: Colors.black,
@@ -482,14 +533,152 @@ class _homeAppState extends State<homeApp>{
                 ),
                 SizedBox(
                   height: heig / 2,
-                  child: const Row(
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
-                        child: SizedBox(
-                            child: Placeholder()
-                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            //UI começa aqui!
+                            Column(
+                              children: [
+                                AppBar(
+                                  backgroundColor: Colors.deepPurpleAccent,
+                                  centerTitle: true,
+                                  title: const Text('Pessoas'),
+                                ),
+                                Center(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    child: TextField(
+                                      keyboardType: TextInputType.name,
+                                      enableSuggestions: true,
+                                      autocorrect: true,
+                                      onChanged: (value){
+                                        setState(() {
+                                          pesquisa = value;
+                                        });
+
+                                        if(value == ""){
+                                          setState(() {
+                                            pesquisando2 = false;
+                                          });
+                                        }else{
+                                          setState(() {
+                                            pesquisando2 = true;
+                                          });
+                                        }
+                                      },
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 3,
+                                              color: Colors.black
+                                          ),
+                                        ),
+                                        hintText: 'Pesquisar',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                StreamBuilder(
+                                  stream: pesquisando == false ? FirebaseFirestore.instance
+                                      .collection("Pessoas")
+                                      .where("IDEmpresaPertence", isEqualTo: UID)
+                                      .snapshots():
+                                  FirebaseFirestore.instance
+                                      .collection("Pessoas")
+                                      .where("IDEmpresaPertence", isEqualTo: UID)
+                                      .where("Nome", isGreaterThanOrEqualTo: pesquisa2)
+                                      .where("Nome", isLessThan: "${pesquisa2}z")
+                                      .snapshots(),
+                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+
+                                    if (!snapshot.hasData) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+
+                                    return Container(
+                                      width: double.infinity,
+                                      height: heig / 3.3,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.black,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                      ),
+                                      child: ListView(
+                                        children: snapshot.data!.docs.map((documents){
+                                          return InkWell(
+                                            onTap: (){
+                                              setState(() {
+                                                ip = documents["IpCamera"];
+                                                user = documents["UserAccess"];
+                                                pass = documents["PassAccess"];
+                                                porta = documents["PortaCameras"];
+                                              });
+                                              if(documents["Aviso"] != ""){
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return Center(
+                                                      child: SingleChildScrollView(
+                                                        child: AlertDialog(
+                                                          title: const Text('Aviso!'),
+                                                          actions: [
+                                                            Center(
+                                                              child: Column(
+                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                children: [
+                                                                  Text(documents["Aviso"]),
+                                                                  Container(
+                                                                    padding: const EdgeInsets.all(16),
+                                                                    child: ElevatedButton(onPressed: (){
+                                                                      Navigator.pop(context);
+                                                                    },
+                                                                        child: const Text('Fechar')
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              }
+                                            },
+                                            child: Container(
+                                              padding: const EdgeInsets.all(16),
+                                              child: SizedBox(
+                                                width: double.infinity,
+                                                height: 50,
+                                                child: Text(documents['Nome']),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
                       ),
                       Expanded(
                         child: SizedBox(
