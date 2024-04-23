@@ -626,9 +626,77 @@ class _homeAppState extends State<homeApp>{
                                           children: snapshot.data!.docs.map((documents){
                                             return InkWell(
                                               onTap: (){
-                                                setState(() {
-                                                  //setState
-                                                });
+                                                String anotacao = documents["anotacao"];
+
+                                                TextEditingController controller = TextEditingController(text: anotacao);
+
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                      return AlertDialog(
+                                                        title: const Text('Anotação'),
+                                                        actions: [
+                                                          Center(
+                                                            child: Column(
+                                                              children: [
+                                                                Center(
+                                                                  child: Container(
+                                                                    padding: const EdgeInsets.all(16),
+                                                                    child: TextField(
+                                                                      controller: controller,
+                                                                      keyboardType: TextInputType.emailAddress,
+                                                                      enableSuggestions: false,
+                                                                      autocorrect: false,
+                                                                      onChanged: (value){
+                                                                        setState(() {
+                                                                          anotacao = value;
+                                                                        });
+                                                                      },
+                                                                      decoration: const InputDecoration(
+                                                                        border: OutlineInputBorder(),
+                                                                        enabledBorder: OutlineInputBorder(
+                                                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                        ),
+                                                                        focusedBorder: OutlineInputBorder(
+                                                                          borderSide: BorderSide(
+                                                                              width: 3,
+                                                                              color: Colors.black
+                                                                          ),
+                                                                        ),
+                                                                        labelText: 'Anotação',
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    TextButton(
+                                                                        onPressed: (){
+                                                                          Navigator.of(context).pop();
+                                                                        }, child: const Text('Fechar')
+                                                                    ),
+                                                                    TextButton(
+                                                                        onPressed: (){
+                                                                          FirebaseFirestore.instance.collection('Pessoas').doc(documents['id']).update({
+                                                                            "anotacao": anotacao
+                                                                          }).whenComplete(() {
+                                                                            Navigator.of(context).pop();
+                                                                          });
+                                                                        }, child: const Text('Salvar')
+                                                                    )
+                                                                  ],
+                                                                ),
+
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      );
+                                                    },);
+                                                  },
+                                                );
                                               },
                                               child: Container(
                                                 padding: const EdgeInsets.all(16),
@@ -658,7 +726,9 @@ class _homeAppState extends State<homeApp>{
                                       centerTitle: true,
                                       title: const Text('Visitantes e Moradores'),
                                     ),
-                                    const Center(child: Text('Selecione o condominio')),
+                                    const Center(
+                                        child: Text('Selecione o condominio')
+                                    ),
                                   ],
                                 ),
                               ),
@@ -905,7 +975,8 @@ class _homeAppState extends State<homeApp>{
                                                                 "RG": RGV,
                                                                 "DataNascimento": "${selectedDate.year}/${selectedDate.month}/${selectedDate.day}",
                                                                 "tipoDeUser": dropdownValue,
-                                                                "imageURI": await ref.getDownloadURL()
+                                                                "imageURI": await ref.getDownloadURL(),
+                                                                "anotacao": "",
                                                               }).whenComplete(() {
                                                                 Navigator.pop(context);
                                                                 Navigator.pop(context);
