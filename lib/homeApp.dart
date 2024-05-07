@@ -634,65 +634,85 @@ class _homeAppState extends State<homeApp>{
                                                   context: context,
                                                   builder: (BuildContext context) {
                                                     return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                                      return AlertDialog(
-                                                        title: const Text('Anotação'),
-                                                        actions: [
-                                                          Center(
-                                                            child: Column(
-                                                              children: [
-                                                                Center(
-                                                                  child: Container(
-                                                                    padding: const EdgeInsets.all(16),
-                                                                    child: TextField(
-                                                                      controller: controller,
-                                                                      keyboardType: TextInputType.emailAddress,
-                                                                      enableSuggestions: false,
-                                                                      autocorrect: false,
-                                                                      onChanged: (value){
-                                                                        setState(() {
-                                                                          anotacao = value;
-                                                                        });
-                                                                      },
-                                                                      decoration: const InputDecoration(
-                                                                        border: OutlineInputBorder(),
-                                                                        enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                      return Center(
+                                                        child: SingleChildScrollView(
+                                                          child: AlertDialog(
+                                                            title: const Text('Anotação'),
+                                                            actions: [
+                                                              Center(
+                                                                child: Column(
+                                                                  children: [
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding: const EdgeInsets.all(16),
+                                                                        child: Column(
+                                                                          children: [
+                                                                            Container(
+                                                                                padding: const EdgeInsets.all(8),
+                                                                                child: Image.network(documents["imageURI"])
+                                                                            ),
+                                                                            Container(
+                                                                                padding: const EdgeInsets.all(8),
+                                                                                child: Text("Nome: ${documents["Nome"]}")
+                                                                            ),
+                                                                            Container(
+                                                                                padding: const EdgeInsets.all(8),
+                                                                                child: Text("CPF: ${documents["CPF"]}")
+                                                                            ),
+                                                                            TextField(
+                                                                              controller: controller,
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  anotacao = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: const InputDecoration(
+                                                                                border: OutlineInputBorder(),
+                                                                                enabledBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Anotação',
+                                                                              ),
+                                                                            ),
+                                                                          ],
                                                                         ),
-                                                                        focusedBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        labelText: 'Anotação',
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                ),
-                                                                Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                  children: [
-                                                                    TextButton(
-                                                                        onPressed: (){
-                                                                          Navigator.of(context).pop();
-                                                                        }, child: const Text('Fechar')
+                                                                    Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                      children: [
+                                                                        TextButton(
+                                                                            onPressed: (){
+                                                                              Navigator.of(context).pop();
+                                                                            }, child: const Text('Fechar')
+                                                                        ),
+                                                                        TextButton(
+                                                                            onPressed: (){
+                                                                              FirebaseFirestore.instance.collection('Pessoas').doc(documents['id']).update({
+                                                                                "anotacao": anotacao
+                                                                              }).whenComplete(() {
+                                                                                Navigator.of(context).pop();
+                                                                              });
+                                                                            }, child: const Text('Salvar')
+                                                                        )
+                                                                      ],
                                                                     ),
-                                                                    TextButton(
-                                                                        onPressed: (){
-                                                                          FirebaseFirestore.instance.collection('Pessoas').doc(documents['id']).update({
-                                                                            "anotacao": anotacao
-                                                                          }).whenComplete(() {
-                                                                            Navigator.of(context).pop();
-                                                                          });
-                                                                        }, child: const Text('Salvar')
-                                                                    )
+
                                                                   ],
                                                                 ),
-
-                                                              ],
-                                                            ),
-                                                          )
-                                                        ],
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
                                                       );
                                                     },);
                                                   },
