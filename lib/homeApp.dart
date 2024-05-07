@@ -637,7 +637,16 @@ class _homeAppState extends State<homeApp>{
                                                       return Center(
                                                         child: SingleChildScrollView(
                                                           child: AlertDialog(
-                                                            title: const Text('Anotação'),
+                                                            title: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                              children: [
+                                                                const Text('Detalhes'),
+                                                                IconButton(onPressed: (){
+                                                                  Navigator.pop(context);
+                                                                }, icon: const Icon(Icons.close)
+                                                                )
+                                                              ],
+                                                            ),
                                                             actions: [
                                                               Center(
                                                                 child: Column(
