@@ -7,6 +7,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sparta_monitoramento/getIds.dart';
 import 'package:sparta_monitoramento/videoStream/videoStream.dart';
+import 'package:sparta_monitoramento/voip/voipAPI.dart';
 import 'package:uuid/uuid.dart';
 
 //Desenvolvido por HeroRickyGames
@@ -1043,9 +1044,11 @@ class _homeAppState extends State<homeApp>{
                             ],
                           )
                       ),
-                      const Expanded(
+                      Expanded(
                         child: SizedBox(
-                            child: Placeholder()
+                            child: Center(
+                                  child: audioStream("admin", "", "sip2.vtcall.com.br", 554, 0)
+                            )
                         ),
                       )
                     ],
