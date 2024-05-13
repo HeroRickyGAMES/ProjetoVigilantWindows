@@ -27,7 +27,7 @@ class _audioStreamState extends State<audioStream> {
   }
 
   openPlayer() async {
-    player.open(Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/cam/realmonitor?channel=${widget.canal}&subtype='));
+    player.open(Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/cam/realmonitor?channel=${widget.canal}&subtype=1'));
     await player.setAudioTrack(AudioTrack.auto());
   }
 
