@@ -1337,9 +1337,9 @@ class _homeAppState extends State<homeApp>{
                       ),
                       Expanded(
                         child: SizedBox(
-                            child: Center(
-                                  child: audioStream("admin", "", "sip2.vtcall.com.br", 554, 0)
-                            )
+                            //child: Center(
+                            //      child: audioStream("admin", "", "sip2.vtcall.com.br", 554, 0)
+                            //)
                         ),
                       )
                     ],
