@@ -1,0 +1,3 @@
+[submodule "dependencias/asterisk.dart"]
+	path = dependencias/asterisk.dart
+	url = https://github.com/simolus3/asterisk.dart
