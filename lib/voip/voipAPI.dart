@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sip_ua/sip_ua.dart';
@@ -8,7 +7,9 @@ import 'package:sip_ua/sip_ua.dart';
 bool voiceOnly = false;
 
 //Nesse trexo ele conecta ao VoIP.
-ConnectVoIP(){
+ConnectVoIP() async {
+  await Permission.microphone.request();
+
   String displayName = "Flutter SIP UA";
   String authUser = "2206";
   String Porta = "5060";
@@ -18,7 +19,6 @@ ConnectVoIP(){
   final SIPUAHelper helper = SIPUAHelper();
   late RegistrationState registerState;
   registerState = helper.registerState;
-  //helper.addSipUaHelperListener(context);
 
   UaSettings settings = UaSettings();
 
@@ -41,14 +41,16 @@ ConnectVoIP(){
 
 
   helper.start(settings);
+
+  if(helper.connected == true){
+    print("Conectado com sucesso!");
+  }
 }
 
 useVoIP() async {
 
-  ConnectVoIP();
-  if(Platform.isWindows){
-    await Permission.microphone.request();
-  }
+  await ConnectVoIP();
+
   final mediaConstraints = <String, dynamic>{
     'audio': true,
     'video': {
