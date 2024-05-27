@@ -206,6 +206,10 @@ class _homeAppState extends State<homeApp>{
                                 String UserAccess = "";
                                 String PassAccess = "";
                                 String Aviso = "";
+                                String SIPUrl = "";
+                                String Porta = "";
+                                String AuthUser = "";
+                                String Pass = "";
 
                                 showDialog(
                                   context: context,
@@ -403,6 +407,118 @@ class _homeAppState extends State<homeApp>{
                                                   autocorrect: false,
                                                   onChanged: (value){
                                                     setState(() {
+                                                      SIPUrl = value;
+                                                    });
+                                                  },
+                                                  decoration: const InputDecoration(
+                                                    border: OutlineInputBorder(),
+                                                    enabledBorder: OutlineInputBorder(
+                                                      borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                    ),
+                                                    focusedBorder: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          width: 3,
+                                                          color: Colors.black
+                                                      ),
+                                                    ),
+                                                    labelText: 'SIP Url (sip2.chamada.com.br)',
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Center(
+                                              child: Container(
+                                                padding: const EdgeInsets.all(16),
+                                                child: TextField(
+                                                  keyboardType: TextInputType.emailAddress,
+                                                  enableSuggestions: false,
+                                                  autocorrect: false,
+                                                  onChanged: (value){
+                                                    setState(() {
+                                                      Porta = value;
+                                                    });
+                                                  },
+                                                  decoration: const InputDecoration(
+                                                    border: OutlineInputBorder(),
+                                                    enabledBorder: OutlineInputBorder(
+                                                      borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                    ),
+                                                    focusedBorder: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          width: 3,
+                                                          color: Colors.black
+                                                      ),
+                                                    ),
+                                                    labelText: 'SIP Porta (5060)',
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Center(
+                                              child: Container(
+                                                padding: const EdgeInsets.all(16),
+                                                child: TextField(
+                                                  keyboardType: TextInputType.emailAddress,
+                                                  enableSuggestions: false,
+                                                  autocorrect: false,
+                                                  onChanged: (value){
+                                                    setState(() {
+                                                      AuthUser = value;
+                                                    });
+                                                  },
+                                                  decoration: const InputDecoration(
+                                                    border: OutlineInputBorder(),
+                                                    enabledBorder: OutlineInputBorder(
+                                                      borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                    ),
+                                                    focusedBorder: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          width: 3,
+                                                          color: Colors.black
+                                                      ),
+                                                    ),
+                                                    labelText: 'Usuario de acesso do SIP',
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Center(
+                                              child: Container(
+                                                padding: const EdgeInsets.all(16),
+                                                child: TextField(
+                                                  keyboardType: TextInputType.emailAddress,
+                                                  enableSuggestions: false,
+                                                  autocorrect: false,
+                                                  onChanged: (value){
+                                                    setState(() {
+                                                      Pass = value;
+                                                    });
+                                                  },
+                                                  decoration: const InputDecoration(
+                                                    border: OutlineInputBorder(),
+                                                    enabledBorder: OutlineInputBorder(
+                                                      borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                    ),
+                                                    focusedBorder: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          width: 3,
+                                                          color: Colors.black
+                                                      ),
+                                                    ),
+                                                    labelText: 'Senha de acesso do SIP',
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Center(
+                                              child: Container(
+                                                padding: const EdgeInsets.all(16),
+                                                child: TextField(
+                                                  keyboardType: TextInputType.emailAddress,
+                                                  enableSuggestions: false,
+                                                  autocorrect: false,
+                                                  onChanged: (value){
+                                                    setState(() {
                                                       Aviso = value;
                                                     });
                                                   },
@@ -438,20 +554,36 @@ class _homeAppState extends State<homeApp>{
                                                           if(PassAccess == ""){
                                                             showToast("A Senha para acesso das cameras está vazia!",context:context);
                                                           }else{
-                                                            Uuid uuid = const Uuid();
-                                                            String UUID = uuid.v4();
-                                                            FirebaseFirestore.instance.collection('Condominios').doc(UUID).set({
-                                                                "idCondominio": UUID,
-                                                                "IDEmpresaPertence": UID,
-                                                                "Nome": NomeCondominio,
-                                                                "IpCamera": IPCameras,
-                                                                "PortaCameras": PortaCameras,
-                                                                "UserAccess": UserAccess,
-                                                                "PassAccess": PassAccess,
-                                                                "Aviso": Aviso
-                                                            }).whenComplete(() {
-                                                                Navigator.pop(context);
-                                                            });
+                                                            if(SIPUrl == ""){
+                                                              showToast("A URL do SIP não pode estar vazia!",context:context);
+                                                            }else{
+                                                              if(Porta == ""){
+                                                                showToast("A porta do SIP não pode estar vazia!",context:context);
+                                                              }else{
+                                                                if(AuthUser == ""){
+                                                                  showToast("o acesso do usuario do SIP não pode estar vazio!",context:context);
+                                                                }else{
+                                                                  Uuid uuid = const Uuid();
+                                                                  String UUID = uuid.v4();
+                                                                  FirebaseFirestore.instance.collection('Condominios').doc(UUID).set({
+                                                                    "idCondominio": UUID,
+                                                                    "IDEmpresaPertence": UID,
+                                                                    "Nome": NomeCondominio,
+                                                                    "IpCamera": IPCameras,
+                                                                    "PortaCameras": PortaCameras,
+                                                                    "UserAccess": UserAccess,
+                                                                    "PassAccess": PassAccess,
+                                                                    "Aviso": Aviso,
+                                                                    "SIPUrl": SIPUrl,
+                                                                    "PortaSIP": Porta,
+                                                                    "authUserSIP": AuthUser,
+                                                                    "authSenhaSIP": Pass,
+                                                                  }).whenComplete(() {
+                                                                    Navigator.pop(context);
+                                                                  });
+                                                                }
+                                                              }
+                                                            }
                                                           }
                                                         }
                                                       }

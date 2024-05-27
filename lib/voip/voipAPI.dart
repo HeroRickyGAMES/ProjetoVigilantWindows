@@ -7,12 +7,12 @@ import 'package:sip_ua/sip_ua.dart';
 
 bool voiceOnly = false;
 
-
 //Nesse trexo ele conecta ao VoIP.
 ConnectVoIP(){
   String displayName = "Flutter SIP UA";
-  String SIPUrl = "2206@sip2.vtcall.com.br";
   String authUser = "2206";
+  String Porta = "5060";
+  String SIPUrl = "$authUser@sip2.vtcall.com.br";
   String authSenha = "w0VxAqSG4e23";
 
   final SIPUAHelper helper = SIPUAHelper();
@@ -22,7 +22,7 @@ ConnectVoIP(){
 
   UaSettings settings = UaSettings();
 
-  settings.port = "5060";
+  settings.port = Porta;
   settings.webSocketSettings.extraHeaders = {
 
   };
