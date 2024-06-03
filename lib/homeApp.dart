@@ -19,9 +19,10 @@ int? porta;
 bool pesquisando = false;
 String anotacao = "";
 String idCondominio = "";
+String idCondominioAnt = "";
 int colunasIPCamera = 4;
 String pesquisa = '';
-
+final anotacaoControl = TextEditingController(text: "");
 bool pesquisando2 = false;
 String pesquisa2 = '';
 
@@ -193,7 +194,24 @@ class _homeAppState extends State<homeApp>{
                                                 child: SizedBox(
                                                   width: double.infinity,
                                                   height: 50,
-                                                  child: Text("${documents["Codigo"]} ${documents['Nome']}"),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Text("${documents["Codigo"]} ${documents['Nome']}"),
+                                                      IconButton(onPressed: (){
+                                                        setState(() {
+                                                          anotacao = documents["Aviso"];
+                                                          idCondominioAnt = documents["idCondominio"];
+                                                          anotacaoControl.text = anotacao;
+                                                        });
+                                                      },
+                                                          icon: Icon(
+                                                              color: documents["Aviso"] == "" ? Colors.red : Colors.green,
+                                                              Icons.edit_note
+                                                          )
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             );
@@ -1717,19 +1735,66 @@ class _homeAppState extends State<homeApp>{
                             ),
                             SizedBox(
                               width: wid / 4,
-                              height: heig / 4,
-                              child: Column(
-                                children: [
-                                  AppBar(
-                                    backgroundColor: Colors.deepPurpleAccent,
-                                    centerTitle: true,
-                                    title: const Text('Anotação'),
+                              height: heig / 3.7,
+                              child: Center(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      AppBar(
+                                        backgroundColor: Colors.deepPurpleAccent,
+                                        centerTitle: true,
+                                        title: const Text('Anotação'),
+                                      ),
+                                      Center(
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              padding: const EdgeInsets.all(16),
+                                              child: TextField(
+                                                keyboardType: TextInputType.multiline,
+                                                enableSuggestions: true,
+                                                autocorrect: true,
+                                                minLines: 5,
+                                                maxLines: null,
+                                                onChanged: (value){
+                                                  anotacao = value;
+                                                },
+                                                decoration: const InputDecoration(
+                                                  border: OutlineInputBorder(),
+                                                  enabledBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                  ),
+                                                  focusedBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        width: 3,
+                                                        color: Colors.black
+                                                    ),
+                                                  ),
+                                                  labelText: "Anotações sobre o condominio",
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              alignment: Alignment.bottomRight,
+                                              child: FloatingActionButton(
+                                                  onPressed:idCondominioAnt == ""? null : (){
+                                                    FirebaseFirestore.instance.collection('Condominios').doc(idCondominioAnt).update({
+                                                      "Aviso": anotacao,
+                                                    }).whenComplete(() {
+                                                      setState(() {
+
+                                                      });
+                                                      showToast("Anotação salva com sucesso!",context:context);
+                                                    });
+                                              },child: const Icon(Icons.done)
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Container(
-                                      padding: const EdgeInsets.all(16),
-                                      child: Text( idCondominio == "" ? "Selecione um cliente!" : anotacao)
-                                  ),
-                                ],
+                                ),
                               ),
                             )
                           ],
