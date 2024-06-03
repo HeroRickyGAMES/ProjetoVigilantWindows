@@ -1185,16 +1185,6 @@ class _homeAppState extends State<homeApp>{
                                         ),
                                         Stack(
                                           children: [
-                                            Container(
-                                              alignment: Alignment.bottomRight,
-                                              padding: const EdgeInsets.all(16),
-                                              child: FloatingActionButton(onPressed:
-                                              idCondominio == "" ? null :(){
-
-                                              },
-                                                child: const Icon(Icons.add),
-                                              ),
-                                            ),
                                             StreamBuilder(stream: FirebaseFirestore.instance
                                                 .collection("Ramais")
                                                 .where("IDEmpresaPertence", isEqualTo: UID)
@@ -1227,6 +1217,16 @@ class _homeAppState extends State<homeApp>{
                                                 ),
                                               );
                                             }
+                                            ),
+                                            Container(
+                                              alignment: Alignment.bottomRight,
+                                              padding: const EdgeInsets.all(16),
+                                              child: FloatingActionButton(onPressed:
+                                              idCondominio == "" ? null :(){
+
+                                              },
+                                                child: const Icon(Icons.add),
+                                              ),
                                             ),
                                           ]
                                         )
