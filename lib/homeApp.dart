@@ -19,7 +19,7 @@ int? porta;
 bool pesquisando = false;
 String anotacao = "";
 String idCondominio = "";
-
+int colunasIPCamera = 4;
 String pesquisa = '';
 
 bool pesquisando2 = false;
@@ -72,7 +72,7 @@ class _homeAppState extends State<homeApp>{
                                   AppBar(
                                     backgroundColor: Colors.deepPurpleAccent,
                                     centerTitle: true,
-                                    title: const Text('Condominios'),
+                                    title: const Text('Clientes'),
                                   ),
                                   Center(
                                     child: Container(
@@ -134,7 +134,7 @@ class _homeAppState extends State<homeApp>{
 
                                       return Container(
                                         width: double.infinity,
-                                        height: heig / 3.3,
+                                        height: heig / 1.24,
                                         decoration: BoxDecoration(
                                           border: Border.all(
                                             color: Colors.black,
@@ -193,7 +193,7 @@ class _homeAppState extends State<homeApp>{
                                                 child: SizedBox(
                                                   width: double.infinity,
                                                   height: 50,
-                                                  child: Text(documents['Nome']),
+                                                  child: Text("${documents["Codigo"]} ${documents['Nome']}"),
                                                 ),
                                               ),
                                             );
@@ -218,6 +218,7 @@ class _homeAppState extends State<homeApp>{
                                   String Porta = "";
                                   String AuthUser = "";
                                   String Pass = "";
+                                  String codigo = "";
 
                                   showDialog(
                                     context: context,
@@ -262,6 +263,34 @@ class _homeAppState extends State<homeApp>{
                                                         ),
                                                       ),
                                                       labelText: 'Nome do Condominio',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Center(
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(16),
+                                                  child: TextField(
+                                                    keyboardType: TextInputType.emailAddress,
+                                                    enableSuggestions: false,
+                                                    autocorrect: false,
+                                                    onChanged: (value){
+                                                      setState(() {
+                                                        codigo = value;
+                                                      });
+                                                    },
+                                                    decoration: const InputDecoration(
+                                                      border: OutlineInputBorder(),
+                                                      enabledBorder: OutlineInputBorder(
+                                                        borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                      ),
+                                                      focusedBorder: OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            width: 3,
+                                                            color: Colors.black
+                                                        ),
+                                                      ),
+                                                      labelText: 'Codigo do Condominio (4 caracteres Ex: 2402)',
                                                     ),
                                                   ),
                                                 ),
@@ -550,49 +579,63 @@ class _homeAppState extends State<homeApp>{
                                                 if(NomeCondominio == ""){
                                                   showToast("O nome do Condominio está vazio!",context:context);
                                                 }else{
-                                                  if(IPCameras == ""){
-                                                    showToast("A URL das Cameras está vazia!",context:context);
+                                                  if(codigo == ""){
+                                                    showToast("O codigo está vazio!",context:context);
                                                   }else{
-                                                    if(PortaCameras == null){
-                                                      showToast("A Porta em RTSP das Cameras está vazia!",context:context);
-                                                    }else{
-                                                      if(UserAccess == ""){
-                                                        showToast("O Usuario para acesso das cameras está vazio!",context:context);
+                                                    if(codigo.length == 4){
+                                                      if(IPCameras == ""){
+                                                        showToast("A URL das Cameras está vazia!",context:context);
                                                       }else{
-                                                        if(PassAccess == ""){
-                                                          showToast("A Senha para acesso das cameras está vazia!",context:context);
+                                                        if(PortaCameras == null){
+                                                          showToast("A Porta em RTSP das Cameras está vazia!",context:context);
                                                         }else{
-                                                          if(SIPUrl == ""){
-                                                            showToast("A URL do SIP não pode estar vazia!",context:context);
+                                                          if(UserAccess == ""){
+                                                            showToast("O Usuario para acesso das cameras está vazio!",context:context);
                                                           }else{
-                                                            if(Porta == ""){
-                                                              showToast("A porta do SIP não pode estar vazia!",context:context);
+                                                            if(PassAccess == ""){
+                                                              showToast("A Senha para acesso das cameras está vazia!",context:context);
                                                             }else{
-                                                              if(AuthUser == ""){
-                                                                showToast("o acesso do usuario do SIP não pode estar vazio!",context:context);
+                                                              if(SIPUrl == ""){
+                                                                showToast("A URL do SIP não pode estar vazia!",context:context);
                                                               }else{
-                                                                Uuid uuid = const Uuid();
-                                                                String UUID = uuid.v4();
-                                                                FirebaseFirestore.instance.collection('Condominios').doc(UUID).set({
-                                                                  "idCondominio": UUID,
-                                                                  "IDEmpresaPertence": UID,
-                                                                  "Nome": NomeCondominio,
-                                                                  "IpCamera": IPCameras,
-                                                                  "PortaCameras": PortaCameras,
-                                                                  "UserAccess": UserAccess,
-                                                                  "PassAccess": PassAccess,
-                                                                  "Aviso": Aviso,
-                                                                  "SIPUrl": SIPUrl,
-                                                                  "PortaSIP": Porta,
-                                                                  "authUserSIP": AuthUser,
-                                                                  "authSenhaSIP": Pass,
-                                                                }).whenComplete(() {
-                                                                  Navigator.pop(context);
-                                                                });
+                                                                if(Porta == ""){
+                                                                  showToast("A porta do SIP não pode estar vazia!",context:context);
+                                                                }else{
+                                                                  if(AuthUser == ""){
+                                                                    showToast("o acesso do usuario do SIP não pode estar vazio!",context:context);
+                                                                  }else{
+                                                                    Uuid uuid = const Uuid();
+                                                                    String UUID = uuid.v4();
+                                                                    FirebaseFirestore.instance.collection('Condominios').doc(UUID).set({
+                                                                      "idCondominio": UUID,
+                                                                      "IDEmpresaPertence": UID,
+                                                                      "Nome": NomeCondominio,
+                                                                      "IpCamera": IPCameras,
+                                                                      "PortaCameras": PortaCameras,
+                                                                      "UserAccess": UserAccess,
+                                                                      "PassAccess": PassAccess,
+                                                                      "Aviso": Aviso,
+                                                                      "SIPUrl": SIPUrl,
+                                                                      "PortaSIP": Porta,
+                                                                      "authUserSIP": AuthUser,
+                                                                      "authSenhaSIP": Pass,
+                                                                      "Codigo" : codigo
+                                                                    }).whenComplete(() {
+                                                                      Navigator.pop(context);
+                                                                    });
+                                                                  }
+                                                                }
                                                               }
                                                             }
                                                           }
                                                         }
+                                                      }
+                                                    }else{
+                                                      if(codigo.length > 4){
+                                                        showToast("Existem mais caracteres do que o permitido no codigo do condominio!",context:context);
+                                                      }
+                                                      if(codigo.length < 4){
+                                                        showToast("Existem menos caracteres do que o permitido no codigo do condominio!",context:context);
                                                       }
                                                     }
                                                   }
@@ -643,7 +686,44 @@ class _homeAppState extends State<homeApp>{
                                           AppBar(
                                             backgroundColor: Colors.deepPurpleAccent,
                                             centerTitle: true,
-                                            title: const Text('CFTV'),
+                                            title: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                                const Text('CFTV'),
+                                                Row(
+                                                  children: [
+                                                    ElevatedButton(onPressed: (){
+                                                        setState(() {
+                                                          colunasIPCamera = 1;
+                                                        });
+                                                    },
+                                                        child: const Text('1')
+                                                    ),
+                                                    ElevatedButton(onPressed: (){
+                                                      setState(() {
+                                                        colunasIPCamera = 2;
+                                                      });
+                                                    },
+                                                        child: const Text('2')
+                                                    ),
+                                                    ElevatedButton(onPressed: (){
+                                                      setState(() {
+                                                        colunasIPCamera = 3;
+                                                      });
+                                                    },
+                                                        child: const Text('3')
+                                                    ),
+                                                    ElevatedButton(onPressed: (){
+                                                      setState(() {
+                                                        colunasIPCamera = 4;
+                                                      });
+                                                    },
+                                                        child: const Text('4')
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                           Column(
                                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -652,7 +732,7 @@ class _homeAppState extends State<homeApp>{
                                                 SizedBox(
                                                   width: wid / 2,
                                                   height: heig / 2.3,
-                                                  child: GridView.count(crossAxisCount: 4,
+                                                    child: GridView.count(crossAxisCount: colunasIPCamera,
                                                       children: [
                                                         InkWell(
                                                             onTap: (){
@@ -943,16 +1023,26 @@ class _homeAppState extends State<homeApp>{
                                                             child: videoStream(user, pass, ip, porta!, 8)
                                                         ),
                                                       ],
-                                                  )
+                                                    )
                                                 ),
                                             ],
                                           ),
                                         ],
                                       ),
                                     ]
-                                ): Container(
-                                    alignment: Alignment.center,
-                                    child: const Text('Abra algum condominio para exibir as cameras!')
+                                ): Column(
+                                  children: [
+                                    AppBar(
+                                      backgroundColor: Colors.deepPurpleAccent,
+                                      centerTitle: true,
+                                      title: const Text('CFTV')
+                                    ),
+                                    Container(
+                                        alignment: Alignment.center,
+                                        padding: const EdgeInsets.all(16),
+                                        child: const Text('Selecione algum cliente para exibir as cameras!')
+                                    ),
+                                  ],
                                 ),
                               ),
                               SizedBox(
@@ -1075,52 +1165,52 @@ class _homeAppState extends State<homeApp>{
                                             ),
                                           ],
                                         ),
-                                        StreamBuilder(stream: FirebaseFirestore.instance
-                                            .collection("Ramais")
-                                            .where("IDEmpresaPertence", isEqualTo: UID)
-                                            .snapshots(), builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                                        Stack(
+                                          children: [
+                                            Container(
+                                              alignment: Alignment.bottomRight,
+                                              padding: const EdgeInsets.all(16),
+                                              child: FloatingActionButton(onPressed:
+                                              idCondominio == "" ? null :(){
+
+                                              },
+                                                child: const Icon(Icons.add),
+                                              ),
+                                            ),
+                                            StreamBuilder(stream: FirebaseFirestore.instance
+                                                .collection("Ramais")
+                                                .where("IDEmpresaPertence", isEqualTo: UID)
+                                                .snapshots(), builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
                                               if (!snapshot.hasData) {
                                                 return const Center(
                                                   child: CircularProgressIndicator(),
                                                 );
                                               }
-                                              return Stack(
-                                                children: [
-                                                  Container(
-                                                    width: wid / 4.3,
-                                                    height: heig / 4,
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                        color: Colors.black,
-                                                        width: 1.0,
+                                              return Container(
+                                                width: wid / 4.3,
+                                                height: heig / 4,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.black,
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                ),
+                                                child: ListView(
+                                                  children: snapshot.data!.docs.map((documents){
+                                                    return SizedBox(
+                                                      width: double.infinity,
+                                                      height: 50,
+                                                      child: Center(
+                                                        child: Text(documents['RamalIp']),
                                                       ),
-                                                      borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                                                    ),
-                                                    child: ListView(
-                                                      children: snapshot.data!.docs.map((documents){
-                                                        return SizedBox(
-                                                          width: double.infinity,
-                                                          height: 50,
-                                                          child: Center(
-                                                            child: Text(documents['RamalIp']),
-                                                          ),
-                                                        );
-                                                      }).toList(),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    alignment: Alignment.bottomRight,
-                                                    padding: const EdgeInsets.all(16),
-                                                    child: FloatingActionButton(onPressed:
-                                                    idCondominio == "" ? null :(){
-
-                                                    },
-                                                      child: const Icon(Icons.add),
-                                                    ),
-                                                  ),
-                                                ]
+                                                    );
+                                                  }).toList(),
+                                                ),
                                               );
-                                          }
+                                            }
+                                            ),
+                                          ]
                                         )
                                       ],
                                     ),
@@ -1345,8 +1435,11 @@ class _homeAppState extends State<homeApp>{
                                           centerTitle: true,
                                           title: const Text('Visitantes e Moradores'),
                                         ),
-                                        const Center(
-                                            child: Text('Selecione o condominio')
+                                        Center(
+                                            child: Container(
+                                                padding: const EdgeInsets.all(16),
+                                                child: const Text('Selecione o condominio')
+                                            )
                                         ),
                                       ],
                                     ),
@@ -1632,7 +1725,10 @@ class _homeAppState extends State<homeApp>{
                                     centerTitle: true,
                                     title: const Text('Anotação'),
                                   ),
-                                  Text(anotacao),
+                                  Container(
+                                      padding: const EdgeInsets.all(16),
+                                      child: Text( idCondominio == "" ? "Selecione um cliente!" : anotacao)
+                                  ),
                                 ],
                               ),
                             )
