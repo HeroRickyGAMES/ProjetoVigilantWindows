@@ -48,7 +48,7 @@ class _videoStreamState extends State<videoStream> {
         child: Stack(
           children: [
             SizedBox(
-                height: 150,
+                height: 145,
                 width: constrains.maxWidth,
                 child: Video(
                     controller: controller,
