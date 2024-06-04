@@ -54,7 +54,18 @@ class _homeAppState extends State<homeApp>{
               child: Column(
                 children: [
                   AppBar(
-                    title: const Text("Barra de ferramentas"),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Barra de ferramentas"),
+                        ElevatedButton(
+                          onPressed: () async {
+                            useVoIP();
+                          },
+                          child: const Text("VoIP")
+                        ),
+                      ],
+                    ),
                     backgroundColor: Colors.deepPurpleAccent,
                   ),
                   SizedBox(

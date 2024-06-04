@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:sparta_monitoramento/checkUser.dart';
 import 'package:sparta_monitoramento/firebase_options.dart';
 import 'package:sparta_monitoramento/homeApp.dart';
@@ -56,7 +55,7 @@ class _mainAppState extends State<mainApp> {
           dir.deleteSync(recursive: true);
         }
       }catch(e){
-        showToast("Error $e",context:context);
+        //showToast("Error $e",context:context);
       }
 
       //Se o usuario estiver logado ele vai jogar na main

@@ -1,5 +1,5 @@
 import 'package:flutter_webrtc/flutter_webrtc.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:record/record.dart';
 import 'package:sip_ua/sip_ua.dart';
 
 //Programado por HeroRickyGames
@@ -8,7 +8,6 @@ bool voiceOnly = false;
 
 //Nesse trexo ele conecta ao VoIP.
 ConnectVoIP() async {
-  await Permission.microphone.request();
 
   String displayName = "Flutter SIP UA";
   String authUser = "2206";
@@ -51,7 +50,16 @@ useVoIP() async {
 
   await ConnectVoIP();
 
+  //Microfone
+  final record = AudioRecorder();
+  var stream;
+
+  if (await record.hasPermission()) {
+    stream = await record.startStream(const RecordConfig(encoder: AudioEncoder.pcm16bits));
+  }
+
   final mediaConstraints = <String, dynamic>{
+    "microphone": stream,
     'audio': true,
     'video': {
       'width': '1280',
@@ -63,15 +71,15 @@ useVoIP() async {
   MediaStream mediaStream;
 
   if(!voiceOnly){
-    //mediaStream =
-    //await navigator.mediaDevices.getDisplayMedia(mediaConstraints);
-    MediaStream userStream =
-    await navigator.mediaDevices.getUserMedia(mediaConstraints);
+    mediaStream = await navigator.mediaDevices.getDisplayMedia(mediaConstraints);
+    MediaStream userStream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
     final audioTracks = userStream.getAudioTracks();
     if (audioTracks.isNotEmpty) {
       //mediaStream.addTrack(audioTracks.first, addToNative: true);
     }
   }
+}
 
+stopTransmission(){
 
 }
