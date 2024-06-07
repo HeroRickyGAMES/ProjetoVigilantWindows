@@ -46,6 +46,7 @@ class _videoStreamAlertState extends State<videoStreamAlert> {
     return LayoutBuilder(builder: (context, constrains){
       return Center(
         child: Video(
+            filterQuality: FilterQuality.high,
             controller: controller,
             controls: null
         ),
