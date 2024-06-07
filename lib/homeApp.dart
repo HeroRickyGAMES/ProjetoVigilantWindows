@@ -88,13 +88,58 @@ class _homeAppState extends State<homeApp>{
                             ),
                             ElevatedButton(
                                 onPressed: () async {
-                                  useVoIP();
+
                                 },
                                 child: const Text("Visitantes")
                             ),
                             ElevatedButton(
                                 onPressed: () async {
-                                  useVoIP();
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                        return Center(
+                                          child: SingleChildScrollView(
+                                            child: AlertDialog(
+                                              title: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  const Text('Veiculos'),
+                                                  IconButton(
+                                                    onPressed: (){
+                                                      Navigator.pop(context);
+                                                    },
+                                                    icon: const Icon(Icons.close),
+                                                  )
+                                                ],
+                                              ),
+                                              actions: [
+                                                Center(
+                                                  child: Container(
+                                                    width: wid,
+                                                    height: heig / 1.5,
+                                                    child: Column(
+                                                      children: [
+                                                        Container(
+                                                          alignment: Alignment.bottomRight,
+                                                          child: FloatingActionButton(
+                                                            onPressed: (){
+
+                                                            },
+                                                            child: const Icon(Icons.add)
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },);
+                                    },
+                                  );
                                 },
                                 child: const Text("Veiculos")
                             ),
@@ -102,7 +147,7 @@ class _homeAppState extends State<homeApp>{
                         ),
                         ElevatedButton(
                             onPressed: () async {
-                              useVoIP();
+
                             },
                             child: const Text("Configurações")
                         ),
@@ -110,6 +155,7 @@ class _homeAppState extends State<homeApp>{
                     ),
                     backgroundColor: Colors.deepPurpleAccent,
                   ),
+                  //UI começa aqui!
                   SizedBox(
                     width: wid,
                     height: heig - 57,
@@ -120,7 +166,6 @@ class _homeAppState extends State<homeApp>{
                           height: heig,
                           child: Stack(
                             children: [
-                              //UI começa aqui!
                               SingleChildScrollView(
                                 child: Column(
                                   children: [
@@ -229,39 +274,39 @@ class _homeAppState extends State<homeApp>{
                                                     idCondominio = documents["idCondominio"];
                                                     anotacao = documents["Aviso"];
                                                   });
-                                                  if(documents["Aviso"] != ""){
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext context) {
-                                                        return Center(
-                                                          child: SingleChildScrollView(
-                                                            child: AlertDialog(
-                                                              title: const Text('Aviso!'),
-                                                              actions: [
-                                                                Center(
-                                                                  child: Column(
-                                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                                    children: [
-                                                                      Text(documents["Aviso"]),
-                                                                      Container(
-                                                                        padding: const EdgeInsets.all(16),
-                                                                        child: ElevatedButton(onPressed: (){
-                                                                          Navigator.pop(context);
-                                                                        },
-                                                                            child: const Text('Fechar')
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                    );
-                                                  }
+                                                  //if(documents["Aviso"] != ""){
+                                                  //  showDialog(
+                                                  //    context: context,
+                                                  //    builder: (BuildContext context) {
+                                                  //      return Center(
+                                                  //        child: SingleChildScrollView(
+                                                  //          child: AlertDialog(
+                                                  //            title: const Text('Aviso!'),
+                                                  //            actions: [
+                                                  //              Center(
+                                                  //                child: Column(
+                                                  //                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  //                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  //                  children: [
+                                                  //                    Text(documents["Aviso"]),
+                                                  //                    Container(
+                                                  //                      padding: const EdgeInsets.all(16),
+                                                  //                      child: ElevatedButton(onPressed: (){
+                                                  //                        Navigator.pop(context);
+                                                  //                      },
+                                                  //                          child: const Text('Fechar')
+                                                  //                      ),
+                                                  //                    )
+                                                  //                  ],
+                                                  //                ),
+                                                  //              )
+                                                  //            ],
+                                                  //          ),
+                                                  //        ),
+                                                  //      );
+                                                  //    },
+                                                  //  );
+                                                  //}
                                                 },
                                                 child: Container(
                                                   padding: const EdgeInsets.all(16),
@@ -1926,61 +1971,64 @@ class _homeAppState extends State<homeApp>{
                               height: heig / 3.8,
                               child: Center(
                                 child: SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      AppBar(
-                                        backgroundColor: Colors.deepPurpleAccent,
-                                        centerTitle: true,
-                                        title: const Text('Anotação'),
-                                      ),
-                                      Center(
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              padding: const EdgeInsets.all(16),
-                                              child: TextField(
-                                                keyboardType: TextInputType.multiline,
-                                                enableSuggestions: true,
-                                                autocorrect: true,
-                                                minLines: 5,
-                                                maxLines: null,
-                                                onChanged: (value){
-                                                  anotacao = value;
-                                                },
-                                                decoration: const InputDecoration(
-                                                  border: OutlineInputBorder(),
-                                                  enabledBorder: OutlineInputBorder(
-                                                    borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
-                                                  ),
-                                                  focusedBorder: OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        width: 3,
-                                                        color: Colors.black
+                                  child: Container(
+                                    padding: const EdgeInsets.all(0),
+                                    child: Column(
+                                      children: [
+                                        AppBar(
+                                          backgroundColor: Colors.deepPurpleAccent,
+                                          centerTitle: true,
+                                          title: const Text('Anotação'),
+                                        ),
+                                        Center(
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                padding: const EdgeInsets.all(16),
+                                                child: TextField(
+                                                  keyboardType: TextInputType.multiline,
+                                                  enableSuggestions: true,
+                                                  autocorrect: true,
+                                                  minLines: 5,
+                                                  maxLines: null,
+                                                  onChanged: (value){
+                                                    anotacao = value;
+                                                  },
+                                                  decoration: const InputDecoration(
+                                                    border: OutlineInputBorder(),
+                                                    enabledBorder: OutlineInputBorder(
+                                                      borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
                                                     ),
+                                                    focusedBorder: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          width: 3,
+                                                          color: Colors.black
+                                                      ),
+                                                    ),
+                                                    labelText: "Anotações sobre o condominio",
                                                   ),
-                                                  labelText: "Anotações sobre o condominio",
                                                 ),
                                               ),
-                                            ),
-                                            Container(
-                                              alignment: Alignment.bottomRight,
-                                              child: FloatingActionButton(
-                                                  onPressed:idCondominioAnt == ""? null : (){
-                                                    FirebaseFirestore.instance.collection('Condominios').doc(idCondominioAnt).update({
-                                                      "Aviso": anotacao,
-                                                    }).whenComplete(() {
-                                                      setState(() {
+                                              Container(
+                                                alignment: Alignment.bottomRight,
+                                                child: FloatingActionButton(
+                                                    onPressed:idCondominioAnt == ""? null : (){
+                                                      FirebaseFirestore.instance.collection('Condominios').doc(idCondominioAnt).update({
+                                                        "Aviso": anotacao,
+                                                      }).whenComplete(() {
+                                                        setState(() {
 
+                                                        });
+                                                        showToast("Anotação salva com sucesso!",context:context);
                                                       });
-                                                      showToast("Anotação salva com sucesso!",context:context);
-                                                    });
-                                              },child: const Icon(Icons.done)
+                                                },child: const Icon(Icons.done)
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
