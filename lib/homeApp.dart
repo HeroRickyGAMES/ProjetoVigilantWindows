@@ -35,10 +35,10 @@ String MoradorId = "";
 TextEditingController anotacaoControl = TextEditingController(text: anotacaoMorador);
 
 //Booleanos
-bool pesquisando2 = false;
-bool pesquisaNumeros = false;
 bool pesquisando = false;
+bool pesquisando2 = false;
 bool moradorselecionado = false;
+bool pesquisaNumeros = false;
 
 //Inteiros
 int? porta;
@@ -97,179 +97,181 @@ class _homeAppState extends State<homeApp>{
                           child: Stack(
                             children: [
                               //UI começa aqui!
-                              Column(
-                                children: [
-                                  AppBar(
-                                    backgroundColor: Colors.deepPurpleAccent,
-                                    centerTitle: true,
-                                    title: const Text('Clientes'),
-                                  ),
-                                  Center(
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      child: TextField(
-                                        keyboardType: TextInputType.name,
-                                        enableSuggestions: true,
-                                        autocorrect: true,
-                                        onChanged: (value){
-                                          setState(() {
-                                            pesquisa = value;
-                                          });
-
-                                          RegExp numeros = RegExp(r'[0-9]');
-
-                                          if(numeros.hasMatch(value)){
+                              SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    AppBar(
+                                      backgroundColor: Colors.deepPurpleAccent,
+                                      centerTitle: true,
+                                      title: const Text('Clientes'),
+                                    ),
+                                    Center(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(10),
+                                        child: TextField(
+                                          keyboardType: TextInputType.name,
+                                          enableSuggestions: true,
+                                          autocorrect: true,
+                                          onChanged: (value){
                                             setState(() {
-                                              pesquisaNumeros = true;
+                                              pesquisa = value;
                                             });
-                                          }else{
-                                            setState(() {
-                                              pesquisaNumeros = false;
-                                            });
-                                          }
-                                          
-                                          if(value == ""){
-                                            setState(() {
-                                              pesquisando = false;
-                                            });
-                                          }else{
-                                            setState(() {
-                                              pesquisando = true;
-                                            });
-                                          }
-                                        },
-                                        decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                width: 3,
-                                                color: Colors.black
+                                
+                                            RegExp numeros = RegExp(r'[0-9]');
+                                
+                                            if(numeros.hasMatch(value)){
+                                              setState(() {
+                                                pesquisaNumeros = true;
+                                              });
+                                            }else{
+                                              setState(() {
+                                                pesquisaNumeros = false;
+                                              });
+                                            }
+                                            
+                                            if(value == ""){
+                                              setState(() {
+                                                pesquisando = false;
+                                              });
+                                            }else{
+                                              setState(() {
+                                                pesquisando = true;
+                                              });
+                                            }
+                                          },
+                                          decoration: const InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
                                             ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 3,
+                                                  color: Colors.black
+                                              ),
+                                            ),
+                                            hintText: 'Pesquisar (Codigo de Cadastro ou Nome)',
                                           ),
-                                          hintText: 'Pesquisar (Codigo de Cadastro ou Nome)',
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  StreamBuilder(
-                                    stream: pesquisando == true ?
-                                    pesquisaNumeros == false ? FirebaseFirestore.instance
-                                        .collection("Condominios")
-                                        .where("IDEmpresaPertence", isEqualTo: UID)
-                                        .where("Nome", isGreaterThanOrEqualTo: pesquisa)
-                                        .where("Nome", isLessThan: "${pesquisa}z")
-                                        .snapshots()
-                                        :
-                                    FirebaseFirestore.instance
-                                        .collection("Condominios")
-                                        .where("IDEmpresaPertence", isEqualTo: UID)
-                                        .where("Codigo", isGreaterThanOrEqualTo: pesquisa)
-                                        .where("Codigo", isLessThan: "${pesquisa}9")
-                                        .snapshots()
-                                        :
-                                    FirebaseFirestore.instance
-                                        .collection("Condominios")
-                                        .where("IDEmpresaPertence", isEqualTo: UID)
-                                        .snapshots(),
-                                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-
-                                      if (!snapshot.hasData) {
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      }
-
-                                      return Container(
-                                        width: double.infinity,
-                                        height: heig / 1.24,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colors.black,
-                                            width: 1.0,
+                                    StreamBuilder(
+                                      stream: pesquisando == true ?
+                                      pesquisaNumeros == false ? FirebaseFirestore.instance
+                                          .collection("Condominios")
+                                          .where("IDEmpresaPertence", isEqualTo: UID)
+                                          .where("Nome", isGreaterThanOrEqualTo: pesquisa)
+                                          .where("Nome", isLessThan: "${pesquisa}z")
+                                          .snapshots()
+                                          :
+                                      FirebaseFirestore.instance
+                                          .collection("Condominios")
+                                          .where("IDEmpresaPertence", isEqualTo: UID)
+                                          .where("Codigo", isGreaterThanOrEqualTo: pesquisa)
+                                          .where("Codigo", isLessThan: "${pesquisa}9")
+                                          .snapshots()
+                                          :
+                                      FirebaseFirestore.instance
+                                          .collection("Condominios")
+                                          .where("IDEmpresaPertence", isEqualTo: UID)
+                                          .snapshots(),
+                                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                                
+                                        if (!snapshot.hasData) {
+                                          return const Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+                                
+                                        return Container(
+                                          width: double.infinity,
+                                          height: heig / 1.24,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.black,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                                           ),
-                                          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                                        ),
-                                        child: ListView(
-                                          children: snapshot.data!.docs.map((documents){
-                                            return InkWell(
-                                              onTap: (){
-                                                setState(() {
-                                                  ip = documents["IpCamera"];
-                                                  user = documents["UserAccess"];
-                                                  pass = documents["PassAccess"];
-                                                  porta = documents["PortaCameras"];
-                                                  idCondominio = documents["idCondominio"];
-                                                  anotacao = documents["Aviso"];
-                                                });
-                                                if(documents["Aviso"] != ""){
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      return Center(
-                                                        child: SingleChildScrollView(
-                                                          child: AlertDialog(
-                                                            title: const Text('Aviso!'),
-                                                            actions: [
-                                                              Center(
-                                                                child: Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                  children: [
-                                                                    Text(documents["Aviso"]),
-                                                                    Container(
-                                                                      padding: const EdgeInsets.all(16),
-                                                                      child: ElevatedButton(onPressed: (){
-                                                                        Navigator.pop(context);
-                                                                      },
-                                                                          child: const Text('Fechar')
-                                                                      ),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              )
-                                                            ],
+                                          child: ListView(
+                                            children: snapshot.data!.docs.map((documents){
+                                              return InkWell(
+                                                onTap: (){
+                                                  setState(() {
+                                                    ip = documents["IpCamera"];
+                                                    user = documents["UserAccess"];
+                                                    pass = documents["PassAccess"];
+                                                    porta = documents["PortaCameras"];
+                                                    idCondominio = documents["idCondominio"];
+                                                    anotacao = documents["Aviso"];
+                                                  });
+                                                  if(documents["Aviso"] != ""){
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return Center(
+                                                          child: SingleChildScrollView(
+                                                            child: AlertDialog(
+                                                              title: const Text('Aviso!'),
+                                                              actions: [
+                                                                Center(
+                                                                  child: Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    children: [
+                                                                      Text(documents["Aviso"]),
+                                                                      Container(
+                                                                        padding: const EdgeInsets.all(16),
+                                                                        child: ElevatedButton(onPressed: (){
+                                                                          Navigator.pop(context);
+                                                                        },
+                                                                            child: const Text('Fechar')
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                      );
-                                                    },
-                                                  );
-                                                }
-                                              },
-                                              child: Container(
-                                                padding: const EdgeInsets.all(16),
-                                                child: SizedBox(
-                                                  width: double.infinity,
-                                                  height: 50,
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Text("${documents["Codigo"]} ${documents['Nome']}"),
-                                                      IconButton(onPressed: (){
-                                                        setState(() {
-                                                          anotacao = documents["Aviso"];
-                                                          idCondominioAnt = documents["idCondominio"];
-                                                          anotacaoControl.text = anotacao;
-                                                        });
+                                                        );
                                                       },
-                                                          icon: Icon(
-                                                              color: documents["Aviso"] == "" ? Colors.red : Colors.green,
-                                                              Icons.edit_note
-                                                          )
-                                                      )
-                                                    ],
+                                                    );
+                                                  }
+                                                },
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(16),
+                                                  child: SizedBox(
+                                                    width: double.infinity,
+                                                    height: 50,
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Text("${documents["Codigo"]} ${documents['Nome']}"),
+                                                        IconButton(onPressed: (){
+                                                          setState(() {
+                                                            anotacao = documents["Aviso"];
+                                                            idCondominioAnt = documents["idCondominio"];
+                                                            anotacaoControl.text = anotacao;
+                                                          });
+                                                        },
+                                                            icon: Icon(
+                                                                color: documents["Aviso"] == "" ? Colors.red : Colors.green,
+                                                                Icons.edit_note
+                                                            )
+                                                        )
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            );
-                                          }).toList(),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ],
+                                              );
+                                            }).toList(),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                               Container(
                                 alignment: Alignment.bottomRight,
@@ -792,311 +794,307 @@ class _homeAppState extends State<homeApp>{
                                               ],
                                             ),
                                           ),
-                                          StatefulBuilder(
-                                            builder:(BuildContext contexto, StateSetter setState2){
-                                              return Column(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  SizedBox(
-                                                      width: wid / 2,
-                                                      height: heig / 2.3,
-                                                      child: GridView.count(crossAxisCount: colunasIPCamera,
-                                                        children: [
-                                                          InkWell(
-                                                              onTap: (){
-                                                                showDialog(
-                                                                  context: context,
-                                                                  builder: (BuildContext context) {
-                                                                    return Center(
-                                                                      child: SingleChildScrollView(
-                                                                        child: AlertDialog(
-                                                                          title: Row(
-                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              const Text('Visualização'),
-                                                                              IconButton(onPressed: (){
-                                                                                Navigator.pop(context);
-                                                                              },
-                                                                                  icon: const Icon(Icons.close)
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                          actions: [
-                                                                            Center(
-                                                                              child: SizedBox(
-                                                                                  width: 900,
-                                                                                  height: 600,
-                                                                                  child: videoStreamAlert(user, pass, ip, porta!, 1)
-                                                                              ),
-                                                                            )
-                                                                          ],
-                                                                        ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                  width: wid / 2,
+                                                  height: heig / 2.3,
+                                                  child: GridView.count(crossAxisCount: colunasIPCamera,
+                                                    children: [
+                                                      InkWell(
+                                                          onTap: (){
+                                                            showDialog(
+                                                              context: context,
+                                                              builder: (BuildContext context) {
+                                                                return Center(
+                                                                  child: SingleChildScrollView(
+                                                                    child: AlertDialog(
+                                                                      title: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          const Text('Visualização'),
+                                                                          IconButton(onPressed: (){
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                              icon: const Icon(Icons.close)
+                                                                          )
+                                                                        ],
                                                                       ),
-                                                                    );
-                                                                  },
+                                                                      actions: [
+                                                                        Center(
+                                                                          child: SizedBox(
+                                                                              width: 900,
+                                                                              height: 600,
+                                                                              child: videoStreamAlert(user, pass, ip, porta!, 1)
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
                                                                 );
                                                               },
-                                                              child: videoStream(user, pass, ip, porta!, 1)
-                                                          ),
-                                                          InkWell(
-                                                              onTap: (){
-                                                                showDialog(
-                                                                  context: context,
-                                                                  builder: (BuildContext context) {
-                                                                    return Center(
-                                                                      child: SingleChildScrollView(
-                                                                        child: AlertDialog(
-                                                                          title: Row(
-                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              const Text('Visualização'),
-                                                                              IconButton(onPressed: (){
-                                                                                Navigator.pop(context);
-                                                                              },
-                                                                                  icon: const Icon(Icons.close)
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                          actions: [
-                                                                            Center(
-                                                                              child: SizedBox(
-                                                                                  width: 900,
-                                                                                  height: 600,
-                                                                                  child: videoStreamAlert(user, pass, ip, porta!, 2)
-                                                                              ),
-                                                                            )
-                                                                          ],
-                                                                        ),
+                                                            );
+                                                          },
+                                                          child: videoStream(user, pass, ip, porta!, 1)
+                                                      ),
+                                                      InkWell(
+                                                          onTap: (){
+                                                            showDialog(
+                                                              context: context,
+                                                              builder: (BuildContext context) {
+                                                                return Center(
+                                                                  child: SingleChildScrollView(
+                                                                    child: AlertDialog(
+                                                                      title: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          const Text('Visualização'),
+                                                                          IconButton(onPressed: (){
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                              icon: const Icon(Icons.close)
+                                                                          )
+                                                                        ],
                                                                       ),
-                                                                    );
-                                                                  },
+                                                                      actions: [
+                                                                        Center(
+                                                                          child: SizedBox(
+                                                                              width: 900,
+                                                                              height: 600,
+                                                                              child: videoStreamAlert(user, pass, ip, porta!, 2)
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
                                                                 );
                                                               },
-                                                              child: videoStream(user, pass, ip, porta!, 2)
-                                                          ),
-                                                          InkWell(
-                                                              onTap: (){
-                                                                showDialog(
-                                                                  context: context,
-                                                                  builder: (BuildContext context) {
-                                                                    return Center(
-                                                                      child: SingleChildScrollView(
-                                                                        child: AlertDialog(
-                                                                          title: Row(
-                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              const Text('Visualização'),
-                                                                              IconButton(onPressed: (){
-                                                                                Navigator.pop(context);
-                                                                              },
-                                                                                  icon: const Icon(Icons.close)
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                          actions: [
-                                                                            Center(
-                                                                              child: SizedBox(
-                                                                                  width: 900,
-                                                                                  height: 600,
-                                                                                  child: videoStreamAlert(user, pass, ip, porta!, 3)
-                                                                              ),
-                                                                            )
-                                                                          ],
-                                                                        ),
+                                                            );
+                                                          },
+                                                          child: videoStream(user, pass, ip, porta!, 2)
+                                                      ),
+                                                      InkWell(
+                                                          onTap: (){
+                                                            showDialog(
+                                                              context: context,
+                                                              builder: (BuildContext context) {
+                                                                return Center(
+                                                                  child: SingleChildScrollView(
+                                                                    child: AlertDialog(
+                                                                      title: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          const Text('Visualização'),
+                                                                          IconButton(onPressed: (){
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                              icon: const Icon(Icons.close)
+                                                                          )
+                                                                        ],
                                                                       ),
-                                                                    );
-                                                                  },
+                                                                      actions: [
+                                                                        Center(
+                                                                          child: SizedBox(
+                                                                              width: 900,
+                                                                              height: 600,
+                                                                              child: videoStreamAlert(user, pass, ip, porta!, 3)
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
                                                                 );
                                                               },
-                                                              child: videoStream(user, pass, ip, porta!, 3)
-                                                          ),
-                                                          InkWell(
-                                                              onTap: (){
-                                                                showDialog(
-                                                                  context: context,
-                                                                  builder: (BuildContext context) {
-                                                                    return Center(
-                                                                      child: SingleChildScrollView(
-                                                                        child: AlertDialog(
-                                                                          title: Row(
-                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              const Text('Visualização'),
-                                                                              IconButton(onPressed: (){
-                                                                                Navigator.pop(context);
-                                                                              },
-                                                                                  icon: const Icon(Icons.close)
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                          actions: [
-                                                                            Center(
-                                                                              child: SizedBox(
-                                                                                  width: 900,
-                                                                                  height: 600,
-                                                                                  child: videoStreamAlert(user, pass, ip, porta!, 4)
-                                                                              ),
-                                                                            )
-                                                                          ],
-                                                                        ),
+                                                            );
+                                                          },
+                                                          child: videoStream(user, pass, ip, porta!, 3)
+                                                      ),
+                                                      InkWell(
+                                                          onTap: (){
+                                                            showDialog(
+                                                              context: context,
+                                                              builder: (BuildContext context) {
+                                                                return Center(
+                                                                  child: SingleChildScrollView(
+                                                                    child: AlertDialog(
+                                                                      title: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          const Text('Visualização'),
+                                                                          IconButton(onPressed: (){
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                              icon: const Icon(Icons.close)
+                                                                          )
+                                                                        ],
                                                                       ),
-                                                                    );
-                                                                  },
+                                                                      actions: [
+                                                                        Center(
+                                                                          child: SizedBox(
+                                                                              width: 900,
+                                                                              height: 600,
+                                                                              child: videoStreamAlert(user, pass, ip, porta!, 4)
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
                                                                 );
                                                               },
-                                                              child: videoStream(user, pass, ip, porta!, 4)
-                                                          ),
-                                                          InkWell(
-                                                              onTap: (){
-                                                                showDialog(
-                                                                  context: context,
-                                                                  builder: (BuildContext context) {
-                                                                    return Center(
-                                                                      child: SingleChildScrollView(
-                                                                        child: AlertDialog(
-                                                                          title: Row(
-                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              const Text('Visualização'),
-                                                                              IconButton(onPressed: (){
-                                                                                Navigator.pop(context);
-                                                                              },
-                                                                                  icon: const Icon(Icons.close)
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                          actions: [
-                                                                            Center(
-                                                                              child: SizedBox(
-                                                                                  width: 900,
-                                                                                  height: 600,
-                                                                                  child: videoStreamAlert(user, pass, ip, porta!, 5)
-                                                                              ),
-                                                                            )
-                                                                          ],
-                                                                        ),
+                                                            );
+                                                          },
+                                                          child: videoStream(user, pass, ip, porta!, 4)
+                                                      ),
+                                                      InkWell(
+                                                          onTap: (){
+                                                            showDialog(
+                                                              context: context,
+                                                              builder: (BuildContext context) {
+                                                                return Center(
+                                                                  child: SingleChildScrollView(
+                                                                    child: AlertDialog(
+                                                                      title: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          const Text('Visualização'),
+                                                                          IconButton(onPressed: (){
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                              icon: const Icon(Icons.close)
+                                                                          )
+                                                                        ],
                                                                       ),
-                                                                    );
-                                                                  },
+                                                                      actions: [
+                                                                        Center(
+                                                                          child: SizedBox(
+                                                                              width: 900,
+                                                                              height: 600,
+                                                                              child: videoStreamAlert(user, pass, ip, porta!, 5)
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
                                                                 );
                                                               },
-                                                              child: videoStream(user, pass, ip, porta!, 5)
-                                                          ),
-                                                          InkWell(
-                                                              onTap: (){
-                                                                showDialog(
-                                                                  context: context,
-                                                                  builder: (BuildContext context) {
-                                                                    return Center(
-                                                                      child: SingleChildScrollView(
-                                                                        child: AlertDialog(
-                                                                          title: Row(
-                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              const Text('Visualização'),
-                                                                              IconButton(onPressed: (){
-                                                                                Navigator.pop(context);
-                                                                              },
-                                                                                  icon: const Icon(Icons.close)
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                          actions: [
-                                                                            Center(
-                                                                              child: SizedBox(
-                                                                                  width: 900,
-                                                                                  height: 600,
-                                                                                  child: videoStreamAlert(user, pass, ip, porta!, 6)
-                                                                              ),
-                                                                            )
-                                                                          ],
-                                                                        ),
+                                                            );
+                                                          },
+                                                          child: videoStream(user, pass, ip, porta!, 5)
+                                                      ),
+                                                      InkWell(
+                                                          onTap: (){
+                                                            showDialog(
+                                                              context: context,
+                                                              builder: (BuildContext context) {
+                                                                return Center(
+                                                                  child: SingleChildScrollView(
+                                                                    child: AlertDialog(
+                                                                      title: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          const Text('Visualização'),
+                                                                          IconButton(onPressed: (){
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                              icon: const Icon(Icons.close)
+                                                                          )
+                                                                        ],
                                                                       ),
-                                                                    );
-                                                                  },
+                                                                      actions: [
+                                                                        Center(
+                                                                          child: SizedBox(
+                                                                              width: 900,
+                                                                              height: 600,
+                                                                              child: videoStreamAlert(user, pass, ip, porta!, 6)
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
                                                                 );
                                                               },
-                                                              child: videoStream(user, pass, ip, porta!, 6)
-                                                          ),
-                                                          InkWell(
-                                                              onTap: (){
-                                                                showDialog(
-                                                                  context: context,
-                                                                  builder: (BuildContext context) {
-                                                                    return Center(
-                                                                      child: SingleChildScrollView(
-                                                                        child: AlertDialog(
-                                                                          title: Row(
-                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              const Text('Visualização'),
-                                                                              IconButton(onPressed: (){
-                                                                                Navigator.pop(context);
-                                                                              },
-                                                                                  icon: const Icon(Icons.close)
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                          actions: [
-                                                                            Center(
-                                                                              child: SizedBox(
-                                                                                  width: 900,
-                                                                                  height: 600,
-                                                                                  child: videoStreamAlert(user, pass, ip, porta!, 7)
-                                                                              ),
-                                                                            )
-                                                                          ],
-                                                                        ),
+                                                            );
+                                                          },
+                                                          child: videoStream(user, pass, ip, porta!, 6)
+                                                      ),
+                                                      InkWell(
+                                                          onTap: (){
+                                                            showDialog(
+                                                              context: context,
+                                                              builder: (BuildContext context) {
+                                                                return Center(
+                                                                  child: SingleChildScrollView(
+                                                                    child: AlertDialog(
+                                                                      title: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          const Text('Visualização'),
+                                                                          IconButton(onPressed: (){
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                              icon: const Icon(Icons.close)
+                                                                          )
+                                                                        ],
                                                                       ),
-                                                                    );
-                                                                  },
+                                                                      actions: [
+                                                                        Center(
+                                                                          child: SizedBox(
+                                                                              width: 900,
+                                                                              height: 600,
+                                                                              child: videoStreamAlert(user, pass, ip, porta!, 7)
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
                                                                 );
                                                               },
-                                                              child: videoStream(user, pass, ip, porta!, 7)
-                                                          ),
-                                                          InkWell(
-                                                              onTap: (){
-                                                                showDialog(
-                                                                  context: context,
-                                                                  builder: (BuildContext context) {
-                                                                    return Center(
-                                                                      child: SingleChildScrollView(
-                                                                        child: AlertDialog(
-                                                                          title: Row(
-                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              const Text('Visualização'),
-                                                                              IconButton(onPressed: (){
-                                                                                Navigator.pop(context);
-                                                                              },
-                                                                                  icon: const Icon(Icons.close)
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                          actions: [
-                                                                            Center(
-                                                                              child: SizedBox(
-                                                                                  width: 900,
-                                                                                  height: 600,
-                                                                                  child: videoStreamAlert(user, pass, ip, porta!, 8)
-                                                                              ),
-                                                                            )
-                                                                          ],
-                                                                        ),
+                                                            );
+                                                          },
+                                                          child: videoStream(user, pass, ip, porta!, 7)
+                                                      ),
+                                                      InkWell(
+                                                          onTap: (){
+                                                            showDialog(
+                                                              context: context,
+                                                              builder: (BuildContext context) {
+                                                                return Center(
+                                                                  child: SingleChildScrollView(
+                                                                    child: AlertDialog(
+                                                                      title: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          const Text('Visualização'),
+                                                                          IconButton(onPressed: (){
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                              icon: const Icon(Icons.close)
+                                                                          )
+                                                                        ],
                                                                       ),
-                                                                    );
-                                                                  },
+                                                                      actions: [
+                                                                        Center(
+                                                                          child: SizedBox(
+                                                                              width: 900,
+                                                                              height: 600,
+                                                                              child: videoStreamAlert(user, pass, ip, porta!, 8)
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
                                                                 );
                                                               },
-                                                              child: videoStream(user, pass, ip, porta!, 8)
-                                                          ),
-                                                        ],
-                                                      )
-                                                  ),
-                                                ],
-                                              );
-                                            }
+                                                            );
+                                                          },
+                                                          child: videoStream(user, pass, ip, porta!, 8)
+                                                      ),
+                                                    ],
+                                                  )
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
@@ -1119,84 +1117,37 @@ class _homeAppState extends State<homeApp>{
                               SizedBox(
                                 width: wid / 2,
                                 height: heig / 3,
-                                child: Column(
-                                  children: [
-                                    AppBar(
-                                      title: Container(
-                                        padding: const EdgeInsets.only(left: 120, right: 170),
-                                        child: const Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text('Acionamento'),
-                                            Text('Ramais'),
-                                          ],
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      AppBar(
+                                        title: Container(
+                                          padding: const EdgeInsets.only(left: 120, right: 170),
+                                          child: const Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text('Acionamento'),
+                                              Text('Ramais'),
+                                            ],
+                                          ),
                                         ),
+                                        backgroundColor: Colors.deepPurpleAccent,
                                       ),
-                                      backgroundColor: Colors.deepPurpleAccent,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Column(
-                                          children: [
-                                            SizedBox(
-                                              width: wid / 4,
-                                              height: heig / 8,
-                                              child: GridView.count(crossAxisCount: 4,
-                                              children: [
-                                                Container(
-                                                  width: 100,
-                                                  height: 100,
-                                                  padding: const EdgeInsets.all(16),
-                                                  child: IconButton(onPressed: (){
-
-                                                  },
-                                                      icon: const Icon(Icons.toggle_on)
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: 100,
-                                                  height: 100,
-                                                  padding: const EdgeInsets.all(16),
-                                                  child: IconButton(onPressed: (){
-
-                                                  },
-                                                      icon: const Icon(Icons.toggle_on)
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: 100,
-                                                  height: 100,
-                                                  padding: const EdgeInsets.all(16),
-                                                  child: IconButton(onPressed: (){
-
-                                                  },
-                                                      icon: const Icon(Icons.toggle_on)
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: 100,
-                                                  height: 100,
-                                                  padding: const EdgeInsets.all(16),
-                                                  child: IconButton(onPressed: (){
-
-                                                  },
-                                                      icon: const Icon(Icons.toggle_on)
-                                                  ),
-                                                ),
-                                              ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: wid / 4,
-                                              height: heig / 7,
-                                              child: GridView.count(crossAxisCount: 4,
+                                      Row(
+                                        children: [
+                                          Column(
+                                            children: [
+                                              SizedBox(
+                                                width: wid / 4,
+                                                height: heig / 8,
+                                                child: GridView.count(crossAxisCount: 4,
                                                 children: [
                                                   Container(
                                                     width: 100,
                                                     height: 100,
                                                     padding: const EdgeInsets.all(16),
                                                     child: IconButton(onPressed: (){
-
+                                  
                                                     },
                                                         icon: const Icon(Icons.toggle_on)
                                                     ),
@@ -1206,7 +1157,7 @@ class _homeAppState extends State<homeApp>{
                                                     height: 100,
                                                     padding: const EdgeInsets.all(16),
                                                     child: IconButton(onPressed: (){
-
+                                  
                                                     },
                                                         icon: const Icon(Icons.toggle_on)
                                                     ),
@@ -1216,7 +1167,7 @@ class _homeAppState extends State<homeApp>{
                                                     height: 100,
                                                     padding: const EdgeInsets.all(16),
                                                     child: IconButton(onPressed: (){
-
+                                  
                                                     },
                                                         icon: const Icon(Icons.toggle_on)
                                                     ),
@@ -1226,66 +1177,115 @@ class _homeAppState extends State<homeApp>{
                                                     height: 100,
                                                     padding: const EdgeInsets.all(16),
                                                     child: IconButton(onPressed: (){
-
+                                  
                                                     },
                                                         icon: const Icon(Icons.toggle_on)
                                                     ),
                                                   ),
                                                 ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        Stack(
-                                          children: [
-                                            StreamBuilder(stream: FirebaseFirestore.instance
-                                                .collection("Ramais")
-                                                .where("IDEmpresaPertence", isEqualTo: UID)
-                                                .snapshots(), builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-                                              if (!snapshot.hasData) {
-                                                return const Center(
-                                                  child: CircularProgressIndicator(),
+                                              SizedBox(
+                                                width: wid / 4,
+                                                height: heig / 7,
+                                                child: GridView.count(crossAxisCount: 4,
+                                                  children: [
+                                                    Container(
+                                                      width: 100,
+                                                      height: 100,
+                                                      padding: const EdgeInsets.all(16),
+                                                      child: IconButton(onPressed: (){
+                                  
+                                                      },
+                                                          icon: const Icon(Icons.toggle_on)
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      width: 100,
+                                                      height: 100,
+                                                      padding: const EdgeInsets.all(16),
+                                                      child: IconButton(onPressed: (){
+                                  
+                                                      },
+                                                          icon: const Icon(Icons.toggle_on)
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      width: 100,
+                                                      height: 100,
+                                                      padding: const EdgeInsets.all(16),
+                                                      child: IconButton(onPressed: (){
+                                  
+                                                      },
+                                                          icon: const Icon(Icons.toggle_on)
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      width: 100,
+                                                      height: 100,
+                                                      padding: const EdgeInsets.all(16),
+                                                      child: IconButton(onPressed: (){
+                                  
+                                                      },
+                                                          icon: const Icon(Icons.toggle_on)
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Stack(
+                                            children: [
+                                              StreamBuilder(stream: FirebaseFirestore.instance
+                                                  .collection("Ramais")
+                                                  .where("IDEmpresaPertence", isEqualTo: UID)
+                                                  .snapshots(), builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                                                if (!snapshot.hasData) {
+                                                  return const Center(
+                                                    child: CircularProgressIndicator(),
+                                                  );
+                                                }
+                                                return Container(
+                                                  width: wid / 4.3,
+                                                  height: heig / 4,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 1.0,
+                                                    ),
+                                                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                  ),
+                                                  child: ListView(
+                                                    children: snapshot.data!.docs.map((documents){
+                                                      return SizedBox(
+                                                        width: double.infinity,
+                                                        height: 50,
+                                                        child: Center(
+                                                          child: Text(documents['RamalIp']),
+                                                        ),
+                                                      );
+                                                    }).toList(),
+                                                  ),
                                                 );
                                               }
-                                              return Container(
-                                                width: wid / 4.3,
-                                                height: heig / 4,
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1.0,
-                                                  ),
-                                                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                                                ),
-                                                child: ListView(
-                                                  children: snapshot.data!.docs.map((documents){
-                                                    return SizedBox(
-                                                      width: double.infinity,
-                                                      height: 50,
-                                                      child: Center(
-                                                        child: Text(documents['RamalIp']),
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                ),
-                                              );
-                                            }
-                                            ),
-                                            Container(
-                                              alignment: Alignment.bottomRight,
-                                              padding: const EdgeInsets.all(16),
-                                              child: FloatingActionButton(onPressed:
-                                              idCondominio == "" ? null :(){
-
-                                              },
-                                                child: const Icon(Icons.add),
                                               ),
-                                            ),
-                                          ]
-                                        )
-                                      ],
-                                    ),
-                                  ],
+                                              Container(
+                                                alignment: Alignment.bottomRight,
+                                                padding: const EdgeInsets.all(16),
+                                                child: FloatingActionButton(onPressed:
+                                                idCondominio == "" ? null :(){
+                                  
+                                                },
+                                                  child: const Icon(Icons.add),
+                                                ),
+                                              ),
+                                            ]
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -1346,7 +1346,7 @@ class _homeAppState extends State<homeApp>{
                                           ),
                                         ),
                                         StreamBuilder(
-                                          stream: pesquisando == false ? FirebaseFirestore.instance
+                                          stream: pesquisando2 == false ? FirebaseFirestore.instance
                                               .collection("Pessoas")
                                               .where("idCondominio", isEqualTo: idCondominio)
                                               .snapshots():
@@ -1822,7 +1822,7 @@ class _homeAppState extends State<homeApp>{
                             ),
                             SizedBox(
                               width: wid / 4,
-                              height: heig / 3.7,
+                              height: heig / 3.8,
                               child: Center(
                                 child: SingleChildScrollView(
                                   child: Column(
