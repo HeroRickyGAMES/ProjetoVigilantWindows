@@ -22,16 +22,18 @@ String idCondominioAnt = "";
 String pesquisa2 = '';
 String pesquisa = '';
 String imageURL = "";
+String imageURLMorador = "";
 String NomeMorador = "";
 String RGMorador = "";
 String CPFMorador = "";
 String DatadeNascimentoMorador = "";
 String PlacaMorador = "";
 String anotacaoMorador = "";
+String MoradorId = "";
 
 //Controladores
-final anotacaoControl = TextEditingController(text: "");
-TextEditingController controller = TextEditingController(text: anotacaoMorador);
+TextEditingController anotacaoControl = TextEditingController(text: anotacaoMorador);
+
 //Booleanos
 bool pesquisando2 = false;
 bool pesquisaNumeros = false;
@@ -1292,224 +1294,206 @@ class _homeAppState extends State<homeApp>{
                               height: heig / 1.5,
                               child: Stack(
                                 children: [
-                                  //UI começa aqui!
-                                  idCondominio != "" ? Column(
-                                    children: [
-                                      AppBar(
-                                        backgroundColor: Colors.deepPurpleAccent,
-                                        centerTitle: true,
-                                        title: const Text('Visitantes e Moradores'),
-                                      ),
-                                      Center(
-                                        child: Container(
-                                          padding: const EdgeInsets.all(10),
-                                          child: TextField(
-                                            keyboardType: TextInputType.name,
-                                            enableSuggestions: true,
-                                            autocorrect: true,
-                                            onChanged: (value){
-                                              setState(() {
-                                                pesquisa = value;
-                                              });
+                                  idCondominio != "" ?
+                                  SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        AppBar(
+                                          backgroundColor: Colors.deepPurpleAccent,
+                                          centerTitle: true,
+                                          title: const Text('Visitantes e Moradores'),
+                                        ),
+                                        Center(
+                                          child: Container(
+                                            padding: const EdgeInsets.all(10),
+                                            child: TextField(
+                                              keyboardType: TextInputType.name,
+                                              enableSuggestions: true,
+                                              autocorrect: true,
+                                              onChanged: (value){
+                                                setState(() {
+                                                  pesquisa = value;
+                                                });
 
-                                              if(value == ""){
-                                                setState(() {
-                                                  pesquisando2 = false;
-                                                });
-                                              }else{
-                                                setState(() {
-                                                  pesquisando2 = true;
-                                                });
-                                              }
-                                            },
-                                            decoration: const InputDecoration(
-                                              border: OutlineInputBorder(),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    width: 3,
-                                                    color: Colors.black
+                                                if(value == ""){
+                                                  setState(() {
+                                                    pesquisando2 = false;
+                                                  });
+                                                }else{
+                                                  setState(() {
+                                                    pesquisando2 = true;
+                                                  });
+                                                }
+                                              },
+                                              decoration: const InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                enabledBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
                                                 ),
+                                                focusedBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      width: 3,
+                                                      color: Colors.black
+                                                  ),
+                                                ),
+                                                hintText: 'Pesquisar (CPF)',
                                               ),
-                                              hintText: 'Pesquisar (CPF)',
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      StreamBuilder(
-                                        stream: pesquisando == false ? FirebaseFirestore.instance
-                                            .collection("Pessoas")
-                                            .where("idCondominio", isEqualTo: idCondominio)
-                                            .snapshots():
-                                        FirebaseFirestore.instance
-                                            .collection("Pessoas")
-                                            .where("idCondominio", isEqualTo: idCondominio)
-                                            .where("CPF", isGreaterThanOrEqualTo: pesquisa2)
-                                            .where("CPF", isLessThan: "${pesquisa2}z")
-                                            .snapshots(),
-                                        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                                        StreamBuilder(
+                                          stream: pesquisando == false ? FirebaseFirestore.instance
+                                              .collection("Pessoas")
+                                              .where("idCondominio", isEqualTo: idCondominio)
+                                              .snapshots():
+                                          FirebaseFirestore.instance
+                                              .collection("Pessoas")
+                                              .where("idCondominio", isEqualTo: idCondominio)
+                                              .where("CPF", isGreaterThanOrEqualTo: pesquisa2)
+                                              .where("CPF", isLessThan: "${pesquisa2}z")
+                                              .snapshots(),
+                                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
 
-                                          if (!snapshot.hasData) {
-                                            return const Center(
-                                              child: CircularProgressIndicator(),
-                                            );
-                                          }
+                                            if (!snapshot.hasData) {
+                                              return const Center(
+                                                child: CircularProgressIndicator(),
+                                              );
+                                            }
 
-                                          return Column(
-                                            children: [
-                                              Container(
-                                                width: double.infinity,
-                                                height: heig / 3.3,
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1.0,
+                                            return Column(
+                                              children: [
+                                                Container(
+                                                  width: double.infinity,
+                                                  height: heig / 3.3,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 1.0,
+                                                    ),
+                                                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                                                   ),
-                                                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                                                ),
-                                                child: ListView(
-                                                  children: snapshot.data!.docs.map((documents){
-                                                    return InkWell(
-                                                      onTap: (){
-                                                        setState(() {
-                                                          moradorselecionado = true;
-
-                                                        });
-
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext context) {
-                                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                                              return Center(
-                                                                child: SingleChildScrollView(
-                                                                  child: AlertDialog(
-                                                                    title: Row(
-                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                      children: [
-                                                                        const Text('Detalhes'),
-                                                                        IconButton(onPressed: (){
-                                                                          Navigator.pop(context);
-                                                                        }, icon: const Icon(Icons.close)
-                                                                        )
-                                                                      ],
-                                                                    ),
-                                                                    actions: [
-                                                                      Center(
-                                                                        child: Column(
-                                                                          children: [
-                                                                            Center(
-                                                                              child: Container(
-                                                                                padding: const EdgeInsets.all(16),
-                                                                                child: Column(
-                                                                                  children: [
-                                                                                    Container(
-                                                                                        padding: const EdgeInsets.all(8),
-                                                                                        child: Image.network(documents["imageURI"])
-                                                                                    ),
-                                                                                    Container(
-                                                                                        padding: const EdgeInsets.all(8),
-                                                                                        child: Text("Nome: ${documents["Nome"]}")
-                                                                                    ),
-                                                                                    Container(
-                                                                                        padding: const EdgeInsets.all(8),
-                                                                                        child: Text("RG: ${documents["RG"]}")
-                                                                                    ),
-                                                                                    Container(
-                                                                                        padding: const EdgeInsets.all(8),
-                                                                                        child: Text("CPF: ${documents["CPF"]}")
-                                                                                    ),
-                                                                                    Container(
-                                                                                        padding: const EdgeInsets.all(8),
-                                                                                        child: Text("Data de nascimento: ${documents["DataNascimento"]}")
-                                                                                    ),
-                                                                                    Container(
-                                                                                        padding: const EdgeInsets.all(8),
-                                                                                        child: Text("Placa: ${documents["placa"]}")
-                                                                                    ),
-                                                                                    TextField(
-                                                                                      controller: controller,
-                                                                                      keyboardType: TextInputType.emailAddress,
-                                                                                      enableSuggestions: false,
-                                                                                      autocorrect: false,
-                                                                                      onChanged: (value){
-                                                                                        setState(() {
-                                                                                          anotacao = value;
-                                                                                        });
-                                                                                      },
-                                                                                      decoration: const InputDecoration(
-                                                                                        border: OutlineInputBorder(),
-                                                                                        enabledBorder: OutlineInputBorder(
-                                                                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
-                                                                                        ),
-                                                                                        focusedBorder: OutlineInputBorder(
-                                                                                          borderSide: BorderSide(
-                                                                                              width: 3,
-                                                                                              color: Colors.black
-                                                                                          ),
-                                                                                        ),
-                                                                                        labelText: 'Anotação',
-                                                                                      ),
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                TextButton(
-                                                                                    onPressed: (){
-                                                                                      Navigator.of(context).pop();
-                                                                                    }, child: const Text('Fechar')
-                                                                                ),
-                                                                                TextButton(
-                                                                                    onPressed: (){
-                                                                                      FirebaseFirestore.instance.collection('Pessoas').doc(documents['id']).update({
-                                                                                        "anotacao": anotacao
-                                                                                      }).whenComplete(() {
-                                                                                        Navigator.of(context).pop();
-                                                                                      });
-                                                                                    }, child: const Text('Salvar')
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                            
-                                                                          ],
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            },);
-                                                          },
-                                                        );
-                                                      },
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: SizedBox(
-                                                          width: double.infinity,
-                                                          height: 50,
-                                                          child: Column(
-                                                            children: [
-                                                              Text("Nome: ${documents['Nome']}"),
-                                                              Text("Tipo: ${documents['tipoDeUser']}"),
-                                                            ],
+                                                  child: ListView(
+                                                    children: snapshot.data!.docs.map((documents){
+                                                      return InkWell(
+                                                        onTap: (){
+                                                          setState(() {
+                                                            moradorselecionado = true;
+                                                            NomeMorador = documents["Nome"];
+                                                            RGMorador = documents["RG"];
+                                                            CPFMorador = documents["CPF"];
+                                                            DatadeNascimentoMorador = documents["DataNascimento"];
+                                                            PlacaMorador = documents["placa"];
+                                                            imageURLMorador = documents["imageURI"];
+                                                            anotacaoMorador = documents["anotacao"];
+                                                            anotacaoControl.text = anotacaoMorador;
+                                                            MoradorId = documents["id"];
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          padding: const EdgeInsets.all(16),
+                                                          child: SizedBox(
+                                                            width: double.infinity,
+                                                            height: 50,
+                                                            child: Column(
+                                                              children: [
+                                                                Text("Nome: ${documents['Nome']}"),
+                                                                Text("Tipo: ${documents['tipoDeUser']}"),
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    );
-                                                  }).toList(),
+                                                      );
+                                                    }).toList(),
+                                                  ),
                                                 ),
-                                              ),
+                                                moradorselecionado == true ?
+                                                Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Container(
+                                                            padding: const EdgeInsets.all(8),
+                                                            child: Image.network(
+                                                                height: 100,
+                                                                width: 100,
+                                                                imageURLMorador
+                                                            )
+                                                        ),
+                                                        Column(
+                                                          children: [
+                                                            Container(
+                                                                padding: const EdgeInsets.all(8),
+                                                                child: Text("Nome: $NomeMorador")
+                                                            ),
+                                                            Container(
+                                                                padding: const EdgeInsets.all(8),
+                                                                child: Text("RG: $RGMorador")
+                                                            ),
+                                                            Container(
+                                                                padding: const EdgeInsets.all(8),
+                                                                child: Text("CPF: $CPFMorador")
+                                                            ),
+                                                            Container(
+                                                                padding: const EdgeInsets.all(8),
+                                                                child: Text("Data de nascimento: $DatadeNascimentoMorador")
+                                                            ),
+                                                            Container(
+                                                                padding: const EdgeInsets.all(8),
+                                                                child: Text("Placa: $PlacaMorador")
+                                                            )
 
-                                            ],
-                                          );
-                                        },
-                                      ),
-                                    ],
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Container(
+                                                      padding: const EdgeInsets.all(16),
+                                                      child: TextField(
+                                                        keyboardType: TextInputType.multiline,
+                                                        enableSuggestions: true,
+                                                        autocorrect: true,
+                                                        minLines: 5,
+                                                        maxLines: null,
+                                                        controller: anotacaoControl,
+                                                        onChanged: (value){
+                                                          setState(() {
+                                                            anotacaoMorador = value;
+                                                          });
+                                                        },
+                                                        decoration: const InputDecoration(
+                                                          border: OutlineInputBorder(),
+                                                          enabledBorder: OutlineInputBorder(
+                                                            borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                          ),
+                                                          focusedBorder: OutlineInputBorder(
+                                                            borderSide: BorderSide(
+                                                                width: 3,
+                                                                color: Colors.black
+                                                            ),
+                                                          ),
+                                                          labelText: 'Anotação',
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      padding: const EdgeInsets.all(16),
+                                                      child: ElevatedButton(
+                                                        onPressed: (){
+                                                          FirebaseFirestore.instance.collection('Pessoas').doc(MoradorId).update({
+                                                            "anotacao": anotacaoMorador
+                                                          });
+                                                        },
+                                                          child: const Text("Salvar anotação")
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ): Container(),
+                                              ],
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   ):  Center(
                                     child: Column(
                                       children: [
