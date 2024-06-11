@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:record/record.dart';
@@ -5,8 +6,24 @@ import 'package:sip_ua/sip_ua.dart';
 
 //Programado por HeroRickyGames
 
+//Inteiros
+int minutos = 00;
+int segundos = 00;
+
+//StopWatch
+var stopwatch = Stopwatch();
+
 //Booleanos
 bool voiceOnly = false;
+
+//Holper
+final SIPUAHelper helper = SIPUAHelper();
+
+//Estado
+late RegistrationState registerState;
+
+//Microfone
+final record = AudioRecorder();
 
 //Nesse trexo ele conecta ao VoIP.
 ConnectVoIP(var context) async {
@@ -17,8 +34,6 @@ ConnectVoIP(var context) async {
   String SIPUrl = "$authUser@sip2.vtcall.com.br";
   String authSenha = "w0VxAqSG4e23";
 
-  final SIPUAHelper helper = SIPUAHelper();
-  late RegistrationState registerState;
   registerState = helper.registerState;
 
   UaSettings settings = UaSettings();
@@ -38,7 +53,7 @@ ConnectVoIP(var context) async {
   settings.displayName = displayName;
   settings.userAgent = 'Dart SIP Client v1.0.0';
   settings.dtmfMode = DtmfMode.RFC2833;
-  settings.contact_uri = 'sip:${SIPUrl}';
+  settings.contact_uri = 'sip:$SIPUrl';
 
 
   helper.start(settings).whenComplete((){
@@ -46,20 +61,12 @@ ConnectVoIP(var context) async {
   });
 }
 
-useVoIP(var context) async {
+startCall(var context, String ramal) async {
+  ConnectVoIP(context);
 
-  await ConnectVoIP(context);
-
-  //Microfone
-  final record = AudioRecorder();
   var stream;
 
-  if (await record.hasPermission()) {
-    stream = await record.startStream(const RecordConfig(encoder: AudioEncoder.pcm16bits));
-  }
-
   final mediaConstraints = <String, dynamic>{
-    "microphone": stream,
     'audio': true,
     'video': {
       'width': '1280',
@@ -68,18 +75,63 @@ useVoIP(var context) async {
     }
   };
 
-  MediaStream mediaStream;
+  mediaConstraints['video'] = false;
+  MediaStream userStream =
+  await navigator.mediaDevices.getUserMedia(mediaConstraints);
+  //final audioTracks = userStream.getAudioTracks();
 
-  if(!voiceOnly){
-    mediaStream = await navigator.mediaDevices.getDisplayMedia(mediaConstraints);
-    MediaStream userStream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
-    final audioTracks = userStream.getAudioTracks();
-    if (audioTracks.isNotEmpty) {
-      //mediaStream.addTrack(audioTracks.first, addToNative: true);
-    }
+  if (await record.hasPermission()) {
+  stream = await record.startStream(const RecordConfig(encoder: AudioEncoder.pcm16bits));
   }
+  await helper.call(ramal, voiceonly: true, mediaStream: userStream);
+
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      stopwatch.start();
+      return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+
+        setarMineSecs() async {
+          setState((){
+            minutos = stopwatch.elapsed.inSeconds ~/ 60;
+            segundos = stopwatch.elapsed.inSeconds % 60;
+
+          });
+          await Future.delayed(const Duration(seconds: 1));
+          setarMineSecs();
+        }
+
+        setarMineSecs();
+        return AlertDialog(
+          title: const Text('Chamada'),
+          actions: [
+            Center(
+              child: Column(
+                children: [
+                  Text(ramal),
+                  Text("$minutos:$segundos"),
+                  IconButton(onPressed: (){
+                    stopTransmission(context);
+                  },
+                      icon: const Icon(Icons.call_end)
+                  )
+                ],
+              ),
+            )
+          ],
+        );
+      },);
+    },
+  );
+
 }
 
-stopTransmission(){
-
+stopTransmission(var context){
+  minutos = 00;
+  segundos = 00;
+  helper.stop();
+  record.stop();
+  stopwatch.reset();
+  Navigator.pop(context);
 }

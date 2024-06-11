@@ -93,6 +93,12 @@ class _homeAppState extends State<homeApp>{
                             ),
                             ElevatedButton(
                                 onPressed: idCondominio == "" ? null : () async {
+                                  startCall(context, "0000");
+                                },
+                                child: const Text("RamalTest")
+                            ),
+                            ElevatedButton(
+                                onPressed: idCondominio == "" ? null : () async {
 
                                   //Visitantes
 
@@ -2012,7 +2018,7 @@ class _homeAppState extends State<homeApp>{
                                         Center(
                                             child: Container(
                                                 padding: const EdgeInsets.all(16),
-                                                child: const Text('Selecione o condominio')
+                                                child: const Text('Selecione algum cliente')
                                             )
                                         ),
                                       ],
