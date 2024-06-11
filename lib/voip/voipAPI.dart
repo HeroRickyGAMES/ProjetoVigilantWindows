@@ -4,6 +4,7 @@ import 'package:sip_ua/sip_ua.dart';
 
 //Programado por HeroRickyGames
 
+//Booleanos
 bool voiceOnly = false;
 
 //Nesse trexo ele conecta ao VoIP.

@@ -5,11 +5,16 @@ import 'package:media_kit_video/media_kit_video.dart';
 //Desenvolvido por HeroRickyGames
 
 class videoStream extends StatefulWidget {
+
+  //Strings
   String user = "";
   String password = "";
   String ip = "";
+
+  //Inteiros
   int porta;
   int canal;
+
   videoStream(this.user, this.password, this.ip, this.porta, this.canal, {super.key});
 
   @override

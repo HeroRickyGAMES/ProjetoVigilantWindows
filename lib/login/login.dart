@@ -6,6 +6,7 @@ import 'package:sparta_monitoramento/homeApp.dart';
 
 //Desenvolvido por HeroRickyGames
 
+//Strings
 String Email = "";
 String Senha = "";
 

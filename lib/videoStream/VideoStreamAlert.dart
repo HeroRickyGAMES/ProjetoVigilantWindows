@@ -5,9 +5,13 @@ import 'package:media_kit_video/media_kit_video.dart';
 //Desenvolvido por HeroRickyGames
 
 class videoStreamAlert extends StatefulWidget {
+
+  //Strings
   String user = "";
   String password = "";
   String ip = "";
+
+  //Inteiros
   int porta;
   int canal;
   videoStreamAlert(this.user, this.password, this.ip, this.porta, this.canal, {super.key});

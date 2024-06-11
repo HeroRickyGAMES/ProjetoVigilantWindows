@@ -2,6 +2,8 @@ import 'package:device_info_plus/device_info_plus.dart';
 
 //Programado por HeroRickyGames
 
+//Aqui ele pega o username do PC.
+
 final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 Map<String, dynamic> _deviceData = <String, dynamic>{};
 
