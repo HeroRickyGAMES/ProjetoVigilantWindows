@@ -84,13 +84,15 @@ class _homeAppState extends State<homeApp>{
                         Row(
                           children: [
                             ElevatedButton(
-                              onPressed: () async {
+                              onPressed: idCondominio == "" ? null : () async {
                                 useVoIP();
                               },
                               child: const Text("VoIP")
                             ),
                             ElevatedButton(
-                                onPressed: () async {
+                                onPressed: idCondominio == "" ? null : () async {
+
+                                  //Visitantes
 
                                 },
                                 child: const Text("Visitantes")
@@ -1541,156 +1543,161 @@ class _homeAppState extends State<homeApp>{
                                         ),
                                         backgroundColor: Colors.deepPurpleAccent,
                                       ),
-                                      Row(
-                                        children: [
-                                          Column(
-                                            children: [
-                                              SizedBox(
-                                                width: wid / 4,
-                                                height: heig / 8,
-                                                child: GridView.count(crossAxisCount: 4,
-                                                children: [
-                                                  Container(
-                                                    width: 100,
-                                                    height: 100,
-                                                    padding: const EdgeInsets.all(16),
-                                                    child: IconButton(onPressed: (){
-                                  
-                                                    },
-                                                        icon: const Icon(Icons.toggle_on)
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    width: 100,
-                                                    height: 100,
-                                                    padding: const EdgeInsets.all(16),
-                                                    child: IconButton(onPressed: (){
-                                  
-                                                    },
-                                                        icon: const Icon(Icons.toggle_on)
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    width: 100,
-                                                    height: 100,
-                                                    padding: const EdgeInsets.all(16),
-                                                    child: IconButton(onPressed: (){
-                                  
-                                                    },
-                                                        icon: const Icon(Icons.toggle_on)
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    width: 100,
-                                                    height: 100,
-                                                    padding: const EdgeInsets.all(16),
-                                                    child: IconButton(onPressed: (){
-                                  
-                                                    },
-                                                        icon: const Icon(Icons.toggle_on)
-                                                    ),
-                                                  ),
-                                                ],
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: wid / 4,
-                                                height: heig / 7,
-                                                child: GridView.count(crossAxisCount: 4,
-                                                  children: [
-                                                    Container(
-                                                      width: 100,
-                                                      height: 100,
-                                                      padding: const EdgeInsets.all(16),
-                                                      child: IconButton(onPressed: (){
-                                  
-                                                      },
-                                                          icon: const Icon(Icons.toggle_on)
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      width: 100,
-                                                      height: 100,
-                                                      padding: const EdgeInsets.all(16),
-                                                      child: IconButton(onPressed: (){
-                                  
-                                                      },
-                                                          icon: const Icon(Icons.toggle_on)
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      width: 100,
-                                                      height: 100,
-                                                      padding: const EdgeInsets.all(16),
-                                                      child: IconButton(onPressed: (){
-                                  
-                                                      },
-                                                          icon: const Icon(Icons.toggle_on)
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      width: 100,
-                                                      height: 100,
-                                                      padding: const EdgeInsets.all(16),
-                                                      child: IconButton(onPressed: (){
-                                  
-                                                      },
-                                                          icon: const Icon(Icons.toggle_on)
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Stack(
-                                            children: [
-                                              StreamBuilder(stream: FirebaseFirestore.instance
-                                                  .collection("Ramais")
-                                                  .where("IDEmpresaPertence", isEqualTo: UID)
-                                                  .snapshots(), builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-                                                if (!snapshot.hasData) {
-                                                  return const Center(
-                                                    child: CircularProgressIndicator(),
-                                                  );
-                                                }
-                                                return Container(
-                                                  width: wid / 4.3,
-                                                  height: heig / 4,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Colors.black,
-                                                      width: 1.0,
-                                                    ),
-                                                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                                                  ),
-                                                  child: ListView(
-                                                    children: snapshot.data!.docs.map((documents){
-                                                      return SizedBox(
-                                                        width: double.infinity,
-                                                        height: 50,
-                                                        child: Center(
-                                                          child: Text(documents['RamalIp']),
+                                      Container(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                SizedBox(
+                                                  width: wid / 4,
+                                                  height: heig / 8,
+                                                  child: GridView.count(crossAxisCount: 4,
+                                                    children: [
+                                                      Container(
+                                                        width: 100,
+                                                        height: 100,
+                                                        padding: const EdgeInsets.all(16),
+                                                        child: IconButton(onPressed: (){
+
+                                                        },
+                                                            icon: const Icon(Icons.toggle_on)
                                                         ),
-                                                      );
-                                                    }).toList(),
+                                                      ),
+                                                      Container(
+                                                        width: 100,
+                                                        height: 100,
+                                                        padding: const EdgeInsets.all(16),
+                                                        child: IconButton(onPressed: (){
+
+                                                        },
+                                                            icon: const Icon(Icons.toggle_on)
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: 100,
+                                                        height: 100,
+                                                        padding: const EdgeInsets.all(16),
+                                                        child: IconButton(onPressed: (){
+
+                                                        },
+                                                            icon: const Icon(Icons.toggle_on)
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: 100,
+                                                        height: 100,
+                                                        padding: const EdgeInsets.all(16),
+                                                        child: IconButton(onPressed: (){
+
+                                                        },
+                                                            icon: const Icon(Icons.toggle_on)
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                );
-                                              }
-                                              ),
-                                              Container(
-                                                alignment: Alignment.bottomRight,
-                                                padding: const EdgeInsets.all(16),
-                                                child: FloatingActionButton(onPressed:
-                                                idCondominio == "" ? null :(){
-                                  
-                                                },
-                                                  child: const Icon(Icons.add),
                                                 ),
-                                              ),
-                                            ]
-                                          )
-                                        ],
+                                                SizedBox(
+                                                  width: wid / 4,
+                                                  height: heig / 7,
+                                                  child: GridView.count(crossAxisCount: 4,
+                                                    children: [
+                                                      Container(
+                                                        width: 100,
+                                                        height: 100,
+                                                        padding: const EdgeInsets.all(16),
+                                                        child: IconButton(onPressed: (){
+
+                                                        },
+                                                            icon: const Icon(Icons.toggle_on)
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: 100,
+                                                        height: 100,
+                                                        padding: const EdgeInsets.all(16),
+                                                        child: IconButton(onPressed: (){
+
+                                                        },
+                                                            icon: const Icon(Icons.toggle_on)
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: 100,
+                                                        height: 100,
+                                                        padding: const EdgeInsets.all(16),
+                                                        child: IconButton(onPressed: (){
+
+                                                        },
+                                                            icon: const Icon(Icons.toggle_on)
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: 100,
+                                                        height: 100,
+                                                        padding: const EdgeInsets.all(16),
+                                                        child: IconButton(onPressed: (){
+
+                                                        },
+                                                            icon: const Icon(Icons.toggle_on)
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Stack(
+                                                children: [
+                                                  StreamBuilder(stream: FirebaseFirestore.instance
+                                                      .collection("Ramais")
+                                                      .where("IDEmpresaPertence", isEqualTo: UID)
+                                                      .snapshots(), builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                                                    if (!snapshot.hasData) {
+                                                      return const Center(
+                                                        child: CircularProgressIndicator(),
+                                                      );
+                                                    }
+                                                    return Container(
+                                                      width: wid / 4.3,
+                                                      height: heig / 4,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Colors.black,
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                      ),
+                                                      child: ListView(
+                                                        children: snapshot.data!.docs.map((documents){
+                                                          return SizedBox(
+                                                            width: double.infinity,
+                                                            height: 50,
+                                                            child: Center(
+                                                              child: Text(documents['RamalIp']),
+                                                            ),
+                                                          );
+                                                        }).toList(),
+                                                      ),
+                                                    );
+                                                  }
+                                                  ),
+                                                  Container(
+                                                    width: wid / 4.3,
+                                                    height: heig / 4,
+                                                    alignment: Alignment.bottomRight,
+                                                    padding: const EdgeInsets.all(16),
+                                                    child: FloatingActionButton(onPressed:
+                                                    idCondominio == "" ? null :(){
+
+                                                    },
+                                                      child: const Icon(Icons.add),
+                                                    ),
+                                                  ),
+                                                ]
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
