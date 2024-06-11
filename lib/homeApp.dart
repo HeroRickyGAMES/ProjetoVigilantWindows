@@ -19,8 +19,9 @@ String pass = "";
 String anotacao = "";
 String idCondominio = "";
 String idCondominioAnt = "";
-String pesquisa2 = '';
 String pesquisa = '';
+String pesquisa2 = '';
+String pesquisa3 = '';
 String imageURL = "";
 String imageURLMorador = "";
 String NomeMorador = "";
@@ -39,6 +40,7 @@ TextEditingController anotacaoControl = TextEditingController(text: anotacaoMora
 //Booleanos
 bool pesquisando = false;
 bool pesquisando2 = false;
+bool pesquisando3 = false;
 bool moradorselecionado = false;
 bool pesquisaNumeros = false;
 
@@ -123,16 +125,60 @@ class _homeAppState extends State<homeApp>{
                                                 Center(
                                                   child: SizedBox(
                                                     width: wid,
-                                                    height: heig / 1.5,
+                                                    height: heig / 1.3,
                                                     child: Stack(
                                                       children: [
                                                         Column(
                                                           children: [
+                                                            Center(
+                                                              child: Container(
+                                                                padding: const EdgeInsets.all(10),
+                                                                child: TextField(
+                                                                  keyboardType: TextInputType.name,
+                                                                  enableSuggestions: true,
+                                                                  autocorrect: true,
+                                                                  onChanged: (value){
+                                                                    setState(() {
+                                                                      pesquisa3 = value;
+                                                                    });
+
+                                                                    if(value == ""){
+                                                                      setState(() {
+                                                                        pesquisando3 = false;
+                                                                      });
+                                                                    }else{
+                                                                      setState(() {
+                                                                        pesquisando3 = true;
+                                                                      });
+                                                                    }
+                                                                  },
+                                                                  decoration: const InputDecoration(
+                                                                    border: OutlineInputBorder(),
+                                                                    enabledBorder: OutlineInputBorder(
+                                                                      borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                    ),
+                                                                    focusedBorder: OutlineInputBorder(
+                                                                      borderSide: BorderSide(
+                                                                          width: 3,
+                                                                          color: Colors.black
+                                                                      ),
+                                                                    ),
+                                                                    hintText: 'Pesquisar (Unidade)',
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
                                                             StreamBuilder(
-                                                              stream: FirebaseFirestore.instance
+                                                              stream: pesquisando3 == true ?
+                                                              FirebaseFirestore.instance
                                                                   .collection("Veiculos")
                                                                   .where("IDEmpresaPertence", isEqualTo: UID)
-                                                                  .snapshots(),
+                                                                  .where("Unidade", isEqualTo: pesquisa3)
+                                                                  .snapshots() :
+                                                              FirebaseFirestore.instance
+                                                                  .collection("Veiculos")
+                                                                  .where("IDEmpresaPertence", isEqualTo: UID)
+                                                                  .snapshots() ,
                                                               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
 
                                                                 if (!snapshot.hasData) {
@@ -1735,7 +1781,7 @@ class _homeAppState extends State<homeApp>{
                                               autocorrect: true,
                                               onChanged: (value){
                                                 setState(() {
-                                                  pesquisa = value;
+                                                  pesquisa2 = value;
                                                 });
 
                                                 if(value == ""){
