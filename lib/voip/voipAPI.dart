@@ -1,3 +1,4 @@
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:record/record.dart';
 import 'package:sip_ua/sip_ua.dart';
@@ -8,7 +9,7 @@ import 'package:sip_ua/sip_ua.dart';
 bool voiceOnly = false;
 
 //Nesse trexo ele conecta ao VoIP.
-ConnectVoIP() async {
+ConnectVoIP(var context) async {
 
   String displayName = "Flutter SIP UA";
   String authUser = "2206";
@@ -40,16 +41,14 @@ ConnectVoIP() async {
   settings.contact_uri = 'sip:${SIPUrl}';
 
 
-  helper.start(settings);
-
-  if(helper.connected == true){
-    print("Conectado com sucesso!");
-  }
+  helper.start(settings).whenComplete((){
+    showToast("Conectado ao VoIP!",context:context);
+  });
 }
 
-useVoIP() async {
+useVoIP(var context) async {
 
-  await ConnectVoIP();
+  await ConnectVoIP(context);
 
   //Microfone
   final record = AudioRecorder();

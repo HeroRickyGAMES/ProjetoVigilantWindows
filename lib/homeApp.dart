@@ -87,7 +87,7 @@ class _homeAppState extends State<homeApp>{
                           children: [
                             ElevatedButton(
                               onPressed: idCondominio == "" ? null : () async {
-                                useVoIP();
+                                ConnectVoIP(context);
                               },
                               child: const Text("VoIP")
                             ),
