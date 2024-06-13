@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparta_monitoramento/checkUser.dart';
 import 'package:sparta_monitoramento/firebase_options.dart';
 import 'package:sparta_monitoramento/homeApp.dart';
@@ -43,6 +44,28 @@ class _mainAppState extends State<mainApp> {
 
   @override
   Widget build(BuildContext context) {
+
+    //Vai para a tela de login
+    GoToLoginScreen(){
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context){
+            return const login();
+          }
+          )
+      );
+    }
+
+
+   //Vai para a homeApp
+    GoToHome(){
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context){
+            return const homeApp();
+          }
+          )
+      );
+    }
+
     runFirebase() async {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.windows,
@@ -64,19 +87,22 @@ class _mainAppState extends State<mainApp> {
         await Future.delayed(const Duration(seconds: 3));
 
         if(user == null){
-          Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context){
-                  return const login();
-                }
-              )
-          );
+
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          final String? Email = prefs.getString('email');
+          final String? Senha = prefs.getString('senha');
+
+          if(Email == null || Senha == null || Email == "" || Senha == ""){
+            //Se for nulo ou vazio, ele joga para a login screen
+            GoToLoginScreen();
+          }else{
+            FirebaseAuth.instance.signInWithEmailAndPassword(email: Email, password: Senha).whenComplete((){
+              GoToHome();
+            });
+          }
+          GoToLoginScreen();
         }else{
-          Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context){
-                  return const homeApp();
-                }
-              )
-          );
+          GoToHome();
         }
       });
     }

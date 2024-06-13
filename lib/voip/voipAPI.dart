@@ -40,7 +40,6 @@ ConnectVoIP(var context) async {
 
   settings.port = Porta;
   settings.webSocketSettings.extraHeaders = {
-
   };
   settings.webSocketSettings.allowBadCertificate = true;
   settings.tcpSocketSettings.allowBadCertificate = true;
@@ -78,7 +77,6 @@ startCall(var context, String ramal) async {
   mediaConstraints['video'] = false;
   MediaStream userStream =
   await navigator.mediaDevices.getUserMedia(mediaConstraints);
-  //final audioTracks = userStream.getAudioTracks();
 
   if (await record.hasPermission()) {
   stream = await record.startStream(const RecordConfig(encoder: AudioEncoder.pcm16bits));
@@ -103,6 +101,12 @@ startCall(var context, String ramal) async {
         }
 
         setarMineSecs();
+        if(helper.connected == false){
+          showToast("Houve algum problema na chamada!\nTente ver se o ramal está digitado corretamente!",context:context);
+          showToast("Se o problema continuar contate o desenvolvedor!",context:context);
+          stopTransmission(context);
+        }
+
         return AlertDialog(
           title: const Text('Chamada'),
           actions: [

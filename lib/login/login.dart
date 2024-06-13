@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparta_monitoramento/cadastro/cadastro.dart';
 import 'package:sparta_monitoramento/homeApp.dart';
 
@@ -128,10 +129,10 @@ class _loginState extends State<login> {
 
                     }).whenComplete(() async {
                       if(onError == false){
-                        //final SharedPreferences prefs = await SharedPreferences.getInstance();
+                        final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-                        //await prefs.setString('email', Email);
-                        //await prefs.setString('senha', Senha);
+                        await prefs.setString('email', Email);
+                        await prefs.setString('senha', Senha);
 
                         irParaTelaMain();
                       }
