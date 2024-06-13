@@ -93,12 +93,6 @@ class _homeAppState extends State<homeApp>{
                             ),
                             ElevatedButton(
                                 onPressed: idCondominio == "" ? null : () async {
-                                  startCall(context, "0000");
-                                },
-                                child: const Text("RamalTest")
-                            ),
-                            ElevatedButton(
-                                onPressed: idCondominio == "" ? null : () async {
 
                                   //Visitantes
 
@@ -1726,17 +1720,35 @@ class _homeAppState extends State<homeApp>{
                                                       ),
                                                       child: ListView(
                                                         children: snapshot.data!.docs.map((documents){
-                                                          return SizedBox(
-                                                            width: double.infinity,
-                                                            height: 50,
-                                                            child: Center(
-                                                              child: Text(documents['RamalIp']),
+                                                          return InkWell(
+                                                            onTap: (){
+                                                              startCall(context, documents['RamalNumber']);
+                                                            },
+                                                            child: Container(
+                                                              padding: const EdgeInsets.all(10),
+                                                              width: double.infinity,
+                                                              height: 70,
+                                                              decoration: BoxDecoration(
+                                                                border: Border.all(
+                                                                  color: Colors.black,
+                                                                  width: 1.0,
+                                                                ),
+                                                                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                              ),
+                                                              child: Center(
+                                                                child: Column(
+                                                                  children: [
+                                                                    Text(documents['NomeRamal']),
+                                                                    Text(documents['RamalNumber']),
+                                                                  ],
+                                                                ),
+                                                              ),
                                                             ),
                                                           );
                                                         }).toList(),
                                                       ),
                                                     );
-                                                  }
+                                                   }
                                                   ),
                                                   Container(
                                                     width: wid / 4.3,
@@ -1745,7 +1757,121 @@ class _homeAppState extends State<homeApp>{
                                                     padding: const EdgeInsets.all(16),
                                                     child: FloatingActionButton(onPressed:
                                                     idCondominio == "" ? null :(){
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          String NomeRamal = "";
+                                                          String RamalNumber = "";
 
+                                                          return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                            return AlertDialog(
+                                                              title: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                children: [
+                                                                  const Text('Crie um Ramal!'),
+                                                                  IconButton(
+                                                                    onPressed: (){
+                                                                      Navigator.pop(context);
+                                                                    },
+                                                                    icon: const Icon(Icons.close)
+                                                                  )
+                                                                ],
+                                                              ),
+                                                              actions: [
+                                                                Center(
+                                                                  child: Column(
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    children: [
+                                                                      Center(
+                                                                        child: Container(
+                                                                          padding: const EdgeInsets.all(10),
+                                                                          child: TextField(
+                                                                            keyboardType: TextInputType.name,
+                                                                            enableSuggestions: true,
+                                                                            autocorrect: true,
+                                                                            onChanged: (value){
+                                                                              setState(() {
+                                                                                NomeRamal = value;
+                                                                              });
+                                                                            },
+                                                                            decoration: const InputDecoration(
+                                                                              border: OutlineInputBorder(),
+                                                                              enabledBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                              ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(
+                                                                                    width: 3,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                              ),
+                                                                              label: Text('Nome do Ramal'),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Center(
+                                                                        child: Container(
+                                                                          padding: const EdgeInsets.all(10),
+                                                                          child: TextField(
+                                                                            keyboardType: TextInputType.name,
+                                                                            enableSuggestions: true,
+                                                                            autocorrect: true,
+                                                                            onChanged: (value){
+                                                                              setState(() {
+                                                                                RamalNumber = value;
+                                                                              });
+                                                                            },
+                                                                            decoration: const InputDecoration(
+                                                                              border: OutlineInputBorder(),
+                                                                              enabledBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                              ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(
+                                                                                    width: 3,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                              ),
+                                                                              label: Text("Numero do Ramal")
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      ElevatedButton(
+                                                                          onPressed: (){
+                                                                            if(NomeRamal == ""){
+                                                                              showToast("O nome do ramal está vazio!",context:context);
+                                                                            }else{
+                                                                              if(RamalNumber == ""){
+                                                                                showToast("O numero do ramal está vazio!",context:context);
+                                                                              }else{
+                                                                                RegExp numeros = RegExp(r'[a-zA-Z]');
+                                                                                if(RamalNumber.contains(numeros)){
+                                                                                  showToast("O ramal contem letras\nSó é permitido numeros!",context:context);
+                                                                                }else{
+                                                                                  Uuid uuid = const Uuid();
+                                                                                  String UUID = uuid.v4();
+                                                                                  FirebaseFirestore.instance.collection('Ramais').doc(UUID).set({
+                                                                                    "NomeRamal": NomeRamal,
+                                                                                    "RamalNumber": RamalNumber,
+                                                                                    "IDEmpresaPertence": UID
+                                                                                  }).whenComplete((){
+                                                                                    Navigator.pop(context);
+                                                                                  });
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }, child: const Text('Criar')
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            );
+                                                          },);
+                                                        },
+                                                      );
                                                     },
                                                       child: const Icon(Icons.add),
                                                     ),

@@ -101,6 +101,7 @@ startCall(var context, String ramal) async {
         }
 
         setarMineSecs();
+
         if(helper.connected == false){
           showToast("Houve algum problema na chamada!\nTente ver se o ramal está digitado corretamente!",context:context);
           showToast("Se o problema continuar contate o desenvolvedor!",context:context);
