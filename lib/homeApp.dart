@@ -1582,7 +1582,7 @@ class _homeAppState extends State<homeApp>{
                                     children: [
                                       AppBar(
                                         title: Container(
-                                          padding: const EdgeInsets.only(left: 120, right: 170),
+                                          padding: const EdgeInsets.only(left: 130, right: 160),
                                           child: const Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
