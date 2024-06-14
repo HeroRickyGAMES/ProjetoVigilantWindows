@@ -1701,7 +1701,7 @@ class _homeAppState extends State<homeApp>{
                                                 children: [
                                                   StreamBuilder(stream: FirebaseFirestore.instance
                                                       .collection("Ramais")
-                                                      .where("IDEmpresaPertence", isEqualTo: UID)
+                                                      .where("idCondominio", isEqualTo: idCondominio)
                                                       .snapshots(), builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
                                                     if (!snapshot.hasData) {
                                                       return const Center(
@@ -1855,7 +1855,8 @@ class _homeAppState extends State<homeApp>{
                                                                                   FirebaseFirestore.instance.collection('Ramais').doc(UUID).set({
                                                                                     "NomeRamal": NomeRamal,
                                                                                     "RamalNumber": RamalNumber,
-                                                                                    "IDEmpresaPertence": UID
+                                                                                    "IDEmpresaPertence": UID,
+                                                                                    "idCondominio": idCondominio
                                                                                   }).whenComplete((){
                                                                                     Navigator.pop(context);
                                                                                   });
