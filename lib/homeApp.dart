@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sparta_monitoramento/acionamento_de_portas/acionamento_de_portas.dart';
 import 'package:sparta_monitoramento/getIds.dart';
 import 'package:sparta_monitoramento/videoStream/VideoStreamAlert.dart';
 import 'package:sparta_monitoramento/videoStream/videoStream.dart';
@@ -43,6 +44,9 @@ String pesquisa8 = '';
 String pesquisa9 = '';
 String pesquisa10 = '';
 
+//Cores
+Color colorBtnAcionamento1 = Colors.red;
+
 //Controladores
 TextEditingController anotacaoControl = TextEditingController(text: anotacaoMorador);
 
@@ -59,6 +63,7 @@ bool pesquisando9  = false;
 bool pesquisando10  = false;
 bool moradorselecionado = false;
 bool pesquisaNumeros = false;
+bool acionamento1clicado = false;
 
 //Inteiros
 int? porta;
@@ -2569,97 +2574,66 @@ class _homeAppState extends State<homeApp>{
                                                 SizedBox(
                                                   width: wid / 4,
                                                   height: heig / 8,
-                                                  child: GridView.count(crossAxisCount: 4,
-                                                    children: [
-                                                      Container(
-                                                        width: 100,
-                                                        height: 100,
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: IconButton(onPressed: (){
+                                                  child:
+                                                  StreamBuilder(
+                                                    stream: FirebaseFirestore.instance.collection('acionamentos').snapshots(),
+                                                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                                      if (snapshot.hasError) {
+                                                        return const Center(child: Text('Algo deu errado!'));
+                                                      }
 
-                                                        },
-                                                            icon: const Icon(Icons.toggle_on)
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: 100,
-                                                        height: 100,
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: IconButton(onPressed: (){
+                                                      if (snapshot.connectionState == ConnectionState.waiting) {
+                                                        return const Center(child: CircularProgressIndicator());
+                                                      }
 
-                                                        },
-                                                            icon: const Icon(Icons.toggle_on)
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: 100,
-                                                        height: 100,
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: IconButton(onPressed: (){
-
-                                                        },
-                                                            icon: const Icon(Icons.toggle_on)
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: 100,
-                                                        height: 100,
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: IconButton(onPressed: (){
-
-                                                        },
-                                                            icon: const Icon(Icons.toggle_on)
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: wid / 4,
-                                                  height: heig / 7,
-                                                  child: GridView.count(crossAxisCount: 4,
-                                                    children: [
-                                                      Container(
-                                                        width: 100,
-                                                        height: 100,
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: IconButton(onPressed: (){
-
-                                                        },
-                                                            icon: const Icon(Icons.toggle_on)
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: 100,
-                                                        height: 100,
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: IconButton(onPressed: (){
-
-                                                        },
-                                                            icon: const Icon(Icons.toggle_on)
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: 100,
-                                                        height: 100,
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: IconButton(onPressed: (){
-
-                                                        },
-                                                            icon: const Icon(Icons.toggle_on)
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: 100,
-                                                        height: 100,
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: IconButton(onPressed: (){
-
-                                                        },
-                                                            icon: const Icon(Icons.toggle_on)
-                                                        ),
-                                                      ),
-                                                    ],
+                                                      if (snapshot.hasData) {
+                                                        final data = snapshot.data!.docs;
+                                                        return GridView.count(
+                                                          crossAxisCount: 4,
+                                                          children: snapshot.data!.docs.map((documents) {
+                                                              return Container(
+                                                                padding: const EdgeInsets.all(2),
+                                                                decoration: BoxDecoration(
+                                                                  border: Border.all(
+                                                                    color: Colors.black,
+                                                                    width: 1.0,
+                                                                  ),
+                                                                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                                ),
+                                                                child: Column(
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  children: [
+                                                                    IconButton(
+                                                                        onPressed: (){
+                                                                          if(acionamento1clicado == false){
+                                                                            setState(() {
+                                                                              colorBtnAcionamento1 = Colors.green;
+                                                                              acionamento1clicado = true;
+                                                                            });
+                                                                          }else{
+                                                                            acionarPorta(context, documents["ip"], documents["porta"], documents["modelo"], documents["canal"]);
+                                                                            setState(() {
+                                                                              acionamento1clicado = false;
+                                                                              colorBtnAcionamento1 = Colors.red;
+                                                                            });
+                                                                          }
+                                                                        },
+                                                                        icon: Icon(
+                                                                            Icons.radio_button_checked,
+                                                                            color: colorBtnAcionamento1
+                                                                        )
+                                                                    ),
+                                                                    Text(documents["nome"]),
+                                                                  ],
+                                                                ),
+                                                              );
+                                                          }).toList()
+                                                        );
+                                                      }
+                                                      return const Center(child:
+                                                        Text('Sem dados!')
+                                                      );
+                                                    },
                                                   ),
                                                 ),
                                               ],
