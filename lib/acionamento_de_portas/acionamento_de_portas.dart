@@ -3,9 +3,9 @@ import 'package:http_auth/http_auth.dart' as http_auth;
 
 //Programado por HeroRickyGames
 
-acionarPorta(var context, String ip, int porta, String modelo, int canal) async {
+acionarPorta(var context, String ip, int porta, String modelo, int canal, String usuario, String senha) async {
 
-  if(modelo == "intelbras"){
+  if(modelo == "Intelbras"){
     final url = Uri.parse('http://$ip:$porta/cgi-bin/accessControl.cgi?action=openDoor&channel=$canal');
 
     Map<String, String> headers = {
@@ -14,18 +14,21 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal) async 
       'Connection': 'keep-alive',
     };
 
-    final client = http_auth.DigestAuthClient('admin', 'pisp116ta');
+    final client = http_auth.DigestAuthClient(usuario, senha);
 
     try {
       final response = await client.get(url, headers: headers);
 
       if (response.statusCode == 200) {
         showToast("Porta aberta!",context:context);
+        print("Porta aberta!");
       } else {
         showToast("Erro com a comunicação, status: ${response.statusCode}",context:context);
+        print("Erro com a comunicação, status ${response.statusCode}");
       }
     } catch (e) {
-      showToast("Erro ao executar a requisição: $e}",context:context);
+      showToast("Erro ao executar a requisição: $e",context:context);
+      print("Erro ao executar a requisição: $e");
     }
   }
 }
