@@ -49,29 +49,13 @@ class _videoStreamState extends State<videoStream> {
     openPlayer();
 
     return LayoutBuilder(builder: (context, constrains){
-      return Center(
-        child: Stack(
-          children: [
-            SizedBox(
-                height: constrains.maxHeight,
-                width: constrains.maxWidth,
-                child: Video(
-                    controller: controller,
-                    controls: null
-                )
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(onPressed: (){
-                  dispose();
-                },
-                  icon: const Icon(Icons.close),
-                )
-              ],
-            ),
-          ],
-        ),
+      return SizedBox(
+          height: 250,
+          width: 500,
+          child: Video(
+              controller: controller,
+              controls: null
+          )
       );
     }
     );

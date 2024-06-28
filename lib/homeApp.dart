@@ -72,6 +72,9 @@ int colunasIPCamera = 4;
 //DropDownValues
 var dropValue = ValueNotifier('');
 
+//Cores
+MaterialAccentColor corDasBarras = Colors.deepPurpleAccent;
+
 class homeApp extends StatefulWidget {
   const homeApp({super.key});
 
@@ -1512,7 +1515,7 @@ class _homeAppState extends State<homeApp>{
                         ),
                       ],
                     ),
-                    backgroundColor: Colors.deepPurpleAccent,
+                    backgroundColor: corDasBarras,
                   ),
                   //UI começa aqui!
                   SizedBox(
@@ -1529,7 +1532,7 @@ class _homeAppState extends State<homeApp>{
                                 child: Column(
                                   children: [
                                     AppBar(
-                                      backgroundColor: Colors.deepPurpleAccent,
+                                      backgroundColor: corDasBarras,
                                       centerTitle: true,
                                       title: const Text('Clientes'),
                                     ),
@@ -2161,7 +2164,7 @@ class _homeAppState extends State<homeApp>{
                             children: [
                               SizedBox(
                                 width: wid / 2,
-                                height: heig / 2,
+                                height: heig / 1.8,
                                 child: ip != "" ? Stack(
                                     children: [
                                       Container(
@@ -2183,7 +2186,7 @@ class _homeAppState extends State<homeApp>{
                                             child: Column(
                                               children: [
                                                 AppBar(
-                                                  backgroundColor: Colors.deepPurpleAccent,
+                                                  backgroundColor: corDasBarras,
                                                   centerTitle: true,
                                                   title: Row(
                                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -2230,8 +2233,10 @@ class _homeAppState extends State<homeApp>{
                                                   children: [
                                                     SizedBox(
                                                         width: wid / 2,
-                                                        height: heig / 2.3,
-                                                        child: GridView.count(crossAxisCount: colunasIPCamera,
+                                                        height: 500,
+                                                        child: GridView.count(
+                                                          childAspectRatio: 1.4,
+                                                          crossAxisCount: colunasIPCamera,
                                                           children: [
                                                             InkWell(
                                                                 onTap: (){
@@ -2256,7 +2261,7 @@ class _homeAppState extends State<homeApp>{
                                                                               Center(
                                                                                 child: SizedBox(
                                                                                     width: 900,
-                                                                                    height: 600,
+                                                                                    height: 300,
                                                                                     child: videoStreamAlert(user, pass, ip, porta!, 1)
                                                                                 ),
                                                                               )
@@ -2292,7 +2297,7 @@ class _homeAppState extends State<homeApp>{
                                                                               Center(
                                                                                 child: SizedBox(
                                                                                     width: 900,
-                                                                                    height: 600,
+                                                                                    height: 300,
                                                                                     child: videoStreamAlert(user, pass, ip, porta!, 2)
                                                                                 ),
                                                                               )
@@ -2534,7 +2539,7 @@ class _homeAppState extends State<homeApp>{
                                 ): Column(
                                   children: [
                                     AppBar(
-                                      backgroundColor: Colors.deepPurpleAccent,
+                                      backgroundColor: corDasBarras,
                                       centerTitle: true,
                                       title: const Text('CFTV')
                                     ),
@@ -2563,7 +2568,7 @@ class _homeAppState extends State<homeApp>{
                                             ],
                                           ),
                                         ),
-                                        backgroundColor: Colors.deepPurpleAccent,
+                                        backgroundColor: corDasBarras,
                                       ),
                                       Container(
                                         child: Row(
@@ -2640,7 +2645,8 @@ class _homeAppState extends State<homeApp>{
                                                         Container(
                                                           alignment: Alignment.bottomRight,
                                                           child: FloatingActionButton(
-                                                              onPressed: (){
+                                                              onPressed: idCondominio == "" ? null:
+                                                              (){
                                                                 showDialog(
                                                                   context: context,
                                                                   builder: (BuildContext context) {
@@ -3147,7 +3153,7 @@ class _homeAppState extends State<homeApp>{
                           children: [
                             SizedBox(
                               width: wid / 4,
-                              height: heig / 1.5,
+                              height: heig / 1.64,
                               child: Stack(
                                 children: [
                                   idCondominio != "" ?
@@ -3155,7 +3161,7 @@ class _homeAppState extends State<homeApp>{
                                     child: Column(
                                       children: [
                                         AppBar(
-                                          backgroundColor: Colors.deepPurpleAccent,
+                                          backgroundColor: corDasBarras,
                                           centerTitle: true,
                                           title: const Text('Moradores'),
                                         ),
@@ -3392,7 +3398,7 @@ class _homeAppState extends State<homeApp>{
                                     child: Column(
                                       children: [
                                         AppBar(
-                                          backgroundColor: Colors.deepPurpleAccent,
+                                          backgroundColor: corDasBarras,
                                           centerTitle: true,
                                           title: const Text('Moradores'),
                                         ),
@@ -3708,7 +3714,6 @@ class _homeAppState extends State<homeApp>{
                                                                         showToast("Repasse esse erro para o desenvolvedor!",context:context);
                                                                       });
 
-
                                                                       FirebaseFirestore.instance.collection('Pessoas').doc(UUID).set({
                                                                         "id": UUID,
                                                                         "idCondominio": idCondominio,
@@ -3751,7 +3756,7 @@ class _homeAppState extends State<homeApp>{
                             ),
                             SizedBox(
                               width: wid / 4,
-                              height: heig / 3.8,
+                              height: heig / 3.5,
                               child: Center(
                                 child: SingleChildScrollView(
                                   child: Container(
@@ -3759,7 +3764,7 @@ class _homeAppState extends State<homeApp>{
                                     child: Column(
                                       children: [
                                         AppBar(
-                                          backgroundColor: Colors.deepPurpleAccent,
+                                          backgroundColor: corDasBarras,
                                           centerTitle: true,
                                           title: const Text('Anotação'),
                                         ),
