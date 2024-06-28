@@ -2576,7 +2576,10 @@ class _homeAppState extends State<homeApp>{
                                                     child: Stack(
                                                       children: [
                                                         StreamBuilder(
-                                                          stream: FirebaseFirestore.instance.collection('acionamentos').snapshots(),
+                                                          stream: FirebaseFirestore.instance
+                                                              .collection('acionamentos')
+                                                              .where("idCondominio", isEqualTo: idCondominio)
+                                                              .snapshots(),
                                                           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                                             if (snapshot.hasError) {
                                                               return const Center(child: Text('Algo deu errado!'));
