@@ -68,6 +68,7 @@ bool acionamento1clicado = false;
 //Inteiros
 int? porta;
 int colunasIPCamera = 4;
+int CFTV = 0;
 
 //DropDownValues
 var dropValue = ValueNotifier('');
@@ -2227,309 +2228,111 @@ class _homeAppState extends State<homeApp>{
                                                     ],
                                                   ),
                                                 ),
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                Stack(
                                                   children: [
+                                                      Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          SizedBox(
+                                                              width: wid / 2,
+                                                              height: 500,
+                                                              child: GridView.count(
+                                                                childAspectRatio: 1.4,
+                                                                crossAxisCount: colunasIPCamera,
+                                                                children: [
+                                                                  InkWell(
+                                                                      onTap: (){
+                                                                        setState(() {
+                                                                          CFTV = 1;
+                                                                        });
+                                                                      },
+                                                                      child: videoStream(user, pass, ip, porta!, 1)
+                                                                  ),
+                                                                  InkWell(
+                                                                      onTap: (){
+                                                                        setState(() {
+                                                                          CFTV = 2;
+                                                                        });
+                                                                      },
+                                                                      child: videoStream(user, pass, ip, porta!, 2)
+                                                                  ),
+                                                                  InkWell(
+                                                                      onTap: (){
+                                                                        setState(() {
+                                                                          CFTV = 3;
+                                                                        });
+                                                                      },
+                                                                      child: videoStream(user, pass, ip, porta!, 3)
+                                                                  ),
+                                                                  InkWell(
+                                                                      onTap: (){
+                                                                        setState(() {
+                                                                          CFTV = 4;
+                                                                        });
+                                                                      },
+                                                                      child: videoStream(user, pass, ip, porta!, 4)
+                                                                  ),
+                                                                  InkWell(
+                                                                      onTap: (){
+                                                                        setState(() {
+                                                                          CFTV = 5;
+                                                                        });
+                                                                      },
+                                                                      child: videoStream(user, pass, ip, porta!, 5)
+                                                                  ),
+                                                                  InkWell(
+                                                                      onTap: (){
+                                                                        setState(() {
+                                                                          CFTV = 6;
+                                                                        });
+                                                                      },
+                                                                      child: videoStream(user, pass, ip, porta!, 6)
+                                                                  ),
+                                                                  InkWell(
+                                                                      onTap: (){
+                                                                        setState(() {
+                                                                          CFTV = 7;
+                                                                        });
+                                                                      },
+                                                                      child: videoStream(user, pass, ip, porta!, 7)
+                                                                  ),
+                                                                  InkWell(
+                                                                      onTap: (){
+                                                                        setState(() {
+                                                                          CFTV = 8;
+                                                                        });
+                                                                      },
+                                                                      child: videoStream(user, pass, ip, porta!, 8)
+                                                                  ),
+                                                                ],
+                                                              )
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    CFTV == 0 ?
+                                                    Container():
                                                     SizedBox(
                                                         width: wid / 2,
-                                                        height: 500,
-                                                        child: GridView.count(
-                                                          childAspectRatio: 1.4,
-                                                          crossAxisCount: colunasIPCamera,
-                                                          children: [
-                                                            InkWell(
-                                                                onTap: (){
-                                                                  showDialog(
-                                                                    context: context,
-                                                                    builder: (BuildContext context) {
-                                                                      return Center(
-                                                                        child: SingleChildScrollView(
-                                                                          child: AlertDialog(
-                                                                            title: Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                const Text('Visualização'),
-                                                                                IconButton(onPressed: (){
-                                                                                  Navigator.pop(context);
-                                                                                },
-                                                                                    icon: const Icon(Icons.close)
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                            actions: [
-                                                                              Center(
-                                                                                child: SizedBox(
-                                                                                    width: 900,
-                                                                                    height: 300,
-                                                                                    child: videoStreamAlert(user, pass, ip, porta!, 1)
-                                                                                ),
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                  );
+                                                        height: heig / 2.1,
+                                                        child: Stack(
+                                                            children: [
+                                                              videoStreamAlert(user, pass, ip, porta!, CFTV),
+                                                              Container(
+                                                                alignment: Alignment.topRight,
+                                                                padding: const EdgeInsets.all(16),
+                                                                child: IconButton(onPressed: (){
+                                                                  setState(() {
+                                                                    CFTV = 0;
+                                                                  });
                                                                 },
-                                                                child: videoStream(user, pass, ip, porta!, 1)
-                                                            ),
-                                                            InkWell(
-                                                                onTap: (){
-                                                                  showDialog(
-                                                                    context: context,
-                                                                    builder: (BuildContext context) {
-                                                                      return Center(
-                                                                        child: SingleChildScrollView(
-                                                                          child: AlertDialog(
-                                                                            title: Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                const Text('Visualização'),
-                                                                                IconButton(onPressed: (){
-                                                                                  Navigator.pop(context);
-                                                                                },
-                                                                                    icon: const Icon(Icons.close)
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                            actions: [
-                                                                              Center(
-                                                                                child: SizedBox(
-                                                                                    width: 900,
-                                                                                    height: 300,
-                                                                                    child: videoStreamAlert(user, pass, ip, porta!, 2)
-                                                                                ),
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                  );
-                                                                },
-                                                                child: videoStream(user, pass, ip, porta!, 2)
-                                                            ),
-                                                            InkWell(
-                                                                onTap: (){
-                                                                  showDialog(
-                                                                    context: context,
-                                                                    builder: (BuildContext context) {
-                                                                      return Center(
-                                                                        child: SingleChildScrollView(
-                                                                          child: AlertDialog(
-                                                                            title: Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                const Text('Visualização'),
-                                                                                IconButton(onPressed: (){
-                                                                                  Navigator.pop(context);
-                                                                                },
-                                                                                    icon: const Icon(Icons.close)
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                            actions: [
-                                                                              Center(
-                                                                                child: SizedBox(
-                                                                                    width: 900,
-                                                                                    height: 600,
-                                                                                    child: videoStreamAlert(user, pass, ip, porta!, 3)
-                                                                                ),
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                  );
-                                                                },
-                                                                child: videoStream(user, pass, ip, porta!, 3)
-                                                            ),
-                                                            InkWell(
-                                                                onTap: (){
-                                                                  showDialog(
-                                                                    context: context,
-                                                                    builder: (BuildContext context) {
-                                                                      return Center(
-                                                                        child: SingleChildScrollView(
-                                                                          child: AlertDialog(
-                                                                            title: Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                const Text('Visualização'),
-                                                                                IconButton(onPressed: (){
-                                                                                  Navigator.pop(context);
-                                                                                },
-                                                                                    icon: const Icon(Icons.close)
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                            actions: [
-                                                                              Center(
-                                                                                child: SizedBox(
-                                                                                    width: 900,
-                                                                                    height: 600,
-                                                                                    child: videoStreamAlert(user, pass, ip, porta!, 4)
-                                                                                ),
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                  );
-                                                                },
-                                                                child: videoStream(user, pass, ip, porta!, 4)
-                                                            ),
-                                                            InkWell(
-                                                                onTap: (){
-                                                                  showDialog(
-                                                                    context: context,
-                                                                    builder: (BuildContext context) {
-                                                                      return Center(
-                                                                        child: SingleChildScrollView(
-                                                                          child: AlertDialog(
-                                                                            title: Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                const Text('Visualização'),
-                                                                                IconButton(onPressed: (){
-                                                                                  Navigator.pop(context);
-                                                                                },
-                                                                                    icon: const Icon(Icons.close)
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                            actions: [
-                                                                              Center(
-                                                                                child: SizedBox(
-                                                                                    width: 900,
-                                                                                    height: 600,
-                                                                                    child: videoStreamAlert(user, pass, ip, porta!, 5)
-                                                                                ),
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                  );
-                                                                },
-                                                                child: videoStream(user, pass, ip, porta!, 5)
-                                                            ),
-                                                            InkWell(
-                                                                onTap: (){
-                                                                  showDialog(
-                                                                    context: context,
-                                                                    builder: (BuildContext context) {
-                                                                      return Center(
-                                                                        child: SingleChildScrollView(
-                                                                          child: AlertDialog(
-                                                                            title: Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                const Text('Visualização'),
-                                                                                IconButton(onPressed: (){
-                                                                                  Navigator.pop(context);
-                                                                                },
-                                                                                    icon: const Icon(Icons.close)
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                            actions: [
-                                                                              Center(
-                                                                                child: SizedBox(
-                                                                                    width: 900,
-                                                                                    height: 600,
-                                                                                    child: videoStreamAlert(user, pass, ip, porta!, 6)
-                                                                                ),
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                  );
-                                                                },
-                                                                child: videoStream(user, pass, ip, porta!, 6)
-                                                            ),
-                                                            InkWell(
-                                                                onTap: (){
-                                                                  showDialog(
-                                                                    context: context,
-                                                                    builder: (BuildContext context) {
-                                                                      return Center(
-                                                                        child: SingleChildScrollView(
-                                                                          child: AlertDialog(
-                                                                            title: Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                const Text('Visualização'),
-                                                                                IconButton(onPressed: (){
-                                                                                  Navigator.pop(context);
-                                                                                },
-                                                                                    icon: const Icon(Icons.close)
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                            actions: [
-                                                                              Center(
-                                                                                child: SizedBox(
-                                                                                    width: 900,
-                                                                                    height: 600,
-                                                                                    child: videoStreamAlert(user, pass, ip, porta!, 7)
-                                                                                ),
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                  );
-                                                                },
-                                                                child: videoStream(user, pass, ip, porta!, 7)
-                                                            ),
-                                                            InkWell(
-                                                                onTap: (){
-                                                                  showDialog(
-                                                                    context: context,
-                                                                    builder: (BuildContext context) {
-                                                                      return Center(
-                                                                        child: SingleChildScrollView(
-                                                                          child: AlertDialog(
-                                                                            title: Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                const Text('Visualização'),
-                                                                                IconButton(onPressed: (){
-                                                                                  Navigator.pop(context);
-                                                                                },
-                                                                                    icon: const Icon(Icons.close)
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                            actions: [
-                                                                              Center(
-                                                                                child: SizedBox(
-                                                                                    width: 900,
-                                                                                    height: 600,
-                                                                                    child: videoStreamAlert(user, pass, ip, porta!, 8)
-                                                                                ),
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                  );
-                                                                },
-                                                                child: videoStream(user, pass, ip, porta!, 8)
-                                                            ),
-                                                          ],
+                                                                    icon: const Icon(Icons.close)
+                                                                ),
+                                                              ),
+                                                            ]
                                                         )
                                                     ),
-                                                  ],
+                                                  ]
                                                 ),
                                               ],
                                             ),

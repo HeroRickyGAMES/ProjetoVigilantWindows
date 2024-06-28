@@ -84,7 +84,7 @@ class _mainAppState extends State<mainApp> {
       //Se o usuario estiver logado ele vai jogar na main
       FirebaseAuth.instance.idTokenChanges().listen((User? user) async {
 
-        await Future.delayed(const Duration(seconds: 3));
+        await Future.delayed(const Duration(seconds: 5));
 
         if(user == null){
 
