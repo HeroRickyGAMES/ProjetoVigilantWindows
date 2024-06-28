@@ -87,7 +87,6 @@ class _mainAppState extends State<mainApp> {
         await Future.delayed(const Duration(seconds: 5));
 
         if(user == null){
-
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           final String? Email = prefs.getString('email');
           final String? Senha = prefs.getString('senha');
@@ -100,7 +99,6 @@ class _mainAppState extends State<mainApp> {
               GoToHome();
             });
           }
-          GoToLoginScreen();
         }else{
           GoToHome();
         }

@@ -2197,13 +2197,6 @@ class _homeAppState extends State<homeApp>{
                                                         children: [
                                                           ElevatedButton(onPressed: (){
                                                             setState(() {
-                                                              colunasIPCamera = 1;
-                                                            });
-                                                          },
-                                                              child: const Text('1')
-                                                          ),
-                                                          ElevatedButton(onPressed: (){
-                                                            setState(() {
                                                               colunasIPCamera = 2;
                                                             });
                                                           },
@@ -2222,6 +2215,41 @@ class _homeAppState extends State<homeApp>{
                                                             });
                                                           },
                                                               child: const Text('4')
+                                                          ),
+                                                          Container(
+                                                            width: 150,
+                                                            height: 50,
+                                                            padding: const EdgeInsets.all(10),
+                                                            child: TextField(
+                                                              keyboardType: TextInputType.name,
+                                                              enableSuggestions: true,
+                                                              autocorrect: true,
+                                                              onChanged: (value){
+                                                                if(value == ""){
+                                                                  setState(() {
+                                                                    colunasIPCamera = 4;
+                                                                  });
+                                                                }
+                                                                if(value != ""){
+                                                                  setState(() {
+                                                                    colunasIPCamera = int.parse(value);
+                                                                  });
+                                                                }
+                                                              },
+                                                              decoration: const InputDecoration(
+                                                                border: OutlineInputBorder(),
+                                                                enabledBorder: OutlineInputBorder(
+                                                                  borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                ),
+                                                                focusedBorder: OutlineInputBorder(
+                                                                  borderSide: BorderSide(
+                                                                      width: 3,
+                                                                      color: Colors.black
+                                                                  ),
+                                                                ),
+                                                                label: Text('Customizado'),
+                                                              ),
+                                                            ),
                                                           ),
                                                         ],
                                                       ),
