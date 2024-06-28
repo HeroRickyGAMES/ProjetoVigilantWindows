@@ -65,6 +65,17 @@ bool moradorselecionado = false;
 bool pesquisaNumeros = false;
 bool acionamento1clicado = false;
 
+//Booleanos de controle dos usuarios
+bool AdicionarCondominios = false;
+bool AdicionarAcionamentos = false;
+bool adicionarMoradores = false;
+bool adicionarRamal = false;
+bool adicionarUsuarios = false;
+bool editarAnotacao = false;
+bool permissaoCriarUsuarios = false;
+bool adicionarVeiculo = false;
+bool adicionarVisitante = false;
+
 //Inteiros
 int? porta;
 int colunasIPCamera = 4;
@@ -91,6 +102,27 @@ class _homeAppState extends State<homeApp>{
 
   @override
   Widget build(BuildContext context) {
+
+    //Pega todas as permissões do usuario
+    checkarAsPermissoes() async {
+      var getUserPermissions = await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(UID).get();
+
+      setState(() {
+        AdicionarCondominios = getUserPermissions['AdicionarCondominios'];
+        AdicionarAcionamentos = getUserPermissions['adicionaAcionamentos'];
+        adicionarRamal = getUserPermissions['adicionarRamal'];
+        adicionarUsuarios = getUserPermissions['adicionarUsuarios'];
+        editarAnotacao = getUserPermissions['editarAnotacao'];
+        permissaoCriarUsuarios = getUserPermissions['permissaoCriarUsuarios'];
+        adicionarVeiculo = getUserPermissions['adicionarVeiculo'];
+        adicionarVisitante = getUserPermissions['adicionarVisitante'];
+      });
+    }
+
+    checkarAsPermissoes();
+
     return LayoutBuilder(builder: (context, constrains){
       double wid = constrains.maxWidth;
       double heig = constrains.maxHeight;
