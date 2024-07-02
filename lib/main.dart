@@ -15,7 +15,7 @@ main(){
   runApp(
     MaterialApp(
       theme: ThemeData(
-        brightness: Brightness.dark
+        //brightness: Brightness.dark
       ),
       home: const mainApp(),
     )

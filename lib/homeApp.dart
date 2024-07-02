@@ -44,9 +44,6 @@ String pesquisa8 = '';
 String pesquisa9 = '';
 String pesquisa10 = '';
 
-//Cores
-Color colorBtnAcionamento1 = Colors.red;
-
 //Controladores
 TextEditingController anotacaoControl = TextEditingController(text: anotacaoMorador);
 
@@ -80,14 +77,15 @@ bool acessoDevFunc = false;
 
 //Inteiros
 int? porta;
-int colunasIPCamera = 4;
+int colunasIPCamera = 3;
 int CFTV = 0;
 
 //DropDownValues
 var dropValue = ValueNotifier('');
 
 //Cores
-MaterialAccentColor corDasBarras = Colors.deepPurpleAccent;
+Color colorBtnAcionamento1 = Colors.red;
+MaterialAccentColor corDasBarras = Colors.blueAccent;
 
 //Listas
 List ModelosAcionamentos = [
@@ -145,9 +143,15 @@ class _homeAppState extends State<homeApp>{
       return Scaffold(
         body: SingleChildScrollView(
           child: Center(
-            child: SizedBox(
+            child: Container(
               width: wid,
               height: heig,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/fundoMetalBranco.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: Column(
                 children: [
                   AppBar(
@@ -956,6 +960,7 @@ class _homeAppState extends State<homeApp>{
                                                                   },
                                                                 );
                                                               },
+                                                              backgroundColor: Colors.blue,
                                                               child: const Icon(Icons.add)
                                                           ),
                                                         )
@@ -1536,8 +1541,8 @@ class _homeAppState extends State<homeApp>{
                                                                     },);
                                                                   },
                                                                 );
-
                                                               },
+                                                              backgroundColor: Colors.blue,
                                                               child: const Icon(Icons.add)
                                                           ),
                                                         )
@@ -1816,9 +1821,12 @@ class _homeAppState extends State<homeApp>{
                     height: heig - 57,
                     child: Row(
                       children: [
-                        SizedBox(
+                        Container(
                           width: wid / 4,
                           height: heig,
+                          decoration: const BoxDecoration(
+                              color: Colors.white
+                          ),
                           child: Stack(
                             children: [
                               SingleChildScrollView(
@@ -2410,6 +2418,7 @@ class _homeAppState extends State<homeApp>{
                                     },
                                   );
                                 },
+                                  backgroundColor: Colors.blue,
                                   child: const Icon(Icons.add),
                                 ),
                               ):
@@ -2526,7 +2535,7 @@ class _homeAppState extends State<homeApp>{
                                                               width: wid / 2,
                                                               height: 500,
                                                               child: GridView.count(
-                                                                childAspectRatio: 1.4,
+                                                                childAspectRatio: 1.8,
                                                                 crossAxisCount: colunasIPCamera,
                                                                 children: [
                                                                   InkWell(
@@ -2642,9 +2651,12 @@ class _homeAppState extends State<homeApp>{
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              Container(
                                 width: wid / 2,
                                 height: heig / 3,
+                                decoration: const BoxDecoration(
+                                    color: Colors.white
+                                ),
                                 child: SingleChildScrollView(
                                   child: Column(
                                     children: [
@@ -3043,6 +3055,7 @@ class _homeAppState extends State<homeApp>{
                                                                   },
                                                                 );
                                                               },
+                                                              backgroundColor: Colors.blue,
                                                               child: const Icon(Icons.add)
                                                           ),
                                                         ),
@@ -3229,6 +3242,7 @@ class _homeAppState extends State<homeApp>{
                                                         },
                                                       );
                                                     },
+                                                      backgroundColor: Colors.blue,
                                                       child: const Icon(Icons.add),
                                                     ),
                                                   ),
@@ -3246,9 +3260,12 @@ class _homeAppState extends State<homeApp>{
                         ),
                         Column(
                           children: [
-                            SizedBox(
+                            Container(
                               width: wid / 4,
                               height: heig / 1.64,
+                              decoration: const BoxDecoration(
+                                  color: Colors.white
+                              ),
                               child: Stack(
                                 children: [
                                   idCondominio != "" ?
@@ -3509,7 +3526,10 @@ class _homeAppState extends State<homeApp>{
                                   Container(
                                     alignment: Alignment.bottomRight,
                                     padding: const EdgeInsets.all(16),
-                                    child: adicionarMoradores == false ? Container(): FloatingActionButton(onPressed: idCondominio == "" ? null : (){
+                                    child: adicionarMoradores == false ?
+                                    Container():
+                                    FloatingActionButton(
+                                      onPressed: idCondominio == "" ? null : (){
                                       String NomeV = "";
                                       String CPFV = "";
                                       String RGV = "";
@@ -3843,15 +3863,19 @@ class _homeAppState extends State<homeApp>{
                                         },
                                       );
                                     },
+                                      backgroundColor: Colors.blue,
                                       child: const Icon(Icons.add),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            Container(
                               width: wid / 4,
                               height: heig / 3.5,
+                              decoration: const BoxDecoration(
+                                  color: Colors.white
+                              ),
                               child: Center(
                                 child: SingleChildScrollView(
                                   child: Container(
@@ -3904,7 +3928,9 @@ class _homeAppState extends State<homeApp>{
                                                       }).whenComplete(() {
                                                         showToast("Anotação salva com sucesso!",context:context);
                                                       });
-                                                },child: const Icon(Icons.done)
+                                                },
+                                                backgroundColor: Colors.blue,
+                                                child: const Icon(Icons.done)
                                                 ),
                                               ),
                                             ],

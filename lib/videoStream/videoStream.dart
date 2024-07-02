@@ -50,11 +50,12 @@ class _videoStreamState extends State<videoStream> {
 
     return LayoutBuilder(builder: (context, constrains){
       return SizedBox(
-          height: 250,
-          width: 500,
+          height: constrains.maxHeight,
+          width: constrains.maxWidth,
           child: Video(
               controller: controller,
-              controls: null
+              controls: null,
+              fit: BoxFit.fill
           )
       );
     }
