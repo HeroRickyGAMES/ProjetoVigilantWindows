@@ -32,6 +32,7 @@ class _videoStreamAlertState extends State<videoStreamAlert> {
 
   openPlayer(){
     player.open(Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/cam/realmonitor?channel=${widget.canal}&subtype=1'));
+    player.setVolume(0);
   }
 
 
@@ -48,10 +49,13 @@ class _videoStreamAlertState extends State<videoStreamAlert> {
     openPlayer();
 
     return LayoutBuilder(builder: (context, constrains){
-      return Center(
+      return SizedBox(
+        height: constrains.maxHeight,
+        width: constrains.maxWidth,
         child: Video(
             filterQuality: FilterQuality.high,
             controller: controller,
+            fit: BoxFit.fill,
             controls: null
         ),
       );

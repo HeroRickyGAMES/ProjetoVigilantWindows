@@ -33,7 +33,8 @@ class _videoStreamState extends State<videoStream> {
 
   openPlayer(){
     player.open(Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/cam/realmonitor?channel=${widget.canal}&subtype=1'));
-  }
+    player.setVolume(0);
+}
 
 
   @override
@@ -55,7 +56,7 @@ class _videoStreamState extends State<videoStream> {
           child: Video(
               controller: controller,
               controls: null,
-              fit: BoxFit.fill
+              fit: BoxFit.fill,
           )
       );
     }

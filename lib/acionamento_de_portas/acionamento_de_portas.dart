@@ -21,14 +21,11 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
 
       if (response.statusCode == 200) {
         showToast("Porta aberta!",context:context);
-        print("Porta aberta!");
       } else {
         showToast("Erro com a comunicação, status: ${response.statusCode}",context:context);
-        print("Erro com a comunicação, status ${response.statusCode}");
       }
     } catch (e) {
       showToast("Erro ao executar a requisição: $e",context:context);
-      print("Erro ao executar a requisição: $e");
     }
   }
 }
