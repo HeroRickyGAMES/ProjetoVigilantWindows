@@ -160,7 +160,7 @@ class _homeAppState extends State<homeApp>{
                     height: heig,
                     child: Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: wid / 4,
                           height: heig,
                           child: SingleChildScrollView(
@@ -213,7 +213,7 @@ class _homeAppState extends State<homeApp>{
                                                                       color: Colors.black,
                                                                       width: 1.0,
                                                                     ),
-                                                                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
                                                                   ),
                                                                   child: Column(
                                                                     children: [
@@ -434,17 +434,10 @@ class _homeAppState extends State<homeApp>{
                                               scale: 10
                                           )
                                       ),
-                                      Container(
-                                        padding: const EdgeInsets.all(16),
-                                        child: Image.asset(
-                                            "assets/vigilantLogo.png",
-                                            scale: 7
-                                        ),
-                                      )
                                     ],
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                   width: wid / 4,
                                   height: heig / 1.5,
                                   child: Stack(
@@ -507,8 +500,15 @@ class _homeAppState extends State<homeApp>{
                                                   ),
                                                 ),
                                                 Container(
-                                                  decoration: const BoxDecoration(
+                                                  width: double.infinity,
+                                                  height: heig / 1.7,
+                                                  decoration: BoxDecoration(
                                                     color: Colors.white,
+                                                    border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 1.0,
+                                                    ),
+                                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
                                                   ),
                                                   child: StreamBuilder(
                                                     stream: pesquisando == true ?
@@ -538,16 +538,9 @@ class _homeAppState extends State<homeApp>{
                                                         );
                                                       }
 
-                                                      return Container(
+                                                      return SizedBox(
                                                         width: double.infinity,
                                                         height: heig / 1.7,
-                                                        decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                            color: Colors.black,
-                                                            width: 1.0,
-                                                          ),
-                                                          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                                                        ),
                                                         child: ListView(
                                                           children: snapshot.data!.docs.map((documents){
                                                             return InkWell(
@@ -563,27 +556,23 @@ class _homeAppState extends State<homeApp>{
                                                               },
                                                               child: Container(
                                                                 padding: const EdgeInsets.all(16),
-                                                                child: SizedBox(
-                                                                  width: double.infinity,
-                                                                  height: 50,
-                                                                  child: Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                    children: [
-                                                                      Text("${documents["Codigo"]} ${documents['Nome']}"),
-                                                                      IconButton(onPressed: (){
-                                                                        setState(() {
-                                                                          anotacao = documents["Aviso"];
-                                                                          idCondominioAnt = documents["idCondominio"];
-                                                                          anotacaoControl.text = anotacao;
-                                                                        });
-                                                                      },
-                                                                          icon: Icon(
-                                                                              color: documents["Aviso"] == "" ? Colors.red : Colors.green,
-                                                                              Icons.edit_note
-                                                                          )
-                                                                      )
-                                                                    ],
-                                                                  ),
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    Text("${documents["Codigo"]} ${documents['Nome']}"),
+                                                                    IconButton(onPressed: (){
+                                                                      setState(() {
+                                                                        anotacao = documents["Aviso"];
+                                                                        idCondominioAnt = documents["idCondominio"];
+                                                                        anotacaoControl.text = anotacao;
+                                                                      });
+                                                                    },
+                                                                        icon: Icon(
+                                                                            color: documents["Aviso"] == "" ? Colors.red : Colors.green,
+                                                                            Icons.edit_note
+                                                                        )
+                                                                    )
+                                                                  ],
                                                                 ),
                                                               ),
                                                             );
@@ -1144,7 +1133,7 @@ class _homeAppState extends State<homeApp>{
                               VideoStreamWidget(
                                   ip, porta!, user, pass, corDasBarras, wid, heig
                               ),
-                              Container(
+                              SizedBox(
                                 width: wid / 2,
                                 height: heig / 2.9,
                                 child: SingleChildScrollView(
@@ -1190,7 +1179,7 @@ class _homeAppState extends State<homeApp>{
                                                                           color: Colors.black,
                                                                           width: 1.0,
                                                                         ),
-                                                                        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                                        borderRadius: const BorderRadius.all(Radius.circular(20)),
                                                                       ),
                                                                       child: Column(
                                                                         mainAxisAlignment: MainAxisAlignment.center,
@@ -1574,7 +1563,7 @@ class _homeAppState extends State<homeApp>{
                                                           color: Colors.black,
                                                           width: 1.0,
                                                         ),
-                                                        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                        borderRadius: const BorderRadius.all(Radius.circular(20)),
                                                       ),
                                                       child: ListView(
                                                         children: snapshot.data!.docs.map((documents){
@@ -1591,7 +1580,7 @@ class _homeAppState extends State<homeApp>{
                                                                   color: Colors.black,
                                                                   width: 1.0,
                                                                 ),
-                                                                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                                borderRadius: const BorderRadius.all(Radius.circular(20)),
                                                               ),
                                                               child: Center(
                                                                 child: Column(
@@ -1767,15 +1756,19 @@ class _homeAppState extends State<homeApp>{
                             Container(
                               width: wid / 4,
                               height: heig / 3,
-                              decoration: const BoxDecoration(
-                                  color: Colors.white
-                              ),
                               child: Stack(
                                 children: [
                                   idCondominio != "" ?
                                   SingleChildScrollView(
                                     child: Column(
                                       children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(16),
+                                          child: Image.asset(
+                                              "assets/vigilantLogo.png",
+                                              scale: 7
+                                          ),
+                                        ),
                                         Center(
                                           child: Container(
                                             padding: const EdgeInsets.all(10),
@@ -1860,13 +1853,14 @@ class _homeAppState extends State<homeApp>{
                                               children: [
                                                 Container(
                                                   width: double.infinity,
-                                                  height: heig / 3.3,
+                                                  height: heig / 5.5,
                                                   decoration: BoxDecoration(
+                                                    color: Colors.white,
                                                     border: Border.all(
                                                       color: Colors.black,
                                                       width: 1.0,
                                                     ),
-                                                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
                                                   ),
                                                   child: ListView(
                                                     children: snapshot.data!.docs.map((documents){
@@ -2038,15 +2032,25 @@ class _homeAppState extends State<homeApp>{
                                   ):  Center(
                                     child: Column(
                                       children: [
-                                        AppBar(
-                                          backgroundColor: corDasBarras,
-                                          centerTitle: true,
-                                          title: const Text('Moradores'),
+                                        Container(
+                                          padding: const EdgeInsets.all(16),
+                                          child: Image.asset(
+                                              "assets/vigilantLogo.png",
+                                              scale: 7
+                                          ),
                                         ),
                                         Center(
                                             child: Container(
+                                                width: wid / 4,
+                                                height: heig / 4,
+                                                decoration: const BoxDecoration(
+                                                    color: Colors.white
+                                                ),
                                                 padding: const EdgeInsets.all(16),
-                                                child: const Text('Selecione algum cliente')
+                                                child: const Text(
+                                                    'Selecione algum cliente',
+                                                    textAlign: TextAlign.center
+                                                )
                                             )
                                         ),
                                       ],
@@ -2528,7 +2532,7 @@ class _homeAppState extends State<homeApp>{
                                                       color: Colors.black,
                                                       width: 1.0,
                                                     ),
-                                                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
                                                   ),
                                                   child: ListView(
                                                     children: snapshot.data!.docs.map((documents){
@@ -2538,7 +2542,7 @@ class _homeAppState extends State<homeApp>{
                                                             color: Colors.black,
                                                             width: 1.0,
                                                           ),
-                                                          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                          borderRadius: const BorderRadius.all(Radius.circular(20)),
                                                         ),
                                                         child: Column(
                                                           mainAxisAlignment: MainAxisAlignment.center,
@@ -3212,7 +3216,7 @@ class _homeAppState extends State<homeApp>{
                                                             color: Colors.black,
                                                             width: 1.0,
                                                           ),
-                                                          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                          borderRadius: const BorderRadius.all(Radius.circular(20)),
                                                         ),
                                                         child: ListView(
                                                           children: snapshot.data!.docs.map((documents){
@@ -3222,7 +3226,7 @@ class _homeAppState extends State<homeApp>{
                                                                   color: Colors.black,
                                                                   width: 1.0,
                                                                 ),
-                                                                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                                borderRadius: const BorderRadius.all(Radius.circular(20)),
                                                               ),
                                                               child: Center(
                                                                 child: Container(
