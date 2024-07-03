@@ -45,6 +45,7 @@ String pesquisa10 = '';
 
 //Controladores
 TextEditingController anotacaoControl = TextEditingController(text: anotacaoMorador);
+TextEditingController anotacaoControlCondominio = TextEditingController(text: anotacao);
 
 //Booleanos
 bool pesquisando = false;
@@ -83,9 +84,12 @@ var dropValue = ValueNotifier('');
 
 //Cores
 Color colorBtn = Colors.blue;
+Color colorBtnFab = Colors.black;
 Color corDasBarras = Colors.transparent;
 Color textColor = Colors.white;
-Color textColorDrop = Colors.black;
+Color textColorWidgets = Colors.black;
+Color textColorFab = Colors.white;
+Color textColorDrop = Colors.white;
 
 //Listas
 List ModelosAcionamentos = [
@@ -148,7 +152,7 @@ class _homeAppState extends State<homeApp>{
               height: heig,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/fundoMetalBranco.jpg'),
+                  image: AssetImage('assets/FundoMetalPreto.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -243,7 +247,7 @@ class _homeAppState extends State<homeApp>{
                                                                             decoration: const InputDecoration(
                                                                               border: OutlineInputBorder(),
                                                                               enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                               ),
                                                                               focusedBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
@@ -271,7 +275,7 @@ class _homeAppState extends State<homeApp>{
                                                                             decoration: const InputDecoration(
                                                                               border: OutlineInputBorder(),
                                                                               enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                               ),
                                                                               focusedBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
@@ -299,7 +303,7 @@ class _homeAppState extends State<homeApp>{
                                                                             decoration: const InputDecoration(
                                                                               border: OutlineInputBorder(),
                                                                               enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                               ),
                                                                               focusedBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
@@ -327,7 +331,7 @@ class _homeAppState extends State<homeApp>{
                                                                             decoration: const InputDecoration(
                                                                               border: OutlineInputBorder(),
                                                                               enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                               ),
                                                                               focusedBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
@@ -355,7 +359,7 @@ class _homeAppState extends State<homeApp>{
                                                                             decoration: const InputDecoration(
                                                                               border: OutlineInputBorder(),
                                                                               enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                               ),
                                                                               focusedBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
@@ -482,7 +486,7 @@ class _homeAppState extends State<homeApp>{
                                                     decoration: InputDecoration(
                                                       border: const OutlineInputBorder(),
                                                       enabledBorder: const OutlineInputBorder(
-                                                        borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                        borderSide: BorderSide(width: 3, color: Colors.white), //<-- SEE HERE
                                                       ),
                                                       focusedBorder: const OutlineInputBorder(
                                                         borderSide: BorderSide(
@@ -503,7 +507,10 @@ class _homeAppState extends State<homeApp>{
                                                   width: double.infinity,
                                                   height: heig / 1.7,
                                                   decoration: BoxDecoration(
-                                                    color: Colors.white,
+                                                    image: const DecorationImage(
+                                                      image: AssetImage('assets/FundoMetalPrata.jpg'),
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                     border: Border.all(
                                                       color: Colors.black,
                                                       width: 1.0,
@@ -559,12 +566,17 @@ class _homeAppState extends State<homeApp>{
                                                                 child: Row(
                                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                   children: [
-                                                                    Text("${documents["Codigo"]} ${documents['Nome']}"),
+                                                                    Text(
+                                                                        "${documents["Codigo"]} ${documents['Nome']}",
+                                                                      style: TextStyle(
+                                                                        color: textColorWidgets
+                                                                      ),
+                                                                    ),
                                                                     IconButton(onPressed: (){
                                                                       setState(() {
                                                                         anotacao = documents["Aviso"];
                                                                         idCondominioAnt = documents["idCondominio"];
-                                                                        anotacaoControl.text = anotacao;
+                                                                        anotacaoControlCondominio.text = anotacao;
                                                                       });
                                                                     },
                                                                         icon: Icon(
@@ -637,7 +649,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -665,7 +677,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -693,7 +705,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -721,7 +733,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -749,7 +761,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -777,7 +789,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -805,7 +817,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -833,7 +845,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -861,7 +873,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -889,7 +901,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -917,7 +929,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -945,7 +957,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -1042,7 +1054,7 @@ class _homeAppState extends State<homeApp>{
                                           },
                                         );
                                       },
-                                        backgroundColor: Colors.blue,
+                                        backgroundColor: colorBtnFab,
                                         child: Icon(
                                             Icons.add,
                                             color: textColor
@@ -1057,7 +1069,10 @@ class _homeAppState extends State<homeApp>{
                                   width: wid / 4,
                                   height: heig / 3.5,
                                   decoration: const BoxDecoration(
-                                      color: Colors.white
+                                    image: DecorationImage(
+                                      image: AssetImage('assets/FundoMetalPrata.jpg'),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                   child: Center(
                                     child: SingleChildScrollView(
@@ -1069,7 +1084,7 @@ class _homeAppState extends State<homeApp>{
                                               Container(
                                                 padding: const EdgeInsets.all(16),
                                                 child: TextField(
-                                                  controller: anotacaoControl,
+                                                  controller: anotacaoControlCondominio,
                                                   keyboardType: TextInputType.multiline,
                                                   enableSuggestions: true,
                                                   autocorrect: true,
@@ -1078,16 +1093,22 @@ class _homeAppState extends State<homeApp>{
                                                   onChanged: (value){
                                                     anotacao = value;
                                                   },
+                                                    style: const TextStyle(
+                                                        color: Colors.black
+                                                    ),
                                                   decoration: const InputDecoration(
                                                     border: OutlineInputBorder(),
                                                     enabledBorder: OutlineInputBorder(
-                                                      borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                     ),
                                                     focusedBorder: OutlineInputBorder(
                                                       borderSide: BorderSide(
                                                           width: 3,
                                                           color: Colors.black
                                                       ),
+                                                    ),
+                                                    labelStyle: TextStyle(
+                                                        color: Colors.black
                                                     ),
                                                     labelText: "Anotações sobre o condominio",
                                                   ),
@@ -1105,7 +1126,7 @@ class _homeAppState extends State<homeApp>{
                                                         showToast("Anotação salva com sucesso!",context:context);
                                                       });
                                                     },
-                                                    backgroundColor: Colors.blue,
+                                                    backgroundColor: colorBtnFab,
                                                     child: Icon(
                                                         Icons.done,
                                                         color: textColor
@@ -1161,7 +1182,9 @@ class _homeAppState extends State<homeApp>{
                                                               .snapshots(),
                                                           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                                             if (snapshot.hasError) {
-                                                              return const Center(child: Text('Algo deu errado!'));
+                                                              return const Center(child:
+                                                              Text('Algo deu errado!')
+                                                              );
                                                             }
 
                                                             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -1208,8 +1231,8 @@ class _homeAppState extends State<homeApp>{
                                                                   }).toList()
                                                               );
                                                             }
-                                                            return const Center(
-                                                                child: Text('Sem dados!')
+                                                            return Center(
+                                                                child: Text('Sem dados!',)
                                                             );
                                                           },
                                                         ),
@@ -1266,7 +1289,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         decoration: const InputDecoration(
                                                                                           border: OutlineInputBorder(),
                                                                                           enabledBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                           ),
                                                                                           focusedBorder: OutlineInputBorder(
                                                                                             borderSide: BorderSide(
@@ -1294,7 +1317,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         decoration: const InputDecoration(
                                                                                           border: OutlineInputBorder(),
                                                                                           enabledBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                           ),
                                                                                           focusedBorder: OutlineInputBorder(
                                                                                             borderSide: BorderSide(
@@ -1322,7 +1345,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         decoration: const InputDecoration(
                                                                                           border: OutlineInputBorder(),
                                                                                           enabledBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                           ),
                                                                                           focusedBorder: OutlineInputBorder(
                                                                                             borderSide: BorderSide(
@@ -1350,7 +1373,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         decoration: const InputDecoration(
                                                                                           border: OutlineInputBorder(),
                                                                                           enabledBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                           ),
                                                                                           focusedBorder: OutlineInputBorder(
                                                                                             borderSide: BorderSide(
@@ -1378,7 +1401,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         decoration: const InputDecoration(
                                                                                           border: OutlineInputBorder(),
                                                                                           enabledBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                           ),
                                                                                           focusedBorder: OutlineInputBorder(
                                                                                             borderSide: BorderSide(
@@ -1406,7 +1429,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         decoration: const InputDecoration(
                                                                                           border: OutlineInputBorder(),
                                                                                           enabledBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                           ),
                                                                                           focusedBorder: OutlineInputBorder(
                                                                                             borderSide: BorderSide(
@@ -1533,10 +1556,10 @@ class _homeAppState extends State<homeApp>{
                                                                   },
                                                                 );
                                                               },
-                                                              backgroundColor: Colors.blue,
+                                                              backgroundColor: colorBtnFab,
                                                               child: Icon(
                                                                   Icons.add,
-                                                                  color: textColor
+                                                                  color: textColorFab
                                                               )
                                                           ),
                                                         ),
@@ -1646,7 +1669,7 @@ class _homeAppState extends State<homeApp>{
                                                                             decoration: const InputDecoration(
                                                                               border: OutlineInputBorder(),
                                                                               enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                               ),
                                                                               focusedBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
@@ -1674,7 +1697,7 @@ class _homeAppState extends State<homeApp>{
                                                                             decoration: const InputDecoration(
                                                                               border: OutlineInputBorder(),
                                                                               enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                               ),
                                                                               focusedBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
@@ -1732,10 +1755,10 @@ class _homeAppState extends State<homeApp>{
                                                         },
                                                       );
                                                     },
-                                                      backgroundColor: Colors.blue,
+                                                      backgroundColor: colorBtnFab,
                                                       child: Icon(
                                                           Icons.add,
-                                                          color: textColor
+                                                          color: textColorFab
                                                       ),
                                                     ),
                                                   ),
@@ -1766,7 +1789,7 @@ class _homeAppState extends State<homeApp>{
                                           padding: const EdgeInsets.all(16),
                                           child: Image.asset(
                                               "assets/vigilantLogo.png",
-                                              scale: 7
+                                              scale: 5
                                           ),
                                         ),
                                         Center(
@@ -1805,7 +1828,7 @@ class _homeAppState extends State<homeApp>{
                                               decoration: InputDecoration(
                                                 border: const OutlineInputBorder(),
                                                 enabledBorder: const OutlineInputBorder(
-                                                  borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                  borderSide: BorderSide(width: 3, color: Colors.white), //<-- SEE HERE
                                                 ),
                                                 focusedBorder: const OutlineInputBorder(
                                                   borderSide: BorderSide(
@@ -1855,7 +1878,10 @@ class _homeAppState extends State<homeApp>{
                                                   width: double.infinity,
                                                   height: heig / 5.5,
                                                   decoration: BoxDecoration(
-                                                    color: Colors.white,
+                                                    image: const DecorationImage(
+                                                      image: AssetImage('assets/FundoMetalPrata.jpg'),
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                     border: Border.all(
                                                       color: Colors.black,
                                                       width: 1.0,
@@ -1888,8 +1914,18 @@ class _homeAppState extends State<homeApp>{
                                                             height: 50,
                                                             child: Column(
                                                               children: [
-                                                                Text("Nome: ${documents['Nome']}"),
-                                                                Text("CPF: ${documents['CPF']}"),
+                                                                Text(
+                                                                    "Nome: ${documents['Nome']}",
+                                                                  style: TextStyle(
+                                                                      color: textColorWidgets
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                    "CPF: ${documents['CPF']}",
+                                                                  style: TextStyle(
+                                                                      color: textColorWidgets
+                                                                  ),
+                                                                ),
                                                               ],
                                                             ),
                                                           ),
@@ -1950,7 +1986,7 @@ class _homeAppState extends State<homeApp>{
                                                                 ),
                                                                 Container(
                                                                     padding: const EdgeInsets.all(8),
-                                                                    child: Text("CPF: $CPFMorador")
+                                                                    child: Text("CPF: $CPFMorador",)
                                                                 ),
                                                                 Container(
                                                                     padding: const EdgeInsets.all(8),
@@ -1958,7 +1994,8 @@ class _homeAppState extends State<homeApp>{
                                                                 ),
                                                                 Container(
                                                                     padding: const EdgeInsets.all(8),
-                                                                    child: Text("Placa: $PlacaMorador")
+                                                                    child: Text("Placa: $PlacaMorador",
+                                                                    )
                                                                 ),
                                                                 Container(
                                                                     padding: const EdgeInsets.all(8),
@@ -1989,7 +2026,7 @@ class _homeAppState extends State<homeApp>{
                                                             decoration: const InputDecoration(
                                                               border: OutlineInputBorder(),
                                                               enabledBorder: OutlineInputBorder(
-                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                               ),
                                                               focusedBorder: OutlineInputBorder(
                                                                 borderSide: BorderSide(
@@ -2036,7 +2073,7 @@ class _homeAppState extends State<homeApp>{
                                           padding: const EdgeInsets.all(16),
                                           child: Image.asset(
                                               "assets/vigilantLogo.png",
-                                              scale: 7
+                                              scale: 5
                                           ),
                                         ),
                                         Center(
@@ -2044,7 +2081,10 @@ class _homeAppState extends State<homeApp>{
                                                 width: wid / 4,
                                                 height: heig / 4,
                                                 decoration: const BoxDecoration(
-                                                    color: Colors.white
+                                                  image: DecorationImage(
+                                                    image: AssetImage('assets/FundoMetalPrata.jpg'),
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                                 padding: const EdgeInsets.all(16),
                                                 child: const Text(
@@ -2108,7 +2148,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -2136,7 +2176,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -2164,7 +2204,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -2192,7 +2232,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -2220,7 +2260,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -2248,7 +2288,7 @@ class _homeAppState extends State<homeApp>{
                                                           decoration: const InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
                                                             focusedBorder: OutlineInputBorder(
                                                               borderSide: BorderSide(
@@ -2420,10 +2460,10 @@ class _homeAppState extends State<homeApp>{
                                         },
                                       );
                                     },
-                                      backgroundColor: Colors.blue,
+                                      backgroundColor: colorBtnFab,
                                       child: Icon(
                                           Icons.add,
-                                          color: textColor
+                                          color: textColorFab
                                       ),
                                     ),
                                   ),
@@ -2434,13 +2474,24 @@ class _homeAppState extends State<homeApp>{
                               width: wid / 4,
                               height: heig / 3,
                               decoration: const BoxDecoration(
-                                  color: Colors.white
+                                image: DecorationImage(
+                                  image: AssetImage('assets/FundoMetalPrata.jpg'),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                               child: Center(
                                 child: SingleChildScrollView(
                                   child: Stack(
                                     children: [
-                                      idCondominio == "" ? const Center(child: Text('Selecione um cliente!')): Column(
+                                      idCondominio == "" ?
+                                            Center(
+                                                child: Text('Selecione um cliente!',
+                                                  style: TextStyle(
+                                                      color: textColorWidgets
+                                                  ),
+                                                )
+                                            )
+                                          : Column(
                                         children: [
                                           Center(
                                             child: Container(
@@ -2467,7 +2518,7 @@ class _homeAppState extends State<homeApp>{
                                                 decoration: InputDecoration(
                                                   border: const OutlineInputBorder(),
                                                   enabledBorder: const OutlineInputBorder(
-                                                    borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                   ),
                                                   focusedBorder: const OutlineInputBorder(
                                                     borderSide: BorderSide(
@@ -2549,15 +2600,30 @@ class _homeAppState extends State<homeApp>{
                                                           children: [
                                                             Container(
                                                                 padding: const EdgeInsets.all(6),
-                                                                child: Text("Nome: ${documents["Nome"]}")
+                                                                child: Text(
+                                                                    "Nome: ${documents["Nome"]}",
+                                                                  style: TextStyle(
+                                                                      color: textColorWidgets
+                                                                  ),
+                                                                )
                                                             ),
                                                             Container(
                                                                 padding: const EdgeInsets.all(6),
-                                                                child: Text("CPF: ${documents["CPFVist"]}")
+                                                                child: Text(
+                                                                    "CPF: ${documents["CPFVist"]}",
+                                                                  style: TextStyle(
+                                                                      color: textColorWidgets
+                                                                  ),
+                                                                )
                                                             ),
                                                             Container(
                                                                 padding: const EdgeInsets.all(6),
-                                                                child: Text("Empresa: ${documents["Empresa"]}")
+                                                                child: Text(
+                                                                    "Empresa: ${documents["Empresa"]}",
+                                                                  style: TextStyle(
+                                                                      color: textColorWidgets
+                                                                  ),
+                                                                )
                                                             ),
                                                           ],
                                                         ),
@@ -2664,7 +2730,7 @@ class _homeAppState extends State<homeApp>{
                                                                       decoration: const InputDecoration(
                                                                         border: OutlineInputBorder(),
                                                                         enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                         ),
                                                                         focusedBorder: OutlineInputBorder(
                                                                           borderSide: BorderSide(
@@ -2692,7 +2758,7 @@ class _homeAppState extends State<homeApp>{
                                                                       decoration: const InputDecoration(
                                                                         border: OutlineInputBorder(),
                                                                         enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                         ),
                                                                         focusedBorder: OutlineInputBorder(
                                                                           borderSide: BorderSide(
@@ -2720,7 +2786,7 @@ class _homeAppState extends State<homeApp>{
                                                                       decoration: const InputDecoration(
                                                                         border: OutlineInputBorder(),
                                                                         enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                         ),
                                                                         focusedBorder: OutlineInputBorder(
                                                                           borderSide: BorderSide(
@@ -2748,7 +2814,7 @@ class _homeAppState extends State<homeApp>{
                                                                       decoration: const InputDecoration(
                                                                         border: OutlineInputBorder(),
                                                                         enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                         ),
                                                                         focusedBorder: OutlineInputBorder(
                                                                           borderSide: BorderSide(
@@ -2776,7 +2842,7 @@ class _homeAppState extends State<homeApp>{
                                                                       decoration: const InputDecoration(
                                                                         border: OutlineInputBorder(),
                                                                         enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                         ),
                                                                         focusedBorder: OutlineInputBorder(
                                                                           borderSide: BorderSide(
@@ -2804,7 +2870,7 @@ class _homeAppState extends State<homeApp>{
                                                                       decoration: const InputDecoration(
                                                                         border: OutlineInputBorder(),
                                                                         enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                         ),
                                                                         focusedBorder: OutlineInputBorder(
                                                                           borderSide: BorderSide(
@@ -2832,7 +2898,7 @@ class _homeAppState extends State<homeApp>{
                                                                       decoration: const InputDecoration(
                                                                         border: OutlineInputBorder(),
                                                                         enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                         ),
                                                                         focusedBorder: OutlineInputBorder(
                                                                           borderSide: BorderSide(
@@ -2860,7 +2926,7 @@ class _homeAppState extends State<homeApp>{
                                                                       decoration: const InputDecoration(
                                                                         border: OutlineInputBorder(),
                                                                         enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                         ),
                                                                         focusedBorder: OutlineInputBorder(
                                                                           borderSide: BorderSide(
@@ -2888,7 +2954,7 @@ class _homeAppState extends State<homeApp>{
                                                                       decoration: const InputDecoration(
                                                                         border: OutlineInputBorder(),
                                                                         enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                         ),
                                                                         focusedBorder: OutlineInputBorder(
                                                                           borderSide: BorderSide(
@@ -2916,7 +2982,7 @@ class _homeAppState extends State<homeApp>{
                                                                       decoration: const InputDecoration(
                                                                         border: OutlineInputBorder(),
                                                                         enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                         ),
                                                                         focusedBorder: OutlineInputBorder(
                                                                           borderSide: BorderSide(
@@ -3008,7 +3074,7 @@ class _homeAppState extends State<homeApp>{
                                                                     decoration: const InputDecoration(
                                                                       border: OutlineInputBorder(),
                                                                       enabledBorder: OutlineInputBorder(
-                                                                        borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                       ),
                                                                       focusedBorder: OutlineInputBorder(
                                                                         borderSide: BorderSide(
@@ -3099,9 +3165,9 @@ class _homeAppState extends State<homeApp>{
                                                 },
                                               );
                                             },
-                                            backgroundColor: Colors.blue,
+                                            backgroundColor: colorBtnFab,
                                             child: Icon(Icons.add,
-                                                color: textColor
+                                                color: textColorFab
                                             )
                                         ),
                                       )
@@ -3114,7 +3180,10 @@ class _homeAppState extends State<homeApp>{
                                 width: wid / 4,
                                 height: heig / 3,
                                 decoration: const BoxDecoration(
-                                    color: Colors.white
+                                  image: DecorationImage(
+                                    image: AssetImage('assets/FundoMetalPrata.jpg'),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                                 child: Center(
                                   child: Center(
@@ -3124,7 +3193,15 @@ class _homeAppState extends State<homeApp>{
                                       child: SingleChildScrollView(
                                         child: Stack(
                                           children: [
-                                            idCondominio == "" ? const Center(child: Text('Selecione um cliente!')): Column(
+                                            idCondominio == "" ?
+                                                  Center(child:
+                                                    Text('Selecione um cliente!',
+                                                          style: TextStyle(
+                                                              color: textColorWidgets
+                                                          ),
+                                                        )
+                                                  )
+                                                : Column(
                                               children: [
                                                 Center(
                                                   child: Container(
@@ -3151,7 +3228,7 @@ class _homeAppState extends State<homeApp>{
                                                       decoration: InputDecoration(
                                                         border: const OutlineInputBorder(),
                                                         enabledBorder: const OutlineInputBorder(
-                                                          borderSide: const BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                          borderSide: const BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                         ),
                                                         focusedBorder: const OutlineInputBorder(
                                                           borderSide: BorderSide(
@@ -3231,7 +3308,12 @@ class _homeAppState extends State<homeApp>{
                                                               child: Center(
                                                                 child: Container(
                                                                     padding: const EdgeInsets.all(6),
-                                                                    child: Text("Placa: ${documents["PlacaV"]}")
+                                                                    child: Text(
+                                                                        "Placa: ${documents["PlacaV"]}",
+                                                                      style: TextStyle(
+                                                                          color: textColorWidgets
+                                                                      ),
+                                                                    )
                                                                 ),
                                                               ),
                                                             );
@@ -3309,7 +3391,7 @@ class _homeAppState extends State<homeApp>{
                                                                             decoration: const InputDecoration(
                                                                               border: OutlineInputBorder(),
                                                                               enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                               ),
                                                                               focusedBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
@@ -3337,7 +3419,7 @@ class _homeAppState extends State<homeApp>{
                                                                             decoration: const InputDecoration(
                                                                               border: OutlineInputBorder(),
                                                                               enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                               ),
                                                                               focusedBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
@@ -3365,7 +3447,7 @@ class _homeAppState extends State<homeApp>{
                                                                             decoration: const InputDecoration(
                                                                               border: OutlineInputBorder(),
                                                                               enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                               ),
                                                                               focusedBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
@@ -3393,7 +3475,7 @@ class _homeAppState extends State<homeApp>{
                                                                             decoration: const InputDecoration(
                                                                               border: OutlineInputBorder(),
                                                                               enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                               ),
                                                                               focusedBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
@@ -3451,7 +3533,7 @@ class _homeAppState extends State<homeApp>{
                                                                             decoration: const InputDecoration(
                                                                               border: OutlineInputBorder(),
                                                                               enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                               ),
                                                                               focusedBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
@@ -3505,6 +3587,9 @@ class _homeAppState extends State<homeApp>{
                                                                               }
                                                                             }
                                                                           },
+                                                                          style: ElevatedButton.styleFrom(
+                                                                              backgroundColor: colorBtn
+                                                                          ),
                                                                           child: const Text("Salvar"),
                                                                         ),
                                                                       )
@@ -3517,9 +3602,9 @@ class _homeAppState extends State<homeApp>{
                                                         },
                                                       );
                                                     },
-                                                    backgroundColor: Colors.blue,
+                                                    backgroundColor: colorBtnFab,
                                                     child: Icon(Icons.add,
-                                                        color: textColor
+                                                        color: textColorFab
                                                     )
                                                 ),
                                               ),
