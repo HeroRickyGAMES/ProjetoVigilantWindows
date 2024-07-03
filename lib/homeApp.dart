@@ -4,10 +4,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sparta_monitoramento/acionamento_de_portas/acionamento_de_portas.dart';
-import 'package:sparta_monitoramento/getIds.dart';
-import 'package:sparta_monitoramento/videoStream/videoStreamWidget.dart';
-import 'package:sparta_monitoramento/voip/voipAPI.dart';
+import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
+import 'package:vigilant/getIds.dart';
+import 'package:vigilant/videoStream/videoStreamWidget.dart';
+import 'package:vigilant/voip/voipAPI.dart';
 import 'package:uuid/uuid.dart';
 
 //Desenvolvido por HeroRickyGames
@@ -78,14 +78,13 @@ bool acessoDevFunc = false;
 //Inteiros
 int porta = 00;
 
-
 //DropDownValues
 var dropValue = ValueNotifier('');
 
 //Cores
-Color colorBtnAcionamento1 = Colors.red;
+Color colorBtn = Colors.blue;
 Color corDasBarras = Colors.transparent;
-Color textColor = Colors.black;
+Color textColor = Colors.white;
 
 //Listas
 List ModelosAcionamentos = [
@@ -170,7 +169,7 @@ class _homeAppState extends State<homeApp>{
                                   backgroundColor: corDasBarras,
                                   centerTitle: true,
                                   title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       TextButton(
                                           onPressed: () async {
@@ -402,7 +401,15 @@ class _homeAppState extends State<homeApp>{
                                                                           onPressed: (){
                                                                             acionarPorta(context, IP, int.parse(Porta), modeloselecionado, int.parse(Canal), Usuario, Senha);
                                                                           },
-                                                                          child: const Text("Testar!")
+                                                                          style: ElevatedButton.styleFrom(
+                                                                              backgroundColor: colorBtn
+                                                                          ),
+                                                                          child: Text(
+                                                                              "Testar!",
+                                                                            style: TextStyle(
+                                                                                color: textColor
+                                                                            ),
+                                                                          )
                                                                       ),
                                                                     ],
                                                                   ),
@@ -426,6 +433,13 @@ class _homeAppState extends State<homeApp>{
                                               scale: 10
                                           )
                                       ),
+                                      Container(
+                                        padding: const EdgeInsets.all(16),
+                                        child: Image.asset(
+                                            "assets/vigilantLogo.png",
+                                            scale: 7
+                                        ),
+                                      )
                                     ],
                                   ),
                                 ),
@@ -578,7 +592,8 @@ class _homeAppState extends State<homeApp>{
                                     AdicionarCondominios == true ? Container(
                                       alignment: Alignment.bottomRight,
                                       padding: const EdgeInsets.all(16),
-                                      child: FloatingActionButton(onPressed: (){
+                                      child: FloatingActionButton(
+                                        onPressed: (){
                                         String NomeCondominio = "";
                                         String IPCameras = "";
                                         int? PortaCameras;
@@ -1011,7 +1026,16 @@ class _homeAppState extends State<homeApp>{
                                                           }
                                                         }
                                                       }
-                                                    },child: const Text('Registrar novo Condominio')
+                                                    },
+                                                        style: ElevatedButton.styleFrom(
+                                                            backgroundColor: colorBtn
+                                                        ),
+                                                        child: Text(
+                                                            'Registrar novo Condominio',
+                                                          style: TextStyle(
+                                                              color: textColor
+                                                          ),
+                                                        )
                                                     )
                                                   ],
                                                 ),
@@ -1022,7 +1046,10 @@ class _homeAppState extends State<homeApp>{
                                         );
                                       },
                                         backgroundColor: Colors.blue,
-                                        child: const Icon(Icons.add),
+                                        child: Icon(
+                                            Icons.add,
+                                            color: textColor
+                                        ),
                                       ),
                                     ):
                                     Container(),
@@ -1089,7 +1116,10 @@ class _homeAppState extends State<homeApp>{
                                                           });
                                                         },
                                                         backgroundColor: Colors.blue,
-                                                        child: const Icon(Icons.done)
+                                                        child: Icon(
+                                                            Icons.done,
+                                                            color: textColor
+                                                        )
                                                     ),
                                                   ),
                                                 ],
@@ -1497,8 +1527,15 @@ class _homeAppState extends State<homeApp>{
                                                                                     }
                                                                                   }
                                                                                 }
-                                                                              },
-                                                                              child: const Text('Criar'),
+                                                                              },style: ElevatedButton.styleFrom(
+                                                                                backgroundColor: colorBtn
+                                                                            ),
+                                                                              child: Text(
+                                                                                  'Criar',
+                                                                                style: TextStyle(
+                                                                                    color: textColor
+                                                                                ),
+                                                                              ),
                                                                             ),
                                                                           ],
                                                                         ),
@@ -1509,7 +1546,10 @@ class _homeAppState extends State<homeApp>{
                                                                 );
                                                               },
                                                               backgroundColor: Colors.blue,
-                                                              child: const Icon(Icons.add)
+                                                              child: Icon(
+                                                                  Icons.add,
+                                                                  color: textColor
+                                                              )
                                                           ),
                                                         ),
                                                       ],
@@ -1684,7 +1724,16 @@ class _homeAppState extends State<homeApp>{
                                                                                 }
                                                                               }
                                                                             }
-                                                                          }, child: const Text('Criar')
+                                                                          },
+                                                                            style: ElevatedButton.styleFrom(
+                                                                            backgroundColor: colorBtn
+                                                                         ),
+                                                                            child: Text(
+                                                                                'Criar',
+                                                                              style: TextStyle(
+                                                                                  color: textColor
+                                                                              ),
+                                                                            )
                                                                       )
                                                                     ],
                                                                   ),
@@ -1696,7 +1745,10 @@ class _homeAppState extends State<homeApp>{
                                                       );
                                                     },
                                                       backgroundColor: Colors.blue,
-                                                      child: const Icon(Icons.add),
+                                                      child: Icon(
+                                                          Icons.add,
+                                                          color: textColor
+                                                      ),
                                                     ),
                                                   ),
                                                 ]
@@ -1958,8 +2010,15 @@ class _homeAppState extends State<homeApp>{
                                                               FirebaseFirestore.instance.collection('Pessoas').doc(MoradorId).update({
                                                                 "anotacao": anotacaoMorador
                                                               });
-                                                            },
-                                                              child: const Text("Salvar anotação")
+                                                            },style: ElevatedButton.styleFrom(
+                                                              backgroundColor: colorBtn
+                                                            ),
+                                                              child: Text(
+                                                                  "Salvar anotação",
+                                                                style: TextStyle(
+                                                                    color: textColor
+                                                                ),
+                                                              )
                                                           ),
                                                         ),
                                                       ],
@@ -2218,7 +2277,15 @@ class _homeAppState extends State<homeApp>{
                                                                 });
                                                               }
                                                             },
-                                                            child: const Text('Selecione uma data'),
+                                                            style: ElevatedButton.styleFrom(
+                                                                backgroundColor: colorBtn
+                                                            ),
+                                                            child: Text(
+                                                                'Selecione uma data',
+                                                              style: TextStyle(
+                                                                  color: textColor
+                                                              ),
+                                                            ),
                                                           )
                                                       ),
                                                     ),
@@ -2242,7 +2309,15 @@ class _homeAppState extends State<homeApp>{
                                                             }
                                                           });
                                                         },
-                                                        child: const Text('Selecione uma Imagem de perfil'),
+                                                        style: ElevatedButton.styleFrom(
+                                                            backgroundColor: colorBtn
+                                                        ),
+                                                        child: Text(
+                                                            'Selecione uma Imagem de perfil',
+                                                          style: TextStyle(
+                                                              color: textColor
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
                                                     ElevatedButton(onPressed: () async {
@@ -2319,7 +2394,15 @@ class _homeAppState extends State<homeApp>{
                                                           }
                                                         }
                                                       }
-                                                    },child: const Text('Registrar novo cadastro')
+                                                    },style: ElevatedButton.styleFrom(
+                                                        backgroundColor: colorBtn
+                                                    ),
+                                                        child: Text(
+                                                            'Registrar novo cadastro',
+                                                          style: TextStyle(
+                                                              color: textColor
+                                                          ),
+                                                        )
                                                     )
                                                   ],
                                                 ),
@@ -2330,7 +2413,10 @@ class _homeAppState extends State<homeApp>{
                                       );
                                     },
                                       backgroundColor: Colors.blue,
-                                      child: const Icon(Icons.add),
+                                      child: Icon(
+                                          Icons.add,
+                                          color: textColor
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -2473,11 +2559,12 @@ class _homeAppState extends State<homeApp>{
                                       Container(
                                         width: wid / 4,
                                         height: heig / 3,
+                                        padding: const EdgeInsets.all(16),
                                         alignment: Alignment.bottomRight,
                                         child: adicionarVisitante == false ?
                                         Container() :
                                         FloatingActionButton(
-                                            onPressed: (){
+                                            onPressed: idCondominio == "" ? null : (){
                                               var dropValue2 = ValueNotifier('Sem Previsão');
 
                                               List Permanencia = [
@@ -2881,7 +2968,15 @@ class _homeAppState extends State<homeApp>{
                                                                         }
                                                                       });
                                                                     },
-                                                                    child: const Text('Selecione a imagem do documento da pessoa!'),
+                                                                    style: ElevatedButton.styleFrom(
+                                                                        backgroundColor: colorBtn
+                                                                    ),
+                                                                    child: Text(
+                                                                        'Selecione a imagem do documento da pessoa!',
+                                                                      style: TextStyle(
+                                                                          color: textColor
+                                                                      ),
+                                                                    ),
                                                                   ),
                                                                 ),
                                                                 Container(
@@ -2970,8 +3065,15 @@ class _homeAppState extends State<homeApp>{
                                                                           }
                                                                         }
                                                                       }
-                                                                    },
-                                                                    child: const Text("Salvar"),
+                                                                    },style: ElevatedButton.styleFrom(
+                                                                      backgroundColor: colorBtn
+                                                                  ),
+                                                                    child: Text(
+                                                                        "Salvar",
+                                                                      style: TextStyle(
+                                                                          color: textColor
+                                                                      ),
+                                                                    ),
                                                                   ),
                                                                 )
                                                               ],
@@ -2985,7 +3087,9 @@ class _homeAppState extends State<homeApp>{
                                               );
                                             },
                                             backgroundColor: Colors.blue,
-                                            child: const Icon(Icons.add)
+                                            child: Icon(Icons.add,
+                                                color: textColor
+                                            )
                                         ),
                                       )
                                     ],
@@ -3000,11 +3104,11 @@ class _homeAppState extends State<homeApp>{
                                     color: Colors.white
                                 ),
                                 child: Center(
-                                  child: SingleChildScrollView(
-                                    child: Center(
-                                      child: SizedBox(
-                                        width: wid / 4,
-                                        height: heig / 3,
+                                  child: Center(
+                                    child: SizedBox(
+                                      width: wid / 4,
+                                      height: heig / 3,
+                                      child: SingleChildScrollView(
                                         child: Stack(
                                           children: [
                                             Column(
@@ -3124,274 +3228,282 @@ class _homeAppState extends State<homeApp>{
                                               alignment: Alignment.bottomRight,
                                               child: adicionarVeiculo == false ?
                                               Container():
-                                              FloatingActionButton(
-                                                  onPressed: (){
+                                              Container(
+                                                padding: const EdgeInsets.all(16),
+                                                alignment: Alignment.bottomRight,
+                                                width: wid / 4,
+                                                height: heig / 3,
+                                                child: FloatingActionButton(
+                                                    onPressed: idCondominio == "" ? null : (){
 
-                                                    String Unidade = "";
-                                                    String blocoV = "";
-                                                    String IdentificacaoModeloV = "";
-                                                    String MarcaV = "";
-                                                    String corV = "";
-                                                    String PlacaV = "";
-                                                    List Cores = [
-                                                      'Preto',
-                                                      'Branco',
-                                                      'Vermelho',
-                                                      'Azul',
-                                                      'Prata',
-                                                      'Cinza',
-                                                      'Verde',
-                                                      'Amarelo',
-                                                      'Marrom',
-                                                      'Laranja'
-                                                    ];
+                                                      String Unidade = "";
+                                                      String blocoV = "";
+                                                      String IdentificacaoModeloV = "";
+                                                      String MarcaV = "";
+                                                      String corV = "";
+                                                      String PlacaV = "";
+                                                      List Cores = [
+                                                        'Preto',
+                                                        'Branco',
+                                                        'Vermelho',
+                                                        'Azul',
+                                                        'Prata',
+                                                        'Cinza',
+                                                        'Verde',
+                                                        'Amarelo',
+                                                        'Marrom',
+                                                        'Laranja'
+                                                      ];
 
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext context) {
-                                                        return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                                          return AlertDialog(
-                                                            title: Row(
-                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                              children: [
-                                                                const Text('Cadastrar novo veiculo'),
-                                                                IconButton(
-                                                                  onPressed: (){
-                                                                    Navigator.pop(context);
-                                                                  },
-                                                                  icon: const Icon(Icons.close),
-                                                                )
-                                                              ],
-                                                            ),
-                                                            actions: [
-                                                              Center(
-                                                                child: Column(
-                                                                  children: [
-                                                                    Center(
-                                                                      child: Container(
-                                                                        padding: const EdgeInsets.all(16),
-                                                                        child: TextField(
-                                                                          keyboardType: TextInputType.emailAddress,
-                                                                          enableSuggestions: false,
-                                                                          autocorrect: false,
-                                                                          onChanged: (value){
-                                                                            setState(() {
-                                                                              Unidade = value;
-                                                                            });
-                                                                          },
-                                                                          decoration: const InputDecoration(
-                                                                            border: OutlineInputBorder(),
-                                                                            enabledBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
-                                                                            ),
-                                                                            focusedBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(
-                                                                                  width: 3,
-                                                                                  color: Colors.black
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                            return AlertDialog(
+                                                              title: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                children: [
+                                                                  const Text('Cadastrar novo veiculo'),
+                                                                  IconButton(
+                                                                    onPressed: (){
+                                                                      Navigator.pop(context);
+                                                                    },
+                                                                    icon: const Icon(Icons.close),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                              actions: [
+                                                                Center(
+                                                                  child: Column(
+                                                                    children: [
+                                                                      Center(
+                                                                        child: Container(
+                                                                          padding: const EdgeInsets.all(16),
+                                                                          child: TextField(
+                                                                            keyboardType: TextInputType.emailAddress,
+                                                                            enableSuggestions: false,
+                                                                            autocorrect: false,
+                                                                            onChanged: (value){
+                                                                              setState(() {
+                                                                                Unidade = value;
+                                                                              });
+                                                                            },
+                                                                            decoration: const InputDecoration(
+                                                                              border: OutlineInputBorder(),
+                                                                              enabledBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
                                                                               ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(
+                                                                                    width: 3,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                              ),
+                                                                              labelText: 'Unidade',
                                                                             ),
-                                                                            labelText: 'Unidade',
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                    Center(
-                                                                      child: Container(
-                                                                        padding: const EdgeInsets.all(16),
-                                                                        child: TextField(
-                                                                          keyboardType: TextInputType.emailAddress,
-                                                                          enableSuggestions: false,
-                                                                          autocorrect: false,
-                                                                          onChanged: (value){
-                                                                            setState(() {
-                                                                              blocoV = value;
-                                                                            });
-                                                                          },
-                                                                          decoration: const InputDecoration(
-                                                                            border: OutlineInputBorder(),
-                                                                            enabledBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
-                                                                            ),
-                                                                            focusedBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(
-                                                                                  width: 3,
-                                                                                  color: Colors.black
+                                                                      Center(
+                                                                        child: Container(
+                                                                          padding: const EdgeInsets.all(16),
+                                                                          child: TextField(
+                                                                            keyboardType: TextInputType.emailAddress,
+                                                                            enableSuggestions: false,
+                                                                            autocorrect: false,
+                                                                            onChanged: (value){
+                                                                              setState(() {
+                                                                                blocoV = value;
+                                                                              });
+                                                                            },
+                                                                            decoration: const InputDecoration(
+                                                                              border: OutlineInputBorder(),
+                                                                              enabledBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
                                                                               ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(
+                                                                                    width: 3,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                              ),
+                                                                              labelText: 'Bloco',
                                                                             ),
-                                                                            labelText: 'Bloco',
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                    Center(
-                                                                      child: Container(
-                                                                        padding: const EdgeInsets.all(16),
-                                                                        child: TextField(
-                                                                          keyboardType: TextInputType.emailAddress,
-                                                                          enableSuggestions: false,
-                                                                          autocorrect: false,
-                                                                          onChanged: (value){
-                                                                            setState(() {
-                                                                              IdentificacaoModeloV = value;
-                                                                            });
-                                                                          },
-                                                                          decoration: const InputDecoration(
-                                                                            border: OutlineInputBorder(),
-                                                                            enabledBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
-                                                                            ),
-                                                                            focusedBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(
-                                                                                  width: 3,
-                                                                                  color: Colors.black
+                                                                      Center(
+                                                                        child: Container(
+                                                                          padding: const EdgeInsets.all(16),
+                                                                          child: TextField(
+                                                                            keyboardType: TextInputType.emailAddress,
+                                                                            enableSuggestions: false,
+                                                                            autocorrect: false,
+                                                                            onChanged: (value){
+                                                                              setState(() {
+                                                                                IdentificacaoModeloV = value;
+                                                                              });
+                                                                            },
+                                                                            decoration: const InputDecoration(
+                                                                              border: OutlineInputBorder(),
+                                                                              enabledBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
                                                                               ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(
+                                                                                    width: 3,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                              ),
+                                                                              labelText: 'Identificação ou Modelo',
                                                                             ),
-                                                                            labelText: 'Identificação ou Modelo',
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                    Center(
-                                                                      child: Container(
-                                                                        padding: const EdgeInsets.all(16),
-                                                                        child: TextField(
-                                                                          keyboardType: TextInputType.emailAddress,
-                                                                          enableSuggestions: false,
-                                                                          autocorrect: false,
-                                                                          onChanged: (value){
-                                                                            setState(() {
-                                                                              MarcaV = value;
-                                                                            });
-                                                                          },
-                                                                          decoration: const InputDecoration(
-                                                                            border: OutlineInputBorder(),
-                                                                            enabledBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
-                                                                            ),
-                                                                            focusedBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(
-                                                                                  width: 3,
-                                                                                  color: Colors.black
+                                                                      Center(
+                                                                        child: Container(
+                                                                          padding: const EdgeInsets.all(16),
+                                                                          child: TextField(
+                                                                            keyboardType: TextInputType.emailAddress,
+                                                                            enableSuggestions: false,
+                                                                            autocorrect: false,
+                                                                            onChanged: (value){
+                                                                              setState(() {
+                                                                                MarcaV = value;
+                                                                              });
+                                                                            },
+                                                                            decoration: const InputDecoration(
+                                                                              border: OutlineInputBorder(),
+                                                                              enabledBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
                                                                               ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(
+                                                                                    width: 3,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                              ),
+                                                                              labelText: 'Marca',
                                                                             ),
-                                                                            labelText: 'Marca',
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                    Center(
-                                                                      child: ValueListenableBuilder(valueListenable: dropValue, builder: (context, String value, _){
-                                                                        return DropdownButton(
-                                                                          hint: const Text(
-                                                                            'Selecione a cor',
-                                                                            style: TextStyle(
-                                                                                color: Colors.white
-                                                                            ),
-                                                                          ),
-                                                                          value: (value.isEmpty)? null : value,
-                                                                          onChanged: (escolha) async {
-                                                                            dropValue.value = escolha.toString();
-                                                                            setState(() {
-                                                                              corV = escolha.toString();
-                                                                            });
-                                                                          },
-                                                                          items: Cores.map((opcao) => DropdownMenuItem(
-                                                                            value: opcao,
-                                                                            child:
-                                                                            Text(
-                                                                              opcao,
-                                                                              style: const TextStyle(
+                                                                      Center(
+                                                                        child: ValueListenableBuilder(valueListenable: dropValue, builder: (context, String value, _){
+                                                                          return DropdownButton(
+                                                                            hint: const Text(
+                                                                              'Selecione a cor',
+                                                                              style: TextStyle(
                                                                                   color: Colors.white
                                                                               ),
                                                                             ),
-                                                                          ),
-                                                                          ).toList(),
-                                                                        );
-                                                                      }),
-                                                                    ),
-                                                                    Center(
-                                                                      child: Container(
-                                                                        padding: const EdgeInsets.all(16),
-                                                                        child: TextField(
-                                                                          keyboardType: TextInputType.emailAddress,
-                                                                          enableSuggestions: false,
-                                                                          autocorrect: false,
-                                                                          onChanged: (value){
-                                                                            setState(() {
-                                                                              PlacaV = value;
-                                                                            });
-                                                                          },
-                                                                          decoration: const InputDecoration(
-                                                                            border: OutlineInputBorder(),
-                                                                            enabledBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
-                                                                            ),
-                                                                            focusedBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(
-                                                                                  width: 3,
-                                                                                  color: Colors.black
+                                                                            value: (value.isEmpty)? null : value,
+                                                                            onChanged: (escolha) async {
+                                                                              dropValue.value = escolha.toString();
+                                                                              setState(() {
+                                                                                corV = escolha.toString();
+                                                                              });
+                                                                            },
+                                                                            items: Cores.map((opcao) => DropdownMenuItem(
+                                                                              value: opcao,
+                                                                              child:
+                                                                              Text(
+                                                                                opcao,
+                                                                                style: const TextStyle(
+                                                                                    color: Colors.white
+                                                                                ),
                                                                               ),
                                                                             ),
-                                                                            labelText: 'Placa',
+                                                                            ).toList(),
+                                                                          );
+                                                                        }),
+                                                                      ),
+                                                                      Center(
+                                                                        child: Container(
+                                                                          padding: const EdgeInsets.all(16),
+                                                                          child: TextField(
+                                                                            keyboardType: TextInputType.emailAddress,
+                                                                            enableSuggestions: false,
+                                                                            autocorrect: false,
+                                                                            onChanged: (value){
+                                                                              setState(() {
+                                                                                PlacaV = value;
+                                                                              });
+                                                                            },
+                                                                            decoration: const InputDecoration(
+                                                                              border: OutlineInputBorder(),
+                                                                              enabledBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                                              ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(
+                                                                                    width: 3,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                              ),
+                                                                              labelText: 'Placa',
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                    Center(
-                                                                      child: ElevatedButton(
-                                                                        onPressed: (){
-                                                                          if(Unidade == ""){
-                                                                            showToast("A unidade está vazia!",context:context);
-                                                                          }else{
-                                                                            if(blocoV == ""){
-                                                                              showToast("O Bloco está vazio!",context:context);
+                                                                      Center(
+                                                                        child: ElevatedButton(
+                                                                          onPressed: (){
+                                                                            if(Unidade == ""){
+                                                                              showToast("A unidade está vazia!",context:context);
                                                                             }else{
-                                                                              if(IdentificacaoModeloV == ""){
-                                                                                showToast("A Identificação está vazia!",context:context);
+                                                                              if(blocoV == ""){
+                                                                                showToast("O Bloco está vazio!",context:context);
                                                                               }else{
-                                                                                if(MarcaV == ""){
-                                                                                  showToast("A Marca está vazia!",context:context);
+                                                                                if(IdentificacaoModeloV == ""){
+                                                                                  showToast("A Identificação está vazia!",context:context);
                                                                                 }else{
-                                                                                  if(corV == ""){
-                                                                                    showToast("A Cor não foi definida!",context:context);
+                                                                                  if(MarcaV == ""){
+                                                                                    showToast("A Marca está vazia!",context:context);
                                                                                   }else{
-                                                                                    if(PlacaV == ""){
-                                                                                      showToast("A Placa está vazia!",context:context);
+                                                                                    if(corV == ""){
+                                                                                      showToast("A Cor não foi definida!",context:context);
                                                                                     }else{
-                                                                                      Uuid uuid = const Uuid();
-                                                                                      String UUID = uuid.v4();
-                                                                                      FirebaseFirestore.instance.collection('Veiculos').doc(UUID).set({
-                                                                                        "Unidade": Unidade,
-                                                                                        "blocoV": blocoV,
-                                                                                        "IdentificacaoModeloV": IdentificacaoModeloV,
-                                                                                        "MarcaV": MarcaV,
-                                                                                        "corV": corV,
-                                                                                        "PlacaV": PlacaV,
-                                                                                        "idCondominio": idCondominio
-                                                                                      }).whenComplete((){
-                                                                                        Navigator.pop(context);
-                                                                                      });
+                                                                                      if(PlacaV == ""){
+                                                                                        showToast("A Placa está vazia!",context:context);
+                                                                                      }else{
+                                                                                        Uuid uuid = const Uuid();
+                                                                                        String UUID = uuid.v4();
+                                                                                        FirebaseFirestore.instance.collection('Veiculos').doc(UUID).set({
+                                                                                          "Unidade": Unidade,
+                                                                                          "blocoV": blocoV,
+                                                                                          "IdentificacaoModeloV": IdentificacaoModeloV,
+                                                                                          "MarcaV": MarcaV,
+                                                                                          "corV": corV,
+                                                                                          "PlacaV": PlacaV,
+                                                                                          "idCondominio": idCondominio
+                                                                                        }).whenComplete((){
+                                                                                          Navigator.pop(context);
+                                                                                        });
+                                                                                      }
                                                                                     }
                                                                                   }
                                                                                 }
                                                                               }
                                                                             }
-                                                                          }
-                                                                        },
-                                                                        child: const Text("Salvar"),
-                                                                      ),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              )
-                                                            ],
-                                                          );
-                                                        },);
-                                                      },
-                                                    );
-                                                  },
-                                                  backgroundColor: Colors.blue,
-                                                  child: const Icon(Icons.add)
+                                                                          },
+                                                                          child: const Text("Salvar"),
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            );
+                                                          },);
+                                                        },
+                                                      );
+                                                    },
+                                                    backgroundColor: Colors.blue,
+                                                    child: Icon(Icons.add,
+                                                        color: textColor
+                                                    )
+                                                ),
                                               ),
                                             )
                                           ],

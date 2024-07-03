@@ -53,11 +53,13 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCN1YXqo8Od-L_iM7hpjmFycRxpv7WffIY',
-    appId: '1:81702788718:android:695a2d4c8747d77a64d07f',
+    apiKey: 'AIzaSyAqLjnkQnCwgX3VsU6o2LJKloVZbDs09Hs',
+    appId: '1:81702788718:web:c28d142f6676b0b364d07f',
     messagingSenderId: '81702788718',
     projectId: 'sparta-monitoramento',
+    authDomain: 'sparta-monitoramento.firebaseapp.com',
     storageBucket: 'sparta-monitoramento.appspot.com',
+    measurementId: 'G-0RFM90X2NT',
   );
 
   static const FirebaseOptions android = FirebaseOptions(

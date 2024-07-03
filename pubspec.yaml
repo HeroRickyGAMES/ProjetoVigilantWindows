@@ -1,4 +1,4 @@
-name: sparta_monitoramento
+name: vigilant
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -108,6 +108,7 @@ flutter:
      - assets/grade 3.png
      - assets/Setting-icon.png
      - assets/camera.png
+     - assets/vigilantLogo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

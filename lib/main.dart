@@ -3,11 +3,12 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sparta_monitoramento/checkUser.dart';
-import 'package:sparta_monitoramento/firebase_options.dart';
-import 'package:sparta_monitoramento/homeApp.dart';
-import 'package:sparta_monitoramento/login/login.dart';
+import 'package:vigilant/checkUser.dart';
+import 'package:vigilant/firebase_options.dart';
+import 'package:vigilant/homeApp.dart';
+import 'package:vigilant/login/login.dart';
 
 //Desenvolvido por HeroRickyGames
 

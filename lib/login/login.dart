@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sparta_monitoramento/cadastro/cadastro.dart';
-import 'package:sparta_monitoramento/homeApp.dart';
+import 'package:vigilant/cadastro/cadastro.dart';
+import 'package:vigilant/homeApp.dart';
 
 //Desenvolvido por HeroRickyGames
 
@@ -141,12 +141,12 @@ class _loginState extends State<login> {
                 }
               },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurpleAccent
+                      backgroundColor: colorBtn
                   ),
-                  child: const Text(
+                  child: Text(
                     'Logar',
                     style: TextStyle(
-                        color: Colors.white
+                        color: textColor
                     ),
                   )
               ),

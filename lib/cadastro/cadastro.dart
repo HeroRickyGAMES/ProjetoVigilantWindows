@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:sparta_monitoramento/getIds.dart';
-import 'package:sparta_monitoramento/homeApp.dart';
+import 'package:vigilant/getIds.dart';
+import 'package:vigilant/homeApp.dart';
 
 //Desenvolvido por HeroRickyGames
 
@@ -193,8 +193,15 @@ class _CadastreseState extends State<Cadastrese>{
                   }
                 }
               }
-            },
-                child: const Text('Cadastrar-se')
+            },style: ElevatedButton.styleFrom(
+                backgroundColor: colorBtn
+            ),
+                child: Text(
+                    'Cadastrar-se',
+                  style: TextStyle(
+                    color: textColor
+                  ),
+                )
             )
           ],
         ),

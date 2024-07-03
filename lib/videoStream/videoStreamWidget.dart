@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sparta_monitoramento/videoStream/VideoStreamAlert.dart';
-import 'package:sparta_monitoramento/videoStream/videoStream.dart';
+import 'package:vigilant/videoStream/VideoStreamAlert.dart';
+import 'package:vigilant/videoStream/videoStream.dart';
+
+//Desenvolvido por HeroRickyGames
 
 class VideoStreamWidget extends StatefulWidget {
   String ip = "";
