@@ -239,87 +239,89 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
-                              width: widget.wid / 2,
-                              height: 500,
-                              child: GridView.count(
-                                childAspectRatio: 1.8,
-                                crossAxisCount: colunasIPCamera,
-                                children: [
-                                  InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          CFTV = 1;
-                                        });
-                                      },
-                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera1)
-                                  ),
-                                  InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          CFTV = 2;
-                                        });
-                                      },
-                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera2)
-                                  ),
-                                  InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          CFTV = 3;
-                                        });
-                                      },
-                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera3)
-                                  ),
-                                  InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          CFTV = 4;
-                                        });
-                                      },
-                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera4)
-                                  ),
-                                  InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          CFTV = 5;
-                                        });
-                                      },
-                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera5)
-                                  ),
-                                  InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          CFTV = 6;
-                                        });
-                                      },
-                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera6)
-                                  ),
-                                  InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          CFTV = 7;
-                                        });
-                                      },
-                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera7)
-                                  ),
-                                  InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          CFTV = 8;
-                                        });
-                                      },
-                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera8)
-                                  ),
-                                  InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          CFTV = 9;
-                                        });
-                                      },
-                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera9)
-                                  ),
-                                ],
-                              )
+                          Center(
+                            child: SizedBox(
+                                width: widget.wid / 2,
+                                height: 500,
+                                child: GridView.count(
+                                  childAspectRatio: 1.8,
+                                  crossAxisCount: colunasIPCamera,
+                                  children: [
+                                    InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            CFTV = 1;
+                                          });
+                                        },
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera1)
+                                    ),
+                                    InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            CFTV = 2;
+                                          });
+                                        },
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera2)
+                                    ),
+                                    InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            CFTV = 3;
+                                          });
+                                        },
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera3)
+                                    ),
+                                    InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            CFTV = 4;
+                                          });
+                                        },
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera4)
+                                    ),
+                                    InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            CFTV = 5;
+                                          });
+                                        },
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera5)
+                                    ),
+                                    InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            CFTV = 6;
+                                          });
+                                        },
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera6)
+                                    ),
+                                    InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            CFTV = 7;
+                                          });
+                                        },
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera7)
+                                    ),
+                                    InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            CFTV = 8;
+                                          });
+                                        },
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera8)
+                                    ),
+                                    InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            CFTV = 9;
+                                          });
+                                        },
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera9)
+                                    ),
+                                  ],
+                                )
+                            ),
                           ),
                         ],
                       ),

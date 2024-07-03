@@ -85,6 +85,7 @@ var dropValue = ValueNotifier('');
 Color colorBtn = Colors.blue;
 Color corDasBarras = Colors.transparent;
 Color textColor = Colors.white;
+Color textColorDrop = Colors.black;
 
 //Listas
 List ModelosAcionamentos = [
@@ -373,7 +374,7 @@ class _homeAppState extends State<homeApp>{
                                                                             hint: Text(
                                                                               'Selecione o modelo',
                                                                               style: TextStyle(
-                                                                                  color: textColor
+                                                                                  color: textColorDrop
                                                                               ),
                                                                             ),
                                                                             value: (value.isEmpty)? null : value,
@@ -389,7 +390,7 @@ class _homeAppState extends State<homeApp>{
                                                                               Text(
                                                                                 opcao,
                                                                                 style: TextStyle(
-                                                                                    color: textColor
+                                                                                    color: textColorDrop
                                                                                 ),
                                                                               ),
                                                                             ),
@@ -1137,7 +1138,6 @@ class _homeAppState extends State<homeApp>{
                           width: wid / 2,
                           height: heig,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               //CFTV AQUI!
                               VideoStreamWidget(
@@ -1145,7 +1145,7 @@ class _homeAppState extends State<homeApp>{
                               ),
                               Container(
                                 width: wid / 2,
-                                height: heig / 3,
+                                height: heig / 2.9,
                                 child: SingleChildScrollView(
                                   child: Column(
                                     children: [
@@ -1441,7 +1441,7 @@ class _homeAppState extends State<homeApp>{
                                                                                   hint: Text(
                                                                                     'Selecione o modelo',
                                                                                     style: TextStyle(
-                                                                                        color: textColor
+                                                                                        color: textColorDrop
                                                                                     ),
                                                                                   ),
                                                                                   value: (value.isEmpty)? null : value,
@@ -1457,7 +1457,7 @@ class _homeAppState extends State<homeApp>{
                                                                                     Text(
                                                                                       opcao,
                                                                                       style: TextStyle(
-                                                                                          color: textColor
+                                                                                          color: textColorDrop
                                                                                       ),
                                                                                     ),
                                                                                   ),
@@ -2927,10 +2927,10 @@ class _homeAppState extends State<homeApp>{
                                                                 Center(
                                                                   child: ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
                                                                     return DropdownButton(
-                                                                      hint: const Text(
+                                                                      hint: Text(
                                                                         'Permanência',
                                                                         style: TextStyle(
-                                                                            color: Colors.white
+                                                                            color: textColorDrop
                                                                         ),
                                                                       ),
                                                                       value: (value.isEmpty)? null : value,
@@ -2945,8 +2945,8 @@ class _homeAppState extends State<homeApp>{
                                                                         child:
                                                                         Text(
                                                                           opcao,
-                                                                          style: const TextStyle(
-                                                                              color: Colors.white
+                                                                          style: TextStyle(
+                                                                              color: textColorDrop
                                                                           ),
                                                                         ),
                                                                       ),
@@ -3404,10 +3404,10 @@ class _homeAppState extends State<homeApp>{
                                                                       Center(
                                                                         child: ValueListenableBuilder(valueListenable: dropValue, builder: (context, String value, _){
                                                                           return DropdownButton(
-                                                                            hint: const Text(
+                                                                            hint: Text(
                                                                               'Selecione a cor',
                                                                               style: TextStyle(
-                                                                                  color: Colors.white
+                                                                                  color: textColorDrop
                                                                               ),
                                                                             ),
                                                                             value: (value.isEmpty)? null : value,
@@ -3422,8 +3422,8 @@ class _homeAppState extends State<homeApp>{
                                                                               child:
                                                                               Text(
                                                                                 opcao,
-                                                                                style: const TextStyle(
-                                                                                    color: Colors.white
+                                                                                style: TextStyle(
+                                                                                    color: textColorDrop
                                                                                 ),
                                                                               ),
                                                                             ),
