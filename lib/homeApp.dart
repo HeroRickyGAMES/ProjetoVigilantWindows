@@ -446,9 +446,6 @@ class _homeAppState extends State<homeApp>{
                                 Container(
                                   width: wid / 4,
                                   height: heig / 1.5,
-                                  decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                  ),
                                   child: Stack(
                                       children: [
                                         Center(
@@ -488,102 +485,112 @@ class _homeAppState extends State<homeApp>{
                                                         });
                                                       }
                                                     },
-                                                    decoration: const InputDecoration(
-                                                      border: OutlineInputBorder(),
-                                                      enabledBorder: OutlineInputBorder(
+                                                    decoration: InputDecoration(
+                                                      border: const OutlineInputBorder(),
+                                                      enabledBorder: const OutlineInputBorder(
                                                         borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
                                                       ),
-                                                      focusedBorder: OutlineInputBorder(
+                                                      focusedBorder: const OutlineInputBorder(
                                                         borderSide: BorderSide(
                                                             width: 3,
                                                             color: Colors.black
                                                         ),
                                                       ),
-                                                      label: Text('Pesquisar (Codigo de Cadastro ou Nome)'),
+                                                      label: Center(
+                                                          child: Image.asset(
+                                                              "assets/search.png",
+                                                            scale: 12,
+                                                          ),
+                                                        ),
                                                     ),
                                                   ),
                                                 ),
-                                                StreamBuilder(
-                                                  stream: pesquisando == true ?
-                                                  pesquisaNumeros == false ? FirebaseFirestore.instance
-                                                      .collection("Condominios")
-                                                      .where("IDEmpresaPertence", isEqualTo: UID)
-                                                      .where("Nome", isGreaterThanOrEqualTo: pesquisa)
-                                                      .where("Nome", isLessThan: "${pesquisa}z")
-                                                      .snapshots()
-                                                      :
-                                                  FirebaseFirestore.instance
-                                                      .collection("Condominios")
-                                                      .where("IDEmpresaPertence", isEqualTo: UID)
-                                                      .where("Codigo", isGreaterThanOrEqualTo: pesquisa)
-                                                      .where("Codigo", isLessThan: "${pesquisa}9")
-                                                      .snapshots()
-                                                      :
-                                                  FirebaseFirestore.instance
-                                                      .collection("Condominios")
-                                                      .where("IDEmpresaPertence", isEqualTo: UID)
-                                                      .snapshots(),
-                                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-                                            
-                                                    if (!snapshot.hasData) {
-                                                      return const Center(
-                                                        child: CircularProgressIndicator(),
-                                                      );
-                                                    }
-                                            
-                                                    return Container(
-                                                      width: double.infinity,
-                                                      height: heig / 1.7,
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                          color: Colors.black,
-                                                          width: 1.0,
+                                                Container(
+                                                  decoration: const BoxDecoration(
+                                                    color: Colors.white,
+                                                  ),
+                                                  child: StreamBuilder(
+                                                    stream: pesquisando == true ?
+                                                    pesquisaNumeros == false ? FirebaseFirestore.instance
+                                                        .collection("Condominios")
+                                                        .where("IDEmpresaPertence", isEqualTo: UID)
+                                                        .where("Nome", isGreaterThanOrEqualTo: pesquisa)
+                                                        .where("Nome", isLessThan: "${pesquisa}z")
+                                                        .snapshots()
+                                                        :
+                                                    FirebaseFirestore.instance
+                                                        .collection("Condominios")
+                                                        .where("IDEmpresaPertence", isEqualTo: UID)
+                                                        .where("Codigo", isGreaterThanOrEqualTo: pesquisa)
+                                                        .where("Codigo", isLessThan: "${pesquisa}9")
+                                                        .snapshots()
+                                                        :
+                                                    FirebaseFirestore.instance
+                                                        .collection("Condominios")
+                                                        .where("IDEmpresaPertence", isEqualTo: UID)
+                                                        .snapshots(),
+                                                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+
+                                                      if (!snapshot.hasData) {
+                                                        return const Center(
+                                                          child: CircularProgressIndicator(),
+                                                        );
+                                                      }
+
+                                                      return Container(
+                                                        width: double.infinity,
+                                                        height: heig / 1.7,
+                                                        decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                            color: Colors.black,
+                                                            width: 1.0,
+                                                          ),
+                                                          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                                                         ),
-                                                        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                                                      ),
-                                                      child: ListView(
-                                                        children: snapshot.data!.docs.map((documents){
-                                                          return InkWell(
-                                                            onTap: (){
-                                                              setState(() {
-                                                                ip = documents["IpCamera"];
-                                                                user = documents["UserAccess"];
-                                                                pass = documents["PassAccess"];
-                                                                porta = documents["PortaCameras"];
-                                                                idCondominio = documents["idCondominio"];
-                                                                anotacao = documents["Aviso"];
-                                                              });
-                                                            },
-                                                            child: Container(
-                                                              padding: const EdgeInsets.all(16),
-                                                              child: SizedBox(
-                                                                width: double.infinity,
-                                                                height: 50,
-                                                                child: Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                  children: [
-                                                                    Text("${documents["Codigo"]} ${documents['Nome']}"),
-                                                                    IconButton(onPressed: (){
-                                                                      setState(() {
-                                                                        anotacao = documents["Aviso"];
-                                                                        idCondominioAnt = documents["idCondominio"];
-                                                                        anotacaoControl.text = anotacao;
-                                                                      });
-                                                                    },
-                                                                        icon: Icon(
-                                                                            color: documents["Aviso"] == "" ? Colors.red : Colors.green,
-                                                                            Icons.edit_note
-                                                                        )
-                                                                    )
-                                                                  ],
+                                                        child: ListView(
+                                                          children: snapshot.data!.docs.map((documents){
+                                                            return InkWell(
+                                                              onTap: (){
+                                                                setState(() {
+                                                                  ip = documents["IpCamera"];
+                                                                  user = documents["UserAccess"];
+                                                                  pass = documents["PassAccess"];
+                                                                  porta = documents["PortaCameras"];
+                                                                  idCondominio = documents["idCondominio"];
+                                                                  anotacao = documents["Aviso"];
+                                                                });
+                                                              },
+                                                              child: Container(
+                                                                padding: const EdgeInsets.all(16),
+                                                                child: SizedBox(
+                                                                  width: double.infinity,
+                                                                  height: 50,
+                                                                  child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                    children: [
+                                                                      Text("${documents["Codigo"]} ${documents['Nome']}"),
+                                                                      IconButton(onPressed: (){
+                                                                        setState(() {
+                                                                          anotacao = documents["Aviso"];
+                                                                          idCondominioAnt = documents["idCondominio"];
+                                                                          anotacaoControl.text = anotacao;
+                                                                        });
+                                                                      },
+                                                                          icon: Icon(
+                                                                              color: documents["Aviso"] == "" ? Colors.red : Colors.green,
+                                                                              Icons.edit_note
+                                                                          )
+                                                                      )
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                          );
-                                                        }).toList(),
-                                                      ),
-                                                    );
-                                                  },
+                                                            );
+                                                          }).toList(),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -1066,66 +1073,57 @@ class _homeAppState extends State<homeApp>{
                                     child: SingleChildScrollView(
                                       child: Container(
                                         padding: const EdgeInsets.all(0),
-                                        child: Column(
-                                          children: [
-                                            AppBar(
-                                              backgroundColor: corDasBarras,
-                                              centerTitle: true,
-                                              title: const Icon(Icons.note_add_outlined),
-                                            ),
-                                            Center(
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    padding: const EdgeInsets.all(16),
-                                                    child: TextField(
-                                                      controller: anotacaoControl,
-                                                      keyboardType: TextInputType.multiline,
-                                                      enableSuggestions: true,
-                                                      autocorrect: true,
-                                                      minLines: 5,
-                                                      maxLines: null,
-                                                      onChanged: (value){
-                                                        anotacao = value;
-                                                      },
-                                                      decoration: const InputDecoration(
-                                                        border: OutlineInputBorder(),
-                                                        enabledBorder: OutlineInputBorder(
-                                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
-                                                        ),
-                                                        focusedBorder: OutlineInputBorder(
-                                                          borderSide: BorderSide(
-                                                              width: 3,
-                                                              color: Colors.black
-                                                          ),
-                                                        ),
-                                                        labelText: "Anotações sobre o condominio",
+                                        child: Center(
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                padding: const EdgeInsets.all(16),
+                                                child: TextField(
+                                                  controller: anotacaoControl,
+                                                  keyboardType: TextInputType.multiline,
+                                                  enableSuggestions: true,
+                                                  autocorrect: true,
+                                                  minLines: 5,
+                                                  maxLines: null,
+                                                  onChanged: (value){
+                                                    anotacao = value;
+                                                  },
+                                                  decoration: const InputDecoration(
+                                                    border: OutlineInputBorder(),
+                                                    enabledBorder: OutlineInputBorder(
+                                                      borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                    ),
+                                                    focusedBorder: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          width: 3,
+                                                          color: Colors.black
                                                       ),
                                                     ),
+                                                    labelText: "Anotações sobre o condominio",
                                                   ),
-                                                  Container(
-                                                    alignment: Alignment.bottomRight,
-                                                    child: editarAnotacao == false ?
-                                                    Container():
-                                                    FloatingActionButton(
-                                                        onPressed:idCondominioAnt == "" ? null : (){
-                                                          FirebaseFirestore.instance.collection('Condominios').doc(idCondominioAnt).update({
-                                                            "Aviso": anotacao,
-                                                          }).whenComplete(() {
-                                                            showToast("Anotação salva com sucesso!",context:context);
-                                                          });
-                                                        },
-                                                        backgroundColor: Colors.blue,
-                                                        child: Icon(
-                                                            Icons.done,
-                                                            color: textColor
-                                                        )
-                                                    ),
-                                                  ),
-                                                ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                              Container(
+                                                alignment: Alignment.bottomRight,
+                                                child: editarAnotacao == false ?
+                                                Container():
+                                                FloatingActionButton(
+                                                    onPressed:idCondominioAnt == "" ? null : (){
+                                                      FirebaseFirestore.instance.collection('Condominios').doc(idCondominioAnt).update({
+                                                        "Aviso": anotacao,
+                                                      }).whenComplete(() {
+                                                        showToast("Anotação salva com sucesso!",context:context);
+                                                      });
+                                                    },
+                                                    backgroundColor: Colors.blue,
+                                                    child: Icon(
+                                                        Icons.done,
+                                                        color: textColor
+                                                    )
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -1810,18 +1808,23 @@ class _homeAppState extends State<homeApp>{
                                                   }
                                                 }
                                               },
-                                              decoration: const InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                enabledBorder: OutlineInputBorder(
+                                              decoration: InputDecoration(
+                                                border: const OutlineInputBorder(),
+                                                enabledBorder: const OutlineInputBorder(
                                                   borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
                                                 ),
-                                                focusedBorder: OutlineInputBorder(
+                                                focusedBorder: const OutlineInputBorder(
                                                   borderSide: BorderSide(
                                                       width: 3,
                                                       color: Colors.black
                                                   ),
                                                 ),
-                                                label: Text('Pesquisar (CPF)'),
+                                                label: Center(
+                                                          child: Image.asset(
+                                                              "assets/search.png",
+                                                            scale: 12,
+                                                          ),
+                                                        ),
                                               ),
                                             ),
                                           ),
@@ -2432,7 +2435,7 @@ class _homeAppState extends State<homeApp>{
                                 child: SingleChildScrollView(
                                   child: Stack(
                                     children: [
-                                      Column(
+                                      idCondominio == "" ? const Center(child: Text('Selecione um cliente!')): Column(
                                         children: [
                                           Center(
                                             child: Container(
@@ -2456,18 +2459,23 @@ class _homeAppState extends State<homeApp>{
                                                     });
                                                   }
                                                 },
-                                                decoration: const InputDecoration(
-                                                  border: OutlineInputBorder(),
-                                                  enabledBorder: OutlineInputBorder(
+                                                decoration: InputDecoration(
+                                                  border: const OutlineInputBorder(),
+                                                  enabledBorder: const OutlineInputBorder(
                                                     borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
                                                   ),
-                                                  focusedBorder: OutlineInputBorder(
+                                                  focusedBorder: const OutlineInputBorder(
                                                     borderSide: BorderSide(
                                                         width: 3,
                                                         color: Colors.black
                                                     ),
                                                   ),
-                                                  label: Text('Pesquisar (Nome)'),
+                                                  label: Center(
+                                                          child: Image.asset(
+                                                              "assets/search.png",
+                                                            scale: 12,
+                                                          ),
+                                                        ),
                                                 ),
                                               ),
                                             ),
@@ -3111,7 +3119,7 @@ class _homeAppState extends State<homeApp>{
                                       child: SingleChildScrollView(
                                         child: Stack(
                                           children: [
-                                            Column(
+                                            idCondominio == "" ? const Center(child: Text('Selecione um cliente!')): Column(
                                               children: [
                                                 Center(
                                                   child: Container(
@@ -3135,18 +3143,23 @@ class _homeAppState extends State<homeApp>{
                                                           });
                                                         }
                                                       },
-                                                      decoration: const InputDecoration(
-                                                        border: OutlineInputBorder(),
-                                                        enabledBorder: OutlineInputBorder(
-                                                          borderSide: BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
+                                                      decoration: InputDecoration(
+                                                        border: const OutlineInputBorder(),
+                                                        enabledBorder: const OutlineInputBorder(
+                                                          borderSide: const BorderSide(width: 3, color: Colors.grey), //<-- SEE HERE
                                                         ),
-                                                        focusedBorder: OutlineInputBorder(
+                                                        focusedBorder: const OutlineInputBorder(
                                                           borderSide: BorderSide(
                                                               width: 3,
                                                               color: Colors.black
                                                           ),
                                                         ),
-                                                        label: Text('Pesquisar (Unidade)'),
+                                                        label: Center(
+                                                          child: Image.asset(
+                                                              "assets/search.png",
+                                                            scale: 12,
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
