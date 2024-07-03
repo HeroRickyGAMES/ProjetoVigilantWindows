@@ -1138,6 +1138,7 @@ class _homeAppState extends State<homeApp>{
                           width: wid / 2,
                           height: heig,
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               //CFTV AQUI!
                               VideoStreamWidget(
