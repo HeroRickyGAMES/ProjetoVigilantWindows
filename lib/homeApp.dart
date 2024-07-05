@@ -1789,7 +1789,7 @@ class _homeAppState extends State<homeApp>{
                                           padding: const EdgeInsets.all(16),
                                           child: Image.asset(
                                               "assets/vigilantLogo.png",
-                                              scale: 5
+                                              scale: 6
                                           ),
                                         ),
                                         Center(
@@ -2073,7 +2073,7 @@ class _homeAppState extends State<homeApp>{
                                           padding: const EdgeInsets.all(16),
                                           child: Image.asset(
                                               "assets/vigilantLogo.png",
-                                              scale: 5
+                                              scale: 6
                                           ),
                                         ),
                                         Center(
