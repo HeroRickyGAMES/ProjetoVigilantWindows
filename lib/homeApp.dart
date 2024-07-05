@@ -7,6 +7,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:native_context_menu_ng/native_context_menu_widget.dart';
+import 'package:native_context_menu_ng/native_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
 import 'package:vigilant/getIds.dart';
@@ -107,6 +109,19 @@ class homeApp extends StatefulWidget {
 
   @override
   State<homeApp> createState() => _homeAppState();
+}
+
+Future<NativeMenu> initMenuCondominio() async {
+  //It has no action if it has submenu.
+  NativeMenuItem itemNew = NativeMenuItem.simple(title: "Editar informações do condominio", action: "editCondominio");
+  //image from local path
+  //please note that the local path icon has limitations within the app sandbox.
+  String iconPath;
+  NativeMenu menu = NativeMenu();
+  menu.addItem(itemNew);
+  menu.addItem(NativeMenuItem.simple(title: "Adicionar acesso para outros usuarios", action: "adicionar_usuarios"));
+  menu.addItem(NativeMenuItem.simple(title: "Deletar cliente", action: "remover_condominio"));
+  return menu;
 }
 
 class _homeAppState extends State<homeApp>{
@@ -1202,40 +1217,94 @@ class _homeAppState extends State<homeApp>{
                                                         height: heig / 1.7,
                                                         child: ListView(
                                                           children: snapshot.data!.docs.map((documents){
-                                                            return InkWell(
-                                                              onTap: (){
-                                                                setState(() {
-                                                                  ip = documents["IpCamera"];
-                                                                  user = documents["UserAccess"];
-                                                                  pass = documents["PassAccess"];
-                                                                  porta = documents["PortaCameras"];
-                                                                  idCondominio = documents["idCondominio"];
-                                                                  anotacao = documents["Aviso"];
-                                                                });
-                                                              },
-                                                              child: Container(
-                                                                padding: const EdgeInsets.all(16),
-                                                                child: Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                            return Container(
+                                                              width: wid / 4,
+                                                              height: 70,
+                                                              decoration: BoxDecoration(
+                                                                border: Border.all(
+                                                                  color: Colors.black,
+                                                                  width: 1.0,
+                                                                ),
+                                                                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                                              ),
+                                                              child: InkWell(
+                                                                onTap: (){
+                                                                  setState(() {
+                                                                    ip = documents["IpCamera"];
+                                                                    user = documents["UserAccess"];
+                                                                    pass = documents["PassAccess"];
+                                                                    porta = documents["PortaCameras"];
+                                                                    idCondominio = documents["idCondominio"];
+                                                                    anotacao = documents["Aviso"];
+                                                                  });
+                                                                },
+                                                                child: Stack(
                                                                   children: [
-                                                                    Text(
-                                                                        "${documents["Codigo"]} ${documents['Nome']}",
-                                                                      style: TextStyle(
-                                                                        color: textColorWidgets
+                                                                    FutureBuilder<NativeMenu>(
+                                                                      future: initMenuCondominio(),
+                                                                      builder: (BuildContext context, AsyncSnapshot<NativeMenu> snapshot){
+
+                                                                        if (!snapshot.hasData) {
+                                                                          return const Center(
+                                                                            child: CircularProgressIndicator(),
+                                                                          );
+                                                                        }
+
+                                                                        return Container(
+                                                                          width: wid / 4,
+                                                                          child: NativeContextMenuWidget(
+                                                                            actionCallback: (action) {
+                                                                              if(action == "editCondominio"){
+                                                                                //TODO abrir uma janela para edição das informações do condominio!
+                                                                              }
+                                                                              if(action == "adicionar_usuarios"){
+                                                                                  //TODO adicionar ou remover usuarios atravez de uma lista interna
+                                                                              }
+                                                                              if(action == "remover_condominio"){
+                                                                                FirebaseFirestore.instance.collection("Condominios").doc(documents["idCondominio"]).delete().whenComplete((){
+                                                                                  showToast("Cliente deletado!",context:context);
+                                                                                });
+                                                                              }
+                                                                            },
+                                                                            menu: snapshot.requireData,
+                                                                            otherCallback: (method) {
+                                                                            },
+                                                                            child: Container(child: Text(
+                                                                                "abc",
+                                                                              style: TextStyle(
+                                                                                color: Colors.transparent
+                                                                              ),
+                                                                            )),
+                                                                          ),
+                                                                        );
+                                                                      },
+                                                                    ),
+                                                                    Container(
+                                                                      padding: const EdgeInsets.all(16),
+                                                                      child: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          Text(
+                                                                              "${documents["Codigo"]} ${documents['Nome']}",
+                                                                            style: TextStyle(
+                                                                              color: textColorWidgets
+                                                                            ),
+                                                                          ),
+                                                                          IconButton(onPressed: (){
+                                                                            setState(() {
+                                                                              anotacao = documents["Aviso"];
+                                                                              idCondominioAnt = documents["idCondominio"];
+                                                                              anotacaoControlCondominio.text = anotacao;
+                                                                            });
+                                                                          },
+                                                                              icon: Icon(
+                                                                                  color: documents["Aviso"] == "" ? Colors.red : Colors.green,
+                                                                                  Icons.edit_note
+                                                                              )
+                                                                          )
+                                                                        ],
                                                                       ),
                                                                     ),
-                                                                    IconButton(onPressed: (){
-                                                                      setState(() {
-                                                                        anotacao = documents["Aviso"];
-                                                                        idCondominioAnt = documents["idCondominio"];
-                                                                        anotacaoControlCondominio.text = anotacao;
-                                                                      });
-                                                                    },
-                                                                        icon: Icon(
-                                                                            color: documents["Aviso"] == "" ? Colors.red : Colors.green,
-                                                                            Icons.edit_note
-                                                                        )
-                                                                    )
                                                                   ],
                                                                 ),
                                                               ),

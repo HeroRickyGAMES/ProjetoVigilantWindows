@@ -718,6 +718,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  native_context_menu_ng:
+    dependency: "direct main"
+    description:
+      name: native_context_menu_ng
+      sha256: "974ef802646fbd7e7890ca36428fec8f7bffd9ac45da11f47f8aaec2c95cc134"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   nested:
     dependency: transitive
     description:
