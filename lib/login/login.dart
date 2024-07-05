@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vigilant/cadastro/cadastro.dart';
+import 'package:vigilant/getIds.dart';
 import 'package:vigilant/homeApp.dart';
 
 //Desenvolvido por HeroRickyGames
@@ -21,6 +22,10 @@ class login extends StatefulWidget {
 class _loginState extends State<login> {
 
   irParaTelaMain(){
+    setState(() {
+      UID = FirebaseAuth.instance.currentUser?.uid;
+      deslogando = false;
+    });
     Navigator.pop(context);
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context){
@@ -37,6 +42,7 @@ class _loginState extends State<login> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset("assets/vigilantLogo.png"),
             Center(
               child: Container(
                 padding: const EdgeInsets.all(16),
@@ -151,22 +157,6 @@ class _loginState extends State<login> {
                   )
               ),
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Você ainda não tem uma conta? '),
-                  TextButton(onPressed: (){
-                    Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context){
-                            return const Cadastrese();
-                          }
-                        )
-                    );
-                  }, child: const Text('Crie uma agora!')
-                )
-              ],
-            )
           ],
         ),
       ),
