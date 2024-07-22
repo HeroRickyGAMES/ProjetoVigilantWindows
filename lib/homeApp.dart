@@ -49,6 +49,7 @@ String pesquisa7 = '';
 String pesquisa8 = '';
 String pesquisa9 = '';
 String pesquisa10 = '';
+
 //Controladores
 TextEditingController anotacaoControl = TextEditingController(text: anotacaoMorador);
 TextEditingController anotacaoControlCondominio = TextEditingController(text: anotacao);
@@ -1910,7 +1911,7 @@ class _homeAppState extends State<homeApp>{
                             children: [
                               //CFTV AQUI!
                               VideoStreamWidget(
-                                  ip, porta!, user, pass, corDasBarras, wid, heig
+                                  ip, porta, user, pass, corDasBarras, wid, heig
                               ),
                               SizedBox(
                                 width: wid / 2,
