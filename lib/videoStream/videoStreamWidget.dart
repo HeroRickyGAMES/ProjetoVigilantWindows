@@ -14,7 +14,17 @@ class VideoStreamWidget extends StatefulWidget {
   Color corDasBarras;
   double wid;
   double heig;
-  VideoStreamWidget(this.ip, this.porta, this.user, this.pass, this.corDasBarras, this.wid, this.heig, {super.key});
+  int? camera1;
+  int? camera2;
+  int? camera3;
+  int? camera4;
+  int? camera5;
+  int? camera6;
+  int? camera7;
+  int? camera8;
+  int? camera9;
+  VideoStreamWidget(this.ip, this.porta, this.user, this.pass, this.corDasBarras, this.wid, this.heig, this.camera1, this.camera2, this.camera3, this.camera4, this.camera5,
+      this.camera6, this.camera7, this.camera8, this.camera9, {super.key});
 
   @override
   State<VideoStreamWidget> createState() => _VideoStreamWidgetState();
@@ -23,15 +33,6 @@ class VideoStreamWidget extends StatefulWidget {
 //Inteiros
 int colunasIPCamera = 3;
 int CFTV = 0;
-int camera1 = 1;
-int camera2 = 2;
-int camera3 = 3;
-int camera4 = 4;
-int camera5 = 5;
-int camera6 = 6;
-int camera7 = 7;
-int camera8 = 8;
-int camera9 = 9;
 
 //DropDownValues
 var dropValue1 = ValueNotifier('');
@@ -123,22 +124,26 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
   getIpCameraFromSettings(int numeroCameraSelect1, int numeroCameraSelect2, int numeroCameraSelect3,
   int numeroCameraSelect4, int numeroCameraSelect5, int numeroCameraSelect6, int numeroCameraSelect7,
       int numeroCameraSelect8, int numeroCameraSelect9) async {
-    await Future.delayed(const Duration(seconds: 1));
-    var getIpCameraSettings = await FirebaseFirestore.instance
-        .collection("Condominios")
-        .doc(idCondominio).get();
-
-    setState(() {
-      camera1 = getIpCameraSettings["ipCamera$numeroCameraSelect1"];
-      camera2 = getIpCameraSettings["ipCamera$numeroCameraSelect2"];
-      camera3 = getIpCameraSettings["ipCamera$numeroCameraSelect3"];
-      camera4 = getIpCameraSettings["ipCamera$numeroCameraSelect4"];
-      camera5 = getIpCameraSettings["ipCamera$numeroCameraSelect5"];
-      camera6 = getIpCameraSettings["ipCamera$numeroCameraSelect6"];
-      camera7 = getIpCameraSettings["ipCamera$numeroCameraSelect7"];
-      camera8 = getIpCameraSettings["ipCamera$numeroCameraSelect8"];
-      camera9 = getIpCameraSettings["ipCamera$numeroCameraSelect9"];
-    });
+    if(idCondominio == ""){
+    print("Entrou no loop até que o idcondominio não seja mais nulo!");
+    getIpCameraFromSettings(numeroCameraSelect1, numeroCameraSelect2, numeroCameraSelect3, numeroCameraSelect4, numeroCameraSelect5, numeroCameraSelect6, numeroCameraSelect7, numeroCameraSelect8, numeroCameraSelect9);
+    }else{
+      await Future.delayed(const Duration(seconds: 1));
+      var getIpCameraSettings = await FirebaseFirestore.instance
+          .collection("Condominios")
+          .doc(idCondominio).get();
+      setState(() {
+        widget.camera1 = getIpCameraSettings["ipCamera$numeroCameraSelect1"];
+        widget.camera2 = getIpCameraSettings["ipCamera$numeroCameraSelect2"];
+        widget.camera3 = getIpCameraSettings["ipCamera$numeroCameraSelect3"];
+        widget.camera4 = getIpCameraSettings["ipCamera$numeroCameraSelect4"];
+        widget.camera5 = getIpCameraSettings["ipCamera$numeroCameraSelect5"];
+        widget.camera6 = getIpCameraSettings["ipCamera$numeroCameraSelect6"];
+        widget.camera7 = getIpCameraSettings["ipCamera$numeroCameraSelect7"];
+        widget.camera8 = getIpCameraSettings["ipCamera$numeroCameraSelect8"];
+        widget.camera9 = getIpCameraSettings["ipCamera$numeroCameraSelect9"];
+      });
+    }
 
   }
 
@@ -187,20 +192,15 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
     });
   }
 
+  start() async {
+    if(isStarted == false){
+      getIpCameraFromSettings(1, 2, 3, 4, 5, 6, 7, 8, 9);
+      await Future.delayed(const Duration(seconds: 1));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    start() async {
-      if(isStarted == false){
-        getIpCameraFromSettings(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        await Future.delayed(const Duration(seconds: 1));
-      }
-      setState(() {
-        isStarted = true;
-      });
-    }
-
-    start();
 
     return LayoutBuilder(builder: (context, constrain){
       return SizedBox(
@@ -228,15 +228,15 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                               doisAtivo = false;
                               tresAtivo = false;
                               quatroAtivo = false;
-                              camera1 = 1;
-                              camera2 = 2;
-                              camera3 = 3;
-                              camera4 = 4;
-                              camera5 = 5;
-                              camera6 = 6;
-                              camera7 = 7;
-                              camera8 = 8;
-                              camera9 = 9;
+                              widget.camera1 = 1;
+                              widget.camera2 = 2;
+                              widget.camera3 = 3;
+                              widget.camera4 = 4;
+                              widget.camera5 = 5;
+                              widget.camera6 = 6;
+                              widget.camera7 = 7;
+                              widget.camera8 = 8;
+                              widget.camera9 = 9;
                             });
                           },
                               style: TextButton.styleFrom(
@@ -436,7 +436,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             ),
                                           ],
                                         ),
-                                        Container(
+                                        SizedBox(
                                           width: 600,
                                           height: 600,
                                           child: GridView.count(crossAxisCount: 3,
@@ -752,7 +752,32 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             "ipCamera34": int.parse(camera34Selecionada),
                                             "ipCamera35": int.parse(camera35Selecionada),
                                             "ipCamera36": int.parse(camera36Selecionada),
-                                          }).whenComplete((){
+                                          }).whenComplete(() async {
+                                            //Quando salvo ele recarrega por completo estado!
+                                            await Future.delayed(const Duration(seconds: 1));
+                                            var getIpCameraSettings = await FirebaseFirestore.instance
+                                                .collection("Condominios")
+                                                .doc(idCondominio).get();
+                                            setState((){
+                                              camera1 = getIpCameraSettings["ipCamera1"];
+                                              camera2 = getIpCameraSettings["ipCamera2"];
+                                              camera3 = getIpCameraSettings["ipCamera3"];
+                                              camera4 = getIpCameraSettings["ipCamera4"];
+                                              camera5 = getIpCameraSettings["ipCamera5"];
+                                              camera6 = getIpCameraSettings["ipCamera6"];
+                                              camera7 = getIpCameraSettings["ipCamera7"];
+                                              camera8 = getIpCameraSettings["ipCamera8"];
+                                              camera9 = getIpCameraSettings["ipCamera9"];
+                                              widget.camera1 = getIpCameraSettings["ipCamera1"];
+                                              widget.camera2 = getIpCameraSettings["ipCamera2"];
+                                              widget.camera3 = getIpCameraSettings["ipCamera3"];
+                                              widget.camera4 = getIpCameraSettings["ipCamera4"];
+                                              widget.camera5 = getIpCameraSettings["ipCamera5"];
+                                              widget.camera6 = getIpCameraSettings["ipCamera6"];
+                                              widget.camera7 = getIpCameraSettings["ipCamera7"];
+                                              widget.camera8 = getIpCameraSettings["ipCamera8"];
+                                              widget.camera9 = getIpCameraSettings["ipCamera9"];
+                                            });
                                             if(umAtivo == true){
                                               getIpCameraFromSettings(1, 2, 3, 4, 5, 6, 7, 8, 9);
                                             }
@@ -810,7 +835,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 1;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera1)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera1)
                                     ),
                                     InkWell(
                                         onTap: (){
@@ -818,7 +843,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 2;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera2)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera2)
                                     ),
                                     InkWell(
                                         onTap: (){
@@ -826,7 +851,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 3;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera3)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera3)
                                     ),
                                     InkWell(
                                         onTap: (){
@@ -834,7 +859,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 4;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera4)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera4)
                                     ),
                                     InkWell(
                                         onTap: (){
@@ -842,7 +867,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 5;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera5)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera5)
                                     ),
                                     InkWell(
                                         onTap: (){
@@ -850,7 +875,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 6;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera6)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera6)
                                     ),
                                     InkWell(
                                         onTap: (){
@@ -858,7 +883,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 7;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera7)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera7)
                                     ),
                                     InkWell(
                                         onTap: (){
@@ -866,7 +891,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 8;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera8)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera8)
                                     ),
                                     InkWell(
                                         onTap: (){
@@ -874,7 +899,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 9;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, camera9)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera9)
                                     ),
                                   ],
                                 )

@@ -4,8 +4,6 @@
 
 #include "flutter/generated_plugin_registrant.h"
 
-//Desenvolvido parte pelo Flutter e parte por HeroRickyGames
-
 FlutterWindow::FlutterWindow(const flutter::DartProject& project)
     : project_(project) {}
 

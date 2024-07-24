@@ -88,6 +88,16 @@ bool deslogando = false;
 //Inteiros
 int porta = 00;
 
+int? camera1;
+int? camera2;
+int? camera3;
+int? camera4;
+int? camera5;
+int? camera6;
+int? camera7;
+int? camera8;
+int? camera9;
+
 //DropDownValues
 var dropValue = ValueNotifier('');
 
@@ -113,11 +123,7 @@ class homeApp extends StatefulWidget {
 }
 
 Future<NativeMenu> initMenuCondominio() async {
-  //It has no action if it has submenu.
   NativeMenuItem itemNew = NativeMenuItem.simple(title: "Editar informações do condominio", action: "editCondominio");
-  //image from local path
-  //please note that the local path icon has limitations within the app sandbox.
-  String iconPath;
   NativeMenu menu = NativeMenu();
   menu.addItem(itemNew);
   menu.addItem(NativeMenuItem.simple(title: "Adicionar acesso para outros usuarios", action: "adicionar_usuarios"));
@@ -136,27 +142,31 @@ class _homeAppState extends State<homeApp>{
 
     //Pega todas as permissões do usuario
     checkarAsPermissoes() async {
-      await Future.delayed(const Duration(seconds: 3));
-      var getUserPermissions = await FirebaseFirestore.instance
-          .collection("Users")
-          .doc(UID).get();
+      try{
+        await Future.delayed(const Duration(seconds: 3));
+        var getUserPermissions = await FirebaseFirestore.instance
+            .collection("Users")
+            .doc(UID).get();
 
-      setState(() {
-        AdicionarCondominios = getUserPermissions['AdicionarCondominios'];
-        AdicionarAcionamentos = getUserPermissions['adicionaAcionamentos'];
-        adicionarRamal = getUserPermissions['adicionarRamal'];
-        adicionarUsuarios = getUserPermissions['adicionarUsuarios'];
-        adicionarMoradores = getUserPermissions['adicionarMoradores'];
-        editarAnotacao = getUserPermissions['editarAnotacao'];
-        permissaoCriarUsuarios = getUserPermissions['permissaoCriarUsuarios'];
-        adicionarVeiculo = getUserPermissions['adicionarVeiculo'];
-        adicionarVisitante = getUserPermissions['adicionarVisitante'];
-        acessoDevFunc = getUserPermissions['acessoDevFunc'];
-        EditarCFTV = getUserPermissions['editarCFTV'];
+        setState(() {
+          AdicionarCondominios = getUserPermissions['AdicionarCondominios'];
+          AdicionarAcionamentos = getUserPermissions['adicionaAcionamentos'];
+          adicionarRamal = getUserPermissions['adicionarRamal'];
+          adicionarUsuarios = getUserPermissions['adicionarUsuarios'];
+          adicionarMoradores = getUserPermissions['adicionarMoradores'];
+          editarAnotacao = getUserPermissions['editarAnotacao'];
+          permissaoCriarUsuarios = getUserPermissions['permissaoCriarUsuarios'];
+          adicionarVeiculo = getUserPermissions['adicionarVeiculo'];
+          adicionarVisitante = getUserPermissions['adicionarVisitante'];
+          acessoDevFunc = getUserPermissions['acessoDevFunc'];
+          EditarCFTV = getUserPermissions['editarCFTV'];
 
-        //Setar a inicialização
-        inicializado = true;
-      });
+          //Setar a inicialização
+          inicializado = true;
+        });
+      }catch(e){
+        checkarAsPermissoes();
+      }
     }
 
     if(deslogando == false){
@@ -1229,7 +1239,7 @@ class _homeAppState extends State<homeApp>{
                                                                 borderRadius: const BorderRadius.all(Radius.circular(20)),
                                                               ),
                                                               child: InkWell(
-                                                                onTap: (){
+                                                                onTap: () async {
                                                                   setState(() {
                                                                     ip = documents["IpCamera"];
                                                                     user = documents["UserAccess"];
@@ -1237,6 +1247,23 @@ class _homeAppState extends State<homeApp>{
                                                                     porta = documents["PortaCameras"];
                                                                     idCondominio = documents["idCondominio"];
                                                                     anotacao = documents["Aviso"];
+                                                                  });
+                                                                  await Future.delayed(const Duration(seconds: 1));
+                                                                  var getIpCameraSettings = await FirebaseFirestore.instance
+                                                                      .collection("Condominios")
+                                                                      .doc(idCondominio).get();
+                                                                  await Future.delayed(const Duration(seconds: 2));
+                                                                  setState(() {
+                                                                    camera1 = getIpCameraSettings["ipCamera1"];
+                                                                    camera2 = getIpCameraSettings["ipCamera2"];
+                                                                    camera3 = getIpCameraSettings["ipCamera3"];
+                                                                    camera4 = getIpCameraSettings["ipCamera4"];
+                                                                    camera5 = getIpCameraSettings["ipCamera5"];
+                                                                    camera6 = getIpCameraSettings["ipCamera6"];
+                                                                    camera7 = getIpCameraSettings["ipCamera7"];
+                                                                    camera8 = getIpCameraSettings["ipCamera8"];
+                                                                    camera9 = getIpCameraSettings["ipCamera9"];
+                                                                    isStarted = true;
                                                                   });
                                                                 },
                                                                 child: Stack(
@@ -1911,7 +1938,7 @@ class _homeAppState extends State<homeApp>{
                             children: [
                               //CFTV AQUI!
                               VideoStreamWidget(
-                                  ip, porta, user, pass, corDasBarras, wid, heig
+                                  ip, porta, user, pass, corDasBarras, wid, heig, camera1, camera2, camera3, camera4, camera5, camera6, camera7, camera8, camera9
                               ),
                               SizedBox(
                                 width: wid / 2,

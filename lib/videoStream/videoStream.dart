@@ -13,7 +13,7 @@ class videoStream extends StatefulWidget {
 
   //Inteiros
   int porta;
-  int canal;
+  int? canal;
 
   videoStream(this.user, this.password, this.ip, this.porta, this.canal, {super.key});
 
