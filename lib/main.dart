@@ -15,7 +15,10 @@ main(){
   runApp(
     MaterialApp(
       theme: ThemeData(
-        brightness: Brightness.dark
+        brightness: Brightness.dark,
+        textSelectionTheme: const TextSelectionThemeData(
+          selectionColor: Colors.blue
+        ),
       ),
       home: const mainApp(),
     )

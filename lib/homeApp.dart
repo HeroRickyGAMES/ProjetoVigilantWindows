@@ -251,11 +251,12 @@ class _homeAppState extends State<homeApp>{
                                                                 )
                                                               ],
                                                             ),
-                                                            Container(
+                                                            acessoDevFunc == true ? Container(
                                                               padding: const EdgeInsets.all(16),
                                                               child: Row(
                                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                                 children: [
+                                                                  permissaoCriarUsuarios == true ?
                                                                   ElevatedButton(
                                                                     onPressed: (){
                                                                       setStatee((){
@@ -263,7 +264,7 @@ class _homeAppState extends State<homeApp>{
                                                                       });
                                                                     },
                                                                     child: const Text("Criação de usuarios"),
-                                                                  ),
+                                                                  ): Container(),
                                                                   ElevatedButton(
                                                                     onPressed: (){
                                                                       setStatee((){
@@ -274,8 +275,8 @@ class _homeAppState extends State<homeApp>{
                                                                   ),
                                                                 ],
                                                               ),
-                                                            ),
-                                                            Center(
+                                                            ): Container(),
+                                                            permissaoCriarUsuarios == true? Center(
                                                               child: janela == 1 ?
                                                               Container(
                                                                   decoration: BoxDecoration(
@@ -358,7 +359,7 @@ class _homeAppState extends State<homeApp>{
                                                                             //Strings
                                                                             String Nome = "";
                                                                             String CPF = "";
-                                                                            String Email = "";
+                                                                            String Usrname = "";
                                                                             String Senha = "";
 
                                                                             //Booleanos
@@ -372,6 +373,7 @@ class _homeAppState extends State<homeApp>{
                                                                             bool criarNovosUsuarios = false;
                                                                             bool acessoDevFuc = false;
                                                                             bool editarAnotacao = false;
+                                                                            bool adicionarUsuarioss = false;
 
                                                                             showDialog(
                                                                               context: context,
@@ -455,7 +457,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                   autocorrect: false,
                                                                                                   onChanged: (value){
                                                                                                     setState(() {
-                                                                                                      Email = value;
+                                                                                                      Usrname = value;
                                                                                                     });
                                                                                                   },
                                                                                                   decoration: const InputDecoration(
@@ -469,7 +471,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                           color: Colors.black
                                                                                                       ),
                                                                                                     ),
-                                                                                                    labelText: 'Email',
+                                                                                                    labelText: 'Login',
                                                                                                   ),
                                                                                                 ),
                                                                                               ),
@@ -708,6 +710,27 @@ class _homeAppState extends State<homeApp>{
                                                                                                     value: acessoDevFuc ,
                                                                                                     onChanged: (bool? value){
                                                                                                       setState((){
+                                                                                                        adicionarUsuarioss = value!;
+                                                                                                      });
+                                                                                                    },
+                                                                                                  ),
+                                                                                                  const Text(
+                                                                                                      'Adicionar usuarios',
+                                                                                                      style: TextStyle(
+                                                                                                          fontSize: 16
+                                                                                                      )
+                                                                                                  ),
+                                                                                                ],
+                                                                                              ),
+                                                                                            ),
+                                                                                            Center(
+                                                                                              child: Row(
+                                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                children: [
+                                                                                                  Checkbox(
+                                                                                                    value: acessoDevFuc ,
+                                                                                                    onChanged: (bool? value){
+                                                                                                      setState((){
                                                                                                         acessoDevFuc = value!;
                                                                                                       });
                                                                                                     },
@@ -728,8 +751,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                 if(CPF == ""){
                                                                                                   showToast("O CPF está vazio!",context:context);
                                                                                                 }else{
-                                                                                                  if(Email == ""){
-                                                                                                    showToast("O Email está vazio!",context:context);
+                                                                                                  if(Usrname == ""){
+                                                                                                    showToast("O Login está vazio!",context:context);
                                                                                                   }else{
                                                                                                     if(Senha == ""){
                                                                                                       showToast("A Senha está vazia!",context:context);
@@ -737,12 +760,16 @@ class _homeAppState extends State<homeApp>{
                                                                                                       FirebaseApp app = await Firebase.initializeApp(
                                                                                                           name: 'Secondary', options: Firebase.app().options);
                                                                                                       try{
+                                                                                                        Uuid uuid = const Uuid();
+                                                                                                        String email = "${uuid.v4()}@email.com";
+
                                                                                                         UserCredential userCredential = await FirebaseAuth.instanceFor(app: app)
-                                                                                                            .createUserWithEmailAndPassword(email: Email, password: Senha);
+                                                                                                            .createUserWithEmailAndPassword(email: email, password: Senha);
 
                                                                                                         FirebaseFirestore.instance.collection("Users").doc(userCredential.user?.uid).set({
                                                                                                           "Nome": Nome,
-                                                                                                          "Email" : Email,
+                                                                                                          "username": Usrname.trim(),
+                                                                                                          "Email" : email,
                                                                                                           "Senha" : Senha,
                                                                                                           "CPF": CPF,
                                                                                                           "id": userCredential.user?.uid,
@@ -755,6 +782,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                           "adicionarVisitante": addVisitante,
                                                                                                           "editarAnotacao": editarAnotacao,
                                                                                                           "adicionarRamal": adicionarRamal,
+                                                                                                          "adicionarUsuarios": adicionarUsuarioss,
                                                                                                           "editarCFTV": editCFTV,
                                                                                                         }).whenComplete((){
                                                                                                           //Vai exibir uma ação para copiar as credenciais!
@@ -771,9 +799,9 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         Row(
                                                                                                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                                                                           children: [
-                                                                                                                            Text("Email: $Email"),
+                                                                                                                            Text("Login: ${Usrname.trim()}"),
                                                                                                                             IconButton(onPressed: (){
-                                                                                                                              FlutterClipboard.copy("Email: $Email").then(( value ) {
+                                                                                                                              FlutterClipboard.copy("Login: ${Usrname.trim()}").then(( value ) {
                                                                                                                                 showToast("Email copiado com sucesso!",context:context);
                                                                                                                               });
                                                                                                                             },
@@ -799,7 +827,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           children: [
                                                                                                                             const Text("Copiar os dois"),
                                                                                                                             IconButton(onPressed: (){
-                                                                                                                              FlutterClipboard.copy("Email: $Email \nSenha: $Senha").then(( value ) {
+                                                                                                                              FlutterClipboard.copy("Login: ${Usrname.trim()}\nSenha: $Senha").then(( value ) {
                                                                                                                                 showToast("Conteúdo copiado com sucesso!",context:context);
                                                                                                                               });
                                                                                                                             },
@@ -1061,7 +1089,7 @@ class _homeAppState extends State<homeApp>{
                                                                   ],
                                                                 ),
                                                               ): Container(),
-                                                            ),
+                                                            ): Container(),
                                                             Container(
                                                               alignment: Alignment.bottomRight,
                                                               child: ElevatedButton(
