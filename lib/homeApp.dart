@@ -109,6 +109,7 @@ Color textColor = Colors.white;
 Color textColorWidgets = Colors.black;
 Color textColorFab = Colors.white;
 Color textColorDrop = Colors.white;
+Color textColorInitBlue = Colors.white;
 
 //Listas
 List ModelosAcionamentos = [
@@ -123,11 +124,16 @@ class homeApp extends StatefulWidget {
 }
 
 Future<NativeMenu> initMenuCondominio() async {
-  NativeMenuItem itemNew = NativeMenuItem.simple(title: "Editar informações do condominio", action: "editCondominio");
+  NativeMenuItem? itemNew;
   NativeMenu menu = NativeMenu();
-  menu.addItem(itemNew);
-  menu.addItem(NativeMenuItem.simple(title: "Adicionar acesso para outros usuarios", action: "adicionar_usuarios"));
-  menu.addItem(NativeMenuItem.simple(title: "Deletar cliente", action: "remover_condominio"));
+  if(AdicionarCondominios == true){
+    itemNew = NativeMenuItem.simple(title: "Editar informações do condominio", action: "editCondominio");
+    menu.addItem(NativeMenuItem.simple(title: "Adicionar acesso para outros usuarios", action: "adicionar_usuarios"));
+    menu.addItem(NativeMenuItem.simple(title: "Deletar cliente", action: "remover_condominio"));
+    menu.addItem(itemNew);
+  }else{
+    menu.addItem(NativeMenuItem.simple(title: "", action: ""));
+  }
   return menu;
 }
 
@@ -187,7 +193,7 @@ class _homeAppState extends State<homeApp>{
               height: heig,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/FundoMetalPreto.jpg'),
+                  image: AssetImage('assets/FundoMetalPrata.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -205,1755 +211,837 @@ class _homeAppState extends State<homeApp>{
                           child: SingleChildScrollView(
                             child: Column(
                               children: [
-                                AppBar(
-                                  backgroundColor: corDasBarras,
-                                  centerTitle: true,
-                                  title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                Container(
+                                  alignment: AlignmentDirectional.centerStart,
+                                  padding: const EdgeInsets.only(right: 16),
+                                  child: Image.asset(
+                                      "assets/vigilantLogo.png",
+                                      scale: 3
+                                  ),
+                                ),
+                                Container(
+                                  decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage('assets/fundoWidgetContainerMain.png'),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    
+                                  ),
+                                  child: Column(
                                     children: [
-                                      TextButton(
-                                          onPressed: () async {
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-
-                                                //Strings da API de portas
-                                                String IP = "";
-                                                String Porta = "";
-                                                String Canal = "";
-                                                String Usuario = "";
-                                                String Senha = "";
-                                                String modeloselecionado = "Intelbras";
-
-                                                //Inteiros de gerenciamento de janela
-                                                int janela = 1;
-
-                                                //Double do tamanho da janela
-                                                double Widet = wid / 3;
-                                                double Heigt = wid / 3;
-
-                                                var dropValue4 = ValueNotifier('Intelbras');
-                          
-                                                return StatefulBuilder(builder: (BuildContext context, StateSetter setStatee){
-                                                  return Center(
-                                                    child: SingleChildScrollView(
-                                                      child: AlertDialog(
-                                                        scrollable: true,
-                                                        title: Column(
+                                      SizedBox(
+                                        width: wid / 4,
+                                        height: heig / 1.5,
+                                        child: Stack(
+                                            children: [
+                                              Center(
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      width: double.infinity,
+                                                      height: heig / 1.5,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Colors.black,
+                                                          width: 1.0,
+                                                        ),
+                                                        
+                                                      ),
+                                                      child: SingleChildScrollView(
+                                                        child: Column(
                                                           children: [
-                                                            Row(
-                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                              children: [
-                                                                const Text('Configurações Geriais'),
-                                                                IconButton(onPressed: (){
-                                                                  Navigator.pop(context);
-                                                                }, icon: const Icon(Icons.close)
-                                                                )
-                                                              ],
-                                                            ),
-                                                            acessoDevFunc == true ? Container(
-                                                              padding: const EdgeInsets.all(16),
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                children: [
-                                                                  permissaoCriarUsuarios == true ?
-                                                                  ElevatedButton(
-                                                                    onPressed: (){
-                                                                      setStatee((){
-                                                                        janela = 1;
-                                                                      });
-                                                                    },
-                                                                    child: const Text("Criação de usuarios"),
-                                                                  ): Container(),
-                                                                  ElevatedButton(
-                                                                    onPressed: (){
-                                                                      setStatee((){
-                                                                        janela = 2;
-                                                                      });
-                                                                    },
-                                                                    child: const Text("APIs de teste"),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ): Container(),
-                                                            permissaoCriarUsuarios == true? Center(
-                                                              child: janela == 1 ?
-                                                              Container(
-                                                                  decoration: BoxDecoration(
-                                                                    border: Border.all(
-                                                                      color: Colors.black,
-                                                                      width: 1.0,
-                                                                    ),
-                                                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                                                  ),
-                                                                  child: Stack(
-                                                                    children: [
-                                                                      Column(
-                                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                                        children: [
-                                                                          const Text(
-                                                                              "Criação de usuarios",
-                                                                              style: TextStyle(
-                                                                                  fontWeight: FontWeight.bold,
-                                                                                  fontSize: 16
-                                                                              )
-                                                                          ),
-                                                                          Container(
-                                                                            padding: const EdgeInsets.all(16),
-                                                                            child: const Text(
-                                                                                "Lista de Usuarios",
-                                                                                style: TextStyle(
-                                                                                    fontSize: 16
-                                                                                )
-                                                                            ),
-                                                                          ),
-                                                                            StreamBuilder(stream: FirebaseFirestore.instance
-                                                                                .collection("Users")
-                                                                                .snapshots(), builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-                                                                              if (!snapshot.hasData) {
-                                                                                return const Center(
-                                                                                  child: CircularProgressIndicator(),
-                                                                                );
-                                                                              }
-
-                                                                              return Container(
-                                                                                  width: Widet,
-                                                                                  height: Heigt,
-                                                                                decoration: BoxDecoration(
-                                                                                  border: Border.all(
-                                                                                    color: Colors.black,
-                                                                                    width: 1.0,
-                                                                                  ),
-                                                                                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                                                                ),
-                                                                                child: Center(
-                                                                                  child: ListView(
-                                                                                    children: snapshot.data!.docs.map((documents){
-                                                                                      return SizedBox(
-                                                                                        width: 100,
-                                                                                        height: 50,
-                                                                                        child: Text(
-                                                                                            "Nome: ${documents['Nome']}\nCPF: ${documents['CPF']}",
-                                                                                            style: const TextStyle(
-                                                                                                fontSize: 16
-                                                                                            ),
-                                                                                            textAlign: TextAlign.center,
-                                                                                        ),
-                                                                                      );
-                                                                                    }).toList(),
-                                                                                  ),
-                                                                                )
-                                                                              );
-                                                                            }
-                                                                          )
-                                                                        ],
-                                                                      ),
-                                                                      Container(
-                                                                        alignment: Alignment.bottomRight,
-                                                                        width: Widet,
-                                                                        height: Heigt,
-                                                                        child: FloatingActionButton(
-                                                                          onPressed: (){
-                                                                            //Criação do Usuario!
-
-                                                                            //Strings
-                                                                            String Nome = "";
-                                                                            String CPF = "";
-                                                                            String Usrname = "";
-                                                                            String Senha = "";
-
-                                                                            //Booleanos
-                                                                            bool addCondominios = false;
-                                                                            bool editCFTV = false;
-                                                                            bool addAcionamentos = false;
-                                                                            bool addRamal = false;
-                                                                            bool addMoradores = false;
-                                                                            bool addVisitante = false;
-                                                                            bool addVeiculos = false;
-                                                                            bool criarNovosUsuarios = false;
-                                                                            bool acessoDevFuc = false;
-                                                                            bool editarAnotacao = false;
-                                                                            bool adicionarUsuarioss = false;
-
-                                                                            showDialog(
-                                                                              context: context,
-                                                                              builder: (BuildContext context) {
-                                                                                return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                                                                      return AlertDialog(
-                                                                                        title: Column(
-                                                                                          children: [
-                                                                                            Row(
-                                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                              children: [
-                                                                                                const Text('Criação de Usuario'),
-                                                                                                IconButton(onPressed: (){
-                                                                                                  Navigator.pop(context);
-                                                                                                }, icon: const Icon(Icons.close)
-                                                                                                )
-                                                                                              ],
-                                                                                            ),
-                                                                                            Center(
-                                                                                              child: Container(
-                                                                                                padding: const EdgeInsets.all(16),
-                                                                                                child: TextField(
-                                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                                  enableSuggestions: false,
-                                                                                                  autocorrect: false,
-                                                                                                  onChanged: (value){
-                                                                                                    setState(() {
-                                                                                                      Nome = value;
-                                                                                                    });
-                                                                                                  },
-                                                                                                  decoration: const InputDecoration(
-                                                                                                    border: OutlineInputBorder(),
-                                                                                                    enabledBorder: OutlineInputBorder(
-                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                    ),
-                                                                                                    focusedBorder: OutlineInputBorder(
-                                                                                                      borderSide: BorderSide(
-                                                                                                          width: 3,
-                                                                                                          color: Colors.black
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                    labelText: 'Nome',
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ),
-                                                                                            ),
-                                                                                            Center(
-                                                                                              child: Container(
-                                                                                                padding: const EdgeInsets.all(16),
-                                                                                                child: TextField(
-                                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                                  enableSuggestions: false,
-                                                                                                  autocorrect: false,
-                                                                                                  onChanged: (value){
-                                                                                                    setState(() {
-                                                                                                      CPF = value;
-                                                                                                    });
-                                                                                                  },
-                                                                                                  decoration: const InputDecoration(
-                                                                                                    border: OutlineInputBorder(),
-                                                                                                    enabledBorder: OutlineInputBorder(
-                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                    ),
-                                                                                                    focusedBorder: OutlineInputBorder(
-                                                                                                      borderSide: BorderSide(
-                                                                                                          width: 3,
-                                                                                                          color: Colors.black
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                    labelText: 'CPF',
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ),
-                                                                                            ),
-                                                                                            Center(
-                                                                                              child: Container(
-                                                                                                padding: const EdgeInsets.all(16),
-                                                                                                child: TextField(
-                                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                                  enableSuggestions: false,
-                                                                                                  autocorrect: false,
-                                                                                                  onChanged: (value){
-                                                                                                    setState(() {
-                                                                                                      Usrname = value;
-                                                                                                    });
-                                                                                                  },
-                                                                                                  decoration: const InputDecoration(
-                                                                                                    border: OutlineInputBorder(),
-                                                                                                    enabledBorder: OutlineInputBorder(
-                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                    ),
-                                                                                                    focusedBorder: OutlineInputBorder(
-                                                                                                      borderSide: BorderSide(
-                                                                                                          width: 3,
-                                                                                                          color: Colors.black
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                    labelText: 'Login',
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ),
-                                                                                            ),
-                                                                                            Center(
-                                                                                              child: Container(
-                                                                                                padding: const EdgeInsets.all(16),
-                                                                                                child: TextField(
-                                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                                  enableSuggestions: false,
-                                                                                                  autocorrect: false,
-                                                                                                  onChanged: (value){
-                                                                                                    setState(() {
-                                                                                                      Senha = value;
-                                                                                                    });
-                                                                                                  },
-                                                                                                  decoration: const InputDecoration(
-                                                                                                    border: OutlineInputBorder(),
-                                                                                                    enabledBorder: OutlineInputBorder(
-                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                    ),
-                                                                                                    focusedBorder: OutlineInputBorder(
-                                                                                                      borderSide: BorderSide(
-                                                                                                          width: 3,
-                                                                                                          color: Colors.black
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                    labelText: 'Senha',
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ),
-                                                                                            ),
-                                                                                            const Center(
-                                                                                              child: Text(
-                                                                                                  "Permissões",
-                                                                                                  style: TextStyle(
-                                                                                                      fontWeight: FontWeight.bold,
-                                                                                                      fontSize: 16
-                                                                                                  )
-                                                                                              )
-                                                                                            ),
-                                                                                            Center(
-                                                                                              child: Row(
-                                                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                children: [
-                                                                                                  Checkbox(
-                                                                                                    value: addCondominios ,
-                                                                                                    onChanged: (bool? value){
-                                                                                                      setState((){
-                                                                                                        addCondominios = value!;
-                                                                                                      });
-                                                                                                    },
-                                                                                                  ),
-                                                                                                  const Text(
-                                                                                                      'Adicionar novos condominios',
-                                                                                                      style: TextStyle(
-                                                                                                          fontSize: 16
-                                                                                                      )
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
-                                                                                            ),
-                                                                                            Center(
-                                                                                              child: Row(
-                                                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                children: [
-                                                                                                  Checkbox(
-                                                                                                    value: editCFTV  ,
-                                                                                                    onChanged: (bool? value){
-                                                                                                      setState((){
-                                                                                                        editCFTV = value!;
-                                                                                                      });
-                                                                                                    },
-                                                                                                  ),
-                                                                                                  const Text(
-                                                                                                      'Editar CFTV',
-                                                                                                      style: TextStyle(
-                                                                                                          fontSize: 16
-                                                                                                      )
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
-                                                                                            ),
-                                                                                            Center(
-                                                                                              child: Row(
-                                                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                children: [
-                                                                                                  Checkbox(
-                                                                                                    value: addAcionamentos,
-                                                                                                    onChanged: (bool? value){
-                                                                                                      setState((){
-                                                                                                        addAcionamentos = value!;
-                                                                                                      });
-                                                                                                    },
-                                                                                                  ),
-                                                                                                  const Text(
-                                                                                                      'Adicionar Acionamentos',
-                                                                                                      style: TextStyle(
-                                                                                                          fontSize: 16
-                                                                                                      )
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
-                                                                                            ),
-                                                                                            Center(
-                                                                                              child: Row(
-                                                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                children: [
-                                                                                                  Checkbox(
-                                                                                                    value: addRamal,
-                                                                                                    onChanged: (bool? value){
-                                                                                                      setState((){
-                                                                                                        addRamal  = value!;
-                                                                                                      });
-                                                                                                    },
-                                                                                                  ),
-                                                                                                  const Text(
-                                                                                                      'Adicionar Ramal',
-                                                                                                      style: TextStyle(
-                                                                                                          fontSize: 16
-                                                                                                      )
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
-                                                                                            ),
-                                                                                            Center(
-                                                                                              child: Row(
-                                                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                children: [
-                                                                                                  Checkbox(
-                                                                                                    value: addMoradores ,
-                                                                                                    onChanged: (bool? value){
-                                                                                                      setState((){
-                                                                                                        addMoradores = value!;
-                                                                                                      });
-                                                                                                    },
-                                                                                                  ),
-                                                                                                  const Text(
-                                                                                                      'Adicionar Moradores',
-                                                                                                      style: TextStyle(
-                                                                                                          fontSize: 16
-                                                                                                      )
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
-                                                                                            ),
-                                                                                            Center(
-                                                                                              child: Row(
-                                                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                children: [
-                                                                                                  Checkbox(
-                                                                                                    value: addVisitante  ,
-                                                                                                    onChanged: (bool? value){
-                                                                                                      setState((){
-                                                                                                        addVisitante = value!;
-                                                                                                      });
-                                                                                                    },
-                                                                                                  ),
-                                                                                                  const Text(
-                                                                                                      'Adicionar Visitantes',
-                                                                                                      style: TextStyle(
-                                                                                                          fontSize: 16
-                                                                                                      )
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
-                                                                                            ),
-                                                                                            Center(
-                                                                                              child: Row(
-                                                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                children: [
-                                                                                                  Checkbox(
-                                                                                                    value: addVeiculos  ,
-                                                                                                    onChanged: (bool? value){
-                                                                                                      setState((){
-                                                                                                        addVeiculos = value!;
-                                                                                                      });
-                                                                                                    },
-                                                                                                  ),
-                                                                                                  const Text(
-                                                                                                      'Adicionar Veiculos',
-                                                                                                      style: TextStyle(
-                                                                                                          fontSize: 16
-                                                                                                      )
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
-                                                                                            ),
-                                                                                            Center(
-                                                                                              child: Row(
-                                                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                children: [
-                                                                                                  Checkbox(
-                                                                                                    value: criarNovosUsuarios,
-                                                                                                    onChanged: (bool? value){
-                                                                                                      setState((){
-                                                                                                        criarNovosUsuarios  = value!;
-                                                                                                      });
-                                                                                                    },
-                                                                                                  ),
-                                                                                                  const Text(
-                                                                                                      'Criar novos usuarios',
-                                                                                                      style: TextStyle(
-                                                                                                          fontSize: 16
-                                                                                                      )
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
-                                                                                            ),
-                                                                                            Center(
-                                                                                              child: Row(
-                                                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                children: [
-                                                                                                  Checkbox(
-                                                                                                    value: editarAnotacao,
-                                                                                                    onChanged: (bool? value){
-                                                                                                      setState((){
-                                                                                                        editarAnotacao = value!;
-                                                                                                      });
-                                                                                                    },
-                                                                                                  ),
-                                                                                                  const Text(
-                                                                                                      'Editar anotação',
-                                                                                                      style: TextStyle(
-                                                                                                          fontSize: 16
-                                                                                                      )
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
-                                                                                            ),
-                                                                                            Center(
-                                                                                              child: Row(
-                                                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                children: [
-                                                                                                  Checkbox(
-                                                                                                    value: acessoDevFuc ,
-                                                                                                    onChanged: (bool? value){
-                                                                                                      setState((){
-                                                                                                        adicionarUsuarioss = value!;
-                                                                                                      });
-                                                                                                    },
-                                                                                                  ),
-                                                                                                  const Text(
-                                                                                                      'Adicionar usuarios',
-                                                                                                      style: TextStyle(
-                                                                                                          fontSize: 16
-                                                                                                      )
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
-                                                                                            ),
-                                                                                            Center(
-                                                                                              child: Row(
-                                                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                children: [
-                                                                                                  Checkbox(
-                                                                                                    value: acessoDevFuc ,
-                                                                                                    onChanged: (bool? value){
-                                                                                                      setState((){
-                                                                                                        acessoDevFuc = value!;
-                                                                                                      });
-                                                                                                    },
-                                                                                                  ),
-                                                                                                  const Text(
-                                                                                                      'Acesso as opções de teste e desenvolvimento',
-                                                                                                      style: TextStyle(
-                                                                                                          fontSize: 16
-                                                                                                      )
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
-                                                                                            ),
-                                                                                            ElevatedButton(onPressed: () async {
-                                                                                              if(Nome == ""){
-                                                                                                showToast("O nome está vazio!",context:context);
-                                                                                              }else{
-                                                                                                if(CPF == ""){
-                                                                                                  showToast("O CPF está vazio!",context:context);
-                                                                                                }else{
-                                                                                                  if(Usrname == ""){
-                                                                                                    showToast("O Login está vazio!",context:context);
-                                                                                                  }else{
-                                                                                                    if(Senha == ""){
-                                                                                                      showToast("A Senha está vazia!",context:context);
-                                                                                                    }else{
-                                                                                                      FirebaseApp app = await Firebase.initializeApp(
-                                                                                                          name: 'Secondary', options: Firebase.app().options);
-                                                                                                      try{
-                                                                                                        Uuid uuid = const Uuid();
-                                                                                                        String email = "${uuid.v4()}@email.com";
-
-                                                                                                        UserCredential userCredential = await FirebaseAuth.instanceFor(app: app)
-                                                                                                            .createUserWithEmailAndPassword(email: email, password: Senha);
-
-                                                                                                        FirebaseFirestore.instance.collection("Users").doc(userCredential.user?.uid).set({
-                                                                                                          "Nome": Nome,
-                                                                                                          "username": Usrname.trim(),
-                                                                                                          "Email" : email,
-                                                                                                          "Senha" : Senha,
-                                                                                                          "CPF": CPF,
-                                                                                                          "id": userCredential.user?.uid,
-                                                                                                          "AdicionarCondominios": addCondominios,
-                                                                                                          "acessoDevFunc": acessoDevFuc,
-                                                                                                          "adicionaAcionamentos": addAcionamentos,
-                                                                                                          "adicionarMoradores": addMoradores,
-                                                                                                          "permissaoCriarUsuarios": criarNovosUsuarios,
-                                                                                                          "adicionarVeiculo": addVeiculos,
-                                                                                                          "adicionarVisitante": addVisitante,
-                                                                                                          "editarAnotacao": editarAnotacao,
-                                                                                                          "adicionarRamal": adicionarRamal,
-                                                                                                          "adicionarUsuarios": adicionarUsuarioss,
-                                                                                                          "editarCFTV": editCFTV,
-                                                                                                        }).whenComplete((){
-                                                                                                          //Vai exibir uma ação para copiar as credenciais!
-                                                                                                          Navigator.pop(context);
-                                                                                                          showDialog(
-                                                                                                            context: context,
-                                                                                                            builder: (BuildContext context) {
-                                                                                                              return AlertDialog(
-                                                                                                                title: const Text('Usuario criado!'),
-                                                                                                                actions: [
-                                                                                                                  Center(
-                                                                                                                    child: Column(
-                                                                                                                      children: [
-                                                                                                                        Row(
-                                                                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                                                          children: [
-                                                                                                                            Text("Login: ${Usrname.trim()}"),
-                                                                                                                            IconButton(onPressed: (){
-                                                                                                                              FlutterClipboard.copy("Login: ${Usrname.trim()}").then(( value ) {
-                                                                                                                                showToast("Email copiado com sucesso!",context:context);
-                                                                                                                              });
-                                                                                                                            },
-                                                                                                                                icon: const Icon(Icons.copy)
-                                                                                                                            )
-                                                                                                                          ],
-                                                                                                                        ),
-                                                                                                                        Row(
-                                                                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                                                          children: [
-                                                                                                                            Text("Senha: $Senha"),
-                                                                                                                            IconButton(onPressed: (){
-                                                                                                                              FlutterClipboard.copy("Senha: $Senha").then(( value ) {
-                                                                                                                                showToast("Senha copiada com sucesso!",context:context);
-                                                                                                                              });
-                                                                                                                            },
-                                                                                                                                icon: const Icon(Icons.copy)
-                                                                                                                            )
-                                                                                                                          ],
-                                                                                                                        ),
-                                                                                                                        Row(
-                                                                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                                                          children: [
-                                                                                                                            const Text("Copiar os dois"),
-                                                                                                                            IconButton(onPressed: (){
-                                                                                                                              FlutterClipboard.copy("Login: ${Usrname.trim()}\nSenha: $Senha").then(( value ) {
-                                                                                                                                showToast("Conteúdo copiado com sucesso!",context:context);
-                                                                                                                              });
-                                                                                                                            },
-                                                                                                                                icon: const Icon(Icons.copy)
-                                                                                                                            )
-                                                                                                                          ],
-                                                                                                                        ),
-                                                                                                                        ElevatedButton(onPressed: (){
-                                                                                                                          Navigator.pop(context);
-                                                                                                                        },
-                                                                                                                        child: const Text("Fechar!"),)
-                                                                                                                      ],
-                                                                                                                    ),
-                                                                                                                  )
-                                                                                                                ],
-                                                                                                              );
-                                                                                                            },
-                                                                                                          );
-                                                                                                        });
-
-                                                                                                      }catch(e){
-                                                                                                        showToast("Ocorreu um erro! $e",context:context);
-                                                                                                      }
-                                                                                                    }
-                                                                                                  }
-                                                                                                }
-                                                                                              }
-                                                                                            },
-                                                                                                child: const Text("Criar novo usuario!")
-                                                                                            )
-                                                                                          ],
-                                                                                        ),
-                                                                                        scrollable: true,
-                                                                                      );
-                                                                                  },
-                                                                                );
-                                                                              },
-                                                                            );
-                                                                          },
-                                                                          child: const Icon(Icons.add),
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  )
-                                                              ): janela == 2 ?
-                                                              acessoDevFunc == false ?
-                                                              Container():
-                                                              Container(
-                                                                decoration: BoxDecoration(
-                                                                  border: Border.all(
-                                                                    color: Colors.black,
-                                                                    width: 1.0,
-                                                                  ),
-                                                                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                                                ),
-                                                                child: Column(
-                                                                  children: [
-                                                                    const Center(
-                                                                        child: Text(
-                                                                            'APIs de Teste',
-                                                                            style: TextStyle(
-                                                                                fontWeight: FontWeight.bold,
-                                                                                fontSize: 16
-                                                                            )
-                                                                        )
-                                                                    ),
-                                                                    const Center(
-                                                                        child: Text(
-                                                                            'Teste de acionamentos',
-                                                                            style: TextStyle(
-                                                                                fontSize: 16
-                                                                            )
-                                                                        )
-                                                                    ),
-                                                                    Center(
-                                                                      child: Container(
-                                                                        padding: const EdgeInsets.all(16),
-                                                                        child: TextField(
-                                                                          keyboardType: TextInputType.emailAddress,
-                                                                          enableSuggestions: false,
-                                                                          autocorrect: false,
-                                                                          onChanged: (value){
-                                                                            setState(() {
-                                                                              IP = value;
-                                                                            });
-                                                                          },
-                                                                          decoration: const InputDecoration(
-                                                                            border: OutlineInputBorder(),
-                                                                            enabledBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                            ),
-                                                                            focusedBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(
-                                                                                  width: 3,
-                                                                                  color: Colors.black
-                                                                              ),
-                                                                            ),
-                                                                            labelText: 'IP',
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    Center(
-                                                                      child: Container(
-                                                                        padding: const EdgeInsets.all(16),
-                                                                        child: TextField(
-                                                                          keyboardType: TextInputType.emailAddress,
-                                                                          enableSuggestions: false,
-                                                                          autocorrect: false,
-                                                                          onChanged: (value){
-                                                                            setState(() {
-                                                                              Porta = value;
-                                                                            });
-                                                                          },
-                                                                          decoration: const InputDecoration(
-                                                                            border: OutlineInputBorder(),
-                                                                            enabledBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                            ),
-                                                                            focusedBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(
-                                                                                  width: 3,
-                                                                                  color: Colors.black
-                                                                              ),
-                                                                            ),
-                                                                            labelText: 'Porta',
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    Center(
-                                                                      child: Container(
-                                                                        padding: const EdgeInsets.all(16),
-                                                                        child: TextField(
-                                                                          keyboardType: TextInputType.emailAddress,
-                                                                          enableSuggestions: false,
-                                                                          autocorrect: false,
-                                                                          onChanged: (value){
-                                                                            setState(() {
-                                                                              Canal = value;
-                                                                            });
-                                                                          },
-                                                                          decoration: const InputDecoration(
-                                                                            border: OutlineInputBorder(),
-                                                                            enabledBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                            ),
-                                                                            focusedBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(
-                                                                                  width: 3,
-                                                                                  color: Colors.black
-                                                                              ),
-                                                                            ),
-                                                                            labelText: 'Canal',
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    Center(
-                                                                      child: Container(
-                                                                        padding: const EdgeInsets.all(16),
-                                                                        child: TextField(
-                                                                          keyboardType: TextInputType.emailAddress,
-                                                                          enableSuggestions: false,
-                                                                          autocorrect: false,
-                                                                          onChanged: (value){
-                                                                            setState(() {
-                                                                              Usuario = value;
-                                                                            });
-                                                                          },
-                                                                          decoration: const InputDecoration(
-                                                                            border: OutlineInputBorder(),
-                                                                            enabledBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                            ),
-                                                                            focusedBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(
-                                                                                  width: 3,
-                                                                                  color: Colors.black
-                                                                              ),
-                                                                            ),
-                                                                            labelText: 'Usuario',
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    Center(
-                                                                      child: Container(
-                                                                        padding: const EdgeInsets.all(16),
-                                                                        child: TextField(
-                                                                          keyboardType: TextInputType.emailAddress,
-                                                                          enableSuggestions: false,
-                                                                          autocorrect: false,
-                                                                          onChanged: (value){
-                                                                            setState(() {
-                                                                              Senha = value;
-                                                                            });
-                                                                          },
-                                                                          decoration: const InputDecoration(
-                                                                            border: OutlineInputBorder(),
-                                                                            enabledBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                            ),
-                                                                            focusedBorder: OutlineInputBorder(
-                                                                              borderSide: BorderSide(
-                                                                                  width: 3,
-                                                                                  color: Colors.black
-                                                                              ),
-                                                                            ),
-                                                                            labelText: 'Senha',
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    Center(
-                                                                      child: ValueListenableBuilder(valueListenable: dropValue4, builder: (context, String value, _){
-                                                                        return DropdownButton(
-                                                                          hint: Text(
-                                                                            'Selecione o modelo',
-                                                                            style: TextStyle(
-                                                                                color: textColorDrop
-                                                                            ),
-                                                                          ),
-                                                                          value: (value.isEmpty)? null : value,
-                                                                          onChanged: (escolha) async {
-                                                                            dropValue4.value = escolha.toString();
-                                                                            setState(() {
-                                                                              modeloselecionado = escolha.toString();
-                                                                            });
-                                                                          },
-                                                                          items: ModelosAcionamentos.map((opcao) => DropdownMenuItem(
-                                                                            value: opcao,
-                                                                            child:
-                                                                            Text(
-                                                                              opcao,
-                                                                              style: TextStyle(
-                                                                                  color: textColorDrop
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                          ).toList(),
-                                                                        );
-                                                                      }),
-                                                                    ),
-                                                                    ElevatedButton(
-                                                                        onPressed: (){
-                                                                          acionarPorta(context, IP, int.parse(Porta), modeloselecionado, int.parse(Canal), Usuario, Senha);
-                                                                        },
-                                                                        style: ElevatedButton.styleFrom(
-                                                                            backgroundColor: colorBtn
-                                                                        ),
-                                                                        child: Text(
-                                                                          "Testar!",
-                                                                          style: TextStyle(
-                                                                              color: textColor
-                                                                          ),
-                                                                        )
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ): Container(),
-                                                            ): Container(),
                                                             Container(
-                                                              alignment: Alignment.bottomRight,
-                                                              child: ElevatedButton(
-                                                                  onPressed: inicializado == true ? (){
-                                                                      FirebaseAuth.instance.signOut().whenComplete(() async {
-                                                                        setState((){
-                                                                          ip = "";
-                                                                          user = "";
-                                                                          pass = "";
-                                                                          porta = 00;
-                                                                          idCondominio = "";
-                                                                          anotacao = "";
-                                                                          UID = "";
-                                                                          deslogando = true;
-                                                                          inicializado = false;
-                                                                        });
-                                                                        final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-                                                                        await prefs.setString('email', "");
-                                                                        await prefs.setString('senha', "");
-
-                                                                        Navigator.pop(context);
-                                                                        Navigator.pop(context);
-                                                                        Navigator.push(context,
-                                                                            MaterialPageRoute(builder: (context){
-                                                                               return const login();
-                                                                            }
-                                                                         )
-                                                                        );
-                                                                      });
-                                                                  }: null,
-                                                                  style: ElevatedButton.styleFrom(
-                                                                    backgroundColor: Colors.red
+                                                              padding: const EdgeInsets.all(10),
+                                                              child: TextField(
+                                                                cursorColor: Colors.black,
+                                                                keyboardType: TextInputType.name,
+                                                                enableSuggestions: true,
+                                                                autocorrect: true,
+                                                                onChanged: (value){
+                                                                  setState(() {
+                                                                    pesquisa = value;
+                                                                  });
+                                                                                                        
+                                                                  RegExp numeros = RegExp(r'[0-9]');
+                                                                                                        
+                                                                  if(numeros.hasMatch(value)){
+                                                                    setState(() {
+                                                                      pesquisaNumeros = true;
+                                                                    });
+                                                                  }else{
+                                                                    setState(() {
+                                                                      pesquisaNumeros = false;
+                                                                    });
+                                                                  }
+                                                                                                        
+                                                                  if(value == ""){
+                                                                    setState(() {
+                                                                      pesquisando = false;
+                                                                    });
+                                                                  }else{
+                                                                    setState(() {
+                                                                      pesquisando = true;
+                                                                    });
+                                                                  }
+                                                                },
+                                                                decoration: InputDecoration(
+                                                                  filled: true,
+                                                                  fillColor: Colors.white,
+                                                                  border: const OutlineInputBorder(),
+                                                                  enabledBorder: const OutlineInputBorder(
+                                                                    borderSide: BorderSide(width: 3, color: Colors.white), //<-- SEE HERE
                                                                   ),
-                                                                  child: const Icon(Icons.exit_to_app)
+                                                                  focusedBorder: const OutlineInputBorder(
+                                                                    borderSide: BorderSide(
+                                                                        width: 3,
+                                                                        color: Colors.black
+                                                                    ),
+                                                                  ),
+                                                                  label: Container(
+                                                                    alignment: AlignmentDirectional.centerEnd,
+                                                                    child: Image.asset(
+                                                                      "assets/search.png",
+                                                                      scale: 12,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                style: const TextStyle(
+                                                                    color: Colors.black
+                                                                ),
                                                               ),
-                                                            )
+                                                            ),
+                                                            StreamBuilder(
+                                                              stream: pesquisando == true ?
+                                                              pesquisaNumeros == false ? FirebaseFirestore.instance
+                                                                  .collection("Condominios")
+                                                                  .where("idList", arrayContains: UID)
+                                                                  .where("Nome", isGreaterThanOrEqualTo: pesquisa)
+                                                                  .where("Nome", isLessThan: "${pesquisa}z")
+                                                                  .snapshots()
+                                                                  :
+                                                              FirebaseFirestore.instance
+                                                                  .collection("Condominios")
+                                                                  .where("idList", arrayContains: UID)
+                                                                  .where("Codigo", isGreaterThanOrEqualTo: pesquisa)
+                                                                  .where("Codigo", isLessThan: "${pesquisa}9")
+                                                                  .snapshots()
+                                                                  :
+                                                              FirebaseFirestore.instance
+                                                                  .collection("Condominios")
+                                                                  .where("idList", arrayContains: UID)
+                                                                  .snapshots(),
+                                                              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                                                                                                        
+                                                                if (!snapshot.hasData) {
+                                                                  return const Center(
+                                                                    child: CircularProgressIndicator(),
+                                                                  );
+                                                                }
+                                                                                                        
+                                                                return SizedBox(
+                                                                  width: double.infinity,
+                                                                  height: heig / 1.7,
+                                                                  child: ListView(
+                                                                    children: snapshot.data!.docs.map((documents){
+                                                                      return Container(
+                                                                        width: wid / 4,
+                                                                        height: 70,
+                                                                        decoration: BoxDecoration(
+                                                                          border: Border.all(
+                                                                            color: Colors.black,
+                                                                            width: 1.0,
+                                                                          ),
+                                                                          
+                                                                        ),
+                                                                        child: InkWell(
+                                                                          onTap: () async {
+                                                                            setState(() {
+                                                                              ip = documents["IpCamera"];
+                                                                              user = documents["UserAccess"];
+                                                                              pass = documents["PassAccess"];
+                                                                              porta = documents["PortaCameras"];
+                                                                              idCondominio = documents["idCondominio"];
+                                                                              anotacao = documents["Aviso"];
+                                                                            });
+                                                                            await Future.delayed(const Duration(seconds: 1));
+                                                                            var getIpCameraSettings = await FirebaseFirestore.instance
+                                                                                .collection("Condominios")
+                                                                                .doc(idCondominio).get();
+                                                                            await Future.delayed(const Duration(seconds: 2));
+                                                                            setState(() {
+                                                                              camera1 = getIpCameraSettings["ipCamera1"];
+                                                                              camera2 = getIpCameraSettings["ipCamera2"];
+                                                                              camera3 = getIpCameraSettings["ipCamera3"];
+                                                                              camera4 = getIpCameraSettings["ipCamera4"];
+                                                                              camera5 = getIpCameraSettings["ipCamera5"];
+                                                                              camera6 = getIpCameraSettings["ipCamera6"];
+                                                                              camera7 = getIpCameraSettings["ipCamera7"];
+                                                                              camera8 = getIpCameraSettings["ipCamera8"];
+                                                                              camera9 = getIpCameraSettings["ipCamera9"];
+                                                                              isStarted = true;
+                                                                            });
+                                                                          },
+                                                                          child: Stack(
+                                                                            children: [
+                                                                              FutureBuilder<NativeMenu>(
+                                                                                future: initMenuCondominio(),
+                                                                                builder: (BuildContext context, AsyncSnapshot<NativeMenu> snapshot){
+                                                                                                        
+                                                                                  if (!snapshot.hasData) {
+                                                                                    return const Center(
+                                                                                      child: CircularProgressIndicator(),
+                                                                                    );
+                                                                                  }
+                                                                                                        
+                                                                                  return SizedBox(
+                                                                                    width: wid / 4,
+                                                                                    child: NativeContextMenuWidget(
+                                                                                      actionCallback: (action) {
+                                                                                        if(action == "editCondominio"){
+                                                                                          //TODO abrir uma janela para edição das informações do condominio!
+                                                                                        }
+                                                                                        if(action == "adicionar_usuarios"){
+                                                                                            //TODO adicionar ou remover usuarios atravez de uma lista interna
+                                                                                        }
+                                                                                        if(action == "remover_condominio"){
+                                                                                          FirebaseFirestore.instance.collection("Condominios").doc(documents["idCondominio"]).delete().whenComplete((){
+                                                                                            showToast("Cliente deletado!",context:context);
+                                                                                          });
+                                                                                        }
+                                                                                      },
+                                                                                      menu: snapshot.requireData,
+                                                                                      otherCallback: (method) {
+                                                                                      },
+                                                                                      child: Container(child: const Text(
+                                                                                          "abc",
+                                                                                        style: TextStyle(
+                                                                                          color: Colors.transparent
+                                                                                        ),
+                                                                                      )),
+                                                                                    ),
+                                                                                  );
+                                                                                },
+                                                                              ),
+                                                                              Container(
+                                                                                padding: const EdgeInsets.all(16),
+                                                                                child: Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                  children: [
+                                                                                    Text(
+                                                                                        "${documents["Codigo"]} ${documents['Nome']}",
+                                                                                      style: TextStyle(
+                                                                                        color: textColorInitBlue
+                                                                                      ),
+                                                                                    ),
+                                                                                    IconButton(onPressed: (){
+                                                                                      setState(() {
+                                                                                        anotacao = documents["Aviso"];
+                                                                                        idCondominioAnt = documents["idCondominio"];
+                                                                                        anotacaoControlCondominio.text = anotacao;
+                                                                                      });
+                                                                                    },
+                                                                                        icon: Icon(
+                                                                                            color: documents["Aviso"] == "" ? Colors.red : Colors.green,
+                                                                                            Icons.edit_note
+                                                                                        )
+                                                                                    )
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    }).toList(),
+                                                                  ),
+                                                                );
+                                                              },
+                                                            ),
                                                           ],
                                                         ),
                                                       ),
                                                     ),
-                                                  );
-                                                },);
-                                              },
-                                            );
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.transparent
-                                          ),
-                                          child: Image.asset(
-                                              "assets/Setting-icon.png",
-                                              scale: 10
-                                          )
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: wid / 4,
-                                  height: heig / 1.5,
-                                  child: Stack(
-                                      children: [
-                                        Center(
-                                          child: SingleChildScrollView(
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  padding: const EdgeInsets.all(10),
-                                                  child: TextField(
-                                                    keyboardType: TextInputType.name,
-                                                    enableSuggestions: true,
-                                                    autocorrect: true,
-                                                    onChanged: (value){
-                                                      setState(() {
-                                                        pesquisa = value;
-                                                      });
-                                                
-                                                      RegExp numeros = RegExp(r'[0-9]');
-                                                
-                                                      if(numeros.hasMatch(value)){
-                                                        setState(() {
-                                                          pesquisaNumeros = true;
-                                                        });
-                                                      }else{
-                                                        setState(() {
-                                                          pesquisaNumeros = false;
-                                                        });
-                                                      }
-                                                
-                                                      if(value == ""){
-                                                        setState(() {
-                                                          pesquisando = false;
-                                                        });
-                                                      }else{
-                                                        setState(() {
-                                                          pesquisando = true;
-                                                        });
-                                                      }
-                                                    },
-                                                    decoration: InputDecoration(
-                                                      border: const OutlineInputBorder(),
-                                                      enabledBorder: const OutlineInputBorder(
-                                                        borderSide: BorderSide(width: 3, color: Colors.white), //<-- SEE HERE
-                                                      ),
-                                                      focusedBorder: const OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            width: 3,
-                                                            color: Colors.black
-                                                        ),
-                                                      ),
-                                                      label: Center(
-                                                          child: Image.asset(
-                                                              "assets/search.png",
-                                                            scale: 12,
+                                                  ],
+                                                ),
+                                              ),
+                                          AdicionarCondominios == true ? Container(
+                                            alignment: Alignment.bottomRight,
+                                            padding: const EdgeInsets.all(16),
+                                            child: FloatingActionButton(
+                                              onPressed: (){
+                                              String NomeCondominio = "";
+                                              String IPCameras = "";
+                                              int? PortaCameras;
+                                              String UserAccess = "";
+                                              String PassAccess = "";
+                                              String Aviso = "";
+                                              String SIPUrl = "";
+                                              String Porta = "";
+                                              String AuthUser = "";
+                                              String Pass = "";
+                                              String codigo = "";
+
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                    return SingleChildScrollView(
+                                                      child: AlertDialog(
+                                                        title: Center(
+                                                          child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                            children: [
+                                                              const Text('Crie um novo condominio!'),
+                                                              IconButton(onPressed: (){
+                                                                Navigator.pop(context);
+                                                              }, icon: const Icon(Icons.close)
+                                                              )
+                                                            ],
                                                           ),
                                                         ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: double.infinity,
-                                                  height: heig / 1.7,
-                                                  decoration: BoxDecoration(
-                                                    image: const DecorationImage(
-                                                      image: AssetImage('assets/FundoMetalPrata.jpg'),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                    border: Border.all(
-                                                      color: Colors.black,
-                                                      width: 1.0,
-                                                    ),
-                                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                                  ),
-                                                  child: StreamBuilder(
-                                                    stream: pesquisando == true ?
-                                                    pesquisaNumeros == false ? FirebaseFirestore.instance
-                                                        .collection("Condominios")
-                                                        .where("idList", arrayContains: UID)
-                                                        .where("Nome", isGreaterThanOrEqualTo: pesquisa)
-                                                        .where("Nome", isLessThan: "${pesquisa}z")
-                                                        .snapshots()
-                                                        :
-                                                    FirebaseFirestore.instance
-                                                        .collection("Condominios")
-                                                        .where("idList", arrayContains: UID)
-                                                        .where("Codigo", isGreaterThanOrEqualTo: pesquisa)
-                                                        .where("Codigo", isLessThan: "${pesquisa}9")
-                                                        .snapshots()
-                                                        :
-                                                    FirebaseFirestore.instance
-                                                        .collection("Condominios")
-                                                        .where("idList", arrayContains: UID)
-                                                        .snapshots(),
-                                                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-
-                                                      if (!snapshot.hasData) {
-                                                        return const Center(
-                                                          child: CircularProgressIndicator(),
-                                                        );
-                                                      }
-
-                                                      return SizedBox(
-                                                        width: double.infinity,
-                                                        height: heig / 1.7,
-                                                        child: ListView(
-                                                          children: snapshot.data!.docs.map((documents){
-                                                            return Container(
-                                                              width: wid / 4,
-                                                              height: 70,
-                                                              decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                  color: Colors.black,
-                                                                  width: 1.0,
-                                                                ),
-                                                                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                                              ),
-                                                              child: InkWell(
-                                                                onTap: () async {
+                                                        actions: [
+                                                          Center(
+                                                            child: Container(
+                                                              padding: const EdgeInsets.all(16),
+                                                              child: TextField(
+                                                                keyboardType: TextInputType.emailAddress,
+                                                                enableSuggestions: false,
+                                                                autocorrect: false,
+                                                                onChanged: (value){
                                                                   setState(() {
-                                                                    ip = documents["IpCamera"];
-                                                                    user = documents["UserAccess"];
-                                                                    pass = documents["PassAccess"];
-                                                                    porta = documents["PortaCameras"];
-                                                                    idCondominio = documents["idCondominio"];
-                                                                    anotacao = documents["Aviso"];
-                                                                  });
-                                                                  await Future.delayed(const Duration(seconds: 1));
-                                                                  var getIpCameraSettings = await FirebaseFirestore.instance
-                                                                      .collection("Condominios")
-                                                                      .doc(idCondominio).get();
-                                                                  await Future.delayed(const Duration(seconds: 2));
-                                                                  setState(() {
-                                                                    camera1 = getIpCameraSettings["ipCamera1"];
-                                                                    camera2 = getIpCameraSettings["ipCamera2"];
-                                                                    camera3 = getIpCameraSettings["ipCamera3"];
-                                                                    camera4 = getIpCameraSettings["ipCamera4"];
-                                                                    camera5 = getIpCameraSettings["ipCamera5"];
-                                                                    camera6 = getIpCameraSettings["ipCamera6"];
-                                                                    camera7 = getIpCameraSettings["ipCamera7"];
-                                                                    camera8 = getIpCameraSettings["ipCamera8"];
-                                                                    camera9 = getIpCameraSettings["ipCamera9"];
-                                                                    isStarted = true;
+                                                                    NomeCondominio = value;
                                                                   });
                                                                 },
-                                                                child: Stack(
-                                                                  children: [
-                                                                    FutureBuilder<NativeMenu>(
-                                                                      future: initMenuCondominio(),
-                                                                      builder: (BuildContext context, AsyncSnapshot<NativeMenu> snapshot){
-
-                                                                        if (!snapshot.hasData) {
-                                                                          return const Center(
-                                                                            child: CircularProgressIndicator(),
-                                                                          );
-                                                                        }
-
-                                                                        return Container(
-                                                                          width: wid / 4,
-                                                                          child: NativeContextMenuWidget(
-                                                                            actionCallback: (action) {
-                                                                              if(action == "editCondominio"){
-                                                                                //TODO abrir uma janela para edição das informações do condominio!
-                                                                              }
-                                                                              if(action == "adicionar_usuarios"){
-                                                                                  //TODO adicionar ou remover usuarios atravez de uma lista interna
-                                                                              }
-                                                                              if(action == "remover_condominio"){
-                                                                                FirebaseFirestore.instance.collection("Condominios").doc(documents["idCondominio"]).delete().whenComplete((){
-                                                                                  showToast("Cliente deletado!",context:context);
-                                                                                });
-                                                                              }
-                                                                            },
-                                                                            menu: snapshot.requireData,
-                                                                            otherCallback: (method) {
-                                                                            },
-                                                                            child: Container(child: Text(
-                                                                                "abc",
-                                                                              style: TextStyle(
-                                                                                color: Colors.transparent
-                                                                              ),
-                                                                            )),
-                                                                          ),
-                                                                        );
-                                                                      },
+                                                                decoration: const InputDecoration(
+                                                                  border: OutlineInputBorder(),
+                                                                  enabledBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(
+                                                                        width: 3,
+                                                                        color: Colors.black
                                                                     ),
-                                                                    Container(
-                                                                      padding: const EdgeInsets.all(16),
-                                                                      child: Row(
-                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                        children: [
-                                                                          Text(
-                                                                              "${documents["Codigo"]} ${documents['Nome']}",
-                                                                            style: TextStyle(
-                                                                              color: textColorWidgets
-                                                                            ),
-                                                                          ),
-                                                                          IconButton(onPressed: (){
-                                                                            setState(() {
-                                                                              anotacao = documents["Aviso"];
-                                                                              idCondominioAnt = documents["idCondominio"];
-                                                                              anotacaoControlCondominio.text = anotacao;
-                                                                            });
-                                                                          },
-                                                                              icon: Icon(
-                                                                                  color: documents["Aviso"] == "" ? Colors.red : Colors.green,
-                                                                                  Icons.edit_note
-                                                                              )
-                                                                          )
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ],
+                                                                  ),
+                                                                  labelText: 'Nome do Condominio',
                                                                 ),
                                                               ),
-                                                            );
-                                                          }).toList(),
-                                                        ),
-                                                      );
-                                                    },
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                    AdicionarCondominios == true ? Container(
-                                      alignment: Alignment.bottomRight,
-                                      padding: const EdgeInsets.all(16),
-                                      child: FloatingActionButton(
-                                        onPressed: (){
-                                        String NomeCondominio = "";
-                                        String IPCameras = "";
-                                        int? PortaCameras;
-                                        String UserAccess = "";
-                                        String PassAccess = "";
-                                        String Aviso = "";
-                                        String SIPUrl = "";
-                                        String Porta = "";
-                                        String AuthUser = "";
-                                        String Pass = "";
-                                        String codigo = "";
-
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                              return SingleChildScrollView(
-                                                child: AlertDialog(
-                                                  title: Center(
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        const Text('Crie um novo condominio!'),
-                                                        IconButton(onPressed: (){
-                                                          Navigator.pop(context);
-                                                        }, icon: const Icon(Icons.close)
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  actions: [
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              NomeCondominio = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                             ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
+                                                          ),
+                                                          Center(
+                                                            child: Container(
+                                                              padding: const EdgeInsets.all(16),
+                                                              child: TextField(
+                                                                keyboardType: TextInputType.emailAddress,
+                                                                enableSuggestions: false,
+                                                                autocorrect: false,
+                                                                onChanged: (value){
+                                                                  setState(() {
+                                                                    codigo = value;
+                                                                  });
+                                                                },
+                                                                decoration: const InputDecoration(
+                                                                  border: OutlineInputBorder(),
+                                                                  enabledBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(
+                                                                        width: 3,
+                                                                        color: Colors.black
+                                                                    ),
+                                                                  ),
+                                                                  labelText: 'Codigo do Condominio (4 caracteres Ex: 2402)',
+                                                                ),
                                                               ),
                                                             ),
-                                                            labelText: 'Nome do Condominio',
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              codigo = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
+                                                          Center(
+                                                            child: Container(
+                                                              padding: const EdgeInsets.all(16),
+                                                              child: TextField(
+                                                                keyboardType: TextInputType.emailAddress,
+                                                                enableSuggestions: false,
+                                                                autocorrect: false,
+                                                                onChanged: (value){
+                                                                  setState(() {
+                                                                    IPCameras = value;
+                                                                  });
+                                                                },
+                                                                decoration: const InputDecoration(
+                                                                  border: OutlineInputBorder(),
+                                                                  enabledBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(
+                                                                        width: 3,
+                                                                        color: Colors.black
+                                                                    ),
+                                                                  ),
+                                                                  labelText: 'URL das Cameras',
+                                                                ),
                                                               ),
                                                             ),
-                                                            labelText: 'Codigo do Condominio (4 caracteres Ex: 2402)',
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              IPCameras = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
+                                                          Center(
+                                                            child: Container(
+                                                              padding: const EdgeInsets.all(16),
+                                                              child: TextField(
+                                                                keyboardType: TextInputType.emailAddress,
+                                                                enableSuggestions: false,
+                                                                autocorrect: false,
+                                                                onChanged: (value){
+                                                                  setState(() {
+                                                                    PortaCameras = int.parse(value);
+                                                                  });
+                                                                },
+                                                                decoration: const InputDecoration(
+                                                                  border: OutlineInputBorder(),
+                                                                  enabledBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(
+                                                                        width: 3,
+                                                                        color: Colors.black
+                                                                    ),
+                                                                  ),
+                                                                  labelText: 'Porta RTSP das Cameras (Normalmente é 554)',
+                                                                ),
                                                               ),
                                                             ),
-                                                            labelText: 'URL das Cameras',
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              PortaCameras = int.parse(value);
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
+                                                          Center(
+                                                            child: Container(
+                                                              padding: const EdgeInsets.all(16),
+                                                              child: TextField(
+                                                                keyboardType: TextInputType.emailAddress,
+                                                                enableSuggestions: false,
+                                                                autocorrect: false,
+                                                                onChanged: (value){
+                                                                  setState(() {
+                                                                    UserAccess = value;
+                                                                  });
+                                                                },
+                                                                decoration: const InputDecoration(
+                                                                  border: OutlineInputBorder(),
+                                                                  enabledBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(
+                                                                        width: 3,
+                                                                        color: Colors.black
+                                                                    ),
+                                                                  ),
+                                                                  labelText: 'Usuario para acesso das cameras',
+                                                                ),
                                                               ),
                                                             ),
-                                                            labelText: 'Porta RTSP das Cameras (Normalmente é 554)',
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              UserAccess = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
+                                                          Center(
+                                                            child: Container(
+                                                              padding: const EdgeInsets.all(16),
+                                                              child: TextField(
+                                                                keyboardType: TextInputType.emailAddress,
+                                                                enableSuggestions: false,
+                                                                autocorrect: false,
+                                                                onChanged: (value){
+                                                                  setState(() {
+                                                                    PassAccess = value;
+                                                                  });
+                                                                },
+                                                                decoration: const InputDecoration(
+                                                                  border: OutlineInputBorder(),
+                                                                  enabledBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(
+                                                                        width: 3,
+                                                                        color: Colors.black
+                                                                    ),
+                                                                  ),
+                                                                  labelText: 'Senha para acesso das cameras',
+                                                                ),
                                                               ),
                                                             ),
-                                                            labelText: 'Usuario para acesso das cameras',
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              PassAccess = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
+                                                          Center(
+                                                            child: Container(
+                                                              padding: const EdgeInsets.all(16),
+                                                              child: TextField(
+                                                                keyboardType: TextInputType.emailAddress,
+                                                                enableSuggestions: false,
+                                                                autocorrect: false,
+                                                                onChanged: (value){
+                                                                  setState(() {
+                                                                    UserAccess = value;
+                                                                  });
+                                                                },
+                                                                decoration: const InputDecoration(
+                                                                  border: OutlineInputBorder(),
+                                                                  enabledBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(
+                                                                        width: 3,
+                                                                        color: Colors.black
+                                                                    ),
+                                                                  ),
+                                                                  labelText: 'Usuario para acesso das cameras',
+                                                                ),
                                                               ),
                                                             ),
-                                                            labelText: 'Senha para acesso das cameras',
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              UserAccess = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
+                                                          Center(
+                                                            child: Container(
+                                                              padding: const EdgeInsets.all(16),
+                                                              child: TextField(
+                                                                keyboardType: TextInputType.emailAddress,
+                                                                enableSuggestions: false,
+                                                                autocorrect: false,
+                                                                onChanged: (value){
+                                                                  setState(() {
+                                                                    SIPUrl = value;
+                                                                  });
+                                                                },
+                                                                decoration: const InputDecoration(
+                                                                  border: OutlineInputBorder(),
+                                                                  enabledBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(
+                                                                        width: 3,
+                                                                        color: Colors.black
+                                                                    ),
+                                                                  ),
+                                                                  labelText: 'SIP Url (sip2.chamada.com.br)',
+                                                                ),
                                                               ),
                                                             ),
-                                                            labelText: 'Usuario para acesso das cameras',
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              SIPUrl = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
+                                                          Center(
+                                                            child: Container(
+                                                              padding: const EdgeInsets.all(16),
+                                                              child: TextField(
+                                                                keyboardType: TextInputType.emailAddress,
+                                                                enableSuggestions: false,
+                                                                autocorrect: false,
+                                                                onChanged: (value){
+                                                                  setState(() {
+                                                                    Porta = value;
+                                                                  });
+                                                                },
+                                                                decoration: const InputDecoration(
+                                                                  border: OutlineInputBorder(),
+                                                                  enabledBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(
+                                                                        width: 3,
+                                                                        color: Colors.black
+                                                                    ),
+                                                                  ),
+                                                                  labelText: 'SIP Porta (5060)',
+                                                                ),
                                                               ),
                                                             ),
-                                                            labelText: 'SIP Url (sip2.chamada.com.br)',
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              Porta = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
+                                                          Center(
+                                                            child: Container(
+                                                              padding: const EdgeInsets.all(16),
+                                                              child: TextField(
+                                                                keyboardType: TextInputType.emailAddress,
+                                                                enableSuggestions: false,
+                                                                autocorrect: false,
+                                                                onChanged: (value){
+                                                                  setState(() {
+                                                                    AuthUser = value;
+                                                                  });
+                                                                },
+                                                                decoration: const InputDecoration(
+                                                                  border: OutlineInputBorder(),
+                                                                  enabledBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(
+                                                                        width: 3,
+                                                                        color: Colors.black
+                                                                    ),
+                                                                  ),
+                                                                  labelText: 'Usuario de acesso do SIP',
+                                                                ),
                                                               ),
                                                             ),
-                                                            labelText: 'SIP Porta (5060)',
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              AuthUser = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
+                                                          Center(
+                                                            child: Container(
+                                                              padding: const EdgeInsets.all(16),
+                                                              child: TextField(
+                                                                keyboardType: TextInputType.emailAddress,
+                                                                enableSuggestions: false,
+                                                                autocorrect: false,
+                                                                onChanged: (value){
+                                                                  setState(() {
+                                                                    Pass = value;
+                                                                  });
+                                                                },
+                                                                decoration: const InputDecoration(
+                                                                  border: OutlineInputBorder(),
+                                                                  enabledBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(
+                                                                        width: 3,
+                                                                        color: Colors.black
+                                                                    ),
+                                                                  ),
+                                                                  labelText: 'Senha de acesso do SIP',
+                                                                ),
                                                               ),
                                                             ),
-                                                            labelText: 'Usuario de acesso do SIP',
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              Pass = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
+                                                          Center(
+                                                            child: Container(
+                                                              padding: const EdgeInsets.all(16),
+                                                              child: TextField(
+                                                                keyboardType: TextInputType.emailAddress,
+                                                                enableSuggestions: false,
+                                                                autocorrect: false,
+                                                                onChanged: (value){
+                                                                  setState(() {
+                                                                    Aviso = value;
+                                                                  });
+                                                                },
+                                                                decoration: const InputDecoration(
+                                                                  border: OutlineInputBorder(),
+                                                                  enabledBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(
+                                                                        width: 3,
+                                                                        color: Colors.black
+                                                                    ),
+                                                                  ),
+                                                                  labelText: 'Aviso',
+                                                                ),
                                                               ),
                                                             ),
-                                                            labelText: 'Senha de acesso do SIP',
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              Aviso = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
-                                                              ),
-                                                            ),
-                                                            labelText: 'Aviso',
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    ElevatedButton(onPressed: (){
-                                                      if(NomeCondominio == ""){
-                                                        showToast("O nome do Condominio está vazio!",context:context);
-                                                      }else{
-                                                        if(codigo == ""){
-                                                          showToast("O codigo está vazio!",context:context);
-                                                        }else{
-                                                          if(codigo.length == 4){
-                                                            if(IPCameras == ""){
-                                                              showToast("A URL das Cameras está vazia!",context:context);
+                                                          ElevatedButton(onPressed: (){
+                                                            if(NomeCondominio == ""){
+                                                              showToast("O nome do Condominio está vazio!",context:context);
                                                             }else{
-                                                              if(PortaCameras == null){
-                                                                showToast("A Porta em RTSP das Cameras está vazia!",context:context);
+                                                              if(codigo == ""){
+                                                                showToast("O codigo está vazio!",context:context);
                                                               }else{
-                                                                if(UserAccess == ""){
-                                                                  showToast("O Usuario para acesso das cameras está vazio!",context:context);
-                                                                }else{
-                                                                  if(PassAccess == ""){
-                                                                    showToast("A Senha para acesso das cameras está vazia!",context:context);
+                                                                if(codigo.length == 4){
+                                                                  if(IPCameras == ""){
+                                                                    showToast("A URL das Cameras está vazia!",context:context);
                                                                   }else{
-                                                                    if(SIPUrl == ""){
-                                                                      showToast("A URL do SIP não pode estar vazia!",context:context);
+                                                                    if(PortaCameras == null){
+                                                                      showToast("A Porta em RTSP das Cameras está vazia!",context:context);
                                                                     }else{
-                                                                      if(Porta == ""){
-                                                                        showToast("A porta do SIP não pode estar vazia!",context:context);
+                                                                      if(UserAccess == ""){
+                                                                        showToast("O Usuario para acesso das cameras está vazio!",context:context);
                                                                       }else{
-                                                                        if(AuthUser == ""){
-                                                                          showToast("o acesso do usuario do SIP não pode estar vazio!",context:context);
+                                                                        if(PassAccess == ""){
+                                                                          showToast("A Senha para acesso das cameras está vazia!",context:context);
                                                                         }else{
-                                                                          Uuid uuid = const Uuid();
-                                                                          String UUID = uuid.v4();
-                                                                          FirebaseFirestore.instance.collection('Condominios').doc(UUID).set({
-                                                                            "idCondominio": UUID,
-                                                                            "Nome": NomeCondominio,
-                                                                            "IpCamera": IPCameras,
-                                                                            "PortaCameras": PortaCameras,
-                                                                            "UserAccess": UserAccess,
-                                                                            "PassAccess": PassAccess,
-                                                                            "Aviso": Aviso,
-                                                                            "SIPUrl": SIPUrl,
-                                                                            "PortaSIP": Porta,
-                                                                            "authUserSIP": AuthUser,
-                                                                            "authSenhaSIP": Pass,
-                                                                            "Codigo" : codigo,
-                                                                            'idList' : [UID],
-                                                                            "ipCameraModelo": "IntelBras",
-                                                                            "ipCamera1": 1,
-                                                                            "ipCamera2": 2,
-                                                                            "ipCamera3": 3,
-                                                                            "ipCamera4": 4,
-                                                                            "ipCamera5": 5,
-                                                                            "ipCamera6": 6,
-                                                                            "ipCamera7": 7,
-                                                                            "ipCamera8": 8,
-                                                                            "ipCamera9": 9,
-                                                                            "ipCamera10": 10,
-                                                                            "ipCamera11": 11,
-                                                                            "ipCamera12": 12,
-                                                                            "ipCamera13": 13,
-                                                                            "ipCamera14": 14,
-                                                                            "ipCamera15": 15,
-                                                                            "ipCamera16": 16,
-                                                                            "ipCamera17": 17,
-                                                                            "ipCamera18": 18,
-                                                                            "ipCamera19": 19,
-                                                                            "ipCamera20": 20,
-                                                                            "ipCamera21": 21,
-                                                                            "ipCamera22": 22,
-                                                                            "ipCamera23": 23,
-                                                                            "ipCamera24": 24,
-                                                                            "ipCamera25": 25,
-                                                                            "ipCamera26": 26,
-                                                                            "ipCamera27": 27,
-                                                                            "ipCamera28": 28,
-                                                                            "ipCamera29": 29,
-                                                                            "ipCamera30": 30,
-                                                                            "ipCamera31": 31,
-                                                                            "ipCamera32": 32,
-                                                                            "ipCamera33": 33,
-                                                                            "ipCamera34": 34,
-                                                                            "ipCamera35": 35,
-                                                                            "ipCamera36": 36,
-                                                                          }).whenComplete(() {
-                                                                            Navigator.pop(context);
-                                                                          });
+                                                                          if(SIPUrl == ""){
+                                                                            showToast("A URL do SIP não pode estar vazia!",context:context);
+                                                                          }else{
+                                                                            if(Porta == ""){
+                                                                              showToast("A porta do SIP não pode estar vazia!",context:context);
+                                                                            }else{
+                                                                              if(AuthUser == ""){
+                                                                                showToast("o acesso do usuario do SIP não pode estar vazio!",context:context);
+                                                                              }else{
+                                                                                Uuid uuid = const Uuid();
+                                                                                String UUID = uuid.v4();
+                                                                                FirebaseFirestore.instance.collection('Condominios').doc(UUID).set({
+                                                                                  "idCondominio": UUID,
+                                                                                  "Nome": NomeCondominio,
+                                                                                  "IpCamera": IPCameras,
+                                                                                  "PortaCameras": PortaCameras,
+                                                                                  "UserAccess": UserAccess,
+                                                                                  "PassAccess": PassAccess,
+                                                                                  "Aviso": Aviso,
+                                                                                  "SIPUrl": SIPUrl,
+                                                                                  "PortaSIP": Porta,
+                                                                                  "authUserSIP": AuthUser,
+                                                                                  "authSenhaSIP": Pass,
+                                                                                  "Codigo" : codigo,
+                                                                                  'idList' : [UID],
+                                                                                  "ipCameraModelo": "IntelBras",
+                                                                                  "ipCamera1": 1,
+                                                                                  "ipCamera2": 2,
+                                                                                  "ipCamera3": 3,
+                                                                                  "ipCamera4": 4,
+                                                                                  "ipCamera5": 5,
+                                                                                  "ipCamera6": 6,
+                                                                                  "ipCamera7": 7,
+                                                                                  "ipCamera8": 8,
+                                                                                  "ipCamera9": 9,
+                                                                                  "ipCamera10": 10,
+                                                                                  "ipCamera11": 11,
+                                                                                  "ipCamera12": 12,
+                                                                                  "ipCamera13": 13,
+                                                                                  "ipCamera14": 14,
+                                                                                  "ipCamera15": 15,
+                                                                                  "ipCamera16": 16,
+                                                                                  "ipCamera17": 17,
+                                                                                  "ipCamera18": 18,
+                                                                                  "ipCamera19": 19,
+                                                                                  "ipCamera20": 20,
+                                                                                  "ipCamera21": 21,
+                                                                                  "ipCamera22": 22,
+                                                                                  "ipCamera23": 23,
+                                                                                  "ipCamera24": 24,
+                                                                                  "ipCamera25": 25,
+                                                                                  "ipCamera26": 26,
+                                                                                  "ipCamera27": 27,
+                                                                                  "ipCamera28": 28,
+                                                                                  "ipCamera29": 29,
+                                                                                  "ipCamera30": 30,
+                                                                                  "ipCamera31": 31,
+                                                                                  "ipCamera32": 32,
+                                                                                  "ipCamera33": 33,
+                                                                                  "ipCamera34": 34,
+                                                                                  "ipCamera35": 35,
+                                                                                  "ipCamera36": 36,
+                                                                                }).whenComplete(() {
+                                                                                  Navigator.pop(context);
+                                                                                });
+                                                                              }
+                                                                            }
+                                                                          }
                                                                         }
                                                                       }
                                                                     }
                                                                   }
+                                                                }else{
+                                                                  if(codigo.length > 4){
+                                                                    showToast("Existem mais caracteres do que o permitido no codigo do condominio!",context:context);
+                                                                  }
+                                                                  if(codigo.length < 4){
+                                                                    showToast("Existem menos caracteres do que o permitido no codigo do condominio!",context:context);
+                                                                  }
                                                                 }
                                                               }
                                                             }
-                                                          }else{
-                                                            if(codigo.length > 4){
-                                                              showToast("Existem mais caracteres do que o permitido no codigo do condominio!",context:context);
-                                                            }
-                                                            if(codigo.length < 4){
-                                                              showToast("Existem menos caracteres do que o permitido no codigo do condominio!",context:context);
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    },
-                                                        style: ElevatedButton.styleFrom(
-                                                            backgroundColor: colorBtn
-                                                        ),
-                                                        child: Text(
-                                                            'Registrar novo Condominio',
-                                                          style: TextStyle(
-                                                              color: textColor
-                                                          ),
-                                                        )
-                                                    )
-                                                  ],
-                                                ),
+                                                          },
+                                                              style: ElevatedButton.styleFrom(
+                                                                  backgroundColor: colorBtn
+                                                              ),
+                                                              child: Text(
+                                                                  'Registrar novo Condominio',
+                                                                style: TextStyle(
+                                                                    color: textColor
+                                                                ),
+                                                              )
+                                                          )
+                                                        ],
+                                                      ),
+                                                    );
+                                                  }
+                                                  );
+                                                },
                                               );
-                                            }
-                                            );
-                                          },
-                                        );
-                                      },
-                                        backgroundColor: colorBtnFab,
-                                        child: Icon(
-                                            Icons.add,
-                                            color: textColor
+                                            },
+                                              backgroundColor: colorBtnFab,
+                                              child: Icon(
+                                                  Icons.add,
+                                                  color: textColor
+                                              ),
+                                            ),
+                                          ):
+                                          Container(),
+                                        ]
                                         ),
                                       ),
-                                    ):
-                                    Container(),
-                                  ]
-                                  ),
-                                ),
-                                Container(
-                                  width: wid / 4,
-                                  height: heig / 3.5,
-                                  decoration: const BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage('assets/FundoMetalPrata.jpg'),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: SingleChildScrollView(
-                                      child: Container(
-                                        padding: const EdgeInsets.all(0),
+                                      Container(
+                                        width: wid / 4,
+                                        height: heig / 3.5,
+                                        decoration: const BoxDecoration(
+                                        ),
                                         child: Center(
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                padding: const EdgeInsets.all(16),
-                                                child: TextField(
-                                                  controller: anotacaoControlCondominio,
-                                                  keyboardType: TextInputType.multiline,
-                                                  enableSuggestions: true,
-                                                  autocorrect: true,
-                                                  minLines: 5,
-                                                  maxLines: null,
-                                                  onChanged: (value){
-                                                    anotacao = value;
-                                                  },
-                                                    style: const TextStyle(
-                                                        color: Colors.black
-                                                    ),
-                                                  decoration: const InputDecoration(
-                                                    border: OutlineInputBorder(),
-                                                    enabledBorder: OutlineInputBorder(
-                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                    ),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          width: 3,
-                                                          color: Colors.black
+                                          child: SingleChildScrollView(
+                                            child: Container(
+                                              padding: const EdgeInsets.all(0),
+                                              child: Center(
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      padding: const EdgeInsets.all(16),
+                                                      child: TextField(
+                                                        controller: anotacaoControlCondominio,
+                                                        keyboardType: TextInputType.multiline,
+                                                        enableSuggestions: true,
+                                                        autocorrect: true,
+                                                        minLines: 5,
+                                                        maxLines: null,
+                                                        onChanged: (value){
+                                                          anotacao = value;
+                                                        },
+                                                          style: const TextStyle(
+                                                              color: Colors.black
+                                                          ),
+                                                        decoration: const InputDecoration(
+                                                          border: OutlineInputBorder(),
+                                                          enabledBorder: OutlineInputBorder(
+                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                          ),
+                                                          focusedBorder: OutlineInputBorder(
+                                                            borderSide: BorderSide(
+                                                                width: 3,
+                                                                color: Colors.black
+                                                            ),
+                                                          ),
+                                                          labelStyle: TextStyle(
+                                                              color: Colors.black
+                                                          ),
+                                                          labelText: "Anotações sobre o condominio",
+                                                        ),
                                                       ),
                                                     ),
-                                                    labelStyle: TextStyle(
-                                                        color: Colors.black
+                                                    Container(
+                                                      alignment: Alignment.bottomRight,
+                                                      child: editarAnotacao == false ?
+                                                      Container():
+                                                      FloatingActionButton(
+                                                          onPressed:idCondominioAnt == "" ? null : (){
+                                                            FirebaseFirestore.instance.collection('Condominios').doc(idCondominioAnt).update({
+                                                              "Aviso": anotacao,
+                                                            }).whenComplete(() {
+                                                              showToast("Anotação salva com sucesso!",context:context);
+                                                            });
+                                                          },
+                                                          backgroundColor: colorBtnFab,
+                                                          child: Icon(
+                                                              Icons.done,
+                                                              color: textColor
+                                                          )
+                                                      ),
                                                     ),
-                                                    labelText: "Anotações sobre o condominio",
-                                                  ),
+                                                  ],
                                                 ),
                                               ),
-                                              Container(
-                                                alignment: Alignment.bottomRight,
-                                                child: editarAnotacao == false ?
-                                                Container():
-                                                FloatingActionButton(
-                                                    onPressed:idCondominioAnt == "" ? null : (){
-                                                      FirebaseFirestore.instance.collection('Condominios').doc(idCondominioAnt).update({
-                                                        "Aviso": anotacao,
-                                                      }).whenComplete(() {
-                                                        showToast("Anotação salva com sucesso!",context:context);
-                                                      });
-                                                    },
-                                                    backgroundColor: colorBtnFab,
-                                                    child: Icon(
-                                                        Icons.done,
-                                                        color: textColor
-                                                    )
-                                                ),
-                                              ),
-                                            ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
+                                      )
+                                    ],
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -1962,7 +1050,6 @@ class _homeAppState extends State<homeApp>{
                           width: wid / 2,
                           height: heig,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               //CFTV AQUI!
                               VideoStreamWidget(
@@ -1970,23 +1057,29 @@ class _homeAppState extends State<homeApp>{
                               ),
                               SizedBox(
                                 width: wid / 2,
-                                height: heig / 2.9,
+                                height: heig / 2.3,
                                 child: SingleChildScrollView(
                                   child: Column(
                                     children: [
                                        Container(
+                                         decoration: const BoxDecoration(
+                                           image: DecorationImage(
+                                             image: AssetImage('assets/fundoWidgetContainerMain.png'),
+                                             fit: BoxFit.cover,
+                                           ),
+                                         ),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             idCondominio == ""?
                                             SizedBox(
                                               width: wid / 4,
-                                              height: heig / 3,
+                                              height: heig / 2.3,
                                             ) :
                                             Center(
                                                   child: SizedBox(
                                                     width: wid / 4,
-                                                    height: heig / 3,
+                                                    height: heig / 2.3,
                                                     child: Stack(
                                                       children: [
                                                         StreamBuilder(
@@ -2016,7 +1109,7 @@ class _homeAppState extends State<homeApp>{
                                                                           color: Colors.black,
                                                                           width: 1.0,
                                                                         ),
-                                                                        borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                                                        
                                                                       ),
                                                                       child: Column(
                                                                         mainAxisAlignment: MainAxisAlignment.center,
@@ -2038,7 +1131,12 @@ class _homeAppState extends State<homeApp>{
                                                                               },
                                                                               child: Image.asset(documents["prontoParaAtivar"] == false ? "assets/btnInactive.png" : "assets/btnIsAbleToAction.png")
                                                                           ),
-                                                                          Text(documents["nome"]),
+                                                                          Text(
+                                                                              documents["nome"],
+                                                                            style: TextStyle(
+                                                                              color: textColorWidgets
+                                                                            )
+                                                                          ),
                                                                         ],
                                                                       ),
                                                                     );
@@ -2053,6 +1151,7 @@ class _homeAppState extends State<homeApp>{
                                                         AdicionarAcionamentos == false ?
                                                         Container():
                                                         Container(
+                                                          padding: const EdgeInsets.all(16),
                                                           alignment: Alignment.bottomRight,
                                                           child: FloatingActionButton(
                                                               onPressed: (){
@@ -2394,13 +1493,13 @@ class _homeAppState extends State<homeApp>{
                                                     }
                                                     return Container(
                                                       width: wid / 4,
-                                                      height: heig / 3,
+                                                      height: heig / 2.3,
                                                       decoration: BoxDecoration(
                                                         border: Border.all(
                                                           color: Colors.black,
                                                           width: 1.0,
                                                         ),
-                                                        borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                                        
                                                       ),
                                                       child: ListView(
                                                         children: snapshot.data!.docs.map((documents){
@@ -2417,7 +1516,7 @@ class _homeAppState extends State<homeApp>{
                                                                   color: Colors.black,
                                                                   width: 1.0,
                                                                 ),
-                                                                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                                                
                                                               ),
                                                               child: Center(
                                                                 child: Column(
@@ -2436,7 +1535,7 @@ class _homeAppState extends State<homeApp>{
                                                   ),
                                                   Container(
                                                     width: wid / 4,
-                                                    height: heig / 3,
+                                                    height: heig / 2.3,
                                                     alignment: Alignment.bottomRight,
                                                     padding: const EdgeInsets.all(16),
                                                     child: adicionarRamal == false ?
@@ -2588,1304 +1687,1309 @@ class _homeAppState extends State<homeApp>{
                             ],
                           )
                         ),
-                        Column(
-                          children: [
-                            SizedBox(
-                              width: wid / 4,
-                              height: heig / 3,
-                              child: Stack(
-                                children: [
-                                  idCondominio != "" ?
-                                  SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.all(16),
-                                          child: Image.asset(
-                                              "assets/vigilantLogo.png",
-                                              scale: 6
-                                          ),
-                                        ),
-                                        Center(
-                                          child: Container(
-                                            padding: const EdgeInsets.all(10),
-                                            child: TextField(
-                                              keyboardType: TextInputType.name,
-                                              enableSuggestions: true,
-                                              autocorrect: true,
-                                              onChanged: (value){
-                                                setState(() {
-                                                  pesquisa2 = value;
-                                                });
-
-                                                RegExp numeros = RegExp(r'[0-9]');
-
-                                                if(numeros.hasMatch(value)){
-                                                  setState(() {
-                                                    pesquisaCPF = true;
-                                                  });
-                                                }else{
-                                                  setState(() {
-                                                    pesquisaCPF = false;
-                                                  });
-                                                  if(value == ""){
-                                                    setState(() {
-                                                      pesquisando2 = false;
-                                                    });
-                                                  }else{
-                                                    setState(() {
-                                                      pesquisando2 = true;
-                                                    });
-                                                  }
-                                                }
-                                              },
-                                              decoration: InputDecoration(
-                                                border: const OutlineInputBorder(),
-                                                enabledBorder: const OutlineInputBorder(
-                                                  borderSide: BorderSide(width: 3, color: Colors.white), //<-- SEE HERE
-                                                ),
-                                                focusedBorder: const OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      width: 3,
-                                                      color: Colors.black
-                                                  ),
-                                                ),
-                                                label: Center(
-                                                          child: Image.asset(
-                                                              "assets/search.png",
-                                                            scale: 12,
-                                                          ),
-                                                        ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        StreamBuilder(
-                                          stream: pesquisando2 == true ? FirebaseFirestore.instance
-                                              .collection("Pessoas")
-                                              .where("idCondominio", isEqualTo: idCondominio)
-                                              .where("Nome", isGreaterThanOrEqualTo: pesquisa2)
-                                              .where("Nome", isLessThan: "${pesquisa2}z")
-                                              .snapshots():
-                                          pesquisaCPF == true ?
-                                          FirebaseFirestore.instance
-                                              .collection("Pessoas")
-                                              .where("idCondominio", isEqualTo: idCondominio)
-                                              .where("CPF", isGreaterThanOrEqualTo: pesquisa2)
-                                              .where("CPF", isLessThan: "${pesquisa2}z")
-                                              .snapshots():
-                                          FirebaseFirestore.instance
-                                              .collection("Pessoas")
-                                              .where("idCondominio", isEqualTo: idCondominio)
-                                              .snapshots(),
-                                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-
-                                            if (!snapshot.hasData) {
-                                              return const Center(
-                                                child: CircularProgressIndicator(),
-                                              );
-                                            }
-
-                                            return Column(
-                                              children: [
-                                                Container(
-                                                  width: double.infinity,
-                                                  height: heig / 5.5,
-                                                  decoration: BoxDecoration(
-                                                    image: const DecorationImage(
-                                                      image: AssetImage('assets/FundoMetalPrata.jpg'),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                    border: Border.all(
-                                                      color: Colors.black,
-                                                      width: 1.0,
-                                                    ),
-                                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                                  ),
-                                                  child: ListView(
-                                                    children: snapshot.data!.docs.map((documents){
-                                                      return InkWell(
-                                                        onTap: (){
-                                                          setState(() {
-                                                            moradorselecionado = true;
-                                                            NomeMorador = documents["Nome"];
-                                                            RGMorador = documents["RG"];
-                                                            CPFMorador = documents["CPF"];
-                                                            DatadeNascimentoMorador = documents["DataNascimento"];
-                                                            PlacaMorador = documents["placa"];
-                                                            imageURLMorador = documents["imageURI"];
-                                                            anotacaoMorador = documents["anotacao"];
-                                                            anotacaoControl.text = anotacaoMorador;
-                                                            MoradorId = documents["id"];
-                                                            UnidadeMorador = documents["Unidade"];
-                                                            BlocoMorador = documents["Bloco"];
-                                                          });
-                                                        },
-                                                        child: Container(
-                                                          padding: const EdgeInsets.all(16),
-                                                          child: SizedBox(
-                                                            width: double.infinity,
-                                                            height: 50,
-                                                            child: Column(
-                                                              children: [
-                                                                Text(
-                                                                    "Nome: ${documents['Nome']}",
-                                                                  style: TextStyle(
-                                                                      color: textColorWidgets
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                    "CPF: ${documents['CPF']}",
-                                                                  style: TextStyle(
-                                                                      color: textColorWidgets
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      );
-                                                    }).toList(),
-                                                  ),
-                                                ),
-                                                moradorselecionado == true ?
-                                                Stack(
-                                                  children: [
-                                                    Container(
-                                                      padding: const EdgeInsets.all(16),
-                                                      alignment: Alignment.centerRight,
-                                                      child: IconButton(
-                                                        onPressed: (){
-                                                          setState(() {
-                                                            setState(() {
-                                                              moradorselecionado = false;
-                                                              NomeMorador = "";
-                                                              RGMorador = "";
-                                                              CPFMorador = "";
-                                                              DatadeNascimentoMorador = "";
-                                                              PlacaMorador = "";
-                                                              imageURLMorador = "";
-                                                              anotacaoMorador = "";
-                                                              anotacaoControl.text = "";
-                                                              MoradorId = "";
-                                                              UnidadeMorador = "";
-                                                              BlocoMorador = "";
-                                                            });
-                                                          });
-                                                        },
-                                                        icon: const Icon(Icons.close)
-                                                      ),
-                                                    ),
-                                                    Column(
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Container(
-                                                                padding: const EdgeInsets.all(8),
-                                                                child: Image.network(
-                                                                    height: 100,
-                                                                    width: 100,
-                                                                    imageURLMorador
-                                                                )
-                                                            ),
-                                                            Column(
-                                                              children: [
-                                                                Container(
-                                                                    padding: const EdgeInsets.all(8),
-                                                                    child: Text("Nome: $NomeMorador")
-                                                                ),
-                                                                Container(
-                                                                    padding: const EdgeInsets.all(8),
-                                                                    child: Text("RG: $RGMorador")
-                                                                ),
-                                                                Container(
-                                                                    padding: const EdgeInsets.all(8),
-                                                                    child: Text("CPF: $CPFMorador",)
-                                                                ),
-                                                                Container(
-                                                                    padding: const EdgeInsets.all(8),
-                                                                    child: Text("Data de nascimento: $DatadeNascimentoMorador")
-                                                                ),
-                                                                Container(
-                                                                    padding: const EdgeInsets.all(8),
-                                                                    child: Text("Placa: $PlacaMorador",
-                                                                    )
-                                                                ),
-                                                                Container(
-                                                                    padding: const EdgeInsets.all(8),
-                                                                    child: Text("Unidade: $UnidadeMorador")
-                                                                ),
-                                                                Container(
-                                                                    padding: const EdgeInsets.all(8),
-                                                                    child: Text("Bloco: $BlocoMorador")
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Container(
-                                                          padding: const EdgeInsets.all(16),
-                                                          child: TextField(
-                                                            keyboardType: TextInputType.multiline,
-                                                            enableSuggestions: true,
-                                                            autocorrect: true,
-                                                            minLines: 5,
-                                                            maxLines: null,
-                                                            controller: anotacaoControl,
-                                                            onChanged: (value){
-                                                              setState(() {
-                                                                anotacaoMorador = value;
-                                                              });
-                                                            },
-                                                            decoration: const InputDecoration(
-                                                              border: OutlineInputBorder(),
-                                                              enabledBorder: OutlineInputBorder(
-                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                              ),
-                                                              focusedBorder: OutlineInputBorder(
-                                                                borderSide: BorderSide(
-                                                                    width: 3,
-                                                                    color: Colors.black
-                                                                ),
-                                                              ),
-                                                              labelText: 'Anotação',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          padding: const EdgeInsets.all(16),
-                                                          child: ElevatedButton(
-                                                            onPressed: (){
-                                                              FirebaseFirestore.instance.collection('Pessoas').doc(MoradorId).update({
-                                                                "anotacao": anotacaoMorador
-                                                              });
-                                                            },style: ElevatedButton.styleFrom(
-                                                              backgroundColor: colorBtn
-                                                            ),
-                                                              child: Text(
-                                                                  "Salvar anotação",
-                                                                style: TextStyle(
-                                                                    color: textColor
-                                                                ),
+                        SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Container(
+                                  padding: const EdgeInsets.only(bottom: 10, top: 10),
+                                  child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    TextButton(
+                                        onPressed: () async {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                
+                                              //Strings da API de portas
+                                              String IP = "";
+                                              String Porta = "";
+                                              String Canal = "";
+                                              String Usuario = "";
+                                              String Senha = "";
+                                              String modeloselecionado = "Intelbras";
+                                
+                                              //Inteiros de gerenciamento de janela
+                                              int janela = 1;
+                                
+                                              //Double do tamanho da janela
+                                              double Widet = wid / 3;
+                                              double Heigt = wid / 3;
+                                
+                                              var dropValue4 = ValueNotifier('Intelbras');
+                                
+                                              return StatefulBuilder(builder: (BuildContext context, StateSetter setStatee){
+                                                return Center(
+                                                  child: SingleChildScrollView(
+                                                    child: AlertDialog(
+                                                      scrollable: true,
+                                                      title: Column(
+                                                        children: [
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                            children: [
+                                                              const Text('Configurações Geriais'),
+                                                              IconButton(onPressed: (){
+                                                                Navigator.pop(context);
+                                                              }, icon: const Icon(Icons.close)
                                                               )
+                                                            ],
                                                           ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ): Container(),
-                                              ],
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ):  Center(
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.all(16),
-                                          child: Image.asset(
-                                              "assets/vigilantLogo.png",
-                                              scale: 6
-                                          ),
-                                        ),
-                                        Center(
-                                            child: Container(
-                                                width: wid / 4,
-                                                height: heig / 4,
-                                                decoration: const BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: AssetImage('assets/FundoMetalPrata.jpg'),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                                padding: const EdgeInsets.all(16),
-                                                child: Text(
-                                                    'Selecione algum cliente',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        color: textColorWidgets
-                                                    ),
-                                                )
-                                            )
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    alignment: Alignment.bottomRight,
-                                    padding: const EdgeInsets.all(16),
-                                    child: adicionarMoradores == false ?
-                                    Container():
-                                    FloatingActionButton(
-                                      onPressed: idCondominio == "" ? null : (){
-                                      String NomeV = "";
-                                      String CPFV = "";
-                                      String RGV = "";
-                                      String placa = "";
-                                      String Unidade = "";
-                                      String Bloco = "";
-                                      DateTime selectedDate = DateTime.now();
-                                      File? _imageFile;
-                                      final picker = ImagePicker();
-
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                            return Center(
-                                              child: SingleChildScrollView(
-                                                child: AlertDialog(
-                                                  title: Center(
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        const Text('Cadastre um morador'),
-                                                        IconButton(onPressed: (){
-                                                          Navigator.pop(context);
-                                                        }, icon: const Icon(Icons.close)
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  actions: [
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              NomeV = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                          acessoDevFunc == true ? Container(
+                                                            padding: const EdgeInsets.all(16),
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                permissaoCriarUsuarios == true ?
+                                                                ElevatedButton(
+                                                                  onPressed: (){
+                                                                    setStatee((){
+                                                                      janela = 1;
+                                                                    });
+                                                                  },
+                                                                  child: const Text("Criação de usuarios"),
+                                                                ): Container(),
+                                                                ElevatedButton(
+                                                                  onPressed: (){
+                                                                    setStatee((){
+                                                                      janela = 2;
+                                                                    });
+                                                                  },
+                                                                  child: const Text("APIs de teste"),
+                                                                ),
+                                                              ],
                                                             ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
-                                                              ),
-                                                            ),
-                                                            labelText: 'Nome',
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              CPFV = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
-                                                              ),
-                                                            ),
-                                                            labelText: 'CPF',
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              RGV = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
-                                                              ),
-                                                            ),
-                                                            labelText: 'RG',
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              placa = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
-                                                              ),
-                                                            ),
-                                                            labelText: 'Placa',
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              Unidade = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
-                                                              ),
-                                                            ),
-                                                            labelText: 'Unidade',
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          enableSuggestions: false,
-                                                          autocorrect: false,
-                                                          onChanged: (value){
-                                                            setState(() {
-                                                              Bloco = value;
-                                                            });
-                                                          },
-                                                          decoration: const InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            enabledBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
-                                                              ),
-                                                            ),
-                                                            labelText: 'Bloco',
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                          padding: const EdgeInsets.all(16),
-                                                          child: Text(selectedDate == null ? 'Selecione a data de nascimento' :
-                                                          "Data de nacimento ${selectedDate.year}/${selectedDate.month}/${selectedDate.day}")
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                          padding: const EdgeInsets.all(16),
-                                                          child: ElevatedButton(
-                                                            onPressed: () async {
-                                                              final DateTime? picked = await showDatePicker(
-                                                                context: context,
-                                                                initialDate: selectedDate,
-                                                                firstDate: DateTime(1800, 8),
-                                                                lastDate: DateTime(2101),
-                                                              );
-                                                              if (picked != null && picked != selectedDate) {
-                                                                setState(() {
-                                                                  selectedDate = picked;
-                                                                });
-                                                              }
-                                                            },
-                                                            style: ElevatedButton.styleFrom(
-                                                                backgroundColor: colorBtn
-                                                            ),
-                                                            child: Text(
-                                                                'Selecione uma data',
-                                                              style: TextStyle(
-                                                                  color: textColor
-                                                              ),
-                                                            ),
-                                                          )
-                                                      ),
-                                                    ),
-                                                    _imageFile != null ? Center(
-                                                      child: SizedBox(
-                                                        width: 300,
-                                                        height: 300,
-                                                        child: Image.file(_imageFile!),
-                                                      ),
-                                                    ): Container(),
-                                                    Center(
-                                                      child: ElevatedButton(
-                                                        onPressed: () async {
-                                                          final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-                                                          setState(() {
-                                                            if (pickedFile != null) {
-                                                              _imageFile = File(pickedFile.path);
-                                                            } else {
-                                                              showToast("Imagem não selecionada!",context:context);
-                                                            }
-                                                          });
-                                                        },
-                                                        style: ElevatedButton.styleFrom(
-                                                            backgroundColor: colorBtn
-                                                        ),
-                                                        child: Text(
-                                                            'Selecione uma Imagem de perfil',
-                                                          style: TextStyle(
-                                                              color: textColor
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    ElevatedButton(onPressed: () async {
-                                                      if(NomeV == ""){
-                                                        showToast("O nome está vazio!",context:context);
-                                                      }else{
-                                                        if(CPFV == ""){
-                                                          showToast("O CPF está vazio!",context:context);
-                                                        }else{
-                                                          if(RGV == ""){
-                                                            showToast("O RG está vazio!",context:context);
-                                                          }else{
-                                                            if(selectedDate == null){
-                                                              showToast("A data está vazia!",context:context);
-                                                            }else{
-                                                              if(placa == ""){
-                                                                showToast("Digite uma placa",context:context);
-                                                              }else{
-                                                                if(Unidade == ""){
-                                                                  showToast("A unidade está vazia!",context:context);
-                                                                }else{
-                                                                  if(Bloco  == ""){
-                                                                    showToast("O bloco está vazio!!",context:context);
-                                                                  }else{
-                                                                    if(_imageFile == null){
-                                                                      showToast("Selecione uma foto!",context:context);
-                                                                    }else{
-                                                                      showDialog(
-                                                                        context: context,
-                                                                        builder: (BuildContext context) {
-                                                                          return const AlertDialog(
-                                                                            title: Text('Aguarde!'),
-                                                                            actions: [
-                                                                              Center(
-                                                                                child: CircularProgressIndicator(),
+                                                          ): Container(),
+                                                          permissaoCriarUsuarios == true? Center(
+                                                            child: janela == 1 ?
+                                                            Container(
+                                                                decoration: BoxDecoration(
+                                                                  border: Border.all(
+                                                                    color: Colors.black,
+                                                                    width: 1.0,
+                                                                  ),
+                                                                  
+                                                                ),
+                                                                child: Stack(
+                                                                  children: [
+                                                                    Column(
+                                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                                      children: [
+                                                                        const Text(
+                                                                            "Criação de usuarios",
+                                                                            style: TextStyle(
+                                                                                fontWeight: FontWeight.bold,
+                                                                                fontSize: 16
+                                                                            )
+                                                                        ),
+                                                                        Container(
+                                                                          padding: const EdgeInsets.all(16),
+                                                                          child: const Text(
+                                                                              "Lista de Usuarios",
+                                                                              style: TextStyle(
+                                                                                  fontSize: 16
                                                                               )
-                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                        StreamBuilder(stream: FirebaseFirestore.instance
+                                                                            .collection("Users")
+                                                                            .snapshots(), builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                                                                          if (!snapshot.hasData) {
+                                                                            return const Center(
+                                                                              child: CircularProgressIndicator(),
+                                                                            );
+                                                                          }
+                                
+                                                                          return Container(
+                                                                              width: Widet,
+                                                                              height: Heigt,
+                                                                              decoration: BoxDecoration(
+                                                                                border: Border.all(
+                                                                                  color: Colors.black,
+                                                                                  width: 1.0,
+                                                                                ),
+                                                                                
+                                                                              ),
+                                                                              child: Center(
+                                                                                child: ListView(
+                                                                                  children: snapshot.data!.docs.map((documents){
+                                                                                    return SizedBox(
+                                                                                      width: 100,
+                                                                                      height: 50,
+                                                                                      child: Text(
+                                                                                        "Nome: ${documents['Nome']}\nCPF: ${documents['CPF']}",
+                                                                                        style: const TextStyle(
+                                                                                            fontSize: 16
+                                                                                        ),
+                                                                                        textAlign: TextAlign.center,
+                                                                                      ),
+                                                                                    );
+                                                                                  }).toList(),
+                                                                                ),
+                                                                              )
+                                                                          );
+                                                                        }
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                    Container(
+                                                                      alignment: Alignment.bottomRight,
+                                                                      width: Widet,
+                                                                      height: Heigt,
+                                                                      child: FloatingActionButton(
+                                                                        onPressed: (){
+                                                                          //Criação do Usuario!
+                                
+                                                                          //Strings
+                                                                          String Nome = "";
+                                                                          String CPF = "";
+                                                                          String Usrname = "";
+                                                                          String Senha = "";
+                                
+                                                                          //Booleanos
+                                                                          bool addCondominios = false;
+                                                                          bool editCFTV = false;
+                                                                          bool addAcionamentos = false;
+                                                                          bool addRamal = false;
+                                                                          bool addMoradores = false;
+                                                                          bool addVisitante = false;
+                                                                          bool addVeiculos = false;
+                                                                          bool criarNovosUsuarios = false;
+                                                                          bool acessoDevFuc = false;
+                                                                          bool editarAnotacao = false;
+                                                                          bool adicionarUsuarioss = false;
+                                
+                                                                          showDialog(
+                                                                            context: context,
+                                                                            builder: (BuildContext context) {
+                                                                              return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                return AlertDialog(
+                                                                                  title: Column(
+                                                                                    children: [
+                                                                                      Row(
+                                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                        children: [
+                                                                                          const Text('Criação de Usuario'),
+                                                                                          IconButton(onPressed: (){
+                                                                                            Navigator.pop(context);
+                                                                                          }, icon: const Icon(Icons.close)
+                                                                                          )
+                                                                                        ],
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Container(
+                                                                                          padding: const EdgeInsets.all(16),
+                                                                                          child: TextField(
+                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                            enableSuggestions: false,
+                                                                                            autocorrect: false,
+                                                                                            onChanged: (value){
+                                                                                              setState(() {
+                                                                                                Nome = value;
+                                                                                              });
+                                                                                            },
+                                                                                            decoration: const InputDecoration(
+                                                                                              border: OutlineInputBorder(),
+                                                                                              enabledBorder: OutlineInputBorder(
+                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                              ),
+                                                                                              focusedBorder: OutlineInputBorder(
+                                                                                                borderSide: BorderSide(
+                                                                                                    width: 3,
+                                                                                                    color: Colors.black
+                                                                                                ),
+                                                                                              ),
+                                                                                              labelText: 'Nome',
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Container(
+                                                                                          padding: const EdgeInsets.all(16),
+                                                                                          child: TextField(
+                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                            enableSuggestions: false,
+                                                                                            autocorrect: false,
+                                                                                            onChanged: (value){
+                                                                                              setState(() {
+                                                                                                CPF = value;
+                                                                                              });
+                                                                                            },
+                                                                                            decoration: const InputDecoration(
+                                                                                              border: OutlineInputBorder(),
+                                                                                              enabledBorder: OutlineInputBorder(
+                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                              ),
+                                                                                              focusedBorder: OutlineInputBorder(
+                                                                                                borderSide: BorderSide(
+                                                                                                    width: 3,
+                                                                                                    color: Colors.black
+                                                                                                ),
+                                                                                              ),
+                                                                                              labelText: 'CPF',
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Container(
+                                                                                          padding: const EdgeInsets.all(16),
+                                                                                          child: TextField(
+                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                            enableSuggestions: false,
+                                                                                            autocorrect: false,
+                                                                                            onChanged: (value){
+                                                                                              setState(() {
+                                                                                                Usrname = value;
+                                                                                              });
+                                                                                            },
+                                                                                            decoration: const InputDecoration(
+                                                                                              border: OutlineInputBorder(),
+                                                                                              enabledBorder: OutlineInputBorder(
+                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                              ),
+                                                                                              focusedBorder: OutlineInputBorder(
+                                                                                                borderSide: BorderSide(
+                                                                                                    width: 3,
+                                                                                                    color: Colors.black
+                                                                                                ),
+                                                                                              ),
+                                                                                              labelText: 'Login',
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Container(
+                                                                                          padding: const EdgeInsets.all(16),
+                                                                                          child: TextField(
+                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                            enableSuggestions: false,
+                                                                                            autocorrect: false,
+                                                                                            onChanged: (value){
+                                                                                              setState(() {
+                                                                                                Senha = value;
+                                                                                              });
+                                                                                            },
+                                                                                            decoration: const InputDecoration(
+                                                                                              border: OutlineInputBorder(),
+                                                                                              enabledBorder: OutlineInputBorder(
+                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                              ),
+                                                                                              focusedBorder: OutlineInputBorder(
+                                                                                                borderSide: BorderSide(
+                                                                                                    width: 3,
+                                                                                                    color: Colors.black
+                                                                                                ),
+                                                                                              ),
+                                                                                              labelText: 'Senha',
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      const Center(
+                                                                                          child: Text(
+                                                                                              "Permissões",
+                                                                                              style: TextStyle(
+                                                                                                  fontWeight: FontWeight.bold,
+                                                                                                  fontSize: 16
+                                                                                              )
+                                                                                          )
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                          children: [
+                                                                                            Checkbox(
+                                                                                              value: addCondominios ,
+                                                                                              onChanged: (bool? value){
+                                                                                                setState((){
+                                                                                                  addCondominios = value!;
+                                                                                                });
+                                                                                              },
+                                                                                            ),
+                                                                                            const Text(
+                                                                                                'Adicionar novos condominios',
+                                                                                                style: TextStyle(
+                                                                                                    fontSize: 16
+                                                                                                )
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                          children: [
+                                                                                            Checkbox(
+                                                                                              value: editCFTV  ,
+                                                                                              onChanged: (bool? value){
+                                                                                                setState((){
+                                                                                                  editCFTV = value!;
+                                                                                                });
+                                                                                              },
+                                                                                            ),
+                                                                                            const Text(
+                                                                                                'Editar CFTV',
+                                                                                                style: TextStyle(
+                                                                                                    fontSize: 16
+                                                                                                )
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                          children: [
+                                                                                            Checkbox(
+                                                                                              value: addAcionamentos,
+                                                                                              onChanged: (bool? value){
+                                                                                                setState((){
+                                                                                                  addAcionamentos = value!;
+                                                                                                });
+                                                                                              },
+                                                                                            ),
+                                                                                            const Text(
+                                                                                                'Adicionar Acionamentos',
+                                                                                                style: TextStyle(
+                                                                                                    fontSize: 16
+                                                                                                )
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                          children: [
+                                                                                            Checkbox(
+                                                                                              value: addRamal,
+                                                                                              onChanged: (bool? value){
+                                                                                                setState((){
+                                                                                                  addRamal  = value!;
+                                                                                                });
+                                                                                              },
+                                                                                            ),
+                                                                                            const Text(
+                                                                                                'Adicionar Ramal',
+                                                                                                style: TextStyle(
+                                                                                                    fontSize: 16
+                                                                                                )
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                          children: [
+                                                                                            Checkbox(
+                                                                                              value: addMoradores ,
+                                                                                              onChanged: (bool? value){
+                                                                                                setState((){
+                                                                                                  addMoradores = value!;
+                                                                                                });
+                                                                                              },
+                                                                                            ),
+                                                                                            const Text(
+                                                                                                'Adicionar Moradores',
+                                                                                                style: TextStyle(
+                                                                                                    fontSize: 16
+                                                                                                )
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                          children: [
+                                                                                            Checkbox(
+                                                                                              value: addVisitante  ,
+                                                                                              onChanged: (bool? value){
+                                                                                                setState((){
+                                                                                                  addVisitante = value!;
+                                                                                                });
+                                                                                              },
+                                                                                            ),
+                                                                                            const Text(
+                                                                                                'Adicionar Visitantes',
+                                                                                                style: TextStyle(
+                                                                                                    fontSize: 16
+                                                                                                )
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                          children: [
+                                                                                            Checkbox(
+                                                                                              value: addVeiculos  ,
+                                                                                              onChanged: (bool? value){
+                                                                                                setState((){
+                                                                                                  addVeiculos = value!;
+                                                                                                });
+                                                                                              },
+                                                                                            ),
+                                                                                            const Text(
+                                                                                                'Adicionar Veiculos',
+                                                                                                style: TextStyle(
+                                                                                                    fontSize: 16
+                                                                                                )
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                          children: [
+                                                                                            Checkbox(
+                                                                                              value: criarNovosUsuarios,
+                                                                                              onChanged: (bool? value){
+                                                                                                setState((){
+                                                                                                  criarNovosUsuarios  = value!;
+                                                                                                });
+                                                                                              },
+                                                                                            ),
+                                                                                            const Text(
+                                                                                                'Criar novos usuarios',
+                                                                                                style: TextStyle(
+                                                                                                    fontSize: 16
+                                                                                                )
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                          children: [
+                                                                                            Checkbox(
+                                                                                              value: editarAnotacao,
+                                                                                              onChanged: (bool? value){
+                                                                                                setState((){
+                                                                                                  editarAnotacao = value!;
+                                                                                                });
+                                                                                              },
+                                                                                            ),
+                                                                                            const Text(
+                                                                                                'Editar anotação',
+                                                                                                style: TextStyle(
+                                                                                                    fontSize: 16
+                                                                                                )
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                          children: [
+                                                                                            Checkbox(
+                                                                                              value: acessoDevFuc ,
+                                                                                              onChanged: (bool? value){
+                                                                                                setState((){
+                                                                                                  adicionarUsuarioss = value!;
+                                                                                                });
+                                                                                              },
+                                                                                            ),
+                                                                                            const Text(
+                                                                                                'Adicionar usuarios',
+                                                                                                style: TextStyle(
+                                                                                                    fontSize: 16
+                                                                                                )
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                          children: [
+                                                                                            Checkbox(
+                                                                                              value: acessoDevFuc ,
+                                                                                              onChanged: (bool? value){
+                                                                                                setState((){
+                                                                                                  acessoDevFuc = value!;
+                                                                                                });
+                                                                                              },
+                                                                                            ),
+                                                                                            const Text(
+                                                                                                'Acesso as opções de teste e desenvolvimento',
+                                                                                                style: TextStyle(
+                                                                                                    fontSize: 16
+                                                                                                )
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      ElevatedButton(onPressed: () async {
+                                                                                        if(Nome == ""){
+                                                                                          showToast("O nome está vazio!",context:context);
+                                                                                        }else{
+                                                                                          if(CPF == ""){
+                                                                                            showToast("O CPF está vazio!",context:context);
+                                                                                          }else{
+                                                                                            if(Usrname == ""){
+                                                                                              showToast("O Login está vazio!",context:context);
+                                                                                            }else{
+                                                                                              if(Senha == ""){
+                                                                                                showToast("A Senha está vazia!",context:context);
+                                                                                              }else{
+                                                                                                FirebaseApp app = await Firebase.initializeApp(
+                                                                                                    name: 'Secondary', options: Firebase.app().options);
+                                                                                                try{
+                                                                                                  Uuid uuid = const Uuid();
+                                                                                                  String email = "${uuid.v4()}@email.com";
+                                
+                                                                                                  UserCredential userCredential = await FirebaseAuth.instanceFor(app: app)
+                                                                                                      .createUserWithEmailAndPassword(email: email, password: Senha);
+                                
+                                                                                                  FirebaseFirestore.instance.collection("Users").doc(userCredential.user?.uid).set({
+                                                                                                    "Nome": Nome,
+                                                                                                    "username": Usrname.trim(),
+                                                                                                    "Email" : email,
+                                                                                                    "Senha" : Senha,
+                                                                                                    "CPF": CPF,
+                                                                                                    "id": userCredential.user?.uid,
+                                                                                                    "AdicionarCondominios": addCondominios,
+                                                                                                    "acessoDevFunc": acessoDevFuc,
+                                                                                                    "adicionaAcionamentos": addAcionamentos,
+                                                                                                    "adicionarMoradores": addMoradores,
+                                                                                                    "permissaoCriarUsuarios": criarNovosUsuarios,
+                                                                                                    "adicionarVeiculo": addVeiculos,
+                                                                                                    "adicionarVisitante": addVisitante,
+                                                                                                    "editarAnotacao": editarAnotacao,
+                                                                                                    "adicionarRamal": adicionarRamal,
+                                                                                                    "adicionarUsuarios": adicionarUsuarioss,
+                                                                                                    "editarCFTV": editCFTV,
+                                                                                                  }).whenComplete((){
+                                                                                                    //Vai exibir uma ação para copiar as credenciais!
+                                                                                                    Navigator.pop(context);
+                                                                                                    showDialog(
+                                                                                                      context: context,
+                                                                                                      builder: (BuildContext context) {
+                                                                                                        return AlertDialog(
+                                                                                                          title: const Text('Usuario criado!'),
+                                                                                                          actions: [
+                                                                                                            Center(
+                                                                                                              child: Column(
+                                                                                                                children: [
+                                                                                                                  Row(
+                                                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                                    children: [
+                                                                                                                      Text("Login: ${Usrname.trim()}"),
+                                                                                                                      IconButton(onPressed: (){
+                                                                                                                        FlutterClipboard.copy("Login: ${Usrname.trim()}").then(( value ) {
+                                                                                                                          showToast("Email copiado com sucesso!",context:context);
+                                                                                                                        });
+                                                                                                                      },
+                                                                                                                          icon: const Icon(Icons.copy)
+                                                                                                                      )
+                                                                                                                    ],
+                                                                                                                  ),
+                                                                                                                  Row(
+                                                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                                    children: [
+                                                                                                                      Text("Senha: $Senha"),
+                                                                                                                      IconButton(onPressed: (){
+                                                                                                                        FlutterClipboard.copy("Senha: $Senha").then(( value ) {
+                                                                                                                          showToast("Senha copiada com sucesso!",context:context);
+                                                                                                                        });
+                                                                                                                      },
+                                                                                                                          icon: const Icon(Icons.copy)
+                                                                                                                      )
+                                                                                                                    ],
+                                                                                                                  ),
+                                                                                                                  Row(
+                                                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                                    children: [
+                                                                                                                      const Text("Copiar os dois"),
+                                                                                                                      IconButton(onPressed: (){
+                                                                                                                        FlutterClipboard.copy("Login: ${Usrname.trim()}\nSenha: $Senha").then(( value ) {
+                                                                                                                          showToast("Conteúdo copiado com sucesso!",context:context);
+                                                                                                                        });
+                                                                                                                      },
+                                                                                                                          icon: const Icon(Icons.copy)
+                                                                                                                      )
+                                                                                                                    ],
+                                                                                                                  ),
+                                                                                                                  ElevatedButton(onPressed: (){
+                                                                                                                    Navigator.pop(context);
+                                                                                                                  },
+                                                                                                                    child: const Text("Fechar!"),)
+                                                                                                                ],
+                                                                                                              ),
+                                                                                                            )
+                                                                                                          ],
+                                                                                                        );
+                                                                                                      },
+                                                                                                    );
+                                                                                                  });
+                                
+                                                                                                }catch(e){
+                                                                                                  showToast("Ocorreu um erro! $e",context:context);
+                                                                                                }
+                                                                                              }
+                                                                                            }
+                                                                                          }
+                                                                                        }
+                                                                                      },
+                                                                                          child: const Text("Criar novo usuario!")
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
+                                                                                  scrollable: true,
+                                                                                );
+                                                                              },
+                                                                              );
+                                                                            },
                                                                           );
                                                                         },
+                                                                        child: const Icon(Icons.add),
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                )
+                                                            ): janela == 2 ?
+                                                            acessoDevFunc == false ?
+                                                            Container():
+                                                            Container(
+                                                              decoration: BoxDecoration(
+                                                                border: Border.all(
+                                                                  color: Colors.black,
+                                                                  width: 1.0,
+                                                                ),
+                                                                
+                                                              ),
+                                                              child: Column(
+                                                                children: [
+                                                                  const Center(
+                                                                      child: Text(
+                                                                          'APIs de Teste',
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 16
+                                                                          )
+                                                                      )
+                                                                  ),
+                                                                  const Center(
+                                                                      child: Text(
+                                                                          'Teste de acionamentos',
+                                                                          style: TextStyle(
+                                                                              fontSize: 16
+                                                                          )
+                                                                      )
+                                                                  ),
+                                                                  Center(
+                                                                    child: Container(
+                                                                      padding: const EdgeInsets.all(16),
+                                                                      child: TextField(
+                                                                        keyboardType: TextInputType.emailAddress,
+                                                                        enableSuggestions: false,
+                                                                        autocorrect: false,
+                                                                        onChanged: (value){
+                                                                          setState(() {
+                                                                            IP = value;
+                                                                          });
+                                                                        },
+                                                                        decoration: const InputDecoration(
+                                                                          border: OutlineInputBorder(),
+                                                                          enabledBorder: OutlineInputBorder(
+                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                          ),
+                                                                          focusedBorder: OutlineInputBorder(
+                                                                            borderSide: BorderSide(
+                                                                                width: 3,
+                                                                                color: Colors.black
+                                                                            ),
+                                                                          ),
+                                                                          labelText: 'IP',
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Center(
+                                                                    child: Container(
+                                                                      padding: const EdgeInsets.all(16),
+                                                                      child: TextField(
+                                                                        keyboardType: TextInputType.emailAddress,
+                                                                        enableSuggestions: false,
+                                                                        autocorrect: false,
+                                                                        onChanged: (value){
+                                                                          setState(() {
+                                                                            Porta = value;
+                                                                          });
+                                                                        },
+                                                                        decoration: const InputDecoration(
+                                                                          border: OutlineInputBorder(),
+                                                                          enabledBorder: OutlineInputBorder(
+                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                          ),
+                                                                          focusedBorder: OutlineInputBorder(
+                                                                            borderSide: BorderSide(
+                                                                                width: 3,
+                                                                                color: Colors.black
+                                                                            ),
+                                                                          ),
+                                                                          labelText: 'Porta',
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Center(
+                                                                    child: Container(
+                                                                      padding: const EdgeInsets.all(16),
+                                                                      child: TextField(
+                                                                        keyboardType: TextInputType.emailAddress,
+                                                                        enableSuggestions: false,
+                                                                        autocorrect: false,
+                                                                        onChanged: (value){
+                                                                          setState(() {
+                                                                            Canal = value;
+                                                                          });
+                                                                        },
+                                                                        decoration: const InputDecoration(
+                                                                          border: OutlineInputBorder(),
+                                                                          enabledBorder: OutlineInputBorder(
+                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                          ),
+                                                                          focusedBorder: OutlineInputBorder(
+                                                                            borderSide: BorderSide(
+                                                                                width: 3,
+                                                                                color: Colors.black
+                                                                            ),
+                                                                          ),
+                                                                          labelText: 'Canal',
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Center(
+                                                                    child: Container(
+                                                                      padding: const EdgeInsets.all(16),
+                                                                      child: TextField(
+                                                                        keyboardType: TextInputType.emailAddress,
+                                                                        enableSuggestions: false,
+                                                                        autocorrect: false,
+                                                                        onChanged: (value){
+                                                                          setState(() {
+                                                                            Usuario = value;
+                                                                          });
+                                                                        },
+                                                                        decoration: const InputDecoration(
+                                                                          border: OutlineInputBorder(),
+                                                                          enabledBorder: OutlineInputBorder(
+                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                          ),
+                                                                          focusedBorder: OutlineInputBorder(
+                                                                            borderSide: BorderSide(
+                                                                                width: 3,
+                                                                                color: Colors.black
+                                                                            ),
+                                                                          ),
+                                                                          labelText: 'Usuario',
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Center(
+                                                                    child: Container(
+                                                                      padding: const EdgeInsets.all(16),
+                                                                      child: TextField(
+                                                                        keyboardType: TextInputType.emailAddress,
+                                                                        enableSuggestions: false,
+                                                                        autocorrect: false,
+                                                                        onChanged: (value){
+                                                                          setState(() {
+                                                                            Senha = value;
+                                                                          });
+                                                                        },
+                                                                        decoration: const InputDecoration(
+                                                                          border: OutlineInputBorder(),
+                                                                          enabledBorder: OutlineInputBorder(
+                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                          ),
+                                                                          focusedBorder: OutlineInputBorder(
+                                                                            borderSide: BorderSide(
+                                                                                width: 3,
+                                                                                color: Colors.black
+                                                                            ),
+                                                                          ),
+                                                                          labelText: 'Senha',
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Center(
+                                                                    child: ValueListenableBuilder(valueListenable: dropValue4, builder: (context, String value, _){
+                                                                      return DropdownButton(
+                                                                        hint: Text(
+                                                                          'Selecione o modelo',
+                                                                          style: TextStyle(
+                                                                              color: textColorDrop
+                                                                          ),
+                                                                        ),
+                                                                        value: (value.isEmpty)? null : value,
+                                                                        onChanged: (escolha) async {
+                                                                          dropValue4.value = escolha.toString();
+                                                                          setState(() {
+                                                                            modeloselecionado = escolha.toString();
+                                                                          });
+                                                                        },
+                                                                        items: ModelosAcionamentos.map((opcao) => DropdownMenuItem(
+                                                                          value: opcao,
+                                                                          child:
+                                                                          Text(
+                                                                            opcao,
+                                                                            style: TextStyle(
+                                                                                color: textColorDrop
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        ).toList(),
                                                                       );
-                                                                      Uuid uuid = const Uuid();
-                                                                      String UUID = uuid.v4();
-
-                                                                      FirebaseStorage storage = FirebaseStorage.instance;
-                                                                      Reference ref = storage.ref().child('images/$idCondominio/$UUID');
-                                                                      await ref.putFile(_imageFile!).whenComplete(() {
-                                                                        showToast("Imagem carregada!",context:context);
-                                                                      }).catchError((e){
-                                                                        showToast("Houve uma falha no carregamento! codigo do erro: $e",context:context);
-                                                                        showToast("Repasse esse erro para o desenvolvedor!",context:context);
-                                                                      });
-
-                                                                      FirebaseFirestore.instance.collection('Pessoas').doc(UUID).set({
-                                                                        "id": UUID,
-                                                                        "idCondominio": idCondominio,
-                                                                        "Nome": NomeV,
-                                                                        "CPF": CPFV,
-                                                                        "RG": RGV,
-                                                                        "DataNascimento": "${selectedDate.year}/${selectedDate.month}/${selectedDate.day}",
-                                                                        "imageURI": await ref.getDownloadURL(),
-                                                                        "placa": placa,
-                                                                        "Unidade ":Unidade,
-                                                                        "Bloco ":Bloco,
-                                                                        "anotacao": "",
-                                                                      }).whenComplete(() {
-                                                                        Navigator.pop(context);
-                                                                        Navigator.pop(context);
-                                                                      });
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    },style: ElevatedButton.styleFrom(
-                                                        backgroundColor: colorBtn
+                                                                    }),
+                                                                  ),
+                                                                  ElevatedButton(
+                                                                      onPressed: (){
+                                                                        acionarPorta(context, IP, int.parse(Porta), modeloselecionado, int.parse(Canal), Usuario, Senha);
+                                                                      },
+                                                                      style: ElevatedButton.styleFrom(
+                                                                          backgroundColor: colorBtn
+                                                                      ),
+                                                                      child: Text(
+                                                                        "Testar!",
+                                                                        style: TextStyle(
+                                                                            color: textColor
+                                                                        ),
+                                                                      )
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ): Container(),
+                                                          ): Container(),
+                                                          Container(
+                                                            alignment: Alignment.bottomRight,
+                                                            child: ElevatedButton(
+                                                                onPressed: inicializado == true ? (){
+                                                                  FirebaseAuth.instance.signOut().whenComplete(() async {
+                                                                    setState((){
+                                                                      ip = "";
+                                                                      user = "";
+                                                                      pass = "";
+                                                                      porta = 00;
+                                                                      idCondominio = "";
+                                                                      anotacao = "";
+                                                                      UID = "";
+                                                                      deslogando = true;
+                                                                      inicializado = false;
+                                                                    });
+                                                                    final SharedPreferences prefs = await SharedPreferences.getInstance();
+                                
+                                                                    await prefs.setString('email', "");
+                                                                    await prefs.setString('senha', "");
+                                
+                                                                    Navigator.pop(context);
+                                                                    Navigator.pop(context);
+                                                                    Navigator.push(context,
+                                                                        MaterialPageRoute(builder: (context){
+                                                                          return const login();
+                                                                        }
+                                                                        )
+                                                                    );
+                                                                  });
+                                                                }: null,
+                                                                style: ElevatedButton.styleFrom(
+                                                                    backgroundColor: Colors.red
+                                                                ),
+                                                                child: const Icon(Icons.exit_to_app)
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
                                                     ),
-                                                        child: Text(
-                                                            'Registrar novo cadastro',
-                                                          style: TextStyle(
-                                                              color: textColor
-                                                          ),
-                                                        )
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          },);
+                                                  ),
+                                                );
+                                              },);
+                                            },
+                                          );
                                         },
-                                      );
-                                    },
-                                      backgroundColor: colorBtnFab,
-                                      child: Icon(
-                                          Icons.add,
-                                          color: textColorFab
-                                      ),
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.transparent
+                                        ),
+                                        child: Image.asset(
+                                            "assets/Setting-icon.png",
+                                            scale: 10
+                                        )
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: wid / 4,
-                              height: heig / 3,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage('assets/FundoMetalPrata.jpg'),
-                                  fit: BoxFit.cover,
+                                  ],
                                 ),
                               ),
-                              child: Center(
-                                child: SingleChildScrollView(
-                                  child: Stack(
-                                    children: [
-                                      idCondominio == "" ?
-                                            Center(
-                                                child: Text('Selecione um cliente!',
-                                                  style: TextStyle(
-                                                      color: textColorWidgets
-                                                  ),
-                                                )
-                                            )
-                                          : Column(
+                              Container(
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage('assets/fundoWidgetContainerMain.png'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  
+                                ),
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      width: wid / 4,
+                                      height: heig / 3.9,
+                                      child: Stack(
                                         children: [
-                                          Center(
-                                            child: Container(
-                                              padding: const EdgeInsets.all(5),
-                                              child: TextField(
-                                                keyboardType: TextInputType.name,
-                                                enableSuggestions: true,
-                                                autocorrect: true,
-                                                onChanged: (value){
-                                                  setState(() {
-                                                    pesquisa7 = value;
-                                                  });
-                                              
-                                                  if(value == ""){
-                                                    setState(() {
-                                                      pesquisando7 = false;
-                                                    });
-                                                  }else{
-                                                    setState(() {
-                                                      pesquisando7 = true;
-                                                    });
-                                                  }
-                                                },
-                                                decoration: InputDecoration(
-                                                  border: const OutlineInputBorder(),
-                                                  enabledBorder: const OutlineInputBorder(
-                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                  ),
-                                                  focusedBorder: const OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        width: 3,
-                                                        color: Colors.black
-                                                    ),
-                                                  ),
-                                                  label: Center(
-                                                          child: Image.asset(
-                                                              "assets/search.png",
-                                                            scale: 12,
-                                                          ),
-                                                        ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          StreamBuilder(
-                                              stream: pesquisando7 == true ?
-                                              FirebaseFirestore.instance
-                                                  .collection("Visitantes")
+                                          idCondominio != "" ?
+                                          SingleChildScrollView(
+                                            child: StreamBuilder(
+                                              stream: pesquisando2 == true ? FirebaseFirestore.instance
+                                                  .collection("Pessoas")
                                                   .where("idCondominio", isEqualTo: idCondominio)
-                                                  .where("Nome", isGreaterThanOrEqualTo: pesquisa7)
-                                                  .where("Nome", isLessThan: "${pesquisa7}z")
-                                                  .snapshots() :
-                                              pesquisando8 == true?
-                                              FirebaseFirestore.instance
-                                                  .collection("Visitantes")
-                                                  .where("idCondominio", isEqualTo: idCondominio)
-                                                  .where("CPFVist", isGreaterThanOrEqualTo: pesquisa8)
-                                                  .where("CPFVist", isLessThan: "${pesquisa8}9")
+                                                  .where("Nome", isGreaterThanOrEqualTo: pesquisa2)
+                                                  .where("Nome", isLessThan: "${pesquisa2}z")
                                                   .snapshots():
-                                              pesquisando9 == true ? FirebaseFirestore.instance
-                                                  .collection("Visitantes")
+                                              pesquisaCPF == true ?
+                                              FirebaseFirestore.instance
+                                                  .collection("Pessoas")
                                                   .where("idCondominio", isEqualTo: idCondominio)
-                                                  .where("Unidade", isGreaterThanOrEqualTo: pesquisa9)
-                                                  .where("Unidade", isLessThan: "${pesquisa9}9")
-                                                  .snapshots():
-                                              pesquisando10 == true ? FirebaseFirestore.instance
-                                                  .collection("Visitantes")
-                                                  .where("idCondominio", isEqualTo: idCondominio)
-                                                  .where("Placa", isGreaterThanOrEqualTo: pesquisa10)
-                                                  .where("Placa", isLessThan: "${pesquisa10}z")
+                                                  .where("CPF", isGreaterThanOrEqualTo: pesquisa2)
+                                                  .where("CPF", isLessThan: "${pesquisa2}z")
                                                   .snapshots():
                                               FirebaseFirestore.instance
-                                                  .collection("Visitantes")
+                                                  .collection("Pessoas")
                                                   .where("idCondominio", isEqualTo: idCondominio)
                                                   .snapshots(),
                                               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-                                  
+                          
                                                 if (!snapshot.hasData) {
                                                   return const Center(
                                                     child: CircularProgressIndicator(),
                                                   );
                                                 }
-                                  
-                                                return Container(
-                                                  width: wid,
-                                                  height: heig / 3.6,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Colors.black,
-                                                      width: 1.0,
-                                                    ),
-                                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                                  ),
-                                                  child: ListView(
-                                                    children: snapshot.data!.docs.map((documents){
-                                                      return Container(
-                                                        decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                            color: Colors.black,
-                                                            width: 1.0,
-                                                          ),
-                                                          borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                                        ),
+                          
+                                                return Column(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: double.infinity,
+                                                      height: heig / 3,
+                                                      child: SingleChildScrollView(
                                                         child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
                                                           children: [
-                                                            Container(
-                                                                padding: const EdgeInsets.all(6),
-                                                                child: Text(
-                                                                    "Nome: ${documents["Nome"]}",
-                                                                  style: TextStyle(
-                                                                      color: textColorWidgets
-                                                                  ),
-                                                                )
-                                                            ),
-                                                            Container(
-                                                                padding: const EdgeInsets.all(6),
-                                                                child: Text(
-                                                                    "CPF: ${documents["CPFVist"]}",
-                                                                  style: TextStyle(
-                                                                      color: textColorWidgets
-                                                                  ),
-                                                                )
-                                                            ),
-                                                            Container(
-                                                                padding: const EdgeInsets.all(6),
-                                                                child: Text(
-                                                                    "Empresa: ${documents["Empresa"]}",
-                                                                  style: TextStyle(
-                                                                      color: textColorWidgets
-                                                                  ),
-                                                                )
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      );
-                                                    }).toList(),
-                                                  ),
-                                                );
-                                              }
-                                          ),
-                                        ],
-                                      ),
-                                      Container(
-                                        width: wid / 4,
-                                        height: heig / 3,
-                                        padding: const EdgeInsets.all(16),
-                                        alignment: Alignment.bottomRight,
-                                        child: adicionarVisitante == false ?
-                                        Container() :
-                                        FloatingActionButton(
-                                            onPressed: idCondominio == "" ? null : (){
-                                              var dropValue2 = ValueNotifier('Sem Previsão');
-
-                                              List Permanencia = [
-                                                'Sem Previsão',
-                                                '5 minutos',
-                                                '7 minutos',
-                                                '15 minutos',
-                                                '30 minutos',
-                                                '1 hora',
-                                                '2 horas',
-                                                '3 horas',
-                                                '4 horas',
-                                                '5 horas',
-                                                '6 horas',
-                                                '7 horas',
-                                                '8 horas',
-                                                '9 horas',
-                                                '10 horas',
-                                                '11 horas',
-                                                '12 horas',
-                                                '24 horas',
-                                              ];
-
-                                              //Não obrigatórios
-                                              String Unidade = "";
-                                              String Bloco = "";
-                                              String Rua = "";
-                                              String obs = "";
-                                              String Empresa = "";
-                                              String Veiculo = "";
-                                              String Cracha = "";
-                                              String Placa = "";
-                                              String Telefone = "";
-                                              String Previsao = "Sem Previsão";
-
-                                              //Campos obrigatórios
-                                              String Nome = "";
-                                              String CPFVist = "";
-                                              File? _imageFile;
-
-
-                                              final picker = ImagePicker();
-
-                                              showDialog(
-                                                context: context,
-                                                builder: (BuildContext context) {
-                                                  return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                                    return SingleChildScrollView(
-                                                      child: AlertDialog(
-                                                        title: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            const Text('Cadastrar novo visitante'),
-                                                            IconButton(
-                                                              onPressed: (){
-                                                                Navigator.pop(context);
-                                                              },
-                                                              icon: const Icon(Icons.close),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        actions: [
-                                                          Center(
-                                                            child: Column(
-                                                              children: [
-                                                                Center(
-                                                                  child: Container(
-                                                                      padding: const EdgeInsets.all(16),
-                                                                      child: const Text('Qual será a unidade que será visitada?')
-                                                                  ),
-                                                                ),
-                                                                Center(
-                                                                  child: Container(
-                                                                    padding: const EdgeInsets.all(16),
-                                                                    child: TextField(
-                                                                      keyboardType: TextInputType.emailAddress,
-                                                                      enableSuggestions: false,
-                                                                      autocorrect: false,
-                                                                      onChanged: (value){
-                                                                        setState(() {
-                                                                          Unidade = value;
-                                                                        });
-                                                                      },
-                                                                      decoration: const InputDecoration(
-                                                                        border: OutlineInputBorder(),
-                                                                        enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                        ),
-                                                                        focusedBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        labelText: 'Unidade',
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Center(
-                                                                  child: Container(
-                                                                    padding: const EdgeInsets.all(16),
-                                                                    child: TextField(
-                                                                      keyboardType: TextInputType.emailAddress,
-                                                                      enableSuggestions: false,
-                                                                      autocorrect: false,
-                                                                      onChanged: (value){
-                                                                        setState(() {
-                                                                          Bloco = value;
-                                                                        });
-                                                                      },
-                                                                      decoration: const InputDecoration(
-                                                                        border: OutlineInputBorder(),
-                                                                        enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                        ),
-                                                                        focusedBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        labelText: 'Bloco',
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Center(
-                                                                  child: Container(
-                                                                    padding: const EdgeInsets.all(16),
-                                                                    child: TextField(
-                                                                      keyboardType: TextInputType.emailAddress,
-                                                                      enableSuggestions: false,
-                                                                      autocorrect: false,
-                                                                      onChanged: (value){
-                                                                        setState(() {
-                                                                          Rua = value;
-                                                                        });
-                                                                      },
-                                                                      decoration: const InputDecoration(
-                                                                        border: OutlineInputBorder(),
-                                                                        enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                        ),
-                                                                        focusedBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        labelText: 'Rua',
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Center(
-                                                                  child: Container(
-                                                                    padding: const EdgeInsets.all(16),
-                                                                    child: TextField(
-                                                                      keyboardType: TextInputType.emailAddress,
-                                                                      enableSuggestions: false,
-                                                                      autocorrect: false,
-                                                                      onChanged: (value){
-                                                                        setState(() {
-                                                                          Nome = value;
-                                                                        });
-                                                                      },
-                                                                      decoration: const InputDecoration(
-                                                                        border: OutlineInputBorder(),
-                                                                        enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                        ),
-                                                                        focusedBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        labelText: 'Nome',
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Center(
-                                                                  child: Container(
-                                                                    padding: const EdgeInsets.all(16),
-                                                                    child: TextField(
-                                                                      keyboardType: TextInputType.emailAddress,
-                                                                      enableSuggestions: false,
-                                                                      autocorrect: false,
-                                                                      onChanged: (value){
-                                                                        setState(() {
-                                                                          CPFVist = value;
-                                                                        });
-                                                                      },
-                                                                      decoration: const InputDecoration(
-                                                                        border: OutlineInputBorder(),
-                                                                        enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                        ),
-                                                                        focusedBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        labelText: 'CPF',
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Center(
-                                                                  child: Container(
-                                                                    padding: const EdgeInsets.all(16),
-                                                                    child: TextField(
-                                                                      keyboardType: TextInputType.emailAddress,
-                                                                      enableSuggestions: false,
-                                                                      autocorrect: false,
-                                                                      onChanged: (value){
-                                                                        setState(() {
-                                                                          Telefone = value;
-                                                                        });
-                                                                      },
-                                                                      decoration: const InputDecoration(
-                                                                        border: OutlineInputBorder(),
-                                                                        enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                        ),
-                                                                        focusedBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        labelText: 'Telefone',
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Center(
-                                                                  child: Container(
-                                                                    padding: const EdgeInsets.all(16),
-                                                                    child: TextField(
-                                                                      keyboardType: TextInputType.emailAddress,
-                                                                      enableSuggestions: false,
-                                                                      autocorrect: false,
-                                                                      onChanged: (value){
-                                                                        setState(() {
-                                                                          Cracha = value;
-                                                                        });
-                                                                      },
-                                                                      decoration: const InputDecoration(
-                                                                        border: OutlineInputBorder(),
-                                                                        enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                        ),
-                                                                        focusedBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        labelText: 'Crachá',
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Center(
-                                                                  child: Container(
-                                                                    padding: const EdgeInsets.all(16),
-                                                                    child: TextField(
-                                                                      keyboardType: TextInputType.emailAddress,
-                                                                      enableSuggestions: false,
-                                                                      autocorrect: false,
-                                                                      onChanged: (value){
-                                                                        setState(() {
-                                                                          Empresa = value;
-                                                                        });
-                                                                      },
-                                                                      decoration: const InputDecoration(
-                                                                        border: OutlineInputBorder(),
-                                                                        enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                        ),
-                                                                        focusedBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        labelText: 'Empresa',
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Center(
-                                                                  child: Container(
-                                                                    padding: const EdgeInsets.all(16),
-                                                                    child: TextField(
-                                                                      keyboardType: TextInputType.emailAddress,
-                                                                      enableSuggestions: false,
-                                                                      autocorrect: false,
-                                                                      onChanged: (value){
-                                                                        setState(() {
-                                                                          Veiculo = value;
-                                                                        });
-                                                                      },
-                                                                      decoration: const InputDecoration(
-                                                                        border: OutlineInputBorder(),
-                                                                        enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                        ),
-                                                                        focusedBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        labelText: 'Veiculo',
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Center(
-                                                                  child: Container(
-                                                                    padding: const EdgeInsets.all(16),
-                                                                    child: TextField(
-                                                                      keyboardType: TextInputType.emailAddress,
-                                                                      enableSuggestions: false,
-                                                                      autocorrect: false,
-                                                                      onChanged: (value){
-                                                                        setState(() {
-                                                                          Placa = value;
-                                                                        });
-                                                                      },
-                                                                      decoration: const InputDecoration(
-                                                                        border: OutlineInputBorder(),
-                                                                        enabledBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                        ),
-                                                                        focusedBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        labelText: 'Placa',
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Center(
-                                                                  child: ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
-                                                                    return DropdownButton(
-                                                                      hint: Text(
-                                                                        'Permanência',
-                                                                        style: TextStyle(
-                                                                            color: textColorDrop
-                                                                        ),
-                                                                      ),
-                                                                      value: (value.isEmpty)? null : value,
-                                                                      onChanged: (escolha) async {
-                                                                        dropValue2.value = escolha.toString();
-                                                                        setState(() {
-                                                                          Previsao = escolha.toString();
-                                                                        });
-                                                                      },
-                                                                      items: Permanencia.map((opcao) => DropdownMenuItem(
-                                                                        value: opcao,
-                                                                        child:
-                                                                        Text(
-                                                                          opcao,
-                                                                          style: TextStyle(
-                                                                              color: textColorDrop
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      ).toList(),
-                                                                    );
-                                                                  }),
-                                                                ),
-                                                                _imageFile != null ? Center(
-                                                                  child: SizedBox(
-                                                                    width: 300,
-                                                                    height: 300,
-                                                                    child: Image.file(_imageFile!),
-                                                                  ),
-                                                                ): const Center(
-                                                                  child: Text("Sem imagem selecionada!"),
-                                                                ),
-                                                                Center(
-                                                                  child: ElevatedButton(
-                                                                    onPressed: () async {
-                                                                      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
+                                                            Center(
+                                                              child: Container(
+                                                                padding: const EdgeInsets.all(10),
+                                                                child: TextField(
+                                                                  cursorColor: Colors.black,
+                                                                  keyboardType: TextInputType.name,
+                                                                  enableSuggestions: true,
+                                                                  autocorrect: true,
+                                                                  onChanged: (value){
+                                                                    setState(() {
+                                                                      pesquisa2 = value;
+                                                                    });
+                                                                            
+                                                                    RegExp numeros = RegExp(r'[0-9]');
+                                                                            
+                                                                    if(numeros.hasMatch(value)){
                                                                       setState(() {
-                                                                        if (pickedFile != null) {
-                                                                          _imageFile = File(pickedFile.path);
-                                                                        } else {
-                                                                          showToast("Imagem não selecionada!",context:context);
-                                                                        }
+                                                                        pesquisaCPF = true;
+                                                                      });
+                                                                    }else{
+                                                                      setState(() {
+                                                                        pesquisaCPF = false;
+                                                                      });
+                                                                      if(value == ""){
+                                                                        setState(() {
+                                                                          pesquisando2 = false;
+                                                                        });
+                                                                      }else{
+                                                                        setState(() {
+                                                                          pesquisando2 = true;
+                                                                        });
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  decoration: InputDecoration(
+                                                                    filled: true,
+                                                                    fillColor: Colors.white,
+                                                                    border: const OutlineInputBorder(),
+                                                                    enabledBorder: const OutlineInputBorder(
+                                                                      borderSide: BorderSide(width: 3, color: Colors.white), //<-- SEE HERE
+                                                                    ),
+                                                                    focusedBorder: const OutlineInputBorder(
+                                                                      borderSide: BorderSide(
+                                                                          width: 3,
+                                                                          color: Colors.black
+                                                                      ),
+                                                                    ),
+                                                                    label: Container(
+                                                                      alignment: AlignmentDirectional.centerEnd,
+                                                                      child: Image.asset(
+                                                                        "assets/search.png",
+                                                                        scale: 12,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  style: const TextStyle(
+                                                                      color: Colors.black
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width: double.infinity,
+                                                              height: heig / 4,
+                                                              child: ListView(
+                                                                children: snapshot.data!.docs.map((documents){
+                                                                  return InkWell(
+                                                                    onTap: (){
+                                                                      setState(() {
+                                                                        moradorselecionado = true;
+                                                                        NomeMorador = documents["Nome"];
+                                                                        RGMorador = documents["RG"];
+                                                                        CPFMorador = documents["CPF"];
+                                                                        DatadeNascimentoMorador = documents["DataNascimento"];
+                                                                        PlacaMorador = documents["placa"];
+                                                                        imageURLMorador = documents["imageURI"];
+                                                                        anotacaoMorador = documents["anotacao"];
+                                                                        anotacaoControl.text = anotacaoMorador;
+                                                                        MoradorId = documents["id"];
+                                                                        UnidadeMorador = documents["Unidade"];
+                                                                        BlocoMorador = documents["Bloco"];
                                                                       });
                                                                     },
-                                                                    style: ElevatedButton.styleFrom(
-                                                                        backgroundColor: colorBtn
-                                                                    ),
-                                                                    child: Text(
-                                                                        'Selecione a imagem do documento da pessoa!',
-                                                                      style: TextStyle(
-                                                                          color: textColor
+                                                                    child: Container(
+                                                                      padding: const EdgeInsets.all(16),
+                                                                      child: SizedBox(
+                                                                        width: double.infinity,
+                                                                        height: 50,
+                                                                        child: Column(
+                                                                          children: [
+                                                                            Text(
+                                                                                "Nome: ${documents['Nome']}",
+                                                                              style: TextStyle(
+                                                                                  color: textColorInitBlue
+                                                                              ),
+                                                                            ),
+                                                                            Text(
+                                                                                "CPF: ${documents['CPF']}",
+                                                                              style: TextStyle(
+                                                                                  color: textColorInitBlue
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                ),
+                                                                  );
+                                                                }).toList(),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    moradorselecionado == true ?
+                                                    Stack(
+                                                      children: [
+                                                        Container(
+                                                          padding: const EdgeInsets.all(16),
+                                                          alignment: Alignment.centerRight,
+                                                          child: IconButton(
+                                                            onPressed: (){
+                                                              setState(() {
+                                                                setState(() {
+                                                                  moradorselecionado = false;
+                                                                  NomeMorador = "";
+                                                                  RGMorador = "";
+                                                                  CPFMorador = "";
+                                                                  DatadeNascimentoMorador = "";
+                                                                  PlacaMorador = "";
+                                                                  imageURLMorador = "";
+                                                                  anotacaoMorador = "";
+                                                                  anotacaoControl.text = "";
+                                                                  MoradorId = "";
+                                                                  UnidadeMorador = "";
+                                                                  BlocoMorador = "";
+                                                                });
+                                                              });
+                                                            },
+                                                            icon: const Icon(Icons.close)
+                                                          ),
+                                                        ),
+                                                        Column(
+                                                          children: [
+                                                            Row(
+                                                              children: [
                                                                 Container(
+                                                                    padding: const EdgeInsets.all(8),
+                                                                    child: Image.network(
+                                                                        height: 100,
+                                                                        width: 100,
+                                                                        imageURLMorador
+                                                                    )
+                                                                ),
+                                                                Column(
+                                                                  children: [
+                                                                    Container(
+                                                                        padding: const EdgeInsets.all(8),
+                                                                        child: Text("Nome: $NomeMorador")
+                                                                    ),
+                                                                    Container(
+                                                                        padding: const EdgeInsets.all(8),
+                                                                        child: Text("RG: $RGMorador")
+                                                                    ),
+                                                                    Container(
+                                                                        padding: const EdgeInsets.all(8),
+                                                                        child: Text("CPF: $CPFMorador",)
+                                                                    ),
+                                                                    Container(
+                                                                        padding: const EdgeInsets.all(8),
+                                                                        child: Text("Data de nascimento: $DatadeNascimentoMorador")
+                                                                    ),
+                                                                    Container(
+                                                                        padding: const EdgeInsets.all(8),
+                                                                        child: Text("Placa: $PlacaMorador",
+                                                                        )
+                                                                    ),
+                                                                    Container(
+                                                                        padding: const EdgeInsets.all(8),
+                                                                        child: Text("Unidade: $UnidadeMorador")
+                                                                    ),
+                                                                    Container(
+                                                                        padding: const EdgeInsets.all(8),
+                                                                        child: Text("Bloco: $BlocoMorador")
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Container(
+                                                              padding: const EdgeInsets.all(16),
+                                                              child: TextField(
+                                                                keyboardType: TextInputType.multiline,
+                                                                enableSuggestions: true,
+                                                                autocorrect: true,
+                                                                minLines: 5,
+                                                                maxLines: null,
+                                                                controller: anotacaoControl,
+                                                                onChanged: (value){
+                                                                  setState(() {
+                                                                    anotacaoMorador = value;
+                                                                  });
+                                                                },
+                                                                decoration: const InputDecoration(
+                                                                  border: OutlineInputBorder(),
+                                                                  enabledBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                    borderSide: BorderSide(
+                                                                        width: 3,
+                                                                        color: Colors.black
+                                                                    ),
+                                                                  ),
+                                                                  labelText: 'Anotação',
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              padding: const EdgeInsets.all(16),
+                                                              child: ElevatedButton(
+                                                                onPressed: (){
+                                                                  FirebaseFirestore.instance.collection('Pessoas').doc(MoradorId).update({
+                                                                    "anotacao": anotacaoMorador
+                                                                  });
+                                                                },style: ElevatedButton.styleFrom(
+                                                                  backgroundColor: colorBtn
+                                                                ),
+                                                                  child: Text(
+                                                                      "Salvar anotação",
+                                                                    style: TextStyle(
+                                                                        color: textColor
+                                                                    ),
+                                                                  )
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ): Container(),
+                                                  ],
+                                                );
+                                              },
+                                            ),
+                                          ):  Center(
+                                            child: Center(
+                                                child: Container(
+                                                    width: wid / 4,
+                                                    height: heig / 4,
+                                                    padding: const EdgeInsets.all(16),
+                                                    child: Text(
+                                                        'Selecione algum cliente',
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            color: textColorWidgets
+                                                        ),
+                                                    )
+                                                )
+                                            ),
+                                          ),
+                                          Container(
+                                            alignment: Alignment.bottomRight,
+                                            padding: const EdgeInsets.all(16),
+                                            child: adicionarMoradores == false ?
+                                            Container():
+                                            Container(
+                                              child: FloatingActionButton(
+                                                onPressed: idCondominio == "" ? null : (){
+                                                String NomeV = "";
+                                                String CPFV = "";
+                                                String RGV = "";
+                                                String placa = "";
+                                                String Unidade = "";
+                                                String Bloco = "";
+                                                DateTime selectedDate = DateTime.now();
+                                                File? _imageFile;
+                                                final picker = ImagePicker();
+                          
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                      return Center(
+                                                        child: SingleChildScrollView(
+                                                          child: AlertDialog(
+                                                            title: Center(
+                                                              child: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                children: [
+                                                                  const Text('Cadastre um morador'),
+                                                                  IconButton(onPressed: (){
+                                                                    Navigator.pop(context);
+                                                                  }, icon: const Icon(Icons.close)
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            actions: [
+                                                              Center(
+                                                                child: Container(
                                                                   padding: const EdgeInsets.all(16),
                                                                   child: TextField(
-                                                                    keyboardType: TextInputType.multiline,
-                                                                    enableSuggestions: true,
-                                                                    autocorrect: true,
-                                                                    minLines: 5,
-                                                                    maxLines: null,
+                                                                    keyboardType: TextInputType.emailAddress,
+                                                                    enableSuggestions: false,
+                                                                    autocorrect: false,
                                                                     onChanged: (value){
                                                                       setState(() {
-                                                                        obs = value;
+                                                                        NomeV = value;
                                                                       });
                                                                     },
                                                                     decoration: const InputDecoration(
@@ -3899,452 +3003,921 @@ class _homeAppState extends State<homeApp>{
                                                                             color: Colors.black
                                                                         ),
                                                                       ),
-                                                                      labelText: 'Observações',
+                                                                      labelText: 'Nome',
                                                                     ),
                                                                   ),
                                                                 ),
-                                                                Center(
-                                                                  child: ElevatedButton(
-                                                                    onPressed: () async {
-                                                                      if(Nome == ""){
-                                                                        showToast("O campo de nome está vazio!",context:context);
-                                                                      }else{
-                                                                        if(CPFVist == ""){
-                                                                          showToast("O campo de CPF está vazio!",context:context);
-                                                                        }else{
-                                                                          if(_imageFile == null){
-                                                                            showToast("O documento não foi passado!",context:context);
-                                                                          }else{
-                                                                            showDialog(
-                                                                              context: context,
-                                                                              builder: (BuildContext context) {
-                                                                                return const AlertDialog(
-                                                                                  title: Text('Aguarde!'),
-                                                                                  actions: [
-                                                                                    Center(
-                                                                                      child: CircularProgressIndicator(),
-                                                                                    )
-                                                                                  ],
-                                                                                );
-                                                                              },
-                                                                            );
-                                                                            Uuid uuid = const Uuid();
-                                                                            String UUID = uuid.v4();
-
-                                                                            FirebaseStorage storage = FirebaseStorage.instance;
-                                                                            Reference ref = storage.ref().child('images/visitantes/$idCondominio/$UUID');
-                                                                            await ref.putFile(_imageFile!).whenComplete(() {
-                                                                              showToast("Imagem carregada!",context:context);
-                                                                            }).catchError((e){
-                                                                              showToast("Houve uma falha no carregamento! codigo do erro: $e",context:context);
-                                                                              showToast("Repasse esse erro para o desenvolvedor!",context:context);
-                                                                            });
-                                                                            FirebaseFirestore.instance.collection('Visitantes').doc(UUID).set({
-                                                                              "Unidade": Unidade,
-                                                                              "Bloco": Bloco,
-                                                                              "Rua": Rua,
-                                                                              "obs": obs,
-                                                                              "Empresa": Empresa,
-                                                                              "Veiculo": Veiculo,
-                                                                              "Cracha": Cracha,
-                                                                              "Placa": Placa,
-                                                                              "Telefone": Telefone,
-                                                                              "Previsao": Previsao,
-                                                                              "Nome": Nome,
-                                                                              "CPFVist": CPFVist,
-                                                                              "idCondominio": idCondominio,
-                                                                              "imageURI": await ref.getDownloadURL(),
-                                                                            }).whenComplete((){
-                                                                              Navigator.pop(context);
-                                                                              Navigator.pop(context);
-                                                                            });
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    },style: ElevatedButton.styleFrom(
-                                                                      backgroundColor: colorBtn
-                                                                  ),
-                                                                    child: Text(
-                                                                        "Salvar",
-                                                                      style: TextStyle(
-                                                                          color: textColor
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },);
-                                                },
-                                              );
-                                            },
-                                            backgroundColor: colorBtnFab,
-                                            child: Icon(Icons.add,
-                                                color: textColorFab
-                                            )
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ),
-                            Container(
-                                width: wid / 4,
-                                height: heig / 3,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage('assets/FundoMetalPrata.jpg'),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Center(
-                                    child: SizedBox(
-                                      width: wid / 4,
-                                      height: heig / 3,
-                                      child: SingleChildScrollView(
-                                        child: Stack(
-                                          children: [
-                                            idCondominio == "" ?
-                                                  Center(child:
-                                                    Text('Selecione um cliente!',
-                                                          style: TextStyle(
-                                                              color: textColorWidgets
-                                                          ),
-                                                        )
-                                                  )
-                                                : Column(
-                                              children: [
-                                                Center(
-                                                  child: Container(
-                                                    padding: const EdgeInsets.all(10),
-                                                    child: TextField(
-                                                      keyboardType: TextInputType.name,
-                                                      enableSuggestions: true,
-                                                      autocorrect: true,
-                                                      onChanged: (value){
-                                                        setState(() {
-                                                          pesquisa3 = value;
-                                                        });
-
-                                                        if(value == ""){
-                                                          setState(() {
-                                                            pesquisando3 = false;
-                                                          });
-                                                        }else{
-                                                          setState(() {
-                                                            pesquisando3 = true;
-                                                          });
-                                                        }
-                                                      },
-                                                      decoration: InputDecoration(
-                                                        border: const OutlineInputBorder(),
-                                                        enabledBorder: const OutlineInputBorder(
-                                                          borderSide: const BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                        ),
-                                                        focusedBorder: const OutlineInputBorder(
-                                                          borderSide: BorderSide(
-                                                              width: 3,
-                                                              color: Colors.black
-                                                          ),
-                                                        ),
-                                                        label: Center(
-                                                          child: Image.asset(
-                                                              "assets/search.png",
-                                                            scale: 12,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                StreamBuilder(
-                                                    stream: pesquisando3 == true ?
-                                                    FirebaseFirestore.instance
-                                                        .collection("Veiculos")
-                                                        .where("idCondominio", isEqualTo: idCondominio)
-                                                        .where("Unidade", isGreaterThanOrEqualTo: pesquisa3)
-                                                        .where("Unidade", isLessThan: "${pesquisa3}9")
-                                                        .snapshots() :
-                                                    pesquisando4 == true ?
-                                                    FirebaseFirestore.instance
-                                                        .collection("Veiculos")
-                                                        .where("idCondominio", isEqualTo: idCondominio)
-                                                        .where("blocoV", isGreaterThanOrEqualTo: pesquisa4)
-                                                        .where("blocoV", isLessThan: "${pesquisa4}z")
-                                                        .snapshots() :
-                                                    pesquisando5 == true ? FirebaseFirestore.instance
-                                                        .collection("Veiculos")
-                                                        .where("idCondominio", isEqualTo: idCondominio)
-                                                        .where("IdentificacaoModeloV", isGreaterThanOrEqualTo: pesquisa5)
-                                                        .where("IdentificacaoModeloV", isLessThan: "${pesquisa5}z")
-                                                        .snapshots():
-                                                    pesquisando6 == true ? FirebaseFirestore.instance
-                                                        .collection("Veiculos")
-                                                        .where("idCondominio", isEqualTo: idCondominio)
-                                                        .where("PlacaV", isGreaterThanOrEqualTo: pesquisa6)
-                                                        .where("PlacaV", isLessThan: "${pesquisa6}z")
-                                                        .snapshots():
-                                                    FirebaseFirestore.instance
-                                                        .collection("Veiculos")
-                                                        .where("idCondominio", isEqualTo: idCondominio)
-                                                        .snapshots(),
-                                                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-
-                                                      if (!snapshot.hasData) {
-                                                        return const Center(
-                                                          child: CircularProgressIndicator(),
-                                                        );
-                                                      }
-
-                                                      return Container(
-                                                        width: wid,
-                                                        height: heig / 3.9,
-                                                        decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                            color: Colors.black,
-                                                            width: 1.0,
-                                                          ),
-                                                          borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                                        ),
-                                                        child: ListView(
-                                                          children: snapshot.data!.docs.map((documents){
-                                                            return Container(
-                                                              decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                  color: Colors.black,
-                                                                  width: 1.0,
-                                                                ),
-                                                                borderRadius: const BorderRadius.all(Radius.circular(20)),
                                                               ),
-                                                              child: Center(
+                                                              Center(
                                                                 child: Container(
-                                                                    padding: const EdgeInsets.all(6),
-                                                                    child: Text(
-                                                                        "Placa: ${documents["PlacaV"]}",
-                                                                      style: TextStyle(
-                                                                          color: textColorWidgets
+                                                                  padding: const EdgeInsets.all(16),
+                                                                  child: TextField(
+                                                                    keyboardType: TextInputType.emailAddress,
+                                                                    enableSuggestions: false,
+                                                                    autocorrect: false,
+                                                                    onChanged: (value){
+                                                                      setState(() {
+                                                                        CPFV = value;
+                                                                      });
+                                                                    },
+                                                                    decoration: const InputDecoration(
+                                                                      border: OutlineInputBorder(),
+                                                                      enabledBorder: OutlineInputBorder(
+                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                      ),
+                                                                      focusedBorder: OutlineInputBorder(
+                                                                        borderSide: BorderSide(
+                                                                            width: 3,
+                                                                            color: Colors.black
+                                                                        ),
+                                                                      ),
+                                                                      labelText: 'CPF',
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Center(
+                                                                child: Container(
+                                                                  padding: const EdgeInsets.all(16),
+                                                                  child: TextField(
+                                                                    keyboardType: TextInputType.emailAddress,
+                                                                    enableSuggestions: false,
+                                                                    autocorrect: false,
+                                                                    onChanged: (value){
+                                                                      setState(() {
+                                                                        RGV = value;
+                                                                      });
+                                                                    },
+                                                                    decoration: const InputDecoration(
+                                                                      border: OutlineInputBorder(),
+                                                                      enabledBorder: OutlineInputBorder(
+                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                      ),
+                                                                      focusedBorder: OutlineInputBorder(
+                                                                        borderSide: BorderSide(
+                                                                            width: 3,
+                                                                            color: Colors.black
+                                                                        ),
+                                                                      ),
+                                                                      labelText: 'RG',
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Center(
+                                                                child: Container(
+                                                                  padding: const EdgeInsets.all(16),
+                                                                  child: TextField(
+                                                                    keyboardType: TextInputType.emailAddress,
+                                                                    enableSuggestions: false,
+                                                                    autocorrect: false,
+                                                                    onChanged: (value){
+                                                                      setState(() {
+                                                                        placa = value;
+                                                                      });
+                                                                    },
+                                                                    decoration: const InputDecoration(
+                                                                      border: OutlineInputBorder(),
+                                                                      enabledBorder: OutlineInputBorder(
+                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                      ),
+                                                                      focusedBorder: OutlineInputBorder(
+                                                                        borderSide: BorderSide(
+                                                                            width: 3,
+                                                                            color: Colors.black
+                                                                        ),
+                                                                      ),
+                                                                      labelText: 'Placa',
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Center(
+                                                                child: Container(
+                                                                  padding: const EdgeInsets.all(16),
+                                                                  child: TextField(
+                                                                    keyboardType: TextInputType.emailAddress,
+                                                                    enableSuggestions: false,
+                                                                    autocorrect: false,
+                                                                    onChanged: (value){
+                                                                      setState(() {
+                                                                        Unidade = value;
+                                                                      });
+                                                                    },
+                                                                    decoration: const InputDecoration(
+                                                                      border: OutlineInputBorder(),
+                                                                      enabledBorder: OutlineInputBorder(
+                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                      ),
+                                                                      focusedBorder: OutlineInputBorder(
+                                                                        borderSide: BorderSide(
+                                                                            width: 3,
+                                                                            color: Colors.black
+                                                                        ),
+                                                                      ),
+                                                                      labelText: 'Unidade',
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Center(
+                                                                child: Container(
+                                                                  padding: const EdgeInsets.all(16),
+                                                                  child: TextField(
+                                                                    keyboardType: TextInputType.emailAddress,
+                                                                    enableSuggestions: false,
+                                                                    autocorrect: false,
+                                                                    onChanged: (value){
+                                                                      setState(() {
+                                                                        Bloco = value;
+                                                                      });
+                                                                    },
+                                                                    decoration: const InputDecoration(
+                                                                      border: OutlineInputBorder(),
+                                                                      enabledBorder: OutlineInputBorder(
+                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                      ),
+                                                                      focusedBorder: OutlineInputBorder(
+                                                                        borderSide: BorderSide(
+                                                                            width: 3,
+                                                                            color: Colors.black
+                                                                        ),
+                                                                      ),
+                                                                      labelText: 'Bloco',
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Center(
+                                                                child: Container(
+                                                                    padding: const EdgeInsets.all(16),
+                                                                    child: Text(selectedDate == null ? 'Selecione a data de nascimento' :
+                                                                    "Data de nacimento ${selectedDate.year}/${selectedDate.month}/${selectedDate.day}")
+                                                                ),
+                                                              ),
+                                                              Center(
+                                                                child: Container(
+                                                                    padding: const EdgeInsets.all(16),
+                                                                    child: ElevatedButton(
+                                                                      onPressed: () async {
+                                                                        final DateTime? picked = await showDatePicker(
+                                                                          context: context,
+                                                                          initialDate: selectedDate,
+                                                                          firstDate: DateTime(1800, 8),
+                                                                          lastDate: DateTime(2101),
+                                                                        );
+                                                                        if (picked != null && picked != selectedDate) {
+                                                                          setState(() {
+                                                                            selectedDate = picked;
+                                                                          });
+                                                                        }
+                                                                      },
+                                                                      style: ElevatedButton.styleFrom(
+                                                                          backgroundColor: colorBtn
+                                                                      ),
+                                                                      child: Text(
+                                                                          'Selecione uma data',
+                                                                        style: TextStyle(
+                                                                            color: textColor
+                                                                        ),
                                                                       ),
                                                                     )
                                                                 ),
                                                               ),
-                                                            );
-                                                          }).toList(),
+                                                              _imageFile != null ? Center(
+                                                                child: SizedBox(
+                                                                  width: 300,
+                                                                  height: 300,
+                                                                  child: Image.file(_imageFile!),
+                                                                ),
+                                                              ): Container(),
+                                                              Center(
+                                                                child: ElevatedButton(
+                                                                  onPressed: () async {
+                                                                    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+                          
+                                                                    setState(() {
+                                                                      if (pickedFile != null) {
+                                                                        _imageFile = File(pickedFile.path);
+                                                                      } else {
+                                                                        showToast("Imagem não selecionada!",context:context);
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                  style: ElevatedButton.styleFrom(
+                                                                      backgroundColor: colorBtn
+                                                                  ),
+                                                                  child: Text(
+                                                                      'Selecione uma Imagem de perfil',
+                                                                    style: TextStyle(
+                                                                        color: textColor
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              ElevatedButton(onPressed: () async {
+                                                                if(NomeV == ""){
+                                                                  showToast("O nome está vazio!",context:context);
+                                                                }else{
+                                                                  if(CPFV == ""){
+                                                                    showToast("O CPF está vazio!",context:context);
+                                                                  }else{
+                                                                    if(RGV == ""){
+                                                                      showToast("O RG está vazio!",context:context);
+                                                                    }else{
+                                                                      if(selectedDate == null){
+                                                                        showToast("A data está vazia!",context:context);
+                                                                      }else{
+                                                                        if(placa == ""){
+                                                                          showToast("Digite uma placa",context:context);
+                                                                        }else{
+                                                                          if(Unidade == ""){
+                                                                            showToast("A unidade está vazia!",context:context);
+                                                                          }else{
+                                                                            if(Bloco  == ""){
+                                                                              showToast("O bloco está vazio!!",context:context);
+                                                                            }else{
+                                                                              if(_imageFile == null){
+                                                                                showToast("Selecione uma foto!",context:context);
+                                                                              }else{
+                                                                                showDialog(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) {
+                                                                                    return const AlertDialog(
+                                                                                      title: Text('Aguarde!'),
+                                                                                      actions: [
+                                                                                        Center(
+                                                                                          child: CircularProgressIndicator(),
+                                                                                        )
+                                                                                      ],
+                                                                                    );
+                                                                                  },
+                                                                                );
+                                                                                Uuid uuid = const Uuid();
+                                                                                String UUID = uuid.v4();
+                          
+                                                                                FirebaseStorage storage = FirebaseStorage.instance;
+                                                                                Reference ref = storage.ref().child('images/$idCondominio/$UUID');
+                                                                                await ref.putFile(_imageFile!).whenComplete(() {
+                                                                                  showToast("Imagem carregada!",context:context);
+                                                                                }).catchError((e){
+                                                                                  showToast("Houve uma falha no carregamento! codigo do erro: $e",context:context);
+                                                                                  showToast("Repasse esse erro para o desenvolvedor!",context:context);
+                                                                                });
+                          
+                                                                                FirebaseFirestore.instance.collection('Pessoas').doc(UUID).set({
+                                                                                  "id": UUID,
+                                                                                  "idCondominio": idCondominio,
+                                                                                  "Nome": NomeV,
+                                                                                  "CPF": CPFV,
+                                                                                  "RG": RGV,
+                                                                                  "DataNascimento": "${selectedDate.year}/${selectedDate.month}/${selectedDate.day}",
+                                                                                  "imageURI": await ref.getDownloadURL(),
+                                                                                  "placa": placa,
+                                                                                  "Unidade ":Unidade,
+                                                                                  "Bloco ":Bloco,
+                                                                                  "anotacao": "",
+                                                                                }).whenComplete(() {
+                                                                                  Navigator.pop(context);
+                                                                                  Navigator.pop(context);
+                                                                                });
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              },style: ElevatedButton.styleFrom(
+                                                                  backgroundColor: colorBtn
+                                                              ),
+                                                                  child: Text(
+                                                                      'Registrar novo cadastro',
+                                                                    style: TextStyle(
+                                                                        color: textColor
+                                                                    ),
+                                                                  )
+                                                              )
+                                                            ],
+                                                          ),
                                                         ),
                                                       );
-                                                    }
+                                                    },);
+                                                  },
+                                                );
+                                              },
+                                                backgroundColor: colorBtnFab,
+                                                child: Icon(
+                                                    Icons.add,
+                                                    color: textColorFab
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                            Container(
-                                              alignment: Alignment.bottomRight,
-                                              child: adicionarVeiculo == false ?
-                                              Container():
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: wid / 4,
+                                      height: heig / 3,
+                                      child: Center(
+                                        child: SingleChildScrollView(
+                                          child: Stack(
+                                            children: [
+                                              idCondominio == "" ?
+                                                    Center(
+                                                        child: Text('Selecione um cliente!',
+                                                          style: TextStyle(
+                                                              color: textColorWidgets
+                                                          ),
+                                                        )
+                                                    )
+                                                  : Column(
+                                                children: [
+                                                  Center(
+                                                    child: Container(
+                                                      padding: const EdgeInsets.all(5),
+                                                      child: TextField(
+                                                        cursorColor: Colors.black,
+                                                        keyboardType: TextInputType.name,
+                                                        enableSuggestions: true,
+                                                        autocorrect: true,
+                                                        onChanged: (value){
+                                                          setState(() {
+                                                            pesquisa7 = value;
+                                                          });
+                          
+                                                          if(value == ""){
+                                                            setState(() {
+                                                              pesquisando7 = false;
+                                                            });
+                                                          }else{
+                                                            setState(() {
+                                                              pesquisando7 = true;
+                                                            });
+                                                          }
+                                                        },
+                                                        decoration: InputDecoration(
+                                                          filled: true,
+                                                          fillColor: Colors.white,
+                                                          border: const OutlineInputBorder(),
+                                                          enabledBorder: const OutlineInputBorder(
+                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                          ),
+                                                          focusedBorder: const OutlineInputBorder(
+                                                            borderSide: BorderSide(
+                                                                width: 3,
+                                                                color: Colors.black
+                                                            ),
+                                                          ),
+                                                          label: Container(
+                                                            alignment: AlignmentDirectional.centerEnd,
+                                                            child: Image.asset(
+                                                              "assets/search.png",
+                                                              scale: 12,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        style: const TextStyle(
+                                                            color: Colors.black
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  StreamBuilder(
+                                                      stream: pesquisando7 == true ?
+                                                      FirebaseFirestore.instance
+                                                          .collection("Visitantes")
+                                                          .where("idCondominio", isEqualTo: idCondominio)
+                                                          .where("Nome", isGreaterThanOrEqualTo: pesquisa7)
+                                                          .where("Nome", isLessThan: "${pesquisa7}z")
+                                                          .snapshots() :
+                                                      pesquisando8 == true?
+                                                      FirebaseFirestore.instance
+                                                          .collection("Visitantes")
+                                                          .where("idCondominio", isEqualTo: idCondominio)
+                                                          .where("CPFVist", isGreaterThanOrEqualTo: pesquisa8)
+                                                          .where("CPFVist", isLessThan: "${pesquisa8}9")
+                                                          .snapshots():
+                                                      pesquisando9 == true ? FirebaseFirestore.instance
+                                                          .collection("Visitantes")
+                                                          .where("idCondominio", isEqualTo: idCondominio)
+                                                          .where("Unidade", isGreaterThanOrEqualTo: pesquisa9)
+                                                          .where("Unidade", isLessThan: "${pesquisa9}9")
+                                                          .snapshots():
+                                                      pesquisando10 == true ? FirebaseFirestore.instance
+                                                          .collection("Visitantes")
+                                                          .where("idCondominio", isEqualTo: idCondominio)
+                                                          .where("Placa", isGreaterThanOrEqualTo: pesquisa10)
+                                                          .where("Placa", isLessThan: "${pesquisa10}z")
+                                                          .snapshots():
+                                                      FirebaseFirestore.instance
+                                                          .collection("Visitantes")
+                                                          .where("idCondominio", isEqualTo: idCondominio)
+                                                          .snapshots(),
+                                                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                          
+                                                        if (!snapshot.hasData) {
+                                                          return const Center(
+                                                            child: CircularProgressIndicator(),
+                                                          );
+                                                        }
+                          
+                                                        return Container(
+                                                          width: wid,
+                                                          height: heig / 3.6,
+                                                          decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                              color: Colors.black,
+                                                              width: 1.0,
+                                                            ),
+                                                            
+                                                          ),
+                                                          child: ListView(
+                                                            children: snapshot.data!.docs.map((documents){
+                                                              return Container(
+                                                                decoration: BoxDecoration(
+                                                                  border: Border.all(
+                                                                    color: Colors.black,
+                                                                    width: 1.0,
+                                                                  ),
+                                                                  
+                                                                ),
+                                                                child: Column(
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  children: [
+                                                                    Container(
+                                                                        padding: const EdgeInsets.all(6),
+                                                                        child: Text(
+                                                                            "Nome: ${documents["Nome"]}",
+                                                                          style: TextStyle(
+                                                                              color: textColorWidgets
+                                                                          ),
+                                                                        )
+                                                                    ),
+                                                                    Container(
+                                                                        padding: const EdgeInsets.all(6),
+                                                                        child: Text(
+                                                                            "CPF: ${documents["CPFVist"]}",
+                                                                          style: TextStyle(
+                                                                              color: textColorWidgets
+                                                                          ),
+                                                                        )
+                                                                    ),
+                                                                    Container(
+                                                                        padding: const EdgeInsets.all(6),
+                                                                        child: Text(
+                                                                            "Empresa: ${documents["Empresa"]}",
+                                                                          style: TextStyle(
+                                                                              color: textColorWidgets
+                                                                          ),
+                                                                        )
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              );
+                                                            }).toList(),
+                                                          ),
+                                                        );
+                                                      }
+                                                  ),
+                                                ],
+                                              ),
                                               Container(
-                                                padding: const EdgeInsets.all(16),
-                                                alignment: Alignment.bottomRight,
                                                 width: wid / 4,
                                                 height: heig / 3,
-                                                child: FloatingActionButton(
+                                                padding: const EdgeInsets.all(16),
+                                                alignment: Alignment.bottomRight,
+                                                child: adicionarVisitante == false ?
+                                                Container() :
+                                                FloatingActionButton(
                                                     onPressed: idCondominio == "" ? null : (){
-
-                                                      String Unidade = "";
-                                                      String blocoV = "";
-                                                      String IdentificacaoModeloV = "";
-                                                      String MarcaV = "";
-                                                      String corV = "";
-                                                      String PlacaV = "";
-                                                      List Cores = [
-                                                        'Preto',
-                                                        'Branco',
-                                                        'Vermelho',
-                                                        'Azul',
-                                                        'Prata',
-                                                        'Cinza',
-                                                        'Verde',
-                                                        'Amarelo',
-                                                        'Marrom',
-                                                        'Laranja'
+                                                      var dropValue2 = ValueNotifier('Sem Previsão');
+                          
+                                                      List Permanencia = [
+                                                        'Sem Previsão',
+                                                        '5 minutos',
+                                                        '7 minutos',
+                                                        '15 minutos',
+                                                        '30 minutos',
+                                                        '1 hora',
+                                                        '2 horas',
+                                                        '3 horas',
+                                                        '4 horas',
+                                                        '5 horas',
+                                                        '6 horas',
+                                                        '7 horas',
+                                                        '8 horas',
+                                                        '9 horas',
+                                                        '10 horas',
+                                                        '11 horas',
+                                                        '12 horas',
+                                                        '24 horas',
                                                       ];
-
+                          
+                                                      //Não obrigatórios
+                                                      String Unidade = "";
+                                                      String Bloco = "";
+                                                      String Rua = "";
+                                                      String obs = "";
+                                                      String Empresa = "";
+                                                      String Veiculo = "";
+                                                      String Cracha = "";
+                                                      String Placa = "";
+                                                      String Telefone = "";
+                                                      String Previsao = "Sem Previsão";
+                          
+                                                      //Campos obrigatórios
+                                                      String Nome = "";
+                                                      String CPFVist = "";
+                                                      File? _imageFile;
+                          
+                          
+                                                      final picker = ImagePicker();
+                          
                                                       showDialog(
                                                         context: context,
                                                         builder: (BuildContext context) {
                                                           return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                                            return AlertDialog(
-                                                              title: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                children: [
-                                                                  const Text('Cadastrar novo veiculo'),
-                                                                  IconButton(
-                                                                    onPressed: (){
-                                                                      Navigator.pop(context);
-                                                                    },
-                                                                    icon: const Icon(Icons.close),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                              actions: [
-                                                                Center(
-                                                                  child: Column(
-                                                                    children: [
-                                                                      Center(
-                                                                        child: Container(
-                                                                          padding: const EdgeInsets.all(16),
-                                                                          child: TextField(
-                                                                            keyboardType: TextInputType.emailAddress,
-                                                                            enableSuggestions: false,
-                                                                            autocorrect: false,
-                                                                            onChanged: (value){
-                                                                              setState(() {
-                                                                                Unidade = value;
-                                                                              });
-                                                                            },
-                                                                            decoration: const InputDecoration(
-                                                                              border: OutlineInputBorder(),
-                                                                              enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                              ),
-                                                                              focusedBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(
-                                                                                    width: 3,
-                                                                                    color: Colors.black
+                                                            return SingleChildScrollView(
+                                                              child: AlertDialog(
+                                                                title: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    const Text('Cadastrar novo visitante'),
+                                                                    IconButton(
+                                                                      onPressed: (){
+                                                                        Navigator.pop(context);
+                                                                      },
+                                                                      icon: const Icon(Icons.close),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                                actions: [
+                                                                  Center(
+                                                                    child: Column(
+                                                                      children: [
+                                                                        Center(
+                                                                          child: Container(
+                                                                              padding: const EdgeInsets.all(16),
+                                                                              child: const Text('Qual será a unidade que será visitada?')
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  Unidade = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: const InputDecoration(
+                                                                                border: OutlineInputBorder(),
+                                                                                enabledBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                 ),
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Unidade',
                                                                               ),
-                                                                              labelText: 'Unidade',
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                      Center(
-                                                                        child: Container(
-                                                                          padding: const EdgeInsets.all(16),
-                                                                          child: TextField(
-                                                                            keyboardType: TextInputType.emailAddress,
-                                                                            enableSuggestions: false,
-                                                                            autocorrect: false,
-                                                                            onChanged: (value){
-                                                                              setState(() {
-                                                                                blocoV = value;
-                                                                              });
-                                                                            },
-                                                                            decoration: const InputDecoration(
-                                                                              border: OutlineInputBorder(),
-                                                                              enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                              ),
-                                                                              focusedBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(
-                                                                                    width: 3,
-                                                                                    color: Colors.black
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  Bloco = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: const InputDecoration(
+                                                                                border: OutlineInputBorder(),
+                                                                                enabledBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                 ),
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Bloco',
                                                                               ),
-                                                                              labelText: 'Bloco',
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                      Center(
-                                                                        child: Container(
-                                                                          padding: const EdgeInsets.all(16),
-                                                                          child: TextField(
-                                                                            keyboardType: TextInputType.emailAddress,
-                                                                            enableSuggestions: false,
-                                                                            autocorrect: false,
-                                                                            onChanged: (value){
-                                                                              setState(() {
-                                                                                IdentificacaoModeloV = value;
-                                                                              });
-                                                                            },
-                                                                            decoration: const InputDecoration(
-                                                                              border: OutlineInputBorder(),
-                                                                              enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                              ),
-                                                                              focusedBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(
-                                                                                    width: 3,
-                                                                                    color: Colors.black
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  Rua = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: const InputDecoration(
+                                                                                border: OutlineInputBorder(),
+                                                                                enabledBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                 ),
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Rua',
                                                                               ),
-                                                                              labelText: 'Identificação ou Modelo',
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                      Center(
-                                                                        child: Container(
-                                                                          padding: const EdgeInsets.all(16),
-                                                                          child: TextField(
-                                                                            keyboardType: TextInputType.emailAddress,
-                                                                            enableSuggestions: false,
-                                                                            autocorrect: false,
-                                                                            onChanged: (value){
-                                                                              setState(() {
-                                                                                MarcaV = value;
-                                                                              });
-                                                                            },
-                                                                            decoration: const InputDecoration(
-                                                                              border: OutlineInputBorder(),
-                                                                              enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                              ),
-                                                                              focusedBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(
-                                                                                    width: 3,
-                                                                                    color: Colors.black
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  Nome = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: const InputDecoration(
+                                                                                border: OutlineInputBorder(),
+                                                                                enabledBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                 ),
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Nome',
                                                                               ),
-                                                                              labelText: 'Marca',
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                      Center(
-                                                                        child: ValueListenableBuilder(valueListenable: dropValue, builder: (context, String value, _){
-                                                                          return DropdownButton(
-                                                                            hint: Text(
-                                                                              'Selecione a cor',
-                                                                              style: TextStyle(
-                                                                                  color: textColorDrop
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  CPFVist = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: const InputDecoration(
+                                                                                border: OutlineInputBorder(),
+                                                                                enabledBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'CPF',
                                                                               ),
                                                                             ),
-                                                                            value: (value.isEmpty)? null : value,
-                                                                            onChanged: (escolha) async {
-                                                                              dropValue.value = escolha.toString();
-                                                                              setState(() {
-                                                                                corV = escolha.toString();
-                                                                              });
-                                                                            },
-                                                                            items: Cores.map((opcao) => DropdownMenuItem(
-                                                                              value: opcao,
-                                                                              child:
-                                                                              Text(
-                                                                                opcao,
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  Telefone = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: const InputDecoration(
+                                                                                border: OutlineInputBorder(),
+                                                                                enabledBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Telefone',
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  Cracha = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: const InputDecoration(
+                                                                                border: OutlineInputBorder(),
+                                                                                enabledBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Crachá',
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  Empresa = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: const InputDecoration(
+                                                                                border: OutlineInputBorder(),
+                                                                                enabledBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Empresa',
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  Veiculo = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: const InputDecoration(
+                                                                                border: OutlineInputBorder(),
+                                                                                enabledBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Veiculo',
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  Placa = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: const InputDecoration(
+                                                                                border: OutlineInputBorder(),
+                                                                                enabledBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Placa',
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
+                                                                            return DropdownButton(
+                                                                              hint: Text(
+                                                                                'Permanência',
                                                                                 style: TextStyle(
                                                                                     color: textColorDrop
                                                                                 ),
                                                                               ),
+                                                                              value: (value.isEmpty)? null : value,
+                                                                              onChanged: (escolha) async {
+                                                                                dropValue2.value = escolha.toString();
+                                                                                setState(() {
+                                                                                  Previsao = escolha.toString();
+                                                                                });
+                                                                              },
+                                                                              items: Permanencia.map((opcao) => DropdownMenuItem(
+                                                                                value: opcao,
+                                                                                child:
+                                                                                Text(
+                                                                                  opcao,
+                                                                                  style: TextStyle(
+                                                                                      color: textColorDrop
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              ).toList(),
+                                                                            );
+                                                                          }),
+                                                                        ),
+                                                                        _imageFile != null ? Center(
+                                                                          child: SizedBox(
+                                                                            width: 300,
+                                                                            height: 300,
+                                                                            child: Image.file(_imageFile!),
+                                                                          ),
+                                                                        ): const Center(
+                                                                          child: Text("Sem imagem selecionada!"),
+                                                                        ),
+                                                                        Center(
+                                                                          child: ElevatedButton(
+                                                                            onPressed: () async {
+                                                                              final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+                          
+                                                                              setState(() {
+                                                                                if (pickedFile != null) {
+                                                                                  _imageFile = File(pickedFile.path);
+                                                                                } else {
+                                                                                  showToast("Imagem não selecionada!",context:context);
+                                                                                }
+                                                                              });
+                                                                            },
+                                                                            style: ElevatedButton.styleFrom(
+                                                                                backgroundColor: colorBtn
                                                                             ),
-                                                                            ).toList(),
-                                                                          );
-                                                                        }),
-                                                                      ),
-                                                                      Center(
-                                                                        child: Container(
+                                                                            child: Text(
+                                                                                'Selecione a imagem do documento da pessoa!',
+                                                                              style: TextStyle(
+                                                                                  color: textColor
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Container(
                                                                           padding: const EdgeInsets.all(16),
                                                                           child: TextField(
-                                                                            keyboardType: TextInputType.emailAddress,
-                                                                            enableSuggestions: false,
-                                                                            autocorrect: false,
+                                                                            keyboardType: TextInputType.multiline,
+                                                                            enableSuggestions: true,
+                                                                            autocorrect: true,
+                                                                            minLines: 5,
+                                                                            maxLines: null,
                                                                             onChanged: (value){
                                                                               setState(() {
-                                                                                PlacaV = value;
+                                                                                obs = value;
                                                                               });
                                                                             },
                                                                             decoration: const InputDecoration(
@@ -4358,62 +3931,84 @@ class _homeAppState extends State<homeApp>{
                                                                                     color: Colors.black
                                                                                 ),
                                                                               ),
-                                                                              labelText: 'Placa',
+                                                                              labelText: 'Observações',
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                      Center(
-                                                                        child: ElevatedButton(
-                                                                          onPressed: (){
-                                                                            if(Unidade == ""){
-                                                                              showToast("A unidade está vazia!",context:context);
-                                                                            }else{
-                                                                              if(blocoV == ""){
-                                                                                showToast("O Bloco está vazio!",context:context);
+                                                                        Center(
+                                                                          child: ElevatedButton(
+                                                                            onPressed: () async {
+                                                                              if(Nome == ""){
+                                                                                showToast("O campo de nome está vazio!",context:context);
                                                                               }else{
-                                                                                if(IdentificacaoModeloV == ""){
-                                                                                  showToast("A Identificação está vazia!",context:context);
+                                                                                if(CPFVist == ""){
+                                                                                  showToast("O campo de CPF está vazio!",context:context);
                                                                                 }else{
-                                                                                  if(MarcaV == ""){
-                                                                                    showToast("A Marca está vazia!",context:context);
+                                                                                  if(_imageFile == null){
+                                                                                    showToast("O documento não foi passado!",context:context);
                                                                                   }else{
-                                                                                    if(corV == ""){
-                                                                                      showToast("A Cor não foi definida!",context:context);
-                                                                                    }else{
-                                                                                      if(PlacaV == ""){
-                                                                                        showToast("A Placa está vazia!",context:context);
-                                                                                      }else{
-                                                                                        Uuid uuid = const Uuid();
-                                                                                        String UUID = uuid.v4();
-                                                                                        FirebaseFirestore.instance.collection('Veiculos').doc(UUID).set({
-                                                                                          "Unidade": Unidade,
-                                                                                          "blocoV": blocoV,
-                                                                                          "IdentificacaoModeloV": IdentificacaoModeloV,
-                                                                                          "MarcaV": MarcaV,
-                                                                                          "corV": corV,
-                                                                                          "PlacaV": PlacaV,
-                                                                                          "idCondominio": idCondominio
-                                                                                        }).whenComplete((){
-                                                                                          Navigator.pop(context);
-                                                                                        });
-                                                                                      }
-                                                                                    }
+                                                                                    showDialog(
+                                                                                      context: context,
+                                                                                      builder: (BuildContext context) {
+                                                                                        return const AlertDialog(
+                                                                                          title: Text('Aguarde!'),
+                                                                                          actions: [
+                                                                                            Center(
+                                                                                              child: CircularProgressIndicator(),
+                                                                                            )
+                                                                                          ],
+                                                                                        );
+                                                                                      },
+                                                                                    );
+                                                                                    Uuid uuid = const Uuid();
+                                                                                    String UUID = uuid.v4();
+                          
+                                                                                    FirebaseStorage storage = FirebaseStorage.instance;
+                                                                                    Reference ref = storage.ref().child('images/visitantes/$idCondominio/$UUID');
+                                                                                    await ref.putFile(_imageFile!).whenComplete(() {
+                                                                                      showToast("Imagem carregada!",context:context);
+                                                                                    }).catchError((e){
+                                                                                      showToast("Houve uma falha no carregamento! codigo do erro: $e",context:context);
+                                                                                      showToast("Repasse esse erro para o desenvolvedor!",context:context);
+                                                                                    });
+                                                                                    FirebaseFirestore.instance.collection('Visitantes').doc(UUID).set({
+                                                                                      "Unidade": Unidade,
+                                                                                      "Bloco": Bloco,
+                                                                                      "Rua": Rua,
+                                                                                      "obs": obs,
+                                                                                      "Empresa": Empresa,
+                                                                                      "Veiculo": Veiculo,
+                                                                                      "Cracha": Cracha,
+                                                                                      "Placa": Placa,
+                                                                                      "Telefone": Telefone,
+                                                                                      "Previsao": Previsao,
+                                                                                      "Nome": Nome,
+                                                                                      "CPFVist": CPFVist,
+                                                                                      "idCondominio": idCondominio,
+                                                                                      "imageURI": await ref.getDownloadURL(),
+                                                                                    }).whenComplete((){
+                                                                                      Navigator.pop(context);
+                                                                                      Navigator.pop(context);
+                                                                                    });
                                                                                   }
                                                                                 }
                                                                               }
-                                                                            }
-                                                                          },
-                                                                          style: ElevatedButton.styleFrom(
+                                                                            },style: ElevatedButton.styleFrom(
                                                                               backgroundColor: colorBtn
                                                                           ),
-                                                                          child: const Text("Salvar"),
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                )
-                                                              ],
+                                                                            child: Text(
+                                                                                "Salvar",
+                                                                              style: TextStyle(
+                                                                                  color: textColor
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
                                                             );
                                                           },);
                                                         },
@@ -4424,16 +4019,458 @@ class _homeAppState extends State<homeApp>{
                                                         color: textColorFab
                                                     )
                                                 ),
-                                              ),
-                                            )
-                                          ],
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
+                                      )
                                     ),
-                                  ),
-                                )
-                            ),
-                          ],
+                                    SizedBox(
+                                        width: wid / 4,
+                                        height: heig / 3,
+                                        child: Center(
+                                          child: Center(
+                                            child: SizedBox(
+                                              width: wid / 4,
+                                              height: heig / 3,
+                                              child: SingleChildScrollView(
+                                                child: Stack(
+                                                  children: [
+                                                    idCondominio == "" ?
+                                                          Center(child:
+                                                            Text('Selecione um cliente!',
+                                                                  style: TextStyle(
+                                                                      color: textColorWidgets
+                                                                  ),
+                                                                )
+                                                          )
+                                                        : Column(
+                                                      children: [
+                                                        Center(
+                                                          child: Container(
+                                                            padding: const EdgeInsets.all(10),
+                                                            child: TextField(
+                                                              cursorColor: Colors.black,
+                                                              keyboardType: TextInputType.name,
+                                                              enableSuggestions: true,
+                                                              autocorrect: true,
+                                                              onChanged: (value){
+                                                                setState(() {
+                                                                  pesquisa3 = value;
+                                                                });
+                          
+                                                                if(value == ""){
+                                                                  setState(() {
+                                                                    pesquisando3 = false;
+                                                                  });
+                                                                }else{
+                                                                  setState(() {
+                                                                    pesquisando3 = true;
+                                                                  });
+                                                                }
+                                                              },
+                                                              decoration: InputDecoration(
+                                                                filled: true,
+                                                                fillColor: Colors.white,
+                                                                border: const OutlineInputBorder(),
+                                                                enabledBorder: const OutlineInputBorder(
+                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                ),
+                                                                focusedBorder: const OutlineInputBorder(
+                                                                  borderSide: BorderSide(
+                                                                      width: 3,
+                                                                      color: Colors.black
+                                                                  ),
+                                                                ),
+                                                                label: Container(
+                                                                  alignment: AlignmentDirectional.centerEnd,
+                                                                  child: Image.asset(
+                                                                      "assets/search.png",
+                                                                    scale: 12,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              style: const TextStyle(
+                                                                  color: Colors.black
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        StreamBuilder(
+                                                            stream: pesquisando3 == true ?
+                                                            FirebaseFirestore.instance
+                                                                .collection("Veiculos")
+                                                                .where("idCondominio", isEqualTo: idCondominio)
+                                                                .where("Unidade", isGreaterThanOrEqualTo: pesquisa3)
+                                                                .where("Unidade", isLessThan: "${pesquisa3}9")
+                                                                .snapshots() :
+                                                            pesquisando4 == true ?
+                                                            FirebaseFirestore.instance
+                                                                .collection("Veiculos")
+                                                                .where("idCondominio", isEqualTo: idCondominio)
+                                                                .where("blocoV", isGreaterThanOrEqualTo: pesquisa4)
+                                                                .where("blocoV", isLessThan: "${pesquisa4}z")
+                                                                .snapshots() :
+                                                            pesquisando5 == true ? FirebaseFirestore.instance
+                                                                .collection("Veiculos")
+                                                                .where("idCondominio", isEqualTo: idCondominio)
+                                                                .where("IdentificacaoModeloV", isGreaterThanOrEqualTo: pesquisa5)
+                                                                .where("IdentificacaoModeloV", isLessThan: "${pesquisa5}z")
+                                                                .snapshots():
+                                                            pesquisando6 == true ? FirebaseFirestore.instance
+                                                                .collection("Veiculos")
+                                                                .where("idCondominio", isEqualTo: idCondominio)
+                                                                .where("PlacaV", isGreaterThanOrEqualTo: pesquisa6)
+                                                                .where("PlacaV", isLessThan: "${pesquisa6}z")
+                                                                .snapshots():
+                                                            FirebaseFirestore.instance
+                                                                .collection("Veiculos")
+                                                                .where("idCondominio", isEqualTo: idCondominio)
+                                                                .snapshots(),
+                                                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                          
+                                                              if (!snapshot.hasData) {
+                                                                return const Center(
+                                                                  child: CircularProgressIndicator(),
+                                                                );
+                                                              }
+                          
+                                                              return Container(
+                                                                width: wid,
+                                                                height: heig / 3.9,
+                                                                decoration: BoxDecoration(
+                                                                  border: Border.all(
+                                                                    color: Colors.black,
+                                                                    width: 1.0,
+                                                                  ),
+                                                                  
+                                                                ),
+                                                                child: ListView(
+                                                                  children: snapshot.data!.docs.map((documents){
+                                                                    return Container(
+                                                                      decoration: BoxDecoration(
+                                                                        border: Border.all(
+                                                                          color: Colors.black,
+                                                                          width: 1.0,
+                                                                        ),
+                                                                        
+                                                                      ),
+                                                                      child: Center(
+                                                                        child: Container(
+                                                                            padding: const EdgeInsets.all(6),
+                                                                            child: Text(
+                                                                                "Placa: ${documents["PlacaV"]}",
+                                                                              style: TextStyle(
+                                                                                  color: textColorWidgets
+                                                                              ),
+                                                                            )
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  }).toList(),
+                                                                ),
+                                                              );
+                                                            }
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Container(
+                                                      alignment: Alignment.bottomRight,
+                                                      child: adicionarVeiculo == false ?
+                                                      Container():
+                                                      Container(
+                                                        padding: const EdgeInsets.all(16),
+                                                        alignment: Alignment.bottomRight,
+                                                        width: wid / 4,
+                                                        height: heig / 3,
+                                                        child: FloatingActionButton(
+                                                            onPressed: idCondominio == "" ? null : (){
+                          
+                                                              String Unidade = "";
+                                                              String blocoV = "";
+                                                              String IdentificacaoModeloV = "";
+                                                              String MarcaV = "";
+                                                              String corV = "";
+                                                              String PlacaV = "";
+                                                              List Cores = [
+                                                                'Preto',
+                                                                'Branco',
+                                                                'Vermelho',
+                                                                'Azul',
+                                                                'Prata',
+                                                                'Cinza',
+                                                                'Verde',
+                                                                'Amarelo',
+                                                                'Marrom',
+                                                                'Laranja'
+                                                              ];
+                          
+                                                              showDialog(
+                                                                context: context,
+                                                                builder: (BuildContext context) {
+                                                                  return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                    return AlertDialog(
+                                                                      title: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          const Text('Cadastrar novo veiculo'),
+                                                                          IconButton(
+                                                                            onPressed: (){
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            icon: const Icon(Icons.close),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                      actions: [
+                                                                        Center(
+                                                                          child: Column(
+                                                                            children: [
+                                                                              Center(
+                                                                                child: Container(
+                                                                                  padding: const EdgeInsets.all(16),
+                                                                                  child: TextField(
+                                                                                    keyboardType: TextInputType.emailAddress,
+                                                                                    enableSuggestions: false,
+                                                                                    autocorrect: false,
+                                                                                    onChanged: (value){
+                                                                                      setState(() {
+                                                                                        Unidade = value;
+                                                                                      });
+                                                                                    },
+                                                                                    decoration: const InputDecoration(
+                                                                                      border: OutlineInputBorder(),
+                                                                                      enabledBorder: OutlineInputBorder(
+                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                      ),
+                                                                                      focusedBorder: OutlineInputBorder(
+                                                                                        borderSide: BorderSide(
+                                                                                            width: 3,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      ),
+                                                                                      labelText: 'Unidade',
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Center(
+                                                                                child: Container(
+                                                                                  padding: const EdgeInsets.all(16),
+                                                                                  child: TextField(
+                                                                                    keyboardType: TextInputType.emailAddress,
+                                                                                    enableSuggestions: false,
+                                                                                    autocorrect: false,
+                                                                                    onChanged: (value){
+                                                                                      setState(() {
+                                                                                        blocoV = value;
+                                                                                      });
+                                                                                    },
+                                                                                    decoration: const InputDecoration(
+                                                                                      border: OutlineInputBorder(),
+                                                                                      enabledBorder: OutlineInputBorder(
+                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                      ),
+                                                                                      focusedBorder: OutlineInputBorder(
+                                                                                        borderSide: BorderSide(
+                                                                                            width: 3,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      ),
+                                                                                      labelText: 'Bloco',
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Center(
+                                                                                child: Container(
+                                                                                  padding: const EdgeInsets.all(16),
+                                                                                  child: TextField(
+                                                                                    keyboardType: TextInputType.emailAddress,
+                                                                                    enableSuggestions: false,
+                                                                                    autocorrect: false,
+                                                                                    onChanged: (value){
+                                                                                      setState(() {
+                                                                                        IdentificacaoModeloV = value;
+                                                                                      });
+                                                                                    },
+                                                                                    decoration: const InputDecoration(
+                                                                                      border: OutlineInputBorder(),
+                                                                                      enabledBorder: OutlineInputBorder(
+                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                      ),
+                                                                                      focusedBorder: OutlineInputBorder(
+                                                                                        borderSide: BorderSide(
+                                                                                            width: 3,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      ),
+                                                                                      labelText: 'Identificação ou Modelo',
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Center(
+                                                                                child: Container(
+                                                                                  padding: const EdgeInsets.all(16),
+                                                                                  child: TextField(
+                                                                                    keyboardType: TextInputType.emailAddress,
+                                                                                    enableSuggestions: false,
+                                                                                    autocorrect: false,
+                                                                                    onChanged: (value){
+                                                                                      setState(() {
+                                                                                        MarcaV = value;
+                                                                                      });
+                                                                                    },
+                                                                                    decoration: const InputDecoration(
+                                                                                      border: OutlineInputBorder(),
+                                                                                      enabledBorder: OutlineInputBorder(
+                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                      ),
+                                                                                      focusedBorder: OutlineInputBorder(
+                                                                                        borderSide: BorderSide(
+                                                                                            width: 3,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      ),
+                                                                                      labelText: 'Marca',
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Center(
+                                                                                child: ValueListenableBuilder(valueListenable: dropValue, builder: (context, String value, _){
+                                                                                  return DropdownButton(
+                                                                                    hint: Text(
+                                                                                      'Selecione a cor',
+                                                                                      style: TextStyle(
+                                                                                          color: textColorDrop
+                                                                                      ),
+                                                                                    ),
+                                                                                    value: (value.isEmpty)? null : value,
+                                                                                    onChanged: (escolha) async {
+                                                                                      dropValue.value = escolha.toString();
+                                                                                      setState(() {
+                                                                                        corV = escolha.toString();
+                                                                                      });
+                                                                                    },
+                                                                                    items: Cores.map((opcao) => DropdownMenuItem(
+                                                                                      value: opcao,
+                                                                                      child:
+                                                                                      Text(
+                                                                                        opcao,
+                                                                                        style: TextStyle(
+                                                                                            color: textColorDrop
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    ).toList(),
+                                                                                  );
+                                                                                }),
+                                                                              ),
+                                                                              Center(
+                                                                                child: Container(
+                                                                                  padding: const EdgeInsets.all(16),
+                                                                                  child: TextField(
+                                                                                    keyboardType: TextInputType.emailAddress,
+                                                                                    enableSuggestions: false,
+                                                                                    autocorrect: false,
+                                                                                    onChanged: (value){
+                                                                                      setState(() {
+                                                                                        PlacaV = value;
+                                                                                      });
+                                                                                    },
+                                                                                    decoration: const InputDecoration(
+                                                                                      border: OutlineInputBorder(),
+                                                                                      enabledBorder: OutlineInputBorder(
+                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                      ),
+                                                                                      focusedBorder: OutlineInputBorder(
+                                                                                        borderSide: BorderSide(
+                                                                                            width: 3,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      ),
+                                                                                      labelText: 'Placa',
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Center(
+                                                                                child: ElevatedButton(
+                                                                                  onPressed: (){
+                                                                                    if(Unidade == ""){
+                                                                                      showToast("A unidade está vazia!",context:context);
+                                                                                    }else{
+                                                                                      if(blocoV == ""){
+                                                                                        showToast("O Bloco está vazio!",context:context);
+                                                                                      }else{
+                                                                                        if(IdentificacaoModeloV == ""){
+                                                                                          showToast("A Identificação está vazia!",context:context);
+                                                                                        }else{
+                                                                                          if(MarcaV == ""){
+                                                                                            showToast("A Marca está vazia!",context:context);
+                                                                                          }else{
+                                                                                            if(corV == ""){
+                                                                                              showToast("A Cor não foi definida!",context:context);
+                                                                                            }else{
+                                                                                              if(PlacaV == ""){
+                                                                                                showToast("A Placa está vazia!",context:context);
+                                                                                              }else{
+                                                                                                Uuid uuid = const Uuid();
+                                                                                                String UUID = uuid.v4();
+                                                                                                FirebaseFirestore.instance.collection('Veiculos').doc(UUID).set({
+                                                                                                  "Unidade": Unidade,
+                                                                                                  "blocoV": blocoV,
+                                                                                                  "IdentificacaoModeloV": IdentificacaoModeloV,
+                                                                                                  "MarcaV": MarcaV,
+                                                                                                  "corV": corV,
+                                                                                                  "PlacaV": PlacaV,
+                                                                                                  "idCondominio": idCondominio
+                                                                                                }).whenComplete((){
+                                                                                                  Navigator.pop(context);
+                                                                                                });
+                                                                                              }
+                                                                                            }
+                                                                                          }
+                                                                                        }
+                                                                                      }
+                                                                                    }
+                                                                                  },
+                                                                                  style: ElevatedButton.styleFrom(
+                                                                                      backgroundColor: colorBtn
+                                                                                  ),
+                                                                                  child: const Text("Salvar"),
+                                                                                ),
+                                                                              )
+                                                                            ],
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    );
+                                                                  },);
+                                                                },
+                                                              );
+                                                            },
+                                                            backgroundColor: colorBtnFab,
+                                                            child: Icon(Icons.add,
+                                                                color: textColorFab
+                                                            )
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
