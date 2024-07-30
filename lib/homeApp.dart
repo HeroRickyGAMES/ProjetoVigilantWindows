@@ -497,17 +497,24 @@ class _homeAppState extends State<homeApp>{
                                                   return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
                                                     return SingleChildScrollView(
                                                       child: AlertDialog(
-                                                        title: Center(
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                            children: [
-                                                              const Text('Crie um novo condominio!'),
-                                                              IconButton(onPressed: (){
-                                                                Navigator.pop(context);
-                                                              }, icon: const Icon(Icons.close)
-                                                              )
-                                                            ],
-                                                          ),
+                                                        scrollable: true,
+                                                        title: Column(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          children: [
+                                                            Center(
+                                                              child: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                children: [
+                                                                  const Text('Crie um novo condominio!'),
+                                                                  IconButton(onPressed: (){
+                                                                    Navigator.pop(context);
+                                                                  }, icon: const Icon(Icons.close)
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+
+                                                          ],
                                                         ),
                                                         actions: [
                                                           Center(
@@ -566,34 +573,42 @@ class _homeAppState extends State<homeApp>{
                                                               ),
                                                             ),
                                                           ),
-                                                          ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
-                                                            return DropdownButton(
-                                                              hint: Text(
-                                                                'Selecione o modelo',
-                                                                style: TextStyle(
-                                                                    color: textColorDrop
-                                                                ),
-                                                              ),
-                                                              value: (value.isEmpty)? null : value,
-                                                              onChanged: (escolha) async {
-                                                                dropValue2.value = escolha.toString();
-                                                                setState(() {
-                                                                  modeloselecionado = escolha.toString();
-                                                                });
-                                                              },
-                                                              items: ModelosdeCFTV.map((opcao) => DropdownMenuItem(
-                                                                value: opcao,
-                                                                child:
-                                                                Text(
-                                                                  opcao,
-                                                                  style: TextStyle(
-                                                                      color: textColorDrop
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              ).toList(),
-                                                            );
-                                                          }),
+                                                          Center(
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              children: [
+                                                                const Text('Modelo do CFTV:'),
+                                                                ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
+                                                                  return DropdownButton(
+                                                                    hint: Text(
+                                                                      'Selecione o modelo',
+                                                                      style: TextStyle(
+                                                                          color: textColorDrop
+                                                                      ),
+                                                                    ),
+                                                                    value: (value.isEmpty)? null : value,
+                                                                    onChanged: (escolha) async {
+                                                                      dropValue2.value = escolha.toString();
+                                                                      setState(() {
+                                                                        modeloselecionado = escolha.toString();
+                                                                      });
+                                                                    },
+                                                                    items: ModelosdeCFTV.map((opcao) => DropdownMenuItem(
+                                                                      value: opcao,
+                                                                      child:
+                                                                      Text(
+                                                                        opcao,
+                                                                        style: TextStyle(
+                                                                            color: textColorDrop
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    ).toList(),
+                                                                  );
+                                                                }),
+                                                              ],
+                                                            ),
+                                                          ),
                                                           Center(
                                                             child: Container(
                                                               padding: const EdgeInsets.all(16),
@@ -953,12 +968,13 @@ class _homeAppState extends State<homeApp>{
                                                                   backgroundColor: colorBtn
                                                               ),
                                                               child: Text(
-                                                                  'Registrar novo Condominio',
+                                                                'Registrar novo Condominio',
                                                                 style: TextStyle(
                                                                     color: textColor
                                                                 ),
                                                               )
                                                           )
+
                                                         ],
                                                       ),
                                                     );
