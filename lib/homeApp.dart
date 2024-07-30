@@ -37,6 +37,7 @@ String anotacaoMorador = "";
 String MoradorId = "";
 String UnidadeMorador = "";
 String BlocoMorador = "";
+String ModeloDoCFTV = "";
 
 //Strings de Pesquisa
 String pesquisa = '';
@@ -113,8 +114,14 @@ Color textColorInitBlue = Colors.white;
 
 //Listas
 List ModelosAcionamentos = [
-  "Intelbras"
+  "Intelbras",
 ];
+
+List ModelosdeCFTV = [
+  "Intelbras",
+];
+
+
 
 class homeApp extends StatefulWidget {
   const homeApp({super.key});
@@ -362,6 +369,7 @@ class _homeAppState extends State<homeApp>{
                                                                               porta = documents["PortaCameras"];
                                                                               idCondominio = documents["idCondominio"];
                                                                               anotacao = documents["Aviso"];
+                                                                              ModeloDoCFTV = documents['ipCameraModelo'];
                                                                             });
                                                                             await Future.delayed(const Duration(seconds: 1));
                                                                             var getIpCameraSettings = await FirebaseFirestore.instance
@@ -412,12 +420,12 @@ class _homeAppState extends State<homeApp>{
                                                                                       menu: snapshot.requireData,
                                                                                       otherCallback: (method) {
                                                                                       },
-                                                                                      child: Container(child: const Text(
+                                                                                      child: const Text(
                                                                                           "abc",
                                                                                         style: TextStyle(
                                                                                           color: Colors.transparent
                                                                                         ),
-                                                                                      )),
+                                                                                      ),
                                                                                     ),
                                                                                   );
                                                                                 },
@@ -480,6 +488,8 @@ class _homeAppState extends State<homeApp>{
                                               String AuthUser = "";
                                               String Pass = "";
                                               String codigo = "";
+                                              String modeloselecionado = "Intelbras";
+                                              var dropValue2 = ValueNotifier('Intelbras');
 
                                               showDialog(
                                                 context: context,
@@ -556,6 +566,34 @@ class _homeAppState extends State<homeApp>{
                                                               ),
                                                             ),
                                                           ),
+                                                          ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
+                                                            return DropdownButton(
+                                                              hint: Text(
+                                                                'Selecione o modelo',
+                                                                style: TextStyle(
+                                                                    color: textColorDrop
+                                                                ),
+                                                              ),
+                                                              value: (value.isEmpty)? null : value,
+                                                              onChanged: (escolha) async {
+                                                                dropValue2.value = escolha.toString();
+                                                                setState(() {
+                                                                  modeloselecionado = escolha.toString();
+                                                                });
+                                                              },
+                                                              items: ModelosdeCFTV.map((opcao) => DropdownMenuItem(
+                                                                value: opcao,
+                                                                child:
+                                                                Text(
+                                                                  opcao,
+                                                                  style: TextStyle(
+                                                                      color: textColorDrop
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              ).toList(),
+                                                            );
+                                                          }),
                                                           Center(
                                                             child: Container(
                                                               padding: const EdgeInsets.all(16),
@@ -607,7 +645,7 @@ class _homeAppState extends State<homeApp>{
                                                                         color: Colors.black
                                                                     ),
                                                                   ),
-                                                                  labelText: 'Porta RTSP das Cameras (Normalmente é 554)',
+                                                                  labelText: 'Porta RTSP das Cameras (Normalmente é 554, mas para Sancas use 8080)',
                                                                 ),
                                                               ),
                                                             ),
@@ -677,34 +715,6 @@ class _homeAppState extends State<homeApp>{
                                                                 autocorrect: false,
                                                                 onChanged: (value){
                                                                   setState(() {
-                                                                    UserAccess = value;
-                                                                  });
-                                                                },
-                                                                decoration: const InputDecoration(
-                                                                  border: OutlineInputBorder(),
-                                                                  enabledBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(
-                                                                        width: 3,
-                                                                        color: Colors.black
-                                                                    ),
-                                                                  ),
-                                                                  labelText: 'Usuario para acesso das cameras',
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Center(
-                                                            child: Container(
-                                                              padding: const EdgeInsets.all(16),
-                                                              child: TextField(
-                                                                keyboardType: TextInputType.emailAddress,
-                                                                enableSuggestions: false,
-                                                                autocorrect: false,
-                                                                onChanged: (value){
-                                                                  setState(() {
                                                                     SIPUrl = value;
                                                                   });
                                                                 },
@@ -719,7 +729,7 @@ class _homeAppState extends State<homeApp>{
                                                                         color: Colors.black
                                                                     ),
                                                                   ),
-                                                                  labelText: 'SIP Url (sip2.chamada.com.br)',
+                                                                  labelText: 'SIP Url (sip2.chamada.com.br), para ambientes não suportado é recomendado deixar (*) apenas.',
                                                                 ),
                                                               ),
                                                             ),
@@ -881,7 +891,7 @@ class _homeAppState extends State<homeApp>{
                                                                                   "authSenhaSIP": Pass,
                                                                                   "Codigo" : codigo,
                                                                                   'idList' : [UID],
-                                                                                  "ipCameraModelo": "IntelBras",
+                                                                                  "ipCameraModelo": modeloselecionado,
                                                                                   "ipCamera1": 1,
                                                                                   "ipCamera2": 2,
                                                                                   "ipCamera3": 3,
@@ -1053,7 +1063,7 @@ class _homeAppState extends State<homeApp>{
                             children: [
                               //CFTV AQUI!
                               VideoStreamWidget(
-                                  ip, porta, user, pass, corDasBarras, wid, heig, camera1, camera2, camera3, camera4, camera5, camera6, camera7, camera8, camera9
+                                  ip, porta, user, pass, corDasBarras, wid, heig, camera1, camera2, camera3, camera4, camera5, camera6, camera7, camera8, camera9, ModeloDoCFTV
                               ),
                               SizedBox(
                                 width: wid / 2,

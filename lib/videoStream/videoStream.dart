@@ -10,12 +10,13 @@ class videoStream extends StatefulWidget {
   String user = "";
   String password = "";
   String ip = "";
+  String Modelo = "";
 
   //Inteiros
   int porta;
   int? canal;
 
-  videoStream(this.user, this.password, this.ip, this.porta, this.canal, {super.key});
+  videoStream(this.user, this.password, this.ip, this.porta, this.canal, this.Modelo, {super.key});
 
   @override
   State<videoStream> createState() => _videoStreamState();
@@ -31,12 +32,6 @@ class _videoStreamState extends State<videoStream> {
     super.initState();
   }
 
-  openPlayer(){
-    player.open(Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/cam/realmonitor?channel=${widget.canal}&subtype=1'));
-    player.setVolume(0);
-}
-
-
   @override
   void dispose() {
     player.dispose();
@@ -46,6 +41,10 @@ class _videoStreamState extends State<videoStream> {
 
   @override
   Widget build(BuildContext context) {
+    openPlayer(){
+      player.open(Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/cam/realmonitor?channel=${widget.canal}&subtype=1'));
+      player.setVolume(0);
+    }
 
     openPlayer();
 

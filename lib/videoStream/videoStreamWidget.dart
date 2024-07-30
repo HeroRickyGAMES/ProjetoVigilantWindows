@@ -23,8 +23,9 @@ class VideoStreamWidget extends StatefulWidget {
   int? camera7;
   int? camera8;
   int? camera9;
+  String Modelo = "";
   VideoStreamWidget(this.ip, this.porta, this.user, this.pass, this.corDasBarras, this.wid, this.heig, this.camera1, this.camera2, this.camera3, this.camera4, this.camera5,
-      this.camera6, this.camera7, this.camera8, this.camera9, {super.key});
+      this.camera6, this.camera7, this.camera8, this.camera9, this.Modelo,  {super.key});
 
   @override
   State<VideoStreamWidget> createState() => _VideoStreamWidgetState();
@@ -127,7 +128,6 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
   int numeroCameraSelect4, int numeroCameraSelect5, int numeroCameraSelect6, int numeroCameraSelect7,
       int numeroCameraSelect8, int numeroCameraSelect9) async {
     if(idCondominio == ""){
-    print("Entrou no loop até que o idcondominio não seja mais nulo!");
     getIpCameraFromSettings(numeroCameraSelect1, numeroCameraSelect2, numeroCameraSelect3, numeroCameraSelect4, numeroCameraSelect5, numeroCameraSelect6, numeroCameraSelect7, numeroCameraSelect8, numeroCameraSelect9);
     }else{
       await Future.delayed(const Duration(seconds: 1));
@@ -840,7 +840,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 1;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera1)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera1, widget.Modelo)
                                     ),
                                     InkWell(
                                         onTap: (){
@@ -848,7 +848,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 2;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera2)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera2, widget.Modelo)
                                     ),
                                     InkWell(
                                         onTap: (){
@@ -856,7 +856,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 3;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera3)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera3, widget.Modelo)
                                     ),
                                     InkWell(
                                         onTap: (){
@@ -864,7 +864,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 4;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera4)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera4, widget.Modelo)
                                     ),
                                     InkWell(
                                         onTap: (){
@@ -872,7 +872,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 5;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera5)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera5, widget.Modelo)
                                     ),
                                     InkWell(
                                         onTap: (){
@@ -880,7 +880,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 6;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera6)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera6, widget.Modelo)
                                     ),
                                     InkWell(
                                         onTap: (){
@@ -888,7 +888,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 7;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera7)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera7, widget.Modelo)
                                     ),
                                     InkWell(
                                         onTap: (){
@@ -896,7 +896,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 8;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera8)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera8, widget.Modelo)
                                     ),
                                     InkWell(
                                         onTap: (){
@@ -904,7 +904,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                             CFTV = 9;
                                           });
                                         },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera9)
+                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera9, widget.Modelo)
                                     ),
                                   ],
                                 )
