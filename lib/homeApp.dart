@@ -13,6 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
 import 'package:vigilant/getIds.dart';
 import 'package:vigilant/login/login.dart';
+import 'package:vigilant/pushPessoas/cadastroDeUsuariosNoEquipamento.dart';
+import 'package:vigilant/pushPessoas/pushPessoas.dart';
 import 'package:vigilant/videoStream/videoStreamWidget.dart';
 import 'package:vigilant/voip/voipAPI.dart';
 import 'package:uuid/uuid.dart';
@@ -115,6 +117,10 @@ Color textColorInitBlue = Colors.white;
 //Listas
 List ModelosAcionamentos = [
   "Intelbras",
+  "Control iD"
+];
+
+List ImportarUsuarios = [
   "Control iD"
 ];
 
@@ -2856,13 +2862,18 @@ class _homeAppState extends State<homeApp>{
                                                           children: [
                                                             Row(
                                                               children: [
-                                                                Container(
+                                                                imageURLMorador != ""? Container(
                                                                     padding: const EdgeInsets.all(8),
                                                                     child: Image.network(
                                                                         height: 100,
                                                                         width: 100,
                                                                         imageURLMorador
                                                                     )
+                                                                ): Center(
+                                                                  child: Container(
+                                                                      padding: const EdgeInsets.all(8),
+                                                                      child: const Text("Nenhuma imagem encontrada!")
+                                                                  )
                                                                 ),
                                                                 Column(
                                                                   children: [
@@ -2881,11 +2892,6 @@ class _homeAppState extends State<homeApp>{
                                                                     Container(
                                                                         padding: const EdgeInsets.all(8),
                                                                         child: Text("Data de nascimento: $DatadeNascimentoMorador")
-                                                                    ),
-                                                                    Container(
-                                                                        padding: const EdgeInsets.all(8),
-                                                                        child: Text("Placa: $PlacaMorador",
-                                                                        )
                                                                     ),
                                                                     Container(
                                                                         padding: const EdgeInsets.all(8),
@@ -3009,6 +3015,203 @@ class _homeAppState extends State<homeApp>{
                                                             ),
                                                             actions: [
                                                               Center(
+                                                                child: ElevatedButton(
+                                                                  onPressed: (){
+                                                                    String ip = "";
+                                                                    String portaa = "";
+                                                                    String usuario = "";
+                                                                    String Senha = "";
+                                                                    String modeloPikado = "Control iD";
+
+                                                                    var dropValue2 = ValueNotifier('Control iD');
+
+                                                                    showDialog(
+                                                                      context: context,
+                                                                      builder: (BuildContext context) {
+                                                                        return AlertDialog(
+                                                                          title: const Text('Importar usuarios diretamente do equipamento'),
+                                                                          actions: [
+                                                                            Center(
+                                                                              child: Container(
+                                                                                padding: const EdgeInsets.all(16),
+                                                                                child: TextField(
+                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                  enableSuggestions: false,
+                                                                                  autocorrect: false,
+                                                                                  onChanged: (value){
+                                                                                    setState(() {
+                                                                                      ip = value;
+                                                                                    });
+                                                                                  },
+                                                                                  decoration: const InputDecoration(
+                                                                                    border: OutlineInputBorder(),
+                                                                                    enabledBorder: OutlineInputBorder(
+                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                    ),
+                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                      borderSide: BorderSide(
+                                                                                          width: 3,
+                                                                                          color: Colors.black
+                                                                                      ),
+                                                                                    ),
+                                                                                    labelText: 'IP do equipamento',
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Center(
+                                                                              child: Container(
+                                                                                padding: const EdgeInsets.all(16),
+                                                                                child: TextField(
+                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                  enableSuggestions: false,
+                                                                                  autocorrect: false,
+                                                                                  onChanged: (value){
+                                                                                    setState(() {
+                                                                                      portaa = value;
+                                                                                    });
+                                                                                  },
+                                                                                  decoration: const InputDecoration(
+                                                                                    border: OutlineInputBorder(),
+                                                                                    enabledBorder: OutlineInputBorder(
+                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                    ),
+                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                      borderSide: BorderSide(
+                                                                                          width: 3,
+                                                                                          color: Colors.black
+                                                                                      ),
+                                                                                    ),
+                                                                                    labelText: 'Porta',
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Center(
+                                                                              child: Container(
+                                                                                padding: const EdgeInsets.all(16),
+                                                                                child: TextField(
+                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                  enableSuggestions: false,
+                                                                                  autocorrect: false,
+                                                                                  onChanged: (value){
+                                                                                    setState(() {
+                                                                                      usuario = value;
+                                                                                    });
+                                                                                  },
+                                                                                  decoration: const InputDecoration(
+                                                                                    border: OutlineInputBorder(),
+                                                                                    enabledBorder: OutlineInputBorder(
+                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                    ),
+                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                      borderSide: BorderSide(
+                                                                                          width: 3,
+                                                                                          color: Colors.black
+                                                                                      ),
+                                                                                    ),
+                                                                                    labelText: 'Login ADM do equipamento',
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Center(
+                                                                              child: Container(
+                                                                                padding: const EdgeInsets.all(16),
+                                                                                child: TextField(
+                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                  enableSuggestions: false,
+                                                                                  autocorrect: false,
+                                                                                  onChanged: (value){
+                                                                                    setState(() {
+                                                                                      Senha = value;
+                                                                                    });
+                                                                                  },
+                                                                                  decoration: const InputDecoration(
+                                                                                    border: OutlineInputBorder(),
+                                                                                    enabledBorder: OutlineInputBorder(
+                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                    ),
+                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                      borderSide: BorderSide(
+                                                                                          width: 3,
+                                                                                          color: Colors.black
+                                                                                      ),
+                                                                                    ),
+                                                                                    labelText: 'Senha ADM do equipamento',
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Center(
+                                                                              child: ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
+                                                                                return DropdownButton(
+                                                                                  hint: Text(
+                                                                                    'Selecione o modelo',
+                                                                                    style: TextStyle(
+                                                                                        color: textColorDrop
+                                                                                    ),
+                                                                                  ),
+                                                                                  value: (value.isEmpty)? null : value,
+                                                                                  onChanged: (escolha) async {
+                                                                                    dropValue2.value = escolha.toString();
+                                                                                    setState(() {
+                                                                                      modeloPikado = escolha.toString();
+                                                                                    });
+                                                                                  },
+                                                                                  items: ImportarUsuarios.map((opcao) => DropdownMenuItem(
+                                                                                    value: opcao,
+                                                                                    child:
+                                                                                    Text(
+                                                                                      opcao,
+                                                                                      style: TextStyle(
+                                                                                          color: textColorDrop
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  ).toList(),
+                                                                                );
+                                                                              }),
+                                                                            ),
+                                                                            Center(
+                                                                              child: ElevatedButton(
+                                                                                onPressed:() async {
+                                                                                  Map<String, dynamic> usuarios = await pushPessoas(context, ip, int.parse(portaa), usuario, Senha, modeloPikado);
+
+                                                                                    int lent = usuarios['users'].length - 1;
+                                                                                      for (int i = 0; i < lent; i++) {
+                                                                                        FirebaseFirestore.instance.collection('Pessoas').doc("${usuarios['users'][i]["id"]}").set({
+                                                                                          "id": "${usuarios['users'][i]["id"]}",
+                                                                                          "idCondominio": idCondominio,
+                                                                                          "Nome": usuarios['users'][i]["name"],
+                                                                                          "CPF": "",
+                                                                                          "RG": "",
+                                                                                          "DataNascimento": "${selectedDate.year}/${selectedDate.month}/${selectedDate.day}",
+                                                                                          "imageURI": "",
+                                                                                          "placa": "",
+                                                                                          "Unidade":"",
+                                                                                          "Bloco ": "",
+                                                                                          "anotacao": "",
+                                                                                        });
+                                                                                      }
+                                                                                    Navigator.pop(context);
+                                                                                    Navigator.pop(context);
+                                                                                    showToast("Importado com sucesso!", context: context);
+
+                                                                                },
+                                                                                child: const Text("Importar para o banco de dados")
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        );
+                                                                      },
+                                                                    );
+
+                                                                  },
+                                                                  child: const Text("Importar")
+                                                                ),
+                                                              ),
+                                                              Center(
                                                                 child: Container(
                                                                   padding: const EdgeInsets.all(16),
                                                                   child: TextField(
@@ -3088,34 +3291,6 @@ class _homeAppState extends State<homeApp>{
                                                                         ),
                                                                       ),
                                                                       labelText: 'RG',
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Center(
-                                                                child: Container(
-                                                                  padding: const EdgeInsets.all(16),
-                                                                  child: TextField(
-                                                                    keyboardType: TextInputType.emailAddress,
-                                                                    enableSuggestions: false,
-                                                                    autocorrect: false,
-                                                                    onChanged: (value){
-                                                                      setState(() {
-                                                                        placa = value;
-                                                                      });
-                                                                    },
-                                                                    decoration: const InputDecoration(
-                                                                      border: OutlineInputBorder(),
-                                                                      enabledBorder: OutlineInputBorder(
-                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                      ),
-                                                                      focusedBorder: OutlineInputBorder(
-                                                                        borderSide: BorderSide(
-                                                                            width: 3,
-                                                                            color: Colors.black
-                                                                        ),
-                                                                      ),
-                                                                      labelText: 'Placa',
                                                                     ),
                                                                   ),
                                                                 ),
@@ -3256,60 +3431,57 @@ class _homeAppState extends State<homeApp>{
                                                                       if(selectedDate == null){
                                                                         showToast("A data está vazia!",context:context);
                                                                       }else{
-                                                                        if(placa == ""){
-                                                                          showToast("Digite uma placa",context:context);
+
+                                                                        if(Unidade == ""){
+                                                                          showToast("A unidade está vazia!",context:context);
                                                                         }else{
-                                                                          if(Unidade == ""){
-                                                                            showToast("A unidade está vazia!",context:context);
+                                                                          if(Bloco  == ""){
+                                                                            showToast("O bloco está vazio!!",context:context);
                                                                           }else{
-                                                                            if(Bloco  == ""){
-                                                                              showToast("O bloco está vazio!!",context:context);
+                                                                            if(_imageFile == null){
+                                                                              showToast("Selecione uma foto!",context:context);
                                                                             }else{
-                                                                              if(_imageFile == null){
-                                                                                showToast("Selecione uma foto!",context:context);
-                                                                              }else{
-                                                                                showDialog(
-                                                                                  context: context,
-                                                                                  builder: (BuildContext context) {
-                                                                                    return const AlertDialog(
-                                                                                      title: Text('Aguarde!'),
-                                                                                      actions: [
-                                                                                        Center(
-                                                                                          child: CircularProgressIndicator(),
-                                                                                        )
-                                                                                      ],
-                                                                                    );
-                                                                                  },
-                                                                                );
-                                                                                Uuid uuid = const Uuid();
-                                                                                String UUID = uuid.v4();
-                          
-                                                                                FirebaseStorage storage = FirebaseStorage.instance;
-                                                                                Reference ref = storage.ref().child('images/$idCondominio/$UUID');
-                                                                                await ref.putFile(_imageFile!).whenComplete(() {
-                                                                                  showToast("Imagem carregada!",context:context);
-                                                                                }).catchError((e){
-                                                                                  showToast("Houve uma falha no carregamento! codigo do erro: $e",context:context);
-                                                                                  showToast("Repasse esse erro para o desenvolvedor!",context:context);
-                                                                                });
-                          
-                                                                                FirebaseFirestore.instance.collection('Pessoas').doc(UUID).set({
-                                                                                  "id": UUID,
-                                                                                  "idCondominio": idCondominio,
-                                                                                  "Nome": NomeV,
-                                                                                  "CPF": CPFV,
-                                                                                  "RG": RGV,
-                                                                                  "DataNascimento": "${selectedDate.year}/${selectedDate.month}/${selectedDate.day}",
-                                                                                  "imageURI": await ref.getDownloadURL(),
-                                                                                  "placa": placa,
-                                                                                  "Unidade ":Unidade,
-                                                                                  "Bloco ":Bloco,
-                                                                                  "anotacao": "",
-                                                                                }).whenComplete(() {
-                                                                                  Navigator.pop(context);
-                                                                                  Navigator.pop(context);
-                                                                                });
-                                                                              }
+                                                                              showDialog(
+                                                                                context: context,
+                                                                                builder: (BuildContext context) {
+                                                                                  return const AlertDialog(
+                                                                                    title: Text('Aguarde!'),
+                                                                                    actions: [
+                                                                                      Center(
+                                                                                        child: CircularProgressIndicator(),
+                                                                                      )
+                                                                                    ],
+                                                                                  );
+                                                                                },
+                                                                              );
+                                                                              Map<String, dynamic> id = await cadastronoEquipamento(context, ip, 8081, "admin", "admin", "Control iD", NomeV);
+                                                                              String ID = "${id["ids"][0]}";
+
+//
+                                                                              FirebaseStorage storage = FirebaseStorage.instance;
+                                                                              Reference ref = storage.ref().child('images/$idCondominio/$ID');
+                                                                              await ref.putFile(_imageFile!).whenComplete(() {
+                                                                                showToast("Imagem carregada!",context:context);
+                                                                              }).catchError((e){
+                                                                                showToast("Houve uma falha no carregamento! codigo do erro: $e",context:context);
+                                                                                showToast("Repasse esse erro para o desenvolvedor!",context:context);
+                                                                              });
+//
+                                                                              FirebaseFirestore.instance.collection('Pessoas').doc(ID).set({
+                                                                                "id": ID,
+                                                                                "idCondominio": idCondominio,
+                                                                                "Nome": NomeV,
+                                                                                "CPF": CPFV,
+                                                                                "RG": RGV,
+                                                                                "DataNascimento": "${selectedDate.year}/${selectedDate.month}/${selectedDate.day}",
+                                                                                "imageURI": await ref.getDownloadURL(),
+                                                                                "Unidade ":Unidade,
+                                                                                "Bloco ":Bloco,
+                                                                                "anotacao": "",
+                                                                              }).whenComplete(() {
+                                                                                Navigator.pop(context);
+                                                                                Navigator.pop(context);
+                                                                              });
                                                                             }
                                                                           }
                                                                         }
