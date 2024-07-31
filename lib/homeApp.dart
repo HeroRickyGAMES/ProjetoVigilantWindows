@@ -115,6 +115,7 @@ Color textColorInitBlue = Colors.white;
 //Listas
 List ModelosAcionamentos = [
   "Intelbras",
+  "Control iD"
 ];
 
 List ModelosdeCFTV = [
@@ -1040,6 +1041,7 @@ class _homeAppState extends State<homeApp>{
                                                       ),
                                                     ),
                                                     Container(
+                                                      padding: const EdgeInsets.all(16),
                                                       alignment: Alignment.bottomRight,
                                                       child: editarAnotacao == false ?
                                                       Container():
@@ -1083,7 +1085,7 @@ class _homeAppState extends State<homeApp>{
                               ),
                               SizedBox(
                                 width: wid / 2,
-                                height: heig / 2.3,
+                                height: heig / 2.5,
                                 child: SingleChildScrollView(
                                   child: Column(
                                     children: [
@@ -1100,12 +1102,12 @@ class _homeAppState extends State<homeApp>{
                                             idCondominio == ""?
                                             SizedBox(
                                               width: wid / 4,
-                                              height: heig / 2.3,
+                                              height: heig / 2.5,
                                             ) :
                                             Center(
                                                   child: SizedBox(
                                                     width: wid / 4,
-                                                    height: heig / 2.3,
+                                                    height: heig / 2.5,
                                                     child: Stack(
                                                       children: [
                                                         StreamBuilder(
@@ -1519,7 +1521,7 @@ class _homeAppState extends State<homeApp>{
                                                     }
                                                     return Container(
                                                       width: wid / 4,
-                                                      height: heig / 2.3,
+                                                      height: heig / 2.5,
                                                       decoration: BoxDecoration(
                                                         border: Border.all(
                                                           color: Colors.black,
@@ -1561,7 +1563,7 @@ class _homeAppState extends State<homeApp>{
                                                   ),
                                                   Container(
                                                     width: wid / 4,
-                                                    height: heig / 2.3,
+                                                    height: heig / 2.5,
                                                     alignment: Alignment.bottomRight,
                                                     padding: const EdgeInsets.all(16),
                                                     child: adicionarRamal == false ?

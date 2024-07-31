@@ -207,7 +207,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
     return LayoutBuilder(builder: (context, constrain){
       return SizedBox(
         width: widget.wid / 2,
-        height: widget.heig / 1.8,
+        height: widget.heig / 1.7,
         child: widget.ip != "" ? Container(
           child: SingleChildScrollView(
             child: Column(
@@ -829,7 +829,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                           Center(
                             child: SizedBox(
                                 width: widget.wid / 2,
-                                height: 500,
+                                height: widget.heig / 1.9,
                                 child: GridView.count(
                                   childAspectRatio: 1.8,
                                   crossAxisCount: colunasIPCamera,
@@ -916,7 +916,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                       Container():
                       SizedBox(
                           width: widget.wid / 2,
-                          height: widget.heig / 2.1,
+                          height: widget.heig / 1.9,
                           child: Stack(
                               children: [
                                 videoStreamAlert(widget.user, widget.pass, widget.ip, widget.porta, CFTV),
