@@ -482,7 +482,7 @@ class _homeAppState extends State<homeApp>{
                                           AdicionarCondominios == true ? Container(
                                             alignment: Alignment.bottomRight,
                                             padding: const EdgeInsets.all(16),
-                                            child: FloatingActionButton(
+                                            child: TextButton(
                                               onPressed: (){
                                               String NomeCondominio = "";
                                               String IPCameras = "";
@@ -990,11 +990,10 @@ class _homeAppState extends State<homeApp>{
                                                 },
                                               );
                                             },
-                                              backgroundColor: colorBtnFab,
-                                              child: Icon(
-                                                  Icons.add,
-                                                  color: textColor
-                                              ),
+                                              child: Image.asset(
+                                                  "assets/fab.png",
+                                                  scale: 17
+                                              )
                                             ),
                                           ):
                                           Container(),
@@ -1187,7 +1186,7 @@ class _homeAppState extends State<homeApp>{
                                                         Container(
                                                           padding: const EdgeInsets.all(16),
                                                           alignment: Alignment.bottomRight,
-                                                          child: FloatingActionButton(
+                                                          child: TextButton(
                                                               onPressed: (){
                                                                 showDialog(
                                                                   context: context,
@@ -1503,10 +1502,9 @@ class _homeAppState extends State<homeApp>{
                                                                   },
                                                                 );
                                                               },
-                                                              backgroundColor: colorBtnFab,
-                                                              child: Icon(
-                                                                  Icons.add,
-                                                                  color: textColorFab
+                                                              child: Image.asset(
+                                                                  "assets/fab.png",
+                                                                  scale: 17
                                                               )
                                                           ),
                                                         ),
@@ -1574,7 +1572,7 @@ class _homeAppState extends State<homeApp>{
                                                     padding: const EdgeInsets.all(16),
                                                     child: adicionarRamal == false ?
                                                     Container():
-                                                    FloatingActionButton(onPressed:
+                                                    TextButton(onPressed:
                                                     idCondominio == "" ? null : (){
                                                       showDialog(
                                                         context: context,
@@ -1702,11 +1700,10 @@ class _homeAppState extends State<homeApp>{
                                                         },
                                                       );
                                                     },
-                                                      backgroundColor: colorBtnFab,
-                                                      child: Icon(
-                                                          Icons.add,
-                                                          color: textColorFab
-                                                      ),
+                                                      child: Image.asset(
+                                                          "assets/fab.png",
+                                                          scale: 17
+                                                      )
                                                     ),
                                                   ),
                                                 ]
@@ -2982,7 +2979,7 @@ class _homeAppState extends State<homeApp>{
                                             child: adicionarMoradores == false ?
                                             Container():
                                             Container(
-                                              child: FloatingActionButton(
+                                              child: TextButton(
                                                 onPressed: idCondominio == "" ? null : (){
                                                 String NomeV = "";
                                                 String CPFV = "";
@@ -3507,11 +3504,10 @@ class _homeAppState extends State<homeApp>{
                                                   },
                                                 );
                                               },
-                                                backgroundColor: colorBtnFab,
-                                                child: Icon(
-                                                    Icons.add,
-                                                    color: textColorFab
-                                                ),
+                                                  child: Image.asset(
+                                                      "assets/fab.png",
+                                                      scale: 17
+                                                  )
                                               ),
                                             ),
                                           ),
@@ -3691,7 +3687,7 @@ class _homeAppState extends State<homeApp>{
                                                 alignment: Alignment.bottomRight,
                                                 child: adicionarVisitante == false ?
                                                 Container() :
-                                                FloatingActionButton(
+                                                TextButton(
                                                     onPressed: idCondominio == "" ? null : (){
                                                       var dropValue2 = ValueNotifier('Sem Previsão');
                           
@@ -4214,9 +4210,9 @@ class _homeAppState extends State<homeApp>{
                                                         },
                                                       );
                                                     },
-                                                    backgroundColor: colorBtnFab,
-                                                    child: Icon(Icons.add,
-                                                        color: textColorFab
+                                                    child: Image.asset(
+                                                        "assets/fab.png",
+                                                         scale: 17
                                                     )
                                                 ),
                                               )
@@ -4383,7 +4379,7 @@ class _homeAppState extends State<homeApp>{
                                                         alignment: Alignment.bottomRight,
                                                         width: wid / 4,
                                                         height: heig / 3,
-                                                        child: FloatingActionButton(
+                                                        child: TextButton(
                                                             onPressed: idCondominio == "" ? null : (){
                           
                                                               String Unidade = "";
@@ -4652,10 +4648,10 @@ class _homeAppState extends State<homeApp>{
                                                                 },
                                                               );
                                                             },
-                                                            backgroundColor: colorBtnFab,
-                                                            child: Icon(Icons.add,
-                                                                color: textColorFab
-                                                            )
+                                                            child: Image.asset(
+                                                            "assets/fab.png",
+                                                            scale: 17
+                                                        )
                                                         ),
                                                       ),
                                                     )
