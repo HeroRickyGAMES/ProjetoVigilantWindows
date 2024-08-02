@@ -11,7 +11,7 @@ Internet estavel
 
 Requisitos recomendados:
 8GB de RAM
-Quadcore processador (3.33 GHz)[cadastro.dart](lib%2Fcadastro%2Fcadastro.dart)
+Quadcore processador (3.33 GHz)
 GPU com 2GB de VRAM
 130MB de espaço sobrando no disco
 Internet estavel

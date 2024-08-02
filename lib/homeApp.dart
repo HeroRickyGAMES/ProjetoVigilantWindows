@@ -2787,7 +2787,7 @@ class _homeAppState extends State<homeApp>{
                                                                         RGMorador = documents["RG"];
                                                                         CPFMorador = documents["CPF"];
                                                                         DatadeNascimentoMorador = documents["DataNascimento"];
-                                                                        PlacaMorador = documents["placa"];
+                                                                        //PlacaMorador = documents["placa"];
                                                                         imageURLMorador = documents["imageURI"];
                                                                         anotacaoMorador = documents["anotacao"];
                                                                         anotacaoControl.text = anotacaoMorador;
@@ -4487,34 +4487,6 @@ class _homeAppState extends State<homeApp>{
                                                                                     autocorrect: false,
                                                                                     onChanged: (value){
                                                                                       setState(() {
-                                                                                        IdentificacaoModeloV = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: const InputDecoration(
-                                                                                      border: OutlineInputBorder(),
-                                                                                      enabledBorder: OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
-                                                                                        ),
-                                                                                      ),
-                                                                                      labelText: 'Identificação ou Modelo',
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setState(() {
                                                                                         MarcaV = value;
                                                                                       });
                                                                                     },
@@ -4530,6 +4502,34 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ),
                                                                                       labelText: 'Marca',
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Center(
+                                                                                child: Container(
+                                                                                  padding: const EdgeInsets.all(16),
+                                                                                  child: TextField(
+                                                                                    keyboardType: TextInputType.emailAddress,
+                                                                                    enableSuggestions: false,
+                                                                                    autocorrect: false,
+                                                                                    onChanged: (value){
+                                                                                      setState(() {
+                                                                                        IdentificacaoModeloV = value;
+                                                                                      });
+                                                                                    },
+                                                                                    decoration: const InputDecoration(
+                                                                                      border: OutlineInputBorder(),
+                                                                                      enabledBorder: OutlineInputBorder(
+                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                      ),
+                                                                                      focusedBorder: OutlineInputBorder(
+                                                                                        borderSide: BorderSide(
+                                                                                            width: 3,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      ),
+                                                                                      labelText: 'Modelo',
                                                                                     ),
                                                                                   ),
                                                                                 ),
@@ -4601,11 +4601,11 @@ class _homeAppState extends State<homeApp>{
                                                                                       if(blocoV == ""){
                                                                                         showToast("O Bloco está vazio!",context:context);
                                                                                       }else{
-                                                                                        if(IdentificacaoModeloV == ""){
-                                                                                          showToast("A Identificação está vazia!",context:context);
+                                                                                        if(MarcaV == ""){
+                                                                                          showToast("A Marca está vazia!",context:context);
                                                                                         }else{
-                                                                                          if(MarcaV == ""){
-                                                                                            showToast("A Marca está vazia!",context:context);
+                                                                                          if(IdentificacaoModeloV == ""){
+                                                                                            showToast("A Identificação está vazia!",context:context);
                                                                                           }else{
                                                                                             if(corV == ""){
                                                                                               showToast("A Cor não foi definida!",context:context);
