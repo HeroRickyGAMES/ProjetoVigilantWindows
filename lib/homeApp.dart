@@ -1116,12 +1116,12 @@ class _homeAppState extends State<homeApp>{
                                           children: [
                                             idCondominio == ""?
                                             SizedBox(
-                                              width: wid / 4,
+                                              width: wid / 3,
                                               height: heig / 2.5,
                                             ) :
                                             Center(
                                                   child: SizedBox(
-                                                    width: wid / 4,
+                                                    width: wid / 3,
                                                     height: heig / 2.5,
                                                     child: Stack(
                                                       children: [
@@ -1165,7 +1165,12 @@ class _homeAppState extends State<homeApp>{
 
                                                                                 }
                                                                               },
-                                                                              child: Image.asset(documents["prontoParaAtivar"] == false ? "assets/btnInactive.png" : "assets/btnIsAbleToAction.png")
+                                                                              child: Image.asset(
+                                                                                  documents["prontoParaAtivar"] == false ?
+                                                                                  "assets/btnInactive.png" :
+                                                                                  "assets/btnIsAbleToAction.png",
+                                                                                scale: 5,
+                                                                              )
                                                                           ),
                                                                           Text(
                                                                               documents["nome"],
@@ -1527,7 +1532,7 @@ class _homeAppState extends State<homeApp>{
                                                       );
                                                     }
                                                     return Container(
-                                                      width: wid / 4,
+                                                      width: wid / 6,
                                                       height: heig / 2.5,
                                                       decoration: BoxDecoration(
                                                         border: Border.all(
@@ -1561,7 +1566,7 @@ class _homeAppState extends State<homeApp>{
                                                    }
                                                   ),
                                                   Container(
-                                                    width: wid / 4,
+                                                    width: wid / 6,
                                                     height: heig / 2.5,
                                                     alignment: Alignment.bottomRight,
                                                     padding: const EdgeInsets.all(16),
