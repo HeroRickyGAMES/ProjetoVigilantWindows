@@ -256,10 +256,9 @@ class _homeAppState extends State<homeApp>{
                                                       height: heig / 1.5,
                                                       decoration: BoxDecoration(
                                                         border: Border.all(
-                                                          color: Colors.black,
+                                                          color: Colors.blue,
                                                           width: 1.0,
                                                         ),
-                                                        
                                                       ),
                                                       child: SingleChildScrollView(
                                                         child: Column(
@@ -360,13 +359,7 @@ class _homeAppState extends State<homeApp>{
                                                                       return Container(
                                                                         width: wid / 4,
                                                                         height: 70,
-                                                                        decoration: BoxDecoration(
-                                                                          border: Border.all(
-                                                                            color: Colors.black,
-                                                                            width: 1.0,
-                                                                          ),
-                                                                          
-                                                                        ),
+
                                                                         child: InkWell(
                                                                           onTap: () async {
                                                                             setState(() {
@@ -442,11 +435,28 @@ class _homeAppState extends State<homeApp>{
                                                                                 child: Row(
                                                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                                   children: [
-                                                                                    Text(
-                                                                                        "${documents["Codigo"]} ${documents['Nome']}",
-                                                                                      style: TextStyle(
-                                                                                        color: textColorInitBlue
-                                                                                      ),
+                                                                                    Stack(
+                                                                                      children: [
+                                                                                        //Sombra
+                                                                                        Text(
+                                                                                            "${documents["Codigo"]} ${documents['Nome']}",
+                                                                                          style: TextStyle(
+                                                                                            fontSize: 16,
+                                                                                            foreground: Paint()
+                                                                                              ..style = PaintingStyle.stroke
+                                                                                              ..strokeWidth = 6
+                                                                                              ..color = Colors.blue,
+                                                                                          ),
+                                                                                        ),
+                                                                                        //Texto normal
+                                                                                        Text(
+                                                                                          "${documents["Codigo"]} ${documents['Nome']}",
+                                                                                          style: TextStyle(
+                                                                                            fontSize: 16,
+                                                                                            color: textColorInitBlue,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
                                                                                     ),
                                                                                     IconButton(onPressed: (){
                                                                                       setState(() {
@@ -1136,14 +1146,7 @@ class _homeAppState extends State<homeApp>{
                                                                   crossAxisCount: 3,
                                                                   children: snapshot.data!.docs.map((documents) {
                                                                     return Container(
-                                                                      padding: const EdgeInsets.all(2),
-                                                                      decoration: BoxDecoration(
-                                                                        border: Border.all(
-                                                                          color: Colors.black,
-                                                                          width: 1.0,
-                                                                        ),
-                                                                        
-                                                                      ),
+                                                                      padding: const EdgeInsets.all(16),
                                                                       child: Column(
                                                                         mainAxisAlignment: MainAxisAlignment.center,
                                                                         children: [
@@ -1528,10 +1531,9 @@ class _homeAppState extends State<homeApp>{
                                                       height: heig / 2.5,
                                                       decoration: BoxDecoration(
                                                         border: Border.all(
-                                                          color: Colors.black,
+                                                          color: Colors.blue,
                                                           width: 1.0,
                                                         ),
-                                                        
                                                       ),
                                                       child: ListView(
                                                         children: snapshot.data!.docs.map((documents){
@@ -1543,13 +1545,6 @@ class _homeAppState extends State<homeApp>{
                                                               padding: const EdgeInsets.all(10),
                                                               width: double.infinity,
                                                               height: 70,
-                                                              decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                  color: Colors.black,
-                                                                  width: 1.0,
-                                                                ),
-                                                                
-                                                              ),
                                                               child: Center(
                                                                 child: Column(
                                                                   children: [
@@ -1796,10 +1791,9 @@ class _homeAppState extends State<homeApp>{
                                                             Container(
                                                                 decoration: BoxDecoration(
                                                                   border: Border.all(
-                                                                    color: Colors.black,
+                                                                    color: Colors.blue,
                                                                     width: 1.0,
                                                                   ),
-                                                                  
                                                                 ),
                                                                 child: Stack(
                                                                   children: [
@@ -1836,10 +1830,9 @@ class _homeAppState extends State<homeApp>{
                                                                               height: Heigt,
                                                                               decoration: BoxDecoration(
                                                                                 border: Border.all(
-                                                                                  color: Colors.black,
+                                                                                  color: Colors.blue,
                                                                                   width: 1.0,
                                                                                 ),
-                                                                                
                                                                               ),
                                                                               child: Center(
                                                                                 child: ListView(
@@ -2393,10 +2386,9 @@ class _homeAppState extends State<homeApp>{
                                                             Container(
                                                               decoration: BoxDecoration(
                                                                 border: Border.all(
-                                                                  color: Colors.black,
+                                                                  color: Colors.blue,
                                                                   width: 1.0,
                                                                 ),
-                                                                
                                                               ),
                                                               child: Column(
                                                                 children: [
@@ -3624,20 +3616,18 @@ class _homeAppState extends State<homeApp>{
                                                           height: heig / 3.6,
                                                           decoration: BoxDecoration(
                                                             border: Border.all(
-                                                              color: Colors.black,
+                                                              color: Colors.blue,
                                                               width: 1.0,
                                                             ),
-                                                            
                                                           ),
                                                           child: ListView(
                                                             children: snapshot.data!.docs.map((documents){
                                                               return Container(
                                                                 decoration: BoxDecoration(
                                                                   border: Border.all(
-                                                                    color: Colors.black,
+                                                                    color: Colors.blue,
                                                                     width: 1.0,
                                                                   ),
-                                                                  
                                                                 ),
                                                                 child: Column(
                                                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -4335,20 +4325,18 @@ class _homeAppState extends State<homeApp>{
                                                                 height: heig / 3.9,
                                                                 decoration: BoxDecoration(
                                                                   border: Border.all(
-                                                                    color: Colors.black,
+                                                                    color: Colors.blue,
                                                                     width: 1.0,
                                                                   ),
-                                                                  
                                                                 ),
                                                                 child: ListView(
                                                                   children: snapshot.data!.docs.map((documents){
                                                                     return Container(
                                                                       decoration: BoxDecoration(
                                                                         border: Border.all(
-                                                                          color: Colors.black,
+                                                                          color: Colors.blue,
                                                                           width: 1.0,
                                                                         ),
-                                                                        
                                                                       ),
                                                                       child: Center(
                                                                         child: Container(

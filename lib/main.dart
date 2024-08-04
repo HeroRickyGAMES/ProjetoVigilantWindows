@@ -12,6 +12,10 @@ import 'package:vigilant/login/login.dart';
 
 //Desenvolvido por HeroRickyGames
 
+String loaderAviso = "";
+bool delayOcorred = false;
+bool iniciadoPrimeiro = false;
+
 main(){
   runApp(
     MaterialApp(
@@ -74,8 +78,17 @@ class _mainAppState extends State<mainApp> {
       QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("server").where("isAlive", isEqualTo: true).get();
 
       if(snapshot.docs.isEmpty){
+        if(delayOcorred == false){
+          setState(() {
+            loaderAviso = "Desculpe! Estamos tentando localizar o servidor! Isso pode demorar alguns minutos dependendo da qualidade da conexão de sua rede!";
+            delayOcorred = true;
+          });
+        }
         initDB();
       }else{
+        setState(() {
+          loaderAviso = "Conectado...";
+        });
         //Se o usuario estiver logado ele vai jogar na main
         FirebaseAuth.instance.idTokenChanges().listen((User? user) async {
 
@@ -98,6 +111,9 @@ class _mainAppState extends State<mainApp> {
     }
 
     runFirebase() async {
+      setState(() {
+        iniciadoPrimeiro = true;
+      });
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.windows,
       );
@@ -114,11 +130,23 @@ class _mainAppState extends State<mainApp> {
       initDB();
     }
 
-    runFirebase();
+    if(iniciadoPrimeiro == false){
+      runFirebase();
+    }
 
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(),
+            Container(
+              padding: const EdgeInsets.all(16),
+                child: Text(loaderAviso)
+            )
+          ],
+        ),
       ),
     );
   }
