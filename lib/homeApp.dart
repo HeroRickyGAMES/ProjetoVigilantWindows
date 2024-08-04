@@ -107,7 +107,7 @@ var dropValue = ValueNotifier('');
 
 //Cores
 Color colorBtn = Colors.blue;
-Color colorBtnFab = Colors.black;
+Color colorBtnFab = Colors.blue;
 Color corDasBarras = Colors.transparent;
 Color textColor = Colors.white;
 Color textColorWidgets = Colors.black;
@@ -1054,10 +1054,9 @@ class _homeAppState extends State<homeApp>{
                                                               color: Colors.black
                                                           ),
                                                         decoration: const InputDecoration(
+                                                          filled: true,
+                                                          fillColor: Colors.white,
                                                           border: OutlineInputBorder(),
-                                                          enabledBorder: OutlineInputBorder(
-                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                          ),
                                                           focusedBorder: OutlineInputBorder(
                                                             borderSide: BorderSide(
                                                                 width: 3,
