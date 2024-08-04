@@ -407,7 +407,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       child: CircularProgressIndicator(),
                                                                                     );
                                                                                   }
-                                                                                                        
+
                                                                                   return SizedBox(
                                                                                     width: wid / 4,
                                                                                     child: NativeContextMenuWidget(
@@ -2984,7 +2984,6 @@ class _homeAppState extends State<homeApp>{
                                                 String NomeV = "";
                                                 String CPFV = "";
                                                 String RGV = "";
-                                                String placa = "";
                                                 String Unidade = "";
                                                 String Bloco = "";
                                                 DateTime selectedDate = DateTime.now();
