@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -75,17 +73,7 @@ class _mainAppState extends State<mainApp> {
     }
 
     initDB() async {
-      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("server").where("isAlive", isEqualTo: true).get();
-
-      if(snapshot.docs.isEmpty){
-        if(delayOcorred == false){
-          setState(() {
-            loaderAviso = "Desculpe! Estamos tentando localizar o servidor! Isso pode demorar alguns minutos dependendo da qualidade da conexão de sua rede!";
-            delayOcorred = true;
-          });
-        }
-        initDB();
-      }else{
+      Socket.connect(DefaultFirebaseOptions.windows.storageBucket, 80, timeout: const Duration(seconds: 5)).then((socket){
         setState(() {
           loaderAviso = "Conectado...";
         });
@@ -107,7 +95,15 @@ class _mainAppState extends State<mainApp> {
             });
           }
         });
-      }
+      }).catchError((error){
+        if(delayOcorred == false){
+          setState(() {
+            loaderAviso = "Desculpe! Estamos tentando localizar o servidor! Isso pode demorar alguns minutos dependendo da qualidade da conexão de sua rede!";
+            delayOcorred = true;
+          });
+        }
+        initDB();
+      });
     }
 
     runFirebase() async {
