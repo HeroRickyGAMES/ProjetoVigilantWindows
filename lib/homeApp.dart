@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -113,6 +112,7 @@ Color textColor = Colors.white;
 Color textColorWidgets = Colors.black;
 Color textColorFab = Colors.white;
 Color textColorDrop = Colors.white;
+Color textAlertDialogColor = Colors.black;
 Color textColorInitBlue = Colors.white;
 
 //Listas
@@ -372,7 +372,7 @@ class _homeAppState extends State<homeApp>{
                                                                   height: heig / 1.7,
                                                                   child: ListView(
                                                                     children: snapshot.data!.docs.map((documents){
-                                                                      return Container(
+                                                                      return SizedBox(
                                                                         width: wid / 4,
                                                                         height: 70,
 
@@ -529,486 +529,614 @@ class _homeAppState extends State<homeApp>{
                                                 builder: (BuildContext context) {
                                                   return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
                                                     return SingleChildScrollView(
-                                                      child: AlertDialog(
-                                                        scrollable: true,
-                                                        title: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          children: [
-                                                            Center(
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                children: [
-                                                                  const Text('Crie um novo condominio!'),
-                                                                  IconButton(onPressed: (){
-                                                                    Navigator.pop(context);
-                                                                  }, icon: const Icon(Icons.close)
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ),
-
-                                                          ],
+                                                      child: Dialog(
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(10),
                                                         ),
-                                                        actions: [
-                                                          Center(
-                                                            child: Container(
-                                                              padding: const EdgeInsets.all(16),
-                                                              child: TextField(
-                                                                keyboardType: TextInputType.emailAddress,
-                                                                enableSuggestions: false,
-                                                                autocorrect: false,
-                                                                onChanged: (value){
-                                                                  setState(() {
-                                                                    NomeCondominio = value;
-                                                                  });
-                                                                },
-                                                                decoration: const InputDecoration(
-                                                                  border: OutlineInputBorder(),
-                                                                  enabledBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                        child: Stack(
+                                                            children: [
+                                                              // Imagem de fundo
+                                                              Positioned.fill(
+                                                                child: ClipRRect(
+                                                                  borderRadius: BorderRadius.circular(10),
+                                                                  child: Image.asset(
+                                                                      "assets/FundoMetalPreto.jpg",
+                                                                    fit: BoxFit.fill,
                                                                   ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(
-                                                                        width: 3,
-                                                                        color: Colors.black
-                                                                    ),
-                                                                  ),
-                                                                  labelText: 'Nome do Condominio',
                                                                 ),
                                                               ),
-                                                            ),
-                                                          ),
-                                                          Center(
-                                                            child: Container(
-                                                              padding: const EdgeInsets.all(16),
-                                                              child: TextField(
-                                                                keyboardType: TextInputType.emailAddress,
-                                                                enableSuggestions: false,
-                                                                autocorrect: false,
-                                                                onChanged: (value){
-                                                                  setState(() {
-                                                                    codigo = value;
-                                                                  });
-                                                                },
-                                                                decoration: const InputDecoration(
-                                                                  border: OutlineInputBorder(),
-                                                                  enabledBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(
-                                                                        width: 3,
-                                                                        color: Colors.black
-                                                                    ),
-                                                                  ),
-                                                                  labelText: 'Codigo do Condominio (4 caracteres Ex: 2402)',
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Center(
-                                                            child: Column(
-                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                              children: [
-                                                                const Text('Modelo do CFTV:'),
-                                                                ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
-                                                                  return DropdownButton(
-                                                                    hint: Text(
-                                                                      'Selecione o modelo',
-                                                                      style: TextStyle(
-                                                                          color: textColorDrop
-                                                                      ),
-                                                                    ),
-                                                                    value: (value.isEmpty)? null : value,
-                                                                    onChanged: (escolha) async {
-                                                                      dropValue2.value = escolha.toString();
-                                                                      setState(() {
-                                                                        modeloselecionado = escolha.toString();
-                                                                      });
-                                                                    },
-                                                                    items: ModelosdeCFTV.map((opcao) => DropdownMenuItem(
-                                                                      value: opcao,
-                                                                      child:
-                                                                      Text(
-                                                                        opcao,
-                                                                        style: TextStyle(
-                                                                            color: textColorDrop
+                                                              Container(
+                                                                padding: const EdgeInsets.all(30),
+                                                                child: Column(
+                                                                  children: [
+                                                                    Column(
+                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                      children: [
+                                                                        SizedBox(
+                                                                          //width: 200,
+                                                                          height: 50,
+                                                                          child: Center(
+                                                                            child: Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              children: [
+                                                                                const Text(
+                                                                                    'Crie um novo condominio!',
+                                                                                  style: TextStyle(
+                                                                                    fontSize: 30,
+                                                                                  ),
+                                                                                ),
+                                                                                SizedBox(
+                                                                                  width: 100,
+                                                                                  height: 100,
+                                                                                  child: TextButton(onPressed: (){
+                                                                                    Navigator.pop(context);
+                                                                                  }, child: const Center(
+                                                                                    child: Icon(
+                                                                                        Icons.close,
+                                                                                      size: 40,
+                                                                                    ),
+                                                                                  )
+                                                                                  ),
+                                                                                )
+                                                                              ],
+                                                                            ),
+                                                                          ),
                                                                         ),
-                                                                      ),
-                                                                    ),
-                                                                    ).toList(),
-                                                                  );
-                                                                }),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Center(
-                                                            child: Container(
-                                                              padding: const EdgeInsets.all(16),
-                                                              child: TextField(
-                                                                keyboardType: TextInputType.emailAddress,
-                                                                enableSuggestions: false,
-                                                                autocorrect: false,
-                                                                onChanged: (value){
-                                                                  setState(() {
-                                                                    IPCameras = value;
-                                                                  });
-                                                                },
-                                                                decoration: const InputDecoration(
-                                                                  border: OutlineInputBorder(),
-                                                                  enabledBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(
-                                                                        width: 3,
-                                                                        color: Colors.black
-                                                                    ),
-                                                                  ),
-                                                                  labelText: 'URL das Cameras',
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Center(
-                                                            child: Container(
-                                                              padding: const EdgeInsets.all(16),
-                                                              child: TextField(
-                                                                keyboardType: TextInputType.emailAddress,
-                                                                enableSuggestions: false,
-                                                                autocorrect: false,
-                                                                onChanged: (value){
-                                                                  setState(() {
-                                                                    PortaCameras = int.parse(value);
-                                                                  });
-                                                                },
-                                                                decoration: const InputDecoration(
-                                                                  border: OutlineInputBorder(),
-                                                                  enabledBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(
-                                                                        width: 3,
-                                                                        color: Colors.black
-                                                                    ),
-                                                                  ),
-                                                                  labelText: 'Porta RTSP das Cameras (Normalmente é 554, mas para Sancas use 8080)',
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Center(
-                                                            child: Container(
-                                                              padding: const EdgeInsets.all(16),
-                                                              child: TextField(
-                                                                keyboardType: TextInputType.emailAddress,
-                                                                enableSuggestions: false,
-                                                                autocorrect: false,
-                                                                onChanged: (value){
-                                                                  setState(() {
-                                                                    UserAccess = value;
-                                                                  });
-                                                                },
-                                                                decoration: const InputDecoration(
-                                                                  border: OutlineInputBorder(),
-                                                                  enabledBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(
-                                                                        width: 3,
-                                                                        color: Colors.black
-                                                                    ),
-                                                                  ),
-                                                                  labelText: 'Usuario para acesso das cameras',
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Center(
-                                                            child: Container(
-                                                              padding: const EdgeInsets.all(16),
-                                                              child: TextField(
-                                                                keyboardType: TextInputType.emailAddress,
-                                                                enableSuggestions: false,
-                                                                autocorrect: false,
-                                                                onChanged: (value){
-                                                                  setState(() {
-                                                                    PassAccess = value;
-                                                                  });
-                                                                },
-                                                                decoration: const InputDecoration(
-                                                                  border: OutlineInputBorder(),
-                                                                  enabledBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(
-                                                                        width: 3,
-                                                                        color: Colors.black
-                                                                    ),
-                                                                  ),
-                                                                  labelText: 'Senha para acesso das cameras',
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Center(
-                                                            child: Container(
-                                                              padding: const EdgeInsets.all(16),
-                                                              child: TextField(
-                                                                keyboardType: TextInputType.emailAddress,
-                                                                enableSuggestions: false,
-                                                                autocorrect: false,
-                                                                onChanged: (value){
-                                                                  setState(() {
-                                                                    SIPUrl = value;
-                                                                  });
-                                                                },
-                                                                decoration: const InputDecoration(
-                                                                  border: OutlineInputBorder(),
-                                                                  enabledBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(
-                                                                        width: 3,
-                                                                        color: Colors.black
-                                                                    ),
-                                                                  ),
-                                                                  labelText: 'SIP Url (sip2.chamada.com.br), para ambientes não suportado é recomendado deixar (*) apenas.',
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Center(
-                                                            child: Container(
-                                                              padding: const EdgeInsets.all(16),
-                                                              child: TextField(
-                                                                keyboardType: TextInputType.emailAddress,
-                                                                enableSuggestions: false,
-                                                                autocorrect: false,
-                                                                onChanged: (value){
-                                                                  setState(() {
-                                                                    Porta = value;
-                                                                  });
-                                                                },
-                                                                decoration: const InputDecoration(
-                                                                  border: OutlineInputBorder(),
-                                                                  enabledBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(
-                                                                        width: 3,
-                                                                        color: Colors.black
-                                                                    ),
-                                                                  ),
-                                                                  labelText: 'SIP Porta (5060)',
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Center(
-                                                            child: Container(
-                                                              padding: const EdgeInsets.all(16),
-                                                              child: TextField(
-                                                                keyboardType: TextInputType.emailAddress,
-                                                                enableSuggestions: false,
-                                                                autocorrect: false,
-                                                                onChanged: (value){
-                                                                  setState(() {
-                                                                    AuthUser = value;
-                                                                  });
-                                                                },
-                                                                decoration: const InputDecoration(
-                                                                  border: OutlineInputBorder(),
-                                                                  enabledBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(
-                                                                        width: 3,
-                                                                        color: Colors.black
-                                                                    ),
-                                                                  ),
-                                                                  labelText: 'Usuario de acesso do SIP',
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Center(
-                                                            child: Container(
-                                                              padding: const EdgeInsets.all(16),
-                                                              child: TextField(
-                                                                keyboardType: TextInputType.emailAddress,
-                                                                enableSuggestions: false,
-                                                                autocorrect: false,
-                                                                onChanged: (value){
-                                                                  setState(() {
-                                                                    Pass = value;
-                                                                  });
-                                                                },
-                                                                decoration: const InputDecoration(
-                                                                  border: OutlineInputBorder(),
-                                                                  enabledBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(
-                                                                        width: 3,
-                                                                        color: Colors.black
-                                                                    ),
-                                                                  ),
-                                                                  labelText: 'Senha de acesso do SIP',
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Center(
-                                                            child: Container(
-                                                              padding: const EdgeInsets.all(16),
-                                                              child: TextField(
-                                                                keyboardType: TextInputType.emailAddress,
-                                                                enableSuggestions: false,
-                                                                autocorrect: false,
-                                                                onChanged: (value){
-                                                                  setState(() {
-                                                                    Aviso = value;
-                                                                  });
-                                                                },
-                                                                decoration: const InputDecoration(
-                                                                  border: OutlineInputBorder(),
-                                                                  enabledBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                    borderSide: BorderSide(
-                                                                        width: 3,
-                                                                        color: Colors.black
-                                                                    ),
-                                                                  ),
-                                                                  labelText: 'Aviso',
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          ElevatedButton(onPressed: (){
-                                                            if(NomeCondominio == ""){
-                                                              showToast("O nome do Condominio está vazio!",context:context);
-                                                            }else{
-                                                              if(codigo == ""){
-                                                                showToast("O codigo está vazio!",context:context);
-                                                              }else{
-                                                                if(codigo.length == 4){
-                                                                  if(IPCameras == ""){
-                                                                    showToast("A URL das Cameras está vazia!",context:context);
-                                                                  }else{
-                                                                    if(PortaCameras == null){
-                                                                      showToast("A Porta em RTSP das Cameras está vazia!",context:context);
-                                                                    }else{
-                                                                      if(UserAccess == ""){
-                                                                        showToast("O Usuario para acesso das cameras está vazio!",context:context);
-                                                                      }else{
-                                                                        if(PassAccess == ""){
-                                                                          showToast("A Senha para acesso das cameras está vazia!",context:context);
-                                                                        }else{
-                                                                          if(SIPUrl == ""){
-                                                                            showToast("A URL do SIP não pode estar vazia!",context:context);
-                                                                          }else{
-                                                                            if(Porta == ""){
-                                                                              showToast("A porta do SIP não pode estar vazia!",context:context);
-                                                                            }else{
-                                                                              if(AuthUser == ""){
-                                                                                showToast("o acesso do usuario do SIP não pode estar vazio!",context:context);
-                                                                              }else{
-                                                                                Uuid uuid = const Uuid();
-                                                                                String UUID = uuid.v4();
-                                                                                FirebaseFirestore.instance.collection('Condominios').doc(UUID).set({
-                                                                                  "idCondominio": UUID,
-                                                                                  "Nome": NomeCondominio,
-                                                                                  "IpCamera": IPCameras,
-                                                                                  "PortaCameras": PortaCameras,
-                                                                                  "UserAccess": UserAccess,
-                                                                                  "PassAccess": PassAccess,
-                                                                                  "Aviso": Aviso,
-                                                                                  "SIPUrl": SIPUrl,
-                                                                                  "PortaSIP": Porta,
-                                                                                  "authUserSIP": AuthUser,
-                                                                                  "authSenhaSIP": Pass,
-                                                                                  "Codigo" : codigo,
-                                                                                  'idList' : [UID],
-                                                                                  "ipCameraModelo": modeloselecionado,
-                                                                                  "ipCamera1": 1,
-                                                                                  "ipCamera2": 2,
-                                                                                  "ipCamera3": 3,
-                                                                                  "ipCamera4": 4,
-                                                                                  "ipCamera5": 5,
-                                                                                  "ipCamera6": 6,
-                                                                                  "ipCamera7": 7,
-                                                                                  "ipCamera8": 8,
-                                                                                  "ipCamera9": 9,
-                                                                                  "ipCamera10": 10,
-                                                                                  "ipCamera11": 11,
-                                                                                  "ipCamera12": 12,
-                                                                                  "ipCamera13": 13,
-                                                                                  "ipCamera14": 14,
-                                                                                  "ipCamera15": 15,
-                                                                                  "ipCamera16": 16,
-                                                                                  "ipCamera17": 17,
-                                                                                  "ipCamera18": 18,
-                                                                                  "ipCamera19": 19,
-                                                                                  "ipCamera20": 20,
-                                                                                  "ipCamera21": 21,
-                                                                                  "ipCamera22": 22,
-                                                                                  "ipCamera23": 23,
-                                                                                  "ipCamera24": 24,
-                                                                                  "ipCamera25": 25,
-                                                                                  "ipCamera26": 26,
-                                                                                  "ipCamera27": 27,
-                                                                                  "ipCamera28": 28,
-                                                                                  "ipCamera29": 29,
-                                                                                  "ipCamera30": 30,
-                                                                                  "ipCamera31": 31,
-                                                                                  "ipCamera32": 32,
-                                                                                  "ipCamera33": 33,
-                                                                                  "ipCamera34": 34,
-                                                                                  "ipCamera35": 35,
-                                                                                  "ipCamera36": 36,
-                                                                                }).whenComplete(() {
-                                                                                  Navigator.pop(context);
+                                                                        const Padding(
+                                                                          padding: EdgeInsets.only(bottom: 16),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  NomeCondominio = value;
                                                                                 });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelStyle: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                                ),
+                                                                                labelText: 'Nome do Condominio',
+                                                                              ),
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  codigo = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelStyle: TextStyle(
+                                                                                    color: textAlertDialogColor
+                                                                                ),
+                                                                                labelText: 'Codigo do Condominio (4 caracteres Ex: 2402)',
+                                                                              ),
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Column(
+                                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                                            children: [
+                                                                              const Text('Modelo do CFTV:'),
+                                                                              ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
+                                                                                return DropdownButton(
+                                                                                  hint: Text(
+                                                                                    'Selecione o modelo',
+                                                                                    style: TextStyle(
+                                                                                        color: textColorDrop
+                                                                                    ),
+                                                                                  ),
+                                                                                  value: (value.isEmpty)? null : value,
+                                                                                  onChanged: (escolha) async {
+                                                                                    dropValue2.value = escolha.toString();
+                                                                                    setState(() {
+                                                                                      modeloselecionado = escolha.toString();
+                                                                                    });
+                                                                                  },
+                                                                                  items: ModelosdeCFTV.map((opcao) => DropdownMenuItem(
+                                                                                    value: opcao,
+                                                                                    child:
+                                                                                    Text(
+                                                                                      opcao,
+                                                                                      style: TextStyle(
+                                                                                          color: textColorDrop
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  ).toList(),
+                                                                                );
+                                                                              }),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  IPCameras = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelStyle: TextStyle(
+                                                                                    color: textAlertDialogColor
+                                                                                ),
+                                                                                labelText: 'URL das Cameras',
+                                                                              ),
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  PortaCameras = int.parse(value);
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelStyle: TextStyle(
+                                                                                    color: textAlertDialogColor
+                                                                                ),
+                                                                                labelText: 'Porta RTSP das Cameras (Normalmente é 554, mas para Sancas use 8080)',
+                                                                              ),
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  UserAccess = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelStyle: TextStyle(
+                                                                                    color: textAlertDialogColor
+                                                                                ),
+                                                                                labelText: 'Usuario para acesso das cameras',
+                                                                              ),
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  PassAccess = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelStyle: TextStyle(
+                                                                                    color: textAlertDialogColor
+                                                                                ),
+                                                                                labelText: 'Senha para acesso das cameras',
+                                                                              ),
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  SIPUrl = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                labelStyle: TextStyle(
+                                                                                    color: textAlertDialogColor
+                                                                                ),
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'SIP Url (sip2.chamada.com.br), para ambientes não suportado é recomendado deixar (*) apenas.',
+                                                                              ),
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  Porta = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                labelStyle: TextStyle(
+                                                                                    color: textAlertDialogColor
+                                                                                ),
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'SIP Porta (5060)',
+                                                                              ),
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  AuthUser = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                labelStyle: TextStyle(
+                                                                                    color: textAlertDialogColor
+                                                                                ),
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Usuario de acesso do SIP',
+                                                                              ),
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  Pass = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                labelStyle: TextStyle(
+                                                                                    color: textAlertDialogColor
+                                                                                ),
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Senha de acesso do SIP',
+                                                                              ),
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  Aviso = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                labelStyle: TextStyle(
+                                                                                    color: textAlertDialogColor
+                                                                                ),
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Aviso',
+                                                                              ),
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        ElevatedButton(onPressed: (){
+                                                                          if(NomeCondominio == ""){
+                                                                            showToast("O nome do Condominio está vazio!",context:context);
+                                                                          }else{
+                                                                            if(codigo == ""){
+                                                                              showToast("O codigo está vazio!",context:context);
+                                                                            }else{
+                                                                              if(codigo.length == 4){
+                                                                                if(IPCameras == ""){
+                                                                                  showToast("A URL das Cameras está vazia!",context:context);
+                                                                                }else{
+                                                                                  if(PortaCameras == null){
+                                                                                    showToast("A Porta em RTSP das Cameras está vazia!",context:context);
+                                                                                  }else{
+                                                                                    if(UserAccess == ""){
+                                                                                      showToast("O Usuario para acesso das cameras está vazio!",context:context);
+                                                                                    }else{
+                                                                                      if(PassAccess == ""){
+                                                                                        showToast("A Senha para acesso das cameras está vazia!",context:context);
+                                                                                      }else{
+                                                                                        if(SIPUrl == ""){
+                                                                                          showToast("A URL do SIP não pode estar vazia!",context:context);
+                                                                                        }else{
+                                                                                          if(Porta == ""){
+                                                                                            showToast("A porta do SIP não pode estar vazia!",context:context);
+                                                                                          }else{
+                                                                                            if(AuthUser == ""){
+                                                                                              showToast("o acesso do usuario do SIP não pode estar vazio!",context:context);
+                                                                                            }else{
+                                                                                              Uuid uuid = const Uuid();
+                                                                                              String UUID = uuid.v4();
+                                                                                              FirebaseFirestore.instance.collection('Condominios').doc(UUID).set({
+                                                                                                "idCondominio": UUID,
+                                                                                                "Nome": NomeCondominio,
+                                                                                                "IpCamera": IPCameras,
+                                                                                                "PortaCameras": PortaCameras,
+                                                                                                "UserAccess": UserAccess,
+                                                                                                "PassAccess": PassAccess,
+                                                                                                "Aviso": Aviso,
+                                                                                                "SIPUrl": SIPUrl,
+                                                                                                "PortaSIP": Porta,
+                                                                                                "authUserSIP": AuthUser,
+                                                                                                "authSenhaSIP": Pass,
+                                                                                                "Codigo" : codigo,
+                                                                                                'idList' : [UID],
+                                                                                                "ipCameraModelo": modeloselecionado,
+                                                                                                "ipCamera1": 1,
+                                                                                                "ipCamera2": 2,
+                                                                                                "ipCamera3": 3,
+                                                                                                "ipCamera4": 4,
+                                                                                                "ipCamera5": 5,
+                                                                                                "ipCamera6": 6,
+                                                                                                "ipCamera7": 7,
+                                                                                                "ipCamera8": 8,
+                                                                                                "ipCamera9": 9,
+                                                                                                "ipCamera10": 10,
+                                                                                                "ipCamera11": 11,
+                                                                                                "ipCamera12": 12,
+                                                                                                "ipCamera13": 13,
+                                                                                                "ipCamera14": 14,
+                                                                                                "ipCamera15": 15,
+                                                                                                "ipCamera16": 16,
+                                                                                                "ipCamera17": 17,
+                                                                                                "ipCamera18": 18,
+                                                                                                "ipCamera19": 19,
+                                                                                                "ipCamera20": 20,
+                                                                                                "ipCamera21": 21,
+                                                                                                "ipCamera22": 22,
+                                                                                                "ipCamera23": 23,
+                                                                                                "ipCamera24": 24,
+                                                                                                "ipCamera25": 25,
+                                                                                                "ipCamera26": 26,
+                                                                                                "ipCamera27": 27,
+                                                                                                "ipCamera28": 28,
+                                                                                                "ipCamera29": 29,
+                                                                                                "ipCamera30": 30,
+                                                                                                "ipCamera31": 31,
+                                                                                                "ipCamera32": 32,
+                                                                                                "ipCamera33": 33,
+                                                                                                "ipCamera34": 34,
+                                                                                                "ipCamera35": 35,
+                                                                                                "ipCamera36": 36,
+                                                                                              }).whenComplete(() {
+                                                                                                Navigator.pop(context);
+                                                                                              });
+                                                                                            }
+                                                                                          }
+                                                                                        }
+                                                                                      }
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }else{
+                                                                                if(codigo.length > 4){
+                                                                                  showToast("Existem mais caracteres do que o permitido no codigo do condominio!",context:context);
+                                                                                }
+                                                                                if(codigo.length < 4){
+                                                                                  showToast("Existem menos caracteres do que o permitido no codigo do condominio!",context:context);
+                                                                                }
                                                                               }
                                                                             }
                                                                           }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }else{
-                                                                  if(codigo.length > 4){
-                                                                    showToast("Existem mais caracteres do que o permitido no codigo do condominio!",context:context);
-                                                                  }
-                                                                  if(codigo.length < 4){
-                                                                    showToast("Existem menos caracteres do que o permitido no codigo do condominio!",context:context);
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          },
-                                                              style: ElevatedButton.styleFrom(
-                                                                  backgroundColor: colorBtn
-                                                              ),
-                                                              child: Text(
-                                                                'Registrar novo Condominio',
-                                                                style: TextStyle(
-                                                                    color: textColor
+                                                                        },
+                                                                            style: ElevatedButton.styleFrom(
+                                                                                backgroundColor: colorBtn
+                                                                            ),
+                                                                            child: Text(
+                                                                              'Registrar novo Condominio',
+                                                                              style: TextStyle(
+                                                                                  color: textColor
+                                                                              ),
+                                                                            )
+                                                                        )
+                                                                      ],
+                                                                    )
+                                                                  ],
                                                                 ),
                                                               )
-                                                          )
-
-                                                        ],
+                                                            ],
+                                                          ),
                                                       ),
                                                     );
                                                   }
