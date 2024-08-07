@@ -546,6 +546,7 @@ class _homeAppState extends State<homeApp>{
                                                                 ),
                                                               ),
                                                               Container(
+                                                                width: 700,
                                                                 padding: const EdgeInsets.all(30),
                                                                 child: Column(
                                                                   children: [
@@ -1368,6 +1369,7 @@ class _homeAppState extends State<homeApp>{
                                                                                   ),
                                                                                 ),
                                                                                 Container(
+                                                                                  width: 600,
                                                                                   padding: const EdgeInsets.all(20),
                                                                                   child: Column(
                                                                                     children: [
@@ -1808,120 +1810,172 @@ class _homeAppState extends State<homeApp>{
                                                           String RamalNumber = "";
 
                                                           return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                                            return AlertDialog(
-                                                              title: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                children: [
-                                                                  const Text('Crie um Ramal!'),
-                                                                  IconButton(
-                                                                    onPressed: (){
-                                                                      Navigator.pop(context);
-                                                                    },
-                                                                    icon: const Icon(Icons.close)
-                                                                  )
-                                                                ],
-                                                              ),
-                                                              actions: [
-                                                                Center(
-                                                                  child: Column(
-                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                            return Center(
+                                                              child: SingleChildScrollView(
+                                                                child: Dialog(
+                                                                  child: Stack(
                                                                     children: [
-                                                                      Center(
-                                                                        child: Container(
-                                                                          padding: const EdgeInsets.all(10),
-                                                                          child: TextField(
-                                                                            keyboardType: TextInputType.name,
-                                                                            enableSuggestions: true,
-                                                                            autocorrect: true,
-                                                                            onChanged: (value){
-                                                                              setState(() {
-                                                                                NomeRamal = value;
-                                                                              });
-                                                                            },
-                                                                            decoration: const InputDecoration(
-                                                                              border: OutlineInputBorder(),
-                                                                              enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                              ),
-                                                                              focusedBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(
-                                                                                    width: 3,
-                                                                                    color: Colors.black
-                                                                                ),
-                                                                              ),
-                                                                              label: Text('Nome do Ramal'),
-                                                                            ),
+                                                                      Positioned.fill(
+                                                                        child: ClipRRect(
+                                                                          borderRadius: BorderRadius.circular(10),
+                                                                          child: Image.asset(
+                                                                            "assets/FundoMetalPreto.jpg",
+                                                                            fit: BoxFit.fill,
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                      Center(
-                                                                        child: Container(
-                                                                          padding: const EdgeInsets.all(10),
-                                                                          child: TextField(
-                                                                            keyboardType: TextInputType.name,
-                                                                            enableSuggestions: true,
-                                                                            autocorrect: true,
-                                                                            onChanged: (value){
-                                                                              setState(() {
-                                                                                RamalNumber = value;
-                                                                              });
-                                                                            },
-                                                                            decoration: const InputDecoration(
-                                                                              border: OutlineInputBorder(),
-                                                                              enabledBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                              ),
-                                                                              focusedBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(
-                                                                                    width: 3,
-                                                                                    color: Colors.black
+                                                                      Container(
+                                                                        width: 600,
+                                                                        padding: const EdgeInsets.all(20),
+                                                                        child: Column(
+                                                                          children: [
+                                                                            Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              children: [
+                                                                                Container(
+                                                                                  padding: const EdgeInsets.only(bottom: 16),
+                                                                                    child: const Text(
+                                                                                        'Crie um Ramal!',
+                                                                                      style: TextStyle(
+                                                                                        fontSize: 30,
+                                                                                      ),
+                                                                                    )
                                                                                 ),
-                                                                              ),
-                                                                              label: Text("Numero do Ramal")
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      ElevatedButton(
-                                                                          onPressed: (){
-                                                                            if(NomeRamal == ""){
-                                                                              showToast("O nome do ramal está vazio!",context:context);
-                                                                            }else{
-                                                                              if(RamalNumber == ""){
-                                                                                showToast("O numero do ramal está vazio!",context:context);
-                                                                              }else{
-                                                                                RegExp numeros = RegExp(r'[a-zA-Z]');
-                                                                                if(RamalNumber.contains(numeros)){
-                                                                                  showToast("O ramal contem letras\nSó é permitido numeros!",context:context);
-                                                                                }else{
-                                                                                  Uuid uuid = const Uuid();
-                                                                                  String UUID = uuid.v4();
-                                                                                  FirebaseFirestore.instance.collection('Ramais').doc(UUID).set({
-                                                                                    "NomeRamal": NomeRamal,
-                                                                                    "RamalNumber": RamalNumber,
-                                                                                    "IDEmpresaPertence": UID,
-                                                                                    "idCondominio": idCondominio
-                                                                                  }).whenComplete((){
+                                                                                SizedBox(
+                                                                                  width: 100,
+                                                                                  height: 100,
+                                                                                  child: TextButton(onPressed: (){
                                                                                     Navigator.pop(context);
-                                                                                  });
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          },
-                                                                            style: ElevatedButton.styleFrom(
-                                                                            backgroundColor: colorBtn
-                                                                         ),
-                                                                            child: Text(
-                                                                                'Criar',
-                                                                              style: TextStyle(
-                                                                                  color: textColor
-                                                                              ),
+                                                                                  }, child: const Center(
+                                                                                    child: Icon(
+                                                                                      Icons.close,
+                                                                                      size: 40,
+                                                                                    ),
+                                                                                  )
+                                                                                  ),
+                                                                                )
+                                                                              ],
+                                                                            ),
+                                                                            Column(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              children: [
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(10),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.name,
+                                                                                      enableSuggestions: true,
+                                                                                      autocorrect: true,
+                                                                                      onChanged: (value){
+                                                                                        setState(() {
+                                                                                          NomeRamal = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor
+                                                                                        ),
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                        ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        label: const Text('Nome do Ramal'),
+                                                                                      ),
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(10),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.name,
+                                                                                      enableSuggestions: true,
+                                                                                      autocorrect: true,
+                                                                                      onChanged: (value){
+                                                                                        setState(() {
+                                                                                          RamalNumber = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                          filled: true,
+                                                                                          fillColor: Colors.white,
+                                                                                          labelStyle: TextStyle(
+                                                                                              color: textAlertDialogColor
+                                                                                          ),
+                                                                                          border: const OutlineInputBorder(),
+                                                                                          enabledBorder: const OutlineInputBorder(
+                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                          ),
+                                                                                          focusedBorder: const OutlineInputBorder(
+                                                                                            borderSide: BorderSide(
+                                                                                                width: 3,
+                                                                                                color: Colors.black
+                                                                                            ),
+                                                                                          ),
+                                                                                          label: const Text("Numero do Ramal")
+                                                                                      ),
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                ElevatedButton(
+                                                                                    onPressed: (){
+                                                                                      if(NomeRamal == ""){
+                                                                                        showToast("O nome do ramal está vazio!",context:context);
+                                                                                      }else{
+                                                                                        if(RamalNumber == ""){
+                                                                                          showToast("O numero do ramal está vazio!",context:context);
+                                                                                        }else{
+                                                                                          RegExp numeros = RegExp(r'[a-zA-Z]');
+                                                                                          if(RamalNumber.contains(numeros)){
+                                                                                            showToast("O ramal contem letras\nSó é permitido numeros!",context:context);
+                                                                                          }else{
+                                                                                            Uuid uuid = const Uuid();
+                                                                                            String UUID = uuid.v4();
+                                                                                            FirebaseFirestore.instance.collection('Ramais').doc(UUID).set({
+                                                                                              "NomeRamal": NomeRamal,
+                                                                                              "RamalNumber": RamalNumber,
+                                                                                              "IDEmpresaPertence": UID,
+                                                                                              "idCondominio": idCondominio
+                                                                                            }).whenComplete((){
+                                                                                              Navigator.pop(context);
+                                                                                            });
+                                                                                          }
+                                                                                        }
+                                                                                      }
+                                                                                    },
+                                                                                    style: ElevatedButton.styleFrom(
+                                                                                        backgroundColor: colorBtn
+                                                                                    ),
+                                                                                    child: Text(
+                                                                                      'Criar',
+                                                                                      style: TextStyle(
+                                                                                          color: textColor
+                                                                                      ),
+                                                                                    )
+                                                                                )
+                                                                              ],
                                                                             )
-                                                                      )
+                                                                          ],
+                                                                        ),
+                                                                      ),
                                                                     ],
                                                                   ),
-                                                                )
-                                                              ],
+                                                                ),
+                                                              ),
                                                             );
                                                           },);
                                                         },
