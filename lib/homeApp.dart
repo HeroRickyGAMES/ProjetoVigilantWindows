@@ -2057,9 +2057,18 @@ class _homeAppState extends State<homeApp>{
                                                                       fontSize: 25,
                                                                     ),
                                                                   ),
-                                                                  IconButton(onPressed: (){
-                                                                    Navigator.pop(context);
-                                                                  }, icon: const Icon(Icons.close)
+                                                                  SizedBox(
+                                                                    width: 100,
+                                                                    height: 100,
+                                                                    child: TextButton(onPressed: (){
+                                                                      Navigator.pop(context);
+                                                                    }, child: const Center(
+                                                                      child: Icon(
+                                                                        Icons.close,
+                                                                        size: 40,
+                                                                      ),
+                                                                    )
+                                                                    ),
                                                                   )
                                                                 ],
                                                               ),
@@ -2750,252 +2759,250 @@ class _homeAppState extends State<homeApp>{
                                                                 ): janela == 2 ?
                                                                 acessoDevFunc == false ?
                                                                 Container():
-                                                                Container(
-                                                                  child: Column(
-                                                                    children: [
-                                                                      const Center(
-                                                                          child: Text(
-                                                                              'APIs de Teste',
-                                                                              style: TextStyle(
-                                                                                  fontWeight: FontWeight.bold,
-                                                                                  fontSize: 16
-                                                                              )
-                                                                          )
-                                                                      ),
-                                                                      const Center(
-                                                                          child: Text(
-                                                                              'Teste de acionamentos',
-                                                                              style: TextStyle(
-                                                                                  fontSize: 16
-                                                                              )
-                                                                          )
-                                                                      ),
-                                                                      Center(
-                                                                        child: Container(
-                                                                          padding: const EdgeInsets.all(16),
-                                                                          child: TextField(
-                                                                            keyboardType: TextInputType.emailAddress,
-                                                                            enableSuggestions: false,
-                                                                            autocorrect: false,
-                                                                            onChanged: (value){
-                                                                              setState(() {
-                                                                                IP = value;
-                                                                              });
-                                                                            },
-                                                                            decoration: InputDecoration(
-                                                                              filled: true,
-                                                                              fillColor: Colors.white,
-                                                                              labelStyle: TextStyle(
-                                                                                  color: textAlertDialogColor
-                                                                              ),
-                                                                              border: const OutlineInputBorder(),
-                                                                              enabledBorder: const OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                              ),
-                                                                              focusedBorder: const OutlineInputBorder(
-                                                                                borderSide: BorderSide(
-                                                                                    width: 3,
-                                                                                    color: Colors.black
-                                                                                ),
-                                                                              ),
-                                                                              labelText: 'IP',
-                                                                            ),
+                                                                Column(
+                                                                  children: [
+                                                                    const Center(
+                                                                        child: Text(
+                                                                            'APIs de Teste',
                                                                             style: TextStyle(
+                                                                                fontWeight: FontWeight.bold,
+                                                                                fontSize: 16
+                                                                            )
+                                                                        )
+                                                                    ),
+                                                                    const Center(
+                                                                        child: Text(
+                                                                            'Teste de acionamentos',
+                                                                            style: TextStyle(
+                                                                                fontSize: 16
+                                                                            )
+                                                                        )
+                                                                    ),
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding: const EdgeInsets.all(16),
+                                                                        child: TextField(
+                                                                          keyboardType: TextInputType.emailAddress,
+                                                                          enableSuggestions: false,
+                                                                          autocorrect: false,
+                                                                          onChanged: (value){
+                                                                            setState(() {
+                                                                              IP = value;
+                                                                            });
+                                                                          },
+                                                                          decoration: InputDecoration(
+                                                                            filled: true,
+                                                                            fillColor: Colors.white,
+                                                                            labelStyle: TextStyle(
                                                                                 color: textAlertDialogColor
                                                                             ),
+                                                                            border: const OutlineInputBorder(),
+                                                                            enabledBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                            ),
+                                                                            focusedBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(
+                                                                                  width: 3,
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            ),
+                                                                            labelText: 'IP',
+                                                                          ),
+                                                                          style: TextStyle(
+                                                                              color: textAlertDialogColor
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                      Center(
-                                                                        child: Container(
-                                                                          padding: const EdgeInsets.all(16),
-                                                                          child: TextField(
-                                                                            keyboardType: TextInputType.emailAddress,
-                                                                            enableSuggestions: false,
-                                                                            autocorrect: false,
-                                                                            onChanged: (value){
-                                                                              setState(() {
-                                                                                Porta = value;
-                                                                              });
-                                                                            },
-                                                                            decoration: InputDecoration(
-                                                                              filled: true,
-                                                                              fillColor: Colors.white,
-                                                                              labelStyle: TextStyle(
-                                                                                  color: textAlertDialogColor
-                                                                              ),
-                                                                              border: const OutlineInputBorder(),
-                                                                              enabledBorder: const OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                              ),
-                                                                              focusedBorder: const OutlineInputBorder(
-                                                                                borderSide: BorderSide(
-                                                                                    width: 3,
-                                                                                    color: Colors.black
-                                                                                ),
-                                                                              ),
-                                                                              labelText: 'Porta',
-                                                                            ),
-                                                                            style: TextStyle(
+                                                                    ),
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding: const EdgeInsets.all(16),
+                                                                        child: TextField(
+                                                                          keyboardType: TextInputType.emailAddress,
+                                                                          enableSuggestions: false,
+                                                                          autocorrect: false,
+                                                                          onChanged: (value){
+                                                                            setState(() {
+                                                                              Porta = value;
+                                                                            });
+                                                                          },
+                                                                          decoration: InputDecoration(
+                                                                            filled: true,
+                                                                            fillColor: Colors.white,
+                                                                            labelStyle: TextStyle(
                                                                                 color: textAlertDialogColor
                                                                             ),
+                                                                            border: const OutlineInputBorder(),
+                                                                            enabledBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                            ),
+                                                                            focusedBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(
+                                                                                  width: 3,
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            ),
+                                                                            labelText: 'Porta',
+                                                                          ),
+                                                                          style: TextStyle(
+                                                                              color: textAlertDialogColor
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                      Center(
-                                                                        child: Container(
-                                                                          padding: const EdgeInsets.all(16),
-                                                                          child: TextField(
-                                                                            keyboardType: TextInputType.emailAddress,
-                                                                            enableSuggestions: false,
-                                                                            autocorrect: false,
-                                                                            onChanged: (value){
-                                                                              setState(() {
-                                                                                Canal = value;
-                                                                              });
-                                                                            },
-                                                                            decoration: InputDecoration(
-                                                                              filled: true,
-                                                                              fillColor: Colors.white,
-                                                                              labelStyle: TextStyle(
-                                                                                  color: textAlertDialogColor
-                                                                              ),
-                                                                              border: const OutlineInputBorder(),
-                                                                              enabledBorder: const OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                              ),
-                                                                              focusedBorder: const OutlineInputBorder(
-                                                                                borderSide: BorderSide(
-                                                                                    width: 3,
-                                                                                    color: Colors.black
-                                                                                ),
-                                                                              ),
-                                                                              labelText: 'Canal',
-                                                                            ),
-                                                                            style: TextStyle(
+                                                                    ),
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding: const EdgeInsets.all(16),
+                                                                        child: TextField(
+                                                                          keyboardType: TextInputType.emailAddress,
+                                                                          enableSuggestions: false,
+                                                                          autocorrect: false,
+                                                                          onChanged: (value){
+                                                                            setState(() {
+                                                                              Canal = value;
+                                                                            });
+                                                                          },
+                                                                          decoration: InputDecoration(
+                                                                            filled: true,
+                                                                            fillColor: Colors.white,
+                                                                            labelStyle: TextStyle(
                                                                                 color: textAlertDialogColor
                                                                             ),
+                                                                            border: const OutlineInputBorder(),
+                                                                            enabledBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                            ),
+                                                                            focusedBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(
+                                                                                  width: 3,
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            ),
+                                                                            labelText: 'Canal',
+                                                                          ),
+                                                                          style: TextStyle(
+                                                                              color: textAlertDialogColor
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                      Center(
-                                                                        child: Container(
-                                                                          padding: const EdgeInsets.all(16),
-                                                                          child: TextField(
-                                                                            keyboardType: TextInputType.emailAddress,
-                                                                            enableSuggestions: false,
-                                                                            autocorrect: false,
-                                                                            onChanged: (value){
-                                                                              setState(() {
-                                                                                Usuario = value;
-                                                                              });
-                                                                            },
-                                                                            decoration: InputDecoration(
-                                                                              filled: true,
-                                                                              fillColor: Colors.white,
-                                                                              labelStyle: TextStyle(
-                                                                                  color: textAlertDialogColor
-                                                                              ),
-                                                                              border: const OutlineInputBorder(),
-                                                                              enabledBorder: const OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                              ),
-                                                                              focusedBorder: const OutlineInputBorder(
-                                                                                borderSide: BorderSide(
-                                                                                    width: 3,
-                                                                                    color: Colors.black
-                                                                                ),
-                                                                              ),
-                                                                              labelText: 'Usuario',
-                                                                            ),
-                                                                            style: TextStyle(
+                                                                    ),
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding: const EdgeInsets.all(16),
+                                                                        child: TextField(
+                                                                          keyboardType: TextInputType.emailAddress,
+                                                                          enableSuggestions: false,
+                                                                          autocorrect: false,
+                                                                          onChanged: (value){
+                                                                            setState(() {
+                                                                              Usuario = value;
+                                                                            });
+                                                                          },
+                                                                          decoration: InputDecoration(
+                                                                            filled: true,
+                                                                            fillColor: Colors.white,
+                                                                            labelStyle: TextStyle(
                                                                                 color: textAlertDialogColor
                                                                             ),
+                                                                            border: const OutlineInputBorder(),
+                                                                            enabledBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                            ),
+                                                                            focusedBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(
+                                                                                  width: 3,
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            ),
+                                                                            labelText: 'Usuario',
+                                                                          ),
+                                                                          style: TextStyle(
+                                                                              color: textAlertDialogColor
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                      Center(
-                                                                        child: Container(
-                                                                          padding: const EdgeInsets.all(16),
-                                                                          child: TextField(
-                                                                            keyboardType: TextInputType.emailAddress,
-                                                                            enableSuggestions: false,
-                                                                            autocorrect: false,
-                                                                            onChanged: (value){
-                                                                              setState(() {
-                                                                                Senha = value;
-                                                                              });
-                                                                            },
-                                                                            decoration: InputDecoration(
-                                                                              filled: true,
-                                                                              fillColor: Colors.white,
-                                                                              labelStyle: TextStyle(
-                                                                                  color: textAlertDialogColor
-                                                                              ),
-                                                                              border: const OutlineInputBorder(),
-                                                                              enabledBorder: const OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                              ),
-                                                                              focusedBorder: const OutlineInputBorder(
-                                                                                borderSide: BorderSide(
-                                                                                    width: 3,
-                                                                                    color: Colors.black
-                                                                                ),
-                                                                              ),
-                                                                              labelText: 'Senha',
-                                                                            ),
-                                                                            style: TextStyle(
+                                                                    ),
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding: const EdgeInsets.all(16),
+                                                                        child: TextField(
+                                                                          keyboardType: TextInputType.emailAddress,
+                                                                          enableSuggestions: false,
+                                                                          autocorrect: false,
+                                                                          onChanged: (value){
+                                                                            setState(() {
+                                                                              Senha = value;
+                                                                            });
+                                                                          },
+                                                                          decoration: InputDecoration(
+                                                                            filled: true,
+                                                                            fillColor: Colors.white,
+                                                                            labelStyle: TextStyle(
                                                                                 color: textAlertDialogColor
                                                                             ),
+                                                                            border: const OutlineInputBorder(),
+                                                                            enabledBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                            ),
+                                                                            focusedBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(
+                                                                                  width: 3,
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            ),
+                                                                            labelText: 'Senha',
+                                                                          ),
+                                                                          style: TextStyle(
+                                                                              color: textAlertDialogColor
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                      Center(
-                                                                        child: ValueListenableBuilder(valueListenable: dropValue4, builder: (context, String value, _){
-                                                                          return DropdownButton(
-                                                                            hint: Text(
-                                                                              'Selecione o modelo',
+                                                                    ),
+                                                                    Center(
+                                                                      child: ValueListenableBuilder(valueListenable: dropValue4, builder: (context, String value, _){
+                                                                        return DropdownButton(
+                                                                          hint: Text(
+                                                                            'Selecione o modelo',
+                                                                            style: TextStyle(
+                                                                                color: textColorDrop
+                                                                            ),
+                                                                          ),
+                                                                          value: (value.isEmpty)? null : value,
+                                                                          onChanged: (escolha) async {
+                                                                            dropValue4.value = escolha.toString();
+                                                                            setState(() {
+                                                                              modeloselecionado = escolha.toString();
+                                                                            });
+                                                                          },
+                                                                          items: ModelosAcionamentos.map((opcao) => DropdownMenuItem(
+                                                                            value: opcao,
+                                                                            child:
+                                                                            Text(
+                                                                              opcao,
                                                                               style: TextStyle(
                                                                                   color: textColorDrop
                                                                               ),
                                                                             ),
-                                                                            value: (value.isEmpty)? null : value,
-                                                                            onChanged: (escolha) async {
-                                                                              dropValue4.value = escolha.toString();
-                                                                              setState(() {
-                                                                                modeloselecionado = escolha.toString();
-                                                                              });
-                                                                            },
-                                                                            items: ModelosAcionamentos.map((opcao) => DropdownMenuItem(
-                                                                              value: opcao,
-                                                                              child:
-                                                                              Text(
-                                                                                opcao,
-                                                                                style: TextStyle(
-                                                                                    color: textColorDrop
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            ).toList(),
-                                                                          );
-                                                                        }),
-                                                                      ),
-                                                                      ElevatedButton(
-                                                                          onPressed: (){
-                                                                            acionarPorta(context, IP, int.parse(Porta), modeloselecionado, int.parse(Canal), Usuario, Senha);
-                                                                          },
-                                                                          style: ElevatedButton.styleFrom(
-                                                                              backgroundColor: colorBtn
                                                                           ),
-                                                                          child: Text(
-                                                                            "Testar!",
-                                                                            style: TextStyle(
-                                                                                color: textColor
-                                                                            ),
-                                                                          )
-                                                                      ),
-                                                                    ],
-                                                                  ),
+                                                                          ).toList(),
+                                                                        );
+                                                                      }),
+                                                                    ),
+                                                                    ElevatedButton(
+                                                                        onPressed: (){
+                                                                          acionarPorta(context, IP, int.parse(Porta), modeloselecionado, int.parse(Canal), Usuario, Senha);
+                                                                        },
+                                                                        style: ElevatedButton.styleFrom(
+                                                                            backgroundColor: colorBtn
+                                                                        ),
+                                                                        child: Text(
+                                                                          "Testar!",
+                                                                          style: TextStyle(
+                                                                              color: textColor
+                                                                          ),
+                                                                        )
+                                                                    ),
+                                                                  ],
                                                                 ): Container(),
                                                               ): Container(),
                                                               Container(
@@ -3032,7 +3039,10 @@ class _homeAppState extends State<homeApp>{
                                                                     style: ElevatedButton.styleFrom(
                                                                         backgroundColor: Colors.red
                                                                     ),
-                                                                    child: const Icon(Icons.exit_to_app)
+                                                                    child: const Icon(
+                                                                        Icons.exit_to_app,
+                                                                      color: Colors.white
+                                                                    )
                                                                 ),
                                                               )
                                                             ],
@@ -3254,7 +3264,7 @@ class _homeAppState extends State<homeApp>{
                                                         Container(
                                                           padding: const EdgeInsets.all(16),
                                                           alignment: Alignment.centerRight,
-                                                          child: IconButton(
+                                                          child: TextButton(
                                                             onPressed: (){
                                                               setState(() {
                                                                 setState(() {
@@ -3273,7 +3283,10 @@ class _homeAppState extends State<homeApp>{
                                                                 });
                                                               });
                                                             },
-                                                            icon: const Icon(Icons.close)
+                                                            child: const Icon(
+                                                              Icons.close,
+                                                              size: 40,
+                                                            ),
                                                           ),
                                                         ),
                                                         Column(
@@ -3399,536 +3412,685 @@ class _homeAppState extends State<homeApp>{
                                             padding: const EdgeInsets.all(16),
                                             child: adicionarMoradores == false ?
                                             Container():
-                                            Container(
-                                              child: TextButton(
-                                                onPressed: idCondominio == "" ? null : (){
-                                                String NomeV = "";
-                                                String CPFV = "";
-                                                String RGV = "";
-                                                String Unidade = "";
-                                                String Bloco = "";
-                                                DateTime selectedDate = DateTime.now();
-                                                File? _imageFile;
-                                                final picker = ImagePicker();
-                          
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (BuildContext context) {
-                                                    return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                                      return Center(
-                                                        child: SingleChildScrollView(
-                                                          child: AlertDialog(
-                                                            title: Center(
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                children: [
-                                                                  const Text('Cadastre um morador'),
-                                                                  IconButton(onPressed: (){
-                                                                    Navigator.pop(context);
-                                                                  }, icon: const Icon(Icons.close)
-                                                                  )
-                                                                ],
+                                            TextButton(
+                                              onPressed: idCondominio == "" ? null : (){
+                                              String NomeV = "";
+                                              String CPFV = "";
+                                              String RGV = "";
+                                              String Unidade = "";
+                                              String Bloco = "";
+                                              DateTime selectedDate = DateTime.now();
+                                              File? _imageFile;
+                                              final picker = ImagePicker();
+
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                    return Center(
+                                                      child: SingleChildScrollView(
+                                                        child: Dialog(
+                                                          child: Stack(
+                                                            children: [
+                                                              Positioned.fill(
+                                                                child: ClipRRect(
+                                                                  borderRadius: BorderRadius.circular(10),
+                                                                  child: Image.asset(
+                                                                    "assets/FundoMetalPreto.jpg",
+                                                                    fit: BoxFit.fill,
+                                                                  ),
+                                                                ),
                                                               ),
-                                                            ),
-                                                            actions: [
-                                                              Center(
-                                                                child: ElevatedButton(
-                                                                  onPressed: (){
-                                                                    String ip = "";
-                                                                    String portaa = "";
-                                                                    String usuario = "";
-                                                                    String Senha = "";
-                                                                    String modeloPikado = "Control iD";
-
-                                                                    var dropValue2 = ValueNotifier('Control iD');
-
-                                                                    showDialog(
-                                                                      context: context,
-                                                                      builder: (BuildContext context) {
-                                                                        return AlertDialog(
-                                                                          title: const Text('Importar usuarios diretamente do equipamento'),
-                                                                          actions: [
-                                                                            Center(
-                                                                              child: Container(
-                                                                                padding: const EdgeInsets.all(16),
-                                                                                child: TextField(
-                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                  enableSuggestions: false,
-                                                                                  autocorrect: false,
-                                                                                  onChanged: (value){
-                                                                                    setState(() {
-                                                                                      ip = value;
-                                                                                    });
-                                                                                  },
-                                                                                  decoration: const InputDecoration(
-                                                                                    border: OutlineInputBorder(),
-                                                                                    enabledBorder: OutlineInputBorder(
-                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                    ),
-                                                                                    focusedBorder: OutlineInputBorder(
-                                                                                      borderSide: BorderSide(
-                                                                                          width: 3,
-                                                                                          color: Colors.black
-                                                                                      ),
-                                                                                    ),
-                                                                                    labelText: 'IP do equipamento',
-                                                                                  ),
-                                                                                ),
-                                                                              ),
+                                                              Container(
+                                                                width: 600,
+                                                                padding: const EdgeInsets.all(16),
+                                                                child: Column(
+                                                                  children: [
+                                                                    Center(
+                                                                      child: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          const Text(
+                                                                              'Cadastre um morador',
+                                                                            style: TextStyle(
+                                                                              fontSize: 30,
                                                                             ),
-                                                                            Center(
-                                                                              child: Container(
-                                                                                padding: const EdgeInsets.all(16),
-                                                                                child: TextField(
-                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                  enableSuggestions: false,
-                                                                                  autocorrect: false,
-                                                                                  onChanged: (value){
-                                                                                    setState(() {
-                                                                                      portaa = value;
-                                                                                    });
-                                                                                  },
-                                                                                  decoration: const InputDecoration(
-                                                                                    border: OutlineInputBorder(),
-                                                                                    enabledBorder: OutlineInputBorder(
-                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                    ),
-                                                                                    focusedBorder: OutlineInputBorder(
-                                                                                      borderSide: BorderSide(
-                                                                                          width: 3,
-                                                                                          color: Colors.black
-                                                                                      ),
-                                                                                    ),
-                                                                                    labelText: 'Porta',
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            Center(
-                                                                              child: Container(
-                                                                                padding: const EdgeInsets.all(16),
-                                                                                child: TextField(
-                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                  enableSuggestions: false,
-                                                                                  autocorrect: false,
-                                                                                  onChanged: (value){
-                                                                                    setState(() {
-                                                                                      usuario = value;
-                                                                                    });
-                                                                                  },
-                                                                                  decoration: const InputDecoration(
-                                                                                    border: OutlineInputBorder(),
-                                                                                    enabledBorder: OutlineInputBorder(
-                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                    ),
-                                                                                    focusedBorder: OutlineInputBorder(
-                                                                                      borderSide: BorderSide(
-                                                                                          width: 3,
-                                                                                          color: Colors.black
-                                                                                      ),
-                                                                                    ),
-                                                                                    labelText: 'Login ADM do equipamento',
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            Center(
-                                                                              child: Container(
-                                                                                padding: const EdgeInsets.all(16),
-                                                                                child: TextField(
-                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                  enableSuggestions: false,
-                                                                                  autocorrect: false,
-                                                                                  onChanged: (value){
-                                                                                    setState(() {
-                                                                                      Senha = value;
-                                                                                    });
-                                                                                  },
-                                                                                  decoration: const InputDecoration(
-                                                                                    border: OutlineInputBorder(),
-                                                                                    enabledBorder: OutlineInputBorder(
-                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                    ),
-                                                                                    focusedBorder: OutlineInputBorder(
-                                                                                      borderSide: BorderSide(
-                                                                                          width: 3,
-                                                                                          color: Colors.black
-                                                                                      ),
-                                                                                    ),
-                                                                                    labelText: 'Senha ADM do equipamento',
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            Center(
-                                                                              child: ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
-                                                                                return DropdownButton(
-                                                                                  hint: Text(
-                                                                                    'Selecione o modelo',
-                                                                                    style: TextStyle(
-                                                                                        color: textColorDrop
-                                                                                    ),
-                                                                                  ),
-                                                                                  value: (value.isEmpty)? null : value,
-                                                                                  onChanged: (escolha) async {
-                                                                                    dropValue2.value = escolha.toString();
-                                                                                    setState(() {
-                                                                                      modeloPikado = escolha.toString();
-                                                                                    });
-                                                                                  },
-                                                                                  items: ImportarUsuarios.map((opcao) => DropdownMenuItem(
-                                                                                    value: opcao,
-                                                                                    child:
-                                                                                    Text(
-                                                                                      opcao,
-                                                                                      style: TextStyle(
-                                                                                          color: textColorDrop
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                  ).toList(),
-                                                                                );
-                                                                              }),
-                                                                            ),
-                                                                            Center(
-                                                                              child: ElevatedButton(
-                                                                                onPressed:() async {
-                                                                                  Map<String, dynamic> usuarios = await pushPessoas(context, ip, int.parse(portaa), usuario, Senha, modeloPikado);
-
-                                                                                    int lent = usuarios['users'].length - 1;
-                                                                                      for (int i = 0; i < lent; i++) {
-                                                                                        FirebaseFirestore.instance.collection('Pessoas').doc("${usuarios['users'][i]["id"]}").set({
-                                                                                          "id": "${usuarios['users'][i]["id"]}",
-                                                                                          "idCondominio": idCondominio,
-                                                                                          "Nome": usuarios['users'][i]["name"],
-                                                                                          "CPF": "",
-                                                                                          "RG": "",
-                                                                                          "DataNascimento": "${selectedDate.year}/${selectedDate.month}/${selectedDate.day}",
-                                                                                          "imageURI": "",
-                                                                                          "placa": "",
-                                                                                          "Unidade":"",
-                                                                                          "Bloco": "",
-                                                                                          "anotacao": "",
-                                                                                        });
-                                                                                      }
-                                                                                    Navigator.pop(context);
-                                                                                    Navigator.pop(context);
-                                                                                    showToast("Importado com sucesso!", context: context);
-
-                                                                                },
-                                                                                child: const Text("Importar para o banco de dados")
+                                                                          ),
+                                                                          SizedBox(
+                                                                            width: 100,
+                                                                            height: 100,
+                                                                            child: TextButton(onPressed: (){
+                                                                              Navigator.pop(context);
+                                                                            }, child: const Center(
+                                                                              child: Icon(
+                                                                                Icons.close,
+                                                                                size: 40,
                                                                               ),
                                                                             )
-                                                                          ],
-                                                                        );
-                                                                      },
-                                                                    );
+                                                                            ),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    Center(
+                                                                      child: ElevatedButton(
+                                                                          onPressed: (){
+                                                                            String ip = "";
+                                                                            String portaa = "";
+                                                                            String usuario = "";
+                                                                            String Senha = "";
+                                                                            String modeloPikado = "Control iD";
 
-                                                                  },
-                                                                  child: const Text("Importar")
-                                                                ),
-                                                              ),
-                                                              Center(
-                                                                child: Container(
-                                                                  padding: const EdgeInsets.all(16),
-                                                                  child: TextField(
-                                                                    keyboardType: TextInputType.emailAddress,
-                                                                    enableSuggestions: false,
-                                                                    autocorrect: false,
-                                                                    onChanged: (value){
-                                                                      setState(() {
-                                                                        NomeV = value;
-                                                                      });
-                                                                    },
-                                                                    decoration: const InputDecoration(
-                                                                      border: OutlineInputBorder(),
-                                                                      enabledBorder: OutlineInputBorder(
-                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                      ),
-                                                                      focusedBorder: OutlineInputBorder(
-                                                                        borderSide: BorderSide(
-                                                                            width: 3,
-                                                                            color: Colors.black
-                                                                        ),
-                                                                      ),
-                                                                      labelText: 'Nome',
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Center(
-                                                                child: Container(
-                                                                  padding: const EdgeInsets.all(16),
-                                                                  child: TextField(
-                                                                    keyboardType: TextInputType.emailAddress,
-                                                                    enableSuggestions: false,
-                                                                    autocorrect: false,
-                                                                    onChanged: (value){
-                                                                      setState(() {
-                                                                        CPFV = value;
-                                                                      });
-                                                                    },
-                                                                    decoration: const InputDecoration(
-                                                                      border: OutlineInputBorder(),
-                                                                      enabledBorder: OutlineInputBorder(
-                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                      ),
-                                                                      focusedBorder: OutlineInputBorder(
-                                                                        borderSide: BorderSide(
-                                                                            width: 3,
-                                                                            color: Colors.black
-                                                                        ),
-                                                                      ),
-                                                                      labelText: 'CPF',
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Center(
-                                                                child: Container(
-                                                                  padding: const EdgeInsets.all(16),
-                                                                  child: TextField(
-                                                                    keyboardType: TextInputType.emailAddress,
-                                                                    enableSuggestions: false,
-                                                                    autocorrect: false,
-                                                                    onChanged: (value){
-                                                                      setState(() {
-                                                                        RGV = value;
-                                                                      });
-                                                                    },
-                                                                    decoration: const InputDecoration(
-                                                                      border: OutlineInputBorder(),
-                                                                      enabledBorder: OutlineInputBorder(
-                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                      ),
-                                                                      focusedBorder: OutlineInputBorder(
-                                                                        borderSide: BorderSide(
-                                                                            width: 3,
-                                                                            color: Colors.black
-                                                                        ),
-                                                                      ),
-                                                                      labelText: 'RG',
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Center(
-                                                                child: Container(
-                                                                  padding: const EdgeInsets.all(16),
-                                                                  child: TextField(
-                                                                    keyboardType: TextInputType.emailAddress,
-                                                                    enableSuggestions: false,
-                                                                    autocorrect: false,
-                                                                    onChanged: (value){
-                                                                      setState(() {
-                                                                        Unidade = value;
-                                                                      });
-                                                                    },
-                                                                    decoration: const InputDecoration(
-                                                                      border: OutlineInputBorder(),
-                                                                      enabledBorder: OutlineInputBorder(
-                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                      ),
-                                                                      focusedBorder: OutlineInputBorder(
-                                                                        borderSide: BorderSide(
-                                                                            width: 3,
-                                                                            color: Colors.black
-                                                                        ),
-                                                                      ),
-                                                                      labelText: 'Unidade',
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Center(
-                                                                child: Container(
-                                                                  padding: const EdgeInsets.all(16),
-                                                                  child: TextField(
-                                                                    keyboardType: TextInputType.emailAddress,
-                                                                    enableSuggestions: false,
-                                                                    autocorrect: false,
-                                                                    onChanged: (value){
-                                                                      setState(() {
-                                                                        Bloco = value;
-                                                                      });
-                                                                    },
-                                                                    decoration: const InputDecoration(
-                                                                      border: OutlineInputBorder(),
-                                                                      enabledBorder: OutlineInputBorder(
-                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                      ),
-                                                                      focusedBorder: OutlineInputBorder(
-                                                                        borderSide: BorderSide(
-                                                                            width: 3,
-                                                                            color: Colors.black
-                                                                        ),
-                                                                      ),
-                                                                      labelText: 'Bloco',
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Center(
-                                                                child: Container(
-                                                                    padding: const EdgeInsets.all(16),
-                                                                    child: Text(selectedDate == null ? 'Selecione a data de nascimento' :
-                                                                    "Data de nacimento ${selectedDate.year}/${selectedDate.month}/${selectedDate.day}")
-                                                                ),
-                                                              ),
-                                                              Center(
-                                                                child: Container(
-                                                                    padding: const EdgeInsets.all(16),
-                                                                    child: ElevatedButton(
-                                                                      onPressed: () async {
-                                                                        final DateTime? picked = await showDatePicker(
-                                                                          context: context,
-                                                                          initialDate: selectedDate,
-                                                                          firstDate: DateTime(1800, 8),
-                                                                          lastDate: DateTime(2101),
-                                                                        );
-                                                                        if (picked != null && picked != selectedDate) {
-                                                                          setState(() {
-                                                                            selectedDate = picked;
-                                                                          });
-                                                                        }
-                                                                      },
-                                                                      style: ElevatedButton.styleFrom(
-                                                                          backgroundColor: colorBtn
-                                                                      ),
-                                                                      child: Text(
-                                                                          'Selecione uma data',
-                                                                        style: TextStyle(
-                                                                            color: textColor
-                                                                        ),
-                                                                      ),
-                                                                    )
-                                                                ),
-                                                              ),
-                                                              _imageFile != null ? Center(
-                                                                child: SizedBox(
-                                                                  width: 300,
-                                                                  height: 300,
-                                                                  child: Image.file(_imageFile!),
-                                                                ),
-                                                              ): Container(),
-                                                              Center(
-                                                                child: ElevatedButton(
-                                                                  onPressed: () async {
-                                                                    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-                          
-                                                                    setState(() {
-                                                                      if (pickedFile != null) {
-                                                                        _imageFile = File(pickedFile.path);
-                                                                      } else {
-                                                                        showToast("Imagem não selecionada!",context:context);
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  style: ElevatedButton.styleFrom(
-                                                                      backgroundColor: colorBtn
-                                                                  ),
-                                                                  child: Text(
-                                                                      'Selecione uma Imagem de perfil',
-                                                                    style: TextStyle(
-                                                                        color: textColor
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              ElevatedButton(onPressed: () async {
-                                                                if(NomeV == ""){
-                                                                  showToast("O nome está vazio!",context:context);
-                                                                }else{
-                                                                  if(CPFV == ""){
-                                                                    showToast("O CPF está vazio!",context:context);
-                                                                  }else{
-                                                                    if(RGV == ""){
-                                                                      showToast("O RG está vazio!",context:context);
-                                                                    }else{
-                                                                      if(selectedDate == null){
-                                                                        showToast("A data está vazia!",context:context);
-                                                                      }else{
+                                                                            var dropValue2 = ValueNotifier('Control iD');
 
-                                                                        if(Unidade == ""){
-                                                                          showToast("A unidade está vazia!",context:context);
-                                                                        }else{
-                                                                          if(Bloco  == ""){
-                                                                            showToast("O bloco está vazio!!",context:context);
-                                                                          }else{
-                                                                            if(_imageFile == null){
-                                                                              showToast("Selecione uma foto!",context:context);
-                                                                            }else{
-                                                                              showDialog(
+                                                                            showDialog(
+                                                                              context: context,
+                                                                              builder: (BuildContext context) {
+                                                                                return Center(
+                                                                                  child: SingleChildScrollView(
+                                                                                    child: Dialog(
+                                                                                      child: Stack(
+                                                                                        children: [
+                                                                                          Positioned.fill(
+                                                                                            child: ClipRRect(
+                                                                                              borderRadius: BorderRadius.circular(10),
+                                                                                              child: Image.asset(
+                                                                                                "assets/FundoMetalPreto.jpg",
+                                                                                                fit: BoxFit.fill,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                          Container(
+                                                                                            width: 600,
+                                                                                            padding: const EdgeInsets.all(16),
+                                                                                            child: Column(
+                                                                                              children: [
+                                                                                                const Text(
+                                                                                                    'Importar usuarios diretamente do equipamento',
+                                                                                                  style: TextStyle(
+                                                                                                    fontSize: 30,
+                                                                                                  ),
+                                                                                                ),
+                                                                                                Center(
+                                                                                                  child: Container(
+                                                                                                    padding: const EdgeInsets.all(16),
+                                                                                                    child: TextField(
+                                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                                      enableSuggestions: false,
+                                                                                                      autocorrect: false,
+                                                                                                      onChanged: (value){
+                                                                                                        setState(() {
+                                                                                                          ip = value;
+                                                                                                        });
+                                                                                                      },
+                                                                                                      decoration: InputDecoration(
+                                                                                                        filled: true,
+                                                                                                        fillColor: Colors.white,
+                                                                                                        labelStyle: TextStyle(
+                                                                                                            color: textAlertDialogColor
+                                                                                                        ),
+                                                                                                        border: const OutlineInputBorder(),
+                                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                        ),
+                                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                                          borderSide: BorderSide(
+                                                                                                              width: 3,
+                                                                                                              color: Colors.black
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        labelText: 'IP do equipamento',
+                                                                                                      ),
+                                                                                                      style: TextStyle(
+                                                                                                          color: textAlertDialogColor
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                                Center(
+                                                                                                  child: Container(
+                                                                                                    padding: const EdgeInsets.all(16),
+                                                                                                    child: TextField(
+                                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                                      enableSuggestions: false,
+                                                                                                      autocorrect: false,
+                                                                                                      onChanged: (value){
+                                                                                                        setState(() {
+                                                                                                          portaa = value;
+                                                                                                        });
+                                                                                                      },
+                                                                                                      decoration: InputDecoration(
+                                                                                                        filled: true,
+                                                                                                        fillColor: Colors.white,
+                                                                                                        labelStyle: TextStyle(
+                                                                                                            color: textAlertDialogColor
+                                                                                                        ),
+                                                                                                        border: const OutlineInputBorder(),
+                                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                        ),
+                                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                                          borderSide: BorderSide(
+                                                                                                              width: 3,
+                                                                                                              color: Colors.black
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        labelText: 'Porta',
+                                                                                                      ),
+                                                                                                      style: TextStyle(
+                                                                                                          color: textAlertDialogColor
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                                Center(
+                                                                                                  child: Container(
+                                                                                                    padding: const EdgeInsets.all(16),
+                                                                                                    child: TextField(
+                                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                                      enableSuggestions: false,
+                                                                                                      autocorrect: false,
+                                                                                                      onChanged: (value){
+                                                                                                        setState(() {
+                                                                                                          usuario = value;
+                                                                                                        });
+                                                                                                      },
+                                                                                                      decoration: InputDecoration(
+                                                                                                        filled: true,
+                                                                                                        fillColor: Colors.white,
+                                                                                                        labelStyle: TextStyle(
+                                                                                                            color: textAlertDialogColor
+                                                                                                        ),
+                                                                                                        border: const OutlineInputBorder(),
+                                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                        ),
+                                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                                          borderSide: BorderSide(
+                                                                                                              width: 3,
+                                                                                                              color: Colors.black
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        labelText: 'Login ADM do equipamento',
+                                                                                                      ),
+                                                                                                      style: TextStyle(
+                                                                                                          color: textAlertDialogColor
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                                Center(
+                                                                                                  child: Container(
+                                                                                                    padding: const EdgeInsets.all(16),
+                                                                                                    child: TextField(
+                                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                                      enableSuggestions: false,
+                                                                                                      autocorrect: false,
+                                                                                                      onChanged: (value){
+                                                                                                        setState(() {
+                                                                                                          Senha = value;
+                                                                                                        });
+                                                                                                      },
+                                                                                                      decoration: InputDecoration(
+                                                                                                        filled: true,
+                                                                                                        fillColor: Colors.white,
+                                                                                                        labelStyle: TextStyle(
+                                                                                                            color: textAlertDialogColor
+                                                                                                        ),
+                                                                                                        border: const OutlineInputBorder(),
+                                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                        ),
+                                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                                          borderSide: BorderSide(
+                                                                                                              width: 3,
+                                                                                                              color: Colors.black
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        labelText: 'Senha ADM do equipamento',
+                                                                                                      ),
+                                                                                                      style: TextStyle(
+                                                                                                          color: textAlertDialogColor
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                                Center(
+                                                                                                  child: ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
+                                                                                                    return DropdownButton(
+                                                                                                      hint: Text(
+                                                                                                        'Selecione o modelo',
+                                                                                                        style: TextStyle(
+                                                                                                            color: textColorDrop
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      value: (value.isEmpty)? null : value,
+                                                                                                      onChanged: (escolha) async {
+                                                                                                        dropValue2.value = escolha.toString();
+                                                                                                        setState(() {
+                                                                                                          modeloPikado = escolha.toString();
+                                                                                                        });
+                                                                                                      },
+                                                                                                      items: ImportarUsuarios.map((opcao) => DropdownMenuItem(
+                                                                                                        value: opcao,
+                                                                                                        child:
+                                                                                                        Text(
+                                                                                                          opcao,
+                                                                                                          style: TextStyle(
+                                                                                                              color: textColorDrop
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      ).toList(),
+                                                                                                    );
+                                                                                                  }),
+                                                                                                ),
+                                                                                                Center(
+                                                                                                  child: ElevatedButton(
+                                                                                                      onPressed:() async {
+                                                                                                        Map<String, dynamic> usuarios = await pushPessoas(context, ip, int.parse(portaa), usuario, Senha, modeloPikado);
+
+                                                                                                        int lent = usuarios['users'].length - 1;
+                                                                                                        for (int i = 0; i < lent; i++) {
+                                                                                                          FirebaseFirestore.instance.collection('Pessoas').doc("${usuarios['users'][i]["id"]}").set({
+                                                                                                            "id": "${usuarios['users'][i]["id"]}",
+                                                                                                            "idCondominio": idCondominio,
+                                                                                                            "Nome": usuarios['users'][i]["name"],
+                                                                                                            "CPF": "",
+                                                                                                            "RG": "",
+                                                                                                            "DataNascimento": "${selectedDate.year}/${selectedDate.month}/${selectedDate.day}",
+                                                                                                            "imageURI": "",
+                                                                                                            "placa": "",
+                                                                                                            "Unidade":"",
+                                                                                                            "Bloco": "",
+                                                                                                            "anotacao": "",
+                                                                                                          });
+                                                                                                        }
+                                                                                                        Navigator.pop(context);
+                                                                                                        Navigator.pop(context);
+                                                                                                        showToast("Importado com sucesso!", context: context);
+
+                                                                                                      },
+                                                                                                      style: ElevatedButton.styleFrom(
+                                                                                                          backgroundColor: Colors.blue
+                                                                                                      ),
+                                                                                                      child: const Text(
+                                                                                                          "Importar para o banco de dados",
+                                                                                                        style: TextStyle(
+                                                                                                          color: Colors.white
+                                                                                                        )
+                                                                                                      )
+                                                                                                  ),
+                                                                                                )
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                );
+                                                                              },
+                                                                            );
+                                                                          },
+                                                                          style: ElevatedButton.styleFrom(
+                                                                              backgroundColor: Colors.blue
+                                                                          ),
+                                                                          child: const Text(
+                                                                              "Importar",
+                                                                            style: TextStyle(
+                                                                              color: Colors.white
+                                                                            ),
+                                                                          )
+                                                                      ),
+                                                                    ),
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding: const EdgeInsets.all(16),
+                                                                        child: TextField(
+                                                                          keyboardType: TextInputType.emailAddress,
+                                                                          enableSuggestions: false,
+                                                                          autocorrect: false,
+                                                                          onChanged: (value){
+                                                                            setState(() {
+                                                                              NomeV = value;
+                                                                            });
+                                                                          },
+                                                                          decoration: InputDecoration(
+                                                                            filled: true,
+                                                                            fillColor: Colors.white,
+                                                                            labelStyle: TextStyle(
+                                                                                color: textAlertDialogColor
+                                                                            ),
+                                                                            border: const OutlineInputBorder(),
+                                                                            enabledBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                            ),
+                                                                            focusedBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(
+                                                                                  width: 3,
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            ),
+                                                                            labelText: 'Nome',
+                                                                          ),
+                                                                          style: TextStyle(
+                                                                              color: textAlertDialogColor
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding: const EdgeInsets.all(16),
+                                                                        child: TextField(
+                                                                          keyboardType: TextInputType.emailAddress,
+                                                                          enableSuggestions: false,
+                                                                          autocorrect: false,
+                                                                          onChanged: (value){
+                                                                            setState(() {
+                                                                              CPFV = value;
+                                                                            });
+                                                                          },
+                                                                          decoration: InputDecoration(
+                                                                            filled: true,
+                                                                            fillColor: Colors.white,
+                                                                            labelStyle: TextStyle(
+                                                                                color: textAlertDialogColor
+                                                                            ),
+                                                                            border: const OutlineInputBorder(),
+                                                                            enabledBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                            ),
+                                                                            focusedBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(
+                                                                                  width: 3,
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            ),
+                                                                            labelText: 'CPF',
+                                                                          ),
+                                                                          style: TextStyle(
+                                                                              color: textAlertDialogColor
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding: const EdgeInsets.all(16),
+                                                                        child: TextField(
+                                                                          keyboardType: TextInputType.emailAddress,
+                                                                          enableSuggestions: false,
+                                                                          autocorrect: false,
+                                                                          onChanged: (value){
+                                                                            setState(() {
+                                                                              RGV = value;
+                                                                            });
+                                                                          },
+                                                                          decoration: InputDecoration(
+                                                                            filled: true,
+                                                                            fillColor: Colors.white,
+                                                                            labelStyle: TextStyle(
+                                                                                color: textAlertDialogColor
+                                                                            ),
+                                                                            border: const OutlineInputBorder(),
+                                                                            enabledBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                            ),
+                                                                            focusedBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(
+                                                                                  width: 3,
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            ),
+                                                                            labelText: 'RG',
+                                                                          ),
+                                                                          style: TextStyle(
+                                                                              color: textAlertDialogColor
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding: const EdgeInsets.all(16),
+                                                                        child: TextField(
+                                                                          keyboardType: TextInputType.emailAddress,
+                                                                          enableSuggestions: false,
+                                                                          autocorrect: false,
+                                                                          onChanged: (value){
+                                                                            setState(() {
+                                                                              Unidade = value;
+                                                                            });
+                                                                          },
+                                                                          decoration: InputDecoration(
+                                                                            filled: true,
+                                                                            fillColor: Colors.white,
+                                                                            labelStyle: TextStyle(
+                                                                                color: textAlertDialogColor
+                                                                            ),
+                                                                            border: const OutlineInputBorder(),
+                                                                            enabledBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                            ),
+                                                                            focusedBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(
+                                                                                  width: 3,
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            ),
+                                                                            labelText: 'Unidade',
+                                                                          ),
+                                                                          style: TextStyle(
+                                                                              color: textAlertDialogColor
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding: const EdgeInsets.all(16),
+                                                                        child: TextField(
+                                                                          keyboardType: TextInputType.emailAddress,
+                                                                          enableSuggestions: false,
+                                                                          autocorrect: false,
+                                                                          onChanged: (value){
+                                                                            setState(() {
+                                                                              Bloco = value;
+                                                                            });
+                                                                          },
+                                                                          decoration: InputDecoration(
+                                                                            filled: true,
+                                                                            fillColor: Colors.white,
+                                                                            labelStyle: TextStyle(
+                                                                                color: textAlertDialogColor
+                                                                            ),
+                                                                            border: const OutlineInputBorder(),
+                                                                            enabledBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                            ),
+                                                                            focusedBorder: const OutlineInputBorder(
+                                                                              borderSide: BorderSide(
+                                                                                  width: 3,
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            ),
+                                                                            labelText: 'Bloco',
+                                                                          ),
+                                                                          style: TextStyle(
+                                                                              color: textAlertDialogColor
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Center(
+                                                                      child: Container(
+                                                                          padding: const EdgeInsets.all(16),
+                                                                          child: Text(selectedDate == null ? 'Selecione a data de nascimento' :
+                                                                          "Data de nacimento ${selectedDate.year}/${selectedDate.month}/${selectedDate.day}")
+                                                                      ),
+                                                                    ),
+                                                                    Center(
+                                                                      child: Container(
+                                                                          padding: const EdgeInsets.all(16),
+                                                                          child: ElevatedButton(
+                                                                            onPressed: () async {
+                                                                              final DateTime? picked = await showDatePicker(
                                                                                 context: context,
-                                                                                builder: (BuildContext context) {
-                                                                                  return const AlertDialog(
-                                                                                    title: Text('Aguarde!'),
-                                                                                    actions: [
-                                                                                      Center(
-                                                                                        child: CircularProgressIndicator(),
-                                                                                      )
-                                                                                    ],
-                                                                                  );
-                                                                                },
+                                                                                initialDate: selectedDate,
+                                                                                firstDate: DateTime(1800, 8),
+                                                                                lastDate: DateTime(2101),
                                                                               );
-                                                                              Map<String, dynamic> id = await cadastronoEquipamento(context, ip, 8081, "admin", "admin", "Control iD", NomeV);
-                                                                              String ID = "${id["ids"][0]}";
+                                                                              if (picked != null && picked != selectedDate) {
+                                                                                setState(() {
+                                                                                  selectedDate = picked;
+                                                                                });
+                                                                              }
+                                                                            },
+                                                                            style: ElevatedButton.styleFrom(
+                                                                                backgroundColor: colorBtn
+                                                                            ),
+                                                                            child: Text(
+                                                                              'Selecione uma data',
+                                                                              style: TextStyle(
+                                                                                  color: textColor
+                                                                              ),
+                                                                            ),
+                                                                          )
+                                                                      ),
+                                                                    ),
+                                                                    _imageFile != null ? Center(
+                                                                      child: SizedBox(
+                                                                        width: 300,
+                                                                        height: 300,
+                                                                        child: Image.file(_imageFile!),
+                                                                      ),
+                                                                    ): Container(),
+                                                                    Center(
+                                                                      child: ElevatedButton(
+                                                                        onPressed: () async {
+                                                                          final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-//
-                                                                              FirebaseStorage storage = FirebaseStorage.instance;
-                                                                              Reference ref = storage.ref().child('images/$idCondominio/$ID');
-                                                                              await ref.putFile(_imageFile!).whenComplete(() {
-                                                                                showToast("Imagem carregada!",context:context);
-                                                                              }).catchError((e){
-                                                                                showToast("Houve uma falha no carregamento! codigo do erro: $e",context:context);
-                                                                                showToast("Repasse esse erro para o desenvolvedor!",context:context);
-                                                                              });
-//
-                                                                              FirebaseFirestore.instance.collection('Pessoas').doc(ID).set({
-                                                                                "id": ID,
-                                                                                "idCondominio": idCondominio,
-                                                                                "Nome": NomeV,
-                                                                                "CPF": CPFV,
-                                                                                "RG": RGV,
-                                                                                "DataNascimento": "${selectedDate.year}/${selectedDate.month}/${selectedDate.day}",
-                                                                                "imageURI": await ref.getDownloadURL(),
-                                                                                "Unidade ":Unidade,
-                                                                                "Bloco":Bloco,
-                                                                                "anotacao": "",
-                                                                              }).whenComplete(() {
-                                                                                Navigator.pop(context);
-                                                                                Navigator.pop(context);
-                                                                              });
+                                                                          setState(() {
+                                                                            if (pickedFile != null) {
+                                                                              _imageFile = File(pickedFile.path);
+                                                                            } else {
+                                                                              showToast("Imagem não selecionada!",context:context);
+                                                                            }
+                                                                          });
+                                                                        },
+                                                                        style: ElevatedButton.styleFrom(
+                                                                            backgroundColor: colorBtn
+                                                                        ),
+                                                                        child: Text(
+                                                                          'Selecione uma Imagem de perfil',
+                                                                          style: TextStyle(
+                                                                              color: textColor
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Container(
+                                                                      padding: const EdgeInsets.all(10),
+                                                                      child: ElevatedButton(onPressed: () async {
+                                                                        if(NomeV == ""){
+                                                                          showToast("O nome está vazio!",context:context);
+                                                                        }else{
+                                                                          if(CPFV == ""){
+                                                                            showToast("O CPF está vazio!",context:context);
+                                                                          }else{
+                                                                            if(RGV == ""){
+                                                                              showToast("O RG está vazio!",context:context);
+                                                                            }else{
+                                                                              if(selectedDate == null){
+                                                                                showToast("A data está vazia!",context:context);
+                                                                              }else{
+
+                                                                                if(Unidade == ""){
+                                                                                  showToast("A unidade está vazia!",context:context);
+                                                                                }else{
+                                                                                  if(Bloco  == ""){
+                                                                                    showToast("O bloco está vazio!!",context:context);
+                                                                                  }else{
+                                                                                    if(_imageFile == null){
+                                                                                      showToast("Selecione uma foto!",context:context);
+                                                                                    }else{
+                                                                                      showDialog(
+                                                                                        context: context,
+                                                                                        builder: (BuildContext context) {
+                                                                                          return const AlertDialog(
+                                                                                            title: Text('Aguarde!'),
+                                                                                            actions: [
+                                                                                              Center(
+                                                                                                child: CircularProgressIndicator(),
+                                                                                              )
+                                                                                            ],
+                                                                                          );
+                                                                                        },
+                                                                                      );
+                                                                                      Map<String, dynamic> id = await cadastronoEquipamento(context, ip, 8081, "admin", "admin", "Control iD", NomeV);
+                                                                                      String ID = "${id["ids"][0]}";
+
+                                                                                                                                      //
+                                                                                      FirebaseStorage storage = FirebaseStorage.instance;
+                                                                                      Reference ref = storage.ref().child('images/$idCondominio/$ID');
+                                                                                      await ref.putFile(_imageFile!).whenComplete(() {
+                                                                                        showToast("Imagem carregada!",context:context);
+                                                                                      }).catchError((e){
+                                                                                        showToast("Houve uma falha no carregamento! codigo do erro: $e",context:context);
+                                                                                        showToast("Repasse esse erro para o desenvolvedor!",context:context);
+                                                                                      });
+                                                                                                                                      //
+                                                                                      FirebaseFirestore.instance.collection('Pessoas').doc(ID).set({
+                                                                                        "id": ID,
+                                                                                        "idCondominio": idCondominio,
+                                                                                        "Nome": NomeV,
+                                                                                        "CPF": CPFV,
+                                                                                        "RG": RGV,
+                                                                                        "DataNascimento": "${selectedDate.year}/${selectedDate.month}/${selectedDate.day}",
+                                                                                        "imageURI": await ref.getDownloadURL(),
+                                                                                        "Unidade ":Unidade,
+                                                                                        "Bloco":Bloco,
+                                                                                        "anotacao": "",
+                                                                                      }).whenComplete(() {
+                                                                                        Navigator.pop(context);
+                                                                                        Navigator.pop(context);
+                                                                                      });
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
                                                                             }
                                                                           }
                                                                         }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              },style: ElevatedButton.styleFrom(
-                                                                  backgroundColor: colorBtn
+                                                                      },style: ElevatedButton.styleFrom(
+                                                                          backgroundColor: colorBtn
+                                                                      ),
+                                                                          child: Text(
+                                                                            'Registrar novo cadastro',
+                                                                            style: TextStyle(
+                                                                                color: textColor
+                                                                            ),
+                                                                          )
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                ),
                                                               ),
-                                                                  child: Text(
-                                                                      'Registrar novo cadastro',
-                                                                    style: TextStyle(
-                                                                        color: textColor
-                                                                    ),
-                                                                  )
-                                                              )
                                                             ],
                                                           ),
                                                         ),
-                                                      );
-                                                    },);
-                                                  },
-                                                );
-                                              },
-                                                  child: Image.asset(
-                                                      "assets/fab.png",
-                                                      scale: 17
-                                                  )
-                                              ),
+                                                      ),
+                                                    );
+                                                  },);
+                                                },
+                                              );
+                                            },
+                                                child: Image.asset(
+                                                    "assets/fab.png",
+                                                    scale: 17
+                                                )
                                             ),
                                           ),
                                         ],
