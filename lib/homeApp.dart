@@ -721,7 +721,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 labelStyle: TextStyle(
                                                                                     color: textAlertDialogColor
                                                                                 ),
-                                                                                labelText: 'URL das Cameras',
+                                                                                labelText: 'URL do CFTV (RTSP)',
                                                                               ),
                                                                               style: TextStyle(
                                                                                   color: textAlertDialogColor
@@ -757,7 +757,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 labelStyle: TextStyle(
                                                                                     color: textAlertDialogColor
                                                                                 ),
-                                                                                labelText: 'Porta RTSP das Cameras (Normalmente é 554, mas para Sancas use 8080)',
+                                                                                labelText: 'Porta do CFTV (RTSP) (Normalmente é 554, mas pode variar dependendo do CFTV)',
                                                                               ),
                                                                               style: TextStyle(
                                                                                   color: textAlertDialogColor
@@ -1353,299 +1353,383 @@ class _homeAppState extends State<homeApp>{
                                                                     var dropValue3 = ValueNotifier('Intelbras');
 
                                                                     return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                                                      return AlertDialog(
-                                                                        scrollable: true,
-                                                                        title: Column(
-                                                                          children: [
-                                                                            Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                      return Center(
+                                                                        child: SingleChildScrollView(
+                                                                          child: Dialog(
+                                                                            child: Stack(
                                                                               children: [
-                                                                                const Text('Adicionar novo acionamento'),
-                                                                                IconButton(onPressed: (){
-                                                                                  Navigator.pop(context);
-                                                                                },
-                                                                                icon: const Icon(Icons.close)
+                                                                                Positioned.fill(
+                                                                                  child: ClipRRect(
+                                                                                    borderRadius: BorderRadius.circular(10),
+                                                                                    child: Image.asset(
+                                                                                      "assets/FundoMetalPreto.jpg",
+                                                                                      fit: BoxFit.fill,
+                                                                                    ),
+                                                                                  ),
                                                                                 ),
-                                                                              ],
-                                                                            ),
-                                                                            Center(
-                                                                              child: Column(
-                                                                                children: [
-                                                                                  Center(
-                                                                                    child: Container(
-                                                                                      padding: const EdgeInsets.all(10),
-                                                                                      child: TextField(
-                                                                                        keyboardType: TextInputType.name,
-                                                                                        enableSuggestions: true,
-                                                                                        autocorrect: true,
-                                                                                        onChanged: (value){
-                                                                                          setState(() {
-                                                                                            nome = value;
-                                                                                          });
-                                                                                        },
-                                                                                        decoration: const InputDecoration(
-                                                                                          border: OutlineInputBorder(),
-                                                                                          enabledBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                Container(
+                                                                                  padding: const EdgeInsets.all(20),
+                                                                                  child: Column(
+                                                                                    children: [
+                                                                                      Row(
+                                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                        children: [
+                                                                                          Container(
+                                                                                            padding: const EdgeInsets.only(bottom: 16),
+                                                                                              child: const Text(
+                                                                                                  'Adicionar novo acionamento',
+                                                                                                style: TextStyle(
+                                                                                                  fontSize: 30,
+                                                                                                ),
+                                                                                              )
                                                                                           ),
-                                                                                          focusedBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(
-                                                                                                width: 3,
-                                                                                                color: Colors.black
+                                                                                          SizedBox(
+                                                                                            width: 100,
+                                                                                            height: 100,
+                                                                                            child: TextButton(onPressed: (){
+                                                                                              Navigator.pop(context);
+                                                                                              },
+                                                                                                child:const Center(
+                                                                                                child: Icon(
+                                                                                                  Icons.close,
+                                                                                                  size: 40,
+                                                                                                ),
+                                                                                              )
                                                                                             ),
-                                                                                          ),
-                                                                                          label: Text('Nome de identificação'),
+                                                                                          )
+                                                                                        ],
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Column(
+                                                                                          children: [
+                                                                                            Center(
+                                                                                              child: Container(
+                                                                                                padding: const EdgeInsets.all(10),
+                                                                                                child: TextField(
+                                                                                                  keyboardType: TextInputType.name,
+                                                                                                  enableSuggestions: true,
+                                                                                                  autocorrect: true,
+                                                                                                  onChanged: (value){
+                                                                                                    setState(() {
+                                                                                                      nome = value;
+                                                                                                    });
+                                                                                                  },
+                                                                                                  decoration: InputDecoration(
+                                                                                                    filled: true,
+                                                                                                    fillColor: Colors.white,
+                                                                                                    labelStyle: TextStyle(
+                                                                                                        color: textAlertDialogColor
+                                                                                                    ),
+                                                                                                    border: const OutlineInputBorder(),
+                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                    ),
+                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                      borderSide: BorderSide(
+                                                                                                          width: 3,
+                                                                                                          color: Colors.black
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    label: const Text('Nome de identificação'),
+                                                                                                  ),
+                                                                                                  style: TextStyle(
+                                                                                                      color: textAlertDialogColor
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                            Center(
+                                                                                              child: Container(
+                                                                                                padding: const EdgeInsets.all(10),
+                                                                                                child: TextField(
+                                                                                                  keyboardType: TextInputType.name,
+                                                                                                  enableSuggestions: true,
+                                                                                                  autocorrect: true,
+                                                                                                  onChanged: (value){
+                                                                                                    setState(() {
+                                                                                                      ip = value;
+                                                                                                    });
+                                                                                                  },
+                                                                                                  decoration: InputDecoration(
+                                                                                                    filled: true,
+                                                                                                    fillColor: Colors.white,
+                                                                                                    labelStyle: TextStyle(
+                                                                                                        color: textAlertDialogColor
+                                                                                                    ),
+                                                                                                    border: const OutlineInputBorder(),
+                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                    ),
+                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                      borderSide: BorderSide(
+                                                                                                          width: 3,
+                                                                                                          color: Colors.black
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    label: const Text('IP'),
+                                                                                                  ),
+                                                                                                  style: TextStyle(
+                                                                                                      color: textAlertDialogColor
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                            Center(
+                                                                                              child: Container(
+                                                                                                padding: const EdgeInsets.all(10),
+                                                                                                child: TextField(
+                                                                                                  keyboardType: TextInputType.name,
+                                                                                                  enableSuggestions: true,
+                                                                                                  autocorrect: true,
+                                                                                                  onChanged: (value){
+                                                                                                    setState(() {
+                                                                                                      porta = value;
+                                                                                                    });
+                                                                                                  },
+                                                                                                  decoration: InputDecoration(
+                                                                                                    filled: true,
+                                                                                                    fillColor: Colors.white,
+                                                                                                    labelStyle: TextStyle(
+                                                                                                        color: textAlertDialogColor
+                                                                                                    ),
+                                                                                                    border: const OutlineInputBorder(),
+                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                    ),
+                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                      borderSide: BorderSide(
+                                                                                                          width: 3,
+                                                                                                          color: Colors.black
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    label: const Text('Porta'),
+                                                                                                  ),
+                                                                                                  style: TextStyle(
+                                                                                                      color: textAlertDialogColor
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                            Center(
+                                                                                              child: Container(
+                                                                                                padding: const EdgeInsets.all(10),
+                                                                                                child: TextField(
+                                                                                                  keyboardType: TextInputType.name,
+                                                                                                  enableSuggestions: true,
+                                                                                                  autocorrect: true,
+                                                                                                  onChanged: (value){
+                                                                                                    setState(() {
+                                                                                                      canal = value;
+                                                                                                    });
+                                                                                                  },
+                                                                                                  decoration: InputDecoration(
+                                                                                                    filled: true,
+                                                                                                    fillColor: Colors.white,
+                                                                                                    labelStyle: TextStyle(
+                                                                                                        color: textAlertDialogColor
+                                                                                                    ),
+                                                                                                    border: const OutlineInputBorder(),
+                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                    ),
+                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                      borderSide: BorderSide(
+                                                                                                          width: 3,
+                                                                                                          color: Colors.black
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    label: const Text('Canal'),
+                                                                                                  ),
+                                                                                                  style: TextStyle(
+                                                                                                      color: textAlertDialogColor
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                            Center(
+                                                                                              child: Container(
+                                                                                                padding: const EdgeInsets.all(10),
+                                                                                                child: TextField(
+                                                                                                  keyboardType: TextInputType.name,
+                                                                                                  enableSuggestions: true,
+                                                                                                  autocorrect: true,
+                                                                                                  onChanged: (value){
+                                                                                                    setState(() {
+                                                                                                      usuario = value;
+                                                                                                    });
+                                                                                                  },
+                                                                                                  decoration: InputDecoration(
+                                                                                                    filled: true,
+                                                                                                    fillColor: Colors.white,
+                                                                                                    labelStyle: TextStyle(
+                                                                                                        color: textAlertDialogColor
+                                                                                                    ),
+                                                                                                    border: const OutlineInputBorder(),
+                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                    ),
+                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                      borderSide: BorderSide(
+                                                                                                          width: 3,
+                                                                                                          color: Colors.black
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    label: const Text('Usuario'),
+                                                                                                  ),
+                                                                                                  style: TextStyle(
+                                                                                                      color: textAlertDialogColor
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                            Center(
+                                                                                              child: Container(
+                                                                                                padding: const EdgeInsets.all(10),
+                                                                                                child: TextField(
+                                                                                                  keyboardType: TextInputType.name,
+                                                                                                  enableSuggestions: true,
+                                                                                                  autocorrect: true,
+                                                                                                  onChanged: (value){
+                                                                                                    setState(() {
+                                                                                                      senha = value;
+                                                                                                    });
+                                                                                                  },
+                                                                                                  decoration: InputDecoration(
+                                                                                                    filled: true,
+                                                                                                    fillColor: Colors.white,
+                                                                                                    labelStyle: TextStyle(
+                                                                                                        color: textAlertDialogColor
+                                                                                                    ),
+                                                                                                    border: const OutlineInputBorder(),
+                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                    ),
+                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                      borderSide: BorderSide(
+                                                                                                          width: 3,
+                                                                                                          color: Colors.black
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    label: const Text('Senha'),
+                                                                                                  ),
+                                                                                                  style: TextStyle(
+                                                                                                      color: textAlertDialogColor
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
                                                                                         ),
                                                                                       ),
-                                                                                    ),
-                                                                                  ),
-                                                                                  Center(
-                                                                                    child: Container(
-                                                                                      padding: const EdgeInsets.all(10),
-                                                                                      child: TextField(
-                                                                                        keyboardType: TextInputType.name,
-                                                                                        enableSuggestions: true,
-                                                                                        autocorrect: true,
-                                                                                        onChanged: (value){
-                                                                                          setState(() {
-                                                                                            ip = value;
-                                                                                          });
-                                                                                        },
-                                                                                        decoration: const InputDecoration(
-                                                                                          border: OutlineInputBorder(),
-                                                                                          enabledBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                          ),
-                                                                                          focusedBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(
-                                                                                                width: 3,
-                                                                                                color: Colors.black
+                                                                                      const Center(
+                                                                                        child: Text('Selecione o modelo'),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: ValueListenableBuilder(valueListenable: dropValue3, builder: (context, String value, _){
+                                                                                          return DropdownButton(
+                                                                                            hint: Text(
+                                                                                              'Selecione o modelo',
+                                                                                              style: TextStyle(
+                                                                                                  color: textColorDrop
+                                                                                              ),
                                                                                             ),
-                                                                                          ),
-                                                                                          label: Text('IP'),
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                  Center(
-                                                                                    child: Container(
-                                                                                      padding: const EdgeInsets.all(10),
-                                                                                      child: TextField(
-                                                                                        keyboardType: TextInputType.name,
-                                                                                        enableSuggestions: true,
-                                                                                        autocorrect: true,
-                                                                                        onChanged: (value){
-                                                                                          setState(() {
-                                                                                            porta = value;
-                                                                                          });
-                                                                                        },
-                                                                                        decoration: const InputDecoration(
-                                                                                          border: OutlineInputBorder(),
-                                                                                          enabledBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                          ),
-                                                                                          focusedBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(
-                                                                                                width: 3,
-                                                                                                color: Colors.black
+                                                                                            value: (value.isEmpty)? null : value,
+                                                                                            onChanged: (escolha) async {
+                                                                                              dropValue3.value = escolha.toString();
+                                                                                              setState(() {
+                                                                                                modeloselecionado = escolha.toString();
+                                                                                              });
+                                                                                            },
+                                                                                            items: ModelosAcionamentos.map((opcao) => DropdownMenuItem(
+                                                                                              value: opcao,
+                                                                                              child:
+                                                                                              Text(
+                                                                                                opcao,
+                                                                                                style: TextStyle(
+                                                                                                    color: textColorDrop
+                                                                                                ),
+                                                                                              ),
                                                                                             ),
-                                                                                          ),
-                                                                                          label: Text('Porta'),
-                                                                                        ),
+                                                                                            ).toList(),
+                                                                                          );
+                                                                                        }),
                                                                                       ),
-                                                                                    ),
-                                                                                  ),
-                                                                                  Center(
-                                                                                    child: Container(
-                                                                                      padding: const EdgeInsets.all(10),
-                                                                                      child: TextField(
-                                                                                        keyboardType: TextInputType.name,
-                                                                                        enableSuggestions: true,
-                                                                                        autocorrect: true,
-                                                                                        onChanged: (value){
-                                                                                          setState(() {
-                                                                                            canal = value;
-                                                                                          });
-                                                                                        },
-                                                                                        decoration: const InputDecoration(
-                                                                                          border: OutlineInputBorder(),
-                                                                                          enabledBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                          ),
-                                                                                          focusedBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(
-                                                                                                width: 3,
-                                                                                                color: Colors.black
-                                                                                            ),
-                                                                                          ),
-                                                                                          label: Text('Canal'),
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                  Center(
-                                                                                    child: Container(
-                                                                                      padding: const EdgeInsets.all(10),
-                                                                                      child: TextField(
-                                                                                        keyboardType: TextInputType.name,
-                                                                                        enableSuggestions: true,
-                                                                                        autocorrect: true,
-                                                                                        onChanged: (value){
-                                                                                          setState(() {
-                                                                                            usuario = value;
-                                                                                          });
-                                                                                        },
-                                                                                        decoration: const InputDecoration(
-                                                                                          border: OutlineInputBorder(),
-                                                                                          enabledBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                          ),
-                                                                                          focusedBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(
-                                                                                                width: 3,
-                                                                                                color: Colors.black
-                                                                                            ),
-                                                                                          ),
-                                                                                          label: Text('Usuario'),
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                  Center(
-                                                                                    child: Container(
-                                                                                      padding: const EdgeInsets.all(10),
-                                                                                      child: TextField(
-                                                                                        keyboardType: TextInputType.name,
-                                                                                        enableSuggestions: true,
-                                                                                        autocorrect: true,
-                                                                                        onChanged: (value){
-                                                                                          setState(() {
-                                                                                            senha = value;
-                                                                                          });
-                                                                                        },
-                                                                                        decoration: const InputDecoration(
-                                                                                          border: OutlineInputBorder(),
-                                                                                          enabledBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                          ),
-                                                                                          focusedBorder: OutlineInputBorder(
-                                                                                            borderSide: BorderSide(
-                                                                                                width: 3,
-                                                                                                color: Colors.black
-                                                                                            ),
-                                                                                          ),
-                                                                                          label: Text('Senha'),
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                            const Center(
-                                                                              child: Text('Selecione o modelo'),
-                                                                            ),
-                                                                            Center(
-                                                                              child: ValueListenableBuilder(valueListenable: dropValue3, builder: (context, String value, _){
-                                                                                return DropdownButton(
-                                                                                  hint: Text(
-                                                                                    'Selecione o modelo',
-                                                                                    style: TextStyle(
-                                                                                        color: textColorDrop
-                                                                                    ),
-                                                                                  ),
-                                                                                  value: (value.isEmpty)? null : value,
-                                                                                  onChanged: (escolha) async {
-                                                                                    dropValue3.value = escolha.toString();
-                                                                                    setState(() {
-                                                                                      modeloselecionado = escolha.toString();
-                                                                                    });
-                                                                                  },
-                                                                                  items: ModelosAcionamentos.map((opcao) => DropdownMenuItem(
-                                                                                    value: opcao,
-                                                                                    child:
-                                                                                    Text(
-                                                                                      opcao,
-                                                                                      style: TextStyle(
-                                                                                          color: textColorDrop
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                  ).toList(),
-                                                                                );
-                                                                              }),
-                                                                            ),
-                                                                            ElevatedButton(
-                                                                              onPressed: (){
-                                                                                if(nome == ""){
-                                                                                  showToast("O nome não pode ficar vazio!",context:context);
-                                                                                }else{
-                                                                                  if(ip == ""){
-                                                                                    showToast("O ip não pode estar vazio!",context:context);
-                                                                                  }else{
-                                                                                    if(porta == ""){
-                                                                                      showToast("A porta não pode estar vazia!",context:context);
-                                                                                    }else{
-                                                                                      final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-
-                                                                                      if(regex.hasMatch(porta)){
-                                                                                        showToast("A porta contem letras, e letras não são permitidas!",context:context);
-                                                                                      }else{
-                                                                                        if(canal == ""){
-                                                                                          showToast("O canal não pode estar vazia!",context:context);
-                                                                                        }else{
-                                                                                          final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-
-                                                                                          if(regex.hasMatch(canal)){
-                                                                                            showToast("O canal contem letras, e letras não são permitidas!",context:context);
+                                                                                      ElevatedButton(
+                                                                                        onPressed: (){
+                                                                                          if(nome == ""){
+                                                                                            showToast("O nome não pode ficar vazio!",context:context);
                                                                                           }else{
-
-                                                                                            if(usuario == ""){
-                                                                                              showToast("O usuario não pode estar vazio!",context:context);
+                                                                                            if(ip == ""){
+                                                                                              showToast("O ip não pode estar vazio!",context:context);
                                                                                             }else{
-                                                                                              if(senha == ""){
-                                                                                                showToast("A senha não pode estar vazia!",context:context);
+                                                                                              if(porta == ""){
+                                                                                                showToast("A porta não pode estar vazia!",context:context);
                                                                                               }else{
-                                                                                                if(modeloselecionado == ""){
-                                                                                                  showToast("O modelo precisa ser selecionado!",context:context);
+                                                                                                final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
+
+                                                                                                if(regex.hasMatch(porta)){
+                                                                                                  showToast("A porta contem letras, e letras não são permitidas!",context:context);
                                                                                                 }else{
-                                                                                                  Uuid uuid = const Uuid();
-                                                                                                  String UUID = uuid.v4();
-                                                                                                  FirebaseFirestore.instance.collection("acionamentos").doc(UUID).set({
-                                                                                                    "nome": nome,
-                                                                                                    "ip": ip,
-                                                                                                    "porta": int.parse(porta),
-                                                                                                    "canal": int.parse(canal),
-                                                                                                    "usuario": usuario,
-                                                                                                    "senha": senha,
-                                                                                                    "modelo": modeloselecionado,
-                                                                                                    "prontoParaAtivar": false,
-                                                                                                    "deuErro": false,
-                                                                                                    "idCondominio": idCondominio,
-                                                                                                    "id": UUID
-                                                                                                  }).whenComplete((){
-                                                                                                    Navigator.pop(context);
-                                                                                                  });
+                                                                                                  if(canal == ""){
+                                                                                                    showToast("O canal não pode estar vazia!",context:context);
+                                                                                                  }else{
+                                                                                                    final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
+
+                                                                                                    if(regex.hasMatch(canal)){
+                                                                                                      showToast("O canal contem letras, e letras não são permitidas!",context:context);
+                                                                                                    }else{
+
+                                                                                                      if(usuario == ""){
+                                                                                                        showToast("O usuario não pode estar vazio!",context:context);
+                                                                                                      }else{
+                                                                                                        if(senha == ""){
+                                                                                                          showToast("A senha não pode estar vazia!",context:context);
+                                                                                                        }else{
+                                                                                                          if(modeloselecionado == ""){
+                                                                                                            showToast("O modelo precisa ser selecionado!",context:context);
+                                                                                                          }else{
+                                                                                                            Uuid uuid = const Uuid();
+                                                                                                            String UUID = uuid.v4();
+                                                                                                            FirebaseFirestore.instance.collection("acionamentos").doc(UUID).set({
+                                                                                                              "nome": nome,
+                                                                                                              "ip": ip,
+                                                                                                              "porta": int.parse(porta),
+                                                                                                              "canal": int.parse(canal),
+                                                                                                              "usuario": usuario,
+                                                                                                              "senha": senha,
+                                                                                                              "modelo": modeloselecionado,
+                                                                                                              "prontoParaAtivar": false,
+                                                                                                              "deuErro": false,
+                                                                                                              "idCondominio": idCondominio,
+                                                                                                              "id": UUID
+                                                                                                            }).whenComplete((){
+                                                                                                              Navigator.pop(context);
+                                                                                                            });
+                                                                                                          }
+                                                                                                        }
+                                                                                                      }
+                                                                                                    }
+                                                                                                  }
                                                                                                 }
                                                                                               }
                                                                                             }
                                                                                           }
-                                                                                        }
-                                                                                      }
-                                                                                    }
-                                                                                  }
-                                                                                }
-                                                                              },style: ElevatedButton.styleFrom(
-                                                                                backgroundColor: colorBtn
-                                                                            ),
-                                                                              child: Text(
-                                                                                  'Criar',
-                                                                                style: TextStyle(
-                                                                                    color: textColor
+                                                                                        },style: ElevatedButton.styleFrom(
+                                                                                          backgroundColor: colorBtn
+                                                                                      ),
+                                                                                        child: Text(
+                                                                                            'Criar',
+                                                                                          style: TextStyle(
+                                                                                              color: textColor
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
                                                                                 ),
-                                                                              ),
+                                                                              ],
                                                                             ),
-                                                                          ],
+                                                                          ),
                                                                         ),
                                                                       );
                                                                     },
