@@ -73,6 +73,7 @@ bool pesquisando7  = false;
 bool pesquisando8  = false;
 bool pesquisando9  = false;
 bool pesquisando10  = false;
+bool showSearchBar = false;
 
 //Booleanos de controle dos usuarios
 bool AdicionarCondominios = false;
@@ -4975,80 +4976,286 @@ class _homeAppState extends State<homeApp>{
                                               child: SingleChildScrollView(
                                                 child: Stack(
                                                   children: [
-                                                    if (idCondominio == "") Center(child:
+                                                    if (idCondominio == "")
+                                                      Center(child:
                                                             Text('Selecione um cliente!',
                                                                   style: TextStyle(
                                                                       color: textColorWidgets
                                                                   ),
                                                                 )
-                                                          ) else Column(
+                                                          )
+                                                    else Column(
                                                       children: [
-                                                        Center(
-                                                          child: Container(
-                                                            padding: const EdgeInsets.all(6),
-                                                            child: Stack(
-                                                              children: [
-                                                                TextField(
-                                                                  cursorColor: Colors.black,
-                                                                  keyboardType: TextInputType.name,
-                                                                  enableSuggestions: true,
-                                                                  autocorrect: true,
-                                                                  onChanged: (value){
-                                                                    pesquisa3 = value;
-
-                                                                    if(value == ""){
-                                                                      setState(() {
-                                                                        pesquisando3 = false;
-                                                                      });
-                                                                    }
-                                                                  },
-                                                                  decoration: const InputDecoration(
-                                                                    filled: true,
-                                                                    fillColor: Colors.white,
-                                                                    border: OutlineInputBorder(),
-                                                                    focusedBorder: OutlineInputBorder(
-                                                                      borderSide: BorderSide(
-                                                                          width: 3,
-                                                                          color: Colors.black
+                                                        Stack(
+                                                          children: [
+                                                            TextButton(
+                                                              onPressed: (){
+                                                                if(showSearchBar == true){
+                                                                  setState((){
+                                                                    showSearchBar = false;
+                                                                  });
+                                                                }else{
+                                                                  setState((){
+                                                                    showSearchBar = true;
+                                                                  });
+                                                                }
+                                                              },
+                                                                child: Center(
+                                                                  child: Center(
+                                                                    child: Container(
+                                                                      padding: const EdgeInsets.all(6),
+                                                                      child: Stack(
+                                                                        children: [
+                                                                          Container(
+                                                                            height: 50,
+                                                                            color: Colors.white,
+                                                                          ),
+                                                                          Container(
+                                                                            alignment: Alignment.centerRight,
+                                                                            child: TextButton(
+                                                                                onPressed: null,
+                                                                                child: Image.asset(
+                                                                                  "assets/search.png",
+                                                                                  scale: 12,
+                                                                                )
+                                                                            ),
+                                                                          )
+                                                                        ],
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                  style: const TextStyle(
-                                                                      color: Colors.black
-                                                                  ),
+                                                                ),
+                                                            ),
+                                                            showSearchBar == true ? Stack(
+                                                              children: [
+                                                                Column(
+                                                                  children: [
+                                                                    //Placa
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding: const EdgeInsets.all(6),
+                                                                        child: Stack(
+                                                                          children: [
+                                                                            TextField(
+                                                                              cursorColor: Colors.black,
+                                                                              keyboardType: TextInputType.name,
+                                                                              enableSuggestions: true,
+                                                                              autocorrect: true,
+                                                                              onChanged: (value){
+                                                                                pesquisa3 = value;
+                                                                
+                                                                                if(value == ""){
+                                                                                  setState(() {
+                                                                                    pesquisando3 = false;
+                                                                                  });
+                                                                                }
+                                                                              },
+                                                                              decoration: const InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                border: OutlineInputBorder(),
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              style: const TextStyle(
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            ),
+                                                                            Container(
+                                                                              alignment: Alignment.centerRight,
+                                                                              child: TextButton(
+                                                                                  onPressed: () async {
+                                                                                    //Pesquisa de nomes;
+                                                                                    QuerySnapshot snapshotNome = await FirebaseFirestore.instance
+                                                                                        .collection("Veiculos")
+                                                                                        .where("idCondominio", isEqualTo: idCondominio)
+                                                                                        .where("PlacaV", isGreaterThanOrEqualTo: pesquisa6)
+                                                                                        .where("PlacaV", isLessThan: "${pesquisa6}z")
+                                                                                        .get();
+                                                                
+                                                                                    if(snapshotNome.docs.isNotEmpty){
+                                                                                      for (var doc in snapshotNome.docs) {
+                                                                                        //Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+                                                                                        //print("Dados: $data");
+                                                                
+                                                                                        setState((){
+                                                                                          pesquisando6 = true;
+                                                                                        });
+                                                                                      }
+                                                                                    }
+                                                                                  },
+                                                                                  child: Image.asset(
+                                                                                    "assets/search.png",
+                                                                                    scale: 12,
+                                                                                  )
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    //Bloco
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding: const EdgeInsets.all(6),
+                                                                        child: Stack(
+                                                                          children: [
+                                                                            TextField(
+                                                                              cursorColor: Colors.black,
+                                                                              keyboardType: TextInputType.name,
+                                                                              enableSuggestions: true,
+                                                                              autocorrect: true,
+                                                                              onChanged: (value){
+                                                                                pesquisa3 = value;
+                                                                
+                                                                                if(value == ""){
+                                                                                  setState(() {
+                                                                                    pesquisando3 = false;
+                                                                                  });
+                                                                                }
+                                                                              },
+                                                                              decoration: const InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                border: OutlineInputBorder(),
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              style: const TextStyle(
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            ),
+                                                                            Container(
+                                                                              alignment: Alignment.centerRight,
+                                                                              child: TextButton(
+                                                                                  onPressed: () async {
+                                                                                    //Pesquisa de nomes;
+                                                                                    QuerySnapshot snapshotNome = await FirebaseFirestore.instance
+                                                                                        .collection("Veiculos")
+                                                                                        .where("idCondominio", isEqualTo: idCondominio)
+                                                                                        .where("blocoV", isGreaterThanOrEqualTo: pesquisa6)
+                                                                                        .where("blocoV", isLessThan: "${pesquisa6}z")
+                                                                                        .get();
+                                                                
+                                                                                    if(snapshotNome.docs.isNotEmpty){
+                                                                                      for (var doc in snapshotNome.docs) {
+                                                                                        //Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+                                                                                        //print("Dados: $data");
+                                                                
+                                                                                        setState((){
+                                                                                          pesquisando4 = true;
+                                                                                        });
+                                                                                      }
+                                                                                    }
+                                                                                  },
+                                                                                  child: Image.asset(
+                                                                                    "assets/search.png",
+                                                                                    scale: 12,
+                                                                                  )
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    //Unidade
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding: const EdgeInsets.all(6),
+                                                                        child: Stack(
+                                                                          children: [
+                                                                            TextField(
+                                                                              cursorColor: Colors.black,
+                                                                              keyboardType: TextInputType.name,
+                                                                              enableSuggestions: true,
+                                                                              autocorrect: true,
+                                                                              onChanged: (value){
+                                                                                pesquisa3 = value;
+                                                                
+                                                                                if(value == ""){
+                                                                                  setState(() {
+                                                                                    pesquisando3 = false;
+                                                                                  });
+                                                                                }
+                                                                              },
+                                                                              decoration: const InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                border: OutlineInputBorder(),
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              style: const TextStyle(
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            ),
+                                                                            Container(
+                                                                              alignment: Alignment.centerRight,
+                                                                              child: TextButton(
+                                                                                  onPressed: () async {
+                                                                                    //Pesquisa de nomes;
+                                                                                    QuerySnapshot snapshotNome = await FirebaseFirestore.instance
+                                                                                        .collection("Veiculos")
+                                                                                        .where("idCondominio", isEqualTo: idCondominio)
+                                                                                        .where("Unidade", isGreaterThanOrEqualTo: pesquisa6)
+                                                                                        .where("Unidade", isLessThan: "${pesquisa6}z")
+                                                                                        .get();
+                                                                
+                                                                                    if(snapshotNome.docs.isNotEmpty){
+                                                                                      for (var doc in snapshotNome.docs) {
+                                                                                        //Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+                                                                                        //print("Dados: $data");
+                                                                
+                                                                                        setState((){
+                                                                                          pesquisando3 = true;
+                                                                                        });
+                                                                                      }
+                                                                                    }
+                                                                                  },
+                                                                                  child: Image.asset(
+                                                                                    "assets/search.png",
+                                                                                    scale: 12,
+                                                                                  )
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ]
                                                                 ),
                                                                 Container(
-                                                                  alignment: Alignment.centerRight,
+                                                                  alignment: Alignment.topRight,
                                                                   child: TextButton(
-                                                                    onPressed: () async {
-                                                                      //Pesquisa de nomes;
-                                                                      QuerySnapshot snapshotNome = await FirebaseFirestore.instance
-                                                                          .collection("Veiculos")
-                                                                          .where("idCondominio", isEqualTo: idCondominio)
-                                                                          .where("PlacaV", isGreaterThanOrEqualTo: pesquisa6)
-                                                                          .where("PlacaV", isLessThan: "${pesquisa6}z")
-                                                                          .get();
-
-                                                                      if(snapshotNome.docs.isNotEmpty){
-                                                                        for (var doc in snapshotNome.docs) {
-                                                                          //Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-                                                                          //print("Dados: $data");
-
-                                                                          setState((){
-                                                                            pesquisando6 = true;
-                                                                          });
-                                                                        }
+                                                                    onPressed: (){
+                                                                      showSearchBar = true;
+                                                                      if(showSearchBar == true){
+                                                                        setState((){
+                                                                          showSearchBar = false;
+                                                                        });
                                                                       }
                                                                     },
-                                                                      child: Image.asset(
-                                                                        "assets/search.png",
-                                                                        scale: 12,
-                                                                      )
+                                                                    child: const Icon(
+                                                                      Icons.close,
+                                                                        color: Colors.black
+                                                                    ),
                                                                   ),
-                                                                )
+                                                                ),
                                                               ],
-                                                            ),
-                                                          ),
+                                                            ): Container()
+                                                          ],
                                                         ),
                                                         StreamBuilder(
                                                             stream: pesquisando3 == true ?
@@ -5333,11 +5540,11 @@ class _homeAppState extends State<homeApp>{
                                                                                                   labelStyle: TextStyle(
                                                                                                       color: textAlertDialogColor
                                                                                                   ),
-                                                                                                  border: OutlineInputBorder(),
-                                                                                                  enabledBorder: OutlineInputBorder(
+                                                                                                  border: const OutlineInputBorder(),
+                                                                                                  enabledBorder: const OutlineInputBorder(
                                                                                                     borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                                   ),
-                                                                                                  focusedBorder: OutlineInputBorder(
+                                                                                                  focusedBorder: const OutlineInputBorder(
                                                                                                     borderSide: BorderSide(
                                                                                                         width: 3,
                                                                                                         color: Colors.black
@@ -5369,11 +5576,11 @@ class _homeAppState extends State<homeApp>{
                                                                                                   labelStyle: TextStyle(
                                                                                                       color: textAlertDialogColor
                                                                                                   ),
-                                                                                                  border: OutlineInputBorder(),
-                                                                                                  enabledBorder: OutlineInputBorder(
+                                                                                                  border: const OutlineInputBorder(),
+                                                                                                  enabledBorder: const OutlineInputBorder(
                                                                                                     borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                                   ),
-                                                                                                  focusedBorder: OutlineInputBorder(
+                                                                                                  focusedBorder: const OutlineInputBorder(
                                                                                                     borderSide: BorderSide(
                                                                                                         width: 3,
                                                                                                         color: Colors.black
