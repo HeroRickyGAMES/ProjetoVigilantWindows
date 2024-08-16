@@ -1,8 +1,13 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vigilant/FirebaseHost.dart';
 import 'package:vigilant/checkUser.dart';
 import 'package:vigilant/firebase_options.dart';
 import 'package:vigilant/homeApp.dart';
@@ -16,7 +21,8 @@ bool iniciadoPrimeiro = false;
 
 main(){
   runApp(
-    MaterialApp(
+    GetMaterialApp(
+      initialRoute: '/',
       theme: ThemeData(
         brightness: Brightness.dark,
         textSelectionTheme: const TextSelectionThemeData(
@@ -53,31 +59,23 @@ class _mainAppState extends State<mainApp> {
 
     //Vai para a tela de login
     GoToLoginScreen(){
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context){
-            return const login();
-          }
-          )
-      );
+      Get.to(const login());
     }
 
 
    //Vai para a homeApp
     GoToHome(){
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context){
-            return const homeApp();
-          }
-          )
-      );
+      Get.to(const homeApp());
     }
 
     initDB() async {
-      Socket.connect(DefaultFirebaseOptions.windows.storageBucket, 80, timeout: const Duration(seconds: 5)).then((socket){
+      Socket.connect(host, Dbport, timeout: const Duration(seconds: 5)).then((socket){
         setState(() {
           loaderAviso = "Conectado...";
         });
         //Se o usuario estiver logado ele vai jogar na main
+        initAuth();
+
         FirebaseAuth.instance.idTokenChanges().listen((User? user) async {
 
           await Future.delayed(const Duration(seconds: 2));
@@ -113,6 +111,9 @@ class _mainAppState extends State<mainApp> {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.windows,
       );
+
+      //Server offline ou Server out para configurar lá!
+      initDB();
 
       try{
         String UserName = await getUsername();

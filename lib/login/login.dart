@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vigilant/getIds.dart';
 import 'package:vigilant/homeApp.dart';
@@ -26,12 +27,7 @@ class _loginState extends State<login> {
       UID = FirebaseAuth.instance.currentUser?.uid;
       deslogando = false;
     });
-    Navigator.pop(context);
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context){
-          return const homeApp();
-        })
-    );
+    Get.to(const homeApp());
   }
 
   @override
@@ -215,7 +211,7 @@ class _loginState extends State<login> {
                                         if(onError == false){
                                           final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-                                          await prefs.setString('Email', email);
+                                          await prefs.setString('email', email);
                                           await prefs.setString('senha', Senha);
 
                                           irParaTelaMain();
