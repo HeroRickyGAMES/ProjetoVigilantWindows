@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -73,9 +72,12 @@ class _mainAppState extends State<mainApp> {
         setState(() {
           loaderAviso = "Conectado...";
         });
-        //Se o usuario estiver logado ele vai jogar na main
+
+        //Server offline ou Server out para configurar lá!
+        initFirestore();
         initAuth();
 
+        //Se o usuario estiver logado ele vai jogar na main
         FirebaseAuth.instance.idTokenChanges().listen((User? user) async {
 
           await Future.delayed(const Duration(seconds: 2));
@@ -93,7 +95,7 @@ class _mainAppState extends State<mainApp> {
             });
           }
         });
-      }).catchError((error){
+      }).catchError((error) async {
         if(delayOcorred == false){
           setState(() {
             loaderAviso = "Desculpe! Estamos tentando localizar o servidor! Isso pode demorar alguns minutos dependendo da qualidade da conexão de sua rede!";
@@ -111,9 +113,6 @@ class _mainAppState extends State<mainApp> {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.windows,
       );
-
-      //Server offline ou Server out para configurar lá!
-      initDB();
 
       try{
         String UserName = await getUsername();

@@ -165,11 +165,13 @@ class _loginState extends State<login> {
                             alignment: Alignment.center,
                             padding: const EdgeInsets.only(left: 15, top: 20),
                             child: TextButton(onPressed: () async {
-
                               if(Username == ''){
+                                showToast("Preencha seu Login!",context:context);
+                                var ReadTest = await FirebaseFirestore.instance
+                                    .collection("test")
+                                    .doc("test").get();
 
-                                showToast("Preencha seu Username!",context:context);
-
+                                print(ReadTest["test"]);
                               }else{
                                 if(Senha == ''){
 

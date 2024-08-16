@@ -134,8 +134,6 @@ List ModelosdeCFTV = [
   "Intelbras UDP",
 ];
 
-
-
 class homeApp extends StatefulWidget {
   const homeApp({super.key});
 
@@ -147,8 +145,8 @@ Future<NativeMenu> initMenuCondominio() async {
   NativeMenuItem? itemNew;
   NativeMenu menu = NativeMenu();
   if(AdicionarCondominios == true){
-    itemNew = NativeMenuItem.simple(title: "Editar informações do cliente", action: "editCondominio");
-    menu.addItem(NativeMenuItem.simple(title: "Deletar cliente", action: "remover_condominio"));
+    itemNew = NativeMenuItem.simple(title: "Deletar cliente", action: "remover_condominio");
+    //menu.addItem(NativeMenuItem.simple(title: "Editar informações do cliente", action: "editCondominio"));
     menu.addItem(itemNew);
   }else{
     menu.addItem(NativeMenuItem.simple(title: "", action: ""));
@@ -4032,16 +4030,8 @@ class _homeAppState extends State<homeApp>{
                                                                                       Map<String, dynamic> id = await cadastronoEquipamento(context, ip, 8081, "admin", "admin", "Control iD", NomeV);
                                                                                       String ID = "${id["ids"][0]}";
 
-                                                                                                                                      //
-                                                                                      FirebaseStorage storage = FirebaseStorage.instance;
-                                                                                      Reference ref = storage.ref().child('images/$idCondominio/$ID');
-                                                                                      await ref.putFile(_imageFile!).whenComplete(() {
-                                                                                        showToast("Imagem carregada!",context:context);
-                                                                                      }).catchError((e){
-                                                                                        showToast("Houve uma falha no carregamento! codigo do erro: $e",context:context);
-                                                                                        showToast("Repasse esse erro para o desenvolvedor!",context:context);
-                                                                                      });
-                                                                                                                                      //
+                                                                                      var ref = await carregarImagem(context, _imageFile!, ID, idCondominio);
+
                                                                                       FirebaseFirestore.instance.collection('Pessoas').doc(ID).set({
                                                                                         "id": ID,
                                                                                         "idCondominio": idCondominio,
@@ -4050,7 +4040,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         "RG": RGV,
                                                                                         "DataNascimento": "${selectedDate.year}/${selectedDate.month}/${selectedDate.day}",
                                                                                         "imageURI": await ref.getDownloadURL(),
-                                                                                        "Unidade ":Unidade,
+                                                                                        "Unidade":Unidade,
                                                                                         "Bloco":Bloco,
                                                                                         "anotacao": "",
                                                                                       }).whenComplete(() {
@@ -4898,14 +4888,8 @@ class _homeAppState extends State<homeApp>{
                                                                                             Uuid uuid = const Uuid();
                                                                                             String UUID = uuid.v4();
 
-                                                                                            FirebaseStorage storage = FirebaseStorage.instance;
-                                                                                            Reference ref = storage.ref().child('images/visitantes/$idCondominio/$UUID');
-                                                                                            await ref.putFile(_imageFile!).whenComplete(() {
-                                                                                              showToast("Imagem carregada!",context:context);
-                                                                                            }).catchError((e){
-                                                                                              showToast("Houve uma falha no carregamento! codigo do erro: $e",context:context);
-                                                                                              showToast("Repasse esse erro para o desenvolvedor!",context:context);
-                                                                                            });
+                                                                                            var ref = carregarImagem(context, _imageFile!, UUID, idCondominio);
+
                                                                                             FirebaseFirestore.instance.collection('Visitantes').doc(UUID).set({
                                                                                               "Unidade": Unidade,
                                                                                               "Bloco": Bloco,
