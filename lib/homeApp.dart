@@ -3,7 +3,6 @@ import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/route_manager.dart';
@@ -54,6 +53,7 @@ String pesquisa7 = '';
 String pesquisa8 = '';
 String pesquisa9 = '';
 String pesquisa10 = '';
+String EmpresaPertence = "";
 
 //Controladores
 TextEditingController anotacaoControl = TextEditingController(text: anotacaoMorador);
@@ -183,6 +183,7 @@ class _homeAppState extends State<homeApp>{
           adicionarVisitante = getUserPermissions['adicionarVisitante'];
           acessoDevFunc = getUserPermissions['acessoDevFunc'];
           EditarCFTV = getUserPermissions['editarCFTV'];
+          EmpresaPertence = getUserPermissions['idEmpresaPertence'];
           //Setar a inicialização
           inicializado = true;
         });
@@ -343,21 +344,21 @@ class _homeAppState extends State<homeApp>{
                                                               stream: pesquisando == true ?
                                                               pesquisaNumeros == false ? FirebaseFirestore.instance
                                                                   .collection("Condominios")
-                                                                  .where("idList", arrayContains: UID)
+                                                                  .where("idEmpresaPertence", isEqualTo: EmpresaPertence)
                                                                   .where("Nome", isGreaterThanOrEqualTo: pesquisa)
                                                                   .where("Nome", isLessThan: "${pesquisa}z")
                                                                   .snapshots()
                                                                   :
                                                               FirebaseFirestore.instance
                                                                   .collection("Condominios")
-                                                                  .where("idList", arrayContains: UID)
+                                                                  .where("idEmpresaPertence", isEqualTo: EmpresaPertence)
                                                                   .where("Codigo", isGreaterThanOrEqualTo: pesquisa)
                                                                   .where("Codigo", isLessThan: "${pesquisa}9")
                                                                   .snapshots()
                                                                   :
                                                               FirebaseFirestore.instance
                                                                   .collection("Condominios")
-                                                                  .where("idList", arrayContains: UID)
+                                                                  .where("idEmpresaPertence", isEqualTo: EmpresaPertence)
                                                                   .snapshots(),
                                                               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
                                                                                                         
@@ -1059,7 +1060,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                 "authUserSIP": AuthUser,
                                                                                                 "authSenhaSIP": Pass,
                                                                                                 "Codigo" : codigo,
-                                                                                                'idList' : [UID],
+                                                                                                'idEmpresaPertence' : EmpresaPertence,
                                                                                                 "ipCameraModelo": modeloselecionado,
                                                                                                 "ipCamera1": 1,
                                                                                                 "ipCamera2": 2,
@@ -2116,19 +2117,13 @@ class _homeAppState extends State<homeApp>{
                                                                     Column(
                                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                                       children: [
-                                                                        const Text(
-                                                                            "Criação de usuarios",
-                                                                            style: TextStyle(
-                                                                                fontWeight: FontWeight.bold,
-                                                                                fontSize: 16
-                                                                            )
-                                                                        ),
                                                                         Container(
                                                                           padding: const EdgeInsets.all(16),
                                                                           child: const Text(
                                                                               "Lista de Usuarios",
                                                                               style: TextStyle(
-                                                                                  fontSize: 16
+                                                                                  fontSize: 20,
+                                                                                  fontWeight: FontWeight.bold
                                                                               )
                                                                           ),
                                                                         ),
@@ -2179,6 +2174,7 @@ class _homeAppState extends State<homeApp>{
                                                                           String CPF = "";
                                                                           String Usrname = "";
                                                                           String Senha = "";
+                                                                          String idEmpresa = "";
 
                                                                           //Booleanos
                                                                           bool addCondominios = false;
@@ -2192,6 +2188,7 @@ class _homeAppState extends State<homeApp>{
                                                                           bool acessoDevFuc = false;
                                                                           bool editarAnotacao = false;
                                                                           bool adicionarUsuarioss = false;
+                                                                          bool isEmpresa = false;
 
                                                                           showDialog(
                                                                             context: context,
@@ -2382,6 +2379,80 @@ class _homeAppState extends State<homeApp>{
                                                                                                       style: TextStyle(
                                                                                                           color: textAlertDialogColor
                                                                                                       ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                                isEmpresa == false ? Center(
+                                                                                                  child: Container(
+                                                                                                    padding: const EdgeInsets.all(16),
+                                                                                                    child: TextField(
+                                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                                      enableSuggestions: false,
+                                                                                                      autocorrect: false,
+                                                                                                      onChanged: (value){
+                                                                                                        setState(() {
+                                                                                                          idEmpresa = value;
+                                                                                                        });
+                                                                                                      },
+                                                                                                      decoration: InputDecoration(
+                                                                                                        filled: true,
+                                                                                                        fillColor: Colors.white,
+                                                                                                        labelStyle: TextStyle(
+                                                                                                            color: textAlertDialogColor
+                                                                                                        ),
+                                                                                                        border: const OutlineInputBorder(),
+                                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                        ),
+                                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                                          borderSide: BorderSide(
+                                                                                                              width: 3,
+                                                                                                              color: Colors.black
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        labelText: 'ID da Empresa',
+                                                                                                      ),
+                                                                                                      style: TextStyle(
+                                                                                                          color: textAlertDialogColor
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ): Container(),
+                                                                                                Center(
+                                                                                                  child: Container(
+                                                                                                    padding: const EdgeInsets.all(16),
+                                                                                                    child: Column(
+                                                                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                      children: [
+                                                                                                        const Text(
+                                                                                                          "É uma conta de controle?\nTipo do Empresa ou Controle?",
+                                                                                                          style: TextStyle(
+                                                                                                              fontWeight: FontWeight.bold,
+                                                                                                              fontSize: 16
+                                                                                                          ),
+                                                                                                          textAlign: TextAlign.center,
+                                                                                                        ),
+                                                                                                        Row(
+                                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                          children: [
+                                                                                                            Checkbox(
+                                                                                                              value: isEmpresa,
+                                                                                                              onChanged: (bool? value){
+                                                                                                                setState((){
+                                                                                                                  isEmpresa = value!;
+                                                                                                                });
+                                                                                                              },
+                                                                                                            ),
+                                                                                                            const Text(
+                                                                                                                'É uma Empresa?',
+                                                                                                                style: TextStyle(
+                                                                                                                    fontSize: 16
+                                                                                                                )
+                                                                                                            ),
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ],
                                                                                                     ),
                                                                                                   ),
                                                                                                 ),
@@ -2588,7 +2659,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                                                                     children: [
                                                                                                       Checkbox(
-                                                                                                        value: acessoDevFuc ,
+                                                                                                        value: adicionarUsuarioss ,
                                                                                                         onChanged: (bool? value){
                                                                                                           setState((){
                                                                                                             adicionarUsuarioss = value!;
@@ -2651,6 +2722,12 @@ class _homeAppState extends State<homeApp>{
 
                                                                                                             UserCredential userCredential = await instanciaAuth.createUserWithEmailAndPassword(email: email, password: Senha);
 
+                                                                                                            if(isEmpresa == true){
+                                                                                                              setState((){
+                                                                                                                idEmpresa = "${userCredential.user?.uid}";
+                                                                                                              });
+                                                                                                            }
+
                                                                                                             FirebaseFirestore.instance.collection("Users").doc(userCredential.user?.uid).set({
                                                                                                               "Nome": Nome,
                                                                                                               "username": Usrname.trim(),
@@ -2669,6 +2746,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                               "adicionarRamal": adicionarRamal,
                                                                                                               "adicionarUsuarios": adicionarUsuarioss,
                                                                                                               "editarCFTV": editCFTV,
+                                                                                                              "idEmpresaPertence": idEmpresa
                                                                                                             }).whenComplete((){
                                                                                                               //Vai exibir uma ação para copiar as credenciais!
                                                                                                               Navigator.pop(context);
@@ -2707,14 +2785,33 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                 )
                                                                                                                               ],
                                                                                                                             ),
+                                                                                                                            isEmpresa == true ? Row(
+                                                                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                                              children: [
+                                                                                                                                Text("ID da Empresa: $idEmpresa"),
+                                                                                                                                IconButton(onPressed: (){
+                                                                                                                                  FlutterClipboard.copy("Senha: $Senha").then(( value ) {
+                                                                                                                                    showToast("ID da Empresa!",context:context);
+                                                                                                                                  });
+                                                                                                                                },
+                                                                                                                                    icon: const Icon(Icons.copy)
+                                                                                                                                )
+                                                                                                                              ],
+                                                                                                                            ):Container(),
                                                                                                                             Row(
                                                                                                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                                                                               children: [
-                                                                                                                                const Text("Copiar os dois"),
+                                                                                                                                const Text("Copiar tudo"),
                                                                                                                                 IconButton(onPressed: (){
-                                                                                                                                  FlutterClipboard.copy("Login: ${Usrname.trim()}\nSenha: $Senha").then(( value ) {
-                                                                                                                                    showToast("Conteúdo copiado com sucesso!",context:context);
-                                                                                                                                  });
+                                                                                                                                  if(isEmpresa == true){
+                                                                                                                                    FlutterClipboard.copy("Login: ${Usrname.trim()}\nSenha: $Senha\nID da Empresa: $idEmpresa").then(( value ) {
+                                                                                                                                      showToast("Conteúdo copiado com sucesso!",context:context);
+                                                                                                                                    });
+                                                                                                                                  }else{
+                                                                                                                                    FlutterClipboard.copy("Login: ${Usrname.trim()}\nSenha: $Senha").then(( value ) {
+                                                                                                                                      showToast("Conteúdo copiado com sucesso!",context:context);
+                                                                                                                                    });
+                                                                                                                                  }
                                                                                                                                 },
                                                                                                                                     icon: const Icon(Icons.copy)
                                                                                                                                 )
