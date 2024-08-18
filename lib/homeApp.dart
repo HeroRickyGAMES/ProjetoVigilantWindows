@@ -131,7 +131,7 @@ List ImportarUsuarios = [
 
 List ModelosdeCFTV = [
   "Intelbras",
-  "Intelbras UDP",
+  "Hikvision",
 ];
 
 class homeApp extends StatefulWidget {

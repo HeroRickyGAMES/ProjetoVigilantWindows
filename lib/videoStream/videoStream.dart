@@ -46,8 +46,8 @@ class _videoStreamState extends State<videoStream> {
         player.open(Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/cam/realmonitor?channel=${widget.canal}&subtype=1'));
         player.setVolume(0);
       }
-      if(widget.Modelo == "Intelbras UDP"){
-        player.open(Media('tcp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/cam/realmonitor?channel=${widget.canal}&subtype=1'));
+      if(widget.Modelo == "Hikvision"){
+        player.open(Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/ISAPI/Streaming/Channels/${widget.canal}'));
         player.setVolume(0);
       }
     }
