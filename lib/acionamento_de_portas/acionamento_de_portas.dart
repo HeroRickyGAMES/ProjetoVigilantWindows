@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:http_auth/http_auth.dart' as http_auth;
 import 'package:http/http.dart' as http;
 
 //Programado por HeroRickyGames
 
-acionarPorta(var context, String ip, int porta, String modelo, int canal, String usuario, String senha) async {
+acionarPorta(var context, String ip, int porta, String modelo, int canal, String usuario, String senha, String id) async {
 
   //Intelbras
   if(modelo == "Intelbras"){
@@ -24,8 +25,20 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
 
       if (response.statusCode == 200) {
         showToast("Porta aberta!",context:context);
+        if(id != ""){
+          FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+            "prontoParaAtivar" : false,
+            "deuErro": false
+          });
+        }
       } else {
         showToast("Erro com a comunicação, status: ${response.statusCode}",context:context);
+        if(id != ""){
+          FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+            "prontoParaAtivar" : false,
+            "deuErro": true
+          });
+        }
       }
     } catch (e) {
       showToast("Erro ao executar a requisição: $e",context:context);
@@ -80,18 +93,48 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
 
           if (response.statusCode == 200) {
             showToast("Porta aberta!", context: context);
+            if(id != ""){
+              FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+                "prontoParaAtivar" : false,
+                "deuErro": false
+              });
+            }
           } else {
             showToast("Erro com a comunicação, status: ${response.statusCode}", context: context);
+            if(id != ""){
+              FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+                "prontoParaAtivar" : false,
+                "deuErro": true
+              });
+            }
           }
         } catch (e) {
           showToast("Erro ao executar a requisição: $e", context: context);
+          if(id != ""){
+            FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+              "prontoParaAtivar" : false,
+              "deuErro": true
+            });
+          }
         }
 
       } else {
         showToast("Erro com a comunicação, status: ${response.statusCode}", context: context);
+        if(id != ""){
+          FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+            "prontoParaAtivar" : false,
+            "deuErro": true
+          });
+        }
       }
     } catch (e) {
       showToast("Erro ao executar a requisição: $e", context: context);
+      if(id != ""){
+        FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+          "prontoParaAtivar" : false,
+          "deuErro": true
+        });
+      }
     }
   }
 }

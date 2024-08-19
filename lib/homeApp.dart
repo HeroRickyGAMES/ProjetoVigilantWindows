@@ -1287,8 +1287,8 @@ class _homeAppState extends State<homeApp>{
                                                               .snapshots(),
                                                           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                                             if (snapshot.hasError) {
-                                                              return const Center(child:
-                                                              Text('Algo deu errado!')
+                                                                return const Center(child:
+                                                                Text('Algo deu errado!')
                                                               );
                                                             }
 
@@ -1310,16 +1310,16 @@ class _homeAppState extends State<homeApp>{
                                                                                 if(documents["prontoParaAtivar"] == false){
                                                                                   FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).update({
                                                                                     "prontoParaAtivar" : true,
+                                                                                    "deuErro": false
                                                                                   });
                                                                                 }
                                                                                 if(documents["prontoParaAtivar"] == true){
-                                                                                  acionarPorta(context, documents["ip"], documents["porta"], documents["modelo"], documents["canal"], documents["usuario"], documents["senha"]);
-                                                                                  FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).update({
-                                                                                    "prontoParaAtivar" : false,
-                                                                                  });
+                                                                                  acionarPorta(context, documents["ip"], documents["porta"], documents["modelo"], documents["canal"], documents["usuario"], documents["senha"], documents["id"]);
                                                                                 }
                                                                               },
                                                                               child: Image.asset(
+                                                                                documents["deuErro"] == true ?
+                                                                                "assets/btnIsNotAbleToConnect.png":
                                                                                 documents["prontoParaAtivar"] == false ?
                                                                                 "assets/btnInactive.png" :
                                                                                 "assets/btnIsAbleToAction.png",
@@ -1396,7 +1396,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                     Container(
                                                                                                                         padding: const EdgeInsets.only(bottom: 16),
                                                                                                                         child: const Text(
-                                                                                                                          'Adicionar novo acionamento',
+                                                                                                                          'Editar acionamento',
                                                                                                                           style: TextStyle(
                                                                                                                             fontSize: 30,
                                                                                                                           ),
@@ -1713,8 +1713,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                     if(modeloselecionado == ""){
                                                                                                                                       showToast("O modelo precisa ser selecionado!",context:context);
                                                                                                                                     }else{
-                                                                                                                                      Uuid uuid = const Uuid();
-                                                                                                                                      String UUID = uuid.v4();
                                                                                                                                       FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).update({
                                                                                                                                         "nome": nome,
                                                                                                                                         "ip": ip,
@@ -1724,7 +1722,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                         "senha": senha,
                                                                                                                                         "modelo": modeloselecionado,
                                                                                                                                         "idCondominio": idCondominio,
-                                                                                                                                        "id": UUID
+                                                                                                                                        "iconeSeleciondo": ""
                                                                                                                                       }).whenComplete((){
                                                                                                                                         Navigator.pop(context);
                                                                                                                                       });
@@ -1741,7 +1739,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                     backgroundColor: colorBtn
                                                                                                                 ),
                                                                                                                   child: Text(
-                                                                                                                    'Criar',
+                                                                                                                    'Editar',
                                                                                                                     style: TextStyle(
                                                                                                                         color: textColor
                                                                                                                     ),
@@ -2227,7 +2225,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                               "prontoParaAtivar": false,
                                                                                                               "deuErro": false,
                                                                                                               "idCondominio": idCondominio,
-                                                                                                              "id": UUID
+                                                                                                              "id": UUID,
+                                                                                                              "iconeSeleciondo": ""
                                                                                                             }).whenComplete((){
                                                                                                               Navigator.pop(context);
                                                                                                             });
@@ -3617,7 +3616,7 @@ class _homeAppState extends State<homeApp>{
                                                                     ),
                                                                     ElevatedButton(
                                                                         onPressed: (){
-                                                                          acionarPorta(context, IP, int.parse(Porta), modeloselecionado, int.parse(Canal), Usuario, Senha);
+                                                                          acionarPorta(context, IP, int.parse(Porta), modeloselecionado, int.parse(Canal), Usuario, Senha, "vazio");
                                                                         },
                                                                         style: ElevatedButton.styleFrom(
                                                                             backgroundColor: colorBtn
