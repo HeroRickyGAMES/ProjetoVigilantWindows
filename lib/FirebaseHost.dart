@@ -11,7 +11,6 @@ int Dbport = 8080;
 int Authport = 9099;
 int Storageport = 9199;
 
-
 initFirestore(){
   FirebaseFirestore.instance.settings = Settings(
     host: '$host:$Dbport',

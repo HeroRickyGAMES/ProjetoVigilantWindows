@@ -94,6 +94,8 @@ class _mainAppState extends State<mainApp> {
               GoToHome();
             });
           }
+        }).onError((e){
+          GoToLoginScreen();
         });
       }).catchError((error) async {
         if(delayOcorred == false){
