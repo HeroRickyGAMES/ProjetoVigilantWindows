@@ -20,7 +20,7 @@ import 'package:vigilant/videoStream/videoStreamWidget.dart';
 import 'package:vigilant/voip/voipAPI.dart';
 import 'package:uuid/uuid.dart';
 
-//Desenvolvido por HeroRickyGames
+//Desenvolvido por HeroRickyGames com ajuda de Deus!
 
 //Strings
 String ip = '';
@@ -122,7 +122,8 @@ Color textColorInitBlue = Colors.white;
 //Listas
 List ModelosAcionamentos = [
   "Intelbras",
-  "Control iD"
+  "Control iD",
+  "Hikvision"
 ];
 
 List ImportarUsuarios = [
@@ -1368,6 +1369,12 @@ class _homeAppState extends State<homeApp>{
                                                                                               String usuario = documents["usuario"];
                                                                                               String senha = documents["usuario"];
                                                                                               String modeloselecionado = documents["modelo"];
+                                                                                              var dropValue4 = ValueNotifier('assets/bell.png');
+                                                                                              String iconeSelecionado = "assets/bell.png";
+                                                                                              List icones = [
+                                                                                                "assets/bell.png",
+                                                                                                "assets/portaria_acept.png",
+                                                                                              ];
                                                                                               var dropValue3 = ValueNotifier(modeloselecionado);
 
                                                                                               return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
@@ -1647,6 +1654,37 @@ class _homeAppState extends State<homeApp>{
                                                                                                                   ),
                                                                                                                 ),
                                                                                                                 const Center(
+                                                                                                                  child: Text('Selecione um icone'),
+                                                                                                                ),
+                                                                                                                Center(
+                                                                                                                  child: ValueListenableBuilder(valueListenable: dropValue4, builder: (context, String value, _){
+                                                                                                                    return DropdownButton(
+                                                                                                                      hint: Text(
+                                                                                                                        'Selecione um icone',
+                                                                                                                        style: TextStyle(
+                                                                                                                            color: textColorDrop
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      value: (value.isEmpty)? null : value,
+                                                                                                                      onChanged: (escolha) async {
+                                                                                                                        dropValue4.value = escolha.toString();
+                                                                                                                        setState(() {
+                                                                                                                          iconeSelecionado = escolha.toString();
+                                                                                                                        });
+                                                                                                                      },
+                                                                                                                      items: icones.map((opcao) => DropdownMenuItem(
+                                                                                                                          value: opcao,
+                                                                                                                          child: Image.asset(
+                                                                                                                              opcao,
+                                                                                                                              scale: 30
+                                                                                                                          )
+                                                                                                                      ),
+                                                                                                                      ).toList(),
+                                                                                                                    );
+                                                                                                                  }
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                                const Center(
                                                                                                                   child: Text('Selecione o modelo'),
                                                                                                                 ),
                                                                                                                 Center(
@@ -1710,22 +1748,26 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                   if(senha == ""){
                                                                                                                                     showToast("A senha não pode estar vazia!",context:context);
                                                                                                                                   }else{
-                                                                                                                                    if(modeloselecionado == ""){
-                                                                                                                                      showToast("O modelo precisa ser selecionado!",context:context);
+                                                                                                                                    if(iconeSelecionado == ""){
+                                                                                                                                      showToast("O icone precisa ser selecionado!",context:context);
                                                                                                                                     }else{
-                                                                                                                                      FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).update({
-                                                                                                                                        "nome": nome,
-                                                                                                                                        "ip": ip,
-                                                                                                                                        "porta": int.parse(porta),
-                                                                                                                                        "canal": int.parse(canal),
-                                                                                                                                        "usuario": usuario,
-                                                                                                                                        "senha": senha,
-                                                                                                                                        "modelo": modeloselecionado,
-                                                                                                                                        "idCondominio": idCondominio,
-                                                                                                                                        "iconeSeleciondo": ""
-                                                                                                                                      }).whenComplete((){
-                                                                                                                                        Navigator.pop(context);
-                                                                                                                                      });
+                                                                                                                                      if(modeloselecionado == ""){
+                                                                                                                                        showToast("O modelo precisa ser selecionado!",context:context);
+                                                                                                                                      }else{
+                                                                                                                                        FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).update({
+                                                                                                                                          "nome": nome,
+                                                                                                                                          "ip": ip,
+                                                                                                                                          "porta": int.parse(porta),
+                                                                                                                                          "canal": int.parse(canal),
+                                                                                                                                          "usuario": usuario,
+                                                                                                                                          "senha": senha,
+                                                                                                                                          "modelo": modeloselecionado,
+                                                                                                                                          "idCondominio": idCondominio,
+                                                                                                                                          "iconeSeleciondo": ""
+                                                                                                                                        }).whenComplete((){
+                                                                                                                                          Navigator.pop(context);
+                                                                                                                                        });
+                                                                                                                                      }
                                                                                                                                     }
                                                                                                                                   }
                                                                                                                                 }
@@ -1739,7 +1781,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                     backgroundColor: colorBtn
                                                                                                                 ),
                                                                                                                   child: Text(
-                                                                                                                    'Editar',
+                                                                                                                    'Salvar edições',
                                                                                                                     style: TextStyle(
                                                                                                                         color: textColor
                                                                                                                     ),
@@ -1855,9 +1897,7 @@ class _homeAppState extends State<homeApp>{
                                                             );
                                                           },
                                                         ),
-                                                        AdicionarAcionamentos == false ?
-                                                        Container():
-                                                        Container(
+                                                        if (AdicionarAcionamentos == false) Container() else Container(
                                                           padding: const EdgeInsets.all(16),
                                                           alignment: Alignment.bottomRight,
                                                           child: TextButton(
@@ -1874,6 +1914,12 @@ class _homeAppState extends State<homeApp>{
                                                                     String usuario = "";
                                                                     String senha = "";
                                                                     var dropValue3 = ValueNotifier('Intelbras');
+                                                                    var dropValue4 = ValueNotifier('assets/bell.png');
+                                                                    String iconeSelecionado = "assets/bell.png";
+                                                                    List icones = [
+                                                                      "assets/bell.png",
+                                                                      "assets/portaria_acept.png",
+                                                                    ];
 
                                                                     return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
                                                                       return Center(
@@ -2146,6 +2192,37 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ),
                                                                                       const Center(
+                                                                                        child: Text('Selecione um icone'),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: ValueListenableBuilder(valueListenable: dropValue4, builder: (context, String value, _){
+                                                                                            return DropdownButton(
+                                                                                              hint: Text(
+                                                                                                'Selecione um icone',
+                                                                                                style: TextStyle(
+                                                                                                    color: textColorDrop
+                                                                                                ),
+                                                                                              ),
+                                                                                              value: (value.isEmpty)? null : value,
+                                                                                              onChanged: (escolha) async {
+                                                                                                dropValue4.value = escolha.toString();
+                                                                                                setState(() {
+                                                                                                  iconeSelecionado = escolha.toString();
+                                                                                                });
+                                                                                              },
+                                                                                              items: icones.map((opcao) => DropdownMenuItem(
+                                                                                                value: opcao,
+                                                                                                child: Image.asset(
+                                                                                                    opcao,
+                                                                                                    scale: 30
+                                                                                                )
+                                                                                              ),
+                                                                                              ).toList(),
+                                                                                            );
+                                                                                          }
+                                                                                        ),
+                                                                                      ),
+                                                                                      const Center(
                                                                                         child: Text('Selecione o modelo'),
                                                                                       ),
                                                                                       Center(
@@ -2202,34 +2279,37 @@ class _homeAppState extends State<homeApp>{
                                                                                                     if(regex.hasMatch(canal)){
                                                                                                       showToast("O canal contem letras, e letras não são permitidas!",context:context);
                                                                                                     }else{
-
                                                                                                       if(usuario == ""){
                                                                                                         showToast("O usuario não pode estar vazio!",context:context);
                                                                                                       }else{
                                                                                                         if(senha == ""){
                                                                                                           showToast("A senha não pode estar vazia!",context:context);
                                                                                                         }else{
-                                                                                                          if(modeloselecionado == ""){
-                                                                                                            showToast("O modelo precisa ser selecionado!",context:context);
+                                                                                                          if(iconeSelecionado == ""){
+                                                                                                            showToast("O icone precisa ser selecionado!",context:context);
                                                                                                           }else{
-                                                                                                            Uuid uuid = const Uuid();
-                                                                                                            String UUID = uuid.v4();
-                                                                                                            FirebaseFirestore.instance.collection("acionamentos").doc(UUID).set({
-                                                                                                              "nome": nome,
-                                                                                                              "ip": ip,
-                                                                                                              "porta": int.parse(porta),
-                                                                                                              "canal": int.parse(canal),
-                                                                                                              "usuario": usuario,
-                                                                                                              "senha": senha,
-                                                                                                              "modelo": modeloselecionado,
-                                                                                                              "prontoParaAtivar": false,
-                                                                                                              "deuErro": false,
-                                                                                                              "idCondominio": idCondominio,
-                                                                                                              "id": UUID,
-                                                                                                              "iconeSeleciondo": ""
-                                                                                                            }).whenComplete((){
-                                                                                                              Navigator.pop(context);
-                                                                                                            });
+                                                                                                            if(modeloselecionado == ""){
+                                                                                                              showToast("O modelo precisa ser selecionado!",context:context);
+                                                                                                            }else{
+                                                                                                              Uuid uuid = const Uuid();
+                                                                                                              String UUID = uuid.v4();
+                                                                                                              FirebaseFirestore.instance.collection("acionamentos").doc(UUID).set({
+                                                                                                                "nome": nome,
+                                                                                                                "ip": ip,
+                                                                                                                "porta": int.parse(porta),
+                                                                                                                "canal": int.parse(canal),
+                                                                                                                "usuario": usuario,
+                                                                                                                "senha": senha,
+                                                                                                                "modelo": modeloselecionado,
+                                                                                                                "prontoParaAtivar": false,
+                                                                                                                "deuErro": false,
+                                                                                                                "idCondominio": idCondominio,
+                                                                                                                "id": UUID,
+                                                                                                                "iconeSeleciondo": iconeSelecionado
+                                                                                                              }).whenComplete((){
+                                                                                                                Navigator.pop(context);
+                                                                                                              });
+                                                                                                            }
                                                                                                           }
                                                                                                         }
                                                                                                       }

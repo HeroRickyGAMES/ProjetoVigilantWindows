@@ -4,7 +4,7 @@ import 'package:vigilant/homeApp.dart';
 import 'package:vigilant/videoStream/VideoStreamAlert.dart';
 import 'package:vigilant/videoStream/videoStream.dart';
 
-//Desenvolvido por HeroRickyGames
+//Desenvolvido por HeroRickyGames com ajuda de Deus!
 
 class VideoStreamWidget extends StatefulWidget {
   String ip = "";

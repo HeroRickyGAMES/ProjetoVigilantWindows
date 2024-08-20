@@ -1,6 +1,6 @@
 import 'dart:math';
 
-//Programado por HeroRickyGames
+//Programado por HeroRickyGames com ajuda de Deus!
 
 int gerarNumero() {
   Random random = Random();

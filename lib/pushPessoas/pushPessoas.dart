@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:http/http.dart' as http;
 
-//Programado por HeroRickyGames
+//Programado por HeroRickyGames com ajuda de Deus!
 
 Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, String usuario, String Senha, String modelo) async {
 

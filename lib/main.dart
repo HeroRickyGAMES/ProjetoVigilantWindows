@@ -12,7 +12,7 @@ import 'package:vigilant/firebase_options.dart';
 import 'package:vigilant/homeApp.dart';
 import 'package:vigilant/login/login.dart';
 
-//Desenvolvido por HeroRickyGames
+//Desenvolvido por HeroRickyGames com ajuda de Deus!
 
 String loaderAviso = "";
 bool delayOcorred = false;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 
-//Desenvolvido por HeroRickyGames
+//Desenvolvido por HeroRickyGames com ajuda de Deus!
 
 class videoStreamAlert extends StatefulWidget {
 

@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
-//Programado por HeroRickyGames
+//Programado por HeroRickyGames com ajuda de Deus!
 
 String host = "192.168.1.101";
 int Dbport = 8080;

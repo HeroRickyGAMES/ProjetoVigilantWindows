@@ -3,8 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:http_auth/http_auth.dart' as http_auth;
 import 'package:http/http.dart' as http;
+import 'package:crypto/crypto.dart';
 
-//Programado por HeroRickyGames
+//Programado por HeroRickyGames com ajuda de Deus!
 
 acionarPorta(var context, String ip, int porta, String modelo, int canal, String usuario, String senha, String id) async {
 
@@ -129,6 +130,86 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
       }
     } catch (e) {
       showToast("Erro ao executar a requisição: $e", context: context);
+      if(id != ""){
+        FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+          "prontoParaAtivar" : false,
+          "deuErro": true
+        });
+      }
+    }
+  }
+  //Hikvision
+  String? _getHeaderAttribute(String header, String attribute) {
+    final regex = RegExp('$attribute="([^"]*)"');
+    final match = regex.firstMatch(header);
+    return match?.group(1);
+  }
+
+  if(modelo == "Hikvision"){
+    String url = "http://$ip:$porta/ISAPI/AccessControl/RemoteControl/door/$canal";
+
+    // Primeira requisição para obter o nonce e outros parâmetros de autenticação
+    final response1 = await http.get(Uri.parse(url));
+    if (response1.statusCode == 401) {
+      final authHeader = response1.headers['www-authenticate'];
+
+      if (authHeader != null) {
+        // Extrair informações da autenticação Digest
+        final realm = _getHeaderAttribute(authHeader, 'realm');
+        final nonce = _getHeaderAttribute(authHeader, 'nonce');
+        final qop = _getHeaderAttribute(authHeader, 'qop');
+        final uri = Uri.parse(url).path;
+        const nc = '00000001';
+        const cnonce = "MTIzNDU2Nzg=";
+
+        // Cálculo do HA1, HA2, e da resposta Digest
+        final ha1 = md5.convert(utf8.encode('$usuario:$realm:$senha')).toString();
+        final ha2 = md5.convert(utf8.encode('PUT:$uri')).toString();
+        final responseDigest = md5.convert(utf8.encode('$ha1:$nonce:$nc:$cnonce:$qop:$ha2')).toString();
+
+        // Cabeçalho de autorização Digest
+        final authValue =
+            'Digest username="$usuario", realm="$realm", nonce="$nonce", uri="$uri", qop=$qop, nc=$nc, cnonce="$cnonce", response="$responseDigest"';
+
+        // Realiza a requisição PUT com autenticação Digest
+        final response2 = await http.put(
+          Uri.parse(url),
+          headers: {
+            'Authorization': authValue,
+            'Content-Type': 'application/xml',
+          },
+          body: '<RemoteControlDoor><cmd>open</cmd></RemoteControlDoor>',
+        );
+
+        // Verifica a resposta
+        if (response2.statusCode == 200) {
+          showToast("Porta aberta!", context: context);
+          if(id != ""){
+            FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+              "prontoParaAtivar" : false,
+              "deuErro": false
+            });
+          }
+        } else {
+          showToast('Erro ao enviar comando: ${response2.statusCode}', context: context);
+          if(id != ""){
+            FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+              "prontoParaAtivar" : false,
+              "deuErro": true
+            });
+          }
+        }
+      } else {
+        showToast('Cabeçalho WWW-Authenticate não encontrado! Possivelmente o login ou senha está incorreto!', context: context);
+        if(id != ""){
+          FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+            "prontoParaAtivar" : false,
+            "deuErro": true
+          });
+        }
+      }
+    } else {
+      showToast('Falha ao obter nonce. Status: ${response1.statusCode}', context: context);
       if(id != ""){
         FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
           "prontoParaAtivar" : false,

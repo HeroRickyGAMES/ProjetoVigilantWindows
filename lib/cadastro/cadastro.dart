@@ -5,7 +5,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:vigilant/getIds.dart';
 import 'package:vigilant/homeApp.dart';
 
-//Desenvolvido por HeroRickyGames
+//Desenvolvido por HeroRickyGames com ajuda de Deus!
 
 //Strings
 String Email = "";

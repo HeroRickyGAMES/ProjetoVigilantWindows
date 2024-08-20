@@ -1,6 +1,6 @@
 import 'package:device_info_plus/device_info_plus.dart';
 
-//Programado por HeroRickyGames
+//Programado por HeroRickyGames com ajuda de Deus!
 
 //Aqui ele pega o username do PC.
 
