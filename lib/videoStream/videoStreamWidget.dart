@@ -919,7 +919,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                           height: widget.heig / 1.9,
                           child: Stack(
                               children: [
-                                videoStreamAlert(widget.user, widget.pass, widget.ip, widget.porta, CFTV),
+                                videoStreamAlert(widget.user, widget.pass, widget.ip, widget.porta, CFTV, widget.Modelo),
                                 Container(
                                   alignment: Alignment.topRight,
                                   padding: const EdgeInsets.all(16),

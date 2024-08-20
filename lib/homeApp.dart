@@ -1318,13 +1318,22 @@ class _homeAppState extends State<homeApp>{
                                                                                   acionarPorta(context, documents["ip"], documents["porta"], documents["modelo"], documents["canal"], documents["usuario"], documents["senha"], documents["id"]);
                                                                                 }
                                                                               },
-                                                                              child: Image.asset(
-                                                                                documents["deuErro"] == true ?
-                                                                                "assets/btnIsNotAbleToConnect.png":
-                                                                                documents["prontoParaAtivar"] == false ?
-                                                                                "assets/btnInactive.png" :
-                                                                                "assets/btnIsAbleToAction.png",
-                                                                                scale: 5,
+                                                                              child: Stack(
+                                                                                alignment: Alignment.center,
+                                                                                children: [
+                                                                                  Image.asset(
+                                                                                    documents["deuErro"] == true ?
+                                                                                    "assets/btnIsNotAbleToConnect.png":
+                                                                                    documents["prontoParaAtivar"] == false ?
+                                                                                    "assets/btnInactive.png" :
+                                                                                    "assets/btnIsAbleToAction.png",
+                                                                                    scale: 5,
+                                                                                  ),
+                                                                                  Image.asset(
+                                                                                      documents["iconeSeleciondo"],
+                                                                                    scale: 20
+                                                                                  ),
+                                                                                ],
                                                                               )
                                                                           ),
                                                                           Stack(
@@ -1369,11 +1378,13 @@ class _homeAppState extends State<homeApp>{
                                                                                               String usuario = documents["usuario"];
                                                                                               String senha = documents["usuario"];
                                                                                               String modeloselecionado = documents["modelo"];
-                                                                                              var dropValue4 = ValueNotifier('assets/bell.png');
-                                                                                              String iconeSelecionado = "assets/bell.png";
+                                                                                              String iconeSelecionado = documents["iconeSeleciondo"];
+                                                                                              var dropValue4 = ValueNotifier(iconeSelecionado);
                                                                                               List icones = [
                                                                                                 "assets/bell.png",
                                                                                                 "assets/portaria_acept.png",
+                                                                                                "assets/pedestre.png",
+                                                                                                "assets/pedestre02.png",
                                                                                               ];
                                                                                               var dropValue3 = ValueNotifier(modeloselecionado);
 
@@ -1763,7 +1774,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                           "senha": senha,
                                                                                                                                           "modelo": modeloselecionado,
                                                                                                                                           "idCondominio": idCondominio,
-                                                                                                                                          "iconeSeleciondo": ""
+                                                                                                                                          "iconeSeleciondo": iconeSelecionado
                                                                                                                                         }).whenComplete((){
                                                                                                                                           Navigator.pop(context);
                                                                                                                                         });
@@ -1919,6 +1930,8 @@ class _homeAppState extends State<homeApp>{
                                                                     List icones = [
                                                                       "assets/bell.png",
                                                                       "assets/portaria_acept.png",
+                                                                      "assets/pedestre.png",
+                                                                      "assets/pedestre02.png",
                                                                     ];
 
                                                                     return StatefulBuilder(builder: (BuildContext context, StateSetter setState){

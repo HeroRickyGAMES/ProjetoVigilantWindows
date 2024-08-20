@@ -10,11 +10,11 @@ class videoStreamAlert extends StatefulWidget {
   String user = "";
   String password = "";
   String ip = "";
-
+  String Modelo = "";
   //Inteiros
   int porta;
   int canal;
-  videoStreamAlert(this.user, this.password, this.ip, this.porta, this.canal, {super.key});
+  videoStreamAlert(this.user, this.password, this.ip, this.porta, this.canal, this.Modelo, {super.key});
 
   @override
   State<videoStreamAlert> createState() => _videoStreamAlertState();
@@ -31,8 +31,14 @@ class _videoStreamAlertState extends State<videoStreamAlert> {
   }
 
   openPlayer(){
-    player.open(Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/cam/realmonitor?channel=${widget.canal}&subtype=1'));
-    player.setVolume(0);
+    if(widget.Modelo == "Intelbras"){
+      player.open(Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/cam/realmonitor?channel=${widget.canal}&subtype=1'));
+      player.setVolume(0);
+    }
+    if(widget.Modelo == "Hikvision"){
+      player.open(Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/ISAPI/Streaming/Channels/${widget.canal}'));
+      player.setVolume(0);
+    }
   }
 
 

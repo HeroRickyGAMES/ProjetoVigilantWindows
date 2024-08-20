@@ -138,8 +138,9 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
       }
     }
   }
+
   //Hikvision
-  String? _getHeaderAttribute(String header, String attribute) {
+  String? getHeaderAttribute(String header, String attribute) {
     final regex = RegExp('$attribute="([^"]*)"');
     final match = regex.firstMatch(header);
     return match?.group(1);
@@ -155,9 +156,9 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
 
       if (authHeader != null) {
         // Extrair informações da autenticação Digest
-        final realm = _getHeaderAttribute(authHeader, 'realm');
-        final nonce = _getHeaderAttribute(authHeader, 'nonce');
-        final qop = _getHeaderAttribute(authHeader, 'qop');
+        final realm = getHeaderAttribute(authHeader, 'realm');
+        final nonce = getHeaderAttribute(authHeader, 'nonce');
+        final qop = getHeaderAttribute(authHeader, 'qop');
         final uri = Uri.parse(url).path;
         const nc = '00000001';
         const cnonce = "MTIzNDU2Nzg=";
