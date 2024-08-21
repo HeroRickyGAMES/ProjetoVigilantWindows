@@ -123,7 +123,8 @@ Color textColorInitBlue = Colors.white;
 List ModelosAcionamentos = [
   "Intelbras",
   "Control iD",
-  "Hikvision"
+  "Hikvision",
+  "Modulo Guarita (Nice)",
 ];
 
 List ImportarUsuarios = [
@@ -1342,7 +1343,8 @@ class _homeAppState extends State<homeApp>{
                                                                               Text(
                                                                                   documents["nome"],
                                                                                   style: TextStyle(
-                                                                                      color: textColorWidgets
+                                                                                      color: textColorWidgets,
+                                                                                      fontSize: 12
                                                                                   )
                                                                               ),
                                                                               SizedBox(
@@ -1542,7 +1544,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                     color: Colors.black
                                                                                                                                 ),
                                                                                                                               ),
-                                                                                                                              label: const Text('Porta'),
+                                                                                                                              label: Text(modeloselecionado == "Modulo Guarita (Nice)" ?'Porta (normalmente 9000)': 'Porta'),
                                                                                                                             ),
                                                                                                                             style: TextStyle(
                                                                                                                                 color: textAlertDialogColor
@@ -1579,7 +1581,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                     color: Colors.black
                                                                                                                                 ),
                                                                                                                               ),
-                                                                                                                              label: const Text('Canal'),
+                                                                                                                              label: Text(modeloselecionado == "Modulo Guarita (Nice)" ? 'Relê': "Canal"),
                                                                                                                             ),
                                                                                                                             style: TextStyle(
                                                                                                                                 color: textAlertDialogColor
@@ -1587,6 +1589,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           ),
                                                                                                                         ),
                                                                                                                       ),
+                                                                                                                      modeloselecionado == "Modulo Guarita (Nice)" ? Container():
                                                                                                                       Center(
                                                                                                                         child: Container(
                                                                                                                           padding: const EdgeInsets.all(10),
@@ -1624,6 +1627,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           ),
                                                                                                                         ),
                                                                                                                       ),
+                                                                                                                      modeloselecionado == "Modulo Guarita (Nice)" ? Container():
                                                                                                                       Center(
                                                                                                                         child: Container(
                                                                                                                           padding: const EdgeInsets.all(10),
@@ -1730,7 +1734,9 @@ class _homeAppState extends State<homeApp>{
                                                                                                                 ),
                                                                                                                 ElevatedButton(
                                                                                                                   onPressed: (){
-                                                                                                                    if(nome == ""){
+                                                                                                                    //"Modulo Guarita (Nice)"
+                                                                                                                    if(modeloselecionado == "Modulo Guarita (Nice)"){
+if(nome == ""){
                                                                                                                       showToast("O nome não pode ficar vazio!",context:context);
                                                                                                                     }else{
                                                                                                                       if(ip == ""){
@@ -1745,39 +1751,90 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             showToast("A porta contem letras, e letras não são permitidas!",context:context);
                                                                                                                           }else{
                                                                                                                             if(canal == ""){
-                                                                                                                              showToast("O canal não pode estar vazia!",context:context);
+                                                                                                                              showToast("O relê não pode estar vazia!",context:context);
                                                                                                                             }else{
                                                                                                                               final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
 
                                                                                                                               if(regex.hasMatch(canal)){
-                                                                                                                                showToast("O canal contem letras, e letras não são permitidas!",context:context);
+                                                                                                                                showToast("O relê contem letras, e letras não são permitidas!",context:context);
                                                                                                                               }else{
-
-                                                                                                                                if(usuario == ""){
-                                                                                                                                  showToast("O usuario não pode estar vazio!",context:context);
+                                                                                                                                if(iconeSelecionado == ""){
+                                                                                                                                  showToast("O icone precisa ser selecionado!",context:context);
                                                                                                                                 }else{
-                                                                                                                                  if(senha == ""){
-                                                                                                                                    showToast("A senha não pode estar vazia!",context:context);
+                                                                                                                                  if(modeloselecionado == ""){
+                                                                                                                                    showToast("O modelo precisa ser selecionado!",context:context);
                                                                                                                                   }else{
-                                                                                                                                    if(iconeSelecionado == ""){
-                                                                                                                                      showToast("O icone precisa ser selecionado!",context:context);
+                                                                                                                                    FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).update({
+                                                                                                                                      "nome": nome,
+                                                                                                                                      "ip": ip,
+                                                                                                                                      "porta": int.parse(porta),
+                                                                                                                                      "canal": int.parse(canal),
+                                                                                                                                      "usuario": usuario,
+                                                                                                                                      "senha": senha,
+                                                                                                                                      "modelo": modeloselecionado,
+                                                                                                                                      "idCondominio": idCondominio,
+                                                                                                                                      "iconeSeleciondo": iconeSelecionado
+                                                                                                                                    }).whenComplete((){
+                                                                                                                                      Navigator.pop(context);
+                                                                                                                                    });
+                                                                                                                                  }
+                                                                                                                                }
+                                                                                                                              }
+                                                                                                                            }
+                                                                                                                          }
+                                                                                                                        }
+                                                                                                                      }
+                                                                                                                    }
+                                                                                                                    }else{
+                                                                                                                      if(nome == ""){
+                                                                                                                        showToast("O nome não pode ficar vazio!",context:context);
+                                                                                                                      }else{
+                                                                                                                        if(ip == ""){
+                                                                                                                          showToast("O ip não pode estar vazio!",context:context);
+                                                                                                                        }else{
+                                                                                                                          if(porta == ""){
+                                                                                                                            showToast("A porta não pode estar vazia!",context:context);
+                                                                                                                          }else{
+                                                                                                                            final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
+
+                                                                                                                            if(regex.hasMatch(porta)){
+                                                                                                                              showToast("A porta contem letras, e letras não são permitidas!",context:context);
+                                                                                                                            }else{
+                                                                                                                              if(canal == ""){
+                                                                                                                                showToast("O canal não pode estar vazia!",context:context);
+                                                                                                                              }else{
+                                                                                                                                final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
+
+                                                                                                                                if(regex.hasMatch(canal)){
+                                                                                                                                  showToast("O canal contem letras, e letras não são permitidas!",context:context);
+                                                                                                                                }else{
+
+                                                                                                                                  if(usuario == ""){
+                                                                                                                                    showToast("O usuario não pode estar vazio!",context:context);
+                                                                                                                                  }else{
+                                                                                                                                    if(senha == ""){
+                                                                                                                                      showToast("A senha não pode estar vazia!",context:context);
                                                                                                                                     }else{
-                                                                                                                                      if(modeloselecionado == ""){
-                                                                                                                                        showToast("O modelo precisa ser selecionado!",context:context);
+                                                                                                                                      if(iconeSelecionado == ""){
+                                                                                                                                        showToast("O icone precisa ser selecionado!",context:context);
                                                                                                                                       }else{
-                                                                                                                                        FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).update({
-                                                                                                                                          "nome": nome,
-                                                                                                                                          "ip": ip,
-                                                                                                                                          "porta": int.parse(porta),
-                                                                                                                                          "canal": int.parse(canal),
-                                                                                                                                          "usuario": usuario,
-                                                                                                                                          "senha": senha,
-                                                                                                                                          "modelo": modeloselecionado,
-                                                                                                                                          "idCondominio": idCondominio,
-                                                                                                                                          "iconeSeleciondo": iconeSelecionado
-                                                                                                                                        }).whenComplete((){
-                                                                                                                                          Navigator.pop(context);
-                                                                                                                                        });
+                                                                                                                                        if(modeloselecionado == ""){
+                                                                                                                                          showToast("O modelo precisa ser selecionado!",context:context);
+                                                                                                                                        }else{
+                                                                                                                                          FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).update({
+                                                                                                                                            "nome": nome,
+                                                                                                                                            "ip": ip,
+                                                                                                                                            "porta": int.parse(porta),
+                                                                                                                                            "canal": int.parse(canal),
+                                                                                                                                            "usuario": usuario,
+                                                                                                                                            "senha": senha,
+                                                                                                                                            "modelo": modeloselecionado,
+                                                                                                                                            "idCondominio": idCondominio,
+                                                                                                                                            "iconeSeleciondo": iconeSelecionado
+                                                                                                                                          }).whenComplete((){
+                                                                                                                                            Navigator.pop(context);
+                                                                                                                                          });
+                                                                                                                                        }
                                                                                                                                       }
                                                                                                                                     }
                                                                                                                                   }
@@ -2085,7 +2142,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                           color: Colors.black
                                                                                                       ),
                                                                                                     ),
-                                                                                                    label: const Text('Porta'),
+                                                                                                    label: Text(modeloselecionado == "Modulo Guarita (Nice)" ?'Porta (normalmente 9000)': 'Porta'),
                                                                                                   ),
                                                                                                   style: TextStyle(
                                                                                                       color: textAlertDialogColor
@@ -2121,7 +2178,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                           color: Colors.black
                                                                                                       ),
                                                                                                     ),
-                                                                                                    label: const Text('Canal'),
+                                                                                                    label: Text(modeloselecionado == "Modulo Guarita (Nice)" ? 'Relê': "Canal"),
                                                                                                   ),
                                                                                                   style: TextStyle(
                                                                                                       color: textAlertDialogColor
@@ -2129,6 +2186,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                 ),
                                                                                               ),
                                                                                             ),
+                                                                                            modeloselecionado == "Modulo Guarita (Nice)" ? Container():
                                                                                             Center(
                                                                                               child: Container(
                                                                                                 padding: const EdgeInsets.all(10),
@@ -2165,6 +2223,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                 ),
                                                                                               ),
                                                                                             ),
+                                                                                            modeloselecionado == "Modulo Guarita (Nice)" ? Container():
                                                                                             Center(
                                                                                               child: Container(
                                                                                                 padding: const EdgeInsets.all(10),
@@ -2270,7 +2329,31 @@ class _homeAppState extends State<homeApp>{
                                                                                       ),
                                                                                       ElevatedButton(
                                                                                         onPressed: (){
-                                                                                          if(nome == ""){
+                                                                                          //Manda para o banco de dados toda a informação do Relê!
+                                                                                          toDB(){
+                                                                                            Uuid uuid = const Uuid();
+                                                                                            String UUID = uuid.v4();
+                                                                                            FirebaseFirestore.instance.collection("acionamentos").doc(UUID).set({
+                                                                                              "nome": nome,
+                                                                                              "ip": ip,
+                                                                                              "porta": int.parse(porta),
+                                                                                              "canal": int.parse(canal),
+                                                                                              "usuario": usuario,
+                                                                                              "senha": senha,
+                                                                                              "modelo": modeloselecionado,
+                                                                                              "prontoParaAtivar": false,
+                                                                                              "deuErro": false,
+                                                                                              "idCondominio": idCondominio,
+                                                                                              "id": UUID,
+                                                                                              "iconeSeleciondo": iconeSelecionado
+                                                                                            }).whenComplete((){
+                                                                                              Navigator.pop(context);
+                                                                                            });
+                                                                                          }
+
+                                                                                          //If para modulo guarita
+                                                                                          if(modeloselecionado == "Modulo Guarita (Nice)"){
+                                                                                            if(nome == ""){
                                                                                             showToast("O nome não pode ficar vazio!",context:context);
                                                                                           }else{
                                                                                             if(ip == ""){
@@ -2285,43 +2368,66 @@ class _homeAppState extends State<homeApp>{
                                                                                                   showToast("A porta contem letras, e letras não são permitidas!",context:context);
                                                                                                 }else{
                                                                                                   if(canal == ""){
-                                                                                                    showToast("O canal não pode estar vazia!",context:context);
+                                                                                                    showToast("O relê não pode estar vazia!",context:context);
                                                                                                   }else{
                                                                                                     final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
 
                                                                                                     if(regex.hasMatch(canal)){
-                                                                                                      showToast("O canal contem letras, e letras não são permitidas!",context:context);
+                                                                                                      showToast("O relê contem letras, e letras não são permitidas!",context:context);
                                                                                                     }else{
-                                                                                                      if(usuario == ""){
-                                                                                                        showToast("O usuario não pode estar vazio!",context:context);
+
+                                                                                                      if(iconeSelecionado == ""){
+                                                                                                        showToast("O icone precisa ser selecionado!",context:context);
                                                                                                       }else{
-                                                                                                        if(senha == ""){
-                                                                                                          showToast("A senha não pode estar vazia!",context:context);
+                                                                                                        if(modeloselecionado == ""){
+                                                                                                          showToast("O modelo precisa ser selecionado!",context:context);
                                                                                                         }else{
-                                                                                                          if(iconeSelecionado == ""){
-                                                                                                            showToast("O icone precisa ser selecionado!",context:context);
+                                                                                                          toDB();
+                                                                                                        }
+                                                                                                      }
+                                                                                                    }
+                                                                                                  }
+                                                                                                }
+                                                                                              }
+                                                                                            }
+                                                                                          }
+                                                                                          }else{
+                                                                                            if(nome == ""){
+                                                                                              showToast("O nome não pode ficar vazio!",context:context);
+                                                                                            }else{
+                                                                                              if(ip == ""){
+                                                                                                showToast("O ip não pode estar vazio!",context:context);
+                                                                                              }else{
+                                                                                                if(porta == ""){
+                                                                                                  showToast("A porta não pode estar vazia!",context:context);
+                                                                                                }else{
+                                                                                                  final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
+
+                                                                                                  if(regex.hasMatch(porta)){
+                                                                                                    showToast("A porta contem letras, e letras não são permitidas!",context:context);
+                                                                                                  }else{
+                                                                                                    if(canal == ""){
+                                                                                                      showToast("O canal não pode estar vazia!",context:context);
+                                                                                                    }else{
+                                                                                                      final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
+
+                                                                                                      if(regex.hasMatch(canal)){
+                                                                                                        showToast("O canal contem letras, e letras não são permitidas!",context:context);
+                                                                                                      }else{
+                                                                                                        if(usuario == ""){
+                                                                                                          showToast("O usuario não pode estar vazio!",context:context);
+                                                                                                        }else{
+                                                                                                          if(senha == ""){
+                                                                                                            showToast("A senha não pode estar vazia!",context:context);
                                                                                                           }else{
-                                                                                                            if(modeloselecionado == ""){
-                                                                                                              showToast("O modelo precisa ser selecionado!",context:context);
+                                                                                                            if(iconeSelecionado == ""){
+                                                                                                              showToast("O icone precisa ser selecionado!",context:context);
                                                                                                             }else{
-                                                                                                              Uuid uuid = const Uuid();
-                                                                                                              String UUID = uuid.v4();
-                                                                                                              FirebaseFirestore.instance.collection("acionamentos").doc(UUID).set({
-                                                                                                                "nome": nome,
-                                                                                                                "ip": ip,
-                                                                                                                "porta": int.parse(porta),
-                                                                                                                "canal": int.parse(canal),
-                                                                                                                "usuario": usuario,
-                                                                                                                "senha": senha,
-                                                                                                                "modelo": modeloselecionado,
-                                                                                                                "prontoParaAtivar": false,
-                                                                                                                "deuErro": false,
-                                                                                                                "idCondominio": idCondominio,
-                                                                                                                "id": UUID,
-                                                                                                                "iconeSeleciondo": iconeSelecionado
-                                                                                                              }).whenComplete((){
-                                                                                                                Navigator.pop(context);
-                                                                                                              });
+                                                                                                              if(modeloselecionado == ""){
+                                                                                                                showToast("O modelo precisa ser selecionado!",context:context);
+                                                                                                              }else{
+                                                                                                                toDB();
+                                                                                                              }
                                                                                                             }
                                                                                                           }
                                                                                                         }
