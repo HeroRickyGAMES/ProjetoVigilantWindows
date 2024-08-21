@@ -222,78 +222,78 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
   }
 
   //Modulo Guarita (Nice)
-  String enderecoDisp = ip;
-  int portaDisp = porta;
-  String codigoAcesso = "";
-  int timeout = 10;
+  if(modelo == "Modulo Guarita (Nice)"){
+    String enderecoDisp = ip;
+    int portaDisp = porta;
+    String codigoAcesso = "";
+    int timeout = 10;
 
-  List<int> hexStringToByteArray(String s) {
-    final length = s.length;
-    final data = List<int>.filled(length ~/ 2, 0);
-    for (int i = 0; i < length; i += 2) {
-      data[i ~/ 2] = int.parse(s.substring(i, i + 2), radix: 16);
-    }
-    return data;
-  }
-
-  String calculaChecksum(String input) {
-    var parts = RegExp(r'..').allMatches(input).map((m) => m.group(0)!).toList();
-    int cs = 0;
-    for (var part in parts) {
-      int decimal = int.parse(part, radix: 16);
-      cs += decimal;
+    List<int> hexStringToByteArray(String s) {
+      final length = s.length;
+      final data = List<int>.filled(length ~/ 2, 0);
+      for (int i = 0; i < length; i += 2) {
+        data[i ~/ 2] = int.parse(s.substring(i, i + 2), radix: 16);
+      }
+      return data;
     }
 
-    if (cs > 255) {
-      cs = cs & 0xFF;
-    }
-
-    String csHex = cs.toRadixString(16).toUpperCase().padLeft(2, '0');
-    return input + csHex;
-  }
-
-  Future<bool> acionaRele(int tipoDisp, int numDisp, int rele, int geraEvt) async {
-    tipoDisp = tipoDisp.clamp(1, 7);
-    numDisp = numDisp.clamp(0, 7);
-    rele = rele.clamp(1, 4);
-    geraEvt = (geraEvt == 0) ? 0 : 1;
-    print("Tentando!");
-
-    try {
-      final socket = await Socket.connect(enderecoDisp, portaDisp, timeout: Duration(seconds: timeout));
-      print("Tentando 2!");
-      if (codigoAcesso.isNotEmpty) {
-        socket.add(utf8.encode(codigoAcesso));
-        await socket.flush();
-        await socket.listen((data) {}).asFuture(Duration(seconds: timeout));
-        print("Tentando 3!");
+    String calculaChecksum(String input) {
+      var parts = RegExp(r'..').allMatches(input).map((m) => m.group(0)!).toList();
+      int cs = 0;
+      for (var part in parts) {
+        int decimal = int.parse(part, radix: 16);
+        cs += decimal;
       }
 
-      String message = "000d${tipoDisp.toString().padLeft(2, '0')}${numDisp.toString().padLeft(2, '0')}${rele.toString().padLeft(2, '0')}${geraEvt.toString().padLeft(2, '0')}";
-      String checksum = calculaChecksum(message);
-      print(checksum);
-      print("Tentando 4!");
-      var messageBytes = hexStringToByteArray(checksum);
-      print(messageBytes);
-      print("Tentando 5!");
-      await socket.flush();
-      await socket.listen((data) {print(data);}).asFuture(Duration(seconds: timeout));
+      if (cs > 255) {
+        cs = cs & 0xFF;
+      }
 
-      await socket.close();
-      print("Tentando 6! O Socket foi fechado!");
-      return true;
-    } catch (e) {
-      print("Erro! $e");
-      print(e);
+      String csHex = cs.toRadixString(16).toUpperCase().padLeft(2, '0');
+      return input + csHex;
     }
 
-    return false;
-  }
+    Future<bool> acionaRele(int tipoDisp, int numDisp, int rele, int geraEvt) async {
+      tipoDisp = tipoDisp.clamp(1, 7);
+      numDisp = numDisp.clamp(0, 7);
+      rele = rele.clamp(1, 4);
+      geraEvt = (geraEvt == 0) ? 0 : 1;
+      print("Tentando!");
 
-  if(modelo == "Modulo Guarita (Nice)"){
+      try {
+        final socket = await Socket.connect(enderecoDisp, portaDisp, timeout: Duration(seconds: timeout));
+        print("Tentando 2!");
+        if (codigoAcesso.isNotEmpty) {
+          socket.add(utf8.encode(codigoAcesso));
+          await socket.flush();
+          await socket.listen((data) {}).asFuture(Duration(seconds: timeout));
+          print("Tentando 3!");
+        }
+
+        String message = "000d${tipoDisp.toString().padLeft(2, '0')}${numDisp.toString().padLeft(2, '0')}${rele.toString().padLeft(2, '0')}${geraEvt.toString().padLeft(2, '0')}";
+        String checksum = calculaChecksum(message);
+        print(checksum);
+        print("Tentando 4!");
+        var messageBytes = hexStringToByteArray(checksum);
+        print(messageBytes);
+        print("Tentando 5!");
+        await socket.flush();
+        await socket.listen((data) {print(data);}).asFuture(Duration(seconds: timeout));
+
+        await socket.close();
+        print("Tentando 6! O Socket foi fechado!");
+        return true;
+      } catch (e) {
+        print("Erro! $e");
+        print(e);
+      }
+
+      return false;
+    }
+
     print("Testando!");
     showToast("Aguarde!", context: context);
-    bool handshakeDone = await acionaRele(3, 0, 2, 1);
+    bool handshakeDone = await acionaRele(3, 0, canal, 1);
     print(handshakeDone);
 
     if(handshakeDone == true){
