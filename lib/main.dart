@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -17,7 +18,7 @@ import 'package:vigilant/login/login.dart';
 String loaderAviso = "";
 bool delayOcorred = false;
 bool iniciadoPrimeiro = false;
-
+bool isDebug = kDebugMode;
 main(){
   runApp(
     GetMaterialApp(
@@ -74,8 +75,8 @@ class _mainAppState extends State<mainApp> {
         });
 
         //Server offline ou Server out para configurar lá!
-        initFirestore();
-        initAuth();
+        initFirestore(isDebug);
+        initAuth(isDebug);
 
         //Se o usuario estiver logado ele vai jogar na main
         FirebaseAuth.instance.idTokenChanges().listen((User? user) async {
