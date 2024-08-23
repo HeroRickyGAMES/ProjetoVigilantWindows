@@ -7,7 +7,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 //Programado por HeroRickyGames com ajuda de Deus!
 
 String host = "192.168.1.101";
-int Dbport = 8081;
+int Dbport = 8087;
 int Authport = 9091;
 int Storageport = 9199;
 
@@ -23,7 +23,9 @@ initFirestore(bool isDebugMode){
       sslEnabled: false,
       persistenceEnabled: false,
     );
-  }else{
+  }
+  print(isDebugMode);
+  if(isDebugMode == true){
     FirebaseFirestore.instance.settings = Settings(
       host: '$hostDebug:$DbportDebug',
       sslEnabled: false,
@@ -35,7 +37,8 @@ initFirestore(bool isDebugMode){
 initAuth(bool isDebugMode){
   if(isDebugMode == false){
     FirebaseAuth.instance.useAuthEmulator(host, Authport);
-  }else{
+  }
+  if(isDebugMode == true){
     FirebaseAuth.instance.useAuthEmulator(hostDebug, AuthportDebug);
   }
 }

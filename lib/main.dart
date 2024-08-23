@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vigilant/FirebaseHost.dart';
 import 'package:vigilant/checkUser.dart';
@@ -19,18 +18,19 @@ String loaderAviso = "";
 bool delayOcorred = false;
 bool iniciadoPrimeiro = false;
 bool isDebug = kDebugMode;
+
 main(){
   runApp(
-    GetMaterialApp(
-      initialRoute: '/',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        textSelectionTheme: const TextSelectionThemeData(
-          selectionColor: Colors.blue
+      GetMaterialApp(
+        initialRoute: '/',
+        theme: ThemeData(
+          brightness: Brightness.dark,
+          textSelectionTheme: const TextSelectionThemeData(
+              selectionColor: Colors.blue
+          ),
         ),
-      ),
-      home: const mainApp(),
-    )
+        home: const mainApp(),
+      )
   );
 }
 
@@ -63,7 +63,7 @@ class _mainAppState extends State<mainApp> {
     }
 
 
-   //Vai para a homeApp
+    //Vai para a homeApp
     GoToHome(){
       Get.to(const homeApp());
     }
@@ -141,7 +141,7 @@ class _mainAppState extends State<mainApp> {
           children: [
             const CircularProgressIndicator(),
             Container(
-              padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Text(loaderAviso)
             )
           ],
