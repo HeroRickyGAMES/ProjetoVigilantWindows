@@ -6,41 +6,21 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 //Programado por HeroRickyGames com ajuda de Deus!
 
-String host = "192.168.1.101";
+String host = "192.168.1.102";
 int Dbport = 8087;
 int Authport = 9091;
 int Storageport = 9199;
 
-//Debugs Ports: Para acessar no i5 daqui de casa, o monstro, a lenda. Que hoje em dia se tornou um servidor!
-String hostDebug = "192.168.1.101";
-int DbportDebug = 8087;
-int AuthportDebug = 9097;
-
-initFirestore(bool isDebugMode){
-  if(isDebugMode == false){
-    FirebaseFirestore.instance.settings = Settings(
-      host: '$host:$Dbport',
-      sslEnabled: false,
-      persistenceEnabled: false,
-    );
-  }
-  print(isDebugMode);
-  if(isDebugMode == true){
-    FirebaseFirestore.instance.settings = Settings(
-      host: '$hostDebug:$DbportDebug',
-      sslEnabled: false,
-      persistenceEnabled: false,
-    );
-  }
+initFirestore(){
+  FirebaseFirestore.instance.settings = Settings(
+    host: '$host:$Dbport',
+    sslEnabled: false,
+    persistenceEnabled: false,
+  );
 }
 
-initAuth(bool isDebugMode){
-  if(isDebugMode == false){
-    FirebaseAuth.instance.useAuthEmulator(host, Authport);
-  }
-  if(isDebugMode == true){
-    FirebaseAuth.instance.useAuthEmulator(hostDebug, AuthportDebug);
-  }
+initAuth(){
+  FirebaseAuth.instance.useAuthEmulator(host, Authport);
 }
 
 carregarImagem(var context, File _imagefile, String ID, String idCondominio) async {
