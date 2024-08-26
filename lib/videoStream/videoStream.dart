@@ -43,11 +43,17 @@ class _videoStreamState extends State<videoStream> {
   Widget build(BuildContext context) {
     openPlayer() async {
       if(widget.Modelo == "Intelbras"){
-        player.open(Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/cam/realmonitor?channel=${widget.canal}&subtype=1'));
+        player.open(
+            Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/cam/realmonitor?channel=${widget.canal}&subtype=0'),
+            play: true
+        );
         player.setVolume(0);
       }
       if(widget.Modelo == "Hikvision"){
-        player.open(Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/ISAPI/Streaming/Channels/${widget.canal}'));
+        player.open(
+            Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/ISAPI/Streaming/Channels/${widget.canal}'),
+        play: true
+        );
         player.setVolume(0);
       }
     }
@@ -62,6 +68,7 @@ class _videoStreamState extends State<videoStream> {
               controller: controller,
               controls: null,
               fit: BoxFit.fill,
+              filterQuality: FilterQuality. low,
           )
       );
     }

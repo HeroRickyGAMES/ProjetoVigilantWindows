@@ -6,9 +6,9 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 //Programado por HeroRickyGames com ajuda de Deus!
 
-String host = "192.168.1.102";
-int Dbport = 8087;
-int Authport = 9091;
+String host = "192.168.0.107";
+int Dbport = 8083;
+int Authport = 9099;
 int Storageport = 9199;
 
 initFirestore(){

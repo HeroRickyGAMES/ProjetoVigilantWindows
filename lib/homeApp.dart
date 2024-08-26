@@ -181,7 +181,7 @@ class _homeAppState extends State<homeApp>{
     //Pega todas as permissões do usuario
     checkarAsPermissoes() async {
       try{
-        await Future.delayed(const Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 1));
         var getUserPermissions = await FirebaseFirestore.instance
             .collection("Users")
             .doc(UID).get();
@@ -262,7 +262,7 @@ class _homeAppState extends State<homeApp>{
                                     children: [
                                       SizedBox(
                                         width: wid / 4,
-                                        height: heig / 1.5,
+                                        height: heig / 1.7,
                                         child: Stack(
                                             children: [
                                               Center(
@@ -270,7 +270,7 @@ class _homeAppState extends State<homeApp>{
                                                   children: [
                                                     Container(
                                                       width: double.infinity,
-                                                      height: heig / 1.5,
+                                                      height: heig / 1.7,
                                                       decoration: BoxDecoration(
                                                         border: Border.all(
                                                           color: Colors.blue,
@@ -385,7 +385,7 @@ class _homeAppState extends State<homeApp>{
 
                                                                 return SizedBox(
                                                                   width: double.infinity,
-                                                                  height: heig / 1.7,
+                                                                  height: heig / 2.2,
                                                                   child: ListView(
                                                                     children: snapshot.data!.docs.map((documents){
                                                                       return SizedBox(
@@ -394,6 +394,9 @@ class _homeAppState extends State<homeApp>{
 
                                                                         child: InkWell(
                                                                           onTap: () async {
+                                                                            var getIpCameraSettings = await FirebaseFirestore.instance
+                                                                                .collection("Condominios")
+                                                                                .doc(idCondominio).get();
                                                                             setState(() {
                                                                               ip = documents["IpCamera"];
                                                                               user = documents["UserAccess"];
@@ -402,13 +405,7 @@ class _homeAppState extends State<homeApp>{
                                                                               idCondominio = documents["idCondominio"];
                                                                               anotacao = documents["Aviso"];
                                                                               ModeloDoCFTV = documents['ipCameraModelo'];
-                                                                            });
-                                                                            await Future.delayed(const Duration(seconds: 1));
-                                                                            var getIpCameraSettings = await FirebaseFirestore.instance
-                                                                                .collection("Condominios")
-                                                                                .doc(idCondominio).get();
-                                                                            await Future.delayed(const Duration(seconds: 2));
-                                                                            setState(() {
+
                                                                               camera1 = getIpCameraSettings["ipCamera1"];
                                                                               camera2 = getIpCameraSettings["ipCamera2"];
                                                                               camera3 = getIpCameraSettings["ipCamera3"];
@@ -1716,70 +1713,68 @@ class _homeAppState extends State<homeApp>{
                                       ),
                                       Container(
                                         width: wid / 4,
-                                        height: heig / 3.5,
+                                        height: heig / 3.3,
                                         decoration: const BoxDecoration(
                                         ),
                                         child: Center(
                                           child: SingleChildScrollView(
                                             child: Container(
                                               padding: const EdgeInsets.all(0),
-                                              child: Center(
-                                                child: Column(
-                                                  children: [
-                                                    Container(
-                                                      padding: const EdgeInsets.all(16),
-                                                      child: TextField(
-                                                        controller: anotacaoControlCondominio,
-                                                        keyboardType: TextInputType.multiline,
-                                                        enableSuggestions: true,
-                                                        autocorrect: true,
-                                                        minLines: 5,
-                                                        maxLines: null,
-                                                        onChanged: (value){
-                                                          anotacao = value;
-                                                        },
-                                                        style: const TextStyle(
-                                                            color: Colors.black
-                                                        ),
-                                                        decoration: const InputDecoration(
-                                                          filled: true,
-                                                          fillColor: Colors.white,
-                                                          border: OutlineInputBorder(),
-                                                          focusedBorder: OutlineInputBorder(
-                                                            borderSide: BorderSide(
-                                                                width: 3,
-                                                                color: Colors.black
-                                                            ),
-                                                          ),
-                                                          labelStyle: TextStyle(
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    padding: const EdgeInsets.all(16),
+                                                    child: TextField(
+                                                      controller: anotacaoControlCondominio,
+                                                      keyboardType: TextInputType.multiline,
+                                                      enableSuggestions: true,
+                                                      autocorrect: true,
+                                                      minLines: 2,
+                                                      maxLines: null,
+                                                      onChanged: (value){
+                                                        anotacao = value;
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: Colors.black
+                                                      ),
+                                                      decoration: const InputDecoration(
+                                                        filled: true,
+                                                        fillColor: Colors.white,
+                                                        border: OutlineInputBorder(),
+                                                        focusedBorder: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                              width: 3,
                                                               color: Colors.black
                                                           ),
-                                                          labelText: "Anotações sobre o condominio",
                                                         ),
+                                                        labelStyle: TextStyle(
+                                                            color: Colors.black
+                                                        ),
+                                                        labelText: "Anotações sobre o condominio",
                                                       ),
                                                     ),
-                                                    Container(
-                                                      padding: const EdgeInsets.all(16),
-                                                      alignment: Alignment.bottomRight,
-                                                      child: editarAnotacao == false ?
-                                                      Container():
-                                                      FloatingActionButton(
-                                                          onPressed:idCondominioAnt == "" ? null : (){
-                                                            FirebaseFirestore.instance.collection('Condominios').doc(idCondominioAnt).update({
-                                                              "Aviso": anotacao,
-                                                            }).whenComplete(() {
-                                                              showToast("Anotação salva com sucesso!",context:context);
-                                                            });
-                                                          },
-                                                          backgroundColor: colorBtnFab,
-                                                          child: Icon(
-                                                              Icons.done,
-                                                              color: textColor
-                                                          )
-                                                      ),
+                                                  ),
+                                                  Container(
+                                                    padding: const EdgeInsets.all(10),
+                                                    alignment: Alignment.bottomRight,
+                                                    child: editarAnotacao == false ?
+                                                    Container():
+                                                    FloatingActionButton(
+                                                        onPressed:idCondominioAnt == "" ? null : (){
+                                                          FirebaseFirestore.instance.collection('Condominios').doc(idCondominioAnt).update({
+                                                            "Aviso": anotacao,
+                                                          }).whenComplete(() {
+                                                            showToast("Anotação salva com sucesso!",context:context);
+                                                          });
+                                                        },
+                                                        backgroundColor: colorBtnFab,
+                                                        child: Icon(
+                                                            Icons.done,
+                                                            color: textColor
+                                                        )
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),

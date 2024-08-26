@@ -197,7 +197,6 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
   start() async {
     if(isStarted == false){
       getIpCameraFromSettings(1, 2, 3, 4, 5, 6, 7, 8, 9);
-      await Future.delayed(const Duration(seconds: 1));
     }
   }
 
@@ -208,736 +207,734 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
       return SizedBox(
         width: widget.wid / 2,
         height: widget.heig / 1.7,
-        child: widget.ip != "" ? Container(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(bottom: 10, top: 10),
-                  child: AppBar(
-                    backgroundColor: widget.corDasBarras,
-                    centerTitle: true,
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                            "assets/camera.png",
-                            scale: 10
-                        ),
-                        Row(
-                          children: [
-                            TextButton(onPressed: (){
-                              setState(() {
-                                umAtivo = true;
-                                doisAtivo = false;
-                                tresAtivo = false;
-                                quatroAtivo = false;
-                                widget.camera1 = 1;
-                                widget.camera2 = 2;
-                                widget.camera3 = 3;
-                                widget.camera4 = 4;
-                                widget.camera5 = 5;
-                                widget.camera6 = 6;
-                                widget.camera7 = 7;
-                                widget.camera8 = 8;
-                                widget.camera9 = 9;
-                              });
-                            },
-                                style: TextButton.styleFrom(
-                                    backgroundColor: Colors.transparent
-                                ),
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    umAtivo == true ?
-                                    Image.asset(
-                                        "assets/grade 3.png",
-                                        scale: 10
-                                    ):
-                                    Image.asset(
-                                        "assets/grade 2.png",
-                                        scale: 10
-                                    ),
-                                    const Text('1',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                            ),
-                            TextButton(onPressed: (){
-                              setState(() {
-                                umAtivo = false;
-                                doisAtivo = true;
-                                tresAtivo = false;
-                                quatroAtivo = false;
-                                getIpCameraFromSettings(10, 11, 12, 13, 14, 15, 16, 17, 18);
-                              });
-                            },
-                                style: TextButton.styleFrom(
-                                    backgroundColor: Colors.transparent
-                                ),
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    doisAtivo == true ?
-                                    Image.asset(
-                                        "assets/grade 3.png",
-                                        scale: 10
-                                    ):
-                                    Image.asset(
-                                        "assets/grade 2.png",
-                                        scale: 10
-                                    ),
-                                    const Text('2',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                            ),
-                            TextButton(onPressed: (){
-                              setState(() {
-                                umAtivo = false;
-                                doisAtivo = false;
-                                tresAtivo = true;
-                                quatroAtivo = false;
-                                getIpCameraFromSettings(19, 20, 21, 22, 23, 24, 25, 26, 27);
-                              });
-                            },
-                                style: TextButton.styleFrom(
-                                    backgroundColor: Colors.transparent
-                                ),
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    tresAtivo == true ?
-                                    Image.asset(
-                                        "assets/grade 3.png",
-                                        scale: 10
-                                    ):
-                                    Image.asset(
-                                        "assets/grade 2.png",
-                                        scale: 10
-                                    ),
-                                    const Text('3',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                            ),
-                            TextButton(onPressed: (){
-                              setState(() {
-                                umAtivo = false;
-                                doisAtivo = false;
-                                tresAtivo = false;
-                                quatroAtivo = true;
-                                getIpCameraFromSettings(28, 29, 30, 31, 32, 33, 34, 35, 36);
-                              });
-                            },
-                                style: TextButton.styleFrom(
-                                    backgroundColor: Colors.transparent
-                                ),
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    quatroAtivo == true ?
-                                    Image.asset(
-                                        "assets/grade 3.png",
-                                        scale: 10
-                                    ):
-                                    Image.asset(
-                                        "assets/grade 2.png",
-                                        scale: 10
-                                    ),
-                                    const Text('4',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                            ),
-                          ],
-                        ),
-                        TextButton(
-                            onPressed: () async {
-                              getIpCameraCond();
-                              await Future.delayed(const Duration(seconds: 1));
-
-                              //Strings
-                              String camera01Selecionada = dropValue1 .value;
-                              String camera02Selecionada = dropValue2 .value;
-                              String camera03Selecionada = dropValue3 .value;
-                              String camera04Selecionada = dropValue4 .value;
-                              String camera05Selecionada = dropValue5 .value;
-                              String camera06Selecionada = dropValue6 .value;
-                              String camera07Selecionada = dropValue7 .value;
-                              String camera08Selecionada = dropValue8 .value;
-                              String camera09Selecionada = dropValue9 .value;
-                              String camera10Selecionada = dropValue10.value;
-                              String camera11Selecionada = dropValue11.value;
-                              String camera12Selecionada = dropValue12.value;
-                              String camera13Selecionada = dropValue13.value;
-                              String camera14Selecionada = dropValue14.value;
-                              String camera15Selecionada = dropValue15.value;
-                              String camera16Selecionada = dropValue16.value;
-                              String camera17Selecionada = dropValue17.value;
-                              String camera18Selecionada = dropValue18.value;
-                              String camera19Selecionada = dropValue19.value;
-                              String camera20Selecionada = dropValue20.value;
-                              String camera21Selecionada = dropValue21.value;
-                              String camera22Selecionada = dropValue22.value;
-                              String camera23Selecionada = dropValue23.value;
-                              String camera24Selecionada = dropValue24.value;
-                              String camera25Selecionada = dropValue25.value;
-                              String camera26Selecionada = dropValue26.value;
-                              String camera27Selecionada = dropValue27.value;
-                              String camera28Selecionada = dropValue28.value;
-                              String camera29Selecionada = dropValue29.value;
-                              String camera30Selecionada = dropValue30.value;
-                              String camera31Selecionada = dropValue31.value;
-                              String camera32Selecionada = dropValue32.value;
-                              String camera33Selecionada = dropValue33.value;
-                              String camera34Selecionada = dropValue34.value;
-                              String camera35Selecionada = dropValue35.value;
-                              String camera36Selecionada = dropValue36.value;
-
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                    return AlertDialog(
-                                      title: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          const Text("Editar cameras"),
-                                          Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              Image.asset(
-                                                  "assets/grade 3.png",
-                                                  scale: 10
-                                              ),
-                                              const Text('1',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 24,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            width: 600,
-                                            height: 600,
-                                            child: GridView.count(crossAxisCount: 3,
-                                              children: [
-                                                Center(
-                                                  child: ValueListenableBuilder(valueListenable: dropValue1, builder: (context, String value, _){
-                                                    return DropdownButton(
-                                                      hint: Text(
-                                                        'Camera 01',
-                                                        style: TextStyle(
-                                                            color: textColorDrop
-                                                        ),
-                                                      ),
-                                                      value: (value.isEmpty)? null : value,
-                                                      onChanged: (escolha) async {
-                                                        dropValue1.value = escolha.toString();
-                                                        setState(() {
-                                                          camera01Selecionada = escolha.toString();
-                                                        });
-                                                      },
-                                                      items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
-                                                        value: opcao,
-                                                        child:
-                                                        Text(
-                                                          opcao,
-                                                          style: TextStyle(
-                                                              color: textColorDrop
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      ).toList(),
-                                                    );
-                                                  }),
-                                                ),
-                                                Center(
-                                                  child: ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
-                                                    return DropdownButton(
-                                                      hint: Text(
-                                                        'Camera 02',
-                                                        style: TextStyle(
-                                                            color: textColorDrop
-                                                        ),
-                                                      ),
-                                                      value: (value.isEmpty)? null : value,
-                                                      onChanged: (escolha) async {
-                                                        dropValue2.value = escolha.toString();
-                                                        setState(() {
-                                                          camera02Selecionada = escolha.toString();
-                                                        });
-                                                      },
-                                                      items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
-                                                        value: opcao,
-                                                        child:
-                                                        Text(
-                                                          opcao,
-                                                          style: TextStyle(
-                                                              color: textColorDrop
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      ).toList(),
-                                                    );
-                                                  }),
-                                                ),
-                                                Center(
-                                                  child: ValueListenableBuilder(valueListenable: dropValue3, builder: (context, String value, _){
-                                                    return DropdownButton(
-                                                      hint: Text(
-                                                        'Camera 03',
-                                                        style: TextStyle(
-                                                            color: textColorDrop
-                                                        ),
-                                                      ),
-                                                      value: (value.isEmpty)? null : value,
-                                                      onChanged: (escolha) async {
-                                                        dropValue3.value = escolha.toString();
-                                                        setState(() {
-                                                          camera03Selecionada = escolha.toString();
-                                                        });
-                                                      },
-                                                      items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
-                                                        value: opcao,
-                                                        child:
-                                                        Text(
-                                                          opcao,
-                                                          style: TextStyle(
-                                                              color: textColorDrop
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      ).toList(),
-                                                    );
-                                                  }),
-                                                ),
-                                                Center(
-                                                  child: ValueListenableBuilder(valueListenable: dropValue4, builder: (context, String value, _){
-                                                    return DropdownButton(
-                                                      hint: Text(
-                                                        'Camera 04',
-                                                        style: TextStyle(
-                                                            color: textColorDrop
-                                                        ),
-                                                      ),
-                                                      value: (value.isEmpty)? null : value,
-                                                      onChanged: (escolha) async {
-                                                        dropValue4.value = escolha.toString();
-                                                        setState(() {
-                                                          camera04Selecionada = escolha.toString();
-                                                        });
-                                                      },
-                                                      items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
-                                                        value: opcao,
-                                                        child:
-                                                        Text(
-                                                          opcao,
-                                                          style: TextStyle(
-                                                              color: textColorDrop
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      ).toList(),
-                                                    );
-                                                  }),
-                                                ),
-                                                Center(
-                                                  child: ValueListenableBuilder(valueListenable: dropValue5, builder: (context, String value, _){
-                                                    return DropdownButton(
-                                                      hint: Text(
-                                                        'Camera 05',
-                                                        style: TextStyle(
-                                                            color: textColorDrop
-                                                        ),
-                                                      ),
-                                                      value: (value.isEmpty)? null : value,
-                                                      onChanged: (escolha) async {
-                                                        dropValue5.value = escolha.toString();
-                                                        setState(() {
-                                                          camera05Selecionada = escolha.toString();
-                                                        });
-                                                      },
-                                                      items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
-                                                        value: opcao,
-                                                        child:
-                                                        Text(
-                                                          opcao,
-                                                          style: TextStyle(
-                                                              color: textColorDrop
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      ).toList(),
-                                                    );
-                                                  }),
-                                                ),
-                                                Center(
-                                                  child: ValueListenableBuilder(valueListenable: dropValue6, builder: (context, String value, _){
-                                                    return DropdownButton(
-                                                      hint: Text(
-                                                        'Camera 06',
-                                                        style: TextStyle(
-                                                            color: textColorDrop
-                                                        ),
-                                                      ),
-                                                      value: (value.isEmpty)? null : value,
-                                                      onChanged: (escolha) async {
-                                                        dropValue6.value = escolha.toString();
-                                                        setState(() {
-                                                          camera06Selecionada = escolha.toString();
-                                                        });
-                                                      },
-                                                      items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
-                                                        value: opcao,
-                                                        child:
-                                                        Text(
-                                                          opcao,
-                                                          style: TextStyle(
-                                                              color: textColorDrop
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      ).toList(),
-                                                    );
-                                                  }),
-                                                ),
-                                                Center(
-                                                  child: ValueListenableBuilder(valueListenable: dropValue7, builder: (context, String value, _){
-                                                    return DropdownButton(
-                                                      hint: Text(
-                                                        'Camera 07',
-                                                        style: TextStyle(
-                                                            color: textColorDrop
-                                                        ),
-                                                      ),
-                                                      value: (value.isEmpty)? null : value,
-                                                      onChanged: (escolha) async {
-                                                        dropValue7.value = escolha.toString();
-                                                        setState(() {
-                                                          camera07Selecionada = escolha.toString();
-                                                        });
-                                                      },
-                                                      items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
-                                                        value: opcao,
-                                                        child:
-                                                        Text(
-                                                          opcao,
-                                                          style: TextStyle(
-                                                              color: textColorDrop
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      ).toList(),
-                                                    );
-                                                  }),
-                                                ),
-                                                Center(
-                                                  child: ValueListenableBuilder(valueListenable: dropValue8, builder: (context, String value, _){
-                                                    return DropdownButton(
-                                                      hint: Text(
-                                                        'Camera 08',
-                                                        style: TextStyle(
-                                                            color: textColorDrop
-                                                        ),
-                                                      ),
-                                                      value: (value.isEmpty)? null : value,
-                                                      onChanged: (escolha) async {
-                                                        dropValue8.value = escolha.toString();
-                                                        setState(() {
-                                                          camera08Selecionada = escolha.toString();
-                                                        });
-                                                      },
-                                                      items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
-                                                        value: opcao,
-                                                        child:
-                                                        Text(
-                                                          opcao,
-                                                          style: TextStyle(
-                                                              color: textColorDrop
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      ).toList(),
-                                                    );
-                                                  }),
-                                                ),
-                                                Center(
-                                                  child: ValueListenableBuilder(valueListenable: dropValue9, builder: (context, String value, _){
-                                                    return DropdownButton(
-                                                      hint: Text(
-                                                        'Camera 09',
-                                                        style: TextStyle(
-                                                            color: textColorDrop
-                                                        ),
-                                                      ),
-                                                      value: (value.isEmpty)? null : value,
-                                                      onChanged: (escolha) async {
-                                                        dropValue9.value = escolha.toString();
-                                                        setState(() {
-                                                          camera09Selecionada = escolha.toString();
-                                                        });
-                                                      },
-                                                      items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
-                                                        value: opcao,
-                                                        child:
-                                                        Text(
-                                                          opcao,
-                                                          style: TextStyle(
-                                                              color: textColorDrop
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      ).toList(),
-                                                    );
-                                                  }),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          IconButton(onPressed: (){
-                                            FirebaseFirestore.instance.collection('Condominios').doc(idCondominio).update({
-                                              "ipCamera1": int.parse(camera01Selecionada),
-                                              "ipCamera2": int.parse(camera02Selecionada),
-                                              "ipCamera3": int.parse(camera03Selecionada),
-                                              "ipCamera4": int.parse(camera04Selecionada),
-                                              "ipCamera5": int.parse(camera05Selecionada),
-                                              "ipCamera6": int.parse(camera06Selecionada),
-                                              "ipCamera7": int.parse(camera07Selecionada),
-                                              "ipCamera8": int.parse(camera08Selecionada),
-                                              "ipCamera9": int.parse(camera09Selecionada),
-                                              "ipCamera10": int.parse(camera10Selecionada),
-                                              "ipCamera11": int.parse(camera11Selecionada),
-                                              "ipCamera12": int.parse(camera12Selecionada),
-                                              "ipCamera13": int.parse(camera13Selecionada),
-                                              "ipCamera14": int.parse(camera14Selecionada),
-                                              "ipCamera15": int.parse(camera15Selecionada),
-                                              "ipCamera16": int.parse(camera16Selecionada),
-                                              "ipCamera17": int.parse(camera17Selecionada),
-                                              "ipCamera18": int.parse(camera18Selecionada),
-                                              "ipCamera19": int.parse(camera19Selecionada),
-                                              "ipCamera20": int.parse(camera20Selecionada),
-                                              "ipCamera21": int.parse(camera21Selecionada),
-                                              "ipCamera22": int.parse(camera22Selecionada),
-                                              "ipCamera23": int.parse(camera23Selecionada),
-                                              "ipCamera24": int.parse(camera24Selecionada),
-                                              "ipCamera25": int.parse(camera25Selecionada),
-                                              "ipCamera26": int.parse(camera26Selecionada),
-                                              "ipCamera27": int.parse(camera27Selecionada),
-                                              "ipCamera28": int.parse(camera28Selecionada),
-                                              "ipCamera29": int.parse(camera29Selecionada),
-                                              "ipCamera30": int.parse(camera30Selecionada),
-                                              "ipCamera31": int.parse(camera31Selecionada),
-                                              "ipCamera32": int.parse(camera32Selecionada),
-                                              "ipCamera33": int.parse(camera33Selecionada),
-                                              "ipCamera34": int.parse(camera34Selecionada),
-                                              "ipCamera35": int.parse(camera35Selecionada),
-                                              "ipCamera36": int.parse(camera36Selecionada),
-                                            }).whenComplete(() async {
-                                              //Quando salvo ele recarrega por completo estado!
-                                              await Future.delayed(const Duration(seconds: 1));
-                                              var getIpCameraSettings = await FirebaseFirestore.instance
-                                                  .collection("Condominios")
-                                                  .doc(idCondominio).get();
-                                              setState((){
-                                                camera1 = getIpCameraSettings["ipCamera1"];
-                                                camera2 = getIpCameraSettings["ipCamera2"];
-                                                camera3 = getIpCameraSettings["ipCamera3"];
-                                                camera4 = getIpCameraSettings["ipCamera4"];
-                                                camera5 = getIpCameraSettings["ipCamera5"];
-                                                camera6 = getIpCameraSettings["ipCamera6"];
-                                                camera7 = getIpCameraSettings["ipCamera7"];
-                                                camera8 = getIpCameraSettings["ipCamera8"];
-                                                camera9 = getIpCameraSettings["ipCamera9"];
-                                                widget.camera1 = getIpCameraSettings["ipCamera1"];
-                                                widget.camera2 = getIpCameraSettings["ipCamera2"];
-                                                widget.camera3 = getIpCameraSettings["ipCamera3"];
-                                                widget.camera4 = getIpCameraSettings["ipCamera4"];
-                                                widget.camera5 = getIpCameraSettings["ipCamera5"];
-                                                widget.camera6 = getIpCameraSettings["ipCamera6"];
-                                                widget.camera7 = getIpCameraSettings["ipCamera7"];
-                                                widget.camera8 = getIpCameraSettings["ipCamera8"];
-                                                widget.camera9 = getIpCameraSettings["ipCamera9"];
-                                              });
-                                              if(umAtivo == true){
-                                                getIpCameraFromSettings(1, 2, 3, 4, 5, 6, 7, 8, 9);
-                                              }
-                                              if(doisAtivo == true){
-                                                getIpCameraFromSettings(10, 11, 12, 13, 14, 15, 16, 17, 18);
-                                              }
-
-                                              if(tresAtivo == true){
-                                                getIpCameraFromSettings(19, 20, 21, 22, 23, 24, 25, 26, 27);
-                                              }
-
-                                              if(quatroAtivo == true){
-                                                getIpCameraFromSettings(28, 29, 30, 31, 32, 33, 34, 35, 36);
-                                              }
-
-                                              Navigator.pop(context);
-                                            });
-                                          },
-                                              icon: const Icon(Icons.save)
-                                          )
-                                        ],
-                                      ),
-                                      scrollable: true,
-                                    );
-                                  },
-                                  );
-                                },
-                              );
-                            },
-                            child: Image.asset(
-                                "assets/Setting-icon.png",
-                                scale: 10
-                            )
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Stack(
+        child: widget.ip != "" ? SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(bottom: 10, top: 10),
+                child: AppBar(
+                  backgroundColor: widget.corDasBarras,
+                  centerTitle: true,
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Image.asset(
+                          "assets/camera.png",
+                          scale: 10
+                      ),
+                      Row(
                         children: [
-                          Center(
-                            child: SizedBox(
-                                width: widget.wid / 2,
-                                height: widget.heig / 1.9,
-                                child: GridView.count(
-                                  childAspectRatio: 1.8,
-                                  crossAxisCount: colunasIPCamera,
-                                  children: [
-                                    InkWell(
-                                        onTap: (){
-                                          setState(() {
-                                            CFTV = 1;
-                                          });
-                                        },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera1, widget.Modelo)
+                          TextButton(onPressed: (){
+                            setState(() {
+                              umAtivo = true;
+                              doisAtivo = false;
+                              tresAtivo = false;
+                              quatroAtivo = false;
+                              widget.camera1 = 1;
+                              widget.camera2 = 2;
+                              widget.camera3 = 3;
+                              widget.camera4 = 4;
+                              widget.camera5 = 5;
+                              widget.camera6 = 6;
+                              widget.camera7 = 7;
+                              widget.camera8 = 8;
+                              widget.camera9 = 9;
+                            });
+                          },
+                              style: TextButton.styleFrom(
+                                  backgroundColor: Colors.transparent
+                              ),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  umAtivo == true ?
+                                  Image.asset(
+                                      "assets/grade 3.png",
+                                      scale: 10
+                                  ):
+                                  Image.asset(
+                                      "assets/grade 2.png",
+                                      scale: 10
+                                  ),
+                                  const Text('1',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
                                     ),
-                                    InkWell(
-                                        onTap: (){
-                                          setState(() {
-                                            CFTV = 2;
-                                          });
-                                        },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera2, widget.Modelo)
+                                  ),
+                                ],
+                              )
+                          ),
+                          TextButton(onPressed: (){
+                            setState(() {
+                              umAtivo = false;
+                              doisAtivo = true;
+                              tresAtivo = false;
+                              quatroAtivo = false;
+                              getIpCameraFromSettings(10, 11, 12, 13, 14, 15, 16, 17, 18);
+                            });
+                          },
+                              style: TextButton.styleFrom(
+                                  backgroundColor: Colors.transparent
+                              ),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  doisAtivo == true ?
+                                  Image.asset(
+                                      "assets/grade 3.png",
+                                      scale: 10
+                                  ):
+                                  Image.asset(
+                                      "assets/grade 2.png",
+                                      scale: 10
+                                  ),
+                                  const Text('2',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
                                     ),
-                                    InkWell(
-                                        onTap: (){
-                                          setState(() {
-                                            CFTV = 3;
-                                          });
-                                        },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera3, widget.Modelo)
+                                  ),
+                                ],
+                              )
+                          ),
+                          TextButton(onPressed: (){
+                            setState(() {
+                              umAtivo = false;
+                              doisAtivo = false;
+                              tresAtivo = true;
+                              quatroAtivo = false;
+                              getIpCameraFromSettings(19, 20, 21, 22, 23, 24, 25, 26, 27);
+                            });
+                          },
+                              style: TextButton.styleFrom(
+                                  backgroundColor: Colors.transparent
+                              ),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  tresAtivo == true ?
+                                  Image.asset(
+                                      "assets/grade 3.png",
+                                      scale: 10
+                                  ):
+                                  Image.asset(
+                                      "assets/grade 2.png",
+                                      scale: 10
+                                  ),
+                                  const Text('3',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
                                     ),
-                                    InkWell(
-                                        onTap: (){
-                                          setState(() {
-                                            CFTV = 4;
-                                          });
-                                        },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera4, widget.Modelo)
+                                  ),
+                                ],
+                              )
+                          ),
+                          TextButton(onPressed: (){
+                            setState(() {
+                              umAtivo = false;
+                              doisAtivo = false;
+                              tresAtivo = false;
+                              quatroAtivo = true;
+                              getIpCameraFromSettings(28, 29, 30, 31, 32, 33, 34, 35, 36);
+                            });
+                          },
+                              style: TextButton.styleFrom(
+                                  backgroundColor: Colors.transparent
+                              ),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  quatroAtivo == true ?
+                                  Image.asset(
+                                      "assets/grade 3.png",
+                                      scale: 10
+                                  ):
+                                  Image.asset(
+                                      "assets/grade 2.png",
+                                      scale: 10
+                                  ),
+                                  const Text('4',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
                                     ),
-                                    InkWell(
-                                        onTap: (){
-                                          setState(() {
-                                            CFTV = 5;
-                                          });
-                                        },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera5, widget.Modelo)
-                                    ),
-                                    InkWell(
-                                        onTap: (){
-                                          setState(() {
-                                            CFTV = 6;
-                                          });
-                                        },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera6, widget.Modelo)
-                                    ),
-                                    InkWell(
-                                        onTap: (){
-                                          setState(() {
-                                            CFTV = 7;
-                                          });
-                                        },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera7, widget.Modelo)
-                                    ),
-                                    InkWell(
-                                        onTap: (){
-                                          setState(() {
-                                            CFTV = 8;
-                                          });
-                                        },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera8, widget.Modelo)
-                                    ),
-                                    InkWell(
-                                        onTap: (){
-                                          setState(() {
-                                            CFTV = 9;
-                                          });
-                                        },
-                                        child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera9, widget.Modelo)
-                                    ),
-                                  ],
-                                )
-                            ),
+                                  ),
+                                ],
+                              )
                           ),
                         ],
                       ),
-                      CFTV == 0 ?
-                      Container():
-                      SizedBox(
-                          width: widget.wid / 2,
-                          height: widget.heig / 1.9,
-                          child: Stack(
-                              children: [
-                                videoStreamAlert(widget.user, widget.pass, widget.ip, widget.porta, CFTV, widget.Modelo),
-                                Container(
-                                  alignment: Alignment.topRight,
-                                  padding: const EdgeInsets.all(16),
-                                  child: IconButton(onPressed: (){
-                                    setState(() {
-                                      CFTV = 0;
-                                    });
-                                  },
-                                      icon: const Icon(Icons.close)
-                                  ),
-                                ),
-                              ]
+                      TextButton(
+                          onPressed: () async {
+                            getIpCameraCond();
+                            await Future.delayed(const Duration(seconds: 1));
+
+                            //Strings
+                            String camera01Selecionada = dropValue1 .value;
+                            String camera02Selecionada = dropValue2 .value;
+                            String camera03Selecionada = dropValue3 .value;
+                            String camera04Selecionada = dropValue4 .value;
+                            String camera05Selecionada = dropValue5 .value;
+                            String camera06Selecionada = dropValue6 .value;
+                            String camera07Selecionada = dropValue7 .value;
+                            String camera08Selecionada = dropValue8 .value;
+                            String camera09Selecionada = dropValue9 .value;
+                            String camera10Selecionada = dropValue10.value;
+                            String camera11Selecionada = dropValue11.value;
+                            String camera12Selecionada = dropValue12.value;
+                            String camera13Selecionada = dropValue13.value;
+                            String camera14Selecionada = dropValue14.value;
+                            String camera15Selecionada = dropValue15.value;
+                            String camera16Selecionada = dropValue16.value;
+                            String camera17Selecionada = dropValue17.value;
+                            String camera18Selecionada = dropValue18.value;
+                            String camera19Selecionada = dropValue19.value;
+                            String camera20Selecionada = dropValue20.value;
+                            String camera21Selecionada = dropValue21.value;
+                            String camera22Selecionada = dropValue22.value;
+                            String camera23Selecionada = dropValue23.value;
+                            String camera24Selecionada = dropValue24.value;
+                            String camera25Selecionada = dropValue25.value;
+                            String camera26Selecionada = dropValue26.value;
+                            String camera27Selecionada = dropValue27.value;
+                            String camera28Selecionada = dropValue28.value;
+                            String camera29Selecionada = dropValue29.value;
+                            String camera30Selecionada = dropValue30.value;
+                            String camera31Selecionada = dropValue31.value;
+                            String camera32Selecionada = dropValue32.value;
+                            String camera33Selecionada = dropValue33.value;
+                            String camera34Selecionada = dropValue34.value;
+                            String camera35Selecionada = dropValue35.value;
+                            String camera36Selecionada = dropValue36.value;
+
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                  return AlertDialog(
+                                    title: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Text("Editar cameras"),
+                                        Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            Image.asset(
+                                                "assets/grade 3.png",
+                                                scale: 10
+                                            ),
+                                            const Text('1',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 24,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          width: 600,
+                                          height: 600,
+                                          child: GridView.count(crossAxisCount: 3,
+                                            children: [
+                                              Center(
+                                                child: ValueListenableBuilder(valueListenable: dropValue1, builder: (context, String value, _){
+                                                  return DropdownButton(
+                                                    hint: Text(
+                                                      'Camera 01',
+                                                      style: TextStyle(
+                                                          color: textColorDrop
+                                                      ),
+                                                    ),
+                                                    value: (value.isEmpty)? null : value,
+                                                    onChanged: (escolha) async {
+                                                      dropValue1.value = escolha.toString();
+                                                      setState(() {
+                                                        camera01Selecionada = escolha.toString();
+                                                      });
+                                                    },
+                                                    items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
+                                                      value: opcao,
+                                                      child:
+                                                      Text(
+                                                        opcao,
+                                                        style: TextStyle(
+                                                            color: textColorDrop
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ).toList(),
+                                                  );
+                                                }),
+                                              ),
+                                              Center(
+                                                child: ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
+                                                  return DropdownButton(
+                                                    hint: Text(
+                                                      'Camera 02',
+                                                      style: TextStyle(
+                                                          color: textColorDrop
+                                                      ),
+                                                    ),
+                                                    value: (value.isEmpty)? null : value,
+                                                    onChanged: (escolha) async {
+                                                      dropValue2.value = escolha.toString();
+                                                      setState(() {
+                                                        camera02Selecionada = escolha.toString();
+                                                      });
+                                                    },
+                                                    items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
+                                                      value: opcao,
+                                                      child:
+                                                      Text(
+                                                        opcao,
+                                                        style: TextStyle(
+                                                            color: textColorDrop
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ).toList(),
+                                                  );
+                                                }),
+                                              ),
+                                              Center(
+                                                child: ValueListenableBuilder(valueListenable: dropValue3, builder: (context, String value, _){
+                                                  return DropdownButton(
+                                                    hint: Text(
+                                                      'Camera 03',
+                                                      style: TextStyle(
+                                                          color: textColorDrop
+                                                      ),
+                                                    ),
+                                                    value: (value.isEmpty)? null : value,
+                                                    onChanged: (escolha) async {
+                                                      dropValue3.value = escolha.toString();
+                                                      setState(() {
+                                                        camera03Selecionada = escolha.toString();
+                                                      });
+                                                    },
+                                                    items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
+                                                      value: opcao,
+                                                      child:
+                                                      Text(
+                                                        opcao,
+                                                        style: TextStyle(
+                                                            color: textColorDrop
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ).toList(),
+                                                  );
+                                                }),
+                                              ),
+                                              Center(
+                                                child: ValueListenableBuilder(valueListenable: dropValue4, builder: (context, String value, _){
+                                                  return DropdownButton(
+                                                    hint: Text(
+                                                      'Camera 04',
+                                                      style: TextStyle(
+                                                          color: textColorDrop
+                                                      ),
+                                                    ),
+                                                    value: (value.isEmpty)? null : value,
+                                                    onChanged: (escolha) async {
+                                                      dropValue4.value = escolha.toString();
+                                                      setState(() {
+                                                        camera04Selecionada = escolha.toString();
+                                                      });
+                                                    },
+                                                    items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
+                                                      value: opcao,
+                                                      child:
+                                                      Text(
+                                                        opcao,
+                                                        style: TextStyle(
+                                                            color: textColorDrop
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ).toList(),
+                                                  );
+                                                }),
+                                              ),
+                                              Center(
+                                                child: ValueListenableBuilder(valueListenable: dropValue5, builder: (context, String value, _){
+                                                  return DropdownButton(
+                                                    hint: Text(
+                                                      'Camera 05',
+                                                      style: TextStyle(
+                                                          color: textColorDrop
+                                                      ),
+                                                    ),
+                                                    value: (value.isEmpty)? null : value,
+                                                    onChanged: (escolha) async {
+                                                      dropValue5.value = escolha.toString();
+                                                      setState(() {
+                                                        camera05Selecionada = escolha.toString();
+                                                      });
+                                                    },
+                                                    items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
+                                                      value: opcao,
+                                                      child:
+                                                      Text(
+                                                        opcao,
+                                                        style: TextStyle(
+                                                            color: textColorDrop
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ).toList(),
+                                                  );
+                                                }),
+                                              ),
+                                              Center(
+                                                child: ValueListenableBuilder(valueListenable: dropValue6, builder: (context, String value, _){
+                                                  return DropdownButton(
+                                                    hint: Text(
+                                                      'Camera 06',
+                                                      style: TextStyle(
+                                                          color: textColorDrop
+                                                      ),
+                                                    ),
+                                                    value: (value.isEmpty)? null : value,
+                                                    onChanged: (escolha) async {
+                                                      dropValue6.value = escolha.toString();
+                                                      setState(() {
+                                                        camera06Selecionada = escolha.toString();
+                                                      });
+                                                    },
+                                                    items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
+                                                      value: opcao,
+                                                      child:
+                                                      Text(
+                                                        opcao,
+                                                        style: TextStyle(
+                                                            color: textColorDrop
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ).toList(),
+                                                  );
+                                                }),
+                                              ),
+                                              Center(
+                                                child: ValueListenableBuilder(valueListenable: dropValue7, builder: (context, String value, _){
+                                                  return DropdownButton(
+                                                    hint: Text(
+                                                      'Camera 07',
+                                                      style: TextStyle(
+                                                          color: textColorDrop
+                                                      ),
+                                                    ),
+                                                    value: (value.isEmpty)? null : value,
+                                                    onChanged: (escolha) async {
+                                                      dropValue7.value = escolha.toString();
+                                                      setState(() {
+                                                        camera07Selecionada = escolha.toString();
+                                                      });
+                                                    },
+                                                    items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
+                                                      value: opcao,
+                                                      child:
+                                                      Text(
+                                                        opcao,
+                                                        style: TextStyle(
+                                                            color: textColorDrop
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ).toList(),
+                                                  );
+                                                }),
+                                              ),
+                                              Center(
+                                                child: ValueListenableBuilder(valueListenable: dropValue8, builder: (context, String value, _){
+                                                  return DropdownButton(
+                                                    hint: Text(
+                                                      'Camera 08',
+                                                      style: TextStyle(
+                                                          color: textColorDrop
+                                                      ),
+                                                    ),
+                                                    value: (value.isEmpty)? null : value,
+                                                    onChanged: (escolha) async {
+                                                      dropValue8.value = escolha.toString();
+                                                      setState(() {
+                                                        camera08Selecionada = escolha.toString();
+                                                      });
+                                                    },
+                                                    items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
+                                                      value: opcao,
+                                                      child:
+                                                      Text(
+                                                        opcao,
+                                                        style: TextStyle(
+                                                            color: textColorDrop
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ).toList(),
+                                                  );
+                                                }),
+                                              ),
+                                              Center(
+                                                child: ValueListenableBuilder(valueListenable: dropValue9, builder: (context, String value, _){
+                                                  return DropdownButton(
+                                                    hint: Text(
+                                                      'Camera 09',
+                                                      style: TextStyle(
+                                                          color: textColorDrop
+                                                      ),
+                                                    ),
+                                                    value: (value.isEmpty)? null : value,
+                                                    onChanged: (escolha) async {
+                                                      dropValue9.value = escolha.toString();
+                                                      setState(() {
+                                                        camera09Selecionada = escolha.toString();
+                                                      });
+                                                    },
+                                                    items: ipcamerasDisp.map((opcao) => DropdownMenuItem(
+                                                      value: opcao,
+                                                      child:
+                                                      Text(
+                                                        opcao,
+                                                        style: TextStyle(
+                                                            color: textColorDrop
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ).toList(),
+                                                  );
+                                                }),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        IconButton(onPressed: (){
+                                          FirebaseFirestore.instance.collection('Condominios').doc(idCondominio).update({
+                                            "ipCamera1": int.parse(camera01Selecionada),
+                                            "ipCamera2": int.parse(camera02Selecionada),
+                                            "ipCamera3": int.parse(camera03Selecionada),
+                                            "ipCamera4": int.parse(camera04Selecionada),
+                                            "ipCamera5": int.parse(camera05Selecionada),
+                                            "ipCamera6": int.parse(camera06Selecionada),
+                                            "ipCamera7": int.parse(camera07Selecionada),
+                                            "ipCamera8": int.parse(camera08Selecionada),
+                                            "ipCamera9": int.parse(camera09Selecionada),
+                                            "ipCamera10": int.parse(camera10Selecionada),
+                                            "ipCamera11": int.parse(camera11Selecionada),
+                                            "ipCamera12": int.parse(camera12Selecionada),
+                                            "ipCamera13": int.parse(camera13Selecionada),
+                                            "ipCamera14": int.parse(camera14Selecionada),
+                                            "ipCamera15": int.parse(camera15Selecionada),
+                                            "ipCamera16": int.parse(camera16Selecionada),
+                                            "ipCamera17": int.parse(camera17Selecionada),
+                                            "ipCamera18": int.parse(camera18Selecionada),
+                                            "ipCamera19": int.parse(camera19Selecionada),
+                                            "ipCamera20": int.parse(camera20Selecionada),
+                                            "ipCamera21": int.parse(camera21Selecionada),
+                                            "ipCamera22": int.parse(camera22Selecionada),
+                                            "ipCamera23": int.parse(camera23Selecionada),
+                                            "ipCamera24": int.parse(camera24Selecionada),
+                                            "ipCamera25": int.parse(camera25Selecionada),
+                                            "ipCamera26": int.parse(camera26Selecionada),
+                                            "ipCamera27": int.parse(camera27Selecionada),
+                                            "ipCamera28": int.parse(camera28Selecionada),
+                                            "ipCamera29": int.parse(camera29Selecionada),
+                                            "ipCamera30": int.parse(camera30Selecionada),
+                                            "ipCamera31": int.parse(camera31Selecionada),
+                                            "ipCamera32": int.parse(camera32Selecionada),
+                                            "ipCamera33": int.parse(camera33Selecionada),
+                                            "ipCamera34": int.parse(camera34Selecionada),
+                                            "ipCamera35": int.parse(camera35Selecionada),
+                                            "ipCamera36": int.parse(camera36Selecionada),
+                                          }).whenComplete(() async {
+                                            //Quando salvo ele recarrega por completo estado!
+                                            await Future.delayed(const Duration(seconds: 1));
+                                            var getIpCameraSettings = await FirebaseFirestore.instance
+                                                .collection("Condominios")
+                                                .doc(idCondominio).get();
+                                            setState((){
+                                              camera1 = getIpCameraSettings["ipCamera1"];
+                                              camera2 = getIpCameraSettings["ipCamera2"];
+                                              camera3 = getIpCameraSettings["ipCamera3"];
+                                              camera4 = getIpCameraSettings["ipCamera4"];
+                                              camera5 = getIpCameraSettings["ipCamera5"];
+                                              camera6 = getIpCameraSettings["ipCamera6"];
+                                              camera7 = getIpCameraSettings["ipCamera7"];
+                                              camera8 = getIpCameraSettings["ipCamera8"];
+                                              camera9 = getIpCameraSettings["ipCamera9"];
+                                              widget.camera1 = getIpCameraSettings["ipCamera1"];
+                                              widget.camera2 = getIpCameraSettings["ipCamera2"];
+                                              widget.camera3 = getIpCameraSettings["ipCamera3"];
+                                              widget.camera4 = getIpCameraSettings["ipCamera4"];
+                                              widget.camera5 = getIpCameraSettings["ipCamera5"];
+                                              widget.camera6 = getIpCameraSettings["ipCamera6"];
+                                              widget.camera7 = getIpCameraSettings["ipCamera7"];
+                                              widget.camera8 = getIpCameraSettings["ipCamera8"];
+                                              widget.camera9 = getIpCameraSettings["ipCamera9"];
+                                            });
+                                            if(umAtivo == true){
+                                              getIpCameraFromSettings(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                                            }
+                                            if(doisAtivo == true){
+                                              getIpCameraFromSettings(10, 11, 12, 13, 14, 15, 16, 17, 18);
+                                            }
+
+                                            if(tresAtivo == true){
+                                              getIpCameraFromSettings(19, 20, 21, 22, 23, 24, 25, 26, 27);
+                                            }
+
+                                            if(quatroAtivo == true){
+                                              getIpCameraFromSettings(28, 29, 30, 31, 32, 33, 34, 35, 36);
+                                            }
+
+                                            Navigator.pop(context);
+                                          });
+                                        },
+                                            icon: const Icon(Icons.save)
+                                        )
+                                      ],
+                                    ),
+                                    scrollable: true,
+                                  );
+                                },
+                                );
+                              },
+                            );
+                          },
+                          child: Image.asset(
+                              "assets/Setting-icon.png",
+                              scale: 10
                           )
-                      ),
-                    ]
+                      )
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+              Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: SizedBox(
+                              width: widget.wid / 2,
+                              height: widget.heig / 1.9,
+                              child: GridView.count(
+                                childAspectRatio: 1.8,
+                                crossAxisCount: colunasIPCamera,
+                                children: [
+                                  InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          CFTV = 1;
+                                        });
+                                      },
+                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera1, widget.Modelo)
+                                  ),
+                                  InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          CFTV = 2;
+                                        });
+                                      },
+                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera2, widget.Modelo)
+                                  ),
+                                  InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          CFTV = 3;
+                                        });
+                                      },
+                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera3, widget.Modelo)
+                                  ),
+                                  InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          CFTV = 4;
+                                        });
+                                      },
+                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera4, widget.Modelo)
+                                  ),
+                                  InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          CFTV = 5;
+                                        });
+                                      },
+                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera5, widget.Modelo)
+                                  ),
+                                  InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          CFTV = 6;
+                                        });
+                                      },
+                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera6, widget.Modelo)
+                                  ),
+                                  InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          CFTV = 7;
+                                        });
+                                      },
+                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera7, widget.Modelo)
+                                  ),
+                                  InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          CFTV = 8;
+                                        });
+                                      },
+                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera8, widget.Modelo)
+                                  ),
+                                  InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          CFTV = 9;
+                                        });
+                                      },
+                                      child: videoStream(widget.user, widget.pass, widget.ip, widget.porta, widget.camera9, widget.Modelo)
+                                  ),
+                                ],
+                              )
+                          ),
+                        ),
+                      ],
+                    ),
+                    CFTV == 0 ?
+                    Container():
+                    SizedBox(
+                        width: widget.wid / 2,
+                        height: widget.heig / 1.9,
+                        child: Stack(
+                            children: [
+                              videoStreamAlert(widget.user, widget.pass, widget.ip, widget.porta, CFTV, widget.Modelo),
+                              Container(
+                                alignment: Alignment.topRight,
+                                padding: const EdgeInsets.all(16),
+                                child: IconButton(onPressed: (){
+                                  setState(() {
+                                    CFTV = 0;
+                                  });
+                                },
+                                    icon: const Icon(Icons.close)
+                                ),
+                              ),
+                            ]
+                        )
+                    ),
+                  ]
+              ),
+            ],
           ),
         ): Column(
           children: [
