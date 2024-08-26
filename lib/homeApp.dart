@@ -394,9 +394,6 @@ class _homeAppState extends State<homeApp>{
 
                                                                         child: InkWell(
                                                                           onTap: () async {
-                                                                            var getIpCameraSettings = await FirebaseFirestore.instance
-                                                                                .collection("Condominios")
-                                                                                .doc(idCondominio).get();
                                                                             setState(() {
                                                                               ip = documents["IpCamera"];
                                                                               user = documents["UserAccess"];
@@ -405,7 +402,12 @@ class _homeAppState extends State<homeApp>{
                                                                               idCondominio = documents["idCondominio"];
                                                                               anotacao = documents["Aviso"];
                                                                               ModeloDoCFTV = documents['ipCameraModelo'];
+                                                                            });
 
+                                                                            var getIpCameraSettings = await FirebaseFirestore.instance
+                                                                                .collection("Condominios")
+                                                                                .doc(idCondominio).get();
+                                                                            setState((){
                                                                               camera1 = getIpCameraSettings["ipCamera1"];
                                                                               camera2 = getIpCameraSettings["ipCamera2"];
                                                                               camera3 = getIpCameraSettings["ipCamera3"];
@@ -1703,7 +1705,7 @@ class _homeAppState extends State<homeApp>{
                                                     },
                                                     child: Image.asset(
                                                         "assets/fab.png",
-                                                        scale: 17
+                                                        scale: 25
                                                     )
                                                 ),
                                               ):
@@ -1873,7 +1875,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 ),
                                                                                 Image.asset(
                                                                                     documents["iconeSeleciondo"],
-                                                                                    scale: 20
+                                                                                    scale: 25
                                                                                 ),
                                                                               ],
                                                                             )
@@ -3004,7 +3006,7 @@ class _homeAppState extends State<homeApp>{
                                                             },
                                                             child: Image.asset(
                                                                 "assets/fab.png",
-                                                                scale: 17
+                                                                scale: 25
                                                             )
                                                         ),
                                                       ),
@@ -3246,7 +3248,7 @@ class _homeAppState extends State<homeApp>{
                                                       },
                                                           child: Image.asset(
                                                               "assets/fab.png",
-                                                              scale: 17
+                                                              scale: 25
                                                           )
                                                       ),
                                                     ),
@@ -5441,7 +5443,7 @@ class _homeAppState extends State<homeApp>{
                                                 },
                                                 child: Image.asset(
                                                     "assets/fab.png",
-                                                    scale: 17
+                                                    scale: 25
                                                 )
                                             ),
                                           ),
@@ -6301,7 +6303,7 @@ class _homeAppState extends State<homeApp>{
                                                       },
                                                       child: Image.asset(
                                                           "assets/fab.png",
-                                                          scale: 17
+                                                          scale: 25
                                                       )
                                                   ),
                                                 )
@@ -7032,7 +7034,7 @@ class _homeAppState extends State<homeApp>{
                                                             },
                                                             child: Image.asset(
                                                                 "assets/fab.png",
-                                                                scale: 17
+                                                                scale: 25
                                                             )
                                                         ),
                                                       ),

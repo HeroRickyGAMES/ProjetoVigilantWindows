@@ -3,7 +3,7 @@ import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 
 //Desenvolvido por HeroRickyGames com ajuda de Deus!
-
+String urlvideo = "";
 class videoStream extends StatefulWidget {
 
   //Strings
@@ -43,6 +43,9 @@ class _videoStreamState extends State<videoStream> {
   Widget build(BuildContext context) {
     openPlayer() async {
       if(widget.Modelo == "Intelbras"){
+        setState((){
+          urlvideo = 'rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/cam/realmonitor?channel=${widget.canal}&subtype=0';
+        });
         player.open(
             Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/cam/realmonitor?channel=${widget.canal}&subtype=0'),
             play: true
@@ -50,6 +53,9 @@ class _videoStreamState extends State<videoStream> {
         player.setVolume(0);
       }
       if(widget.Modelo == "Hikvision"){
+        setState(() {
+          urlvideo = 'rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/ISAPI/Streaming/Channels/${widget.canal}';
+        });
         player.open(
             Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/ISAPI/Streaming/Channels/${widget.canal}'),
         play: true
