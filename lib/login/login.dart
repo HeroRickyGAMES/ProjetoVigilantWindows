@@ -46,7 +46,10 @@ class _loginState extends State<login> {
               //crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset("assets/VigilantLogoLogin.png"),
+                Image.asset(
+                    "assets/VigilantLogoLogin.png",
+                scale: 2,
+                ),
                 Column(
                   children: [
                     Row(

@@ -128,7 +128,8 @@ List ModelosAcionamentos = [
 ];
 
 List ImportarUsuarios = [
-  "Control iD"
+  "Control iD",
+  "Outros",
 ];
 
 List ModelosdeCFTV = [
@@ -247,7 +248,7 @@ class _homeAppState extends State<homeApp>{
                                   padding: const EdgeInsets.only(right: 16),
                                   child: Image.asset(
                                       "assets/vigilantLogo.png",
-                                      scale: 3
+                                      scale: 20
                                   ),
                                 ),
                                 Container(
@@ -1842,13 +1843,19 @@ class _homeAppState extends State<homeApp>{
                                               
                                                         if (snapshot.hasData) {
                                                           return GridView.count(
-                                                              childAspectRatio: 1,
+                                                              childAspectRatio: 1.2,
                                                               crossAxisCount: 3,
                                                               children: snapshot.data!.docs.map((documents) {
                                                                 double tamanhotext = 14;
+                                                                bool isBolded = false;
+
+                                                                if(documents["nome"].length >= 16){
+                                                                  tamanhotext = 12;
+                                                                }
 
                                                                 if(documents["nome"].length >= 20){
-                                                                  tamanhotext = 10;
+                                                                  tamanhotext = 9;
+                                                                  isBolded = true;
                                                                 }
 
                                                                 return Container(
@@ -1894,9 +1901,16 @@ class _homeAppState extends State<homeApp>{
                                                                         children: [
                                                                           Text(
                                                                               documents["nome"],
-                                                                              style: TextStyle(
+                                                                              style: isBolded == true?
+                                                                              TextStyle(
                                                                                   color: textColorWidgets,
-                                                                                  fontSize: tamanhotext
+                                                                                  fontSize: tamanhotext,
+                                                                                  fontWeight: FontWeight.bold
+                                                                              )
+                                                                                  :
+                                                                              TextStyle(
+                                                                                  color: textColorWidgets,
+                                                                                  fontSize: tamanhotext,
                                                                               ),
                                                                             textAlign: TextAlign.center,
                                                                           ),
@@ -1915,33 +1929,35 @@ class _homeAppState extends State<homeApp>{
                                                                                 return NativeContextMenuWidget(
                                                                                   actionCallback: (action) {
                                                                                     if(action == "editar_acionamento"){
+
+                                                                                      TextEditingController identificacaocontr = TextEditingController(text: documents["nome"]);
+                                                                                      TextEditingController ipcontr = TextEditingController(text: documents["ip"]);
+                                                                                      TextEditingController portacontr = TextEditingController(text: "${documents["porta"]}");
+                                                                                      TextEditingController canalcontr = TextEditingController(text: "${documents["canal"]}");
+                                                                                      TextEditingController usuariocontr = TextEditingController(text: documents["usuario"]);
+                                                                                      TextEditingController senhacontr = TextEditingController(text: documents["senha"]);
+
+                                                                                      String nome = documents["nome"];
+                                                                                      String ip = documents["ip"];
+                                                                                      String porta = "${documents["porta"]}";
+                                                                                      String canal = "${documents["canal"]}";
+                                                                                      String usuario = documents["usuario"];
+                                                                                      String senha = documents["senha"];
+                                                                                      String modeloselecionado = documents["modelo"];
+                                                                                      String iconeSelecionado = documents["iconeSeleciondo"];
+                                                                                      var dropValue4 = ValueNotifier(iconeSelecionado);
+
+                                                                                      List icones = [
+                                                                                        "assets/portaria_acept.png",
+                                                                                        "assets/pedestre.png",
+                                                                                        "assets/pedestre02.png",
+                                                                                        "assets/door.png",
+                                                                                        "assets/garagem.png",
+                                                                                      ];
+                                                                                      var dropValue3 = ValueNotifier(modeloselecionado);
                                                                                       showDialog(
                                                                                         context: context,
                                                                                         builder: (BuildContext context) {
-                                              
-                                                                                          TextEditingController identificacaocontr = TextEditingController(text: documents["nome"]);
-                                                                                          TextEditingController ipcontr = TextEditingController(text: documents["ip"]);
-                                                                                          TextEditingController portacontr = TextEditingController(text: "${documents["porta"]}");
-                                                                                          TextEditingController canalcontr = TextEditingController(text: "${documents["canal"]}");
-                                                                                          TextEditingController usuariocontr = TextEditingController(text: documents["usuario"]);
-                                                                                          TextEditingController senhacontr = TextEditingController(text: documents["usuario"]);
-                                              
-                                                                                          String nome = documents["nome"];
-                                                                                          String ip = documents["ip"];
-                                                                                          String porta = "${documents["porta"]}";
-                                                                                          String canal = "${documents["canal"]}";
-                                                                                          String usuario = documents["usuario"];
-                                                                                          String senha = documents["usuario"];
-                                                                                          String modeloselecionado = documents["modelo"];
-                                                                                          String iconeSelecionado = documents["iconeSeleciondo"];
-                                                                                          var dropValue4 = ValueNotifier(iconeSelecionado);
-                                                                                          List icones = [
-                                                                                            "assets/portaria_acept.png",
-                                                                                            "assets/pedestre.png",
-                                                                                            "assets/pedestre02.png",
-                                                                                          ];
-                                                                                          var dropValue3 = ValueNotifier(modeloselecionado);
-                                              
                                                                                           return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
                                                                                             return Center(
                                                                                               child: SingleChildScrollView(
@@ -2360,7 +2376,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             if(regex.hasMatch(canal)){
                                                                                                                               showToast("O canal contem letras, e letras não são permitidas!",context:context);
                                                                                                                             }else{
-                                              
                                                                                                                               if(usuario == ""){
                                                                                                                                 showToast("O usuario não pode estar vazio!",context:context);
                                                                                                                               }else{
@@ -2540,6 +2555,8 @@ class _homeAppState extends State<homeApp>{
                                                                   "assets/portaria_acept.png",
                                                                   "assets/pedestre.png",
                                                                   "assets/pedestre02.png",
+                                                                  "assets/door.png",
+                                                                  "assets/garagem.png",
                                                                 ];
                                               
                                                                 return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
@@ -4447,7 +4464,7 @@ class _homeAppState extends State<homeApp>{
                                   children: [
                                     SizedBox(
                                       width: wid / 4,
-                                      height: heig / 3.9,
+                                      height: heig / 4,
                                       child: Stack(
                                         children: [
                                           idCondominio != "" ?
@@ -4482,7 +4499,7 @@ class _homeAppState extends State<homeApp>{
                                                   children: [
                                                     SizedBox(
                                                       width: double.infinity,
-                                                      height: heig / 3,
+                                                      height: heig / 4,
                                                       child: SingleChildScrollView(
                                                         child: Column(
                                                           children: [
@@ -4788,9 +4805,15 @@ class _homeAppState extends State<homeApp>{
                                                   String RGV = "";
                                                   String Unidade = "";
                                                   String Bloco = "";
+                                                  String modeloPikado = "Control iD";
+                                                  int portaAc = 8080;
+                                                  String usuarioAc = "";
+                                                  String senhAc = "";
+                                                  String ipAcionamento = "";
                                                   DateTime selectedDate = DateTime.now();
                                                   File? _imageFile;
                                                   final picker = ImagePicker();
+                                                  var dropValue2 = ValueNotifier('Control iD');
 
                                                   showDialog(
                                                     context: context,
@@ -5360,6 +5383,187 @@ class _homeAppState extends State<homeApp>{
                                                                             ),
                                                                           ),
                                                                         ),
+                                                                        Center(
+                                                                          child: ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
+                                                                            return DropdownButton(
+                                                                              hint: Text(
+                                                                                'Selecione o modelo da Facial',
+                                                                                style: TextStyle(
+                                                                                    color: textColorDrop
+                                                                                ),
+                                                                              ),
+                                                                              value: (value.isEmpty)? null : value,
+                                                                              onChanged: (escolha) async {
+                                                                                dropValue2.value = escolha.toString();
+                                                                                setState(() {
+                                                                                  modeloPikado = escolha.toString();
+                                                                                });
+                                                                              },
+                                                                              items: ImportarUsuarios.map((opcao) => DropdownMenuItem(
+                                                                                value: opcao,
+                                                                                child:
+                                                                                Text(
+                                                                                  opcao,
+                                                                                  style: TextStyle(
+                                                                                      color: textColorDrop
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              ).toList(),
+                                                                            );
+                                                                          }),
+                                                                        ),
+                                                                        modeloPikado == "Outros" ?
+                                                                            Container()
+                                                                            :
+                                                                        Column(
+                                                                          children: [
+                                                                            Center(
+                                                                              child: Container(
+                                                                                padding: const EdgeInsets.all(16),
+                                                                                child: TextField(
+                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                  enableSuggestions: false,
+                                                                                  autocorrect: false,
+                                                                                  onChanged: (value){
+                                                                                    setState(() {
+                                                                                      ipAcionamento = value;
+                                                                                    });
+                                                                                  },
+                                                                                  decoration: InputDecoration(
+                                                                                    filled: true,
+                                                                                    fillColor: Colors.white,
+                                                                                    labelStyle: TextStyle(
+                                                                                        color: textAlertDialogColor
+                                                                                    ),
+                                                                                    border: const OutlineInputBorder(),
+                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                    ),
+                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                      borderSide: BorderSide(
+                                                                                          width: 3,
+                                                                                          color: Colors.black
+                                                                                      ),
+                                                                                    ),
+                                                                                    labelText: 'IP da Facial',
+                                                                                  ),
+                                                                                  style: TextStyle(
+                                                                                      color: textAlertDialogColor
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Center(
+                                                                              child: Container(
+                                                                                padding: const EdgeInsets.all(16),
+                                                                                child: TextField(
+                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                  enableSuggestions: false,
+                                                                                  autocorrect: false,
+                                                                                  onChanged: (value){
+                                                                                    setState(() {
+                                                                                      portaAc = int.parse(value);
+                                                                                    });
+                                                                                  },
+                                                                                  decoration: InputDecoration(
+                                                                                    filled: true,
+                                                                                    fillColor: Colors.white,
+                                                                                    labelStyle: TextStyle(
+                                                                                        color: textAlertDialogColor
+                                                                                    ),
+                                                                                    border: const OutlineInputBorder(),
+                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                    ),
+                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                      borderSide: BorderSide(
+                                                                                          width: 3,
+                                                                                          color: Colors.black
+                                                                                      ),
+                                                                                    ),
+                                                                                    labelText: 'Porta da Facial',
+                                                                                  ),
+                                                                                  style: TextStyle(
+                                                                                      color: textAlertDialogColor
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Center(
+                                                                              child: Container(
+                                                                                padding: const EdgeInsets.all(16),
+                                                                                child: TextField(
+                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                  enableSuggestions: false,
+                                                                                  autocorrect: false,
+                                                                                  onChanged: (value){
+                                                                                    setState(() {
+                                                                                      usuarioAc = value;
+                                                                                    });
+                                                                                  },
+                                                                                  decoration: InputDecoration(
+                                                                                    filled: true,
+                                                                                    fillColor: Colors.white,
+                                                                                    labelStyle: TextStyle(
+                                                                                        color: textAlertDialogColor
+                                                                                    ),
+                                                                                    border: const OutlineInputBorder(),
+                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                    ),
+                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                      borderSide: BorderSide(
+                                                                                          width: 3,
+                                                                                          color: Colors.black
+                                                                                      ),
+                                                                                    ),
+                                                                                    labelText: 'Usuario da Facial',
+                                                                                  ),
+                                                                                  style: TextStyle(
+                                                                                      color: textAlertDialogColor
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Center(
+                                                                              child: Container(
+                                                                                padding: const EdgeInsets.all(16),
+                                                                                child: TextField(
+                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                  enableSuggestions: false,
+                                                                                  autocorrect: false,
+                                                                                  onChanged: (value){
+                                                                                    setState(() {
+                                                                                      senhAc = value;
+                                                                                    });
+                                                                                  },
+                                                                                  decoration: InputDecoration(
+                                                                                    filled: true,
+                                                                                    fillColor: Colors.white,
+                                                                                    labelStyle: TextStyle(
+                                                                                        color: textAlertDialogColor
+                                                                                    ),
+                                                                                    border: const OutlineInputBorder(),
+                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                    ),
+                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                      borderSide: BorderSide(
+                                                                                          width: 3,
+                                                                                          color: Colors.black
+                                                                                      ),
+                                                                                    ),
+                                                                                    labelText: 'Senha da Facial',
+                                                                                  ),
+                                                                                  style: TextStyle(
+                                                                                      color: textAlertDialogColor
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
                                                                         Container(
                                                                           padding: const EdgeInsets.all(10),
                                                                           child: ElevatedButton(onPressed: () async {
@@ -5398,26 +5602,46 @@ class _homeAppState extends State<homeApp>{
                                                                                               );
                                                                                             },
                                                                                           );
-                                                                                          Map<String, dynamic> id = await cadastronoEquipamento(context, ip, 8081, "admin", "admin", "Control iD", NomeV);
-                                                                                          String ID = "${id["ids"][0]}";
+                                                                                          String ID = "";
 
-                                                                                          var ref = await carregarImagem(context, _imageFile!, ID, idCondominio);
+                                                                                          Cadastrar() async {
+                                                                                            var ref = await carregarImagem(context, _imageFile!, ID, idCondominio);
 
-                                                                                          FirebaseFirestore.instance.collection('Pessoas').doc(ID).set({
-                                                                                            "id": ID,
-                                                                                            "idCondominio": idCondominio,
-                                                                                            "Nome": NomeV,
-                                                                                            "CPF": CPFV,
-                                                                                            "RG": RGV,
-                                                                                            "DataNascimento": "${selectedDate.year}/${selectedDate.month}/${selectedDate.day}",
-                                                                                            "imageURI": await ref.getDownloadURL(),
-                                                                                            "Unidade":Unidade,
-                                                                                            "Bloco":Bloco,
-                                                                                            "anotacao": "",
-                                                                                          }).whenComplete(() {
-                                                                                            Navigator.pop(context);
-                                                                                            Navigator.pop(context);
-                                                                                          });
+                                                                                            FirebaseFirestore.instance.collection('Pessoas').doc(ID).set({
+                                                                                              "id": ID,
+                                                                                              "idCondominio": idCondominio,
+                                                                                              "Nome": NomeV,
+                                                                                              "CPF": CPFV,
+                                                                                              "RG": RGV,
+                                                                                              "DataNascimento": "${selectedDate.year}/${selectedDate.month}/${selectedDate.day}",
+                                                                                              "imageURI": await ref.getDownloadURL(),
+                                                                                              "Unidade":Unidade,
+                                                                                              "Bloco":Bloco,
+                                                                                              "anotacao": "",
+                                                                                            }).whenComplete(() {
+                                                                                              Navigator.pop(context);
+                                                                                              Navigator.pop(context);
+                                                                                            });
+                                                                                          }
+
+                                                                                          if(modeloPikado == "Control iD"){
+                                                                                            Map<String, dynamic> id = await cadastronoEquipamento(context, ipAcionamento, portaAc, usuarioAc, senhAc, "Control iD", NomeV);
+
+                                                                                            setState((){
+                                                                                              ID = "${id["ids"][0]}";
+                                                                                            });
+                                                                                            Cadastrar();
+                                                                                          }
+
+                                                                                          if(modeloPikado == "Outro"){
+                                                                                            Uuid uuid = const Uuid();
+
+                                                                                            setState((){
+                                                                                              ID =  uuid.v4();
+                                                                                            });
+
+                                                                                            Cadastrar();
+                                                                                          }
                                                                                         }
                                                                                       }
                                                                                     }
@@ -6321,12 +6545,12 @@ class _homeAppState extends State<homeApp>{
                                     ),
                                     SizedBox(
                                         width: wid / 4,
-                                        height: heig / 3,
+                                        height: heig / 3.5,
                                         child: Center(
                                           child: Center(
                                             child: SizedBox(
                                               width: wid / 4,
-                                              height: heig / 3,
+                                              height: heig / 3.5,
                                               child: SingleChildScrollView(
                                                 child: Stack(
                                                   children: [
@@ -6652,7 +6876,7 @@ class _homeAppState extends State<homeApp>{
 
                                                               return Container(
                                                                 width: wid,
-                                                                height: heig / 3.9,
+                                                                height: 100,
                                                                 decoration: BoxDecoration(
                                                                   border: Border.all(
                                                                     color: Colors.blue,
@@ -6662,12 +6886,6 @@ class _homeAppState extends State<homeApp>{
                                                                 child: ListView(
                                                                   children: snapshot.data!.docs.map((documents){
                                                                     return Container(
-                                                                      decoration: BoxDecoration(
-                                                                        border: Border.all(
-                                                                          color: Colors.blue,
-                                                                          width: 1.0,
-                                                                        ),
-                                                                      ),
                                                                       child: Center(
                                                                         child: Container(
                                                                             padding: const EdgeInsets.all(6),
@@ -6695,7 +6913,7 @@ class _homeAppState extends State<homeApp>{
                                                         padding: const EdgeInsets.all(16),
                                                         alignment: Alignment.bottomRight,
                                                         width: wid / 4,
-                                                        height: heig / 3,
+                                                        height: heig / 3.5,
                                                         child: TextButton(
                                                             onPressed: idCondominio == "" ? null : (){
 

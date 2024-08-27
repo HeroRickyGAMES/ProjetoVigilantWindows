@@ -211,7 +211,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.only(bottom: 10, top: 10),
+                padding: const EdgeInsets.only(bottom: 8, top: 8),
                 child: AppBar(
                   backgroundColor: widget.corDasBarras,
                   centerTitle: true,
@@ -220,7 +220,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                     children: [
                       Image.asset(
                           "assets/camera.png",
-                          scale: 11
+                          scale: 12
                       ),
                       Row(
                         children: [
@@ -250,11 +250,11 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                   umAtivo == true ?
                                   Image.asset(
                                       "assets/grade 3.png",
-                                      scale: 11
+                                      scale: 12
                                   ):
                                   Image.asset(
                                       "assets/grade 2.png",
-                                      scale: 11
+                                      scale: 12
                                   ),
                                   const Text('1',
                                     textAlign: TextAlign.center,
@@ -284,11 +284,11 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                   doisAtivo == true ?
                                   Image.asset(
                                       "assets/grade 3.png",
-                                      scale: 11
+                                      scale: 12
                                   ):
                                   Image.asset(
                                       "assets/grade 2.png",
-                                      scale: 11
+                                      scale: 12
                                   ),
                                   const Text('2',
                                     textAlign: TextAlign.center,
@@ -318,11 +318,11 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                   tresAtivo == true ?
                                   Image.asset(
                                       "assets/grade 3.png",
-                                      scale: 11
+                                      scale: 12
                                   ):
                                   Image.asset(
                                       "assets/grade 2.png",
-                                      scale: 11
+                                      scale: 12
                                   ),
                                   const Text('3',
                                     textAlign: TextAlign.center,
@@ -352,11 +352,11 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                   quatroAtivo == true ?
                                   Image.asset(
                                       "assets/grade 3.png",
-                                      scale: 11
+                                      scale: 12
                                   ):
                                   Image.asset(
                                       "assets/grade 2.png",
-                                      scale: 11
+                                      scale: 12
                                   ),
                                   const Text('4',
                                     textAlign: TextAlign.center,
@@ -427,7 +427,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                           children: [
                                             Image.asset(
                                                 "assets/grade 3.png",
-                                                scale: 11
+                                                scale: 12
                                             ),
                                             const Text('1',
                                               textAlign: TextAlign.center,
@@ -812,7 +812,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                           },
                           child: Image.asset(
                               "assets/Setting-icon.png",
-                              scale: 11
+                              scale: 12
                           )
                       )
                     ],
@@ -830,7 +830,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                               width: widget.wid / 2,
                               height: widget.heig / 1.9,
                               child: GridView.count(
-                                childAspectRatio: 1.8,
+                                childAspectRatio: 2,
                                 crossAxisCount: colunasIPCamera,
                                 children: [
                                   InkWell(
@@ -944,7 +944,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
               centerTitle: true,
               title: Image.asset(
                   "assets/camera.png",
-                  scale: 11
+                  scale: 12
               ),
             ),
             Container(

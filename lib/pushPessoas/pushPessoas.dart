@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:http_auth/http_auth.dart' as http_auth;
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:http/http.dart' as http;
 
@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, String usuario, String Senha, String modelo) async {
 
+  //ControlID
   if(modelo == "Control iD"){
     final ipog = Uri.parse('http://$ip:$porta/login.fcgi');
 
@@ -63,7 +64,31 @@ Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, Stri
     }catch(e){
       showToast("Erro ao executar a requisição: $e", context: context);
     }
+  }
 
+  //Intelbras
+  if(modelo == "Intelbras"){
+    final url = Uri.parse('http://$ip:$porta/cgi-bin/recordFinder.cgi?action=doSeekFind&name=AccessControlCard&count=4300');
+
+    Map<String, String> headers = {
+      'Accept': '*/*',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Connection': 'keep-alive',
+    };
+
+    final client = http_auth.DigestAuthClient(usuario, Senha);
+
+    try {
+      final response = await client.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        print(response.body);
+      } else {
+        showToast("Erro com a comunicação, status: ${response.statusCode}",context:context);
+      }
+    } catch (e) {
+      showToast("Erro ao executar a requisição: $e",context:context);
+    }
   }
   return {};
 }
