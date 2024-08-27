@@ -219,7 +219,9 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
 
     getScreenSize();
 
-    if(widget.wid < 1250.0){
+    print(widget.wid);
+
+    if(widget.wid <= 1250.0){
       setState(() {
         aspectRT = 2.2;
       });
@@ -230,15 +232,33 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
       });
     }
 
-    if(widget.wid > 1350.0){
+    if(widget.wid >= 1350.0){
       setState(() {
         aspectRT = 2.05;
       });
     }
 
-    if(widget.wid > 1300.0){
+    if(widget.wid >= 1300.0){
       setState(() {
         aspectRT = 1.7;
+      });
+    }
+
+    if(widget.wid >= 1380){
+      setState(() {
+        aspectRT = 2.05;
+      });
+    }
+
+    if(widget.wid >= 1600){
+      setState(() {
+        aspectRT = 1.7;
+      });
+    }
+
+    if(widget.wid >= 1800.0){
+      setState(() {
+        aspectRT = 1.9;
       });
     }
 

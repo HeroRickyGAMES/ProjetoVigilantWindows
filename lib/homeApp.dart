@@ -1775,6 +1775,8 @@ class _homeAppState extends State<homeApp>{
                                                   ],
                                                 ),
                                                 Container(
+                                                  width: wid / 4,
+                                                  height: heig / 3.3,
                                                   padding: const EdgeInsets.all(10),
                                                   alignment: Alignment.bottomRight,
                                                   child:  idCondominioAnt == "" || editarAnotacao == false ?
