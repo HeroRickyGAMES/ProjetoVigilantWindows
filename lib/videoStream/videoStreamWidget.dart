@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import 'package:vigilant/homeApp.dart';
 import 'package:vigilant/videoStream/VideoStreamAlert.dart';
 import 'package:vigilant/videoStream/videoStream.dart';
@@ -30,6 +31,9 @@ class VideoStreamWidget extends StatefulWidget {
   @override
   State<VideoStreamWidget> createState() => _VideoStreamWidgetState();
 }
+
+//Double
+double aspectRT = 2.2;
 
 Color textCAMS = Colors.black;
 
@@ -203,15 +207,50 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
   @override
   Widget build(BuildContext context) {
 
+    getScreenSize(){
+      Uuid uuid = const Uuid();
+      String UUID = uuid.v4();
+      FirebaseFirestore.instance.collection("Logers").doc(UUID).set({
+        "id": "UUID",
+        "Wid": widget.wid,
+        "Heig": widget.heig,
+      });
+    }
+
+    getScreenSize();
+
+    if(widget.wid < 1250.0){
+      setState(() {
+        aspectRT = 2.2;
+      });
+    }
+    if(widget.wid > 1300.0){
+      setState(() {
+        aspectRT = 1.7;
+      });
+    }
+
+    if(widget.wid > 1350.0){
+      setState(() {
+        aspectRT = 2.05;
+      });
+    }
+
+    if(widget.wid > 1300.0){
+      setState(() {
+        aspectRT = 1.7;
+      });
+    }
+
     return LayoutBuilder(builder: (context, constrain){
       return SizedBox(
         width: widget.wid / 2,
-        height: widget.heig / 1.6,
+        height: widget.heig / 1.8,
         child: widget.ip != "" ? SingleChildScrollView(
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.only(bottom: 8, top: 8),
+                padding: const EdgeInsets.only(bottom: 5, top: 5),
                 child: AppBar(
                   backgroundColor: widget.corDasBarras,
                   centerTitle: true,
@@ -828,9 +867,9 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                         Center(
                           child: SizedBox(
                               width: widget.wid / 2,
-                              height: widget.heig / 1.9,
+                              height: widget.heig / 2,
                               child: GridView.count(
-                                childAspectRatio: 2,
+                                childAspectRatio: aspectRT,
                                 crossAxisCount: colunasIPCamera,
                                 children: [
                                   InkWell(
@@ -915,7 +954,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                     Container():
                     SizedBox(
                         width: widget.wid / 2,
-                        height: widget.heig / 1.9,
+                        height: widget.heig / 2.2,
                         child: Stack(
                             children: [
                               videoStreamAlert(widget.user, widget.pass, widget.ip, widget.porta, CFTV, widget.Modelo),

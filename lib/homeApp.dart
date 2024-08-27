@@ -349,7 +349,7 @@ class _homeAppState extends State<homeApp>{
                                                                       },
                                                                       child: Image.asset(
                                                                         "assets/search.png",
-                                                                        scale: 12,
+                                                                        scale: 14
                                                                       ),
                                                                     ),
                                                                   )
@@ -1706,7 +1706,7 @@ class _homeAppState extends State<homeApp>{
                                                     },
                                                     child: Image.asset(
                                                         "assets/fab.png",
-                                                        scale: 25
+                                                        scale: 27
                                                     )
                                                 ),
                                               ):
@@ -1721,64 +1721,80 @@ class _homeAppState extends State<homeApp>{
                                         ),
                                         child: Center(
                                           child: SingleChildScrollView(
-                                            child: Container(
-                                              padding: const EdgeInsets.all(0),
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    padding: const EdgeInsets.all(16),
-                                                    child: TextField(
-                                                      controller: anotacaoControlCondominio,
-                                                      keyboardType: TextInputType.multiline,
-                                                      enableSuggestions: true,
-                                                      autocorrect: true,
-                                                      minLines: 2,
-                                                      maxLines: null,
-                                                      onChanged: (value){
-                                                        anotacao = value;
-                                                      },
-                                                      style: const TextStyle(
-                                                          color: Colors.black
+                                            child: Stack(
+                                              children: [
+                                                Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    idCondominioAnt == "" ?
+                                                    const Center(
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Text('Clique no icone'),
+                                                          Icon(Icons.edit_note),
+                                                          Text(' para editar a anotação'),
+                                                        ],
                                                       ),
-                                                      decoration: const InputDecoration(
-                                                        filled: true,
-                                                        fillColor: Colors.white,
-                                                        border: OutlineInputBorder(),
-                                                        focusedBorder: OutlineInputBorder(
-                                                          borderSide: BorderSide(
-                                                              width: 3,
-                                                              color: Colors.black
-                                                          ),
-                                                        ),
-                                                        labelStyle: TextStyle(
+                                                    )
+                                                        :
+                                                    Container(
+                                                      padding: const EdgeInsets.all(16),
+                                                      child: TextField(
+                                                        controller: anotacaoControlCondominio,
+                                                        keyboardType: TextInputType.multiline,
+                                                        enableSuggestions: true,
+                                                        autocorrect: true,
+                                                        minLines: 5,
+                                                        maxLines: null,
+                                                        onChanged: (value){
+                                                          anotacao = value;
+                                                        },
+                                                        style: const TextStyle(
                                                             color: Colors.black
                                                         ),
-                                                        labelText: "Anotações sobre o condominio",
+                                                        decoration: const InputDecoration(
+                                                          filled: true,
+                                                          fillColor: Colors.white,
+                                                          border: OutlineInputBorder(),
+                                                          focusedBorder: OutlineInputBorder(
+                                                            borderSide: BorderSide(
+                                                                width: 3,
+                                                                color: Colors.black
+                                                            ),
+                                                          ),
+                                                          labelStyle: TextStyle(
+                                                              color: Colors.black
+                                                          ),
+                                                          labelText: "Anotações sobre o condominio",
+                                                        ),
                                                       ),
                                                     ),
+                                                
+                                                  ],
+                                                ),
+                                                Container(
+                                                  padding: const EdgeInsets.all(10),
+                                                  alignment: Alignment.bottomRight,
+                                                  child:  idCondominioAnt == "" || editarAnotacao == false ?
+                                                  Container():
+                                                  FloatingActionButton(
+                                                      onPressed:idCondominioAnt == "" ? null : (){
+                                                        FirebaseFirestore.instance.collection('Condominios').doc(idCondominioAnt).update({
+                                                          "Aviso": anotacao,
+                                                        }).whenComplete(() {
+                                                          showToast("Anotação salva com sucesso!",context:context);
+                                                        });
+                                                      },
+                                                      backgroundColor: colorBtnFab,
+                                                      child: Icon(
+                                                          Icons.done,
+                                                          color: textColor
+                                                      )
                                                   ),
-                                                  Container(
-                                                    padding: const EdgeInsets.all(10),
-                                                    alignment: Alignment.bottomRight,
-                                                    child: editarAnotacao == false ?
-                                                    Container():
-                                                    FloatingActionButton(
-                                                        onPressed:idCondominioAnt == "" ? null : (){
-                                                          FirebaseFirestore.instance.collection('Condominios').doc(idCondominioAnt).update({
-                                                            "Aviso": anotacao,
-                                                          }).whenComplete(() {
-                                                            showToast("Anotação salva com sucesso!",context:context);
-                                                          });
-                                                        },
-                                                        backgroundColor: colorBtnFab,
-                                                        child: Icon(
-                                                            Icons.done,
-                                                            color: textColor
-                                                        )
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
@@ -1801,7 +1817,7 @@ class _homeAppState extends State<homeApp>{
                                 ),
                                 SizedBox(
                                   width: wid / 2,
-                                  height: heig / 2.7,
+                                  height: heig / 2.3,
                                   child: SingleChildScrollView(
                                     child: Column(
                                       children: [
@@ -1818,11 +1834,11 @@ class _homeAppState extends State<homeApp>{
                                               idCondominio == ""?
                                               SizedBox(
                                                 width: wid / 3,
-                                                height: heig / 2.7,
+                                                height: heig / 2.3,
                                               ) :
                                               SizedBox(
                                                 width: wid / 3,
-                                                height: heig / 2.7,
+                                                height: heig / 2.3,
                                                 child: Stack(
                                                   children: [
                                                     StreamBuilder(
@@ -1890,7 +1906,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 ),
                                                                                 Image.asset(
                                                                                     documents["iconeSeleciondo"],
-                                                                                    scale: 25
+                                                                                    scale: 27
                                                                                 ),
                                                                               ],
                                                                             )
@@ -3031,7 +3047,7 @@ class _homeAppState extends State<homeApp>{
                                                           },
                                                           child: Image.asset(
                                                               "assets/fab.png",
-                                                              scale: 25
+                                                              scale: 27
                                                           )
                                                       ),
                                                     ),
@@ -3051,7 +3067,7 @@ class _homeAppState extends State<homeApp>{
                                                       }
                                                       return Container(
                                                         width: wid / 6,
-                                                        height: heig / 2.7,
+                                                        height: heig / 2.3,
                                                         decoration: BoxDecoration(
                                                           border: Border.all(
                                                             color: Colors.blue,
@@ -3085,7 +3101,7 @@ class _homeAppState extends State<homeApp>{
                                                     ),
                                                     Container(
                                                       width: wid / 6,
-                                                      height: heig / 2.7,
+                                                      height: heig / 2.3,
                                                       alignment: Alignment.bottomRight,
                                                       padding: const EdgeInsets.all(16),
                                                       child: adicionarRamal == false ?
@@ -3272,7 +3288,7 @@ class _homeAppState extends State<homeApp>{
                                                       },
                                                           child: Image.asset(
                                                               "assets/fab.png",
-                                                              scale: 25
+                                                              scale: 27
                                                           )
                                                       ),
                                                     ),
@@ -3292,7 +3308,7 @@ class _homeAppState extends State<homeApp>{
                           child: Column(
                             children: [
                               Container(
-                                padding: const EdgeInsets.only(bottom: 10, top: 10, left: 200),
+                                padding: const EdgeInsets.only(bottom: 7.5, top: 7.5, left: 200),
                                 child: TextButton(
                                     onPressed: () async {
                                       showDialog(
@@ -4584,7 +4600,7 @@ class _homeAppState extends State<homeApp>{
                                                                           },
                                                                           child: Image.asset(
                                                                             "assets/search.png",
-                                                                            scale: 12,
+                                                                            scale: 14
                                                                           ),
                                                                         )
                                                                     ),
@@ -5674,7 +5690,7 @@ class _homeAppState extends State<homeApp>{
                                                 },
                                                 child: Image.asset(
                                                     "assets/fab.png",
-                                                    scale: 25
+                                                    scale: 27
                                                 )
                                             ),
                                           ),
@@ -5783,7 +5799,7 @@ class _homeAppState extends State<homeApp>{
                                                                 },
                                                                 child: Image.asset(
                                                                   "assets/search.png",
-                                                                  scale: 12,
+                                                                  scale: 14
                                                                 ),
                                                               ),
                                                             )
@@ -6534,7 +6550,7 @@ class _homeAppState extends State<homeApp>{
                                                       },
                                                       child: Image.asset(
                                                           "assets/fab.png",
-                                                          scale: 25
+                                                          scale: 27
                                                       )
                                                   ),
                                                 )
@@ -6545,12 +6561,12 @@ class _homeAppState extends State<homeApp>{
                                     ),
                                     SizedBox(
                                         width: wid / 4,
-                                        height: heig / 3.5,
+                                        height: heig / 3,
                                         child: Center(
                                           child: Center(
                                             child: SizedBox(
                                               width: wid / 4,
-                                              height: heig / 3.5,
+                                              height: heig / 3,
                                               child: SingleChildScrollView(
                                                 child: Stack(
                                                   children: [
@@ -6594,7 +6610,7 @@ class _homeAppState extends State<homeApp>{
                                                                               onPressed: null,
                                                                               child: Image.asset(
                                                                                 "assets/search.png",
-                                                                                scale: 12,
+                                                                                scale: 14
                                                                               )
                                                                           ),
                                                                         )
@@ -6668,7 +6684,7 @@ class _homeAppState extends State<homeApp>{
                                                                                     },
                                                                                     child: Image.asset(
                                                                                       "assets/search.png",
-                                                                                      scale: 12,
+                                                                                      scale: 14
                                                                                     )
                                                                                 ),
                                                                               )
@@ -6736,7 +6752,7 @@ class _homeAppState extends State<homeApp>{
                                                                                     },
                                                                                     child: Image.asset(
                                                                                       "assets/search.png",
-                                                                                      scale: 12,
+                                                                                      scale: 14
                                                                                     )
                                                                                 ),
                                                                               )
@@ -6804,7 +6820,7 @@ class _homeAppState extends State<homeApp>{
                                                                                     },
                                                                                     child: Image.asset(
                                                                                       "assets/search.png",
-                                                                                      scale: 12,
+                                                                                      scale: 14
                                                                                     )
                                                                                 ),
                                                                               )
@@ -6913,7 +6929,7 @@ class _homeAppState extends State<homeApp>{
                                                         padding: const EdgeInsets.all(16),
                                                         alignment: Alignment.bottomRight,
                                                         width: wid / 4,
-                                                        height: heig / 3.5,
+                                                        height: heig / 3,
                                                         child: TextButton(
                                                             onPressed: idCondominio == "" ? null : (){
 
@@ -7259,7 +7275,7 @@ class _homeAppState extends State<homeApp>{
                                                             },
                                                             child: Image.asset(
                                                                 "assets/fab.png",
-                                                                scale: 25
+                                                                scale: 27
                                                             )
                                                         ),
                                                       ),
