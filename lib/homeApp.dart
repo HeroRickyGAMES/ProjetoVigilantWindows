@@ -1798,9 +1798,9 @@ class _homeAppState extends State<homeApp>{
                                 VideoStreamWidget(
                                     ip, porta, user, pass, corDasBarras, wid, heig, camera1, camera2, camera3, camera4, camera5, camera6, camera7, camera8, camera9, ModeloDoCFTV
                                 ),
-                                SizedBox(
+                                Container(
                                   width: wid / 2,
-                                  height: heig / 2.5,
+                                  height: heig / 2.7,
                                   child: SingleChildScrollView(
                                     child: Column(
                                       children: [
@@ -1817,40 +1817,48 @@ class _homeAppState extends State<homeApp>{
                                               idCondominio == ""?
                                               SizedBox(
                                                 width: wid / 3,
-                                                height: heig / 2.5,
+                                                height: heig / 2.7,
                                               ) :
-                                              Center(
-                                                child: SizedBox(
-                                                  width: wid / 3,
-                                                  height: heig / 2.5,
-                                                  child: Stack(
-                                                    children: [
-                                                      StreamBuilder(
-                                                        stream: FirebaseFirestore.instance
-                                                            .collection('acionamentos')
-                                                            .where("idCondominio", isEqualTo: idCondominio)
-                                                            .snapshots(),
-                                                        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                                          if (snapshot.hasError) {
-                                                            return const Center(child:
-                                                            Text('Algo deu errado!')
-                                                            );
-                                                          }
+                                              SizedBox(
+                                                width: wid / 3,
+                                                height: heig / 2.7,
+                                                child: Stack(
+                                                  children: [
+                                                    StreamBuilder(
+                                                      stream: FirebaseFirestore.instance
+                                                          .collection('acionamentos')
+                                                          .where("idCondominio", isEqualTo: idCondominio)
+                                                          .snapshots(),
+                                                      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                                        if (snapshot.hasError) {
+                                                          return const Center(child:
+                                                          Text('Algo deu errado!')
+                                                          );
+                                                        }
+                                              
+                                                        if (snapshot.connectionState == ConnectionState.waiting) {
+                                                          return const Center(child: CircularProgressIndicator());
+                                                        }
+                                              
+                                                        if (snapshot.hasData) {
+                                                          return GridView.count(
+                                                              childAspectRatio: 1,
+                                                              crossAxisCount: 3,
+                                                              children: snapshot.data!.docs.map((documents) {
+                                                                double tamanhotext = 14;
 
-                                                          if (snapshot.connectionState == ConnectionState.waiting) {
-                                                            return const Center(child: CircularProgressIndicator());
-                                                          }
+                                                                if(documents["nome"].length >= 20){
+                                                                  tamanhotext = 10;
+                                                                }
 
-                                                          if (snapshot.hasData) {
-                                                            return GridView.count(
-                                                                crossAxisCount: 3,
-                                                                children: snapshot.data!.docs.map((documents) {
-                                                                  return Container(
-                                                                    padding: const EdgeInsets.all(16),
-                                                                    child: Column(
-                                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                                      children: [
-                                                                        TextButton(
+                                                                return Container(
+                                                                  padding: const EdgeInsets.all(16),
+                                                                  child: Column(
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    children: [
+                                                                      Container(
+                                                                        height: 50,
+                                                                        child: TextButton(
                                                                             onPressed: (){
                                                                               if(documents["prontoParaAtivar"] == false){
                                                                                 FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).update({
@@ -1880,447 +1888,447 @@ class _homeAppState extends State<homeApp>{
                                                                               ],
                                                                             )
                                                                         ),
-                                                                        Stack(
-                                                                          alignment: Alignment.center,
-                                                                          children: [
-                                                                            Text(
-                                                                                documents["nome"],
-                                                                                style: TextStyle(
-                                                                                    color: textColorWidgets,
-                                                                                    fontSize: 12
-                                                                                )
-                                                                            ),
-                                                                            SizedBox(
-                                                                              height: 20,
-                                                                              child: FutureBuilder<NativeMenu>(
-                                                                                future: initMenuAcionamentos(),
-                                                                                builder: (BuildContext context, AsyncSnapshot<NativeMenu> snapshot){
-
-                                                                                  if (!snapshot.hasData) {
-                                                                                    return const Center(
-                                                                                      child: CircularProgressIndicator(),
-                                                                                    );
-                                                                                  }
-
-                                                                                  return NativeContextMenuWidget(
-                                                                                    actionCallback: (action) {
-                                                                                      if(action == "editar_acionamento"){
-                                                                                        showDialog(
-                                                                                          context: context,
-                                                                                          builder: (BuildContext context) {
-
-                                                                                            TextEditingController identificacaocontr = TextEditingController(text: documents["nome"]);
-                                                                                            TextEditingController ipcontr = TextEditingController(text: documents["ip"]);
-                                                                                            TextEditingController portacontr = TextEditingController(text: "${documents["porta"]}");
-                                                                                            TextEditingController canalcontr = TextEditingController(text: "${documents["canal"]}");
-                                                                                            TextEditingController usuariocontr = TextEditingController(text: documents["usuario"]);
-                                                                                            TextEditingController senhacontr = TextEditingController(text: documents["usuario"]);
-
-                                                                                            String nome = documents["nome"];
-                                                                                            String ip = documents["ip"];
-                                                                                            String porta = "${documents["porta"]}";
-                                                                                            String canal = "${documents["canal"]}";
-                                                                                            String usuario = documents["usuario"];
-                                                                                            String senha = documents["usuario"];
-                                                                                            String modeloselecionado = documents["modelo"];
-                                                                                            String iconeSelecionado = documents["iconeSeleciondo"];
-                                                                                            var dropValue4 = ValueNotifier(iconeSelecionado);
-                                                                                            List icones = [
-                                                                                              "assets/bell.png",
-                                                                                              "assets/portaria_acept.png",
-                                                                                              "assets/pedestre.png",
-                                                                                              "assets/pedestre02.png",
-                                                                                            ];
-                                                                                            var dropValue3 = ValueNotifier(modeloselecionado);
-
-                                                                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                                                                              return Center(
-                                                                                                child: SingleChildScrollView(
-                                                                                                  child: Dialog(
-                                                                                                    child: Stack(
-                                                                                                      children: [
-                                                                                                        Positioned.fill(
-                                                                                                          child: ClipRRect(
-                                                                                                            borderRadius: BorderRadius.circular(10),
-                                                                                                            child: Image.asset(
-                                                                                                              "assets/FundoMetalPreto.jpg",
-                                                                                                              fit: BoxFit.fill,
-                                                                                                            ),
+                                                                      ),
+                                                                      Stack(
+                                                                        alignment: Alignment.center,
+                                                                        children: [
+                                                                          Text(
+                                                                              documents["nome"],
+                                                                              style: TextStyle(
+                                                                                  color: textColorWidgets,
+                                                                                  fontSize: tamanhotext
+                                                                              ),
+                                                                            textAlign: TextAlign.center,
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 20,
+                                                                            child: FutureBuilder<NativeMenu>(
+                                                                              future: initMenuAcionamentos(),
+                                                                              builder: (BuildContext context, AsyncSnapshot<NativeMenu> snapshot){
+                                              
+                                                                                if (!snapshot.hasData) {
+                                                                                  return const Center(
+                                                                                    child: CircularProgressIndicator(),
+                                                                                  );
+                                                                                }
+                                              
+                                                                                return NativeContextMenuWidget(
+                                                                                  actionCallback: (action) {
+                                                                                    if(action == "editar_acionamento"){
+                                                                                      showDialog(
+                                                                                        context: context,
+                                                                                        builder: (BuildContext context) {
+                                              
+                                                                                          TextEditingController identificacaocontr = TextEditingController(text: documents["nome"]);
+                                                                                          TextEditingController ipcontr = TextEditingController(text: documents["ip"]);
+                                                                                          TextEditingController portacontr = TextEditingController(text: "${documents["porta"]}");
+                                                                                          TextEditingController canalcontr = TextEditingController(text: "${documents["canal"]}");
+                                                                                          TextEditingController usuariocontr = TextEditingController(text: documents["usuario"]);
+                                                                                          TextEditingController senhacontr = TextEditingController(text: documents["usuario"]);
+                                              
+                                                                                          String nome = documents["nome"];
+                                                                                          String ip = documents["ip"];
+                                                                                          String porta = "${documents["porta"]}";
+                                                                                          String canal = "${documents["canal"]}";
+                                                                                          String usuario = documents["usuario"];
+                                                                                          String senha = documents["usuario"];
+                                                                                          String modeloselecionado = documents["modelo"];
+                                                                                          String iconeSelecionado = documents["iconeSeleciondo"];
+                                                                                          var dropValue4 = ValueNotifier(iconeSelecionado);
+                                                                                          List icones = [
+                                                                                            "assets/portaria_acept.png",
+                                                                                            "assets/pedestre.png",
+                                                                                            "assets/pedestre02.png",
+                                                                                          ];
+                                                                                          var dropValue3 = ValueNotifier(modeloselecionado);
+                                              
+                                                                                          return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                            return Center(
+                                                                                              child: SingleChildScrollView(
+                                                                                                child: Dialog(
+                                                                                                  child: Stack(
+                                                                                                    children: [
+                                                                                                      Positioned.fill(
+                                                                                                        child: ClipRRect(
+                                                                                                          borderRadius: BorderRadius.circular(10),
+                                                                                                          child: Image.asset(
+                                                                                                            "assets/FundoMetalPreto.jpg",
+                                                                                                            fit: BoxFit.fill,
                                                                                                           ),
                                                                                                         ),
-                                                                                                        Container(
-                                                                                                          width: 600,
-                                                                                                          padding: const EdgeInsets.all(20),
-                                                                                                          child: Column(
-                                                                                                            children: [
-                                                                                                              Row(
-                                                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                                                children: [
-                                                                                                                  Container(
-                                                                                                                      padding: const EdgeInsets.only(bottom: 16),
-                                                                                                                      child: const Text(
-                                                                                                                        'Editar acionamento',
-                                                                                                                        style: TextStyle(
-                                                                                                                          fontSize: 30,
+                                                                                                      ),
+                                                                                                      Container(
+                                                                                                        width: 600,
+                                                                                                        padding: const EdgeInsets.all(20),
+                                                                                                        child: Column(
+                                                                                                          children: [
+                                                                                                            Row(
+                                                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                              children: [
+                                                                                                                Container(
+                                                                                                                    padding: const EdgeInsets.only(bottom: 16),
+                                                                                                                    child: const Text(
+                                                                                                                      'Editar acionamento',
+                                                                                                                      style: TextStyle(
+                                                                                                                        fontSize: 30,
+                                                                                                                      ),
+                                                                                                                    )
+                                                                                                                ),
+                                                                                                                SizedBox(
+                                                                                                                  width: 100,
+                                                                                                                  height: 100,
+                                                                                                                  child: TextButton(onPressed: (){
+                                                                                                                    Navigator.pop(context);
+                                                                                                                  },
+                                                                                                                      child:const Center(
+                                                                                                                        child: Icon(
+                                                                                                                          Icons.close,
+                                                                                                                          size: 40,
                                                                                                                         ),
                                                                                                                       )
                                                                                                                   ),
-                                                                                                                  SizedBox(
-                                                                                                                    width: 100,
-                                                                                                                    height: 100,
-                                                                                                                    child: TextButton(onPressed: (){
-                                                                                                                      Navigator.pop(context);
-                                                                                                                    },
-                                                                                                                        child:const Center(
-                                                                                                                          child: Icon(
-                                                                                                                            Icons.close,
-                                                                                                                            size: 40,
+                                                                                                                )
+                                                                                                              ],
+                                                                                                            ),
+                                                                                                            Center(
+                                                                                                              child: Column(
+                                                                                                                children: [
+                                                                                                                  Center(
+                                                                                                                    child: Container(
+                                                                                                                      padding: const EdgeInsets.all(10),
+                                                                                                                      child: TextField(
+                                                                                                                        controller: identificacaocontr,
+                                                                                                                        keyboardType: TextInputType.name,
+                                                                                                                        enableSuggestions: true,
+                                                                                                                        autocorrect: true,
+                                                                                                                        onChanged: (value){
+                                                                                                                          setState(() {
+                                                                                                                            nome = value;
+                                                                                                                          });
+                                                                                                                        },
+                                                                                                                        decoration: InputDecoration(
+                                                                                                                          filled: true,
+                                                                                                                          fillColor: Colors.white,
+                                                                                                                          labelStyle: TextStyle(
+                                                                                                                              color: textAlertDialogColor
                                                                                                                           ),
-                                                                                                                        )
+                                                                                                                          border: const OutlineInputBorder(),
+                                                                                                                          enabledBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                          ),
+                                                                                                                          focusedBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(
+                                                                                                                                width: 3,
+                                                                                                                                color: Colors.black
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                          label: const Text('Nome'),
+                                                                                                                        ),
+                                                                                                                        style: TextStyle(
+                                                                                                                            color: textAlertDialogColor
+                                                                                                                        ),
+                                                                                                                      ),
                                                                                                                     ),
-                                                                                                                  )
+                                                                                                                  ),
+                                                                                                                  Center(
+                                                                                                                    child: Container(
+                                                                                                                      padding: const EdgeInsets.all(10),
+                                                                                                                      child: TextField(
+                                                                                                                        controller: ipcontr,
+                                                                                                                        keyboardType: TextInputType.name,
+                                                                                                                        enableSuggestions: true,
+                                                                                                                        autocorrect: true,
+                                                                                                                        onChanged: (value){
+                                                                                                                          setState(() {
+                                                                                                                            ip = value;
+                                                                                                                          });
+                                                                                                                        },
+                                                                                                                        decoration: InputDecoration(
+                                                                                                                          filled: true,
+                                                                                                                          fillColor: Colors.white,
+                                                                                                                          labelStyle: TextStyle(
+                                                                                                                              color: textAlertDialogColor
+                                                                                                                          ),
+                                                                                                                          border: const OutlineInputBorder(),
+                                                                                                                          enabledBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                          ),
+                                                                                                                          focusedBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(
+                                                                                                                                width: 3,
+                                                                                                                                color: Colors.black
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                          label: const Text('IP'),
+                                                                                                                        ),
+                                                                                                                        style: TextStyle(
+                                                                                                                            color: textAlertDialogColor
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  Center(
+                                                                                                                    child: Container(
+                                                                                                                      padding: const EdgeInsets.all(10),
+                                                                                                                      child: TextField(
+                                                                                                                        controller: portacontr,
+                                                                                                                        keyboardType: TextInputType.name,
+                                                                                                                        enableSuggestions: true,
+                                                                                                                        autocorrect: true,
+                                                                                                                        onChanged: (value){
+                                                                                                                          setState(() {
+                                                                                                                            porta = value;
+                                                                                                                          });
+                                                                                                                        },
+                                                                                                                        decoration: InputDecoration(
+                                                                                                                          filled: true,
+                                                                                                                          fillColor: Colors.white,
+                                                                                                                          labelStyle: TextStyle(
+                                                                                                                              color: textAlertDialogColor
+                                                                                                                          ),
+                                                                                                                          border: const OutlineInputBorder(),
+                                                                                                                          enabledBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                          ),
+                                                                                                                          focusedBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(
+                                                                                                                                width: 3,
+                                                                                                                                color: Colors.black
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                          label: Text(modeloselecionado == "Modulo Guarita (Nice)" ?'Porta (normalmente 9000)': 'Porta'),
+                                                                                                                        ),
+                                                                                                                        style: TextStyle(
+                                                                                                                            color: textAlertDialogColor
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  Center(
+                                                                                                                    child: Container(
+                                                                                                                      padding: const EdgeInsets.all(10),
+                                                                                                                      child: TextField(
+                                                                                                                        controller: canalcontr,
+                                                                                                                        keyboardType: TextInputType.name,
+                                                                                                                        enableSuggestions: true,
+                                                                                                                        autocorrect: true,
+                                                                                                                        onChanged: (value){
+                                                                                                                          setState(() {
+                                                                                                                            canal = value;
+                                                                                                                          });
+                                                                                                                        },
+                                                                                                                        decoration: InputDecoration(
+                                                                                                                          filled: true,
+                                                                                                                          fillColor: Colors.white,
+                                                                                                                          labelStyle: TextStyle(
+                                                                                                                              color: textAlertDialogColor
+                                                                                                                          ),
+                                                                                                                          border: const OutlineInputBorder(),
+                                                                                                                          enabledBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                          ),
+                                                                                                                          focusedBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(
+                                                                                                                                width: 3,
+                                                                                                                                color: Colors.black
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                          label: Text(modeloselecionado == "Modulo Guarita (Nice)" ? 'Relê': "Canal"),
+                                                                                                                        ),
+                                                                                                                        style: TextStyle(
+                                                                                                                            color: textAlertDialogColor
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  modeloselecionado == "Modulo Guarita (Nice)" ? Container():
+                                                                                                                  Center(
+                                                                                                                    child: Container(
+                                                                                                                      padding: const EdgeInsets.all(10),
+                                                                                                                      child: TextField(
+                                                                                                                        controller: usuariocontr,
+                                                                                                                        keyboardType: TextInputType.name,
+                                                                                                                        enableSuggestions: true,
+                                                                                                                        autocorrect: true,
+                                                                                                                        onChanged: (value){
+                                                                                                                          setState(() {
+                                                                                                                            usuario = value;
+                                                                                                                          });
+                                                                                                                        },
+                                                                                                                        decoration: InputDecoration(
+                                                                                                                          filled: true,
+                                                                                                                          fillColor: Colors.white,
+                                                                                                                          labelStyle: TextStyle(
+                                                                                                                              color: textAlertDialogColor
+                                                                                                                          ),
+                                                                                                                          border: const OutlineInputBorder(),
+                                                                                                                          enabledBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                          ),
+                                                                                                                          focusedBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(
+                                                                                                                                width: 3,
+                                                                                                                                color: Colors.black
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                          label: const Text('Usuario'),
+                                                                                                                        ),
+                                                                                                                        style: TextStyle(
+                                                                                                                            color: textAlertDialogColor
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  modeloselecionado == "Modulo Guarita (Nice)" ? Container():
+                                                                                                                  Center(
+                                                                                                                    child: Container(
+                                                                                                                      padding: const EdgeInsets.all(10),
+                                                                                                                      child: TextField(
+                                                                                                                        controller: senhacontr,
+                                                                                                                        keyboardType: TextInputType.name,
+                                                                                                                        enableSuggestions: true,
+                                                                                                                        autocorrect: true,
+                                                                                                                        onChanged: (value){
+                                                                                                                          setState(() {
+                                                                                                                            senha = value;
+                                                                                                                          });
+                                                                                                                        },
+                                                                                                                        decoration: InputDecoration(
+                                                                                                                          filled: true,
+                                                                                                                          fillColor: Colors.white,
+                                                                                                                          labelStyle: TextStyle(
+                                                                                                                              color: textAlertDialogColor
+                                                                                                                          ),
+                                                                                                                          border: const OutlineInputBorder(),
+                                                                                                                          enabledBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                          ),
+                                                                                                                          focusedBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(
+                                                                                                                                width: 3,
+                                                                                                                                color: Colors.black
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                          label: const Text('Senha'),
+                                                                                                                        ),
+                                                                                                                        style: TextStyle(
+                                                                                                                            color: textAlertDialogColor
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
                                                                                                                 ],
                                                                                                               ),
-                                                                                                              Center(
-                                                                                                                child: Column(
-                                                                                                                  children: [
-                                                                                                                    Center(
-                                                                                                                      child: Container(
-                                                                                                                        padding: const EdgeInsets.all(10),
-                                                                                                                        child: TextField(
-                                                                                                                          controller: identificacaocontr,
-                                                                                                                          keyboardType: TextInputType.name,
-                                                                                                                          enableSuggestions: true,
-                                                                                                                          autocorrect: true,
-                                                                                                                          onChanged: (value){
-                                                                                                                            setState(() {
-                                                                                                                              nome = value;
-                                                                                                                            });
-                                                                                                                          },
-                                                                                                                          decoration: InputDecoration(
-                                                                                                                            filled: true,
-                                                                                                                            fillColor: Colors.white,
-                                                                                                                            labelStyle: TextStyle(
-                                                                                                                                color: textAlertDialogColor
-                                                                                                                            ),
-                                                                                                                            border: const OutlineInputBorder(),
-                                                                                                                            enabledBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                            ),
-                                                                                                                            focusedBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(
-                                                                                                                                  width: 3,
-                                                                                                                                  color: Colors.black
-                                                                                                                              ),
-                                                                                                                            ),
-                                                                                                                            label: const Text('Nome'),
-                                                                                                                          ),
-                                                                                                                          style: TextStyle(
-                                                                                                                              color: textAlertDialogColor
-                                                                                                                          ),
-                                                                                                                        ),
-                                                                                                                      ),
+                                                                                                            ),
+                                                                                                            const Center(
+                                                                                                              child: Text('Selecione um icone'),
+                                                                                                            ),
+                                                                                                            Center(
+                                                                                                              child: ValueListenableBuilder(valueListenable: dropValue4, builder: (context, String value, _){
+                                                                                                                return DropdownButton(
+                                                                                                                  hint: Text(
+                                                                                                                    'Selecione um icone',
+                                                                                                                    style: TextStyle(
+                                                                                                                        color: textColorDrop
                                                                                                                     ),
-                                                                                                                    Center(
-                                                                                                                      child: Container(
-                                                                                                                        padding: const EdgeInsets.all(10),
-                                                                                                                        child: TextField(
-                                                                                                                          controller: ipcontr,
-                                                                                                                          keyboardType: TextInputType.name,
-                                                                                                                          enableSuggestions: true,
-                                                                                                                          autocorrect: true,
-                                                                                                                          onChanged: (value){
-                                                                                                                            setState(() {
-                                                                                                                              ip = value;
-                                                                                                                            });
-                                                                                                                          },
-                                                                                                                          decoration: InputDecoration(
-                                                                                                                            filled: true,
-                                                                                                                            fillColor: Colors.white,
-                                                                                                                            labelStyle: TextStyle(
-                                                                                                                                color: textAlertDialogColor
-                                                                                                                            ),
-                                                                                                                            border: const OutlineInputBorder(),
-                                                                                                                            enabledBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                            ),
-                                                                                                                            focusedBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(
-                                                                                                                                  width: 3,
-                                                                                                                                  color: Colors.black
-                                                                                                                              ),
-                                                                                                                            ),
-                                                                                                                            label: const Text('IP'),
-                                                                                                                          ),
-                                                                                                                          style: TextStyle(
-                                                                                                                              color: textAlertDialogColor
-                                                                                                                          ),
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    Center(
-                                                                                                                      child: Container(
-                                                                                                                        padding: const EdgeInsets.all(10),
-                                                                                                                        child: TextField(
-                                                                                                                          controller: portacontr,
-                                                                                                                          keyboardType: TextInputType.name,
-                                                                                                                          enableSuggestions: true,
-                                                                                                                          autocorrect: true,
-                                                                                                                          onChanged: (value){
-                                                                                                                            setState(() {
-                                                                                                                              porta = value;
-                                                                                                                            });
-                                                                                                                          },
-                                                                                                                          decoration: InputDecoration(
-                                                                                                                            filled: true,
-                                                                                                                            fillColor: Colors.white,
-                                                                                                                            labelStyle: TextStyle(
-                                                                                                                                color: textAlertDialogColor
-                                                                                                                            ),
-                                                                                                                            border: const OutlineInputBorder(),
-                                                                                                                            enabledBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                            ),
-                                                                                                                            focusedBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(
-                                                                                                                                  width: 3,
-                                                                                                                                  color: Colors.black
-                                                                                                                              ),
-                                                                                                                            ),
-                                                                                                                            label: Text(modeloselecionado == "Modulo Guarita (Nice)" ?'Porta (normalmente 9000)': 'Porta'),
-                                                                                                                          ),
-                                                                                                                          style: TextStyle(
-                                                                                                                              color: textAlertDialogColor
-                                                                                                                          ),
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    Center(
-                                                                                                                      child: Container(
-                                                                                                                        padding: const EdgeInsets.all(10),
-                                                                                                                        child: TextField(
-                                                                                                                          controller: canalcontr,
-                                                                                                                          keyboardType: TextInputType.name,
-                                                                                                                          enableSuggestions: true,
-                                                                                                                          autocorrect: true,
-                                                                                                                          onChanged: (value){
-                                                                                                                            setState(() {
-                                                                                                                              canal = value;
-                                                                                                                            });
-                                                                                                                          },
-                                                                                                                          decoration: InputDecoration(
-                                                                                                                            filled: true,
-                                                                                                                            fillColor: Colors.white,
-                                                                                                                            labelStyle: TextStyle(
-                                                                                                                                color: textAlertDialogColor
-                                                                                                                            ),
-                                                                                                                            border: const OutlineInputBorder(),
-                                                                                                                            enabledBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                            ),
-                                                                                                                            focusedBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(
-                                                                                                                                  width: 3,
-                                                                                                                                  color: Colors.black
-                                                                                                                              ),
-                                                                                                                            ),
-                                                                                                                            label: Text(modeloselecionado == "Modulo Guarita (Nice)" ? 'Relê': "Canal"),
-                                                                                                                          ),
-                                                                                                                          style: TextStyle(
-                                                                                                                              color: textAlertDialogColor
-                                                                                                                          ),
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    modeloselecionado == "Modulo Guarita (Nice)" ? Container():
-                                                                                                                    Center(
-                                                                                                                      child: Container(
-                                                                                                                        padding: const EdgeInsets.all(10),
-                                                                                                                        child: TextField(
-                                                                                                                          controller: usuariocontr,
-                                                                                                                          keyboardType: TextInputType.name,
-                                                                                                                          enableSuggestions: true,
-                                                                                                                          autocorrect: true,
-                                                                                                                          onChanged: (value){
-                                                                                                                            setState(() {
-                                                                                                                              usuario = value;
-                                                                                                                            });
-                                                                                                                          },
-                                                                                                                          decoration: InputDecoration(
-                                                                                                                            filled: true,
-                                                                                                                            fillColor: Colors.white,
-                                                                                                                            labelStyle: TextStyle(
-                                                                                                                                color: textAlertDialogColor
-                                                                                                                            ),
-                                                                                                                            border: const OutlineInputBorder(),
-                                                                                                                            enabledBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                            ),
-                                                                                                                            focusedBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(
-                                                                                                                                  width: 3,
-                                                                                                                                  color: Colors.black
-                                                                                                                              ),
-                                                                                                                            ),
-                                                                                                                            label: const Text('Usuario'),
-                                                                                                                          ),
-                                                                                                                          style: TextStyle(
-                                                                                                                              color: textAlertDialogColor
-                                                                                                                          ),
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    modeloselecionado == "Modulo Guarita (Nice)" ? Container():
-                                                                                                                    Center(
-                                                                                                                      child: Container(
-                                                                                                                        padding: const EdgeInsets.all(10),
-                                                                                                                        child: TextField(
-                                                                                                                          controller: senhacontr,
-                                                                                                                          keyboardType: TextInputType.name,
-                                                                                                                          enableSuggestions: true,
-                                                                                                                          autocorrect: true,
-                                                                                                                          onChanged: (value){
-                                                                                                                            setState(() {
-                                                                                                                              senha = value;
-                                                                                                                            });
-                                                                                                                          },
-                                                                                                                          decoration: InputDecoration(
-                                                                                                                            filled: true,
-                                                                                                                            fillColor: Colors.white,
-                                                                                                                            labelStyle: TextStyle(
-                                                                                                                                color: textAlertDialogColor
-                                                                                                                            ),
-                                                                                                                            border: const OutlineInputBorder(),
-                                                                                                                            enabledBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                            ),
-                                                                                                                            focusedBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(
-                                                                                                                                  width: 3,
-                                                                                                                                  color: Colors.black
-                                                                                                                              ),
-                                                                                                                            ),
-                                                                                                                            label: const Text('Senha'),
-                                                                                                                          ),
-                                                                                                                          style: TextStyle(
-                                                                                                                              color: textAlertDialogColor
-                                                                                                                          ),
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ],
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                              const Center(
-                                                                                                                child: Text('Selecione um icone'),
-                                                                                                              ),
-                                                                                                              Center(
-                                                                                                                child: ValueListenableBuilder(valueListenable: dropValue4, builder: (context, String value, _){
-                                                                                                                  return DropdownButton(
-                                                                                                                    hint: Text(
-                                                                                                                      'Selecione um icone',
-                                                                                                                      style: TextStyle(
-                                                                                                                          color: textColorDrop
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    value: (value.isEmpty)? null : value,
-                                                                                                                    onChanged: (escolha) async {
-                                                                                                                      dropValue4.value = escolha.toString();
-                                                                                                                      setState(() {
-                                                                                                                        iconeSelecionado = escolha.toString();
-                                                                                                                      });
-                                                                                                                    },
-                                                                                                                    items: icones.map((opcao) => DropdownMenuItem(
-                                                                                                                        value: opcao,
-                                                                                                                        child: Image.asset(
-                                                                                                                            opcao,
-                                                                                                                            scale: 30
-                                                                                                                        )
-                                                                                                                    ),
-                                                                                                                    ).toList(),
-                                                                                                                  );
-                                                                                                                }
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                              const Center(
-                                                                                                                child: Text('Selecione o modelo'),
-                                                                                                              ),
-                                                                                                              Center(
-                                                                                                                child: ValueListenableBuilder(valueListenable: dropValue3, builder: (context, String value, _){
-                                                                                                                  return DropdownButton(
-                                                                                                                    hint: Text(
-                                                                                                                      'Selecione o modelo',
-                                                                                                                      style: TextStyle(
-                                                                                                                          color: textColorDrop
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    value: (value.isEmpty)? null : value,
-                                                                                                                    onChanged: (escolha) async {
-                                                                                                                      dropValue3.value = escolha.toString();
-                                                                                                                      setState(() {
-                                                                                                                        modeloselecionado = escolha.toString();
-                                                                                                                      });
-                                                                                                                    },
-                                                                                                                    items: ModelosAcionamentos.map((opcao) => DropdownMenuItem(
+                                                                                                                  ),
+                                                                                                                  value: (value.isEmpty)? null : value,
+                                                                                                                  onChanged: (escolha) async {
+                                                                                                                    dropValue4.value = escolha.toString();
+                                                                                                                    setState(() {
+                                                                                                                      iconeSelecionado = escolha.toString();
+                                                                                                                    });
+                                                                                                                  },
+                                                                                                                  items: icones.map((opcao) => DropdownMenuItem(
                                                                                                                       value: opcao,
-                                                                                                                      child:
-                                                                                                                      Text(
-                                                                                                                        opcao,
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textColorDrop
-                                                                                                                        ),
+                                                                                                                      child: Image.asset(
+                                                                                                                          opcao,
+                                                                                                                          scale: 30
+                                                                                                                      )
+                                                                                                                  ),
+                                                                                                                  ).toList(),
+                                                                                                                );
+                                                                                                              }
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            const Center(
+                                                                                                              child: Text('Selecione o modelo'),
+                                                                                                            ),
+                                                                                                            Center(
+                                                                                                              child: ValueListenableBuilder(valueListenable: dropValue3, builder: (context, String value, _){
+                                                                                                                return DropdownButton(
+                                                                                                                  hint: Text(
+                                                                                                                    'Selecione o modelo',
+                                                                                                                    style: TextStyle(
+                                                                                                                        color: textColorDrop
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  value: (value.isEmpty)? null : value,
+                                                                                                                  onChanged: (escolha) async {
+                                                                                                                    dropValue3.value = escolha.toString();
+                                                                                                                    setState(() {
+                                                                                                                      modeloselecionado = escolha.toString();
+                                                                                                                    });
+                                                                                                                  },
+                                                                                                                  items: ModelosAcionamentos.map((opcao) => DropdownMenuItem(
+                                                                                                                    value: opcao,
+                                                                                                                    child:
+                                                                                                                    Text(
+                                                                                                                      opcao,
+                                                                                                                      style: TextStyle(
+                                                                                                                          color: textColorDrop
                                                                                                                       ),
                                                                                                                     ),
-                                                                                                                    ).toList(),
-                                                                                                                  );
-                                                                                                                }),
-                                                                                                              ),
-                                                                                                              ElevatedButton(
-                                                                                                                onPressed: (){
-                                                                                                                  //"Modulo Guarita (Nice)"
-                                                                                                                  if(modeloselecionado == "Modulo Guarita (Nice)"){
-                                                                                                                    if(nome == ""){
-                                                                                                                      showToast("O nome não pode ficar vazio!",context:context);
+                                                                                                                  ),
+                                                                                                                  ).toList(),
+                                                                                                                );
+                                                                                                              }),
+                                                                                                            ),
+                                                                                                            ElevatedButton(
+                                                                                                              onPressed: (){
+                                                                                                                //"Modulo Guarita (Nice)"
+                                                                                                                if(modeloselecionado == "Modulo Guarita (Nice)"){
+                                                                                                                  if(nome == ""){
+                                                                                                                    showToast("O nome não pode ficar vazio!",context:context);
+                                                                                                                  }else{
+                                                                                                                    if(ip == ""){
+                                                                                                                      showToast("O ip não pode estar vazio!",context:context);
                                                                                                                     }else{
-                                                                                                                      if(ip == ""){
-                                                                                                                        showToast("O ip não pode estar vazio!",context:context);
+                                                                                                                      if(porta == ""){
+                                                                                                                        showToast("A porta não pode estar vazia!",context:context);
                                                                                                                       }else{
-                                                                                                                        if(porta == ""){
-                                                                                                                          showToast("A porta não pode estar vazia!",context:context);
+                                                                                                                        final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
+                                              
+                                                                                                                        if(regex.hasMatch(porta)){
+                                                                                                                          showToast("A porta contem letras, e letras não são permitidas!",context:context);
                                                                                                                         }else{
-                                                                                                                          final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-
-                                                                                                                          if(regex.hasMatch(porta)){
-                                                                                                                            showToast("A porta contem letras, e letras não são permitidas!",context:context);
+                                                                                                                          if(canal == ""){
+                                                                                                                            showToast("O relê não pode estar vazia!",context:context);
                                                                                                                           }else{
-                                                                                                                            if(canal == ""){
-                                                                                                                              showToast("O relê não pode estar vazia!",context:context);
+                                                                                                                            final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
+                                              
+                                                                                                                            if(regex.hasMatch(canal)){
+                                                                                                                              showToast("O relê contem letras, e letras não são permitidas!",context:context);
                                                                                                                             }else{
-                                                                                                                              final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-
-                                                                                                                              if(regex.hasMatch(canal)){
-                                                                                                                                showToast("O relê contem letras, e letras não são permitidas!",context:context);
+                                                                                                                              if(iconeSelecionado == ""){
+                                                                                                                                showToast("O icone precisa ser selecionado!",context:context);
                                                                                                                               }else{
-                                                                                                                                if(iconeSelecionado == ""){
-                                                                                                                                  showToast("O icone precisa ser selecionado!",context:context);
+                                                                                                                                if(modeloselecionado == ""){
+                                                                                                                                  showToast("O modelo precisa ser selecionado!",context:context);
                                                                                                                                 }else{
-                                                                                                                                  if(modeloselecionado == ""){
-                                                                                                                                    showToast("O modelo precisa ser selecionado!",context:context);
-                                                                                                                                  }else{
-                                                                                                                                    FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).update({
-                                                                                                                                      "nome": nome,
-                                                                                                                                      "ip": ip,
-                                                                                                                                      "porta": int.parse(porta),
-                                                                                                                                      "canal": int.parse(canal),
-                                                                                                                                      "usuario": usuario,
-                                                                                                                                      "senha": senha,
-                                                                                                                                      "modelo": modeloselecionado,
-                                                                                                                                      "idCondominio": idCondominio,
-                                                                                                                                      "iconeSeleciondo": iconeSelecionado
-                                                                                                                                    }).whenComplete((){
-                                                                                                                                      Navigator.pop(context);
-                                                                                                                                    });
-                                                                                                                                  }
+                                                                                                                                  FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).update({
+                                                                                                                                    "nome": nome,
+                                                                                                                                    "ip": ip,
+                                                                                                                                    "porta": int.parse(porta),
+                                                                                                                                    "canal": int.parse(canal),
+                                                                                                                                    "usuario": usuario,
+                                                                                                                                    "senha": senha,
+                                                                                                                                    "modelo": modeloselecionado,
+                                                                                                                                    "idCondominio": idCondominio,
+                                                                                                                                    "iconeSeleciondo": iconeSelecionado
+                                                                                                                                  }).whenComplete((){
+                                                                                                                                    Navigator.pop(context);
+                                                                                                                                  });
                                                                                                                                 }
                                                                                                                               }
                                                                                                                             }
@@ -2328,56 +2336,56 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         }
                                                                                                                       }
                                                                                                                     }
+                                                                                                                  }
+                                                                                                                }else{
+                                                                                                                  if(nome == ""){
+                                                                                                                    showToast("O nome não pode ficar vazio!",context:context);
                                                                                                                   }else{
-                                                                                                                    if(nome == ""){
-                                                                                                                      showToast("O nome não pode ficar vazio!",context:context);
+                                                                                                                    if(ip == ""){
+                                                                                                                      showToast("O ip não pode estar vazio!",context:context);
                                                                                                                     }else{
-                                                                                                                      if(ip == ""){
-                                                                                                                        showToast("O ip não pode estar vazio!",context:context);
+                                                                                                                      if(porta == ""){
+                                                                                                                        showToast("A porta não pode estar vazia!",context:context);
                                                                                                                       }else{
-                                                                                                                        if(porta == ""){
-                                                                                                                          showToast("A porta não pode estar vazia!",context:context);
+                                                                                                                        final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
+                                              
+                                                                                                                        if(regex.hasMatch(porta)){
+                                                                                                                          showToast("A porta contem letras, e letras não são permitidas!",context:context);
                                                                                                                         }else{
-                                                                                                                          final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-
-                                                                                                                          if(regex.hasMatch(porta)){
-                                                                                                                            showToast("A porta contem letras, e letras não são permitidas!",context:context);
+                                                                                                                          if(canal == ""){
+                                                                                                                            showToast("O canal não pode estar vazia!",context:context);
                                                                                                                           }else{
-                                                                                                                            if(canal == ""){
-                                                                                                                              showToast("O canal não pode estar vazia!",context:context);
+                                                                                                                            final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
+                                              
+                                                                                                                            if(regex.hasMatch(canal)){
+                                                                                                                              showToast("O canal contem letras, e letras não são permitidas!",context:context);
                                                                                                                             }else{
-                                                                                                                              final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-
-                                                                                                                              if(regex.hasMatch(canal)){
-                                                                                                                                showToast("O canal contem letras, e letras não são permitidas!",context:context);
+                                              
+                                                                                                                              if(usuario == ""){
+                                                                                                                                showToast("O usuario não pode estar vazio!",context:context);
                                                                                                                               }else{
-
-                                                                                                                                if(usuario == ""){
-                                                                                                                                  showToast("O usuario não pode estar vazio!",context:context);
+                                                                                                                                if(senha == ""){
+                                                                                                                                  showToast("A senha não pode estar vazia!",context:context);
                                                                                                                                 }else{
-                                                                                                                                  if(senha == ""){
-                                                                                                                                    showToast("A senha não pode estar vazia!",context:context);
+                                                                                                                                  if(iconeSelecionado == ""){
+                                                                                                                                    showToast("O icone precisa ser selecionado!",context:context);
                                                                                                                                   }else{
-                                                                                                                                    if(iconeSelecionado == ""){
-                                                                                                                                      showToast("O icone precisa ser selecionado!",context:context);
+                                                                                                                                    if(modeloselecionado == ""){
+                                                                                                                                      showToast("O modelo precisa ser selecionado!",context:context);
                                                                                                                                     }else{
-                                                                                                                                      if(modeloselecionado == ""){
-                                                                                                                                        showToast("O modelo precisa ser selecionado!",context:context);
-                                                                                                                                      }else{
-                                                                                                                                        FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).update({
-                                                                                                                                          "nome": nome,
-                                                                                                                                          "ip": ip,
-                                                                                                                                          "porta": int.parse(porta),
-                                                                                                                                          "canal": int.parse(canal),
-                                                                                                                                          "usuario": usuario,
-                                                                                                                                          "senha": senha,
-                                                                                                                                          "modelo": modeloselecionado,
-                                                                                                                                          "idCondominio": idCondominio,
-                                                                                                                                          "iconeSeleciondo": iconeSelecionado
-                                                                                                                                        }).whenComplete((){
-                                                                                                                                          Navigator.pop(context);
-                                                                                                                                        });
-                                                                                                                                      }
+                                                                                                                                      FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).update({
+                                                                                                                                        "nome": nome,
+                                                                                                                                        "ip": ip,
+                                                                                                                                        "porta": int.parse(porta),
+                                                                                                                                        "canal": int.parse(canal),
+                                                                                                                                        "usuario": usuario,
+                                                                                                                                        "senha": senha,
+                                                                                                                                        "modelo": modeloselecionado,
+                                                                                                                                        "idCondominio": idCondominio,
+                                                                                                                                        "iconeSeleciondo": iconeSelecionado
+                                                                                                                                      }).whenComplete((){
+                                                                                                                                        Navigator.pop(context);
+                                                                                                                                      });
                                                                                                                                     }
                                                                                                                                   }
                                                                                                                                 }
@@ -2388,545 +2396,544 @@ class _homeAppState extends State<homeApp>{
                                                                                                                       }
                                                                                                                     }
                                                                                                                   }
-                                                                                                                },style: ElevatedButton.styleFrom(
-                                                                                                                  backgroundColor: colorBtn
-                                                                                                              ),
-                                                                                                                child: Text(
-                                                                                                                  'Salvar edições',
-                                                                                                                  style: TextStyle(
-                                                                                                                      color: textColor
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                            ],
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ],
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                ),
-                                                                                              );
-                                                                                            },
-                                                                                            );
-                                                                                          },
-                                                                                        );
-                                                                                      }
-                                                                                      if(action == "delAcionamento"){
-                                                                                        showDialog(
-                                                                                          context: context,
-                                                                                          builder: (BuildContext context) {
-                                                                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                                                                              return Center(
-                                                                                                child: SingleChildScrollView(
-                                                                                                  child: Dialog(
-                                                                                                    child: Stack(
-                                                                                                      children: [
-                                                                                                        // Imagem de fundo
-                                                                                                        Positioned.fill(
-                                                                                                          child: ClipRRect(
-                                                                                                            borderRadius: BorderRadius.circular(10),
-                                                                                                            child: Image.asset(
-                                                                                                              "assets/FundoMetalPreto.jpg",
-                                                                                                              fit: BoxFit.fill,
+                                                                                                                }
+                                                                                                              },style: ElevatedButton.styleFrom(
+                                                                                                                backgroundColor: colorBtn
                                                                                                             ),
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                        Container(
-                                                                                                          width: 400,
-                                                                                                          padding: const EdgeInsets.all(30),
-                                                                                                          child: Column(
-                                                                                                            children: [
-                                                                                                              const Text('Deletar esse acionamento?',
-                                                                                                                style:TextStyle(fontSize: 23,
-                                                                                                                    fontWeight: FontWeight.bold),
-                                                                                                              ),
-                                                                                                              Container(
-                                                                                                                padding: const EdgeInsets.all(16),
-                                                                                                                child: const Text('Tem certeza que deseja deletar esse acionamento?',
-                                                                                                                  style:TextStyle(fontSize: 16),
-                                                                                                                  textAlign: TextAlign.center,
+                                                                                                              child: Text(
+                                                                                                                'Salvar edições',
+                                                                                                                style: TextStyle(
+                                                                                                                    color: textColor
                                                                                                                 ),
                                                                                                               ),
-                                                                                                              Row(
-                                                                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                                                                children: [
-                                                                                                                  ElevatedButton(onPressed: (){
-                                                                                                                    Navigator.pop(context);
-                                                                                                                  },
-                                                                                                                    style: ElevatedButton.styleFrom(
-                                                                                                                        backgroundColor: colorBtn
-                                                                                                                    ), child: const Text('Não'),
-                                                                                                                  ),
-                                                                                                                  ElevatedButton(onPressed: (){
-                                                                                                                    FirebaseFirestore.instance.collection("acionamentos").doc(documents["idCondominio"]).delete().whenComplete((){
-                                                                                                                      showToast("Acionamento deletado!",context:context);
-                                                                                                                    });
-                                                                                                                  },
-                                                                                                                    style: ElevatedButton.styleFrom(
-                                                                                                                        backgroundColor: colorBtn
-                                                                                                                    ), child: const Text('Sim'),
-                                                                                                                  ),
-                                                                                                                ],
-                                                                                                              ),
-                                                                                                            ],
-                                                                                                          ),
+                                                                                                            ),
+                                                                                                          ],
                                                                                                         ),
-                                                                                                      ],
-                                                                                                    ),
+                                                                                                      ),
+                                                                                                    ],
                                                                                                   ),
                                                                                                 ),
-                                                                                              );
-                                                                                            },
+                                                                                              ),
                                                                                             );
                                                                                           },
-                                                                                        );
-                                                                                      }
-                                                                                    },
-                                                                                    menu: snapshot.requireData,
-                                                                                    otherCallback: (method) {
-                                                                                    },
-                                                                                    child: const Text(
-                                                                                      "abc",
-                                                                                      style: TextStyle(
-                                                                                          color: Colors.transparent
-                                                                                      ),
+                                                                                          );
+                                                                                        },
+                                                                                      );
+                                                                                    }
+                                                                                    if(action == "delAcionamento"){
+                                                                                      showDialog(
+                                                                                        context: context,
+                                                                                        builder: (BuildContext context) {
+                                                                                          return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                            return Center(
+                                                                                              child: SingleChildScrollView(
+                                                                                                child: Dialog(
+                                                                                                  child: Stack(
+                                                                                                    children: [
+                                                                                                      // Imagem de fundo
+                                                                                                      Positioned.fill(
+                                                                                                        child: ClipRRect(
+                                                                                                          borderRadius: BorderRadius.circular(10),
+                                                                                                          child: Image.asset(
+                                                                                                            "assets/FundoMetalPreto.jpg",
+                                                                                                            fit: BoxFit.fill,
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      Container(
+                                                                                                        width: 400,
+                                                                                                        padding: const EdgeInsets.all(30),
+                                                                                                        child: Column(
+                                                                                                          children: [
+                                                                                                            const Text('Deletar esse acionamento?',
+                                                                                                              style:TextStyle(fontSize: 23,
+                                                                                                                  fontWeight: FontWeight.bold),
+                                                                                                            ),
+                                                                                                            Container(
+                                                                                                              padding: const EdgeInsets.all(16),
+                                                                                                              child: const Text('Tem certeza que deseja deletar esse acionamento?',
+                                                                                                                style:TextStyle(fontSize: 16),
+                                                                                                                textAlign: TextAlign.center,
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            Row(
+                                                                                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                                              children: [
+                                                                                                                ElevatedButton(onPressed: (){
+                                                                                                                  Navigator.pop(context);
+                                                                                                                },
+                                                                                                                  style: ElevatedButton.styleFrom(
+                                                                                                                      backgroundColor: colorBtn
+                                                                                                                  ), child: const Text('Não'),
+                                                                                                                ),
+                                                                                                                ElevatedButton(onPressed: (){
+                                                                                                                  FirebaseFirestore.instance.collection("acionamentos").doc(documents["idCondominio"]).delete().whenComplete((){
+                                                                                                                    showToast("Acionamento deletado!",context:context);
+                                                                                                                  });
+                                                                                                                },
+                                                                                                                  style: ElevatedButton.styleFrom(
+                                                                                                                      backgroundColor: colorBtn
+                                                                                                                  ), child: const Text('Sim'),
+                                                                                                                ),
+                                                                                                              ],
+                                                                                                            ),
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            );
+                                                                                          },
+                                                                                          );
+                                                                                        },
+                                                                                      );
+                                                                                    }
+                                                                                  },
+                                                                                  menu: snapshot.requireData,
+                                                                                  otherCallback: (method) {
+                                                                                  },
+                                                                                  child: const Text(
+                                                                                    "abc",
+                                                                                    style: TextStyle(
+                                                                                        color: Colors.transparent
                                                                                     ),
-                                                                                  );
-                                                                                },
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  );
-                                                                }).toList().reversed.toList()
-                                                            );
-                                                          }
-                                                          return const Center(
-                                                              child: Text('Sem dados!',)
-                                                          );
-                                                        },
-                                                      ),
-                                                      if (AdicionarAcionamentos == false) Container() else Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        alignment: Alignment.bottomRight,
-                                                        child: TextButton(
-                                                            onPressed: (){
-                                                              showDialog(
-                                                                context: context,
-                                                                builder: (BuildContext context) {
-
-                                                                  String nome = "";
-                                                                  String ip = "";
-                                                                  String modeloselecionado = "Intelbras";
-                                                                  String porta = "";
-                                                                  String canal = "";
-                                                                  String usuario = "";
-                                                                  String senha = "";
-                                                                  var dropValue3 = ValueNotifier('Intelbras');
-                                                                  var dropValue4 = ValueNotifier('assets/bell.png');
-                                                                  String iconeSelecionado = "assets/bell.png";
-                                                                  List icones = [
-                                                                    "assets/bell.png",
-                                                                    "assets/portaria_acept.png",
-                                                                    "assets/pedestre.png",
-                                                                    "assets/pedestre02.png",
-                                                                  ];
-
-                                                                  return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                                                    return Center(
-                                                                      child: SingleChildScrollView(
-                                                                        child: Dialog(
-                                                                          child: Stack(
-                                                                            children: [
-                                                                              Positioned.fill(
-                                                                                child: ClipRRect(
-                                                                                  borderRadius: BorderRadius.circular(10),
-                                                                                  child: Image.asset(
-                                                                                    "assets/FundoMetalPreto.jpg",
-                                                                                    fit: BoxFit.fill,
                                                                                   ),
+                                                                                );
+                                                                              },
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                );
+                                                              }).toList().reversed.toList()
+                                                          );
+                                                        }
+                                                        return const Center(
+                                                            child: Text('Sem dados!',)
+                                                        );
+                                                      },
+                                                    ),
+                                                    if (AdicionarAcionamentos == false) Container() else Container(
+                                                      padding: const EdgeInsets.all(16),
+                                                      alignment: Alignment.bottomRight,
+                                                      child: TextButton(
+                                                          onPressed: (){
+                                                            showDialog(
+                                                              context: context,
+                                                              builder: (BuildContext context) {
+                                              
+                                                                String nome = "";
+                                                                String ip = "";
+                                                                String modeloselecionado = "Intelbras";
+                                                                String porta = "";
+                                                                String canal = "";
+                                                                String usuario = "";
+                                                                String senha = "";
+                                                                var dropValue3 = ValueNotifier('Intelbras');
+                                                                var dropValue4 = ValueNotifier('assets/portaria_acept.png');
+                                                                String iconeSelecionado = "assets/portaria_acept.png";
+                                                                List icones = [
+                                                                  "assets/portaria_acept.png",
+                                                                  "assets/pedestre.png",
+                                                                  "assets/pedestre02.png",
+                                                                ];
+                                              
+                                                                return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                  return Center(
+                                                                    child: SingleChildScrollView(
+                                                                      child: Dialog(
+                                                                        child: Stack(
+                                                                          children: [
+                                                                            Positioned.fill(
+                                                                              child: ClipRRect(
+                                                                                borderRadius: BorderRadius.circular(10),
+                                                                                child: Image.asset(
+                                                                                  "assets/FundoMetalPreto.jpg",
+                                                                                  fit: BoxFit.fill,
                                                                                 ),
                                                                               ),
-                                                                              Container(
-                                                                                width: 600,
-                                                                                padding: const EdgeInsets.all(20),
-                                                                                child: Column(
-                                                                                  children: [
-                                                                                    Row(
-                                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                      children: [
-                                                                                        Container(
-                                                                                            padding: const EdgeInsets.only(bottom: 16),
-                                                                                            child: const Text(
-                                                                                              'Adicionar novo acionamento',
-                                                                                              style: TextStyle(
-                                                                                                fontSize: 30,
+                                                                            ),
+                                                                            Container(
+                                                                              width: 600,
+                                                                              padding: const EdgeInsets.all(20),
+                                                                              child: Column(
+                                                                                children: [
+                                                                                  Row(
+                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                    children: [
+                                                                                      Container(
+                                                                                          padding: const EdgeInsets.only(bottom: 16),
+                                                                                          child: const Text(
+                                                                                            'Adicionar novo acionamento',
+                                                                                            style: TextStyle(
+                                                                                              fontSize: 30,
+                                                                                            ),
+                                                                                          )
+                                                                                      ),
+                                                                                      SizedBox(
+                                                                                        width: 100,
+                                                                                        height: 100,
+                                                                                        child: TextButton(onPressed: (){
+                                                                                          Navigator.pop(context);
+                                                                                        },
+                                                                                            child:const Center(
+                                                                                              child: Icon(
+                                                                                                Icons.close,
+                                                                                                size: 40,
                                                                                               ),
                                                                                             )
                                                                                         ),
-                                                                                        SizedBox(
-                                                                                          width: 100,
-                                                                                          height: 100,
-                                                                                          child: TextButton(onPressed: (){
-                                                                                            Navigator.pop(context);
-                                                                                          },
-                                                                                              child:const Center(
-                                                                                                child: Icon(
-                                                                                                  Icons.close,
-                                                                                                  size: 40,
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
+                                                                                  Center(
+                                                                                    child: Column(
+                                                                                      children: [
+                                                                                        Center(
+                                                                                          child: Container(
+                                                                                            padding: const EdgeInsets.all(10),
+                                                                                            child: TextField(
+                                                                                              keyboardType: TextInputType.name,
+                                                                                              enableSuggestions: true,
+                                                                                              autocorrect: true,
+                                                                                              onChanged: (value){
+                                                                                                setState(() {
+                                                                                                  nome = value;
+                                                                                                });
+                                                                                              },
+                                                                                              decoration: InputDecoration(
+                                                                                                filled: true,
+                                                                                                fillColor: Colors.white,
+                                                                                                labelStyle: TextStyle(
+                                                                                                    color: textAlertDialogColor
                                                                                                 ),
-                                                                                              )
+                                                                                                border: const OutlineInputBorder(),
+                                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                ),
+                                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(
+                                                                                                      width: 3,
+                                                                                                      color: Colors.black
+                                                                                                  ),
+                                                                                                ),
+                                                                                                label: const Text('Nome de identificação'),
+                                                                                              ),
+                                                                                              style: TextStyle(
+                                                                                                  color: textAlertDialogColor
+                                                                                              ),
+                                                                                            ),
                                                                                           ),
-                                                                                        )
+                                                                                        ),
+                                                                                        Center(
+                                                                                          child: Container(
+                                                                                            padding: const EdgeInsets.all(10),
+                                                                                            child: TextField(
+                                                                                              keyboardType: TextInputType.name,
+                                                                                              enableSuggestions: true,
+                                                                                              autocorrect: true,
+                                                                                              onChanged: (value){
+                                                                                                setState(() {
+                                                                                                  ip = value;
+                                                                                                });
+                                                                                              },
+                                                                                              decoration: InputDecoration(
+                                                                                                filled: true,
+                                                                                                fillColor: Colors.white,
+                                                                                                labelStyle: TextStyle(
+                                                                                                    color: textAlertDialogColor
+                                                                                                ),
+                                                                                                border: const OutlineInputBorder(),
+                                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                ),
+                                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(
+                                                                                                      width: 3,
+                                                                                                      color: Colors.black
+                                                                                                  ),
+                                                                                                ),
+                                                                                                label: const Text('IP'),
+                                                                                              ),
+                                                                                              style: TextStyle(
+                                                                                                  color: textAlertDialogColor
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        Center(
+                                                                                          child: Container(
+                                                                                            padding: const EdgeInsets.all(10),
+                                                                                            child: TextField(
+                                                                                              keyboardType: TextInputType.name,
+                                                                                              enableSuggestions: true,
+                                                                                              autocorrect: true,
+                                                                                              onChanged: (value){
+                                                                                                setState(() {
+                                                                                                  porta = value;
+                                                                                                });
+                                                                                              },
+                                                                                              decoration: InputDecoration(
+                                                                                                filled: true,
+                                                                                                fillColor: Colors.white,
+                                                                                                labelStyle: TextStyle(
+                                                                                                    color: textAlertDialogColor
+                                                                                                ),
+                                                                                                border: const OutlineInputBorder(),
+                                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                ),
+                                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(
+                                                                                                      width: 3,
+                                                                                                      color: Colors.black
+                                                                                                  ),
+                                                                                                ),
+                                                                                                label: Text(modeloselecionado == "Modulo Guarita (Nice)" ?'Porta (normalmente 9000)': 'Porta'),
+                                                                                              ),
+                                                                                              style: TextStyle(
+                                                                                                  color: textAlertDialogColor
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        Center(
+                                                                                          child: Container(
+                                                                                            padding: const EdgeInsets.all(10),
+                                                                                            child: TextField(
+                                                                                              keyboardType: TextInputType.name,
+                                                                                              enableSuggestions: true,
+                                                                                              autocorrect: true,
+                                                                                              onChanged: (value){
+                                                                                                setState(() {
+                                                                                                  canal = value;
+                                                                                                });
+                                                                                              },
+                                                                                              decoration: InputDecoration(
+                                                                                                filled: true,
+                                                                                                fillColor: Colors.white,
+                                                                                                labelStyle: TextStyle(
+                                                                                                    color: textAlertDialogColor
+                                                                                                ),
+                                                                                                border: const OutlineInputBorder(),
+                                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                ),
+                                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(
+                                                                                                      width: 3,
+                                                                                                      color: Colors.black
+                                                                                                  ),
+                                                                                                ),
+                                                                                                label: Text(modeloselecionado == "Modulo Guarita (Nice)" ? 'Relê': "Canal"),
+                                                                                              ),
+                                                                                              style: TextStyle(
+                                                                                                  color: textAlertDialogColor
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        modeloselecionado == "Modulo Guarita (Nice)" ? Container():
+                                                                                        Center(
+                                                                                          child: Container(
+                                                                                            padding: const EdgeInsets.all(10),
+                                                                                            child: TextField(
+                                                                                              keyboardType: TextInputType.name,
+                                                                                              enableSuggestions: true,
+                                                                                              autocorrect: true,
+                                                                                              onChanged: (value){
+                                                                                                setState(() {
+                                                                                                  usuario = value;
+                                                                                                });
+                                                                                              },
+                                                                                              decoration: InputDecoration(
+                                                                                                filled: true,
+                                                                                                fillColor: Colors.white,
+                                                                                                labelStyle: TextStyle(
+                                                                                                    color: textAlertDialogColor
+                                                                                                ),
+                                                                                                border: const OutlineInputBorder(),
+                                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                ),
+                                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(
+                                                                                                      width: 3,
+                                                                                                      color: Colors.black
+                                                                                                  ),
+                                                                                                ),
+                                                                                                label: const Text('Usuario'),
+                                                                                              ),
+                                                                                              style: TextStyle(
+                                                                                                  color: textAlertDialogColor
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        modeloselecionado == "Modulo Guarita (Nice)" ? Container():
+                                                                                        Center(
+                                                                                          child: Container(
+                                                                                            padding: const EdgeInsets.all(10),
+                                                                                            child: TextField(
+                                                                                              keyboardType: TextInputType.name,
+                                                                                              enableSuggestions: true,
+                                                                                              autocorrect: true,
+                                                                                              onChanged: (value){
+                                                                                                setState(() {
+                                                                                                  senha = value;
+                                                                                                });
+                                                                                              },
+                                                                                              decoration: InputDecoration(
+                                                                                                filled: true,
+                                                                                                fillColor: Colors.white,
+                                                                                                labelStyle: TextStyle(
+                                                                                                    color: textAlertDialogColor
+                                                                                                ),
+                                                                                                border: const OutlineInputBorder(),
+                                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                ),
+                                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(
+                                                                                                      width: 3,
+                                                                                                      color: Colors.black
+                                                                                                  ),
+                                                                                                ),
+                                                                                                label: const Text('Senha'),
+                                                                                              ),
+                                                                                              style: TextStyle(
+                                                                                                  color: textAlertDialogColor
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
                                                                                       ],
                                                                                     ),
-                                                                                    Center(
-                                                                                      child: Column(
-                                                                                        children: [
-                                                                                          Center(
-                                                                                            child: Container(
-                                                                                              padding: const EdgeInsets.all(10),
-                                                                                              child: TextField(
-                                                                                                keyboardType: TextInputType.name,
-                                                                                                enableSuggestions: true,
-                                                                                                autocorrect: true,
-                                                                                                onChanged: (value){
-                                                                                                  setState(() {
-                                                                                                    nome = value;
-                                                                                                  });
-                                                                                                },
-                                                                                                decoration: InputDecoration(
-                                                                                                  filled: true,
-                                                                                                  fillColor: Colors.white,
-                                                                                                  labelStyle: TextStyle(
-                                                                                                      color: textAlertDialogColor
-                                                                                                  ),
-                                                                                                  border: const OutlineInputBorder(),
-                                                                                                  enabledBorder: const OutlineInputBorder(
-                                                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                  ),
-                                                                                                  focusedBorder: const OutlineInputBorder(
-                                                                                                    borderSide: BorderSide(
-                                                                                                        width: 3,
-                                                                                                        color: Colors.black
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  label: const Text('Nome de identificação'),
-                                                                                                ),
-                                                                                                style: TextStyle(
-                                                                                                    color: textAlertDialogColor
-                                                                                                ),
-                                                                                              ),
-                                                                                            ),
+                                                                                  ),
+                                                                                  const Center(
+                                                                                    child: Text('Selecione um icone'),
+                                                                                  ),
+                                                                                  Center(
+                                                                                    child: ValueListenableBuilder(valueListenable: dropValue4, builder: (context, String value, _){
+                                                                                      return DropdownButton(
+                                                                                        hint: Text(
+                                                                                          'Selecione um icone',
+                                                                                          style: TextStyle(
+                                                                                              color: textColorDrop
                                                                                           ),
-                                                                                          Center(
-                                                                                            child: Container(
-                                                                                              padding: const EdgeInsets.all(10),
-                                                                                              child: TextField(
-                                                                                                keyboardType: TextInputType.name,
-                                                                                                enableSuggestions: true,
-                                                                                                autocorrect: true,
-                                                                                                onChanged: (value){
-                                                                                                  setState(() {
-                                                                                                    ip = value;
-                                                                                                  });
-                                                                                                },
-                                                                                                decoration: InputDecoration(
-                                                                                                  filled: true,
-                                                                                                  fillColor: Colors.white,
-                                                                                                  labelStyle: TextStyle(
-                                                                                                      color: textAlertDialogColor
-                                                                                                  ),
-                                                                                                  border: const OutlineInputBorder(),
-                                                                                                  enabledBorder: const OutlineInputBorder(
-                                                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                  ),
-                                                                                                  focusedBorder: const OutlineInputBorder(
-                                                                                                    borderSide: BorderSide(
-                                                                                                        width: 3,
-                                                                                                        color: Colors.black
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  label: const Text('IP'),
-                                                                                                ),
-                                                                                                style: TextStyle(
-                                                                                                    color: textAlertDialogColor
-                                                                                                ),
-                                                                                              ),
-                                                                                            ),
-                                                                                          ),
-                                                                                          Center(
-                                                                                            child: Container(
-                                                                                              padding: const EdgeInsets.all(10),
-                                                                                              child: TextField(
-                                                                                                keyboardType: TextInputType.name,
-                                                                                                enableSuggestions: true,
-                                                                                                autocorrect: true,
-                                                                                                onChanged: (value){
-                                                                                                  setState(() {
-                                                                                                    porta = value;
-                                                                                                  });
-                                                                                                },
-                                                                                                decoration: InputDecoration(
-                                                                                                  filled: true,
-                                                                                                  fillColor: Colors.white,
-                                                                                                  labelStyle: TextStyle(
-                                                                                                      color: textAlertDialogColor
-                                                                                                  ),
-                                                                                                  border: const OutlineInputBorder(),
-                                                                                                  enabledBorder: const OutlineInputBorder(
-                                                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                  ),
-                                                                                                  focusedBorder: const OutlineInputBorder(
-                                                                                                    borderSide: BorderSide(
-                                                                                                        width: 3,
-                                                                                                        color: Colors.black
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  label: Text(modeloselecionado == "Modulo Guarita (Nice)" ?'Porta (normalmente 9000)': 'Porta'),
-                                                                                                ),
-                                                                                                style: TextStyle(
-                                                                                                    color: textAlertDialogColor
-                                                                                                ),
-                                                                                              ),
-                                                                                            ),
-                                                                                          ),
-                                                                                          Center(
-                                                                                            child: Container(
-                                                                                              padding: const EdgeInsets.all(10),
-                                                                                              child: TextField(
-                                                                                                keyboardType: TextInputType.name,
-                                                                                                enableSuggestions: true,
-                                                                                                autocorrect: true,
-                                                                                                onChanged: (value){
-                                                                                                  setState(() {
-                                                                                                    canal = value;
-                                                                                                  });
-                                                                                                },
-                                                                                                decoration: InputDecoration(
-                                                                                                  filled: true,
-                                                                                                  fillColor: Colors.white,
-                                                                                                  labelStyle: TextStyle(
-                                                                                                      color: textAlertDialogColor
-                                                                                                  ),
-                                                                                                  border: const OutlineInputBorder(),
-                                                                                                  enabledBorder: const OutlineInputBorder(
-                                                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                  ),
-                                                                                                  focusedBorder: const OutlineInputBorder(
-                                                                                                    borderSide: BorderSide(
-                                                                                                        width: 3,
-                                                                                                        color: Colors.black
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  label: Text(modeloselecionado == "Modulo Guarita (Nice)" ? 'Relê': "Canal"),
-                                                                                                ),
-                                                                                                style: TextStyle(
-                                                                                                    color: textAlertDialogColor
-                                                                                                ),
-                                                                                              ),
-                                                                                            ),
-                                                                                          ),
-                                                                                          modeloselecionado == "Modulo Guarita (Nice)" ? Container():
-                                                                                          Center(
-                                                                                            child: Container(
-                                                                                              padding: const EdgeInsets.all(10),
-                                                                                              child: TextField(
-                                                                                                keyboardType: TextInputType.name,
-                                                                                                enableSuggestions: true,
-                                                                                                autocorrect: true,
-                                                                                                onChanged: (value){
-                                                                                                  setState(() {
-                                                                                                    usuario = value;
-                                                                                                  });
-                                                                                                },
-                                                                                                decoration: InputDecoration(
-                                                                                                  filled: true,
-                                                                                                  fillColor: Colors.white,
-                                                                                                  labelStyle: TextStyle(
-                                                                                                      color: textAlertDialogColor
-                                                                                                  ),
-                                                                                                  border: const OutlineInputBorder(),
-                                                                                                  enabledBorder: const OutlineInputBorder(
-                                                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                  ),
-                                                                                                  focusedBorder: const OutlineInputBorder(
-                                                                                                    borderSide: BorderSide(
-                                                                                                        width: 3,
-                                                                                                        color: Colors.black
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  label: const Text('Usuario'),
-                                                                                                ),
-                                                                                                style: TextStyle(
-                                                                                                    color: textAlertDialogColor
-                                                                                                ),
-                                                                                              ),
-                                                                                            ),
-                                                                                          ),
-                                                                                          modeloselecionado == "Modulo Guarita (Nice)" ? Container():
-                                                                                          Center(
-                                                                                            child: Container(
-                                                                                              padding: const EdgeInsets.all(10),
-                                                                                              child: TextField(
-                                                                                                keyboardType: TextInputType.name,
-                                                                                                enableSuggestions: true,
-                                                                                                autocorrect: true,
-                                                                                                onChanged: (value){
-                                                                                                  setState(() {
-                                                                                                    senha = value;
-                                                                                                  });
-                                                                                                },
-                                                                                                decoration: InputDecoration(
-                                                                                                  filled: true,
-                                                                                                  fillColor: Colors.white,
-                                                                                                  labelStyle: TextStyle(
-                                                                                                      color: textAlertDialogColor
-                                                                                                  ),
-                                                                                                  border: const OutlineInputBorder(),
-                                                                                                  enabledBorder: const OutlineInputBorder(
-                                                                                                    borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                  ),
-                                                                                                  focusedBorder: const OutlineInputBorder(
-                                                                                                    borderSide: BorderSide(
-                                                                                                        width: 3,
-                                                                                                        color: Colors.black
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  label: const Text('Senha'),
-                                                                                                ),
-                                                                                                style: TextStyle(
-                                                                                                    color: textAlertDialogColor
-                                                                                                ),
-                                                                                              ),
-                                                                                            ),
-                                                                                          ),
-                                                                                        ],
-                                                                                      ),
-                                                                                    ),
-                                                                                    const Center(
-                                                                                      child: Text('Selecione um icone'),
-                                                                                    ),
-                                                                                    Center(
-                                                                                      child: ValueListenableBuilder(valueListenable: dropValue4, builder: (context, String value, _){
-                                                                                        return DropdownButton(
-                                                                                          hint: Text(
-                                                                                            'Selecione um icone',
-                                                                                            style: TextStyle(
-                                                                                                color: textColorDrop
-                                                                                            ),
-                                                                                          ),
-                                                                                          value: (value.isEmpty)? null : value,
-                                                                                          onChanged: (escolha) async {
-                                                                                            dropValue4.value = escolha.toString();
-                                                                                            setState(() {
-                                                                                              iconeSelecionado = escolha.toString();
-                                                                                            });
-                                                                                          },
-                                                                                          items: icones.map((opcao) => DropdownMenuItem(
-                                                                                              value: opcao,
-                                                                                              child: Image.asset(
-                                                                                                  opcao,
-                                                                                                  scale: 30
-                                                                                              )
-                                                                                          ),
-                                                                                          ).toList(),
-                                                                                        );
-                                                                                      }
-                                                                                      ),
-                                                                                    ),
-                                                                                    const Center(
-                                                                                      child: Text('Selecione o modelo'),
-                                                                                    ),
-                                                                                    Center(
-                                                                                      child: ValueListenableBuilder(valueListenable: dropValue3, builder: (context, String value, _){
-                                                                                        return DropdownButton(
-                                                                                          hint: Text(
-                                                                                            'Selecione o modelo',
-                                                                                            style: TextStyle(
-                                                                                                color: textColorDrop
-                                                                                            ),
-                                                                                          ),
-                                                                                          value: (value.isEmpty)? null : value,
-                                                                                          onChanged: (escolha) async {
-                                                                                            dropValue3.value = escolha.toString();
-                                                                                            setState(() {
-                                                                                              modeloselecionado = escolha.toString();
-                                                                                            });
-                                                                                          },
-                                                                                          items: ModelosAcionamentos.map((opcao) => DropdownMenuItem(
-                                                                                            value: opcao,
-                                                                                            child:
-                                                                                            Text(
-                                                                                              opcao,
-                                                                                              style: TextStyle(
-                                                                                                  color: textColorDrop
-                                                                                              ),
-                                                                                            ),
-                                                                                          ),
-                                                                                          ).toList(),
-                                                                                        );
-                                                                                      }),
-                                                                                    ),
-                                                                                    ElevatedButton(
-                                                                                      onPressed: (){
-                                                                                        //Manda para o banco de dados toda a informação do Relê!
-                                                                                        toDB(){
-                                                                                          Uuid uuid = const Uuid();
-                                                                                          String UUID = uuid.v4();
-                                                                                          FirebaseFirestore.instance.collection("acionamentos").doc(UUID).set({
-                                                                                            "nome": nome,
-                                                                                            "ip": ip,
-                                                                                            "porta": int.parse(porta),
-                                                                                            "canal": int.parse(canal),
-                                                                                            "usuario": usuario,
-                                                                                            "senha": senha,
-                                                                                            "modelo": modeloselecionado,
-                                                                                            "prontoParaAtivar": false,
-                                                                                            "deuErro": false,
-                                                                                            "idCondominio": idCondominio,
-                                                                                            "id": UUID,
-                                                                                            "iconeSeleciondo": iconeSelecionado
-                                                                                          }).whenComplete((){
-                                                                                            Navigator.pop(context);
+                                                                                        ),
+                                                                                        value: (value.isEmpty)? null : value,
+                                                                                        onChanged: (escolha) async {
+                                                                                          dropValue4.value = escolha.toString();
+                                                                                          setState(() {
+                                                                                            iconeSelecionado = escolha.toString();
                                                                                           });
-                                                                                        }
-
-                                                                                        //If para modulo guarita
-                                                                                        if(modeloselecionado == "Modulo Guarita (Nice)"){
-                                                                                          if(nome == ""){
-                                                                                            showToast("O nome não pode ficar vazio!",context:context);
+                                                                                        },
+                                                                                        items: icones.map((opcao) => DropdownMenuItem(
+                                                                                            value: opcao,
+                                                                                            child: Image.asset(
+                                                                                                opcao,
+                                                                                                scale: 30
+                                                                                            )
+                                                                                        ),
+                                                                                        ).toList(),
+                                                                                      );
+                                                                                    }
+                                                                                    ),
+                                                                                  ),
+                                                                                  const Center(
+                                                                                    child: Text('Selecione o modelo'),
+                                                                                  ),
+                                                                                  Center(
+                                                                                    child: ValueListenableBuilder(valueListenable: dropValue3, builder: (context, String value, _){
+                                                                                      return DropdownButton(
+                                                                                        hint: Text(
+                                                                                          'Selecione o modelo',
+                                                                                          style: TextStyle(
+                                                                                              color: textColorDrop
+                                                                                          ),
+                                                                                        ),
+                                                                                        value: (value.isEmpty)? null : value,
+                                                                                        onChanged: (escolha) async {
+                                                                                          dropValue3.value = escolha.toString();
+                                                                                          setState(() {
+                                                                                            modeloselecionado = escolha.toString();
+                                                                                          });
+                                                                                        },
+                                                                                        items: ModelosAcionamentos.map((opcao) => DropdownMenuItem(
+                                                                                          value: opcao,
+                                                                                          child:
+                                                                                          Text(
+                                                                                            opcao,
+                                                                                            style: TextStyle(
+                                                                                                color: textColorDrop
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        ).toList(),
+                                                                                      );
+                                                                                    }),
+                                                                                  ),
+                                                                                  ElevatedButton(
+                                                                                    onPressed: (){
+                                                                                      //Manda para o banco de dados toda a informação do Relê!
+                                                                                      toDB(){
+                                                                                        Uuid uuid = const Uuid();
+                                                                                        String UUID = uuid.v4();
+                                                                                        FirebaseFirestore.instance.collection("acionamentos").doc(UUID).set({
+                                                                                          "nome": nome,
+                                                                                          "ip": ip,
+                                                                                          "porta": int.parse(porta),
+                                                                                          "canal": int.parse(canal),
+                                                                                          "usuario": usuario,
+                                                                                          "senha": senha,
+                                                                                          "modelo": modeloselecionado,
+                                                                                          "prontoParaAtivar": false,
+                                                                                          "deuErro": false,
+                                                                                          "idCondominio": idCondominio,
+                                                                                          "id": UUID,
+                                                                                          "iconeSeleciondo": iconeSelecionado
+                                                                                        }).whenComplete((){
+                                                                                          Navigator.pop(context);
+                                                                                        });
+                                                                                      }
+                                              
+                                                                                      //If para modulo guarita
+                                                                                      if(modeloselecionado == "Modulo Guarita (Nice)"){
+                                                                                        if(nome == ""){
+                                                                                          showToast("O nome não pode ficar vazio!",context:context);
+                                                                                        }else{
+                                                                                          if(ip == ""){
+                                                                                            showToast("O ip não pode estar vazio!",context:context);
                                                                                           }else{
-                                                                                            if(ip == ""){
-                                                                                              showToast("O ip não pode estar vazio!",context:context);
+                                                                                            if(porta == ""){
+                                                                                              showToast("A porta não pode estar vazia!",context:context);
                                                                                             }else{
-                                                                                              if(porta == ""){
-                                                                                                showToast("A porta não pode estar vazia!",context:context);
+                                                                                              final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
+                                              
+                                                                                              if(regex.hasMatch(porta)){
+                                                                                                showToast("A porta contem letras, e letras não são permitidas!",context:context);
                                                                                               }else{
-                                                                                                final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-
-                                                                                                if(regex.hasMatch(porta)){
-                                                                                                  showToast("A porta contem letras, e letras não são permitidas!",context:context);
+                                                                                                if(canal == ""){
+                                                                                                  showToast("O relê não pode estar vazia!",context:context);
                                                                                                 }else{
-                                                                                                  if(canal == ""){
-                                                                                                    showToast("O relê não pode estar vazia!",context:context);
+                                                                                                  final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
+                                              
+                                                                                                  if(regex.hasMatch(canal)){
+                                                                                                    showToast("O relê contem letras, e letras não são permitidas!",context:context);
                                                                                                   }else{
-                                                                                                    final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-
-                                                                                                    if(regex.hasMatch(canal)){
-                                                                                                      showToast("O relê contem letras, e letras não são permitidas!",context:context);
+                                              
+                                                                                                    if(iconeSelecionado == ""){
+                                                                                                      showToast("O icone precisa ser selecionado!",context:context);
                                                                                                     }else{
-
-                                                                                                      if(iconeSelecionado == ""){
-                                                                                                        showToast("O icone precisa ser selecionado!",context:context);
+                                                                                                      if(modeloselecionado == ""){
+                                                                                                        showToast("O modelo precisa ser selecionado!",context:context);
                                                                                                       }else{
-                                                                                                        if(modeloselecionado == ""){
-                                                                                                          showToast("O modelo precisa ser selecionado!",context:context);
-                                                                                                        }else{
-                                                                                                          toDB();
-                                                                                                        }
+                                                                                                        toDB();
                                                                                                       }
                                                                                                     }
                                                                                                   }
@@ -2934,43 +2941,43 @@ class _homeAppState extends State<homeApp>{
                                                                                               }
                                                                                             }
                                                                                           }
+                                                                                        }
+                                                                                      }else{
+                                                                                        if(nome == ""){
+                                                                                          showToast("O nome não pode ficar vazio!",context:context);
                                                                                         }else{
-                                                                                          if(nome == ""){
-                                                                                            showToast("O nome não pode ficar vazio!",context:context);
+                                                                                          if(ip == ""){
+                                                                                            showToast("O ip não pode estar vazio!",context:context);
                                                                                           }else{
-                                                                                            if(ip == ""){
-                                                                                              showToast("O ip não pode estar vazio!",context:context);
+                                                                                            if(porta == ""){
+                                                                                              showToast("A porta não pode estar vazia!",context:context);
                                                                                             }else{
-                                                                                              if(porta == ""){
-                                                                                                showToast("A porta não pode estar vazia!",context:context);
+                                                                                              final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
+                                              
+                                                                                              if(regex.hasMatch(porta)){
+                                                                                                showToast("A porta contem letras, e letras não são permitidas!",context:context);
                                                                                               }else{
-                                                                                                final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-
-                                                                                                if(regex.hasMatch(porta)){
-                                                                                                  showToast("A porta contem letras, e letras não são permitidas!",context:context);
+                                                                                                if(canal == ""){
+                                                                                                  showToast("O canal não pode estar vazia!",context:context);
                                                                                                 }else{
-                                                                                                  if(canal == ""){
-                                                                                                    showToast("O canal não pode estar vazia!",context:context);
+                                                                                                  final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
+                                              
+                                                                                                  if(regex.hasMatch(canal)){
+                                                                                                    showToast("O canal contem letras, e letras não são permitidas!",context:context);
                                                                                                   }else{
-                                                                                                    final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-
-                                                                                                    if(regex.hasMatch(canal)){
-                                                                                                      showToast("O canal contem letras, e letras não são permitidas!",context:context);
+                                                                                                    if(usuario == ""){
+                                                                                                      showToast("O usuario não pode estar vazio!",context:context);
                                                                                                     }else{
-                                                                                                      if(usuario == ""){
-                                                                                                        showToast("O usuario não pode estar vazio!",context:context);
+                                                                                                      if(senha == ""){
+                                                                                                        showToast("A senha não pode estar vazia!",context:context);
                                                                                                       }else{
-                                                                                                        if(senha == ""){
-                                                                                                          showToast("A senha não pode estar vazia!",context:context);
+                                                                                                        if(iconeSelecionado == ""){
+                                                                                                          showToast("O icone precisa ser selecionado!",context:context);
                                                                                                         }else{
-                                                                                                          if(iconeSelecionado == ""){
-                                                                                                            showToast("O icone precisa ser selecionado!",context:context);
+                                                                                                          if(modeloselecionado == ""){
+                                                                                                            showToast("O modelo precisa ser selecionado!",context:context);
                                                                                                           }else{
-                                                                                                            if(modeloselecionado == ""){
-                                                                                                              showToast("O modelo precisa ser selecionado!",context:context);
-                                                                                                            }else{
-                                                                                                              toDB();
-                                                                                                            }
+                                                                                                            toDB();
                                                                                                           }
                                                                                                         }
                                                                                                       }
@@ -2981,37 +2988,37 @@ class _homeAppState extends State<homeApp>{
                                                                                             }
                                                                                           }
                                                                                         }
-                                                                                      },style: ElevatedButton.styleFrom(
-                                                                                        backgroundColor: colorBtn
-                                                                                    ),
-                                                                                      child: Text(
-                                                                                        'Criar',
-                                                                                        style: TextStyle(
-                                                                                            color: textColor
-                                                                                        ),
+                                                                                      }
+                                                                                    },style: ElevatedButton.styleFrom(
+                                                                                      backgroundColor: colorBtn
+                                                                                  ),
+                                                                                    child: Text(
+                                                                                      'Criar',
+                                                                                      style: TextStyle(
+                                                                                          color: textColor
                                                                                       ),
                                                                                     ),
-                                                                                  ],
-                                                                                ),
+                                                                                  ),
+                                                                                ],
                                                                               ),
-                                                                            ],
-                                                                          ),
+                                                                            ),
+                                                                          ],
                                                                         ),
                                                                       ),
-                                                                    );
-                                                                  },
+                                                                    ),
                                                                   );
                                                                 },
-                                                              );
-                                                            },
-                                                            child: Image.asset(
-                                                                "assets/fab.png",
-                                                                scale: 25
-                                                            )
-                                                        ),
+                                                                );
+                                                              },
+                                                            );
+                                                          },
+                                                          child: Image.asset(
+                                                              "assets/fab.png",
+                                                              scale: 25
+                                                          )
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                               Stack(
@@ -3027,7 +3034,7 @@ class _homeAppState extends State<homeApp>{
                                                       }
                                                       return Container(
                                                         width: wid / 6,
-                                                        height: heig / 2.5,
+                                                        height: heig / 2.7,
                                                         decoration: BoxDecoration(
                                                           border: Border.all(
                                                             color: Colors.blue,
@@ -3061,7 +3068,7 @@ class _homeAppState extends State<homeApp>{
                                                     ),
                                                     Container(
                                                       width: wid / 6,
-                                                      height: heig / 2.5,
+                                                      height: heig / 2.7,
                                                       alignment: Alignment.bottomRight,
                                                       padding: const EdgeInsets.all(16),
                                                       child: adicionarRamal == false ?

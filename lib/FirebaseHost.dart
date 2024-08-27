@@ -6,10 +6,15 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 //Programado por HeroRickyGames com ajuda de Deus!
 
-String host = "192.168.0.107";
+//Produção
+String host = "186.220.214.100";
 int Dbport = 8083;
 int Authport = 9099;
-int Storageport = 9199;
+
+//Homologação
+//String host = "192.168.1.102";
+//int Dbport = 8087;
+//int Authport = 9097;
 
 initFirestore(){
   FirebaseFirestore.instance.settings = Settings(
@@ -27,7 +32,7 @@ carregarImagem(var context, File _imagefile, String ID, String idCondominio) asy
   FirebaseStorage storage = FirebaseStorage.instance;
 
   //SetServer
-  storage.useStorageEmulator(host, Storageport);
+  //storage.useStorageEmulator(host, Storageport);
 
   Reference ref = storage.ref().child('images/$idCondominio/$ID');
   await ref.putFile(_imagefile).whenComplete(() {

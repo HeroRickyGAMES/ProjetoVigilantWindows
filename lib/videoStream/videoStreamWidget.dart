@@ -206,7 +206,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
     return LayoutBuilder(builder: (context, constrain){
       return SizedBox(
         width: widget.wid / 2,
-        height: widget.heig / 1.7,
+        height: widget.heig / 1.6,
         child: widget.ip != "" ? SingleChildScrollView(
           child: Column(
             children: [
@@ -441,7 +441,8 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                         SizedBox(
                                           width: 600,
                                           height: 600,
-                                          child: GridView.count(crossAxisCount: 3,
+                                          child: GridView.count(
+                                            crossAxisCount: 3,
                                             children: [
                                               Center(
                                                 child: ValueListenableBuilder(valueListenable: dropValue1, builder: (context, String value, _){
