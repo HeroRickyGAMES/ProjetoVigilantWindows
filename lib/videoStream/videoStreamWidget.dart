@@ -219,46 +219,41 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
 
     getScreenSize();
 
-    print(widget.wid);
+    print(widget.heig);
 
-    if(widget.wid <= 1250.0){
-      setState(() {
-        aspectRT = 2.2;
-      });
-    }
-    if(widget.wid > 1300.0){
-      setState(() {
-        aspectRT = 1.7;
-      });
-    }
-
-    if(widget.wid >= 1350.0){
-      setState(() {
-        aspectRT = 2.05;
-      });
-    }
-
-    if(widget.wid >= 1300.0){
-      setState(() {
-        aspectRT = 1.7;
-      });
-    }
-
-    if(widget.wid >= 1380){
-      setState(() {
-        aspectRT = 2.05;
-      });
-    }
-
-    if(widget.wid >= 1600){
-      setState(() {
-        aspectRT = 1.7;
-      });
-    }
-
-    if(widget.wid >= 1800.0){
+    if(widget.heig >= 1000.0){
       setState(() {
         aspectRT = 1.9;
+      });
+    }
+
+    if(widget.heig <= 999.0){
+      setState(() {
+        aspectRT = 1.7;
+      });
+    }
+
+    if(widget.heig <= 800){
+      setState(() {
+        aspectRT = 1.93;
+      });
+    }
+
+    if(widget.heig <= 700){
+      setState(() {
+        aspectRT = 2.1;
+      });
+    }
+
+    if(widget.heig <= 600){
+      setState(() {
+        aspectRT = 2.05;
+      });
+    }
+
+    if(widget.heig <= 599){
+      setState(() {
+        aspectRT = 2.3;
       });
     }
 

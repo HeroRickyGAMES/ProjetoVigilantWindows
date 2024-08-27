@@ -1723,56 +1723,73 @@ class _homeAppState extends State<homeApp>{
                                           child: SingleChildScrollView(
                                             child: Stack(
                                               children: [
-                                                Column(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                  children: [
-                                                    idCondominioAnt == "" ?
-                                                    const Center(
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: [
-                                                          Text('Clique no icone'),
-                                                          Icon(Icons.edit_note),
-                                                          Text(' para editar a anotação'),
-                                                        ],
-                                                      ),
-                                                    )
-                                                        :
-                                                    Container(
-                                                      padding: const EdgeInsets.all(16),
-                                                      child: TextField(
-                                                        controller: anotacaoControlCondominio,
-                                                        keyboardType: TextInputType.multiline,
-                                                        enableSuggestions: true,
-                                                        autocorrect: true,
-                                                        minLines: 5,
-                                                        maxLines: null,
-                                                        onChanged: (value){
-                                                          anotacao = value;
-                                                        },
-                                                        style: const TextStyle(
-                                                            color: Colors.black
-                                                        ),
-                                                        decoration: const InputDecoration(
-                                                          filled: true,
-                                                          fillColor: Colors.white,
-                                                          border: OutlineInputBorder(),
-                                                          focusedBorder: OutlineInputBorder(
-                                                            borderSide: BorderSide(
-                                                                width: 3,
-                                                                color: Colors.black
+                                                SizedBox(
+                                                  width: wid / 4,
+                                                  height: heig / 3.3,
+                                                  child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                    children: [
+                                                      idCondominioAnt == "" ?
+                                                      const Center(
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            Text(''
+                                                                'Clique no icone ',
+                                                                style: TextStyle(
+                                                                    color: Colors.black
+                                                                 )
+                                                                ),
+                                                            Icon(
+                                                                Icons.edit_note,
+                                                                color: Colors.black,
                                                             ),
-                                                          ),
-                                                          labelStyle: TextStyle(
+                                                            Text(
+                                                                ' para editar a anotação',
+                                                                  style: TextStyle(
+                                                                      color: Colors.black
+                                                                  )
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )
+                                                          :
+                                                      Container(
+                                                        padding: const EdgeInsets.all(16),
+                                                        child: TextField(
+                                                          controller: anotacaoControlCondominio,
+                                                          keyboardType: TextInputType.multiline,
+                                                          enableSuggestions: true,
+                                                          autocorrect: true,
+                                                          minLines: 5,
+                                                          maxLines: null,
+                                                          onChanged: (value){
+                                                            anotacao = value;
+                                                          },
+                                                          style: const TextStyle(
                                                               color: Colors.black
                                                           ),
-                                                          labelText: "Anotações sobre o condominio",
+                                                          decoration: const InputDecoration(
+                                                            filled: true,
+                                                            fillColor: Colors.white,
+                                                            border: OutlineInputBorder(),
+                                                            focusedBorder: OutlineInputBorder(
+                                                              borderSide: BorderSide(
+                                                                  width: 3,
+                                                                  color: Colors.black
+                                                              ),
+                                                            ),
+                                                            labelStyle: TextStyle(
+                                                                color: Colors.black
+                                                            ),
+                                                            labelText: "Anotações sobre o condominio",
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                
-                                                  ],
+
+                                                    ],
+                                                  ),
                                                 ),
                                                 Container(
                                                   width: wid / 4,

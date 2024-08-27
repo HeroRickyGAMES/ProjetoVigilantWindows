@@ -43,7 +43,6 @@ class _videoStreamState extends State<videoStream> {
   Widget build(BuildContext context) {
     openPlayer() async {
       if(widget.Modelo == "Intelbras"){
-        print('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/cam/realmonitor?channel=${widget.canal}&subtype=1');
         player.open(
             Media('rtsp://${widget.user}:${widget.password}@${widget.ip}:${widget.porta}/cam/realmonitor?channel=${widget.canal}&subtype=1'),
             play: true
