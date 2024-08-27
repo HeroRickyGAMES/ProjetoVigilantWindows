@@ -1799,7 +1799,7 @@ class _homeAppState extends State<homeApp>{
                                 VideoStreamWidget(
                                     ip, porta, user, pass, corDasBarras, wid, heig, camera1, camera2, camera3, camera4, camera5, camera6, camera7, camera8, camera9, ModeloDoCFTV
                                 ),
-                                Container(
+                                SizedBox(
                                   width: wid / 2,
                                   height: heig / 2.7,
                                   child: SingleChildScrollView(
@@ -1863,7 +1863,7 @@ class _homeAppState extends State<homeApp>{
                                                                   child: Column(
                                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                                     children: [
-                                                                      Container(
+                                                                      SizedBox(
                                                                         height: 50,
                                                                         child: TextButton(
                                                                             onPressed: (){
