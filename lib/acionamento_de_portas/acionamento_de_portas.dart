@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/src/bottomsheet/bottomsheet.dart';
 import 'package:http_auth/http_auth.dart' as http_auth;
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
@@ -258,34 +260,44 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
       numDisp = numDisp.clamp(0, 7);
       rele = rele.clamp(1, 4);
       geraEvt = (geraEvt == 0) ? 0 : 1;
-      print("Tentando!");
+      print("Estagio!");
 
       try {
         final socket = await Socket.connect(enderecoDisp, portaDisp, timeout: Duration(seconds: timeout));
-        print("Tentando 2!");
+        print("Estagio 2!");
         if (codigoAcesso.isNotEmpty) {
           socket.add(utf8.encode(codigoAcesso));
           await socket.flush();
-          await socket.listen((data) {}).asFuture(Duration(seconds: timeout));
-          print("Tentando 3!");
+          await socket.listen(
+                  (data) {
+                    print("Dados lidos $data");
+                  }
+          ).asFuture(Duration(seconds: timeout));
+          print("Estagio 3!");
         }
 
         String message = "000d${tipoDisp.toString().padLeft(2, '0')}${numDisp.toString().padLeft(2, '0')}${rele.toString().padLeft(2, '0')}${geraEvt.toString().padLeft(2, '0')}";
         String checksum = calculaChecksum(message);
         print(checksum);
-        print("Tentando 4!");
+        print("Estagio 4!");
         var messageBytes = hexStringToByteArray(checksum);
         print(messageBytes);
-        print("Tentando 5!");
+        print("Estagio 5!");
         await socket.flush();
-        await socket.listen((data) {print(data);}).asFuture(Duration(seconds: timeout));
+        await socket.listen((data) {
+              print(data);
+            }
+        ).asFuture(
+            Duration(seconds: timeout)
+        ).catchError((e){
+          print("Erro: $e");
+        });
 
         await socket.close();
-        print("Tentando 6! O Socket foi fechado!");
+        print("Estagio 6! O Socket foi fechado!");
         return true;
       } catch (e) {
         print("Erro! $e");
-        print(e);
       }
 
       return false;

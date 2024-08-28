@@ -93,7 +93,6 @@ bool deslogando = false;
 
 //Inteiros
 int porta = 00;
-
 int? camera1;
 int? camera2;
 int? camera3;
@@ -136,6 +135,9 @@ List ModelosdeCFTV = [
   "Intelbras",
   "Hikvision",
 ];
+
+//doubles
+double topbot = 7.5;
 
 class homeApp extends StatefulWidget {
   const homeApp({super.key});
@@ -216,6 +218,8 @@ class _homeAppState extends State<homeApp>{
     return LayoutBuilder(builder: (context, constrains){
       double wid = constrains.maxWidth;
       double heig = constrains.maxHeight;
+
+
 
       return Scaffold(
         body: SingleChildScrollView(
@@ -3327,7 +3331,7 @@ class _homeAppState extends State<homeApp>{
                           child: Column(
                             children: [
                               Container(
-                                padding: const EdgeInsets.only(bottom: 7.5, top: 7.5, left: 200),
+                                padding: EdgeInsets.only(bottom: topbot, top: topbot, left: 200),
                                 child: TextButton(
                                     onPressed: () async {
                                       showDialog(

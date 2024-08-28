@@ -35,7 +35,7 @@ class VideoStreamWidget extends StatefulWidget {
 //Double
 double aspectRT = 2.2;
 
-Color textCAMS = Colors.black;
+Color textCAMS = Colors.white;
 
 //Inteiros
 int colunasIPCamera = 3;
@@ -206,6 +206,8 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
 
   @override
   Widget build(BuildContext context) {
+    //doubles
+    double blackContainerSize = widget.heig / 2.05;
 
     getScreenSize(){
       Uuid uuid = const Uuid();
@@ -224,36 +226,57 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
     if(widget.heig >= 1000.0){
       setState(() {
         aspectRT = 1.9;
+        blackContainerSize = widget.heig / 2.05;
       });
     }
+
 
     if(widget.heig <= 999.0){
       setState(() {
         aspectRT = 1.7;
+        blackContainerSize = widget.heig / 2.05;
+      });
+    }
+
+    if(widget.heig <= 950.0){
+      setState(() {
+        aspectRT = 1.7;
+        blackContainerSize = widget.heig / 2.1;
+      });
+    }
+
+    if(widget.heig <= 850){
+      setState(() {
+        aspectRT = 1.93;
+        blackContainerSize = widget.heig / 2.17;
       });
     }
 
     if(widget.heig <= 800){
       setState(() {
         aspectRT = 1.93;
+        blackContainerSize = widget.heig / 2.17;
       });
     }
 
     if(widget.heig <= 700){
       setState(() {
         aspectRT = 2.1;
+        blackContainerSize = widget.heig / 2.19;
       });
     }
 
     if(widget.heig <= 600){
       setState(() {
         aspectRT = 2.05;
+        blackContainerSize = widget.heig / 2.26;
       });
     }
 
     if(widget.heig <= 599){
       setState(() {
         aspectRT = 2.3;
+        blackContainerSize = widget.heig / 2.35;
       });
     }
 
@@ -993,23 +1016,31 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
           ),
         ): Column(
           children: [
-            AppBar(
-              backgroundColor: widget.corDasBarras,
-              centerTitle: true,
-              title: Image.asset(
-                  "assets/camera.png",
-                  scale: 12
+            Container(
+              padding: const EdgeInsets.only(bottom: 5, top: 5),
+              child: AppBar(
+                backgroundColor: widget.corDasBarras,
+                centerTitle: true,
+                title: Image.asset(
+                    "assets/camera.png",
+                    scale: 12
+                ),
               ),
             ),
-            Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(16),
-                child: Text(
-                    'Selecione algum cliente para exibir as cameras!',
-                  style: TextStyle(
-                    color: textCAMS,
-                  ),
-                )
+            Center(
+              child: Container(
+                color: Colors.black,
+                  width: widget.wid / 2,
+                  height: blackContainerSize,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                      'Selecione algum cliente para exibir as cameras!',
+                    style: TextStyle(
+                      color: textCAMS,
+                    ),
+                  )
+              ),
             ),
           ],
         ),
