@@ -7,9 +7,9 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 //Programado por HeroRickyGames com ajuda de Deus!
 
 //Produção
-String host = "186.220.214.100";
-int Dbport = 8083;
-int Authport = 9099;
+String host = "spartaserver.ddns.net";
+int Authport = 4001;
+int Dbport = 4002;
 
 //Homologação
 //String host = "192.168.1.102";

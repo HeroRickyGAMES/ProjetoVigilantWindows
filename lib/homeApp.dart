@@ -407,6 +407,7 @@ class _homeAppState extends State<homeApp>{
                                                                               idCondominio = documents["idCondominio"];
                                                                               anotacao = documents["Aviso"];
                                                                               ModeloDoCFTV = documents['ipCameraModelo'];
+                                                                              CFTV = 0;
                                                                             });
 
                                                                             var getIpCameraSettings = await FirebaseFirestore.instance
@@ -1710,7 +1711,7 @@ class _homeAppState extends State<homeApp>{
                                                     },
                                                     child: Image.asset(
                                                         "assets/fab.png",
-                                                        scale: 27
+                                                        scale: 45
                                                     )
                                                 ),
                                               ):
@@ -1929,7 +1930,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 ),
                                                                                 Image.asset(
                                                                                     documents["iconeSeleciondo"],
-                                                                                    scale: 27
+                                                                                    scale: 45
                                                                                 ),
                                                                               ],
                                                                             )
@@ -3070,7 +3071,7 @@ class _homeAppState extends State<homeApp>{
                                                           },
                                                           child: Image.asset(
                                                               "assets/fab.png",
-                                                              scale: 27
+                                                              scale: 45
                                                           )
                                                       ),
                                                     ),
@@ -3317,7 +3318,7 @@ class _homeAppState extends State<homeApp>{
                                                       },
                                                           child: Image.asset(
                                                               "assets/fab.png",
-                                                              scale: 27
+                                                              scale: 45
                                                           )
                                                       ),
                                                     ),
@@ -4493,7 +4494,7 @@ class _homeAppState extends State<homeApp>{
                                     ),
                                     child: Image.asset(
                                         "assets/Setting-icon.png",
-                                        scale: 10
+                                        scale: 12
                                     )
                                 ),
                               ),
@@ -4639,7 +4640,7 @@ class _homeAppState extends State<homeApp>{
                                                             ),
                                                             SizedBox(
                                                               width: double.infinity,
-                                                              height: heig / 4,
+                                                              height: heig / 7,
                                                               child: ListView(
                                                                 children: snapshot.data!.docs.map((documents){
                                                                   return InkWell(
@@ -5719,7 +5720,7 @@ class _homeAppState extends State<homeApp>{
                                                 },
                                                 child: Image.asset(
                                                     "assets/fab.png",
-                                                    scale: 27
+                                                    scale: 45
                                                 )
                                             ),
                                           ),
@@ -5877,7 +5878,7 @@ class _homeAppState extends State<homeApp>{
 
                                                           return Container(
                                                             width: wid,
-                                                            height: heig / 3.6,
+                                                            height: heig / 4.5,
                                                             decoration: BoxDecoration(
                                                               border: Border.all(
                                                                 color: Colors.blue,
@@ -6579,7 +6580,7 @@ class _homeAppState extends State<homeApp>{
                                                       },
                                                       child: Image.asset(
                                                           "assets/fab.png",
-                                                          scale: 27
+                                                          scale: 45
                                                       )
                                                   ),
                                                 )
@@ -6590,12 +6591,12 @@ class _homeAppState extends State<homeApp>{
                                     ),
                                     SizedBox(
                                         width: wid / 4,
-                                        height: heig / 3,
+                                        height: heig / 3.3,
                                         child: Center(
                                           child: Center(
                                             child: SizedBox(
                                               width: wid / 4,
-                                              height: heig / 3,
+                                              height: heig / 3.3,
                                               child: SingleChildScrollView(
                                                 child: Stack(
                                                   children: [
@@ -6930,17 +6931,15 @@ class _homeAppState extends State<homeApp>{
                                                                 ),
                                                                 child: ListView(
                                                                   children: snapshot.data!.docs.map((documents){
-                                                                    return Container(
-                                                                      child: Center(
-                                                                        child: Container(
-                                                                            padding: const EdgeInsets.all(6),
-                                                                            child: Text(
-                                                                              "Placa: ${documents["PlacaV"]}",
-                                                                              style: TextStyle(
-                                                                                  color: textColorWidgets
-                                                                              ),
-                                                                            )
-                                                                        ),
+                                                                    return Center(
+                                                                      child: Container(
+                                                                          padding: const EdgeInsets.all(6),
+                                                                          child: Text(
+                                                                            "Placa: ${documents["PlacaV"]}",
+                                                                            style: TextStyle(
+                                                                                color: textColorWidgets
+                                                                            ),
+                                                                          )
                                                                       ),
                                                                     );
                                                                   }).toList(),
@@ -6958,7 +6957,7 @@ class _homeAppState extends State<homeApp>{
                                                         padding: const EdgeInsets.all(16),
                                                         alignment: Alignment.bottomRight,
                                                         width: wid / 4,
-                                                        height: heig / 3,
+                                                        height: heig / 3.3,
                                                         child: TextButton(
                                                             onPressed: idCondominio == "" ? null : (){
 
@@ -7304,7 +7303,7 @@ class _homeAppState extends State<homeApp>{
                                                             },
                                                             child: Image.asset(
                                                                 "assets/fab.png",
-                                                                scale: 27
+                                                                scale: 45
                                                             )
                                                         ),
                                                       ),
