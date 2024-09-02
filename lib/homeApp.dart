@@ -1875,11 +1875,11 @@ class _homeAppState extends State<homeApp>{
                                                           Text('Algo deu errado!')
                                                           );
                                                         }
-                                              
+
                                                         if (snapshot.connectionState == ConnectionState.waiting) {
                                                           return const Center(child: CircularProgressIndicator());
                                                         }
-                                              
+
                                                         if (snapshot.hasData) {
                                                           return GridView.count(
                                                               childAspectRatio: 1.2,
@@ -1958,13 +1958,13 @@ class _homeAppState extends State<homeApp>{
                                                                             child: FutureBuilder<NativeMenu>(
                                                                               future: initMenuAcionamentos(),
                                                                               builder: (BuildContext context, AsyncSnapshot<NativeMenu> snapshot){
-                                              
+
                                                                                 if (!snapshot.hasData) {
                                                                                   return const Center(
                                                                                     child: CircularProgressIndicator(),
                                                                                   );
                                                                                 }
-                                              
+
                                                                                 return NativeContextMenuWidget(
                                                                                   actionCallback: (action) {
                                                                                     if(action == "editar_acionamento"){
@@ -2353,7 +2353,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         showToast("A porta não pode estar vazia!",context:context);
                                                                                                                       }else{
                                                                                                                         final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-                                              
+
                                                                                                                         if(regex.hasMatch(porta)){
                                                                                                                           showToast("A porta contem letras, e letras não são permitidas!",context:context);
                                                                                                                         }else{
@@ -2361,7 +2361,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             showToast("O relê não pode estar vazia!",context:context);
                                                                                                                           }else{
                                                                                                                             final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-                                              
+
                                                                                                                             if(regex.hasMatch(canal)){
                                                                                                                               showToast("O relê contem letras, e letras não são permitidas!",context:context);
                                                                                                                             }else{
@@ -2403,7 +2403,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         showToast("A porta não pode estar vazia!",context:context);
                                                                                                                       }else{
                                                                                                                         final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-                                              
+
                                                                                                                         if(regex.hasMatch(porta)){
                                                                                                                           showToast("A porta contem letras, e letras não são permitidas!",context:context);
                                                                                                                         }else{
@@ -2411,7 +2411,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             showToast("O canal não pode estar vazia!",context:context);
                                                                                                                           }else{
                                                                                                                             final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-                                              
+
                                                                                                                             if(regex.hasMatch(canal)){
                                                                                                                               showToast("O canal contem letras, e letras não são permitidas!",context:context);
                                                                                                                             }else{
@@ -2579,7 +2579,7 @@ class _homeAppState extends State<homeApp>{
                                                             showDialog(
                                                               context: context,
                                                               builder: (BuildContext context) {
-                                              
+
                                                                 String nome = "";
                                                                 String ip = "";
                                                                 String modeloselecionado = "Intelbras";
@@ -2597,7 +2597,7 @@ class _homeAppState extends State<homeApp>{
                                                                   "assets/door.png",
                                                                   "assets/garagem.png",
                                                                 ];
-                                              
+
                                                                 return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
                                                                   return Center(
                                                                     child: SingleChildScrollView(
@@ -2957,7 +2957,7 @@ class _homeAppState extends State<homeApp>{
                                                                                           Navigator.pop(context);
                                                                                         });
                                                                                       }
-                                              
+
                                                                                       //If para modulo guarita
                                                                                       if(modeloselecionado == "Modulo Guarita (Nice)"){
                                                                                         if(nome == ""){
@@ -2970,7 +2970,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               showToast("A porta não pode estar vazia!",context:context);
                                                                                             }else{
                                                                                               final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-                                              
+
                                                                                               if(regex.hasMatch(porta)){
                                                                                                 showToast("A porta contem letras, e letras não são permitidas!",context:context);
                                                                                               }else{
@@ -2978,11 +2978,11 @@ class _homeAppState extends State<homeApp>{
                                                                                                   showToast("O relê não pode estar vazia!",context:context);
                                                                                                 }else{
                                                                                                   final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-                                              
+
                                                                                                   if(regex.hasMatch(canal)){
                                                                                                     showToast("O relê contem letras, e letras não são permitidas!",context:context);
                                                                                                   }else{
-                                              
+
                                                                                                     if(iconeSelecionado == ""){
                                                                                                       showToast("O icone precisa ser selecionado!",context:context);
                                                                                                     }else{
@@ -3009,7 +3009,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               showToast("A porta não pode estar vazia!",context:context);
                                                                                             }else{
                                                                                               final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-                                              
+
                                                                                               if(regex.hasMatch(porta)){
                                                                                                 showToast("A porta contem letras, e letras não são permitidas!",context:context);
                                                                                               }else{
@@ -3017,7 +3017,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                   showToast("O canal não pode estar vazia!",context:context);
                                                                                                 }else{
                                                                                                   final RegExp regex = RegExp(r'^[a-zA-Z\s]+$');
-                                              
+
                                                                                                   if(regex.hasMatch(canal)){
                                                                                                     showToast("O canal contem letras, e letras não são permitidas!",context:context);
                                                                                                   }else{
@@ -3104,14 +3104,20 @@ class _homeAppState extends State<homeApp>{
                                                                 startCall(context, documents['RamalNumber']);
                                                               },
                                                               child: Container(
-                                                                padding: const EdgeInsets.all(10),
+                                                                padding: const EdgeInsets.all(3),
                                                                 width: double.infinity,
-                                                                height: 70,
                                                                 child: Center(
-                                                                  child: Column(
+                                                                  child: Row(
                                                                     children: [
-                                                                      Text(documents['NomeRamal']),
-                                                                      Text(documents['RamalNumber']),
+                                                                      Container(
+                                                                        padding: const EdgeInsets.only(left: 5, right: 5),
+                                                                          child: const Icon(Icons.call)
+                                                                      ),
+                                                                      Column(
+                                                                        children: [
+                                                                          Text("${documents['NomeRamal']}\n${documents['RamalNumber']}"),
+                                                                        ],
+                                                                      ),
                                                                     ],
                                                                   ),
                                                                 ),

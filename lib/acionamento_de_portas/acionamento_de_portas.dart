@@ -260,41 +260,21 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
       numDisp = numDisp.clamp(0, 7);
       rele = rele.clamp(1, 4);
       geraEvt = (geraEvt == 0) ? 0 : 1;
-      print("Estagio!");
 
       try {
         final socket = await Socket.connect(enderecoDisp, portaDisp, timeout: Duration(seconds: timeout));
-        print("Estagio 2!");
         if (codigoAcesso.isNotEmpty) {
           socket.add(utf8.encode(codigoAcesso));
           await socket.flush();
-          await socket.listen(
-                  (data) {
-                    print("Dados lidos $data");
-                  }
-          ).asFuture(Duration(seconds: timeout));
-          print("Estagio 3!");
         }
 
         String message = "000d${tipoDisp.toString().padLeft(2, '0')}${numDisp.toString().padLeft(2, '0')}${rele.toString().padLeft(2, '0')}${geraEvt.toString().padLeft(2, '0')}";
         String checksum = calculaChecksum(message);
         print(checksum);
-        print("Estagio 4!");
         var messageBytes = hexStringToByteArray(checksum);
         print(messageBytes);
-        print("Estagio 5!");
         await socket.flush();
-        await socket.listen((data) {
-              print(data);
-            }
-        ).asFuture(
-            Duration(seconds: timeout)
-        ).catchError((e){
-          print("Erro: $e");
-        });
-
         await socket.close();
-        print("Estagio 6! O Socket foi fechado!");
         return true;
       } catch (e) {
         print("Erro! $e");
@@ -317,7 +297,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
         });
       }
     }else{
-      showToast('Ocorreu um erro com a conexão!', context: context);
+      showToast('Ocorreu um erro com a conexão! Possivelmente o Guarita está offiline!', context: context);
       if(id != ""){
         FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
           "prontoParaAtivar" : false,
