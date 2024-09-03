@@ -378,6 +378,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  fluid_kit:
+    dependency: "direct main"
+    description:
+      name: fluid_kit
+      sha256: bb7d443356a7d8fa48bd0fe2073c5bd3a2f571782459856fe715ae8cdaf22d91
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   flutter:
     dependency: "direct main"
     description: flutter

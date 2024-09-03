@@ -58,6 +58,7 @@ dependencies:
   get: ^4.6.6
   archive: ^3.6.1
   crypto: ^3.0.5
+  fluid_kit: ^3.0.0
 
 dependency_overrides:
   dart_vlc_ffi:

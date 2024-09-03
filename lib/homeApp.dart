@@ -3,6 +3,8 @@ import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fluid_kit/fluid_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/route_manager.dart';
@@ -34,8 +36,9 @@ String imageURLMorador = "";
 String NomeMorador = "";
 String RGMorador = "";
 String CPFMorador = "";
-String DatadeNascimentoMorador = "";
 String PlacaMorador = "";
+String TelefoneMorador = "";
+String CelularMorador = "";
 String anotacaoMorador = "";
 String MoradorId = "";
 String UnidadeMorador = "";
@@ -407,13 +410,14 @@ class _homeAppState extends State<homeApp>{
                                                                               idCondominio = documents["idCondominio"];
                                                                               anotacao = documents["Aviso"];
                                                                               ModeloDoCFTV = documents['ipCameraModelo'];
-                                                                              CFTV = 0;
+                                                                              idCondominioAnt = documents["idCondominio"];
                                                                             });
 
                                                                             var getIpCameraSettings = await FirebaseFirestore.instance
                                                                                 .collection("Condominios")
                                                                                 .doc(idCondominio).get();
                                                                             setState((){
+                                                                              CFTV = 0;
                                                                               camera1 = getIpCameraSettings["ipCamera1"];
                                                                               camera2 = getIpCameraSettings["ipCamera2"];
                                                                               camera3 = getIpCameraSettings["ipCamera3"];
@@ -1724,103 +1728,103 @@ class _homeAppState extends State<homeApp>{
                                         height: heig / 3.3,
                                         decoration: const BoxDecoration(
                                         ),
-                                        child: Center(
-                                          child: SingleChildScrollView(
-                                            child: Stack(
-                                              children: [
-                                                SizedBox(
-                                                  width: wid / 4,
-                                                  height: heig / 3.3,
-                                                  child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: [
-                                                      idCondominioAnt == "" ?
-                                                      const Center(
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-                                                            Text(''
-                                                                'Clique no icone ',
-                                                                style: TextStyle(
-                                                                    color: Colors.black
-                                                                 )
-                                                                ),
-                                                            Icon(
-                                                                Icons.edit_note,
-                                                                color: Colors.black,
-                                                            ),
-                                                            Text(
-                                                                ' para editar a anotação',
-                                                                  style: TextStyle(
-                                                                      color: Colors.black
-                                                                  )
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      )
-                                                          :
-                                                      Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          controller: anotacaoControlCondominio,
-                                                          keyboardType: TextInputType.multiline,
-                                                          enableSuggestions: true,
-                                                          autocorrect: true,
-                                                          minLines: 5,
-                                                          maxLines: null,
-                                                          onChanged: (value){
-                                                            anotacao = value;
-                                                          },
-                                                          style: const TextStyle(
-                                                              color: Colors.black
-                                                          ),
-                                                          decoration: const InputDecoration(
-                                                            filled: true,
-                                                            fillColor: Colors.white,
-                                                            border: OutlineInputBorder(),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
+                                        child: Stack(
+                                          children: [
+                                            SizedBox(
+                                              width: wid / 4,
+                                              height: heig / 3.3,
+                                              child: Center(
+                                                child: SingleChildScrollView(
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    idCondominioAnt == "" ?
+                                                    const Center(
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Text(''
+                                                              'Clique no icone ',
+                                                              style: TextStyle(
                                                                   color: Colors.black
-                                                              ),
-                                                            ),
-                                                            labelStyle: TextStyle(
+                                                              )
+                                                          ),
+                                                          Icon(
+                                                            Icons.edit_note,
+                                                            color: Colors.black,
+                                                          ),
+                                                          Text(
+                                                              ' para editar a anotação',
+                                                              style: TextStyle(
+                                                                  color: Colors.black
+                                                              )
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                        :
+                                                    Container(
+                                                      padding: const EdgeInsets.all(16),
+                                                      child: TextField(
+                                                        controller: anotacaoControlCondominio,
+                                                        keyboardType: TextInputType.multiline,
+                                                        enableSuggestions: true,
+                                                        autocorrect: true,
+                                                        minLines: 5,
+                                                        maxLines: null,
+                                                        onChanged: (value){
+                                                          anotacao = value;
+                                                        },
+                                                        style: const TextStyle(
+                                                            color: Colors.black
+                                                        ),
+                                                        decoration: const InputDecoration(
+                                                          filled: true,
+                                                          fillColor: Colors.white,
+                                                          border: OutlineInputBorder(),
+                                                          focusedBorder: OutlineInputBorder(
+                                                            borderSide: BorderSide(
+                                                                width: 3,
                                                                 color: Colors.black
                                                             ),
-                                                            labelText: "Anotações sobre o condominio",
                                                           ),
+                                                          labelStyle: TextStyle(
+                                                              color: Colors.black
+                                                          ),
+                                                          labelText: "Anotações sobre o condominio",
                                                         ),
                                                       ),
+                                                    ),
 
-                                                    ],
-                                                  ),
+                                                  ],
                                                 ),
-                                                Container(
-                                                  width: wid / 4,
-                                                  height: heig / 3.3,
-                                                  padding: const EdgeInsets.all(10),
-                                                  alignment: Alignment.bottomRight,
-                                                  child:  idCondominioAnt == "" || editarAnotacao == false ?
-                                                  Container():
-                                                  FloatingActionButton(
-                                                      onPressed:idCondominioAnt == "" ? null : (){
-                                                        FirebaseFirestore.instance.collection('Condominios').doc(idCondominioAnt).update({
-                                                          "Aviso": anotacao,
-                                                        }).whenComplete(() {
-                                                          showToast("Anotação salva com sucesso!",context:context);
-                                                        });
-                                                      },
-                                                      backgroundColor: colorBtnFab,
-                                                      child: Icon(
-                                                          Icons.done,
-                                                          color: textColor
-                                                      )
-                                                  ),
-                                                ),
-                                              ],
+                                              ),
+                                              ),
                                             ),
-                                          ),
+                                            Container(
+                                              width: wid / 4,
+                                              height: heig / 3.3,
+                                              padding: const EdgeInsets.all(10),
+                                              alignment: Alignment.bottomRight,
+                                              child:  idCondominioAnt == "" || editarAnotacao == false ?
+                                              Container():
+                                              FloatingActionButton(
+                                                  onPressed:idCondominioAnt == "" ? null : (){
+                                                    FirebaseFirestore.instance.collection('Condominios').doc(idCondominioAnt).update({
+                                                      "Aviso": anotacao,
+                                                    }).whenComplete(() {
+                                                      showToast("Anotação salva com sucesso!",context:context);
+                                                    });
+                                                  },
+                                                  backgroundColor: colorBtnFab,
+                                                  child: Icon(
+                                                      Icons.done,
+                                                      color: textColor
+                                                  )
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       )
                                     ],
@@ -4650,13 +4654,14 @@ class _homeAppState extends State<homeApp>{
                                                                         NomeMorador = documents["Nome"];
                                                                         RGMorador = documents["RG"];
                                                                         CPFMorador = documents["CPF"];
-                                                                        DatadeNascimentoMorador = documents["DataNascimento"];
                                                                         imageURLMorador = documents["imageURI"];
                                                                         anotacaoMorador = documents["anotacao"];
                                                                         anotacaoControl.text = anotacaoMorador;
                                                                         MoradorId = documents["id"];
                                                                         UnidadeMorador = documents["Unidade"];
                                                                         BlocoMorador = documents["Bloco"];
+                                                                        TelefoneMorador = documents["telefone"];
+                                                                        CelularMorador = documents["celular"];
                                                                       });
                                                                     },
                                                                     child: Container(
@@ -4704,7 +4709,6 @@ class _homeAppState extends State<homeApp>{
                                                                   NomeMorador = "";
                                                                   RGMorador = "";
                                                                   CPFMorador = "";
-                                                                  DatadeNascimentoMorador = "";
                                                                   PlacaMorador = "";
                                                                   imageURLMorador = "";
                                                                   anotacaoMorador = "";
@@ -4723,48 +4727,67 @@ class _homeAppState extends State<homeApp>{
                                                         ),
                                                         Column(
                                                           children: [
-                                                            Row(
+                                                            Fluid(
                                                               children: [
-                                                                imageURLMorador != ""? Container(
-                                                                    padding: const EdgeInsets.all(8),
-                                                                    child: Image.network(
-                                                                        height: 100,
-                                                                        width: 100,
-                                                                        imageURLMorador
-                                                                    )
-                                                                ): Center(
-                                                                    child: Container(
-                                                                        padding: const EdgeInsets.all(8),
-                                                                        child: const Text("Nenhuma imagem encontrada!")
-                                                                    )
+                                                                Fluidable(
+                                                                  fluid: 1,
+                                                                  minWidth: 100,
+                                                                  child: imageURLMorador != ""?
+                                                                  Container(
+                                                                      padding: const EdgeInsets.all(8),
+                                                                      child: Image.network(
+                                                                          height: 100,
+                                                                          width: 100,
+                                                                          imageURLMorador
+                                                                      )
+                                                                  ): Container(
+                                                                    alignment: Alignment.center,
+                                                                      padding: const EdgeInsets.all(8),
+                                                                      child: const Text(
+                                                                          "Nenhuma imagem encontrada!",
+                                                                        textAlign: TextAlign.center,
+                                                                      )
+                                                                  ),
                                                                 ),
-                                                                Column(
-                                                                  children: [
-                                                                    Container(
-                                                                        padding: const EdgeInsets.all(8),
-                                                                        child: Text("Nome: $NomeMorador")
+                                                                Fluidable(
+                                                                  fluid: 1,
+                                                                  minWidth: 200,
+                                                                  child: Center(
+                                                                    child: Column(
+                                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                                      children: [
+                                                                        Container(
+                                                                            padding: const EdgeInsets.all(8),
+                                                                            child: Text("Nome: $NomeMorador")
+                                                                        ),
+                                                                        Container(
+                                                                            padding: const EdgeInsets.all(8),
+                                                                            child: Text("RG: $RGMorador")
+                                                                        ),
+                                                                        Container(
+                                                                            padding: const EdgeInsets.all(8),
+                                                                            child: Text("CPF: $CPFMorador",)
+                                                                        ),
+                                                                        Container(
+                                                                            padding: const EdgeInsets.all(8),
+                                                                            child: Text("Unidade: $UnidadeMorador")
+                                                                        ),
+                                                                        Container(
+                                                                            padding: const EdgeInsets.all(8),
+                                                                            child: Text("Bloco: $BlocoMorador")
+                                                                        ),
+                                                                        Container(
+                                                                            padding: const EdgeInsets.all(8),
+                                                                            child: Text("Telefone: $TelefoneMorador")
+                                                                        ),
+                                                                        Container(
+                                                                            padding: const EdgeInsets.all(8),
+                                                                            child: Text("Celular: $CelularMorador")
+                                                                        ),
+                                                                      ],
                                                                     ),
-                                                                    Container(
-                                                                        padding: const EdgeInsets.all(8),
-                                                                        child: Text("RG: $RGMorador")
-                                                                    ),
-                                                                    Container(
-                                                                        padding: const EdgeInsets.all(8),
-                                                                        child: Text("CPF: $CPFMorador",)
-                                                                    ),
-                                                                    Container(
-                                                                        padding: const EdgeInsets.all(8),
-                                                                        child: Text("Data de nascimento: $DatadeNascimentoMorador")
-                                                                    ),
-                                                                    Container(
-                                                                        padding: const EdgeInsets.all(8),
-                                                                        child: Text("Unidade: $UnidadeMorador")
-                                                                    ),
-                                                                    Container(
-                                                                        padding: const EdgeInsets.all(8),
-                                                                        child: Text("Bloco: $BlocoMorador")
-                                                                    ),
-                                                                  ],
+                                                                  ),
                                                                 ),
                                                               ],
                                                             ),
@@ -4852,13 +4875,20 @@ class _homeAppState extends State<homeApp>{
                                                   String Unidade = "";
                                                   String Bloco = "";
                                                   String modeloPikado = "Control iD";
+
                                                   int portaAc = 8080;
+
                                                   String usuarioAc = "";
                                                   String senhAc = "";
                                                   String ipAcionamento = "";
-                                                  DateTime selectedDate = DateTime.now();
+                                                  String Telefone = "";
+                                                  String Celular = "";
+                                                  String Observacoes = "";
+
                                                   File? _imageFile;
+
                                                   final picker = ImagePicker();
+
                                                   var dropValue2 = ValueNotifier('Control iD');
 
                                                   showDialog(
@@ -5136,11 +5166,12 @@ class _homeAppState extends State<homeApp>{
                                                                                                                 "Nome": usuarios['users'][i]["name"],
                                                                                                                 "CPF": "",
                                                                                                                 "RG": "",
-                                                                                                                "DataNascimento": "${selectedDate.year}/${selectedDate.month}/${selectedDate.day}",
                                                                                                                 "imageURI": "",
                                                                                                                 "placa": "",
                                                                                                                 "Unidade":"",
                                                                                                                 "Bloco": "",
+                                                                                                                "Telefone": "",
+                                                                                                                "Celular": "",
                                                                                                                 "anotacao": "",
                                                                                                               });
                                                                                                             }
@@ -5364,38 +5395,110 @@ class _homeAppState extends State<homeApp>{
                                                                         ),
                                                                         Center(
                                                                           child: Container(
-                                                                              padding: const EdgeInsets.all(16),
-                                                                              child: Text(selectedDate == null ? 'Selecione a data de nascimento' :
-                                                                              "Data de nacimento ${selectedDate.year}/${selectedDate.month}/${selectedDate.day}")
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  Telefone = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                labelStyle: TextStyle(
+                                                                                    color: textAlertDialogColor
+                                                                                ),
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Telefone',
+                                                                              ),
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                         Center(
                                                                           child: Container(
-                                                                              padding: const EdgeInsets.all(16),
-                                                                              child: ElevatedButton(
-                                                                                onPressed: () async {
-                                                                                  final DateTime? picked = await showDatePicker(
-                                                                                    context: context,
-                                                                                    initialDate: selectedDate,
-                                                                                    firstDate: DateTime(1800, 8),
-                                                                                    lastDate: DateTime(2101),
-                                                                                  );
-                                                                                  if (picked != null && picked != selectedDate) {
-                                                                                    setState(() {
-                                                                                      selectedDate = picked;
-                                                                                    });
-                                                                                  }
-                                                                                },
-                                                                                style: ElevatedButton.styleFrom(
-                                                                                    backgroundColor: colorBtn
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  Celular = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                labelStyle: TextStyle(
+                                                                                    color: textAlertDialogColor
                                                                                 ),
-                                                                                child: Text(
-                                                                                  'Selecione uma data',
-                                                                                  style: TextStyle(
-                                                                                      color: textColor
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
                                                                                   ),
                                                                                 ),
-                                                                              )
+                                                                                labelText: 'Celular',
+                                                                              ),
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Container(
+                                                                          padding: const EdgeInsets.all(16),
+                                                                          child: TextField(
+                                                                            keyboardType: TextInputType.multiline,
+                                                                            enableSuggestions: true,
+                                                                            autocorrect: true,
+                                                                            minLines: 5,
+                                                                            maxLines: null,
+                                                                            onChanged: (value){
+                                                                              setState(() {
+                                                                                Observacoes = value;
+                                                                              });
+                                                                            },
+                                                                            decoration: InputDecoration(
+                                                                              filled: true,
+                                                                              fillColor: Colors.white,
+                                                                              labelStyle: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
+                                                                              border: const OutlineInputBorder(),
+                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                              ),
+                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                borderSide: BorderSide(
+                                                                                    width: 3,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                              ),
+                                                                              labelText: 'Observações',
+                                                                            ),
+                                                                            style: TextStyle(
+                                                                                color: textAlertDialogColor
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                         _imageFile != null ? Center(
@@ -5622,73 +5725,72 @@ class _homeAppState extends State<homeApp>{
                                                                                 if(RGV == ""){
                                                                                   showToast("O RG está vazio!",context:context);
                                                                                 }else{
-                                                                                  if(selectedDate == null){
-                                                                                    showToast("A data está vazia!",context:context);
+
+
+                                                                                  if(Unidade == ""){
+                                                                                    showToast("A unidade está vazia!",context:context);
                                                                                   }else{
-
-                                                                                    if(Unidade == ""){
-                                                                                      showToast("A unidade está vazia!",context:context);
+                                                                                    if(Bloco  == ""){
+                                                                                      showToast("O bloco está vazio!!",context:context);
                                                                                     }else{
-                                                                                      if(Bloco  == ""){
-                                                                                        showToast("O bloco está vazio!!",context:context);
-                                                                                      }else{
-                                                                                        if(_imageFile == null){
-                                                                                          showToast("Selecione uma foto!",context:context);
-                                                                                        }else{
-                                                                                          showDialog(
-                                                                                            context: context,
-                                                                                            builder: (BuildContext context) {
-                                                                                              return const AlertDialog(
-                                                                                                title: Text('Aguarde!'),
-                                                                                                actions: [
-                                                                                                  Center(
-                                                                                                    child: CircularProgressIndicator(),
-                                                                                                  )
-                                                                                                ],
-                                                                                              );
-                                                                                            },
+                                                                                      showDialog(
+                                                                                        context: context,
+                                                                                        builder: (BuildContext context) {
+                                                                                          return const AlertDialog(
+                                                                                            title: Text('Aguarde!'),
+                                                                                            actions: [
+                                                                                              Center(
+                                                                                                child: CircularProgressIndicator(),
+                                                                                              )
+                                                                                            ],
                                                                                           );
-                                                                                          String ID = "";
+                                                                                        },
+                                                                                      );
+                                                                                      String ID = "";
 
-                                                                                          Cadastrar() async {
-                                                                                            var ref = await carregarImagem(context, _imageFile!, ID, idCondominio);
-
-                                                                                            FirebaseFirestore.instance.collection('Pessoas').doc(ID).set({
-                                                                                              "id": ID,
-                                                                                              "idCondominio": idCondominio,
-                                                                                              "Nome": NomeV,
-                                                                                              "CPF": CPFV,
-                                                                                              "RG": RGV,
-                                                                                              "DataNascimento": "${selectedDate.year}/${selectedDate.month}/${selectedDate.day}",
-                                                                                              "imageURI": await ref.getDownloadURL(),
-                                                                                              "Unidade":Unidade,
-                                                                                              "Bloco":Bloco,
-                                                                                              "anotacao": "",
-                                                                                            }).whenComplete(() {
-                                                                                              Navigator.pop(context);
-                                                                                              Navigator.pop(context);
-                                                                                            });
-                                                                                          }
-
-                                                                                          if(modeloPikado == "Control iD"){
-                                                                                            Map<String, dynamic> id = await cadastronoEquipamento(context, ipAcionamento, portaAc, usuarioAc, senhAc, "Control iD", NomeV);
-
-                                                                                            setState((){
-                                                                                              ID = "${id["ids"][0]}";
-                                                                                            });
-                                                                                            Cadastrar();
-                                                                                          }
-
-                                                                                          if(modeloPikado == "Outro"){
-                                                                                            Uuid uuid = const Uuid();
-
-                                                                                            setState((){
-                                                                                              ID =  uuid.v4();
-                                                                                            });
-
-                                                                                            Cadastrar();
-                                                                                          }
+                                                                                      Cadastrar() async {
+                                                                                        String DownloadURL = '';
+                                                                                        if(_imageFile != null){
+                                                                                          DownloadURL = await carregarImagem(context, _imageFile!, ID, idCondominio).getDownloadURL();
+                                                                                        }else{
+                                                                                          DownloadURL = '';
                                                                                         }
+
+                                                                                        FirebaseFirestore.instance.collection('Pessoas').doc(ID).set({
+                                                                                          "id": ID,
+                                                                                          "idCondominio": idCondominio,
+                                                                                          "Nome": NomeV,
+                                                                                          "CPF": CPFV,
+                                                                                          "RG": RGV,
+                                                                                          "imageURI": DownloadURL,
+                                                                                          "Unidade":Unidade,
+                                                                                          "Bloco":Bloco,
+                                                                                          "anotacao": Observacoes,
+                                                                                          "telefone": Telefone,
+                                                                                          "celular": Celular,
+                                                                                        }).whenComplete(() {
+                                                                                          Navigator.pop(context);
+                                                                                          Navigator.pop(context);
+                                                                                        });
+                                                                                      }
+
+                                                                                      if(modeloPikado == "Control iD"){
+                                                                                        Map<String, dynamic> id = await cadastronoEquipamento(context, ipAcionamento, portaAc, usuarioAc, senhAc, "Control iD", NomeV);
+
+                                                                                        setState((){
+                                                                                          ID = "${id["ids"][0]}";
+                                                                                        });
+                                                                                        Cadastrar();
+                                                                                      }
+
+                                                                                      if(modeloPikado == "Outros"){
+                                                                                        Uuid uuid = const Uuid();
+
+                                                                                        setState((){
+                                                                                          ID =  uuid.v4();
+                                                                                        });
+
+                                                                                        Cadastrar();
                                                                                       }
                                                                                     }
                                                                                   }
