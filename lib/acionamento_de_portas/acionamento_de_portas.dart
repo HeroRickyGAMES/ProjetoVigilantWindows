@@ -285,7 +285,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
 
     print("Testando!");
     showToast("Aguarde!", context: context);
-    bool handshakeDone = await acionaRele(3, 0, canal, 1);
+    bool handshakeDone = await acionaRele(1, 0, canal, 0);
     print(handshakeDone);
 
     if(handshakeDone == true){

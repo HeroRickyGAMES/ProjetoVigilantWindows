@@ -3,7 +3,6 @@ import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluid_kit/fluid_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -14,6 +13,7 @@ import 'package:native_context_menu_ng/native_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vigilant/FirebaseHost.dart';
 import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
+import 'package:vigilant/botaoDireito.dart';
 import 'package:vigilant/getIds.dart';
 import 'package:vigilant/login/login.dart';
 import 'package:vigilant/pushPessoas/cadastroDeUsuariosNoEquipamento.dart';
@@ -147,32 +147,6 @@ class homeApp extends StatefulWidget {
 
   @override
   State<homeApp> createState() => _homeAppState();
-}
-
-Future<NativeMenu> initMenuCondominio() async {
-  NativeMenuItem? itemNew;
-  NativeMenu menu = NativeMenu();
-  if(AdicionarCondominios == true){
-    menu.addItem(NativeMenuItem.simple(title: "Editar informações do cliente", action: "editCondominio"));
-    itemNew = NativeMenuItem.simple(title: "Deletar cliente", action: "remover_condominio");
-    menu.addItem(itemNew);
-  }else{
-    menu.addItem(NativeMenuItem.simple(title: "", action: ""));
-  }
-  return menu;
-}
-
-Future<NativeMenu> initMenuAcionamentos() async {
-  NativeMenuItem? itemNew;
-  NativeMenu menu = NativeMenu();
-  if(AdicionarAcionamentos == true){
-    itemNew = NativeMenuItem.simple(title: "Editar infos. do acionamento", action: "editar_acionamento");
-    menu.addItem(itemNew);
-    menu.addItem(NativeMenuItem.simple(title: "Deletar acionamento", action: "delAcionamento"));
-  }else{
-    menu.addItem(NativeMenuItem.simple(title: "", action: ""));
-  }
-  return menu;
 }
 
 class _homeAppState extends State<homeApp>{
