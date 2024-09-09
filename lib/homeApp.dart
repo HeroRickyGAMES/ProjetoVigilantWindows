@@ -385,6 +385,8 @@ class _homeAppState extends State<homeApp>{
                                                                               anotacao = documents["Aviso"];
                                                                               ModeloDoCFTV = documents['ipCameraModelo'];
                                                                               idCondominioAnt = documents["idCondominio"];
+                                                                              anotacao = documents["Aviso"];
+                                                                              anotacaoControlCondominio.text = anotacao;
                                                                               moradorselecionado = false;
                                                                             });
 
@@ -1338,8 +1340,8 @@ class _homeAppState extends State<homeApp>{
                                                                                     ),
                                                                                     IconButton(onPressed: (){
                                                                                       setState(() {
-                                                                                        anotacao = documents["Aviso"];
                                                                                         idCondominioAnt = documents["idCondominio"];
+                                                                                        anotacao = documents["Aviso"];
                                                                                         anotacaoControlCondominio.text = anotacao;
                                                                                       });
                                                                                     },

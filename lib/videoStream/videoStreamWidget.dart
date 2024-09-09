@@ -444,7 +444,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                         ),
                       ],
                     ),
-                    TextButton(
+                    EditarCFTV == true ? TextButton(
                         onPressed: () async {
                           getIpCameraCond();
                           await Future.delayed(const Duration(seconds: 1));
@@ -888,7 +888,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                             "assets/Setting-icon.png",
                             scale: 12
                         )
-                    )
+                    ): Container()
                   ],
                 ),
               ),

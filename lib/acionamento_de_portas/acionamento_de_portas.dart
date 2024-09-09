@@ -268,7 +268,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
           await socket.flush();
         }
 
-        String message = "000d${tipoDisp.toString().padLeft(2, '0')}${numDisp.toString().padLeft(2, '0')}${rele.toString().padLeft(2, '0')}${geraEvt.toString().padLeft(2, '0')}";
+        String message = "0001${tipoDisp.toString()}${numDisp.toString()}${rele.toString()}${geraEvt.toString()}";
         String checksum = calculaChecksum(message);
         print(checksum);
         var messageBytes = hexStringToByteArray(checksum);
@@ -285,7 +285,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
 
     print("Testando!");
     showToast("Aguarde!", context: context);
-    bool handshakeDone = await acionaRele(2, 0, canal, 1);
+    bool handshakeDone = await acionaRele(1, 7, canal, 0);
     print(handshakeDone);
 
     if(handshakeDone == true){
