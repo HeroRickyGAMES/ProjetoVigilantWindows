@@ -385,6 +385,7 @@ class _homeAppState extends State<homeApp>{
                                                                               anotacao = documents["Aviso"];
                                                                               ModeloDoCFTV = documents['ipCameraModelo'];
                                                                               idCondominioAnt = documents["idCondominio"];
+                                                                              moradorselecionado = false;
                                                                             });
 
                                                                             var getIpCameraSettings = await FirebaseFirestore.instance
