@@ -791,6 +791,43 @@ class _homeAppState extends State<homeApp>{
                                                                                                                     child: Container(
                                                                                                                       padding: const EdgeInsets.all(16),
                                                                                                                       child: TextField(
+                                                                                                                        controller: TelefoneControl,
+                                                                                                                        keyboardType: TextInputType.emailAddress,
+                                                                                                                        enableSuggestions: false,
+                                                                                                                        autocorrect: false,
+                                                                                                                        onChanged: (value){
+                                                                                                                          setState(() {
+                                                                                                                            Telefone = value;
+                                                                                                                          });
+                                                                                                                        },
+                                                                                                                        decoration: InputDecoration(
+                                                                                                                          filled: true,
+                                                                                                                          fillColor: Colors.white,
+                                                                                                                          border: const OutlineInputBorder(),
+                                                                                                                          enabledBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                          ),
+                                                                                                                          focusedBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(
+                                                                                                                                width: 3,
+                                                                                                                                color: Colors.black
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                          labelStyle: TextStyle(
+                                                                                                                              color: textAlertDialogColor
+                                                                                                                          ),
+                                                                                                                          labelText: 'Telefone',
+                                                                                                                        ),
+                                                                                                                        style: TextStyle(
+                                                                                                                            color: textAlertDialogColor
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  Center(
+                                                                                                                    child: Container(
+                                                                                                                      padding: const EdgeInsets.all(16),
+                                                                                                                      child: TextField(
                                                                                                                         controller: CNPJControl,
                                                                                                                         keyboardType: TextInputType.emailAddress,
                                                                                                                         enableSuggestions: false,
@@ -1338,17 +1375,97 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ],
                                                                                     ),
-                                                                                    IconButton(onPressed: (){
-                                                                                      setState(() {
-                                                                                        idCondominioAnt = documents["idCondominio"];
-                                                                                        anotacao = documents["Aviso"];
-                                                                                        anotacaoControlCondominio.text = anotacao;
-                                                                                      });
-                                                                                    },
-                                                                                        icon: Icon(
-                                                                                            color: documents["Aviso"] == "" ? Colors.red : Colors.green,
-                                                                                            Icons.edit_note
-                                                                                        )
+                                                                                    Row(
+                                                                                      children: [
+                                                                                        IconButton(onPressed: (){
+                                                                                          showDialog(
+                                                                                            context: context,
+                                                                                            builder: (BuildContext context) {
+                                                                                              return Center(
+                                                                                                child: Dialog(
+                                                                                                  child: Stack(
+                                                                                                    children: [
+                                                                                                      Positioned.fill(
+                                                                                                        child: ClipRRect(
+                                                                                                          borderRadius: BorderRadius.circular(10),
+                                                                                                          child: Image.asset(
+                                                                                                            "assets/FundoMetalPreto.jpg",
+                                                                                                            fit: BoxFit.fill,
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      SizedBox(
+                                                                                                        width: 550,
+                                                                                                        height: 350,
+                                                                                                          child: SingleChildScrollView(
+                                                                                                            child: Column(
+                                                                                                              children: [
+                                                                                                                Row(
+                                                                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                  children: [
+                                                                                                                    Container(
+                                                                                                                      padding: const EdgeInsets.all(16),
+                                                                                                                      child: const Text(
+                                                                                                                          'Informações sobre o condominio',
+                                                                                                                        style: TextStyle(
+                                                                                                                          fontSize: 25,
+                                                                                                                          fontWeight: FontWeight.bold
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                    SizedBox(
+                                                                                                                          width: 100,
+                                                                                                                          height: 100,
+                                                                                                                          child: TextButton(onPressed: (){
+                                                                                                                            Navigator.pop(context);
+                                                                                                                          }, child: const Center(
+                                                                                                                            child: Icon(
+                                                                                                                              Icons.close,
+                                                                                                                              size: 40,
+                                                                                                                            ),
+                                                                                                                          )
+                                                                                                                        )
+                                                                                                                    )
+                                                                                                                  ],
+                                                                                                                ),
+                                                                                                                Text("Nome do Condominio: ${documents["Nome"]}"),
+                                                                                                                Text("Cidade: ${documents["Cidade"]}"),
+                                                                                                                Text("Endereço: ${documents["Endereco"]}"),
+                                                                                                                Text("Bairro: ${documents["bairro"]}"),
+                                                                                                                Text("CEP: ${documents["cep"]}"),
+                                                                                                                Text("Sindico: ${documents["Sindico"]}"),
+                                                                                                                Text("Telefone: ${documents["Telefone"]}"),
+                                                                                                                Text("CNPJ: ${documents["CNPJ"]}"),
+                                                                                                                Text("Zelador: ${documents["Zelador"]}"),
+                                                                                                              ],
+                                                                                                            ),
+                                                                                                          )
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                ),
+                                                                                              );
+                                                                                            },
+                                                                                          );
+                                                                                        },
+                                                                                            icon: Icon(
+                                                                                                color: Colors.white,
+                                                                                                Icons.info
+                                                                                            )
+                                                                                        ),
+                                                                                        IconButton(onPressed: (){
+                                                                                          setState(() {
+                                                                                            idCondominioAnt = documents["idCondominio"];
+                                                                                            anotacao = documents["Aviso"];
+                                                                                            anotacaoControlCondominio.text = anotacao;
+                                                                                          });
+                                                                                        },
+                                                                                            icon: Icon(
+                                                                                                color: documents["Aviso"] == "" ? Colors.red : Colors.green,
+                                                                                                Icons.edit_note
+                                                                                            )
+                                                                                        ),
+                                                                                      ],
                                                                                     )
                                                                                   ],
                                                                                 ),
