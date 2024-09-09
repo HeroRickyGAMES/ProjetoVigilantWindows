@@ -426,6 +426,14 @@ class _homeAppState extends State<homeApp>{
                                                                                           String IPCameras = documents["IpCamera"];
                                                                                           int PortaCameras = documents["PortaCameras"];
                                                                                           String UserAccess = documents["UserAccess"];
+                                                                                          String Cidade = documents["Cidade"];
+                                                                                          String Endereco = documents["Endereco"];
+                                                                                          String bairro = documents["bairro"];
+                                                                                          String cep = documents["cep"];
+                                                                                          String Sindico = documents["Sindico"];
+                                                                                          String Telefone = documents["Telefone"];
+                                                                                          String CNPJ = documents["CNPJ"];
+                                                                                          String Zelador = documents["Zelador"];
                                                                                           String PassAccess = documents["PassAccess"];
                                                                                           String SIPUrl = documents["SIPUrl"];
                                                                                           String Porta = documents["PortaSIP"];
@@ -438,6 +446,14 @@ class _homeAppState extends State<homeApp>{
                                                                                           //Controladores
                                                                                           TextEditingController NomeCondominioControl = TextEditingController(text: NomeCondominio);
                                                                                           TextEditingController IPCamerasControl = TextEditingController(text: IPCameras);
+                                                                                          TextEditingController CidadeControl = TextEditingController(text: Cidade);
+                                                                                          TextEditingController EnderecoControl = TextEditingController(text: Endereco);
+                                                                                          TextEditingController bairroControl = TextEditingController(text: bairro);
+                                                                                          TextEditingController cepControl = TextEditingController(text: cep);
+                                                                                          TextEditingController SindicoControl = TextEditingController(text: Sindico);
+                                                                                          TextEditingController TelefoneControl = TextEditingController(text: Telefone);
+                                                                                          TextEditingController CNPJControl = TextEditingController(text: CNPJ);
+                                                                                          TextEditingController ZeladorControl = TextEditingController(text: Zelador);
                                                                                           TextEditingController PortaCamerasControl = TextEditingController(text: "$PortaCameras");
                                                                                           TextEditingController UserAccessControl = TextEditingController(text: UserAccess);
                                                                                           TextEditingController PassAccessControl = TextEditingController(text: PassAccess);
@@ -576,6 +592,265 @@ class _homeAppState extends State<homeApp>{
                                                                                                                               color: textAlertDialogColor
                                                                                                                           ),
                                                                                                                           labelText: 'Codigo do Condominio (4 caracteres Ex: 2402)',
+                                                                                                                        ),
+                                                                                                                        style: TextStyle(
+                                                                                                                            color: textAlertDialogColor
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  Center(
+                                                                                                                    child: Container(
+                                                                                                                      padding: const EdgeInsets.all(16),
+                                                                                                                      child: TextField(
+                                                                                                                        controller: CidadeControl,
+                                                                                                                        keyboardType: TextInputType.emailAddress,
+                                                                                                                        enableSuggestions: false,
+                                                                                                                        autocorrect: false,
+                                                                                                                        onChanged: (value){
+                                                                                                                          setState(() {
+                                                                                                                            Cidade = value;
+                                                                                                                          });
+                                                                                                                        },
+                                                                                                                        decoration: InputDecoration(
+                                                                                                                          filled: true,
+                                                                                                                          fillColor: Colors.white,
+                                                                                                                          border: const OutlineInputBorder(),
+                                                                                                                          enabledBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                          ),
+                                                                                                                          focusedBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(
+                                                                                                                                width: 3,
+                                                                                                                                color: Colors.black
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                          labelStyle: TextStyle(
+                                                                                                                              color: textAlertDialogColor
+                                                                                                                          ),
+                                                                                                                          labelText: 'Cidade',
+                                                                                                                        ),
+                                                                                                                        style: TextStyle(
+                                                                                                                            color: textAlertDialogColor
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  Center(
+                                                                                                                    child: Container(
+                                                                                                                      padding: const EdgeInsets.all(16),
+                                                                                                                      child: TextField(
+                                                                                                                        controller: EnderecoControl,
+                                                                                                                        keyboardType: TextInputType.emailAddress,
+                                                                                                                        enableSuggestions: false,
+                                                                                                                        autocorrect: false,
+                                                                                                                        onChanged: (value){
+                                                                                                                          setState(() {
+                                                                                                                            Endereco = value;
+                                                                                                                          });
+                                                                                                                        },
+                                                                                                                        decoration: InputDecoration(
+                                                                                                                          filled: true,
+                                                                                                                          fillColor: Colors.white,
+                                                                                                                          border: const OutlineInputBorder(),
+                                                                                                                          enabledBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                          ),
+                                                                                                                          focusedBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(
+                                                                                                                                width: 3,
+                                                                                                                                color: Colors.black
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                          labelStyle: TextStyle(
+                                                                                                                              color: textAlertDialogColor
+                                                                                                                          ),
+                                                                                                                          labelText: 'Endereco',
+                                                                                                                        ),
+                                                                                                                        style: TextStyle(
+                                                                                                                            color: textAlertDialogColor
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  Center(
+                                                                                                                    child: Container(
+                                                                                                                      padding: const EdgeInsets.all(16),
+                                                                                                                      child: TextField(
+                                                                                                                        controller: bairroControl,
+                                                                                                                        keyboardType: TextInputType.emailAddress,
+                                                                                                                        enableSuggestions: false,
+                                                                                                                        autocorrect: false,
+                                                                                                                        onChanged: (value){
+                                                                                                                          setState(() {
+                                                                                                                            bairro = value;
+                                                                                                                          });
+                                                                                                                        },
+                                                                                                                        decoration: InputDecoration(
+                                                                                                                          filled: true,
+                                                                                                                          fillColor: Colors.white,
+                                                                                                                          border: const OutlineInputBorder(),
+                                                                                                                          enabledBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                          ),
+                                                                                                                          focusedBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(
+                                                                                                                                width: 3,
+                                                                                                                                color: Colors.black
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                          labelStyle: TextStyle(
+                                                                                                                              color: textAlertDialogColor
+                                                                                                                          ),
+                                                                                                                          labelText: 'Bairro',
+                                                                                                                        ),
+                                                                                                                        style: TextStyle(
+                                                                                                                            color: textAlertDialogColor
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  Center(
+                                                                                                                    child: Container(
+                                                                                                                      padding: const EdgeInsets.all(16),
+                                                                                                                      child: TextField(
+                                                                                                                        controller: cepControl,
+                                                                                                                        keyboardType: TextInputType.emailAddress,
+                                                                                                                        enableSuggestions: false,
+                                                                                                                        autocorrect: false,
+                                                                                                                        onChanged: (value){
+                                                                                                                          setState(() {
+                                                                                                                            cep = value;
+                                                                                                                          });
+                                                                                                                        },
+                                                                                                                        decoration: InputDecoration(
+                                                                                                                          filled: true,
+                                                                                                                          fillColor: Colors.white,
+                                                                                                                          border: const OutlineInputBorder(),
+                                                                                                                          enabledBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                          ),
+                                                                                                                          focusedBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(
+                                                                                                                                width: 3,
+                                                                                                                                color: Colors.black
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                          labelStyle: TextStyle(
+                                                                                                                              color: textAlertDialogColor
+                                                                                                                          ),
+                                                                                                                          labelText: 'CEP',
+                                                                                                                        ),
+                                                                                                                        style: TextStyle(
+                                                                                                                            color: textAlertDialogColor
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  Center(
+                                                                                                                    child: Container(
+                                                                                                                      padding: const EdgeInsets.all(16),
+                                                                                                                      child: TextField(
+                                                                                                                        controller: SindicoControl,
+                                                                                                                        keyboardType: TextInputType.emailAddress,
+                                                                                                                        enableSuggestions: false,
+                                                                                                                        autocorrect: false,
+                                                                                                                        onChanged: (value){
+                                                                                                                          setState(() {
+                                                                                                                            Sindico = value;
+                                                                                                                          });
+                                                                                                                        },
+                                                                                                                        decoration: InputDecoration(
+                                                                                                                          filled: true,
+                                                                                                                          fillColor: Colors.white,
+                                                                                                                          border: const OutlineInputBorder(),
+                                                                                                                          enabledBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                          ),
+                                                                                                                          focusedBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(
+                                                                                                                                width: 3,
+                                                                                                                                color: Colors.black
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                          labelStyle: TextStyle(
+                                                                                                                              color: textAlertDialogColor
+                                                                                                                          ),
+                                                                                                                          labelText: 'Sindico',
+                                                                                                                        ),
+                                                                                                                        style: TextStyle(
+                                                                                                                            color: textAlertDialogColor
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  Center(
+                                                                                                                    child: Container(
+                                                                                                                      padding: const EdgeInsets.all(16),
+                                                                                                                      child: TextField(
+                                                                                                                        controller: CNPJControl,
+                                                                                                                        keyboardType: TextInputType.emailAddress,
+                                                                                                                        enableSuggestions: false,
+                                                                                                                        autocorrect: false,
+                                                                                                                        onChanged: (value){
+                                                                                                                          setState(() {
+                                                                                                                            CNPJ = value;
+                                                                                                                          });
+                                                                                                                        },
+                                                                                                                        decoration: InputDecoration(
+                                                                                                                          filled: true,
+                                                                                                                          fillColor: Colors.white,
+                                                                                                                          border: const OutlineInputBorder(),
+                                                                                                                          enabledBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                          ),
+                                                                                                                          focusedBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(
+                                                                                                                                width: 3,
+                                                                                                                                color: Colors.black
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                          labelStyle: TextStyle(
+                                                                                                                              color: textAlertDialogColor
+                                                                                                                          ),
+                                                                                                                          labelText: 'CNPJ',
+                                                                                                                        ),
+                                                                                                                        style: TextStyle(
+                                                                                                                            color: textAlertDialogColor
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  Center(
+                                                                                                                    child: Container(
+                                                                                                                      padding: const EdgeInsets.all(16),
+                                                                                                                      child: TextField(
+                                                                                                                        controller: ZeladorControl,
+                                                                                                                        keyboardType: TextInputType.emailAddress,
+                                                                                                                        enableSuggestions: false,
+                                                                                                                        autocorrect: false,
+                                                                                                                        onChanged: (value){
+                                                                                                                          setState(() {
+                                                                                                                            Zelador = value;
+                                                                                                                          });
+                                                                                                                        },
+                                                                                                                        decoration: InputDecoration(
+                                                                                                                          filled: true,
+                                                                                                                          fillColor: Colors.white,
+                                                                                                                          border: const OutlineInputBorder(),
+                                                                                                                          enabledBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                          ),
+                                                                                                                          focusedBorder: const OutlineInputBorder(
+                                                                                                                            borderSide: BorderSide(
+                                                                                                                                width: 3,
+                                                                                                                                color: Colors.black
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                          labelStyle: TextStyle(
+                                                                                                                              color: textAlertDialogColor
+                                                                                                                          ),
+                                                                                                                          labelText: 'Zelador',
                                                                                                                         ),
                                                                                                                         style: TextStyle(
                                                                                                                             color: textAlertDialogColor
@@ -957,6 +1232,14 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                           "authSenhaSIP": Pass,
                                                                                                                                           "Codigo" : codigo,
                                                                                                                                           "ipCameraModelo": modeloselecionado,
+                                                                                                                                          "Cidade": Cidade,
+                                                                                                                                          "Endereco": Endereco,
+                                                                                                                                          "bairro": bairro,
+                                                                                                                                          "cep": cep,
+                                                                                                                                          "Sindico": Sindico,
+                                                                                                                                          "Telefone": Telefone,
+                                                                                                                                          "CNPJ": CNPJ,
+                                                                                                                                          "Zelador": Zelador,
                                                                                                                                         }).whenComplete(() {
                                                                                                                                           showToast('Sucesso!', context: context);
                                                                                                                                           Navigator.pop(context);
@@ -1091,6 +1374,14 @@ class _homeAppState extends State<homeApp>{
                                                       String NomeCondominio = "";
                                                       String IPCameras = "";
                                                       int? PortaCameras;
+                                                      String Cidade = "";
+                                                      String Endereco = "";
+                                                      String bairro = "";
+                                                      String cep = "";
+                                                      String Sindico = "";
+                                                      String Telefone = "";
+                                                      String CNPJ = "";
+                                                      String Zelador = "";
                                                       String UserAccess = "";
                                                       String PassAccess = "";
                                                       String SIPUrl = "";
@@ -1228,6 +1519,294 @@ class _homeAppState extends State<homeApp>{
                                                                                           color: textAlertDialogColor
                                                                                       ),
                                                                                       labelText: 'Codigo do Condominio (4 caracteres Ex: 2402)',
+                                                                                    ),
+                                                                                    style: TextStyle(
+                                                                                        color: textAlertDialogColor
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Center(
+                                                                                child: Container(
+                                                                                  padding: const EdgeInsets.all(16),
+                                                                                  child: TextField(
+                                                                                    keyboardType: TextInputType.emailAddress,
+                                                                                    enableSuggestions: false,
+                                                                                    autocorrect: false,
+                                                                                    onChanged: (value){
+                                                                                      setState(() {
+                                                                                        Cidade = value;
+                                                                                      });
+                                                                                    },
+                                                                                    decoration: InputDecoration(
+                                                                                      filled: true,
+                                                                                      fillColor: Colors.white,
+                                                                                      border: const OutlineInputBorder(),
+                                                                                      enabledBorder: const OutlineInputBorder(
+                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                      ),
+                                                                                      focusedBorder: const OutlineInputBorder(
+                                                                                        borderSide: BorderSide(
+                                                                                            width: 3,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      ),
+                                                                                      labelStyle: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                      labelText: 'Cidade',
+                                                                                    ),
+                                                                                    style: TextStyle(
+                                                                                        color: textAlertDialogColor
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Center(
+                                                                                child: Container(
+                                                                                  padding: const EdgeInsets.all(16),
+                                                                                  child: TextField(
+                                                                                    keyboardType: TextInputType.emailAddress,
+                                                                                    enableSuggestions: false,
+                                                                                    autocorrect: false,
+                                                                                    onChanged: (value){
+                                                                                      setState(() {
+                                                                                        Endereco = value;
+                                                                                      });
+                                                                                    },
+                                                                                    decoration: InputDecoration(
+                                                                                      filled: true,
+                                                                                      fillColor: Colors.white,
+                                                                                      border: const OutlineInputBorder(),
+                                                                                      enabledBorder: const OutlineInputBorder(
+                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                      ),
+                                                                                      focusedBorder: const OutlineInputBorder(
+                                                                                        borderSide: BorderSide(
+                                                                                            width: 3,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      ),
+                                                                                      labelStyle: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                      labelText: 'Endereco',
+                                                                                    ),
+                                                                                    style: TextStyle(
+                                                                                        color: textAlertDialogColor
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Center(
+                                                                                child: Container(
+                                                                                  padding: const EdgeInsets.all(16),
+                                                                                  child: TextField(
+                                                                                    keyboardType: TextInputType.emailAddress,
+                                                                                    enableSuggestions: false,
+                                                                                    autocorrect: false,
+                                                                                    onChanged: (value){
+                                                                                      setState(() {
+                                                                                        bairro = value;
+                                                                                      });
+                                                                                    },
+                                                                                    decoration: InputDecoration(
+                                                                                      filled: true,
+                                                                                      fillColor: Colors.white,
+                                                                                      border: const OutlineInputBorder(),
+                                                                                      enabledBorder: const OutlineInputBorder(
+                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                      ),
+                                                                                      focusedBorder: const OutlineInputBorder(
+                                                                                        borderSide: BorderSide(
+                                                                                            width: 3,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      ),
+                                                                                      labelStyle: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                      labelText: 'Bairro',
+                                                                                    ),
+                                                                                    style: TextStyle(
+                                                                                        color: textAlertDialogColor
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Center(
+                                                                                child: Container(
+                                                                                  padding: const EdgeInsets.all(16),
+                                                                                  child: TextField(
+                                                                                    keyboardType: TextInputType.emailAddress,
+                                                                                    enableSuggestions: false,
+                                                                                    autocorrect: false,
+                                                                                    onChanged: (value){
+                                                                                      setState(() {
+                                                                                        cep = value;
+                                                                                      });
+                                                                                    },
+                                                                                    decoration: InputDecoration(
+                                                                                      filled: true,
+                                                                                      fillColor: Colors.white,
+                                                                                      border: const OutlineInputBorder(),
+                                                                                      enabledBorder: const OutlineInputBorder(
+                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                      ),
+                                                                                      focusedBorder: const OutlineInputBorder(
+                                                                                        borderSide: BorderSide(
+                                                                                            width: 3,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      ),
+                                                                                      labelStyle: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                      labelText: 'CEP',
+                                                                                    ),
+                                                                                    style: TextStyle(
+                                                                                        color: textAlertDialogColor
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Center(
+                                                                                child: Container(
+                                                                                  padding: const EdgeInsets.all(16),
+                                                                                  child: TextField(
+                                                                                    keyboardType: TextInputType.emailAddress,
+                                                                                    enableSuggestions: false,
+                                                                                    autocorrect: false,
+                                                                                    onChanged: (value){
+                                                                                      setState(() {
+                                                                                        Sindico = value;
+                                                                                      });
+                                                                                    },
+                                                                                    decoration: InputDecoration(
+                                                                                      filled: true,
+                                                                                      fillColor: Colors.white,
+                                                                                      border: const OutlineInputBorder(),
+                                                                                      enabledBorder: const OutlineInputBorder(
+                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                      ),
+                                                                                      focusedBorder: const OutlineInputBorder(
+                                                                                        borderSide: BorderSide(
+                                                                                            width: 3,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      ),
+                                                                                      labelStyle: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                      labelText: 'Sindico',
+                                                                                    ),
+                                                                                    style: TextStyle(
+                                                                                        color: textAlertDialogColor
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Center(
+                                                                                child: Container(
+                                                                                  padding: const EdgeInsets.all(16),
+                                                                                  child: TextField(
+                                                                                    keyboardType: TextInputType.emailAddress,
+                                                                                    enableSuggestions: false,
+                                                                                    autocorrect: false,
+                                                                                    onChanged: (value){
+                                                                                      setState(() {
+                                                                                        Telefone = value;
+                                                                                      });
+                                                                                    },
+                                                                                    decoration: InputDecoration(
+                                                                                      filled: true,
+                                                                                      fillColor: Colors.white,
+                                                                                      border: const OutlineInputBorder(),
+                                                                                      enabledBorder: const OutlineInputBorder(
+                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                      ),
+                                                                                      focusedBorder: const OutlineInputBorder(
+                                                                                        borderSide: BorderSide(
+                                                                                            width: 3,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      ),
+                                                                                      labelStyle: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                      labelText: 'Telefone',
+                                                                                    ),
+                                                                                    style: TextStyle(
+                                                                                        color: textAlertDialogColor
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Center(
+                                                                                child: Container(
+                                                                                  padding: const EdgeInsets.all(16),
+                                                                                  child: TextField(
+                                                                                    keyboardType: TextInputType.emailAddress,
+                                                                                    enableSuggestions: false,
+                                                                                    autocorrect: false,
+                                                                                    onChanged: (value){
+                                                                                      setState(() {
+                                                                                        CNPJ = value;
+                                                                                      });
+                                                                                    },
+                                                                                    decoration: InputDecoration(
+                                                                                      filled: true,
+                                                                                      fillColor: Colors.white,
+                                                                                      border: const OutlineInputBorder(),
+                                                                                      enabledBorder: const OutlineInputBorder(
+                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                      ),
+                                                                                      focusedBorder: const OutlineInputBorder(
+                                                                                        borderSide: BorderSide(
+                                                                                            width: 3,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      ),
+                                                                                      labelStyle: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                      labelText: 'CNPJ',
+                                                                                    ),
+                                                                                    style: TextStyle(
+                                                                                        color: textAlertDialogColor
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Center(
+                                                                                child: Container(
+                                                                                  padding: const EdgeInsets.all(16),
+                                                                                  child: TextField(
+                                                                                    keyboardType: TextInputType.emailAddress,
+                                                                                    enableSuggestions: false,
+                                                                                    autocorrect: false,
+                                                                                    onChanged: (value){
+                                                                                      setState(() {
+                                                                                        Zelador = value;
+                                                                                      });
+                                                                                    },
+                                                                                    decoration: InputDecoration(
+                                                                                      filled: true,
+                                                                                      fillColor: Colors.white,
+                                                                                      border: const OutlineInputBorder(),
+                                                                                      enabledBorder: const OutlineInputBorder(
+                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                      ),
+                                                                                      focusedBorder: const OutlineInputBorder(
+                                                                                        borderSide: BorderSide(
+                                                                                            width: 3,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      ),
+                                                                                      labelStyle: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                      labelText: 'Zelador',
                                                                                     ),
                                                                                     style: TextStyle(
                                                                                         color: textAlertDialogColor
@@ -1605,6 +2184,14 @@ class _homeAppState extends State<homeApp>{
                                                                                                       "Codigo" : codigo,
                                                                                                       'idEmpresaPertence' : EmpresaPertence,
                                                                                                       "ipCameraModelo": modeloselecionado,
+                                                                                                      "Cidade": Cidade,
+                                                                                                      "Endereco": Endereco,
+                                                                                                      "bairro": bairro,
+                                                                                                      "cep": cep,
+                                                                                                      "Sindico": Sindico,
+                                                                                                      "Telefone": Telefone,
+                                                                                                      "CNPJ": CNPJ,
+                                                                                                      "Zelador": Zelador,
                                                                                                       "ipCamera1": 1,
                                                                                                       "ipCamera2": 2,
                                                                                                       "ipCamera3": 3,
