@@ -5447,6 +5447,7 @@ class _homeAppState extends State<homeApp>{
                                                   String ipAcionamento = "";
                                                   String Telefone = "";
                                                   String Celular = "";
+                                                  String Qualificacao = "";
                                                   String Observacoes = "";
 
                                                   File? _imageFile;
@@ -6029,6 +6030,42 @@ class _homeAppState extends State<homeApp>{
                                                                             ),
                                                                           ),
                                                                         ),
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setState(() {
+                                                                                  Qualificacao = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                labelStyle: TextStyle(
+                                                                                    color: textAlertDialogColor
+                                                                                ),
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Qualificacao',
+                                                                              ),
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
                                                                         Container(
                                                                           padding: const EdgeInsets.all(16),
                                                                           child: TextField(
@@ -6332,6 +6369,7 @@ class _homeAppState extends State<homeApp>{
                                                                                           "anotacao": Observacoes,
                                                                                           "telefone": Telefone,
                                                                                           "celular": Celular,
+                                                                                          "Qualificacao": Qualificacao,
                                                                                         }).whenComplete(() {
                                                                                           Navigator.pop(context);
                                                                                           Navigator.pop(context);

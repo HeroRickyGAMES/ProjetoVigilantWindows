@@ -268,7 +268,9 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
           await socket.flush();
         }
 
-        String message = "0001${tipoDisp.toString()}${numDisp.toString()}${rele.toString()}${geraEvt.toString()}";
+        //String message = "000D${tipoDisp.toString()}${numDisp.toString()}${rele.toString()}${geraEvt.toString()}";
+        String message = "0000000D$tipoDisp$numDisp$rele${geraEvt}00";
+        print(message);
         String checksum = calculaChecksum(message);
         print(checksum);
         var messageBytes = hexStringToByteArray(checksum);
