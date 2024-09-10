@@ -5719,14 +5719,14 @@ class _homeAppState extends State<homeApp>{
                                                                                                     ),
                                                                                                     Container(
                                                                                                       padding: const EdgeInsets.all(5),
-                                                                                                      child: Text(
+                                                                                                      child: const Text(
                                                                                                           "Aviso! No presente momento o unico acionamento suportado é Control iD!",
                                                                                                         style: TextStyle(
                                                                                                           fontSize: 16,
                                                                                                         ),
                                                                                                       ),
                                                                                                     ),
-                                                                                                    Container(
+                                                                                                    SizedBox(
                                                                                                       width: 600,
                                                                                                       height: 500,
                                                                                                       child: StreamBuilder(
@@ -6264,157 +6264,106 @@ class _homeAppState extends State<homeApp>{
                                                                         modeloPikado == "Outros" ?
                                                                             Container()
                                                                             :
-                                                                        Column(
-                                                                          children: [
-                                                                            Center(
-                                                                              child: Container(
-                                                                                padding: const EdgeInsets.all(16),
-                                                                                child: TextField(
-                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                  enableSuggestions: false,
-                                                                                  autocorrect: false,
-                                                                                  onChanged: (value){
-                                                                                    setState(() {
-                                                                                      ipAcionamento = value;
-                                                                                    });
-                                                                                  },
-                                                                                  decoration: InputDecoration(
-                                                                                    filled: true,
-                                                                                    fillColor: Colors.white,
-                                                                                    labelStyle: TextStyle(
-                                                                                        color: textAlertDialogColor,
-                                                                                        backgroundColor: Colors.white
-                                                                                    ),
-                                                                                    border: const OutlineInputBorder(),
-                                                                                    enabledBorder: const OutlineInputBorder(
-                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                    ),
-                                                                                    focusedBorder: const OutlineInputBorder(
-                                                                                      borderSide: BorderSide(
-                                                                                          width: 3,
-                                                                                          color: Colors.black
-                                                                                      ),
-                                                                                    ),
-                                                                                    labelText: 'IP da Facial',
-                                                                                  ),
-                                                                                  style: TextStyle(
-                                                                                      color: textAlertDialogColor
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            Center(
-                                                                              child: Container(
-                                                                                padding: const EdgeInsets.all(16),
-                                                                                child: TextField(
-                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                  enableSuggestions: false,
-                                                                                  autocorrect: false,
-                                                                                  onChanged: (value){
-                                                                                    setState(() {
-                                                                                      portaAc = int.parse(value);
-                                                                                    });
-                                                                                  },
-                                                                                  decoration: InputDecoration(
-                                                                                    filled: true,
-                                                                                    fillColor: Colors.white,
-                                                                                    labelStyle: TextStyle(
-                                                                                        color: textAlertDialogColor,
-                                                                                        backgroundColor: Colors.white
-                                                                                    ),
-                                                                                    border: const OutlineInputBorder(),
-                                                                                    enabledBorder: const OutlineInputBorder(
-                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                    ),
-                                                                                    focusedBorder: const OutlineInputBorder(
-                                                                                      borderSide: BorderSide(
-                                                                                          width: 3,
-                                                                                          color: Colors.black
-                                                                                      ),
-                                                                                    ),
-                                                                                    labelText: 'Porta da Facial',
-                                                                                  ),
-                                                                                  style: TextStyle(
-                                                                                      color: textAlertDialogColor
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            Center(
-                                                                              child: Container(
-                                                                                padding: const EdgeInsets.all(16),
-                                                                                child: TextField(
-                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                  enableSuggestions: false,
-                                                                                  autocorrect: false,
-                                                                                  onChanged: (value){
-                                                                                    setState(() {
-                                                                                      usuarioAc = value;
-                                                                                    });
-                                                                                  },
-                                                                                  decoration: InputDecoration(
-                                                                                    filled: true,
-                                                                                    fillColor: Colors.white,
-                                                                                    labelStyle: TextStyle(
-                                                                                        color: textAlertDialogColor,
-                                                                                        backgroundColor: Colors.white
-                                                                                    ),
-                                                                                    border: const OutlineInputBorder(),
-                                                                                    enabledBorder: const OutlineInputBorder(
-                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                    ),
-                                                                                    focusedBorder: const OutlineInputBorder(
-                                                                                      borderSide: BorderSide(
-                                                                                          width: 3,
-                                                                                          color: Colors.black
-                                                                                      ),
-                                                                                    ),
-                                                                                    labelText: 'Usuario da Facial',
-                                                                                  ),
-                                                                                  style: TextStyle(
-                                                                                      color: textAlertDialogColor
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            Center(
-                                                                              child: Container(
-                                                                                padding: const EdgeInsets.all(16),
-                                                                                child: TextField(
-                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                  enableSuggestions: false,
-                                                                                  autocorrect: false,
-                                                                                  onChanged: (value){
-                                                                                    setState(() {
-                                                                                      senhAc = value;
-                                                                                    });
-                                                                                  },
-                                                                                  decoration: InputDecoration(
-                                                                                    filled: true,
-                                                                                    fillColor: Colors.white,
-                                                                                    labelStyle: TextStyle(
-                                                                                        color: textAlertDialogColor,
-                                                                                        backgroundColor: Colors.white
-                                                                                    ),
-                                                                                    border: const OutlineInputBorder(),
-                                                                                    enabledBorder: const OutlineInputBorder(
-                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                    ),
-                                                                                    focusedBorder: const OutlineInputBorder(
-                                                                                      borderSide: BorderSide(
-                                                                                          width: 3,
-                                                                                          color: Colors.black
-                                                                                      ),
-                                                                                    ),
-                                                                                    labelText: 'Senha da Facial',
-                                                                                  ),
-                                                                                  style: TextStyle(
-                                                                                      color: textAlertDialogColor
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ],
+                                                                        SizedBox(
+                                                                          width: 600,
+                                                                          height: 500,
+                                                                          child: StreamBuilder(
+                                                                            stream: FirebaseFirestore.instance
+                                                                                .collection('acionamentos')
+                                                                                .where("idCondominio", isEqualTo: idCondominio)
+                                                                                .where("modelo", isEqualTo: modeloPikado)
+                                                                                .snapshots(),
+                                                                            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                                                              if (snapshot.hasError) {
+                                                                                return const Center(child:
+                                                                                Text('Algo deu errado!')
+                                                                                );
+                                                                              }
+
+                                                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                                                return const Center(child: CircularProgressIndicator());
+                                                                              }
+
+                                                                              if (snapshot.hasData) {
+                                                                                return GridView.count(
+                                                                                    childAspectRatio: 1.2,
+                                                                                    crossAxisCount: 3,
+                                                                                    children: snapshot.data!.docs.map((documents) {
+                                                                                      double tamanhotext = 14;
+                                                                                      bool isBolded = false;
+
+                                                                                      if(documents["nome"].length >= 16){
+                                                                                        tamanhotext = 12;
+                                                                                      }
+
+                                                                                      if(documents["nome"].length >= 20){
+                                                                                        tamanhotext = 9;
+                                                                                        isBolded = true;
+                                                                                      }
+
+                                                                                      return Container(
+                                                                                        padding: const EdgeInsets.all(16),
+                                                                                        child: Column(
+                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                          children: [
+                                                                                            SizedBox(
+                                                                                              height: 50,
+                                                                                              child: TextButton(
+                                                                                                  onPressed: () async {
+
+                                                                                                    setState((){
+                                                                                                      ipAcionamento = documents['ip'];
+                                                                                                      portaAc = documents['porta'];
+                                                                                                      usuarioAc = documents['usuario'];
+                                                                                                      senhAc = documents['senha'];
+                                                                                                    });
+                                                                                                    showToast("Dados selecionados", context: context);
+                                                                                                  },
+                                                                                                  child: Stack(
+                                                                                                    alignment: Alignment.center,
+                                                                                                    children: [
+                                                                                                      Image.asset(
+                                                                                                        documents["deuErro"] == true ?
+                                                                                                        "assets/btnIsNotAbleToConnect.png":
+                                                                                                        documents["prontoParaAtivar"] == false ?
+                                                                                                        "assets/btnInactive.png" :
+                                                                                                        "assets/btnIsAbleToAction.png",
+                                                                                                        scale: 5,
+                                                                                                      ),
+                                                                                                      Image.asset(
+                                                                                                          documents["iconeSeleciondo"],
+                                                                                                          scale: 45
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  )
+                                                                                              ),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              documents["nome"],
+                                                                                              style: isBolded == true?
+                                                                                              TextStyle(
+                                                                                                  color: textAlertDialogColorReverse,
+                                                                                                  fontSize: tamanhotext,
+                                                                                                  fontWeight: FontWeight.bold
+                                                                                              )
+                                                                                                  :
+                                                                                              TextStyle(
+                                                                                                color: textAlertDialogColorReverse,
+                                                                                                fontSize: tamanhotext,
+                                                                                              ),
+                                                                                              textAlign: TextAlign.center,
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      );
+                                                                                    }).toList().reversed.toList()
+                                                                                );
+                                                                              }
+                                                                              return const Center(
+                                                                                  child: Text('Sem dados!',)
+                                                                              );
+                                                                            },
+                                                                          ),
                                                                         ),
                                                                         Container(
                                                                           padding: const EdgeInsets.all(10),
@@ -6428,39 +6377,22 @@ class _homeAppState extends State<homeApp>{
                                                                                 if(RGV == ""){
                                                                                   showToast("O RG está vazio!",context:context);
                                                                                 }else{
-
-
                                                                                   if(Unidade == ""){
                                                                                     showToast("A unidade está vazia!",context:context);
                                                                                   }else{
                                                                                     if(Bloco  == ""){
                                                                                       showToast("O bloco está vazio!!",context:context);
                                                                                     }else{
-                                                                                      showDialog(
-                                                                                        context: context,
-                                                                                        builder: (BuildContext context) {
-                                                                                          return const AlertDialog(
-                                                                                            title: Text('Aguarde!'),
-                                                                                            actions: [
-                                                                                              Center(
-                                                                                                child: CircularProgressIndicator(),
-                                                                                              )
-                                                                                            ],
-                                                                                          );
-                                                                                        },
-                                                                                      );
                                                                                       String ID = "";
-
-                                                                                      Cadastrar() async {
+                                                                                      Cadastrar(String DocID) async {
                                                                                         String DownloadURL = '';
                                                                                         if(_imageFile != null){
-                                                                                          DownloadURL = await carregarImagem(context, _imageFile!, ID, idCondominio).getDownloadURL();
+                                                                                          DownloadURL = await carregarImagem(context, _imageFile!, DocID, idCondominio).getDownloadURL();
                                                                                         }else{
                                                                                           DownloadURL = '';
                                                                                         }
-
-                                                                                        FirebaseFirestore.instance.collection('Pessoas').doc(ID).set({
-                                                                                          "id": ID,
+                                                                                        FirebaseFirestore.instance.collection('Pessoas').doc(DocID).set({
+                                                                                          "id": DocID,
                                                                                           "idCondominio": idCondominio,
                                                                                           "Nome": NomeV,
                                                                                           "CPF": CPFV,
@@ -6473,18 +6405,37 @@ class _homeAppState extends State<homeApp>{
                                                                                           "celular": Celular,
                                                                                           "Qualificacao": Qualificacao,
                                                                                         }).whenComplete(() {
-                                                                                          Navigator.pop(context);
-                                                                                          Navigator.pop(context);
+                                                                                          print('completo!');
+                                                                                          Navigator.of(context).pop();
+                                                                                          Navigator.of(context).pop();
                                                                                         });
                                                                                       }
 
-                                                                                      if(modeloPikado == "Control iD"){
-                                                                                        Map<String, dynamic> id = await cadastronoEquipamento(context, ipAcionamento, portaAc, usuarioAc, senhAc, "Control iD", NomeV);
+                                                                                      showDialog(
+                                                                                        context: context,
+                                                                                        builder: (BuildContext context) {
+                                                                                          return const AlertDialog(
+                                                                                            title: Text('Aguarde!'),
+                                                                                            actions: [
+                                                                                              Center(
+                                                                                                child: CircularProgressIndicator(),
+                                                                                              ),
+                                                                                            ],
+                                                                                          );
+                                                                                        },
+                                                                                      );
 
-                                                                                        setState((){
-                                                                                          ID = "${id["ids"][0]}";
-                                                                                        });
-                                                                                        Cadastrar();
+                                                                                      if(modeloPikado == "Control iD"){
+                                                                                        if(ipAcionamento == '' || usuarioAc == '' || senhAc == ""){
+                                                                                          Navigator.of(context).pop();
+                                                                                          showToast("Selecione um acionamento! Caso não exista acionamentos, use a opção Outros!",context:context);
+                                                                                        }else{
+                                                                                          Map<String, dynamic> id = await cadastronoEquipamento(context, ipAcionamento, portaAc, usuarioAc, senhAc, "Control iD", NomeV);
+                                                                                          setState((){
+                                                                                            ID = "${id["ids"][0]}";
+                                                                                          });
+                                                                                          Cadastrar(ID);
+                                                                                        }
                                                                                       }
 
                                                                                       if(modeloPikado == "Outros"){
@@ -6493,8 +6444,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         setState((){
                                                                                           ID =  uuid.v4();
                                                                                         });
-
-                                                                                        Cadastrar();
+                                                                                        Cadastrar(ID);
                                                                                       }
                                                                                     }
                                                                                   }

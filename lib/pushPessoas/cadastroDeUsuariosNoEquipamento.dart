@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 //Programado por HeroRickyGames com ajuda de Deus!
 
 Future<Map<String, dynamic>> cadastronoEquipamento(var context, String ip, int porta, String usuario, String Senha, String modelo, String Nome) async {
-
   if(modelo == "Control iD"){
     final ipog = Uri.parse('http://$ip:$porta/login.fcgi');
 
@@ -51,7 +50,6 @@ Future<Map<String, dynamic>> cadastronoEquipamento(var context, String ip, int p
         );
         if (responsee.statusCode == 200) {
           Map<String, dynamic> userID = jsonDecode(responsee.body);
-
           return userID;
         } else {
           showToast("Erro com a comunicação, status: ${responsee.statusCode}", context: context);
