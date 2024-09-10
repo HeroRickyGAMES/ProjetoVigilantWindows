@@ -555,7 +555,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             ),
                                                                                                                           ),
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           labelText: 'Nome do Condominio',
                                                                                                                         ),
@@ -592,7 +593,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             ),
                                                                                                                           ),
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           labelText: 'Codigo do Condominio (4 caracteres Ex: 2402)',
                                                                                                                         ),
@@ -629,7 +631,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             ),
                                                                                                                           ),
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           labelText: 'Cidade',
                                                                                                                         ),
@@ -666,7 +669,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             ),
                                                                                                                           ),
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           labelText: 'Endereco',
                                                                                                                         ),
@@ -703,7 +707,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             ),
                                                                                                                           ),
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           labelText: 'Bairro',
                                                                                                                         ),
@@ -740,7 +745,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             ),
                                                                                                                           ),
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           labelText: 'CEP',
                                                                                                                         ),
@@ -777,7 +783,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             ),
                                                                                                                           ),
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           labelText: 'Sindico',
                                                                                                                         ),
@@ -814,7 +821,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             ),
                                                                                                                           ),
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           labelText: 'Telefone',
                                                                                                                         ),
@@ -851,7 +859,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             ),
                                                                                                                           ),
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           labelText: 'CNPJ',
                                                                                                                         ),
@@ -888,7 +897,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             ),
                                                                                                                           ),
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           labelText: 'Zelador',
                                                                                                                         ),
@@ -961,7 +971,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             ),
                                                                                                                           ),
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           labelText: 'URL do CFTV (RTSP)',
                                                                                                                         ),
@@ -998,7 +1009,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             ),
                                                                                                                           ),
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           labelText: 'Porta do CFTV (RTSP) (Normalmente é 554, mas pode variar dependendo do CFTV)',
                                                                                                                         ),
@@ -1035,7 +1047,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             ),
                                                                                                                           ),
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           labelText: 'Usuario para acesso das cameras',
                                                                                                                         ),
@@ -1072,7 +1085,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             ),
                                                                                                                           ),
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           labelText: 'Senha para acesso das cameras',
                                                                                                                         ),
@@ -1099,7 +1113,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           filled: true,
                                                                                                                           fillColor: Colors.white,
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           border: const OutlineInputBorder(),
                                                                                                                           enabledBorder: const OutlineInputBorder(
@@ -1136,7 +1151,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           filled: true,
                                                                                                                           fillColor: Colors.white,
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           border: const OutlineInputBorder(),
                                                                                                                           enabledBorder: const OutlineInputBorder(
@@ -1173,7 +1189,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           filled: true,
                                                                                                                           fillColor: Colors.white,
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           border: const OutlineInputBorder(),
                                                                                                                           enabledBorder: const OutlineInputBorder(
@@ -1210,7 +1227,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           filled: true,
                                                                                                                           fillColor: Colors.white,
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           border: const OutlineInputBorder(),
                                                                                                                           enabledBorder: const OutlineInputBorder(
@@ -1600,7 +1618,8 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ),
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       labelText: 'Nome do Condominio',
                                                                                     ),
@@ -1636,7 +1655,8 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ),
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       labelText: 'Codigo do Condominio (4 caracteres Ex: 2402)',
                                                                                     ),
@@ -1672,7 +1692,8 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ),
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       labelText: 'Cidade',
                                                                                     ),
@@ -1708,7 +1729,8 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ),
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       labelText: 'Endereco',
                                                                                     ),
@@ -1744,7 +1766,8 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ),
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       labelText: 'Bairro',
                                                                                     ),
@@ -1780,7 +1803,8 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ),
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       labelText: 'CEP',
                                                                                     ),
@@ -1816,7 +1840,8 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ),
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       labelText: 'Sindico',
                                                                                     ),
@@ -1852,7 +1877,8 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ),
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       labelText: 'Telefone',
                                                                                     ),
@@ -1888,7 +1914,8 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ),
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       labelText: 'CNPJ',
                                                                                     ),
@@ -1924,7 +1951,8 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ),
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       labelText: 'Zelador',
                                                                                     ),
@@ -1996,7 +2024,8 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ),
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       labelText: 'URL do CFTV (RTSP)',
                                                                                     ),
@@ -2032,7 +2061,8 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ),
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       labelText: 'Porta do CFTV (RTSP) (Normalmente é 554, mas pode variar dependendo do CFTV)',
                                                                                     ),
@@ -2068,7 +2098,8 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ),
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       labelText: 'Usuario para acesso das cameras',
                                                                                     ),
@@ -2104,7 +2135,8 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ),
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       labelText: 'Senha para acesso das cameras',
                                                                                     ),
@@ -2130,7 +2162,8 @@ class _homeAppState extends State<homeApp>{
                                                                                       filled: true,
                                                                                       fillColor: Colors.white,
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       border: const OutlineInputBorder(),
                                                                                       enabledBorder: const OutlineInputBorder(
@@ -2166,7 +2199,8 @@ class _homeAppState extends State<homeApp>{
                                                                                       filled: true,
                                                                                       fillColor: Colors.white,
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       border: const OutlineInputBorder(),
                                                                                       enabledBorder: const OutlineInputBorder(
@@ -2202,7 +2236,8 @@ class _homeAppState extends State<homeApp>{
                                                                                       filled: true,
                                                                                       fillColor: Colors.white,
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       border: const OutlineInputBorder(),
                                                                                       enabledBorder: const OutlineInputBorder(
@@ -2238,7 +2273,8 @@ class _homeAppState extends State<homeApp>{
                                                                                       filled: true,
                                                                                       fillColor: Colors.white,
                                                                                       labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor
+                                                                                          color: textAlertDialogColor,
+                                                                                          backgroundColor: Colors.white
                                                                                       ),
                                                                                       border: const OutlineInputBorder(),
                                                                                       enabledBorder: const OutlineInputBorder(
@@ -2471,7 +2507,8 @@ class _homeAppState extends State<homeApp>{
                                                             ),
                                                           ),
                                                           labelStyle: TextStyle(
-                                                              color: Colors.black
+                                                              color: Colors.black,
+                                                              backgroundColor: Colors.white
                                                           ),
                                                           labelText: "Anotações sobre o condominio",
                                                         ),
@@ -2751,7 +2788,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           filled: true,
                                                                                                                           fillColor: Colors.white,
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           border: const OutlineInputBorder(),
                                                                                                                           enabledBorder: const OutlineInputBorder(
@@ -2788,7 +2826,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           filled: true,
                                                                                                                           fillColor: Colors.white,
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           border: const OutlineInputBorder(),
                                                                                                                           enabledBorder: const OutlineInputBorder(
@@ -2825,7 +2864,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           filled: true,
                                                                                                                           fillColor: Colors.white,
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           border: const OutlineInputBorder(),
                                                                                                                           enabledBorder: const OutlineInputBorder(
@@ -2862,7 +2902,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           filled: true,
                                                                                                                           fillColor: Colors.white,
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           border: const OutlineInputBorder(),
                                                                                                                           enabledBorder: const OutlineInputBorder(
@@ -2900,7 +2941,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           filled: true,
                                                                                                                           fillColor: Colors.white,
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           border: const OutlineInputBorder(),
                                                                                                                           enabledBorder: const OutlineInputBorder(
@@ -2938,7 +2980,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           filled: true,
                                                                                                                           fillColor: Colors.white,
                                                                                                                           labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor
+                                                                                                                              color: textAlertDialogColor,
+                                                                                                                              backgroundColor: Colors.white
                                                                                                                           ),
                                                                                                                           border: const OutlineInputBorder(),
                                                                                                                           enabledBorder: const OutlineInputBorder(
@@ -3351,7 +3394,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                 filled: true,
                                                                                                 fillColor: Colors.white,
                                                                                                 labelStyle: TextStyle(
-                                                                                                    color: textAlertDialogColor
+                                                                                                    color: textAlertDialogColor,
+                                                                                                    backgroundColor: Colors.white
                                                                                                 ),
                                                                                                 border: const OutlineInputBorder(),
                                                                                                 enabledBorder: const OutlineInputBorder(
@@ -3387,7 +3431,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                 filled: true,
                                                                                                 fillColor: Colors.white,
                                                                                                 labelStyle: TextStyle(
-                                                                                                    color: textAlertDialogColor
+                                                                                                    color: textAlertDialogColor,
+                                                                                                    backgroundColor: Colors.white
                                                                                                 ),
                                                                                                 border: const OutlineInputBorder(),
                                                                                                 enabledBorder: const OutlineInputBorder(
@@ -3423,7 +3468,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                 filled: true,
                                                                                                 fillColor: Colors.white,
                                                                                                 labelStyle: TextStyle(
-                                                                                                    color: textAlertDialogColor
+                                                                                                    color: textAlertDialogColor,
+                                                                                                    backgroundColor: Colors.white
                                                                                                 ),
                                                                                                 border: const OutlineInputBorder(),
                                                                                                 enabledBorder: const OutlineInputBorder(
@@ -3459,7 +3505,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                 filled: true,
                                                                                                 fillColor: Colors.white,
                                                                                                 labelStyle: TextStyle(
-                                                                                                    color: textAlertDialogColor
+                                                                                                    color: textAlertDialogColor,
+                                                                                                    backgroundColor: Colors.white
                                                                                                 ),
                                                                                                 border: const OutlineInputBorder(),
                                                                                                 enabledBorder: const OutlineInputBorder(
@@ -3496,7 +3543,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                 filled: true,
                                                                                                 fillColor: Colors.white,
                                                                                                 labelStyle: TextStyle(
-                                                                                                    color: textAlertDialogColor
+                                                                                                    color: textAlertDialogColor,
+                                                                                                    backgroundColor: Colors.white
                                                                                                 ),
                                                                                                 border: const OutlineInputBorder(),
                                                                                                 enabledBorder: const OutlineInputBorder(
@@ -3533,7 +3581,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                 filled: true,
                                                                                                 fillColor: Colors.white,
                                                                                                 labelStyle: TextStyle(
-                                                                                                    color: textAlertDialogColor
+                                                                                                    color: textAlertDialogColor,
+                                                                                                    backgroundColor: Colors.white
                                                                                                 ),
                                                                                                 border: const OutlineInputBorder(),
                                                                                                 enabledBorder: const OutlineInputBorder(
@@ -3895,7 +3944,8 @@ class _homeAppState extends State<homeApp>{
                                                                                           filled: true,
                                                                                           fillColor: Colors.white,
                                                                                           labelStyle: TextStyle(
-                                                                                              color: textAlertDialogColor
+                                                                                              color: textAlertDialogColor,
+                                                                                              backgroundColor: Colors.white
                                                                                           ),
                                                                                           border: const OutlineInputBorder(),
                                                                                           enabledBorder: const OutlineInputBorder(
@@ -3931,7 +3981,8 @@ class _homeAppState extends State<homeApp>{
                                                                                             filled: true,
                                                                                             fillColor: Colors.white,
                                                                                             labelStyle: TextStyle(
-                                                                                                color: textAlertDialogColor
+                                                                                                color: textAlertDialogColor,
+                                                                                                backgroundColor: Colors.white
                                                                                             ),
                                                                                             border: const OutlineInputBorder(),
                                                                                             enabledBorder: const OutlineInputBorder(
@@ -4275,7 +4326,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                       filled: true,
                                                                                                       fillColor: Colors.white,
                                                                                                       labelStyle: TextStyle(
-                                                                                                          color: textAlertDialogColor
+                                                                                                          color: textAlertDialogColor,
+                                                                                                          backgroundColor: Colors.white
                                                                                                       ),
 
                                                                                                       border: const OutlineInputBorder(),
@@ -4312,7 +4364,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                       filled: true,
                                                                                                       fillColor: Colors.white,
                                                                                                       labelStyle: TextStyle(
-                                                                                                          color: textAlertDialogColor
+                                                                                                          color: textAlertDialogColor,
+                                                                                                          backgroundColor: Colors.white
                                                                                                       ),
                                                                                                       border: const OutlineInputBorder(),
                                                                                                       enabledBorder: const OutlineInputBorder(
@@ -4348,7 +4401,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                       filled: true,
                                                                                                       fillColor: Colors.white,
                                                                                                       labelStyle: TextStyle(
-                                                                                                          color: textAlertDialogColor
+                                                                                                          color: textAlertDialogColor,
+                                                                                                          backgroundColor: Colors.white
                                                                                                       ),
                                                                                                       border: const OutlineInputBorder(),
                                                                                                       enabledBorder: const OutlineInputBorder(
@@ -4384,7 +4438,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                       filled: true,
                                                                                                       fillColor: Colors.white,
                                                                                                       labelStyle: TextStyle(
-                                                                                                          color: textAlertDialogColor
+                                                                                                          color: textAlertDialogColor,
+                                                                                                          backgroundColor: Colors.white
                                                                                                       ),
                                                                                                       border: const OutlineInputBorder(),
                                                                                                       enabledBorder: const OutlineInputBorder(
@@ -4420,7 +4475,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                       filled: true,
                                                                                                       fillColor: Colors.white,
                                                                                                       labelStyle: TextStyle(
-                                                                                                          color: textAlertDialogColor
+                                                                                                          color: textAlertDialogColor,
+                                                                                                          backgroundColor: Colors.white
                                                                                                       ),
                                                                                                       border: const OutlineInputBorder(),
                                                                                                       enabledBorder: const OutlineInputBorder(
@@ -4917,7 +4973,8 @@ class _homeAppState extends State<homeApp>{
                                                                           filled: true,
                                                                           fillColor: Colors.white,
                                                                           labelStyle: TextStyle(
-                                                                              color: textAlertDialogColor
+                                                                              color: textAlertDialogColor,
+                                                                              backgroundColor: Colors.white
                                                                           ),
                                                                           border: const OutlineInputBorder(),
                                                                           enabledBorder: const OutlineInputBorder(
@@ -4953,7 +5010,8 @@ class _homeAppState extends State<homeApp>{
                                                                           filled: true,
                                                                           fillColor: Colors.white,
                                                                           labelStyle: TextStyle(
-                                                                              color: textAlertDialogColor
+                                                                              color: textAlertDialogColor,
+                                                                              backgroundColor: Colors.white
                                                                           ),
                                                                           border: const OutlineInputBorder(),
                                                                           enabledBorder: const OutlineInputBorder(
@@ -4989,7 +5047,8 @@ class _homeAppState extends State<homeApp>{
                                                                           filled: true,
                                                                           fillColor: Colors.white,
                                                                           labelStyle: TextStyle(
-                                                                              color: textAlertDialogColor
+                                                                              color: textAlertDialogColor,
+                                                                              backgroundColor: Colors.white
                                                                           ),
                                                                           border: const OutlineInputBorder(),
                                                                           enabledBorder: const OutlineInputBorder(
@@ -5025,7 +5084,8 @@ class _homeAppState extends State<homeApp>{
                                                                           filled: true,
                                                                           fillColor: Colors.white,
                                                                           labelStyle: TextStyle(
-                                                                              color: textAlertDialogColor
+                                                                              color: textAlertDialogColor,
+                                                                              backgroundColor: Colors.white
                                                                           ),
                                                                           border: const OutlineInputBorder(),
                                                                           enabledBorder: const OutlineInputBorder(
@@ -5061,7 +5121,8 @@ class _homeAppState extends State<homeApp>{
                                                                           filled: true,
                                                                           fillColor: Colors.white,
                                                                           labelStyle: TextStyle(
-                                                                              color: textAlertDialogColor
+                                                                              color: textAlertDialogColor,
+                                                                              backgroundColor: Colors.white
                                                                           ),
                                                                           border: const OutlineInputBorder(),
                                                                           enabledBorder: const OutlineInputBorder(
@@ -5677,7 +5738,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                             filled: true,
                                                                                                             fillColor: Colors.white,
                                                                                                             labelStyle: TextStyle(
-                                                                                                                color: textAlertDialogColor
+                                                                                                                color: textAlertDialogColor,
+                                                                                                                backgroundColor: Colors.white
                                                                                                             ),
                                                                                                             border: const OutlineInputBorder(),
                                                                                                             enabledBorder: const OutlineInputBorder(
@@ -5713,7 +5775,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                             filled: true,
                                                                                                             fillColor: Colors.white,
                                                                                                             labelStyle: TextStyle(
-                                                                                                                color: textAlertDialogColor
+                                                                                                                color: textAlertDialogColor,
+                                                                                                                backgroundColor: Colors.white
                                                                                                             ),
                                                                                                             border: const OutlineInputBorder(),
                                                                                                             enabledBorder: const OutlineInputBorder(
@@ -5749,7 +5812,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                             filled: true,
                                                                                                             fillColor: Colors.white,
                                                                                                             labelStyle: TextStyle(
-                                                                                                                color: textAlertDialogColor
+                                                                                                                color: textAlertDialogColor,
+                                                                                                                backgroundColor: Colors.white
                                                                                                             ),
                                                                                                             border: const OutlineInputBorder(),
                                                                                                             enabledBorder: const OutlineInputBorder(
@@ -5785,7 +5849,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                             filled: true,
                                                                                                             fillColor: Colors.white,
                                                                                                             labelStyle: TextStyle(
-                                                                                                                color: textAlertDialogColor
+                                                                                                                color: textAlertDialogColor,
+                                                                                                                backgroundColor: Colors.white
                                                                                                             ),
                                                                                                             border: const OutlineInputBorder(),
                                                                                                             enabledBorder: const OutlineInputBorder(
@@ -5911,7 +5976,8 @@ class _homeAppState extends State<homeApp>{
                                                                                 filled: true,
                                                                                 fillColor: Colors.white,
                                                                                 labelStyle: TextStyle(
-                                                                                    color: textAlertDialogColor
+                                                                                    color: textAlertDialogColor,
+                                                                                    backgroundColor: Colors.white
                                                                                 ),
                                                                                 border: const OutlineInputBorder(),
                                                                                 enabledBorder: const OutlineInputBorder(
@@ -5947,7 +6013,8 @@ class _homeAppState extends State<homeApp>{
                                                                                 filled: true,
                                                                                 fillColor: Colors.white,
                                                                                 labelStyle: TextStyle(
-                                                                                    color: textAlertDialogColor
+                                                                                    color: textAlertDialogColor,
+                                                                                    backgroundColor: Colors.white
                                                                                 ),
                                                                                 border: const OutlineInputBorder(),
                                                                                 enabledBorder: const OutlineInputBorder(
@@ -5983,7 +6050,8 @@ class _homeAppState extends State<homeApp>{
                                                                                 filled: true,
                                                                                 fillColor: Colors.white,
                                                                                 labelStyle: TextStyle(
-                                                                                    color: textAlertDialogColor
+                                                                                    color: textAlertDialogColor,
+                                                                                    backgroundColor: Colors.white
                                                                                 ),
                                                                                 border: const OutlineInputBorder(),
                                                                                 enabledBorder: const OutlineInputBorder(
@@ -6019,7 +6087,8 @@ class _homeAppState extends State<homeApp>{
                                                                                 filled: true,
                                                                                 fillColor: Colors.white,
                                                                                 labelStyle: TextStyle(
-                                                                                    color: textAlertDialogColor
+                                                                                    color: textAlertDialogColor,
+                                                                                    backgroundColor: Colors.white
                                                                                 ),
                                                                                 border: const OutlineInputBorder(),
                                                                                 enabledBorder: const OutlineInputBorder(
@@ -6055,7 +6124,8 @@ class _homeAppState extends State<homeApp>{
                                                                                 filled: true,
                                                                                 fillColor: Colors.white,
                                                                                 labelStyle: TextStyle(
-                                                                                    color: textAlertDialogColor
+                                                                                    color: textAlertDialogColor,
+                                                                                    backgroundColor: Colors.white
                                                                                 ),
                                                                                 border: const OutlineInputBorder(),
                                                                                 enabledBorder: const OutlineInputBorder(
@@ -6091,7 +6161,8 @@ class _homeAppState extends State<homeApp>{
                                                                                 filled: true,
                                                                                 fillColor: Colors.white,
                                                                                 labelStyle: TextStyle(
-                                                                                    color: textAlertDialogColor
+                                                                                    color: textAlertDialogColor,
+                                                                                    backgroundColor: Colors.white
                                                                                 ),
                                                                                 border: const OutlineInputBorder(),
                                                                                 enabledBorder: const OutlineInputBorder(
@@ -6127,7 +6198,8 @@ class _homeAppState extends State<homeApp>{
                                                                                 filled: true,
                                                                                 fillColor: Colors.white,
                                                                                 labelStyle: TextStyle(
-                                                                                    color: textAlertDialogColor
+                                                                                    color: textAlertDialogColor,
+                                                                                    backgroundColor: Colors.white
                                                                                 ),
                                                                                 border: const OutlineInputBorder(),
                                                                                 enabledBorder: const OutlineInputBorder(
@@ -6163,7 +6235,8 @@ class _homeAppState extends State<homeApp>{
                                                                                 filled: true,
                                                                                 fillColor: Colors.white,
                                                                                 labelStyle: TextStyle(
-                                                                                    color: textAlertDialogColor
+                                                                                    color: textAlertDialogColor,
+                                                                                    backgroundColor: Colors.white
                                                                                 ),
                                                                                 border: const OutlineInputBorder(),
                                                                                 enabledBorder: const OutlineInputBorder(
@@ -6200,7 +6273,8 @@ class _homeAppState extends State<homeApp>{
                                                                               filled: true,
                                                                               fillColor: Colors.white,
                                                                               labelStyle: TextStyle(
-                                                                                  color: textAlertDialogColor
+                                                                                  color: textAlertDialogColor,
+                                                                                  backgroundColor: Colors.white
                                                                               ),
                                                                               border: const OutlineInputBorder(),
                                                                               enabledBorder: const OutlineInputBorder(
@@ -6301,7 +6375,8 @@ class _homeAppState extends State<homeApp>{
                                                                                     filled: true,
                                                                                     fillColor: Colors.white,
                                                                                     labelStyle: TextStyle(
-                                                                                        color: textAlertDialogColor
+                                                                                        color: textAlertDialogColor,
+                                                                                        backgroundColor: Colors.white
                                                                                     ),
                                                                                     border: const OutlineInputBorder(),
                                                                                     enabledBorder: const OutlineInputBorder(
@@ -6337,7 +6412,8 @@ class _homeAppState extends State<homeApp>{
                                                                                     filled: true,
                                                                                     fillColor: Colors.white,
                                                                                     labelStyle: TextStyle(
-                                                                                        color: textAlertDialogColor
+                                                                                        color: textAlertDialogColor,
+                                                                                        backgroundColor: Colors.white
                                                                                     ),
                                                                                     border: const OutlineInputBorder(),
                                                                                     enabledBorder: const OutlineInputBorder(
@@ -6373,7 +6449,8 @@ class _homeAppState extends State<homeApp>{
                                                                                     filled: true,
                                                                                     fillColor: Colors.white,
                                                                                     labelStyle: TextStyle(
-                                                                                        color: textAlertDialogColor
+                                                                                        color: textAlertDialogColor,
+                                                                                        backgroundColor: Colors.white
                                                                                     ),
                                                                                     border: const OutlineInputBorder(),
                                                                                     enabledBorder: const OutlineInputBorder(
@@ -6409,7 +6486,8 @@ class _homeAppState extends State<homeApp>{
                                                                                     filled: true,
                                                                                     fillColor: Colors.white,
                                                                                     labelStyle: TextStyle(
-                                                                                        color: textAlertDialogColor
+                                                                                        color: textAlertDialogColor,
+                                                                                        backgroundColor: Colors.white
                                                                                     ),
                                                                                     border: const OutlineInputBorder(),
                                                                                     enabledBorder: const OutlineInputBorder(
@@ -6879,7 +6957,8 @@ class _homeAppState extends State<homeApp>{
                                                                                           filled: true,
                                                                                           fillColor: Colors.white,
                                                                                           labelStyle: TextStyle(
-                                                                                              color: textAlertDialogColor
+                                                                                              color: textAlertDialogColor,
+                                                                                              backgroundColor: Colors.white
                                                                                           ),
                                                                                           border: const OutlineInputBorder(),
                                                                                           enabledBorder: const OutlineInputBorder(
@@ -6915,7 +6994,8 @@ class _homeAppState extends State<homeApp>{
                                                                                           filled: true,
                                                                                           fillColor: Colors.white,
                                                                                           labelStyle: TextStyle(
-                                                                                              color: textAlertDialogColor
+                                                                                              color: textAlertDialogColor,
+                                                                                              backgroundColor: Colors.white
                                                                                           ),
                                                                                           border: const OutlineInputBorder(),
                                                                                           enabledBorder: const OutlineInputBorder(
@@ -6951,7 +7031,8 @@ class _homeAppState extends State<homeApp>{
                                                                                           filled: true,
                                                                                           fillColor: Colors.white,
                                                                                           labelStyle: TextStyle(
-                                                                                              color: textAlertDialogColor
+                                                                                              color: textAlertDialogColor,
+                                                                                              backgroundColor: Colors.white
                                                                                           ),
                                                                                           border: const OutlineInputBorder(),
                                                                                           enabledBorder: const OutlineInputBorder(
@@ -6987,7 +7068,8 @@ class _homeAppState extends State<homeApp>{
                                                                                           filled: true,
                                                                                           fillColor: Colors.white,
                                                                                           labelStyle: TextStyle(
-                                                                                              color: textAlertDialogColor
+                                                                                              color: textAlertDialogColor,
+                                                                                              backgroundColor: Colors.white
                                                                                           ),
                                                                                           border: const OutlineInputBorder(),
                                                                                           enabledBorder: const OutlineInputBorder(
@@ -7023,7 +7105,8 @@ class _homeAppState extends State<homeApp>{
                                                                                           filled: true,
                                                                                           fillColor: Colors.white,
                                                                                           labelStyle: TextStyle(
-                                                                                              color: textAlertDialogColor
+                                                                                              color: textAlertDialogColor,
+                                                                                              backgroundColor: Colors.white
                                                                                           ),
                                                                                           border: const OutlineInputBorder(),
                                                                                           enabledBorder: const OutlineInputBorder(
@@ -7059,7 +7142,8 @@ class _homeAppState extends State<homeApp>{
                                                                                           filled: true,
                                                                                           fillColor: Colors.white,
                                                                                           labelStyle: TextStyle(
-                                                                                              color: textAlertDialogColor
+                                                                                              color: textAlertDialogColor,
+                                                                                              backgroundColor: Colors.white
                                                                                           ),
                                                                                           border: const OutlineInputBorder(),
                                                                                           enabledBorder: const OutlineInputBorder(
@@ -7095,7 +7179,8 @@ class _homeAppState extends State<homeApp>{
                                                                                           filled: true,
                                                                                           fillColor: Colors.white,
                                                                                           labelStyle: TextStyle(
-                                                                                              color: textAlertDialogColor
+                                                                                              color: textAlertDialogColor,
+                                                                                              backgroundColor: Colors.white
                                                                                           ),
                                                                                           border: const OutlineInputBorder(),
                                                                                           enabledBorder: const OutlineInputBorder(
@@ -7131,7 +7216,8 @@ class _homeAppState extends State<homeApp>{
                                                                                           filled: true,
                                                                                           fillColor: Colors.white,
                                                                                           labelStyle: TextStyle(
-                                                                                              color: textAlertDialogColor
+                                                                                              color: textAlertDialogColor,
+                                                                                              backgroundColor: Colors.white
                                                                                           ),
                                                                                           border: const OutlineInputBorder(),
                                                                                           enabledBorder: const OutlineInputBorder(
@@ -7167,7 +7253,8 @@ class _homeAppState extends State<homeApp>{
                                                                                           filled: true,
                                                                                           fillColor: Colors.white,
                                                                                           labelStyle: TextStyle(
-                                                                                              color: textAlertDialogColor
+                                                                                              color: textAlertDialogColor,
+                                                                                              backgroundColor: Colors.white
                                                                                           ),
                                                                                           border: const OutlineInputBorder(),
                                                                                           enabledBorder: const OutlineInputBorder(
@@ -7203,7 +7290,8 @@ class _homeAppState extends State<homeApp>{
                                                                                           filled: true,
                                                                                           fillColor: Colors.white,
                                                                                           labelStyle: TextStyle(
-                                                                                              color: textAlertDialogColor
+                                                                                              color: textAlertDialogColor,
+                                                                                              backgroundColor: Colors.white
                                                                                           ),
                                                                                           border: const OutlineInputBorder(),
                                                                                           enabledBorder: const OutlineInputBorder(
@@ -7303,7 +7391,8 @@ class _homeAppState extends State<homeApp>{
                                                                                         filled: true,
                                                                                         fillColor: Colors.white,
                                                                                         labelStyle: TextStyle(
-                                                                                            color: textAlertDialogColor
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
                                                                                         ),
                                                                                         border: const OutlineInputBorder(),
                                                                                         enabledBorder: const OutlineInputBorder(
@@ -7855,7 +7944,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                 filled: true,
                                                                                                 fillColor: Colors.white,
                                                                                                 labelStyle: TextStyle(
-                                                                                                    color: textAlertDialogColor
+                                                                                                    color: textAlertDialogColor,
+                                                                                                    backgroundColor: Colors.white
                                                                                                 ),
                                                                                                 border: const OutlineInputBorder(),
                                                                                                 enabledBorder: const OutlineInputBorder(
@@ -7891,7 +7981,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                 filled: true,
                                                                                                 fillColor: Colors.white,
                                                                                                 labelStyle: TextStyle(
-                                                                                                    color: textAlertDialogColor
+                                                                                                    color: textAlertDialogColor,
+                                                                                                    backgroundColor: Colors.white
                                                                                                 ),
                                                                                                 border: const OutlineInputBorder(),
                                                                                                 enabledBorder: const OutlineInputBorder(
@@ -7927,7 +8018,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                 filled: true,
                                                                                                 fillColor: Colors.white,
                                                                                                 labelStyle: TextStyle(
-                                                                                                    color: textAlertDialogColor
+                                                                                                    color: textAlertDialogColor,
+                                                                                                    backgroundColor: Colors.white
                                                                                                 ),
                                                                                                 border: const OutlineInputBorder(),
                                                                                                 enabledBorder: const OutlineInputBorder(
@@ -7963,7 +8055,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                 filled: true,
                                                                                                 fillColor: Colors.white,
                                                                                                 labelStyle: TextStyle(
-                                                                                                    color: textAlertDialogColor
+                                                                                                    color: textAlertDialogColor,
+                                                                                                    backgroundColor: Colors.white
                                                                                                 ),
                                                                                                 border: const OutlineInputBorder(),
                                                                                                 enabledBorder: const OutlineInputBorder(
@@ -7999,7 +8092,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                 filled: true,
                                                                                                 fillColor: Colors.white,
                                                                                                 labelStyle: TextStyle(
-                                                                                                    color: textAlertDialogColor
+                                                                                                    color: textAlertDialogColor,
+                                                                                                    backgroundColor: Colors.white
                                                                                                 ),
                                                                                                 border: const OutlineInputBorder(),
                                                                                                 enabledBorder: const OutlineInputBorder(
@@ -8035,7 +8129,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                 filled: true,
                                                                                                 fillColor: Colors.white,
                                                                                                 labelStyle: TextStyle(
-                                                                                                    color: textAlertDialogColor
+                                                                                                    color: textAlertDialogColor,
+                                                                                                    backgroundColor: Colors.white
                                                                                                 ),
                                                                                                 border: const OutlineInputBorder(),
                                                                                                 enabledBorder: const OutlineInputBorder(
