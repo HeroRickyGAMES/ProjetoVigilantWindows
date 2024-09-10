@@ -1448,7 +1448,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             },
                                                                                           );
                                                                                         },
-                                                                                            icon: Icon(
+                                                                                            icon: const Icon(
                                                                                                 color: Colors.white,
                                                                                                 Icons.info
                                                                                             )
