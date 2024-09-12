@@ -59,6 +59,7 @@ dependencies:
   archive: ^3.6.1
   crypto: ^3.0.5
   fluid_kit: ^3.0.0
+  path_provider: ^2.1.4
 
 dependency_overrides:
   dart_vlc_ffi:
@@ -124,6 +125,8 @@ flutter:
     - assets/pedestre02.png
     - assets/door.png
     - assets/garagem.png
+    - assets/greenOpacity.png
+    - assets/transparent.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

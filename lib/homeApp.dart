@@ -1344,8 +1344,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                 );
                                                                                               },
                                                                                             );
-
-                                                                                            //TODO abrir uma janela para edição das informações do condominio!
                                                                                           }
                                                                                           if(action == "remover_condominio"){
                                                                                             FirebaseFirestore.instance.collection("Condominios").doc(documents["idCondominio"]).delete().whenComplete((){
@@ -1381,7 +1379,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               foreground: Paint()
                                                                                                 ..style = PaintingStyle.stroke
                                                                                                 ..strokeWidth = 4
-                                                                                                ..color = Colors.blue,
+                                                                                                ..color = (idCondominio == documents['idCondominio'] ? Colors.blue[900] : Colors.blue)!,
                                                                                             ),
                                                                                           ),
                                                                                           //Texto normal
@@ -5420,27 +5418,24 @@ class _homeAppState extends State<homeApp>{
                                                                           CelularMorador = documents["celular"];
                                                                         });
                                                                       },
-                                                                      child: Container(
-                                                                        padding: const EdgeInsets.all(16),
-                                                                        child: SizedBox(
-                                                                          width: double.infinity,
-                                                                          height: 50,
-                                                                          child: Column(
-                                                                            children: [
-                                                                              Text(
-                                                                                "Nome: ${documents['Nome']}",
-                                                                                style: TextStyle(
-                                                                                    color: textColorInitBlue
-                                                                                ),
+                                                                      child: SizedBox(
+                                                                        width: double.infinity,
+                                                                        height: 50,
+                                                                        child: Column(
+                                                                          children: [
+                                                                            Text(
+                                                                              "Nome: ${documents['Nome']}",
+                                                                              style: TextStyle(
+                                                                                  color: textColorInitBlue
                                                                               ),
-                                                                              Text(
-                                                                                "CPF: ${documents['CPF']}",
-                                                                                style: TextStyle(
-                                                                                    color: textColorInitBlue
-                                                                                ),
+                                                                            ),
+                                                                            Text(
+                                                                              "CPF: ${documents['CPF']}",
+                                                                              style: TextStyle(
+                                                                                  color: textColorInitBlue
                                                                               ),
-                                                                            ],
-                                                                          ),
+                                                                            ),
+                                                                          ],
                                                                         ),
                                                                       ),
                                                                     );
@@ -5452,10 +5447,9 @@ class _homeAppState extends State<homeApp>{
                                                         ),
                                                       ),
                                                       moradorselecionado == true ?
-                                                      Stack(
+                                                      Column(
                                                         children: [
                                                           Container(
-                                                            padding: const EdgeInsets.all(16),
                                                             alignment: Alignment.centerRight,
                                                             child: TextButton(
                                                               onPressed: (){
@@ -5479,120 +5473,116 @@ class _homeAppState extends State<homeApp>{
                                                               ),
                                                             ),
                                                           ),
-                                                          Column(
+                                                          Fluid(
                                                             children: [
-                                                              Fluid(
-                                                                children: [
-                                                                  Fluidable(
-                                                                    fluid: 1,
-                                                                    minWidth: 100,
-                                                                    child: imageURLMorador != ""?
-                                                                    Container(
-                                                                        padding: const EdgeInsets.all(8),
-                                                                        child: Image.network(
-                                                                            height: 100,
-                                                                            width: 100,
-                                                                            imageURLMorador
-                                                                        )
-                                                                    ): Container(
-                                                                        alignment: Alignment.center,
-                                                                        padding: const EdgeInsets.all(8),
-                                                                        child: const Text(
-                                                                          "Nenhuma imagem encontrada!",
-                                                                          textAlign: TextAlign.center,
-                                                                        )
-                                                                    ),
-                                                                  ),
-                                                                  Fluidable(
-                                                                    fluid: 1,
-                                                                    minWidth: 200,
-                                                                    child: Center(
-                                                                      child: Column(
-                                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                                        children: [
-                                                                          Container(
-                                                                              padding: const EdgeInsets.all(8),
-                                                                              child: Text("Nome: $NomeMorador")
-                                                                          ),
-                                                                          Container(
-                                                                              padding: const EdgeInsets.all(8),
-                                                                              child: Text("RG: $RGMorador")
-                                                                          ),
-                                                                          Container(
-                                                                              padding: const EdgeInsets.all(8),
-                                                                              child: Text("CPF: $CPFMorador",)
-                                                                          ),
-                                                                          Container(
-                                                                              padding: const EdgeInsets.all(8),
-                                                                              child: Text("Unidade: $UnidadeMorador")
-                                                                          ),
-                                                                          Container(
-                                                                              padding: const EdgeInsets.all(8),
-                                                                              child: Text("Bloco: $BlocoMorador")
-                                                                          ),
-                                                                          Container(
-                                                                              padding: const EdgeInsets.all(8),
-                                                                              child: Text("Telefone: $TelefoneMorador")
-                                                                          ),
-                                                                          Container(
-                                                                              padding: const EdgeInsets.all(8),
-                                                                              child: Text("Celular: $CelularMorador")
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              Container(
-                                                                padding: const EdgeInsets.all(16),
-                                                                child: TextField(
-                                                                  keyboardType: TextInputType.multiline,
-                                                                  enableSuggestions: true,
-                                                                  autocorrect: true,
-                                                                  minLines: 5,
-                                                                  maxLines: null,
-                                                                  controller: anotacaoControl,
-                                                                  onChanged: (value){
-                                                                    setStater(() {
-                                                                      anotacaoMorador = value;
-                                                                    });
-                                                                  },
-                                                                  decoration: const InputDecoration(
-                                                                    border: OutlineInputBorder(),
-                                                                    enabledBorder: OutlineInputBorder(
-                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                    ),
-                                                                    focusedBorder: OutlineInputBorder(
-                                                                      borderSide: BorderSide(
-                                                                          width: 3,
-                                                                          color: Colors.black
-                                                                      ),
-                                                                    ),
-                                                                    labelText: 'Anotação',
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                padding: const EdgeInsets.all(16),
-                                                                child: ElevatedButton(
-                                                                    onPressed: (){
-                                                                      FirebaseFirestore.instance.collection('Pessoas').doc(MoradorId).update({
-                                                                        "anotacao": anotacaoMorador
-                                                                      });
-                                                                    },style: ElevatedButton.styleFrom(
-                                                                    backgroundColor: colorBtn
-                                                                ),
-                                                                    child: Text(
-                                                                      "Salvar anotação",
-                                                                      style: TextStyle(
-                                                                          color: textColor
-                                                                      ),
+                                                              Fluidable(
+                                                                fluid: 1,
+                                                                minWidth: 100,
+                                                                child: imageURLMorador != ""?
+                                                                Container(
+                                                                    padding: const EdgeInsets.all(8),
+                                                                    child: Image.network(
+                                                                        height: 100,
+                                                                        width: 100,
+                                                                        imageURLMorador
+                                                                    )
+                                                                ): Container(
+                                                                    alignment: Alignment.center,
+                                                                    padding: const EdgeInsets.all(8),
+                                                                    child: const Text(
+                                                                      "Nenhuma imagem encontrada!",
+                                                                      textAlign: TextAlign.center,
                                                                     )
                                                                 ),
                                                               ),
+                                                              Fluidable(
+                                                                fluid: 1,
+                                                                minWidth: 200,
+                                                                child: Center(
+                                                                  child: Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    children: [
+                                                                      Container(
+                                                                          padding: const EdgeInsets.all(8),
+                                                                          child: Text("Nome: $NomeMorador", textAlign: TextAlign.start,)
+                                                                      ),
+                                                                      Container(
+                                                                          padding: const EdgeInsets.all(8),
+                                                                          child: Text("RG: $RGMorador")
+                                                                      ),
+                                                                      Container(
+                                                                          padding: const EdgeInsets.all(8),
+                                                                          child: Text("CPF: $CPFMorador",)
+                                                                      ),
+                                                                      Container(
+                                                                          padding: const EdgeInsets.all(8),
+                                                                          child: Text("Unidade: $UnidadeMorador")
+                                                                      ),
+                                                                      Container(
+                                                                          padding: const EdgeInsets.all(8),
+                                                                          child: Text("Bloco: $BlocoMorador")
+                                                                      ),
+                                                                      Container(
+                                                                          padding: const EdgeInsets.all(8),
+                                                                          child: Text("Telefone: $TelefoneMorador")
+                                                                      ),
+                                                                      Container(
+                                                                          padding: const EdgeInsets.all(8),
+                                                                          child: Text("Celular: $CelularMorador")
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
                                                             ],
+                                                          ),
+                                                          Container(
+                                                            padding: const EdgeInsets.all(16),
+                                                            child: TextField(
+                                                              keyboardType: TextInputType.multiline,
+                                                              enableSuggestions: true,
+                                                              autocorrect: true,
+                                                              minLines: 5,
+                                                              maxLines: null,
+                                                              controller: anotacaoControl,
+                                                              onChanged: (value){
+                                                                setStater(() {
+                                                                  anotacaoMorador = value;
+                                                                });
+                                                              },
+                                                              decoration: const InputDecoration(
+                                                                border: OutlineInputBorder(),
+                                                                enabledBorder: OutlineInputBorder(
+                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                ),
+                                                                focusedBorder: OutlineInputBorder(
+                                                                  borderSide: BorderSide(
+                                                                      width: 3,
+                                                                      color: Colors.black
+                                                                  ),
+                                                                ),
+                                                                labelText: 'Anotação',
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            padding: const EdgeInsets.all(16),
+                                                            child: ElevatedButton(
+                                                                onPressed: (){
+                                                                  FirebaseFirestore.instance.collection('Pessoas').doc(MoradorId).update({
+                                                                    "anotacao": anotacaoMorador
+                                                                  });
+                                                                },style: ElevatedButton.styleFrom(
+                                                                backgroundColor: colorBtn
+                                                            ),
+                                                                child: Text(
+                                                                  "Salvar anotação",
+                                                                  style: TextStyle(
+                                                                      color: textColor
+                                                                  ),
+                                                                )
+                                                            ),
                                                           ),
                                                         ],
                                                       ): Container(),
@@ -5785,28 +5775,81 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             child: TextButton(
                                                                                                                                 onPressed: () async {
 
+                                                                                                                                  showDialog(
+                                                                                                                                    context: context,
+                                                                                                                                    builder: (BuildContext context) {
+                                                                                                                                      return const AlertDialog(
+                                                                                                                                        title: Text('Aguarde!'),
+                                                                                                                                        actions: [
+                                                                                                                                          Center(
+                                                                                                                                            child: CircularProgressIndicator(),
+                                                                                                                                          )
+                                                                                                                                        ],
+                                                                                                                                      );
+                                                                                                                                    },
+                                                                                                                                  );
+
                                                                                                                                   Map<String, dynamic> usuarios = await pushPessoas(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], "Control iD");
 
+                                                                                                                                  String ImageURL = "";
+
                                                                                                                                   int lent = usuarios['users'].length - 1;
+
                                                                                                                                   for (int i = 0; i < lent; i++) {
-                                                                                                                                    FirebaseFirestore.instance.collection('Pessoas').doc("${usuarios['users'][i]["id"]}").set({
-                                                                                                                                      "id": "${usuarios['users'][i]["id"]}",
-                                                                                                                                      "idCondominio": idCondominio,
-                                                                                                                                      "Nome": usuarios['users'][i]["name"],
-                                                                                                                                      "CPF": "",
-                                                                                                                                      "RG": "",
-                                                                                                                                      "imageURI": "",
-                                                                                                                                      "placa": "",
-                                                                                                                                      "Unidade":"",
-                                                                                                                                      "Bloco": "",
-                                                                                                                                      "Telefone": "",
-                                                                                                                                      "Celular": "",
-                                                                                                                                      "anotacao": "",
-                                                                                                                                      "telefone": '',
-                                                                                                                                      "celular": '',
-                                                                                                                                      "Qualificacao": '',
-                                                                                                                                    });
+
+                                                                                                                                    cadastrarPs(){
+                                                                                                                                      FirebaseFirestore.instance.collection('Pessoas').doc("${usuarios['users'][i]["id"]}").set({
+                                                                                                                                        "id": "${usuarios['users'][i]["id"]}",
+                                                                                                                                        "idCondominio": idCondominio,
+                                                                                                                                        "Nome": usuarios['users'][i]["name"],
+                                                                                                                                        "CPF": "",
+                                                                                                                                        "RG": "",
+                                                                                                                                        "imageURI": ImageURL,
+                                                                                                                                        "placa": "",
+                                                                                                                                        "Unidade":"",
+                                                                                                                                        "Bloco": "",
+                                                                                                                                        "Telefone": "",
+                                                                                                                                        "Celular": "",
+                                                                                                                                        "anotacao": "",
+                                                                                                                                        "telefone": '',
+                                                                                                                                        "celular": '',
+                                                                                                                                        "Qualificacao": '',
+                                                                                                                                      });
+                                                                                                                                    }
+
+                                                                                                                                    cadastrarSemFoto(){
+                                                                                                                                      FirebaseFirestore.instance.collection('Pessoas').doc("${usuarios['users'][i]["id"]}").set({
+                                                                                                                                        "id": "${usuarios['users'][i]["id"]}",
+                                                                                                                                        "idCondominio": idCondominio,
+                                                                                                                                        "Nome": usuarios['users'][i]["name"],
+                                                                                                                                        "CPF": "",
+                                                                                                                                        "RG": "",
+                                                                                                                                        "imageURI": '',
+                                                                                                                                        "placa": "",
+                                                                                                                                        "Unidade":"",
+                                                                                                                                        "Bloco": "",
+                                                                                                                                        "Telefone": "",
+                                                                                                                                        "Celular": "",
+                                                                                                                                        "anotacao": "",
+                                                                                                                                        "telefone": '',
+                                                                                                                                        "celular": '',
+                                                                                                                                        "Qualificacao": '',
+                                                                                                                                      });
+                                                                                                                                    }
+
+                                                                                                                                    File image;
+
+                                                                                                                                    if(await ImagemEquipamentoCotroliD(documents['ip'], documents['porta'], usuarios['Season'], usuarios['users'][i]["id"]) == null){
+                                                                                                                                      cadastrarSemFoto();
+                                                                                                                                    }else{
+                                                                                                                                      image = await ImagemEquipamentoCotroliD(documents['ip'], documents['porta'], usuarios['Season'], usuarios['users'][i]["id"]);
+
+                                                                                                                                      ImageURL = await carregarImagem(context, image, "$i", idCondominio);
+                                                                                                                                      cadastrarPs();
+
+                                                                                                                                    }
                                                                                                                                   }
+                                                                                                                                  Navigator.pop(context);
                                                                                                                                   Navigator.pop(context);
                                                                                                                                   Navigator.pop(context);
                                                                                                                                   showToast("Importado com sucesso!", context: context);

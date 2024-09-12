@@ -41,5 +41,5 @@ carregarImagem(var context, File _imagefile, String ID, String idCondominio) asy
     showToast("Houve uma falha no carregamento! codigo do erro: $e",context:context);
     showToast("Repasse esse erro para o desenvolvedor!",context:context);
   });
-  return ref;
+  return ref.getDownloadURL();
 }
