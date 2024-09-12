@@ -5405,6 +5405,7 @@ class _homeAppState extends State<homeApp>{
                                                                     return InkWell(
                                                                       onTap: (){
                                                                         setStater(() {
+                                                                          moradorselecionado = false;
                                                                           moradorselecionado = true;
                                                                           NomeMorador = documents["Nome"];
                                                                           RGMorador = documents["RG"];
