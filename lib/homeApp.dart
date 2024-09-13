@@ -5421,20 +5421,83 @@ class _homeAppState extends State<homeApp>{
                                                                       child: SizedBox(
                                                                         width: double.infinity,
                                                                         height: 50,
-                                                                        child: Column(
+                                                                        child: Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                           children: [
-                                                                            Text(
-                                                                              "Nome: ${documents['Nome']}",
-                                                                              style: TextStyle(
-                                                                                  color: textColorInitBlue
+                                                                            Container(
+                                                                              padding: const EdgeInsets.only(left: 10),
+                                                                              child: Text(
+                                                                                "Nome: ${documents['Nome']}"
+                                                                                    "\nCPF: ${documents['CPF']}",
+                                                                                style: documents['Nome'].length >= 25 ? TextStyle(
+                                                                                    color: textColorInitBlue,
+                                                                                    fontSize: 11,
+                                                                                    fontWeight: FontWeight.bold
+                                                                                ): TextStyle(
+                                                                                    color: textColorInitBlue,
+                                                                                    fontSize: 14
+                                                                                ),
                                                                               ),
                                                                             ),
-                                                                            Text(
-                                                                              "CPF: ${documents['CPF']}",
-                                                                              style: TextStyle(
-                                                                                  color: textColorInitBlue
+                                                                            adicionarMoradores == true ?
+                                                                            Container(
+                                                                              padding: const EdgeInsets.all(10),
+                                                                              child: TextButton(
+                                                                                onPressed: (){
+                                                                                  showDialog(
+                                                                                    context: context,
+                                                                                    builder: (BuildContext context) {
+                                                                                      return AlertDialog(
+                                                                                        title: const Text('Você tem certeza que deseja\nremover esse morador?'),
+                                                                                        actions: [
+                                                                                          Column(
+                                                                                            children: [
+                                                                                              Container(
+                                                                                                padding: const EdgeInsets.all(3),
+                                                                                                child: Column(
+                                                                                                  children: [
+                                                                                                    Text("Nome: ${documents['Nome']}"),
+                                                                                                    Text("CPF: ${documents['CPF']}"),
+                                                                                                  ],
+                                                                                                ),
+                                                                                              ),
+                                                                                              Container(
+                                                                                                padding: const EdgeInsets.all(3),
+                                                                                                child: Row(
+                                                                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                                  children: [
+                                                                                                    ElevatedButton(
+                                                                                                        onPressed: (){
+                                                                                                            Navigator.pop(context);
+                                                                                                        },
+                                                                                                        child: const Text('Não')
+                                                                                                    ),
+                                                                                                    ElevatedButton(
+                                                                                                        onPressed: (){
+                                                                                                          FirebaseFirestore.instance.collection('Pessoas').doc(documents['id']).delete().whenComplete((){
+                                                                                                            Navigator.pop(context);
+                                                                                                            showToast("Deletado com sucesso!", context: context);
+                                                                                                            }
+                                                                                                          );
+                                                                                                      },
+                                                                                                        child: const Text('Sim')
+                                                                                                    )
+                                                                                                  ],
+                                                                                                ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          )
+                                                                                        ],
+                                                                                      );
+                                                                                    },
+                                                                                  );
+                                                                                },
+                                                                                child: const Icon(
+                                                                                  Icons.delete,
+                                                                                  color: Colors.red
+                                                                                ),
                                                                               ),
-                                                                            ),
+                                                                            ) : Container()
                                                                           ],
                                                                         ),
                                                                       ),
