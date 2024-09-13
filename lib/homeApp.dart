@@ -79,6 +79,7 @@ bool pesquisando8  = false;
 bool pesquisando9  = false;
 bool pesquisando10  = false;
 bool showSearchBar = false;
+bool showSearchBar2 = false;
 
 //Booleanos de controle dos usuarios
 bool AdicionarCondominios = false;
@@ -5337,59 +5338,242 @@ class _homeAppState extends State<homeApp>{
                                                                             color: Colors.black
                                                                         ),
                                                                       ),
-                                                                      Container(
-                                                                          alignment: AlignmentDirectional.centerEnd,
-                                                                          child: TextButton(
-                                                                            onPressed: () async {
-
-                                                                              if(pesquisa2 == ""){
-                                                                                setStater(() {
-                                                                                  pesquisando2 = false;
-                                                                                  pesquisaCPF = false;
-                                                                                });
-                                                                              }else{
-                                                                                //Pesquisa de nomes;
-                                                                                QuerySnapshot snapshotNome = await FirebaseFirestore.instance.collection("Pessoas")
-                                                                                    .where("idCondominio", isEqualTo: idCondominio)
-                                                                                    .where("Nome", isGreaterThanOrEqualTo: pesquisa2)
-                                                                                    .where("Nome", isLessThan: "${pesquisa2}z")
-                                                                                    .get();
-
-                                                                                if(snapshotNome.docs.isNotEmpty){
-                                                                                  for (var doc in snapshotNome.docs) {
-                                                                                    //Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-                                                                                    //print("Dados: $data");
-
+                                                                      Stack(
+                                                                        children: [
+                                                                          Container(
+                                                                              alignment: AlignmentDirectional.centerEnd,
+                                                                              child: TextButton(
+                                                                                onPressed: (){
+                                                                                  if(showSearchBar2 == true){
                                                                                     setStater((){
-                                                                                      pesquisando2 = true;
+                                                                                      showSearchBar2 = false;
+                                                                                    });
+                                                                                  }else{
+                                                                                    setStater((){
+                                                                                      showSearchBar2 = true;
                                                                                     });
                                                                                   }
-                                                                                }
+                                                                                },
+                                                                                child: Center(
+                                                                                  child: Center(
+                                                                                    child: Stack(
+                                                                                      children: [
+                                                                                        Container(
+                                                                                          height: 50,
+                                                                                          color: Colors.white,
+                                                                                        ),
+                                                                                        Container(
+                                                                                          alignment: Alignment.centerRight,
+                                                                                          child: TextButton(
+                                                                                              onPressed: null,
+                                                                                              child: Image.asset(
+                                                                                                  "assets/search.png",
+                                                                                                  scale: 14
+                                                                                              )
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                          ),
+                                                                          showSearchBar2 == true ? Center(
+                                                                            child: Stack(
+                                                                              children: [
+                                                                                Column(
+                                                                                  children: [
+                                                                                    Container(
+                                                                                      padding: const EdgeInsets.all(2),
+                                                                                      child: Stack(
+                                                                                        children: [
+                                                                                          TextField(
+                                                                                            cursorColor: Colors.black,
+                                                                                            keyboardType: TextInputType.name,
+                                                                                            enableSuggestions: true,
+                                                                                            autocorrect: true,
+                                                                                            onChanged: (value){
+                                                                                              pesquisa2 = value;
 
-                                                                                //Pesquisa CPF
-                                                                                QuerySnapshot snapshotCPF = await FirebaseFirestore.instance.collection("Pessoas")
-                                                                                    .where("idCondominio", isEqualTo: idCondominio)
-                                                                                    .where("CPF", isGreaterThanOrEqualTo: pesquisa2)
-                                                                                    .where("CPF", isLessThan: "${pesquisa2}z")
-                                                                                    .get();
+                                                                                              if(value == ""){
+                                                                                                setStater(() {
+                                                                                                  pesquisando2 = false;
+                                                                                                  pesquisaCPF = false;
+                                                                                                });
+                                                                                              }
+                                                                                            },
+                                                                                            decoration: const InputDecoration(
+                                                                                                filled: true,
+                                                                                                fillColor: Colors.white,
+                                                                                                border: OutlineInputBorder(),
+                                                                                                enabledBorder: OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(width: 3, color: Colors.white), //<-- SEE HERE
+                                                                                                ),
+                                                                                                focusedBorder: OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(
+                                                                                                      width: 3,
+                                                                                                      color: Colors.black
+                                                                                                  ),
+                                                                                                ),
+                                                                                                label: Text(
+                                                                                                  'Nome',
+                                                                                                  style: TextStyle(
+                                                                                                      color: Colors.black,
+                                                                                                      backgroundColor: Colors.white
+                                                                                                  ),
+                                                                                                )
+                                                                                            ),
+                                                                                            style: const TextStyle(
+                                                                                                color: Colors.black
+                                                                                            ),
+                                                                                          ),
+                                                                                          Container(
+                                                                                              alignment: AlignmentDirectional.centerEnd,
+                                                                                              padding: const EdgeInsets.only(right: 35),
+                                                                                              child: TextButton(
+                                                                                                onPressed: () async {
 
-                                                                                if(snapshotCPF.docs.isNotEmpty){
-                                                                                  for (var doc in snapshotCPF.docs) {
-                                                                                    //Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-                                                                                    //print("Dados: $data");
+                                                                                                  if(pesquisa2 == ""){
+                                                                                                    setStater(() {
+                                                                                                      pesquisando2 = false;
+                                                                                                      pesquisaCPF = false;
+                                                                                                    });
+                                                                                                  }else{
+                                                                                                    //Pesquisa de nomes;
+                                                                                                    QuerySnapshot snapshotNome = await FirebaseFirestore.instance.collection("Pessoas")
+                                                                                                        .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                        .where("Nome", isGreaterThanOrEqualTo: pesquisa2)
+                                                                                                        .where("Nome", isLessThan: "${pesquisa2}z")
+                                                                                                        .get();
 
-                                                                                    setStater((){
-                                                                                      pesquisaCPF = true;
-                                                                                    });
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            },
-                                                                            child: Image.asset(
-                                                                                "assets/search.png",
-                                                                                scale: 14
+                                                                                                    if(snapshotNome.docs.isNotEmpty){
+                                                                                                      for (var doc in snapshotNome.docs) {
+                                                                                                        //Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+                                                                                                        //print("Dados: $data");
+
+                                                                                                        setStater((){
+                                                                                                          pesquisando2 = true;
+                                                                                                        });
+                                                                                                      }
+                                                                                                    }
+                                                                                                  }
+                                                                                                },
+                                                                                                child: Image.asset(
+                                                                                                    "assets/search.png",
+                                                                                                    scale: 14
+                                                                                                ),
+                                                                                              )
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                    Container(
+                                                                                      padding: const EdgeInsets.all(2),
+                                                                                      child: Stack(
+                                                                                        children: [
+                                                                                          TextField(
+                                                                                            cursorColor: Colors.black,
+                                                                                            keyboardType: TextInputType.name,
+                                                                                            enableSuggestions: true,
+                                                                                            autocorrect: true,
+                                                                                            onChanged: (value){
+                                                                                              pesquisa2 = value;
+
+                                                                                              if(value == ""){
+                                                                                                setStater(() {
+                                                                                                  pesquisando2 = false;
+                                                                                                  pesquisaCPF = false;
+                                                                                                });
+                                                                                              }
+                                                                                            },
+                                                                                            decoration: const InputDecoration(
+                                                                                                filled: true,
+                                                                                                fillColor: Colors.white,
+                                                                                                border: OutlineInputBorder(),
+                                                                                                enabledBorder: OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(width: 3, color: Colors.white), //<-- SEE HERE
+                                                                                                ),
+                                                                                                focusedBorder: OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(
+                                                                                                      width: 3,
+                                                                                                      color: Colors.black
+                                                                                                  ),
+                                                                                                ),
+                                                                                                label: Text(
+                                                                                                  'CPF',
+                                                                                                  style: TextStyle(
+                                                                                                      color: Colors.black,
+                                                                                                      backgroundColor: Colors.white
+                                                                                                  ),
+                                                                                                )
+                                                                                            ),
+                                                                                            style: const TextStyle(
+                                                                                                color: Colors.black
+                                                                                            ),
+                                                                                          ),
+                                                                                          Container(
+                                                                                              alignment: AlignmentDirectional.centerEnd,
+                                                                                              padding: const EdgeInsets.only(right: 35),
+                                                                                              child: TextButton(
+                                                                                                onPressed: () async {
+
+                                                                                                  if(pesquisa2 == ""){
+                                                                                                    setStater(() {
+                                                                                                      pesquisando2 = false;
+                                                                                                      pesquisaCPF = false;
+                                                                                                    });
+                                                                                                  }else{
+                                                                                                    //Pesquisa CPF
+                                                                                                    QuerySnapshot snapshotCPF = await FirebaseFirestore.instance.collection("Pessoas")
+                                                                                                        .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                        .where("CPF", isGreaterThanOrEqualTo: pesquisa2)
+                                                                                                        .where("CPF", isLessThan: "${pesquisa2}z")
+                                                                                                        .get();
+
+                                                                                                    if(snapshotCPF.docs.isNotEmpty){
+                                                                                                      for (var doc in snapshotCPF.docs) {
+                                                                                                        //Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+                                                                                                        //print("Dados: $data");
+
+                                                                                                        setStater((){
+                                                                                                          pesquisaCPF = true;
+                                                                                                        });
+                                                                                                      }
+                                                                                                    }
+                                                                                                  }
+                                                                                                },
+                                                                                                child: Image.asset(
+                                                                                                    "assets/search.png",
+                                                                                                    scale: 14
+                                                                                                ),
+                                                                                              )
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                                Container(
+                                                                                  alignment: Alignment.topRight,
+                                                                                  child: TextButton(
+                                                                                    onPressed: (){
+                                                                                      showSearchBar2 = true;
+                                                                                      if(showSearchBar2 == true){
+                                                                                        setStater((){
+                                                                                          showSearchBar2 = false;
+                                                                                        });
+                                                                                      }
+                                                                                    },
+                                                                                    child: const Icon(
+                                                                                        Icons.close,
+                                                                                        color: Colors.black
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
                                                                             ),
-                                                                          )
+                                                                          ) : Container(),
+                                                                        ],
                                                                       ),
                                                                     ],
                                                                   ),
@@ -5402,21 +5586,169 @@ class _homeAppState extends State<homeApp>{
                                                                   children: snapshot.data!.docs.map((documents){
                                                                     return InkWell(
                                                                       onTap: (){
-                                                                        setStater(() {
-                                                                          moradorselecionado = false;
-                                                                          moradorselecionado = true;
-                                                                          NomeMorador = documents["Nome"];
-                                                                          RGMorador = documents["RG"];
-                                                                          CPFMorador = documents["CPF"];
-                                                                          imageURLMorador = documents["imageURI"];
-                                                                          anotacaoMorador = documents["anotacao"];
-                                                                          anotacaoControl.text = anotacaoMorador;
-                                                                          MoradorId = documents["id"];
-                                                                          UnidadeMorador = documents["Unidade"];
-                                                                          BlocoMorador = documents["Bloco"];
-                                                                          TelefoneMorador = documents["telefone"];
-                                                                          CelularMorador = documents["celular"];
-                                                                        });
+                                                                        showDialog(
+                                                                          context: context,
+                                                                          builder: (BuildContext context) {
+                                                                            return Center(
+                                                                              child: Dialog(
+                                                                                child: Stack(
+                                                                                  children: [
+                                                                                    Positioned.fill(
+                                                                                      child: ClipRRect(
+                                                                                        borderRadius: BorderRadius.circular(10),
+                                                                                        child: Image.asset(
+                                                                                          "assets/FundoMetalPreto.jpg",
+                                                                                          fit: BoxFit.fill,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    SizedBox(
+                                                                                        width: 600,
+                                                                                        height: 550,
+                                                                                        child: SingleChildScrollView(
+                                                                                          child: Column(
+                                                                                            children: [
+                                                                                              Row(
+                                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                children: [
+                                                                                                  Container(
+                                                                                                    padding: const EdgeInsets.all(16),
+                                                                                                    child: const Text(
+                                                                                                      'Informações do usuario',
+                                                                                                      style: TextStyle(
+                                                                                                          fontSize: 25,
+                                                                                                          fontWeight: FontWeight.bold
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  SizedBox(
+                                                                                                      width: 100,
+                                                                                                      height: 100,
+                                                                                                      child: TextButton(onPressed: (){
+                                                                                                        Navigator.pop(context);
+                                                                                                      }, child: const Center(
+                                                                                                        child: Icon(
+                                                                                                          Icons.close,
+                                                                                                          size: 40,
+                                                                                                        ),
+                                                                                                      )
+                                                                                                      )
+                                                                                                  )
+                                                                                                ],
+                                                                                              ),
+                                                                                              Fluid(
+                                                                                                children: [
+                                                                                                  Fluidable(
+                                                                                                    fluid: 1,
+                                                                                                    minWidth: 100,
+                                                                                                    child: documents["imageURI"] != ""?
+                                                                                                    Container(
+                                                                                                        padding: const EdgeInsets.all(25),
+                                                                                                        child: Image.network(
+                                                                                                            height: 200,
+                                                                                                            width: 200,
+                                                                                                            documents["imageURI"]
+                                                                                                        )
+                                                                                                    ): Container(
+                                                                                                        alignment: Alignment.center,
+                                                                                                        padding: const EdgeInsets.all(8),
+                                                                                                        child: const Text(
+                                                                                                          "Nenhuma imagem encontrada!",
+                                                                                                          textAlign: TextAlign.center,
+                                                                                                        )
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  Fluidable(
+                                                                                                    fluid: 1,
+                                                                                                    minWidth: 200,
+                                                                                                    child: Center(
+                                                                                                      child: Column(
+                                                                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                        children: [
+                                                                                                          Container(
+                                                                                                              padding: const EdgeInsets.all(8),
+                                                                                                              child: Text(
+                                                                                                                "Nome: ${documents["Nome"]}",
+                                                                                                                textAlign: TextAlign.start,
+                                                                                                              )
+                                                                                                          ),
+                                                                                                          Container(
+                                                                                                              padding: const EdgeInsets.all(8),
+                                                                                                              child: Text("RG: ${documents["RG"]}")
+                                                                                                          ),
+                                                                                                          Container(
+                                                                                                              padding: const EdgeInsets.all(8),
+                                                                                                              child: Text("CPF: ${documents["CPF"]}",)
+                                                                                                          ),
+                                                                                                          Container(
+                                                                                                              padding: const EdgeInsets.all(8),
+                                                                                                              child: Text("Unidade: ${documents["Unidade"]}")
+                                                                                                          ),
+                                                                                                          Container(
+                                                                                                              padding: const EdgeInsets.all(8),
+                                                                                                              child: Text("Bloco: ${documents["Bloco"]}")
+                                                                                                          ),
+                                                                                                          Container(
+                                                                                                              padding: const EdgeInsets.all(8),
+                                                                                                              child: Text("Telefone: ${documents["telefone"]}")
+                                                                                                          ),
+                                                                                                          Container(
+                                                                                                              padding: const EdgeInsets.all(8),
+                                                                                                              child: Text("Celular: ${documents["celular"]}")
+                                                                                                          ),
+                                                                                                        ],
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ],
+                                                                                              ),
+                                                                                              Container(
+                                                                                                padding: const EdgeInsets.all(16),
+                                                                                                child: TextField(
+                                                                                                  keyboardType: TextInputType.multiline,
+                                                                                                  enableSuggestions: true,
+                                                                                                  autocorrect: true,
+                                                                                                  minLines: 5,
+                                                                                                  maxLines: null,
+                                                                                                  controller: anotacaoControl,
+                                                                                                  onChanged: (value){
+                                                                                                    setStater(() {
+                                                                                                      anotacaoMorador = value;
+                                                                                                    });
+                                                                                                  },
+                                                                                                  decoration: const InputDecoration(
+                                                                                                    filled: true,
+                                                                                                    fillColor: Colors.white,
+                                                                                                    border: OutlineInputBorder(),
+                                                                                                    enabledBorder: OutlineInputBorder(
+                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                    ),
+                                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                                      borderSide: BorderSide(
+                                                                                                          width: 3,
+                                                                                                          color: Colors.black
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    label: Text('Anotação',
+                                                                                                      style: TextStyle(
+                                                                                                          color: Colors.black,
+                                                                                                          backgroundColor: Colors.white
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                        )
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        );
                                                                       },
                                                                       child: SizedBox(
                                                                         width: double.infinity,
@@ -5509,146 +5841,6 @@ class _homeAppState extends State<homeApp>{
                                                           ),
                                                         ),
                                                       ),
-                                                      moradorselecionado == true ?
-                                                      Column(
-                                                        children: [
-                                                          Container(
-                                                            alignment: Alignment.centerRight,
-                                                            child: TextButton(
-                                                              onPressed: (){
-                                                                setStater(() {
-                                                                  moradorselecionado = false;
-                                                                  NomeMorador = "";
-                                                                  RGMorador = "";
-                                                                  CPFMorador = "";
-                                                                  PlacaMorador = "";
-                                                                  imageURLMorador = "";
-                                                                  anotacaoMorador = "";
-                                                                  anotacaoControl.text = "";
-                                                                  MoradorId = "";
-                                                                  UnidadeMorador = "";
-                                                                  BlocoMorador = "";
-                                                                });
-                                                              },
-                                                              child: const Icon(
-                                                                Icons.close,
-                                                                size: 40,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Fluid(
-                                                            children: [
-                                                              Fluidable(
-                                                                fluid: 1,
-                                                                minWidth: 100,
-                                                                child: imageURLMorador != ""?
-                                                                Container(
-                                                                    padding: const EdgeInsets.all(8),
-                                                                    child: Image.network(
-                                                                        height: 100,
-                                                                        width: 100,
-                                                                        imageURLMorador
-                                                                    )
-                                                                ): Container(
-                                                                    alignment: Alignment.center,
-                                                                    padding: const EdgeInsets.all(8),
-                                                                    child: const Text(
-                                                                      "Nenhuma imagem encontrada!",
-                                                                      textAlign: TextAlign.center,
-                                                                    )
-                                                                ),
-                                                              ),
-                                                              Fluidable(
-                                                                fluid: 1,
-                                                                minWidth: 200,
-                                                                child: Center(
-                                                                  child: Column(
-                                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                                    children: [
-                                                                      Container(
-                                                                          padding: const EdgeInsets.all(8),
-                                                                          child: Text("Nome: $NomeMorador", textAlign: TextAlign.start,)
-                                                                      ),
-                                                                      Container(
-                                                                          padding: const EdgeInsets.all(8),
-                                                                          child: Text("RG: $RGMorador")
-                                                                      ),
-                                                                      Container(
-                                                                          padding: const EdgeInsets.all(8),
-                                                                          child: Text("CPF: $CPFMorador",)
-                                                                      ),
-                                                                      Container(
-                                                                          padding: const EdgeInsets.all(8),
-                                                                          child: Text("Unidade: $UnidadeMorador")
-                                                                      ),
-                                                                      Container(
-                                                                          padding: const EdgeInsets.all(8),
-                                                                          child: Text("Bloco: $BlocoMorador")
-                                                                      ),
-                                                                      Container(
-                                                                          padding: const EdgeInsets.all(8),
-                                                                          child: Text("Telefone: $TelefoneMorador")
-                                                                      ),
-                                                                      Container(
-                                                                          padding: const EdgeInsets.all(8),
-                                                                          child: Text("Celular: $CelularMorador")
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Container(
-                                                            padding: const EdgeInsets.all(16),
-                                                            child: TextField(
-                                                              keyboardType: TextInputType.multiline,
-                                                              enableSuggestions: true,
-                                                              autocorrect: true,
-                                                              minLines: 5,
-                                                              maxLines: null,
-                                                              controller: anotacaoControl,
-                                                              onChanged: (value){
-                                                                setStater(() {
-                                                                  anotacaoMorador = value;
-                                                                });
-                                                              },
-                                                              decoration: const InputDecoration(
-                                                                border: OutlineInputBorder(),
-                                                                enabledBorder: OutlineInputBorder(
-                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                ),
-                                                                focusedBorder: OutlineInputBorder(
-                                                                  borderSide: BorderSide(
-                                                                      width: 3,
-                                                                      color: Colors.black
-                                                                  ),
-                                                                ),
-                                                                labelText: 'Anotação',
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            padding: const EdgeInsets.all(16),
-                                                            child: ElevatedButton(
-                                                                onPressed: (){
-                                                                  FirebaseFirestore.instance.collection('Pessoas').doc(MoradorId).update({
-                                                                    "anotacao": anotacaoMorador
-                                                                  });
-                                                                },style: ElevatedButton.styleFrom(
-                                                                backgroundColor: colorBtn
-                                                            ),
-                                                                child: Text(
-                                                                  "Salvar anotação",
-                                                                  style: TextStyle(
-                                                                      color: textColor
-                                                                  ),
-                                                                )
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ): Container(),
                                                     ],
                                                   );
                                                 },
@@ -7517,26 +7709,23 @@ class _homeAppState extends State<homeApp>{
                                                                 },
                                                                 child: Center(
                                                                   child: Center(
-                                                                    child: Container(
-                                                                      padding: const EdgeInsets.all(6),
-                                                                      child: Stack(
-                                                                        children: [
-                                                                          Container(
-                                                                            height: 50,
-                                                                            color: Colors.white,
+                                                                    child: Stack(
+                                                                      children: [
+                                                                        Container(
+                                                                          height: 50,
+                                                                          color: Colors.white,
+                                                                        ),
+                                                                        Container(
+                                                                          alignment: Alignment.centerRight,
+                                                                          child: TextButton(
+                                                                              onPressed: null,
+                                                                              child: Image.asset(
+                                                                                  "assets/search.png",
+                                                                                  scale: 14
+                                                                              )
                                                                           ),
-                                                                          Container(
-                                                                            alignment: Alignment.centerRight,
-                                                                            child: TextButton(
-                                                                                onPressed: null,
-                                                                                child: Image.asset(
-                                                                                    "assets/search.png",
-                                                                                    scale: 14
-                                                                                )
-                                                                            ),
-                                                                          )
-                                                                        ],
-                                                                      ),
+                                                                        )
+                                                                      ],
                                                                     ),
                                                                   ),
                                                                 ),
@@ -7587,6 +7776,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 ),
                                                                                 Container(
                                                                                   alignment: Alignment.centerRight,
+                                                                                  padding: const EdgeInsets.only(right: 35),
                                                                                   child: TextButton(
                                                                                       onPressed: () async {
                                                                                         //Pesquisa de nomes;
@@ -7660,6 +7850,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 ),
                                                                                 Container(
                                                                                   alignment: Alignment.centerRight,
+                                                                                  padding: const EdgeInsets.only(right: 35),
                                                                                   child: TextButton(
                                                                                       onPressed: () async {
                                                                                         //Pesquisa de nomes;
@@ -7733,6 +7924,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 ),
                                                                                 Container(
                                                                                   alignment: Alignment.centerRight,
+                                                                                  padding: const EdgeInsets.only(right: 35),
                                                                                   child: TextButton(
                                                                                       onPressed: () async {
                                                                                         //Pesquisa de nomes;
