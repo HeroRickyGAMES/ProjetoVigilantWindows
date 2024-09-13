@@ -39,7 +39,6 @@ String CPFMorador = "";
 String PlacaMorador = "";
 String TelefoneMorador = "";
 String CelularMorador = "";
-String anotacaoMorador = "";
 String MoradorId = "";
 String UnidadeMorador = "";
 String BlocoMorador = "";
@@ -59,11 +58,9 @@ String pesquisa10 = '';
 String EmpresaPertence = "";
 
 //Controladores
-TextEditingController anotacaoControl = TextEditingController(text: anotacaoMorador);
 TextEditingController anotacaoControlCondominio = TextEditingController(text: anotacao);
 
 //Booleanos
-bool moradorselecionado = false;
 bool pesquisaNumeros = false;
 bool acionamento1clicado = false;
 bool inicializado = false;
@@ -389,7 +386,6 @@ class _homeAppState extends State<homeApp>{
                                                                                 idCondominioAnt = documents["idCondominio"];
                                                                                 anotacao = documents["Aviso"];
                                                                                 anotacaoControlCondominio.text = anotacao;
-                                                                                moradorselecionado = false;
                                                                               });
 
                                                                               var getIpCameraSettings = await FirebaseFirestore.instance
@@ -471,7 +467,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             showDialog(
                                                                                               context: context,
                                                                                               builder: (BuildContext context) {
-                                                                                                return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                                return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
                                                                                                   return SingleChildScrollView(
                                                                                                     child: Dialog(
                                                                                                       shape: RoundedRectangleBorder(
@@ -539,7 +535,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               NomeCondominio = value;
                                                                                                                             });
                                                                                                                           },
@@ -577,7 +573,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               codigo = value;
                                                                                                                             });
                                                                                                                           },
@@ -615,7 +611,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               Cidade = value;
                                                                                                                             });
                                                                                                                           },
@@ -653,7 +649,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               Endereco = value;
                                                                                                                             });
                                                                                                                           },
@@ -691,7 +687,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               bairro = value;
                                                                                                                             });
                                                                                                                           },
@@ -729,7 +725,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               cep = value;
                                                                                                                             });
                                                                                                                           },
@@ -767,7 +763,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               Sindico = value;
                                                                                                                             });
                                                                                                                           },
@@ -805,7 +801,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               Telefone = value;
                                                                                                                             });
                                                                                                                           },
@@ -843,7 +839,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               CNPJ = value;
                                                                                                                             });
                                                                                                                           },
@@ -881,7 +877,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               Zelador = value;
                                                                                                                             });
                                                                                                                           },
@@ -926,7 +922,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                               value: (value.isEmpty)? null : value,
                                                                                                                               onChanged: (escolha) async {
                                                                                                                                 dropValue2.value = escolha.toString();
-                                                                                                                                setState(() {
+                                                                                                                                setStater(() {
                                                                                                                                   modeloselecionado = escolha.toString();
                                                                                                                                 });
                                                                                                                               },
@@ -955,7 +951,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               IPCameras = value;
                                                                                                                             });
                                                                                                                           },
@@ -993,7 +989,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               PortaCameras = int.parse(value);
                                                                                                                             });
                                                                                                                           },
@@ -1031,7 +1027,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               UserAccess = value;
                                                                                                                             });
                                                                                                                           },
@@ -1069,7 +1065,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               PassAccess = value;
                                                                                                                             });
                                                                                                                           },
@@ -1107,7 +1103,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               SIPUrl = value;
                                                                                                                             });
                                                                                                                           },
@@ -1145,7 +1141,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               Porta = value;
                                                                                                                             });
                                                                                                                           },
@@ -1183,7 +1179,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               AuthUser = value;
                                                                                                                             });
                                                                                                                           },
@@ -1221,7 +1217,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           enableSuggestions: false,
                                                                                                                           autocorrect: false,
                                                                                                                           onChanged: (value){
-                                                                                                                            setState(() {
+                                                                                                                            setStater(() {
                                                                                                                               Pass = value;
                                                                                                                             });
                                                                                                                           },
@@ -1472,7 +1468,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               )
                                                                                           ),
                                                                                           IconButton(onPressed: (){
-                                                                                            setState(() {
+                                                                                            setStater(() {
                                                                                               idCondominioAnt = documents["idCondominio"];
                                                                                               anotacao = documents["Aviso"];
                                                                                               anotacaoControlCondominio.text = anotacao;
@@ -1533,7 +1529,7 @@ class _homeAppState extends State<homeApp>{
                                                         showDialog(
                                                           context: context,
                                                           builder: (BuildContext context) {
-                                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
                                                               return SingleChildScrollView(
                                                                 child: Dialog(
                                                                   shape: RoundedRectangleBorder(
@@ -1600,7 +1596,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           NomeCondominio = value;
                                                                                         });
                                                                                       },
@@ -1637,7 +1633,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           codigo = value;
                                                                                         });
                                                                                       },
@@ -1674,7 +1670,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           Cidade = value;
                                                                                         });
                                                                                       },
@@ -1711,7 +1707,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           Endereco = value;
                                                                                         });
                                                                                       },
@@ -1748,7 +1744,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           bairro = value;
                                                                                         });
                                                                                       },
@@ -1785,7 +1781,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           cep = value;
                                                                                         });
                                                                                       },
@@ -1822,7 +1818,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           Sindico = value;
                                                                                         });
                                                                                       },
@@ -1859,7 +1855,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           Telefone = value;
                                                                                         });
                                                                                       },
@@ -1896,7 +1892,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           CNPJ = value;
                                                                                         });
                                                                                       },
@@ -1933,7 +1929,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           Zelador = value;
                                                                                         });
                                                                                       },
@@ -1978,7 +1974,7 @@ class _homeAppState extends State<homeApp>{
                                                                                           value: (value.isEmpty)? null : value,
                                                                                           onChanged: (escolha) async {
                                                                                             dropValue2.value = escolha.toString();
-                                                                                            setState(() {
+                                                                                            setStater(() {
                                                                                               modeloselecionado = escolha.toString();
                                                                                             });
                                                                                           },
@@ -2006,7 +2002,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           IPCameras = value;
                                                                                         });
                                                                                       },
@@ -2043,7 +2039,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           PortaCameras = int.parse(value);
                                                                                         });
                                                                                       },
@@ -2080,7 +2076,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           UserAccess = value;
                                                                                         });
                                                                                       },
@@ -2117,7 +2113,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           PassAccess = value;
                                                                                         });
                                                                                       },
@@ -2154,7 +2150,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           SIPUrl = value;
                                                                                         });
                                                                                       },
@@ -2191,7 +2187,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           Porta = value;
                                                                                         });
                                                                                       },
@@ -2228,7 +2224,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           AuthUser = value;
                                                                                         });
                                                                                       },
@@ -2265,7 +2261,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       enableSuggestions: false,
                                                                                       autocorrect: false,
                                                                                       onChanged: (value){
-                                                                                        setState(() {
+                                                                                        setStater(() {
                                                                                           Pass = value;
                                                                                         });
                                                                                       },
@@ -2724,7 +2720,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       showDialog(
                                                                                         context: context,
                                                                                         builder: (BuildContext context) {
-                                                                                          return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                          return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
                                                                                             return Center(
                                                                                               child: SingleChildScrollView(
                                                                                                 child: Dialog(
@@ -2784,7 +2780,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         enableSuggestions: true,
                                                                                                                         autocorrect: true,
                                                                                                                         onChanged: (value){
-                                                                                                                          setState(() {
+                                                                                                                          setStater(() {
                                                                                                                             nome = value;
                                                                                                                           });
                                                                                                                         },
@@ -2822,7 +2818,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         enableSuggestions: true,
                                                                                                                         autocorrect: true,
                                                                                                                         onChanged: (value){
-                                                                                                                          setState(() {
+                                                                                                                          setStater(() {
                                                                                                                             ip = value;
                                                                                                                           });
                                                                                                                         },
@@ -2860,7 +2856,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         enableSuggestions: true,
                                                                                                                         autocorrect: true,
                                                                                                                         onChanged: (value){
-                                                                                                                          setState(() {
+                                                                                                                          setStater(() {
                                                                                                                             porta = value;
                                                                                                                           });
                                                                                                                         },
@@ -2898,7 +2894,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         enableSuggestions: true,
                                                                                                                         autocorrect: true,
                                                                                                                         onChanged: (value){
-                                                                                                                          setState(() {
+                                                                                                                          setStater(() {
                                                                                                                             canal = value;
                                                                                                                           });
                                                                                                                         },
@@ -2937,7 +2933,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         enableSuggestions: true,
                                                                                                                         autocorrect: true,
                                                                                                                         onChanged: (value){
-                                                                                                                          setState(() {
+                                                                                                                          setStater(() {
                                                                                                                             usuario = value;
                                                                                                                           });
                                                                                                                         },
@@ -2976,7 +2972,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         enableSuggestions: true,
                                                                                                                         autocorrect: true,
                                                                                                                         onChanged: (value){
-                                                                                                                          setState(() {
+                                                                                                                          setStater(() {
                                                                                                                             senha = value;
                                                                                                                           });
                                                                                                                         },
@@ -3023,7 +3019,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                   value: (value.isEmpty)? null : value,
                                                                                                                   onChanged: (escolha) async {
                                                                                                                     dropValue4.value = escolha.toString();
-                                                                                                                    setState(() {
+                                                                                                                    setStater(() {
                                                                                                                       iconeSelecionado = escolha.toString();
                                                                                                                     });
                                                                                                                   },
@@ -3054,7 +3050,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                   value: (value.isEmpty)? null : value,
                                                                                                                   onChanged: (escolha) async {
                                                                                                                     dropValue3.value = escolha.toString();
-                                                                                                                    setState(() {
+                                                                                                                    setStater(() {
                                                                                                                       modeloselecionado = escolha.toString();
                                                                                                                     });
                                                                                                                   },
@@ -3211,7 +3207,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       showDialog(
                                                                                         context: context,
                                                                                         builder: (BuildContext context) {
-                                                                                          return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                          return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
                                                                                             return Center(
                                                                                               child: SingleChildScrollView(
                                                                                                 child: Dialog(
@@ -3331,7 +3327,7 @@ class _homeAppState extends State<homeApp>{
                                                                   "assets/garagem.png",
                                                                 ];
 
-                                                                return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
                                                                   return Center(
                                                                     child: SingleChildScrollView(
                                                                       child: Dialog(
@@ -3390,7 +3386,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               enableSuggestions: true,
                                                                                               autocorrect: true,
                                                                                               onChanged: (value){
-                                                                                                setState(() {
+                                                                                                setStater(() {
                                                                                                   nome = value;
                                                                                                 });
                                                                                               },
@@ -3427,7 +3423,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               enableSuggestions: true,
                                                                                               autocorrect: true,
                                                                                               onChanged: (value){
-                                                                                                setState(() {
+                                                                                                setStater(() {
                                                                                                   ip = value;
                                                                                                 });
                                                                                               },
@@ -3464,7 +3460,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               enableSuggestions: true,
                                                                                               autocorrect: true,
                                                                                               onChanged: (value){
-                                                                                                setState(() {
+                                                                                                setStater(() {
                                                                                                   porta = value;
                                                                                                 });
                                                                                               },
@@ -3501,7 +3497,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               enableSuggestions: true,
                                                                                               autocorrect: true,
                                                                                               onChanged: (value){
-                                                                                                setState(() {
+                                                                                                setStater(() {
                                                                                                   canal = value;
                                                                                                 });
                                                                                               },
@@ -3539,7 +3535,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               enableSuggestions: true,
                                                                                               autocorrect: true,
                                                                                               onChanged: (value){
-                                                                                                setState(() {
+                                                                                                setStater(() {
                                                                                                   usuario = value;
                                                                                                 });
                                                                                               },
@@ -3577,7 +3573,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               enableSuggestions: true,
                                                                                               autocorrect: true,
                                                                                               onChanged: (value){
-                                                                                                setState(() {
+                                                                                                setStater(() {
                                                                                                   senha = value;
                                                                                                 });
                                                                                               },
@@ -3624,7 +3620,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         value: (value.isEmpty)? null : value,
                                                                                         onChanged: (escolha) async {
                                                                                           dropValue4.value = escolha.toString();
-                                                                                          setState(() {
+                                                                                          setStater(() {
                                                                                             iconeSelecionado = escolha.toString();
                                                                                           });
                                                                                         },
@@ -3655,7 +3651,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         value: (value.isEmpty)? null : value,
                                                                                         onChanged: (escolha) async {
                                                                                           dropValue3.value = escolha.toString();
-                                                                                          setState(() {
+                                                                                          setStater(() {
                                                                                             modeloselecionado = escolha.toString();
                                                                                           });
                                                                                         },
@@ -3882,7 +3878,7 @@ class _homeAppState extends State<homeApp>{
                                                             String NomeRamal = "";
                                                             String RamalNumber = "";
 
-                                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
                                                               return Center(
                                                                 child: SingleChildScrollView(
                                                                   child: Dialog(
@@ -3940,7 +3936,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         enableSuggestions: true,
                                                                                         autocorrect: true,
                                                                                         onChanged: (value){
-                                                                                          setState(() {
+                                                                                          setStater(() {
                                                                                             NomeRamal = value;
                                                                                           });
                                                                                         },
@@ -3977,7 +3973,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         enableSuggestions: true,
                                                                                         autocorrect: true,
                                                                                         onChanged: (value){
-                                                                                          setState(() {
+                                                                                          setStater(() {
                                                                                             RamalNumber = value;
                                                                                           });
                                                                                         },
@@ -4102,7 +4098,7 @@ class _homeAppState extends State<homeApp>{
 
                                           var dropValue4 = ValueNotifier('Intelbras');
 
-                                          return StatefulBuilder(builder: (BuildContext context, StateSetter setStatee){
+                                          return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
                                             return Center(
                                               child: SingleChildScrollView(
                                                 child: Dialog(
@@ -4154,7 +4150,7 @@ class _homeAppState extends State<homeApp>{
                                                                   permissaoCriarUsuarios == true ?
                                                                   ElevatedButton(
                                                                     onPressed: (){
-                                                                      setStatee((){
+                                                                      setStater((){
                                                                         janela = 1;
                                                                       });
                                                                     },
@@ -4170,7 +4166,7 @@ class _homeAppState extends State<homeApp>{
                                                                   ): Container(),
                                                                   ElevatedButton(
                                                                     onPressed: (){
-                                                                      setStatee((){
+                                                                      setStater((){
                                                                         janela = 2;
                                                                       });
                                                                     },
@@ -4270,7 +4266,7 @@ class _homeAppState extends State<homeApp>{
                                                                         showDialog(
                                                                           context: context,
                                                                           builder: (BuildContext context) {
-                                                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
                                                                               return Center(
                                                                                 child: Dialog(
                                                                                   child: Stack(
@@ -4322,7 +4318,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     enableSuggestions: false,
                                                                                                     autocorrect: false,
                                                                                                     onChanged: (value){
-                                                                                                      setState(() {
+                                                                                                      setStater(() {
                                                                                                         Nome = value;
                                                                                                       });
                                                                                                     },
@@ -4360,7 +4356,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     enableSuggestions: false,
                                                                                                     autocorrect: false,
                                                                                                     onChanged: (value){
-                                                                                                      setState(() {
+                                                                                                      setStater(() {
                                                                                                         CPF = value;
                                                                                                       });
                                                                                                     },
@@ -4397,7 +4393,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     enableSuggestions: false,
                                                                                                     autocorrect: false,
                                                                                                     onChanged: (value){
-                                                                                                      setState(() {
+                                                                                                      setStater(() {
                                                                                                         Usrname = value;
                                                                                                       });
                                                                                                     },
@@ -4434,7 +4430,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     enableSuggestions: false,
                                                                                                     autocorrect: false,
                                                                                                     onChanged: (value){
-                                                                                                      setState(() {
+                                                                                                      setStater(() {
                                                                                                         Senha = value;
                                                                                                       });
                                                                                                     },
@@ -4471,7 +4467,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     enableSuggestions: false,
                                                                                                     autocorrect: false,
                                                                                                     onChanged: (value){
-                                                                                                      setState(() {
+                                                                                                      setStater(() {
                                                                                                         idEmpresa = value;
                                                                                                       });
                                                                                                     },
@@ -4521,7 +4517,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                           Checkbox(
                                                                                                             value: isEmpresa,
                                                                                                             onChanged: (bool? value){
-                                                                                                              setState((){
+                                                                                                              setStater((){
                                                                                                                 isEmpresa = value!;
                                                                                                               });
                                                                                                             },
@@ -4554,7 +4550,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     Checkbox(
                                                                                                       value: addCondominios ,
                                                                                                       onChanged: (bool? value){
-                                                                                                        setState((){
+                                                                                                        setStater((){
                                                                                                           addCondominios = value!;
                                                                                                         });
                                                                                                       },
@@ -4575,7 +4571,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     Checkbox(
                                                                                                       value: editCFTV  ,
                                                                                                       onChanged: (bool? value){
-                                                                                                        setState((){
+                                                                                                        setStater((){
                                                                                                           editCFTV = value!;
                                                                                                         });
                                                                                                       },
@@ -4596,7 +4592,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     Checkbox(
                                                                                                       value: addAcionamentos,
                                                                                                       onChanged: (bool? value){
-                                                                                                        setState((){
+                                                                                                        setStater((){
                                                                                                           addAcionamentos = value!;
                                                                                                         });
                                                                                                       },
@@ -4617,7 +4613,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     Checkbox(
                                                                                                       value: addRamal,
                                                                                                       onChanged: (bool? value){
-                                                                                                        setState((){
+                                                                                                        setStater((){
                                                                                                           addRamal  = value!;
                                                                                                         });
                                                                                                       },
@@ -4638,7 +4634,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     Checkbox(
                                                                                                       value: addMoradores ,
                                                                                                       onChanged: (bool? value){
-                                                                                                        setState((){
+                                                                                                        setStater((){
                                                                                                           addMoradores = value!;
                                                                                                         });
                                                                                                       },
@@ -4659,7 +4655,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     Checkbox(
                                                                                                       value: addVisitante  ,
                                                                                                       onChanged: (bool? value){
-                                                                                                        setState((){
+                                                                                                        setStater((){
                                                                                                           addVisitante = value!;
                                                                                                         });
                                                                                                       },
@@ -4680,7 +4676,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     Checkbox(
                                                                                                       value: addVeiculos  ,
                                                                                                       onChanged: (bool? value){
-                                                                                                        setState((){
+                                                                                                        setStater((){
                                                                                                           addVeiculos = value!;
                                                                                                         });
                                                                                                       },
@@ -4701,7 +4697,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     Checkbox(
                                                                                                       value: criarNovosUsuarios,
                                                                                                       onChanged: (bool? value){
-                                                                                                        setState((){
+                                                                                                        setStater((){
                                                                                                           criarNovosUsuarios  = value!;
                                                                                                         });
                                                                                                       },
@@ -4722,7 +4718,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     Checkbox(
                                                                                                       value: editarAnotacao,
                                                                                                       onChanged: (bool? value){
-                                                                                                        setState((){
+                                                                                                        setStater((){
                                                                                                           editarAnotacao = value!;
                                                                                                         });
                                                                                                       },
@@ -4743,7 +4739,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     Checkbox(
                                                                                                       value: adicionarUsuarioss ,
                                                                                                       onChanged: (bool? value){
-                                                                                                        setState((){
+                                                                                                        setStater((){
                                                                                                           adicionarUsuarioss = value!;
                                                                                                         });
                                                                                                       },
@@ -4764,7 +4760,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     Checkbox(
                                                                                                       value: acessoDevFuc ,
                                                                                                       onChanged: (bool? value){
-                                                                                                        setState((){
+                                                                                                        setStater((){
                                                                                                           acessoDevFuc = value!;
                                                                                                         });
                                                                                                       },
@@ -4805,7 +4801,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                           UserCredential userCredential = await instanciaAuth.createUserWithEmailAndPassword(email: email, password: Senha);
 
                                                                                                           if(isEmpresa == true){
-                                                                                                            setState((){
+                                                                                                            setStater((){
                                                                                                               idEmpresa = "${userCredential.user?.uid}";
                                                                                                             });
                                                                                                           }
@@ -4835,78 +4831,81 @@ class _homeAppState extends State<homeApp>{
                                                                                                             showDialog(
                                                                                                               context: context,
                                                                                                               builder: (BuildContext context) {
-                                                                                                                return AlertDialog(
-                                                                                                                  title: const Text('Usuario criado!'),
-                                                                                                                  actions: [
-                                                                                                                    Center(
-                                                                                                                      child: Column(
-                                                                                                                        children: [
-                                                                                                                          Row(
-                                                                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                                                            children: [
-                                                                                                                              Text("Login: ${Usrname.trim()}"),
-                                                                                                                              IconButton(onPressed: (){
-                                                                                                                                FlutterClipboard.copy("Login: ${Usrname.trim()}").then(( value ) {
-                                                                                                                                  showToast("Email copiado com sucesso!",context:context);
-                                                                                                                                });
-                                                                                                                              },
-                                                                                                                                  icon: const Icon(Icons.copy)
-                                                                                                                              )
-                                                                                                                            ],
-                                                                                                                          ),
-                                                                                                                          Row(
-                                                                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                                                            children: [
-                                                                                                                              Text("Senha: $Senha"),
-                                                                                                                              IconButton(onPressed: (){
-                                                                                                                                FlutterClipboard.copy("Senha: $Senha").then(( value ) {
-                                                                                                                                  showToast("Senha copiada com sucesso!",context:context);
-                                                                                                                                });
-                                                                                                                              },
-                                                                                                                                  icon: const Icon(Icons.copy)
-                                                                                                                              )
-                                                                                                                            ],
-                                                                                                                          ),
-                                                                                                                          isEmpresa == true ? Row(
-                                                                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                                                            children: [
-                                                                                                                              Text("ID da Empresa: $idEmpresa"),
-                                                                                                                              IconButton(onPressed: (){
-                                                                                                                                FlutterClipboard.copy("Senha: $Senha").then(( value ) {
-                                                                                                                                  showToast("ID da Empresa!",context:context);
-                                                                                                                                });
-                                                                                                                              },
-                                                                                                                                  icon: const Icon(Icons.copy)
-                                                                                                                              )
-                                                                                                                            ],
-                                                                                                                          ):Container(),
-                                                                                                                          Row(
-                                                                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                                                            children: [
-                                                                                                                              const Text("Copiar tudo"),
-                                                                                                                              IconButton(onPressed: (){
-                                                                                                                                if(isEmpresa == true){
-                                                                                                                                  FlutterClipboard.copy("Login: ${Usrname.trim()}\nSenha: $Senha\nID da Empresa: $idEmpresa").then(( value ) {
-                                                                                                                                    showToast("Conteúdo copiado com sucesso!",context:context);
+                                                                                                                return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
+                                                                                                                  return AlertDialog(
+                                                                                                                    title: const Text('Usuario criado!'),
+                                                                                                                    actions: [
+                                                                                                                      Center(
+                                                                                                                        child: Column(
+                                                                                                                          children: [
+                                                                                                                            Row(
+                                                                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                                              children: [
+                                                                                                                                Text("Login: ${Usrname.trim()}"),
+                                                                                                                                IconButton(onPressed: (){
+                                                                                                                                  FlutterClipboard.copy("Login: ${Usrname.trim()}").then(( value ) {
+                                                                                                                                    showToast("Email copiado com sucesso!",context:context);
                                                                                                                                   });
-                                                                                                                                }else{
-                                                                                                                                  FlutterClipboard.copy("Login: ${Usrname.trim()}\nSenha: $Senha").then(( value ) {
-                                                                                                                                    showToast("Conteúdo copiado com sucesso!",context:context);
+                                                                                                                                },
+                                                                                                                                    icon: const Icon(Icons.copy)
+                                                                                                                                )
+                                                                                                                              ],
+                                                                                                                            ),
+                                                                                                                            Row(
+                                                                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                                              children: [
+                                                                                                                                Text("Senha: $Senha"),
+                                                                                                                                IconButton(onPressed: (){
+                                                                                                                                  FlutterClipboard.copy("Senha: $Senha").then(( value ) {
+                                                                                                                                    showToast("Senha copiada com sucesso!",context:context);
                                                                                                                                   });
-                                                                                                                                }
-                                                                                                                              },
-                                                                                                                                  icon: const Icon(Icons.copy)
-                                                                                                                              )
-                                                                                                                            ],
-                                                                                                                          ),
-                                                                                                                          ElevatedButton(onPressed: (){
-                                                                                                                            Navigator.pop(context);
-                                                                                                                          },
-                                                                                                                            child: const Text("Fechar!"),)
-                                                                                                                        ],
-                                                                                                                      ),
-                                                                                                                    )
-                                                                                                                  ],
+                                                                                                                                },
+                                                                                                                                    icon: const Icon(Icons.copy)
+                                                                                                                                )
+                                                                                                                              ],
+                                                                                                                            ),
+                                                                                                                            isEmpresa == true ? Row(
+                                                                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                                              children: [
+                                                                                                                                Text("ID da Empresa: $idEmpresa"),
+                                                                                                                                IconButton(onPressed: (){
+                                                                                                                                  FlutterClipboard.copy("Senha: $Senha").then(( value ) {
+                                                                                                                                    showToast("ID da Empresa!",context:context);
+                                                                                                                                  });
+                                                                                                                                },
+                                                                                                                                    icon: const Icon(Icons.copy)
+                                                                                                                                )
+                                                                                                                              ],
+                                                                                                                            ):Container(),
+                                                                                                                            Row(
+                                                                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                                              children: [
+                                                                                                                                const Text("Copiar tudo"),
+                                                                                                                                IconButton(onPressed: (){
+                                                                                                                                  if(isEmpresa == true){
+                                                                                                                                    FlutterClipboard.copy("Login: ${Usrname.trim()}\nSenha: $Senha\nID da Empresa: $idEmpresa").then(( value ) {
+                                                                                                                                      showToast("Conteúdo copiado com sucesso!",context:context);
+                                                                                                                                    });
+                                                                                                                                  }else{
+                                                                                                                                    FlutterClipboard.copy("Login: ${Usrname.trim()}\nSenha: $Senha").then(( value ) {
+                                                                                                                                      showToast("Conteúdo copiado com sucesso!",context:context);
+                                                                                                                                    });
+                                                                                                                                  }
+                                                                                                                                },
+                                                                                                                                    icon: const Icon(Icons.copy)
+                                                                                                                                )
+                                                                                                                              ],
+                                                                                                                            ),
+                                                                                                                            ElevatedButton(onPressed: (){
+                                                                                                                              Navigator.pop(context);
+                                                                                                                            },
+                                                                                                                              child: const Text("Fechar!"),)
+                                                                                                                          ],
+                                                                                                                        ),
+                                                                                                                      )
+                                                                                                                    ],
+                                                                                                                  );
+                                                                                                                  }
                                                                                                                 );
                                                                                                               },
                                                                                                             );
@@ -4969,7 +4968,7 @@ class _homeAppState extends State<homeApp>{
                                                                         enableSuggestions: false,
                                                                         autocorrect: false,
                                                                         onChanged: (value){
-                                                                          setState(() {
+                                                                          setStater(() {
                                                                             IP = value;
                                                                           });
                                                                         },
@@ -5006,7 +5005,7 @@ class _homeAppState extends State<homeApp>{
                                                                         enableSuggestions: false,
                                                                         autocorrect: false,
                                                                         onChanged: (value){
-                                                                          setState(() {
+                                                                          setStater(() {
                                                                             Porta = value;
                                                                           });
                                                                         },
@@ -5043,7 +5042,7 @@ class _homeAppState extends State<homeApp>{
                                                                         enableSuggestions: false,
                                                                         autocorrect: false,
                                                                         onChanged: (value){
-                                                                          setState(() {
+                                                                          setStater(() {
                                                                             Canal = value;
                                                                           });
                                                                         },
@@ -5080,7 +5079,7 @@ class _homeAppState extends State<homeApp>{
                                                                         enableSuggestions: false,
                                                                         autocorrect: false,
                                                                         onChanged: (value){
-                                                                          setState(() {
+                                                                          setStater(() {
                                                                             Usuario = value;
                                                                           });
                                                                         },
@@ -5117,7 +5116,7 @@ class _homeAppState extends State<homeApp>{
                                                                         enableSuggestions: false,
                                                                         autocorrect: false,
                                                                         onChanged: (value){
-                                                                          setState(() {
+                                                                          setStater(() {
                                                                             Senha = value;
                                                                           });
                                                                         },
@@ -5158,7 +5157,7 @@ class _homeAppState extends State<homeApp>{
                                                                         value: (value.isEmpty)? null : value,
                                                                         onChanged: (escolha) async {
                                                                           dropValue4.value = escolha.toString();
-                                                                          setState(() {
+                                                                          setStater(() {
                                                                             modeloselecionado = escolha.toString();
                                                                           });
                                                                         },
@@ -5198,7 +5197,7 @@ class _homeAppState extends State<homeApp>{
                                                               child: ElevatedButton(
                                                                   onPressed: inicializado == true ? (){
                                                                     FirebaseAuth.instance.signOut().whenComplete(() async {
-                                                                      setState((){
+                                                                      setStater((){
                                                                         ip = "";
                                                                         user = "";
                                                                         pass = "";
@@ -5589,163 +5588,555 @@ class _homeAppState extends State<homeApp>{
                                                                         showDialog(
                                                                           context: context,
                                                                           builder: (BuildContext context) {
-                                                                            return Center(
-                                                                              child: Dialog(
-                                                                                child: Stack(
-                                                                                  children: [
-                                                                                    Positioned.fill(
-                                                                                      child: ClipRRect(
-                                                                                        borderRadius: BorderRadius.circular(10),
-                                                                                        child: Image.asset(
-                                                                                          "assets/FundoMetalPreto.jpg",
-                                                                                          fit: BoxFit.fill,
+                                                                            String anotacaoMorador = documents["anotacao"];
+                                                                            String nomeMorador = documents["Nome"];
+                                                                            String RGMorador = documents["RG"];
+                                                                            String CPFMorador = documents["CPF"];
+                                                                            String UnidadeMorador = documents["Unidade"];
+                                                                            String BlocoMorador = documents["Bloco"];
+                                                                            String TelefoneMorador = documents["Telefone"];
+                                                                            String CelularMorador = documents["Celular"];
+                                                                            String QualificacaoMorador = documents["Qualificacao"];
+
+                                                                            TextEditingController anotacaoControl = TextEditingController(text: anotacaoMorador);
+                                                                            TextEditingController nomeMoradorController = TextEditingController(text: nomeMorador);
+                                                                            TextEditingController RGMoradorController = TextEditingController(text: RGMorador);
+                                                                            TextEditingController CPFMoradorController = TextEditingController(text: CPFMorador);
+                                                                            TextEditingController UnidadeMoradorController = TextEditingController(text: UnidadeMorador);
+                                                                            TextEditingController BlocoMoradorController = TextEditingController(text: BlocoMorador);
+                                                                            TextEditingController TelefoneMoradorController = TextEditingController(text: TelefoneMorador);
+                                                                            TextEditingController CelularMoradorController = TextEditingController(text: CelularMorador);
+                                                                            TextEditingController QualificacaoMoradorController = TextEditingController(text: QualificacaoMorador);
+
+                                                                            bool editarInfosMorador = false;
+
+                                                                            double widthe = 600;
+                                                                            double heighte = 660;
+
+                                                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
+                                                                              if(editarInfosMorador == true){
+                                                                                widthe = 600;
+                                                                                heighte = 1000;
+                                                                              }else{
+                                                                                widthe = 600;
+                                                                                heighte = 660;
+                                                                              }
+                                                                              return Center(
+                                                                                child: Dialog(
+                                                                                  child: Stack(
+                                                                                    children: [
+                                                                                      Positioned.fill(
+                                                                                        child: ClipRRect(
+                                                                                          borderRadius: BorderRadius.circular(10),
+                                                                                          child: Image.asset(
+                                                                                            "assets/FundoMetalPreto.jpg",
+                                                                                            fit: BoxFit.fill,
+                                                                                          ),
                                                                                         ),
                                                                                       ),
-                                                                                    ),
-                                                                                    SizedBox(
-                                                                                        width: 600,
-                                                                                        height: 550,
-                                                                                        child: SingleChildScrollView(
-                                                                                          child: Column(
-                                                                                            children: [
-                                                                                              Row(
-                                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                                children: [
-                                                                                                  Container(
-                                                                                                    padding: const EdgeInsets.all(16),
-                                                                                                    child: const Text(
-                                                                                                      'Informações do usuario',
-                                                                                                      style: TextStyle(
-                                                                                                          fontSize: 25,
-                                                                                                          fontWeight: FontWeight.bold
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  SizedBox(
-                                                                                                      width: 100,
-                                                                                                      height: 100,
-                                                                                                      child: TextButton(onPressed: (){
-                                                                                                        Navigator.pop(context);
-                                                                                                      }, child: const Center(
-                                                                                                        child: Icon(
-                                                                                                          Icons.close,
-                                                                                                          size: 40,
-                                                                                                        ),
-                                                                                                      )
-                                                                                                      )
-                                                                                                  )
-                                                                                                ],
-                                                                                              ),
-                                                                                              Fluid(
-                                                                                                children: [
-                                                                                                  Fluidable(
-                                                                                                    fluid: 1,
-                                                                                                    minWidth: 100,
-                                                                                                    child: documents["imageURI"] != ""?
+                                                                                      SizedBox(
+                                                                                          width: widthe,
+                                                                                          height: heighte,
+                                                                                          child: SingleChildScrollView(
+                                                                                            child: Column(
+                                                                                              children: [
+                                                                                                Row(
+                                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                  children: [
                                                                                                     Container(
-                                                                                                        padding: const EdgeInsets.all(25),
-                                                                                                        child: Image.network(
-                                                                                                            height: 200,
-                                                                                                            width: 200,
-                                                                                                            documents["imageURI"]
+                                                                                                      padding: const EdgeInsets.all(16),
+                                                                                                      child: const Text(
+                                                                                                        'Informações do morador',
+                                                                                                        style: TextStyle(
+                                                                                                            fontSize: 25,
+                                                                                                            fontWeight: FontWeight.bold
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    SizedBox(
+                                                                                                        width: 100,
+                                                                                                        height: 100,
+                                                                                                        child: TextButton(onPressed: (){
+                                                                                                          Navigator.pop(context);
+                                                                                                        }, child: const Center(
+                                                                                                          child: Icon(
+                                                                                                            Icons.close,
+                                                                                                            size: 40,
+                                                                                                          ),
                                                                                                         )
-                                                                                                    ): Container(
-                                                                                                        alignment: Alignment.center,
-                                                                                                        padding: const EdgeInsets.all(8),
-                                                                                                        child: const Text(
-                                                                                                          "Nenhuma imagem encontrada!",
-                                                                                                          textAlign: TextAlign.center,
                                                                                                         )
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  Fluidable(
-                                                                                                    fluid: 1,
-                                                                                                    minWidth: 200,
-                                                                                                    child: Center(
-                                                                                                      child: Column(
-                                                                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                        children: [
-                                                                                                          Container(
-                                                                                                              padding: const EdgeInsets.all(8),
-                                                                                                              child: Text(
-                                                                                                                "Nome: ${documents["Nome"]}",
-                                                                                                                textAlign: TextAlign.start,
-                                                                                                              )
-                                                                                                          ),
-                                                                                                          Container(
-                                                                                                              padding: const EdgeInsets.all(8),
-                                                                                                              child: Text("RG: ${documents["RG"]}")
-                                                                                                          ),
-                                                                                                          Container(
-                                                                                                              padding: const EdgeInsets.all(8),
-                                                                                                              child: Text("CPF: ${documents["CPF"]}",)
-                                                                                                          ),
-                                                                                                          Container(
-                                                                                                              padding: const EdgeInsets.all(8),
-                                                                                                              child: Text("Unidade: ${documents["Unidade"]}")
-                                                                                                          ),
-                                                                                                          Container(
-                                                                                                              padding: const EdgeInsets.all(8),
-                                                                                                              child: Text("Bloco: ${documents["Bloco"]}")
-                                                                                                          ),
-                                                                                                          Container(
-                                                                                                              padding: const EdgeInsets.all(8),
-                                                                                                              child: Text("Telefone: ${documents["telefone"]}")
-                                                                                                          ),
-                                                                                                          Container(
-                                                                                                              padding: const EdgeInsets.all(8),
-                                                                                                              child: Text("Celular: ${documents["celular"]}")
-                                                                                                          ),
-                                                                                                        ],
+                                                                                                    )
+                                                                                                  ],
+                                                                                                ),
+                                                                                                Fluid(
+                                                                                                  children: [
+                                                                                                    Fluidable(
+                                                                                                      fluid: 1,
+                                                                                                      minWidth: 100,
+                                                                                                      child: documents["imageURI"] != ""?
+                                                                                                      Container(
+                                                                                                          padding: const EdgeInsets.all(25),
+                                                                                                          child: Image.network(
+                                                                                                              height: 200,
+                                                                                                              width: 200,
+                                                                                                              documents["imageURI"]
+                                                                                                          )
+                                                                                                      ): Container(
+                                                                                                          alignment: Alignment.center,
+                                                                                                          padding: const EdgeInsets.all(8),
+                                                                                                          child: const Text(
+                                                                                                            "Nenhuma imagem encontrada!",
+                                                                                                            textAlign: TextAlign.center,
+                                                                                                          )
                                                                                                       ),
                                                                                                     ),
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
-                                                                                              Container(
-                                                                                                padding: const EdgeInsets.all(16),
-                                                                                                child: TextField(
-                                                                                                  keyboardType: TextInputType.multiline,
-                                                                                                  enableSuggestions: true,
-                                                                                                  autocorrect: true,
-                                                                                                  minLines: 5,
-                                                                                                  maxLines: null,
-                                                                                                  controller: anotacaoControl,
-                                                                                                  onChanged: (value){
-                                                                                                    setStater(() {
-                                                                                                      anotacaoMorador = value;
-                                                                                                    });
-                                                                                                  },
-                                                                                                  decoration: const InputDecoration(
-                                                                                                    filled: true,
-                                                                                                    fillColor: Colors.white,
-                                                                                                    border: OutlineInputBorder(),
-                                                                                                    enabledBorder: OutlineInputBorder(
-                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                    ),
-                                                                                                    focusedBorder: OutlineInputBorder(
-                                                                                                      borderSide: BorderSide(
-                                                                                                          width: 3,
-                                                                                                          color: Colors.black
+                                                                                                    Fluidable(
+                                                                                                      fluid: 1,
+                                                                                                      minWidth: 200,
+                                                                                                      child: Center(
+                                                                                                        child: editarInfosMorador == false ? Column(
+                                                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                          children: [
+                                                                                                            Container(
+                                                                                                                padding: const EdgeInsets.all(8),
+                                                                                                                child: Text(
+                                                                                                                  "Nome: ${documents["Nome"]}",
+                                                                                                                  textAlign: TextAlign.start,
+                                                                                                                )
+                                                                                                            ),
+                                                                                                            Container(
+                                                                                                                padding: const EdgeInsets.all(8),
+                                                                                                                child: Text("RG: ${documents["RG"]}")
+                                                                                                            ),
+                                                                                                            Container(
+                                                                                                                padding: const EdgeInsets.all(8),
+                                                                                                                child: Text("CPF: ${documents["CPF"]}",)
+                                                                                                            ),
+                                                                                                            Container(
+                                                                                                                padding: const EdgeInsets.all(8),
+                                                                                                                child: Text("Unidade: ${documents["Unidade"]}")
+                                                                                                            ),
+                                                                                                            Container(
+                                                                                                                padding: const EdgeInsets.all(8),
+                                                                                                                child: Text("Bloco: ${documents["Bloco"]}")
+                                                                                                            ),
+                                                                                                            Container(
+                                                                                                                padding: const EdgeInsets.all(8),
+                                                                                                                child: Text("Telefone: ${documents["Telefone"]}")
+                                                                                                            ),
+                                                                                                            Container(
+                                                                                                                padding: const EdgeInsets.all(8),
+                                                                                                                child: Text("Celular: ${documents["Celular"]}")
+                                                                                                            ),
+                                                                                                            Container(
+                                                                                                                padding: const EdgeInsets.all(8),
+                                                                                                                child: Text("Qualificacao: ${documents["Qualificacao"]}")
+                                                                                                            ),
+                                                                                                          ],
+                                                                                                        ) : Column(
+                                                                                                          children: [
+                                                                                                            Center(
+                                                                                                              child: Container(
+                                                                                                                padding: const EdgeInsets.all(16),
+                                                                                                                child: TextField(
+                                                                                                                  controller: nomeMoradorController,
+                                                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                                                  enableSuggestions: false,
+                                                                                                                  autocorrect: false,
+                                                                                                                  onChanged: (value){
+                                                                                                                    setStater(() {
+                                                                                                                      nomeMorador = value;
+                                                                                                                    });
+                                                                                                                  },
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    filled: true,
+                                                                                                                    fillColor: Colors.white,
+                                                                                                                    labelStyle: TextStyle(
+                                                                                                                        color: textAlertDialogColor,
+                                                                                                                        backgroundColor: Colors.white
+                                                                                                                    ),
+                                                                                                                    border: const OutlineInputBorder(),
+                                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                    ),
+                                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(
+                                                                                                                          width: 3,
+                                                                                                                          color: Colors.black
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                    labelText: 'Nome',
+                                                                                                                  ),
+                                                                                                                  style: TextStyle(
+                                                                                                                      color: textAlertDialogColor
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            Center(
+                                                                                                              child: Container(
+                                                                                                                padding: const EdgeInsets.all(16),
+                                                                                                                child: TextField(
+                                                                                                                  controller: RGMoradorController,
+                                                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                                                  enableSuggestions: false,
+                                                                                                                  autocorrect: false,
+                                                                                                                  onChanged: (value){
+                                                                                                                    setStater(() {
+                                                                                                                      RGMorador = value;
+                                                                                                                    });
+                                                                                                                  },
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    filled: true,
+                                                                                                                    fillColor: Colors.white,
+                                                                                                                    labelStyle: TextStyle(
+                                                                                                                        color: textAlertDialogColor,
+                                                                                                                        backgroundColor: Colors.white
+                                                                                                                    ),
+                                                                                                                    border: const OutlineInputBorder(),
+                                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                    ),
+                                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(
+                                                                                                                          width: 3,
+                                                                                                                          color: Colors.black
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                    labelText: 'RG',
+                                                                                                                  ),
+                                                                                                                  style: TextStyle(
+                                                                                                                      color: textAlertDialogColor
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            Center(
+                                                                                                              child: Container(
+                                                                                                                padding: const EdgeInsets.all(16),
+                                                                                                                child: TextField(
+                                                                                                                  controller: CPFMoradorController,
+                                                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                                                  enableSuggestions: false,
+                                                                                                                  autocorrect: false,
+                                                                                                                  onChanged: (value){
+                                                                                                                    setStater(() {
+                                                                                                                      CPFMorador = value;
+                                                                                                                    });
+                                                                                                                  },
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    filled: true,
+                                                                                                                    fillColor: Colors.white,
+                                                                                                                    labelStyle: TextStyle(
+                                                                                                                        color: textAlertDialogColor,
+                                                                                                                        backgroundColor: Colors.white
+                                                                                                                    ),
+                                                                                                                    border: const OutlineInputBorder(),
+                                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                    ),
+                                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(
+                                                                                                                          width: 3,
+                                                                                                                          color: Colors.black
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                    labelText: 'CPF',
+                                                                                                                  ),
+                                                                                                                  style: TextStyle(
+                                                                                                                      color: textAlertDialogColor
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            Center(
+                                                                                                              child: Container(
+                                                                                                                padding: const EdgeInsets.all(16),
+                                                                                                                child: TextField(
+                                                                                                                  controller: UnidadeMoradorController,
+                                                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                                                  enableSuggestions: false,
+                                                                                                                  autocorrect: false,
+                                                                                                                  onChanged: (value){
+                                                                                                                    setStater(() {
+                                                                                                                      UnidadeMorador = value;
+                                                                                                                    });
+                                                                                                                  },
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    filled: true,
+                                                                                                                    fillColor: Colors.white,
+                                                                                                                    labelStyle: TextStyle(
+                                                                                                                        color: textAlertDialogColor,
+                                                                                                                        backgroundColor: Colors.white
+                                                                                                                    ),
+                                                                                                                    border: const OutlineInputBorder(),
+                                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                    ),
+                                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(
+                                                                                                                          width: 3,
+                                                                                                                          color: Colors.black
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                    labelText: 'Unidade',
+                                                                                                                  ),
+                                                                                                                  style: TextStyle(
+                                                                                                                      color: textAlertDialogColor
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            Center(
+                                                                                                              child: Container(
+                                                                                                                padding: const EdgeInsets.all(16),
+                                                                                                                child: TextField(
+                                                                                                                  controller: BlocoMoradorController,
+                                                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                                                  enableSuggestions: false,
+                                                                                                                  autocorrect: false,
+                                                                                                                  onChanged: (value){
+                                                                                                                    setStater(() {
+                                                                                                                      BlocoMorador = value;
+                                                                                                                    });
+                                                                                                                  },
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    filled: true,
+                                                                                                                    fillColor: Colors.white,
+                                                                                                                    labelStyle: TextStyle(
+                                                                                                                        color: textAlertDialogColor,
+                                                                                                                        backgroundColor: Colors.white
+                                                                                                                    ),
+                                                                                                                    border: const OutlineInputBorder(),
+                                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                    ),
+                                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(
+                                                                                                                          width: 3,
+                                                                                                                          color: Colors.black
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                    labelText: 'Bloco',
+                                                                                                                  ),
+                                                                                                                  style: TextStyle(
+                                                                                                                      color: textAlertDialogColor
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            Center(
+                                                                                                              child: Container(
+                                                                                                                padding: const EdgeInsets.all(16),
+                                                                                                                child: TextField(
+                                                                                                                  controller: TelefoneMoradorController,
+                                                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                                                  enableSuggestions: false,
+                                                                                                                  autocorrect: false,
+                                                                                                                  onChanged: (value){
+                                                                                                                    setStater(() {
+                                                                                                                      TelefoneMorador = value;
+                                                                                                                    });
+                                                                                                                  },
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    filled: true,
+                                                                                                                    fillColor: Colors.white,
+                                                                                                                    labelStyle: TextStyle(
+                                                                                                                        color: textAlertDialogColor,
+                                                                                                                        backgroundColor: Colors.white
+                                                                                                                    ),
+                                                                                                                    border: const OutlineInputBorder(),
+                                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                    ),
+                                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(
+                                                                                                                          width: 3,
+                                                                                                                          color: Colors.black
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                    labelText: 'Telefone',
+                                                                                                                  ),
+                                                                                                                  style: TextStyle(
+                                                                                                                      color: textAlertDialogColor
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            Center(
+                                                                                                              child: Container(
+                                                                                                                padding: const EdgeInsets.all(16),
+                                                                                                                child: TextField(
+                                                                                                                  controller: CelularMoradorController,
+                                                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                                                  enableSuggestions: false,
+                                                                                                                  autocorrect: false,
+                                                                                                                  onChanged: (value){
+                                                                                                                    setStater(() {
+                                                                                                                      CelularMorador = value;
+                                                                                                                    });
+                                                                                                                  },
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    filled: true,
+                                                                                                                    fillColor: Colors.white,
+                                                                                                                    labelStyle: TextStyle(
+                                                                                                                        color: textAlertDialogColor,
+                                                                                                                        backgroundColor: Colors.white
+                                                                                                                    ),
+                                                                                                                    border: const OutlineInputBorder(),
+                                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                    ),
+                                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(
+                                                                                                                          width: 3,
+                                                                                                                          color: Colors.black
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                    labelText: 'Celular',
+                                                                                                                  ),
+                                                                                                                  style: TextStyle(
+                                                                                                                      color: textAlertDialogColor
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            Center(
+                                                                                                              child: Container(
+                                                                                                                padding: const EdgeInsets.all(16),
+                                                                                                                child: TextField(
+                                                                                                                  controller: QualificacaoMoradorController,
+                                                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                                                  enableSuggestions: false,
+                                                                                                                  autocorrect: false,
+                                                                                                                  onChanged: (value){
+                                                                                                                    setStater(() {
+                                                                                                                      QualificacaoMorador = value;
+                                                                                                                    });
+                                                                                                                  },
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    filled: true,
+                                                                                                                    fillColor: Colors.white,
+                                                                                                                    labelStyle: TextStyle(
+                                                                                                                        color: textAlertDialogColor,
+                                                                                                                        backgroundColor: Colors.white
+                                                                                                                    ),
+                                                                                                                    border: const OutlineInputBorder(),
+                                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                    ),
+                                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(
+                                                                                                                          width: 3,
+                                                                                                                          color: Colors.black
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                    labelText: 'Qualificação',
+                                                                                                                  ),
+                                                                                                                  style: TextStyle(
+                                                                                                                      color: textAlertDialogColor
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            ElevatedButton(
+                                                                                                                onPressed: (){
+                                                                                                                  FirebaseFirestore.instance.collection('Pessoas').doc(documents['id']).update({
+                                                                                                                    'Nome': nomeMorador,
+                                                                                                                    'RG': RGMorador,
+                                                                                                                    'CPF': CPFMorador,
+                                                                                                                    'Unidade': UnidadeMorador,
+                                                                                                                    'Bloco': BlocoMorador,
+                                                                                                                    'Telefone': TelefoneMorador,
+                                                                                                                    'Celular': CelularMorador,
+                                                                                                                    'Qualificacao': QualificacaoMorador,
+                                                                                                                  }).whenComplete((){
+                                                                                                                    setStater((){
+                                                                                                                      editarInfosMorador = false;
+                                                                                                                    });
+                                                                                                                    showToast("Informações salvas com sucesso!", context: context);
+                                                                                                                  });
+                                                                                                                },
+                                                                                                                child: const Text('Salvar')
+                                                                                                            )
+                                                                                                          ],
+                                                                                                        ),
                                                                                                       ),
                                                                                                     ),
-                                                                                                    label: Text('Anotação',
-                                                                                                      style: TextStyle(
-                                                                                                          color: Colors.black,
-                                                                                                          backgroundColor: Colors.white
+                                                                                                  ],
+                                                                                                ),
+                                                                                                Container(
+                                                                                                  padding: const EdgeInsets.all(16),
+                                                                                                  child: TextField(
+                                                                                                    keyboardType: TextInputType.multiline,
+                                                                                                    enableSuggestions: true,
+                                                                                                    autocorrect: true,
+                                                                                                    minLines: 5,
+                                                                                                    maxLines: null,
+                                                                                                    controller: anotacaoControl,
+                                                                                                    onChanged: (value){
+                                                                                                      setStater(() {
+                                                                                                        anotacaoMorador = value;
+                                                                                                      });
+                                                                                                    },
+                                                                                                    decoration: const InputDecoration(
+                                                                                                      filled: true,
+                                                                                                      fillColor: Colors.white,
+                                                                                                      border: OutlineInputBorder(),
+                                                                                                      enabledBorder: OutlineInputBorder(
+                                                                                                        borderSide: BorderSide(width: 3, color: Colors.black),
                                                                                                       ),
+                                                                                                      focusedBorder: OutlineInputBorder(
+                                                                                                        borderSide: BorderSide(
+                                                                                                            width: 3,
+                                                                                                            color: Colors.black
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      label: Text('Anotação',
+                                                                                                        style: TextStyle(
+                                                                                                            color: Colors.black,
+                                                                                                            backgroundColor: Colors.white
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    style: const TextStyle(
+                                                                                                        color: Colors.black
                                                                                                     ),
                                                                                                   ),
                                                                                                 ),
-                                                                                              ),
-                                                                                            ],
-                                                                                          ),
-                                                                                        )
-                                                                                    ),
-                                                                                  ],
+                                                                                                Container(
+                                                                                                  padding: const EdgeInsets.only(bottom: 10),
+                                                                                                  child: ElevatedButton(
+                                                                                                      onPressed: (){
+                                                                                                        FirebaseFirestore.instance.collection('Pessoas').doc(documents['id']).update({
+                                                                                                          'anotacao': anotacaoMorador
+                                                                                                        }).whenComplete((){
+                                                                                                          showToast("Anotação salva com sucesso!", context: context);
+                                                                                                        });
+                                                                                                      },
+                                                                                                      child: const Text('Salvar anotação')
+                                                                                                  ),
+                                                                                                ),
+                                                                                                editarInfosMorador == false ? adicionarMoradores == true ?
+                                                                                                ElevatedButton(
+                                                                                                  onPressed: (){
+                                                                                                    setStater((){
+                                                                                                      editarInfosMorador = true;
+                                                                                                    });
+                                                                                                  },
+                                                                                                  child: const Text('Editar informações'),
+                                                                                                ): Container()
+                                                                                                    : Container()
+                                                                                              ],
+                                                                                            ),
+                                                                                          )
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
                                                                                 ),
-                                                                              ),
+                                                                              );
+                                                                             }
                                                                             );
                                                                           },
                                                                         );
@@ -5894,7 +6285,7 @@ class _homeAppState extends State<homeApp>{
                                                     showDialog(
                                                       context: context,
                                                       builder: (BuildContext context) {
-                                                        return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                        return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
                                                           return Center(
                                                             child: SingleChildScrollView(
                                                               child: Dialog(
@@ -6067,7 +6458,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                         "Celular": "",
                                                                                                                                         "anotacao": "",
                                                                                                                                         "telefone": '',
-                                                                                                                                        "celular": '',
                                                                                                                                         "Qualificacao": '',
                                                                                                                                       });
                                                                                                                                     }
@@ -6086,8 +6476,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                         "Telefone": "",
                                                                                                                                         "Celular": "",
                                                                                                                                         "anotacao": "",
-                                                                                                                                        "telefone": '',
-                                                                                                                                        "celular": '',
                                                                                                                                         "Qualificacao": '',
                                                                                                                                       });
                                                                                                                                     }
@@ -6185,7 +6573,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 enableSuggestions: false,
                                                                                 autocorrect: false,
                                                                                 onChanged: (value){
-                                                                                  setState(() {
+                                                                                  setStater(() {
                                                                                     NomeV = value;
                                                                                   });
                                                                                 },
@@ -6222,7 +6610,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 enableSuggestions: false,
                                                                                 autocorrect: false,
                                                                                 onChanged: (value){
-                                                                                  setState(() {
+                                                                                  setStater(() {
                                                                                     CPFV = value;
                                                                                   });
                                                                                 },
@@ -6259,7 +6647,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 enableSuggestions: false,
                                                                                 autocorrect: false,
                                                                                 onChanged: (value){
-                                                                                  setState(() {
+                                                                                  setStater(() {
                                                                                     RGV = value;
                                                                                   });
                                                                                 },
@@ -6296,7 +6684,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 enableSuggestions: false,
                                                                                 autocorrect: false,
                                                                                 onChanged: (value){
-                                                                                  setState(() {
+                                                                                  setStater(() {
                                                                                     Unidade = value;
                                                                                   });
                                                                                 },
@@ -6333,7 +6721,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 enableSuggestions: false,
                                                                                 autocorrect: false,
                                                                                 onChanged: (value){
-                                                                                  setState(() {
+                                                                                  setStater(() {
                                                                                     Bloco = value;
                                                                                   });
                                                                                 },
@@ -6370,7 +6758,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 enableSuggestions: false,
                                                                                 autocorrect: false,
                                                                                 onChanged: (value){
-                                                                                  setState(() {
+                                                                                  setStater(() {
                                                                                     Telefone = value;
                                                                                   });
                                                                                 },
@@ -6407,7 +6795,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 enableSuggestions: false,
                                                                                 autocorrect: false,
                                                                                 onChanged: (value){
-                                                                                  setState(() {
+                                                                                  setStater(() {
                                                                                     Celular = value;
                                                                                   });
                                                                                 },
@@ -6444,7 +6832,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 enableSuggestions: false,
                                                                                 autocorrect: false,
                                                                                 onChanged: (value){
-                                                                                  setState(() {
+                                                                                  setStater(() {
                                                                                     Qualificacao = value;
                                                                                   });
                                                                                 },
@@ -6482,7 +6870,7 @@ class _homeAppState extends State<homeApp>{
                                                                               minLines: 5,
                                                                               maxLines: null,
                                                                               onChanged: (value){
-                                                                                setState(() {
+                                                                                setStater(() {
                                                                                   Observacoes = value;
                                                                                 });
                                                                               },
@@ -6522,7 +6910,7 @@ class _homeAppState extends State<homeApp>{
                                                                               onPressed: () async {
                                                                                 final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-                                                                                setState(() {
+                                                                                setStater(() {
                                                                                   if (pickedFile != null) {
                                                                                     _imageFile = File(pickedFile.path);
                                                                                   } else {
@@ -6553,7 +6941,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 value: (value.isEmpty)? null : value,
                                                                                 onChanged: (escolha) async {
                                                                                   dropValue2.value = escolha.toString();
-                                                                                  setState(() {
+                                                                                  setStater(() {
                                                                                     modeloPikado = escolha.toString();
                                                                                   });
                                                                                 },
@@ -6621,7 +7009,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                 child: TextButton(
                                                                                                     onPressed: () async {
 
-                                                                                                      setState((){
+                                                                                                      setStater((){
                                                                                                         ipAcionamento = documents['ip'];
                                                                                                         portaAc = documents['porta'];
                                                                                                         usuarioAc = documents['usuario'];
@@ -6712,7 +7100,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             "Bloco":Bloco,
                                                                                             "anotacao": Observacoes,
                                                                                             "telefone": Telefone,
-                                                                                            "celular": Celular,
+                                                                                            "Celular": Celular,
                                                                                             "Qualificacao": Qualificacao,
                                                                                           }).whenComplete(() {
                                                                                             print('completo!');
@@ -6741,7 +7129,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             showToast("Selecione um acionamento! Caso não exista acionamentos, use a opção Outros!",context:context);
                                                                                           }else{
                                                                                             Map<String, dynamic> id = await cadastronoEquipamento(context, ipAcionamento, portaAc, usuarioAc, senhAc, "Control iD", NomeV);
-                                                                                            setState((){
+                                                                                            setStater((){
                                                                                               ID = "${id["ids"][0]}";
                                                                                             });
                                                                                             Cadastrar(ID);
@@ -6751,7 +7139,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         if(modeloPikado == "Outros"){
                                                                                           Uuid uuid = const Uuid();
 
-                                                                                          setState((){
+                                                                                          setStater((){
                                                                                             ID =  uuid.v4();
                                                                                           });
                                                                                           Cadastrar(ID);
@@ -7058,7 +7446,7 @@ class _homeAppState extends State<homeApp>{
                                                             showDialog(
                                                               context: context,
                                                               builder: (BuildContext context) {
-                                                                return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
                                                                   return SingleChildScrollView(
                                                                     child: Dialog(
                                                                       child: Stack(
@@ -7119,7 +7507,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             enableSuggestions: false,
                                                                                             autocorrect: false,
                                                                                             onChanged: (value){
-                                                                                              setState(() {
+                                                                                              setStater(() {
                                                                                                 Unidade = value;
                                                                                               });
                                                                                             },
@@ -7156,7 +7544,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             enableSuggestions: false,
                                                                                             autocorrect: false,
                                                                                             onChanged: (value){
-                                                                                              setState(() {
+                                                                                              setStater(() {
                                                                                                 Bloco = value;
                                                                                               });
                                                                                             },
@@ -7193,7 +7581,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             enableSuggestions: false,
                                                                                             autocorrect: false,
                                                                                             onChanged: (value){
-                                                                                              setState(() {
+                                                                                              setStater(() {
                                                                                                 Rua = value;
                                                                                               });
                                                                                             },
@@ -7230,7 +7618,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             enableSuggestions: false,
                                                                                             autocorrect: false,
                                                                                             onChanged: (value){
-                                                                                              setState(() {
+                                                                                              setStater(() {
                                                                                                 Nome = value;
                                                                                               });
                                                                                             },
@@ -7267,7 +7655,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             enableSuggestions: false,
                                                                                             autocorrect: false,
                                                                                             onChanged: (value){
-                                                                                              setState(() {
+                                                                                              setStater(() {
                                                                                                 CPFVist = value;
                                                                                               });
                                                                                             },
@@ -7304,7 +7692,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             enableSuggestions: false,
                                                                                             autocorrect: false,
                                                                                             onChanged: (value){
-                                                                                              setState(() {
+                                                                                              setStater(() {
                                                                                                 Telefone = value;
                                                                                               });
                                                                                             },
@@ -7341,7 +7729,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             enableSuggestions: false,
                                                                                             autocorrect: false,
                                                                                             onChanged: (value){
-                                                                                              setState(() {
+                                                                                              setStater(() {
                                                                                                 Cracha = value;
                                                                                               });
                                                                                             },
@@ -7378,7 +7766,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             enableSuggestions: false,
                                                                                             autocorrect: false,
                                                                                             onChanged: (value){
-                                                                                              setState(() {
+                                                                                              setStater(() {
                                                                                                 Empresa = value;
                                                                                               });
                                                                                             },
@@ -7415,7 +7803,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             enableSuggestions: false,
                                                                                             autocorrect: false,
                                                                                             onChanged: (value){
-                                                                                              setState(() {
+                                                                                              setStater(() {
                                                                                                 Veiculo = value;
                                                                                               });
                                                                                             },
@@ -7452,7 +7840,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             enableSuggestions: false,
                                                                                             autocorrect: false,
                                                                                             onChanged: (value){
-                                                                                              setState(() {
+                                                                                              setStater(() {
                                                                                                 Placa = value;
                                                                                               });
                                                                                             },
@@ -7493,7 +7881,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             value: (value.isEmpty)? null : value,
                                                                                             onChanged: (escolha) async {
                                                                                               dropValue2.value = escolha.toString();
-                                                                                              setState(() {
+                                                                                              setStater(() {
                                                                                                 Previsao = escolha.toString();
                                                                                               });
                                                                                             },
@@ -7525,7 +7913,7 @@ class _homeAppState extends State<homeApp>{
                                                                                           onPressed: () async {
                                                                                             final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-                                                                                            setState(() {
+                                                                                            setStater(() {
                                                                                               if (pickedFile != null) {
                                                                                                 _imageFile = File(pickedFile.path);
                                                                                               } else {
@@ -7553,7 +7941,7 @@ class _homeAppState extends State<homeApp>{
                                                                                           minLines: 5,
                                                                                           maxLines: null,
                                                                                           onChanged: (value){
-                                                                                            setState(() {
+                                                                                            setStater(() {
                                                                                               obs = value;
                                                                                             });
                                                                                           },
@@ -7823,7 +8211,7 @@ class _homeAppState extends State<homeApp>{
                                                                                     pesquisa3 = value;
 
                                                                                     if(value == ""){
-                                                                                      setState(() {
+                                                                                      setStater(() {
                                                                                         pesquisando3 = false;
                                                                                       });
                                                                                     }
@@ -8069,7 +8457,7 @@ class _homeAppState extends State<homeApp>{
                                                                 showDialog(
                                                                   context: context,
                                                                   builder: (BuildContext context) {
-                                                                    return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                    return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
                                                                       return Center(
                                                                         child: SingleChildScrollView(
                                                                           child: Dialog(
@@ -8124,7 +8512,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                 enableSuggestions: false,
                                                                                                 autocorrect: false,
                                                                                                 onChanged: (value){
-                                                                                                  setState(() {
+                                                                                                  setStater(() {
                                                                                                     Unidade = value;
                                                                                                   });
                                                                                                 },
@@ -8161,7 +8549,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                 enableSuggestions: false,
                                                                                                 autocorrect: false,
                                                                                                 onChanged: (value){
-                                                                                                  setState(() {
+                                                                                                  setStater(() {
                                                                                                     blocoV = value;
                                                                                                   });
                                                                                                 },
@@ -8198,7 +8586,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                 enableSuggestions: false,
                                                                                                 autocorrect: false,
                                                                                                 onChanged: (value){
-                                                                                                  setState(() {
+                                                                                                  setStater(() {
                                                                                                     MarcaV = value;
                                                                                                   });
                                                                                                 },
@@ -8235,7 +8623,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                 enableSuggestions: false,
                                                                                                 autocorrect: false,
                                                                                                 onChanged: (value){
-                                                                                                  setState(() {
+                                                                                                  setStater(() {
                                                                                                     IdentificacaoModeloV = value;
                                                                                                   });
                                                                                                 },
@@ -8272,7 +8660,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                 enableSuggestions: false,
                                                                                                 autocorrect: false,
                                                                                                 onChanged: (value){
-                                                                                                  setState(() {
+                                                                                                  setStater(() {
                                                                                                     PlacaV = value;
                                                                                                   });
                                                                                                 },
@@ -8309,7 +8697,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                 enableSuggestions: false,
                                                                                                 autocorrect: false,
                                                                                                 onChanged: (value){
-                                                                                                  setState(() {
+                                                                                                  setStater(() {
                                                                                                     corV = value;
                                                                                                   });
                                                                                                 },
