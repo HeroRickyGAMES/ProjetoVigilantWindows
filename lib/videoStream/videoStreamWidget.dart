@@ -980,25 +980,21 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                         ),
                         CFTV == 0 ?
                         Container():
-                        SizedBox(
-                            width: widget.wid / 2,
-                            height: widget.heig / 2.2,
-                            child: Stack(
-                                children: [
-                                  videoStreamAlert(widget.user, widget.pass, widget.ip, widget.porta, CFTV, widget.Modelo),
-                                  Container(
-                                    alignment: Alignment.topRight,
-                                    padding: const EdgeInsets.all(16),
-                                    child: IconButton(onPressed: (){
-                                      setStater(() {
-                                        CFTV = 0;
-                                      });
-                                    },
-                                        icon: const Icon(Icons.close)
-                                    ),
-                                  ),
-                                ]
-                            )
+                        Stack(
+                            children: [
+                              videoStreamAlert(widget.user, widget.pass, widget.ip, widget.porta, CFTV, widget.Modelo),
+                              Container(
+                                alignment: Alignment.topRight,
+                                padding: const EdgeInsets.all(16),
+                                child: IconButton(onPressed: (){
+                                  setStater(() {
+                                    CFTV = 0;
+                                  });
+                                },
+                                    icon: const Icon(Icons.close)
+                                ),
+                              ),
+                            ]
                         ),
                       ]
                   ),
