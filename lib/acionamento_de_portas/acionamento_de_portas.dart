@@ -172,8 +172,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
         final responseDigest = md5.convert(utf8.encode('$ha1:$nonce:$nc:$cnonce:$qop:$ha2')).toString();
 
         // Cabeçalho de autorização Digest
-        final authValue =
-            'Digest username="$usuario", realm="$realm", nonce="$nonce", uri="$uri", qop=$qop, nc=$nc, cnonce="$cnonce", response="$responseDigest"';
+        final authValue = 'Digest username="$usuario", realm="$realm", nonce="$nonce", uri="$uri", qop=$qop, nc=$nc, cnonce="$cnonce", response="$responseDigest"';
 
         // Realiza a requisição PUT com autenticação Digest
         final response2 = await http.put(

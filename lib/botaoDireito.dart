@@ -28,16 +28,3 @@ Future<NativeMenu> initMenuAcionamentos() async {
   }
   return menu;
 }
-
-Future<NativeMenu> initMenuMoradores() async {
-  NativeMenuItem? itemNew;
-  NativeMenu menu = NativeMenu();
-  if(AdicionarAcionamentos == true){
-    itemNew = NativeMenuItem.simple(title: "Editar infos. de morador", action: "editar_morador");
-    menu.addItem(itemNew);
-    menu.addItem(NativeMenuItem.simple(title: "Deletar morador", action: "delMorador"));
-  }else{
-    menu.addItem(NativeMenuItem.simple(title: "", action: ""));
-  }
-  return menu;
-}

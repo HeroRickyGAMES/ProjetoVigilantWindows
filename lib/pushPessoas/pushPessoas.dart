@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:crypto/crypto.dart';
 import 'package:http_auth/http_auth.dart' as http_auth;
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 import 'package:vigilant/checkUser.dart';
 
 //Programado por HeroRickyGames com ajuda de Deus!
@@ -110,6 +110,76 @@ Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, Stri
       }
     } catch (e) {
       showToast("Erro ao executar a requisição: $e",context:context);
+    }
+  }
+
+  if(modelo == "Hikvision"){
+
+    // Função para gerar o header de autenticação Digest Auth
+    String _generateDigestAuth(Map<String, String> authData, String username, String password, String method, String uri) {
+      final ha1 = md5.convert(utf8.encode('$username:${authData["realm"]}:$password')).toString();
+      final ha2 = md5.convert(utf8.encode('$method:$uri')).toString();
+      final response = md5.convert(utf8.encode('$ha1:${authData["nonce"]}:$ha2')).toString();
+
+      return 'Digest username="$username", realm="${authData["realm"]}", nonce="${authData["nonce"]}", uri="$uri", response="$response"';
+    }
+
+// Função para extrair dados do header WWW-Authenticate
+    Map<String, String> _parseDigestHeader(String header) {
+      final Map<String, String> authData = {};
+      final regExp = RegExp(r'(\w+)=["]?([^",]+)["]?');
+      regExp.allMatches(header).forEach((match) {
+        authData[match.group(1)!] = match.group(2)!;
+      });
+      return authData;
+    }
+
+    // URL do endpoint
+    String url = 'http://$ip:$porta/ISAPI/AccessControl/UserInfo/Search?format=json&devIndex=0';
+
+    // Credenciais
+    String username = usuario;
+    String password = Senha;
+
+    // Realiza a primeira requisição para obter os dados do Digest Auth
+    var response = await http.post(Uri.parse(url));
+    if (response.statusCode == 401 && response.headers['www-authenticate'] != null) {
+      final authHeader = response.headers['www-authenticate'];
+
+      // Extrai os valores do header de autenticação
+      final authData = _parseDigestHeader(authHeader!);
+      final digestAuth = _generateDigestAuth(authData, username, password, 'POST', url);
+
+      // Cabeçalhos com autenticação Digest
+      final headers = {
+        'Authorization': digestAuth,
+        'Content-Type': 'application/json',
+      };
+
+      // Corpo da requisição
+      final Map<String, dynamic> requestBody = {
+        "UserInfoSearchCond": {
+          "searchID": "0",
+          "searchResultPosition": 0,
+          "maxResults": 30
+        }
+      };
+
+      // Requisição POST com a autenticação Digest
+      response = await http.post(
+          Uri.parse(url),
+          headers: headers,
+          body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        // Converte a resposta JSON para Map
+        return jsonDecode(response.body);
+      } else {
+        throw Exception('Erro na requisição: ${response.statusCode}');
+      }
+    } else {
+      throw Exception('Falha ao obter o header WWW-Authenticate');
     }
   }
   return {};

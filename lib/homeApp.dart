@@ -15,6 +15,7 @@ import 'package:vigilant/FirebaseHost.dart';
 import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
 import 'package:vigilant/botaoDireito.dart';
 import 'package:vigilant/getIds.dart';
+import 'package:vigilant/intRamdom/intRamdom.dart';
 import 'package:vigilant/login/login.dart';
 import 'package:vigilant/pushPessoas/cadastroDeUsuariosNoEquipamento.dart';
 import 'package:vigilant/pushPessoas/pushPessoas.dart';
@@ -129,6 +130,7 @@ List ModelosAcionamentos = [
 
 List ImportarUsuarios = [
   "Control iD",
+  'Hikvision',
   "Outros",
 ];
 
@@ -5454,6 +5456,11 @@ class _homeAppState extends State<homeApp>{
                                                                                                           pesquisando2 = true;
                                                                                                         });
                                                                                                       }
+                                                                                                    }else{
+                                                                                                      showToast("Nada foi encontrado!", context: context);
+                                                                                                      setStater((){
+                                                                                                        pesquisando2 = true;
+                                                                                                      });
                                                                                                     }
                                                                                                   }
                                                                                                 },
@@ -5538,6 +5545,11 @@ class _homeAppState extends State<homeApp>{
                                                                                                           pesquisaCPF = true;
                                                                                                         });
                                                                                                       }
+                                                                                                    }else{
+                                                                                                      showToast("Nada foi encontrado!", context: context);
+                                                                                                      setStater((){
+                                                                                                        pesquisaCPF = true;
+                                                                                                      });
                                                                                                     }
                                                                                                   }
                                                                                                 },
@@ -5559,6 +5571,8 @@ class _homeAppState extends State<homeApp>{
                                                                                       showSearchBar2 = true;
                                                                                       if(showSearchBar2 == true){
                                                                                         setStater((){
+                                                                                          pesquisando2 = false;
+                                                                                          pesquisaCPF = false;
                                                                                           showSearchBar2 = false;
                                                                                         });
                                                                                       }
@@ -6152,11 +6166,18 @@ class _homeAppState extends State<homeApp>{
                                                                               child: Text(
                                                                                 "Nome: ${documents['Nome']}"
                                                                                     "\nCPF: ${documents['CPF']}",
-                                                                                style: documents['Nome'].length >= 25 ? TextStyle(
+                                                                                style: documents['Nome'].length >= 20 && documents['Nome'].length <= 29 ?
+                                                                                TextStyle(
                                                                                     color: textColorInitBlue,
-                                                                                    fontSize: 11,
+                                                                                    fontSize: 9,
                                                                                     fontWeight: FontWeight.bold
-                                                                                ): TextStyle(
+                                                                                ): documents['Nome'].length >= 30 ?
+                                                                                TextStyle(
+                                                                                    color: textColorInitBlue,
+                                                                                    fontSize: 8,
+                                                                                    fontWeight: FontWeight.bold
+                                                                                ):
+                                                                                TextStyle(
                                                                                     color: textColorInitBlue,
                                                                                     fontSize: 14
                                                                                 ),
@@ -6197,7 +6218,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                     ),
                                                                                                     ElevatedButton(
                                                                                                         onPressed: (){
-                                                                                                          FirebaseFirestore.instance.collection('Pessoas').doc(documents['id']).delete().whenComplete((){
+                                                                                                          FirebaseFirestore.instance.collection('Pessoas').doc("${documents['id']}").delete().whenComplete((){
                                                                                                             Navigator.pop(context);
                                                                                                             showToast("Deletado com sucesso!", context: context);
                                                                                                             }
@@ -6275,6 +6296,7 @@ class _homeAppState extends State<homeApp>{
                                                     String Celular = "";
                                                     String Qualificacao = "";
                                                     String Observacoes = "";
+                                                    String modeloAcionamento = '';
 
                                                     File? _imageFile;
 
@@ -6356,23 +6378,34 @@ class _homeAppState extends State<homeApp>{
                                                                                                   padding: const EdgeInsets.all(16),
                                                                                                   child: Column(
                                                                                                     children: [
-                                                                                                      Container(
-                                                                                                        padding: const EdgeInsets.all(10),
-                                                                                                        child: const Text(
-                                                                                                          'Importar usuarios diretamente do equipamento',
-                                                                                                          style: TextStyle(
-                                                                                                            fontSize: 25,
+                                                                                                      Row(
+                                                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                        children: [
+                                                                                                          Container(
+                                                                                                            padding: const EdgeInsets.all(10),
+                                                                                                            child: const Text(
+                                                                                                              'Importar usuarios diretamente do equipamento',
+                                                                                                              style: TextStyle(
+                                                                                                                fontSize: 20,
+                                                                                                                fontWeight: FontWeight.bold
+                                                                                                              ),
+                                                                                                            ),
                                                                                                           ),
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                      Container(
-                                                                                                        padding: const EdgeInsets.all(5),
-                                                                                                        child: const Text(
-                                                                                                          "Aviso! No presente momento o unico acionamento suportado é Control iD!",
-                                                                                                          style: TextStyle(
-                                                                                                            fontSize: 16,
-                                                                                                          ),
-                                                                                                        ),
+                                                                                                          SizedBox(
+                                                                                                            width: 80,
+                                                                                                            height: 80,
+                                                                                                            child: TextButton(onPressed: (){
+                                                                                                              Navigator.pop(context);
+                                                                                                            },
+                                                                                                                child: const Center(
+                                                                                                                  child: Icon(
+                                                                                                                    Icons.close,
+                                                                                                                    size: 35,
+                                                                                                                  ),
+                                                                                                                )
+                                                                                                            ),
+                                                                                                          )
+                                                                                                        ],
                                                                                                       ),
                                                                                                       SizedBox(
                                                                                                         width: 600,
@@ -6381,7 +6414,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                           stream: FirebaseFirestore.instance
                                                                                                               .collection('acionamentos')
                                                                                                               .where("idCondominio", isEqualTo: idCondominio)
-                                                                                                              .where("modelo", isEqualTo: "Control iD")
+                                                                                                              .where("modelo", whereIn: ["Control iD", "Hikvision"])
                                                                                                               .snapshots(),
                                                                                                           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                                                                                             if (snapshot.hasError) {
@@ -6434,39 +6467,80 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                       );
                                                                                                                                     },
                                                                                                                                   );
+                                                                                                                                  if(documents['modelo'] == 'Control iD'){
+                                                                                                                                    Map<String, dynamic> usuarios = await pushPessoas(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo']);
 
-                                                                                                                                  Map<String, dynamic> usuarios = await pushPessoas(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], "Control iD");
+                                                                                                                                    String ImageURL = "";
 
-                                                                                                                                  String ImageURL = "";
+                                                                                                                                    int lent = usuarios['users'].length - 1;
 
-                                                                                                                                  int lent = usuarios['users'].length - 1;
+                                                                                                                                    for (int i = 0; i < lent; i++) {
 
-                                                                                                                                  for (int i = 0; i < lent; i++) {
+                                                                                                                                      cadastrarPs(){
+                                                                                                                                        FirebaseFirestore.instance.collection('Pessoas').doc("${usuarios['users'][i]["id"]}$idCondominio").set({
+                                                                                                                                          "id": "${usuarios['users'][i]["id"]}$idCondominio",
+                                                                                                                                          "idCondominio": idCondominio,
+                                                                                                                                          "Nome": usuarios['users'][i]["name"],
+                                                                                                                                          "CPF": "",
+                                                                                                                                          "RG": "",
+                                                                                                                                          "imageURI": ImageURL,
+                                                                                                                                          "placa": "",
+                                                                                                                                          "Unidade":"",
+                                                                                                                                          "Bloco": "",
+                                                                                                                                          "Celular": "",
+                                                                                                                                          "anotacao": "",
+                                                                                                                                          "Telefone": '',
+                                                                                                                                          "Qualificacao": '',
+                                                                                                                                        });
+                                                                                                                                      }
 
-                                                                                                                                    cadastrarPs(){
-                                                                                                                                      FirebaseFirestore.instance.collection('Pessoas').doc("${usuarios['users'][i]["id"]}").set({
-                                                                                                                                        "id": "${usuarios['users'][i]["id"]}",
-                                                                                                                                        "idCondominio": idCondominio,
-                                                                                                                                        "Nome": usuarios['users'][i]["name"],
-                                                                                                                                        "CPF": "",
-                                                                                                                                        "RG": "",
-                                                                                                                                        "imageURI": ImageURL,
-                                                                                                                                        "placa": "",
-                                                                                                                                        "Unidade":"",
-                                                                                                                                        "Bloco": "",
-                                                                                                                                        "Telefone": "",
-                                                                                                                                        "Celular": "",
-                                                                                                                                        "anotacao": "",
-                                                                                                                                        "telefone": '',
-                                                                                                                                        "Qualificacao": '',
-                                                                                                                                      });
+                                                                                                                                      cadastrarSemFoto(){
+                                                                                                                                        FirebaseFirestore.instance.collection('Pessoas').doc("${usuarios['users'][i]["id"]}$idCondominio").set({
+                                                                                                                                          "id": "${usuarios['users'][i]["id"]}$idCondominio",
+                                                                                                                                          "idCondominio": idCondominio,
+                                                                                                                                          "Nome": usuarios['users'][i]["name"],
+                                                                                                                                          "CPF": "",
+                                                                                                                                          "RG": "",
+                                                                                                                                          "imageURI": '',
+                                                                                                                                          "placa": "",
+                                                                                                                                          "Unidade":"",
+                                                                                                                                          "Bloco": "",
+                                                                                                                                          "Telefone": "",
+                                                                                                                                          "Celular": "",
+                                                                                                                                          "anotacao": "",
+                                                                                                                                          "Qualificacao": '',
+                                                                                                                                        });
+                                                                                                                                      }
+
+                                                                                                                                      File image;
+
+                                                                                                                                      if(await ImagemEquipamentoCotroliD(documents['ip'], documents['porta'], usuarios['Season'], usuarios['users'][i]["id"]) == null){
+                                                                                                                                        cadastrarSemFoto();
+                                                                                                                                      }else{
+                                                                                                                                        image = await ImagemEquipamentoCotroliD(documents['ip'], documents['porta'], usuarios['Season'], usuarios['users'][i]["id"]);
+
+                                                                                                                                        ImageURL = await carregarImagem(context, image, "$i", idCondominio);
+                                                                                                                                        cadastrarPs();
+
+                                                                                                                                      }
                                                                                                                                     }
+                                                                                                                                    Navigator.pop(context);
+                                                                                                                                    Navigator.pop(context);
+                                                                                                                                    Navigator.pop(context);
+                                                                                                                                    showToast("Importado com sucesso!", context: context);
+                                                                                                                                  }
+                                                                                                                                  if(documents['modelo'] == 'Hikvision'){
+                                                                                                                                    Map userInfo = await pushPessoas(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo']);
 
-                                                                                                                                    cadastrarSemFoto(){
-                                                                                                                                      FirebaseFirestore.instance.collection('Pessoas').doc("${usuarios['users'][i]["id"]}").set({
-                                                                                                                                        "id": "${usuarios['users'][i]["id"]}",
+                                                                                                                                    List<dynamic> Tratado = userInfo['UserInfoSearch']['UserInfo'];
+
+                                                                                                                                    int lent = Tratado.length - 1;
+
+                                                                                                                                    for (int i = 0; i < lent; i++) {
+                                                                                                                                      FirebaseFirestore.instance.collection('Pessoas').doc("${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$idCondominio").set({
+                                                                                                                                        "id": "${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$idCondominio",
                                                                                                                                         "idCondominio": idCondominio,
-                                                                                                                                        "Nome": usuarios['users'][i]["name"],
+                                                                                                                                        "Nome": userInfo['UserInfoSearch']['UserInfo'][i]['name'],
                                                                                                                                         "CPF": "",
                                                                                                                                         "RG": "",
                                                                                                                                         "imageURI": '',
@@ -6479,23 +6553,11 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                         "Qualificacao": '',
                                                                                                                                       });
                                                                                                                                     }
-
-                                                                                                                                    File image;
-
-                                                                                                                                    if(await ImagemEquipamentoCotroliD(documents['ip'], documents['porta'], usuarios['Season'], usuarios['users'][i]["id"]) == null){
-                                                                                                                                      cadastrarSemFoto();
-                                                                                                                                    }else{
-                                                                                                                                      image = await ImagemEquipamentoCotroliD(documents['ip'], documents['porta'], usuarios['Season'], usuarios['users'][i]["id"]);
-
-                                                                                                                                      ImageURL = await carregarImagem(context, image, "$i", idCondominio);
-                                                                                                                                      cadastrarPs();
-
-                                                                                                                                    }
+                                                                                                                                    Navigator.pop(context);
+                                                                                                                                    Navigator.pop(context);
+                                                                                                                                    Navigator.pop(context);
+                                                                                                                                    showToast("Importado com sucesso!", context: context);
                                                                                                                                   }
-                                                                                                                                  Navigator.pop(context);
-                                                                                                                                  Navigator.pop(context);
-                                                                                                                                  Navigator.pop(context);
-                                                                                                                                  showToast("Importado com sucesso!", context: context);
                                                                                                                                 },
                                                                                                                                 child: Stack(
                                                                                                                                   alignment: Alignment.center,
@@ -7014,6 +7076,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                         portaAc = documents['porta'];
                                                                                                         usuarioAc = documents['usuario'];
                                                                                                         senhAc = documents['senha'];
+                                                                                                        modeloAcionamento = documents['modelo'];
                                                                                                       });
                                                                                                       showToast("Dados selecionados", context: context);
                                                                                                     },
@@ -7097,9 +7160,9 @@ class _homeAppState extends State<homeApp>{
                                                                                             "RG": RGV,
                                                                                             "imageURI": DownloadURL,
                                                                                             "Unidade":Unidade,
-                                                                                            "Bloco":Bloco,
+                                                                                            "Bloco": Bloco,
                                                                                             "anotacao": Observacoes,
-                                                                                            "telefone": Telefone,
+                                                                                            "Telefone": Telefone,
                                                                                             "Celular": Celular,
                                                                                             "Qualificacao": Qualificacao,
                                                                                           }).whenComplete(() {
@@ -7128,19 +7191,28 @@ class _homeAppState extends State<homeApp>{
                                                                                             Navigator.of(context).pop();
                                                                                             showToast("Selecione um acionamento! Caso não exista acionamentos, use a opção Outros!",context:context);
                                                                                           }else{
-                                                                                            Map<String, dynamic> id = await cadastronoEquipamento(context, ipAcionamento, portaAc, usuarioAc, senhAc, "Control iD", NomeV);
+                                                                                            Map<String, dynamic> id = await cadastronoEquipamento(context, ipAcionamento, portaAc, usuarioAc, senhAc, modeloAcionamento, NomeV, 0);
                                                                                             setStater((){
-                                                                                              ID = "${id["ids"][0]}";
+                                                                                              ID = "${id["ids"][0]}$idCondominio";
                                                                                             });
                                                                                             Cadastrar(ID);
                                                                                           }
+                                                                                        }
+
+                                                                                        if(modeloPikado == "Hikvision"){
+                                                                                          int id = gerarNumero();
+                                                                                          setStater((){
+                                                                                            ID = "$id$idCondominio";
+                                                                                          });
+                                                                                          await cadastronoEquipamento(context, ipAcionamento, portaAc, usuarioAc, senhAc, modeloAcionamento, NomeV, id);
+                                                                                          Cadastrar(ID);
                                                                                         }
 
                                                                                         if(modeloPikado == "Outros"){
                                                                                           Uuid uuid = const Uuid();
 
                                                                                           setStater((){
-                                                                                            ID =  uuid.v4();
+                                                                                            ID = "${uuid.v4()}$idCondominio";
                                                                                           });
                                                                                           Cadastrar(ID);
                                                                                         }
@@ -7262,6 +7334,11 @@ class _homeAppState extends State<homeApp>{
                                                                             pesquisando7 = true;
                                                                           });
                                                                         }
+                                                                      }else{
+                                                                        showToast("Nada foi encontrado!", context: context);
+                                                                        setStater((){
+                                                                          pesquisando7 = true;
+                                                                        });
                                                                       }
 
                                                                       //Pesquisa CPF
@@ -7281,6 +7358,11 @@ class _homeAppState extends State<homeApp>{
                                                                             pesquisando8 = true;
                                                                           });
                                                                         }
+                                                                      }else{
+                                                                        showToast("Nada foi encontrado!", context: context);
+                                                                        setStater((){
+                                                                          pesquisando8 = true;
+                                                                        });
                                                                       }
 
                                                                     },
@@ -8138,7 +8220,7 @@ class _homeAppState extends State<homeApp>{
 
                                                                                     if(value == ""){
                                                                                       setStater(() {
-                                                                                        pesquisando3 = false;
+                                                                                        pesquisando6 = false;
                                                                                       });
                                                                                     }
                                                                                   },
@@ -8184,6 +8266,11 @@ class _homeAppState extends State<homeApp>{
                                                                                               pesquisando6 = true;
                                                                                             });
                                                                                           }
+                                                                                        }else{
+                                                                                          showToast("Nada foi encontrado!", context: context);
+                                                                                          setStater((){
+                                                                                            pesquisando6 = true;
+                                                                                          });
                                                                                         }
                                                                                       },
                                                                                       child: Image.asset(
@@ -8212,7 +8299,7 @@ class _homeAppState extends State<homeApp>{
 
                                                                                     if(value == ""){
                                                                                       setStater(() {
-                                                                                        pesquisando3 = false;
+                                                                                        pesquisando4 = false;
                                                                                       });
                                                                                     }
                                                                                   },
@@ -8258,6 +8345,11 @@ class _homeAppState extends State<homeApp>{
                                                                                               pesquisando4 = true;
                                                                                             });
                                                                                           }
+                                                                                        }else{
+                                                                                          showToast("Nada foi encontrado!", context: context);
+                                                                                          setStater((){
+                                                                                            pesquisando4 = true;
+                                                                                          });
                                                                                         }
                                                                                       },
                                                                                       child: Image.asset(
@@ -8332,6 +8424,11 @@ class _homeAppState extends State<homeApp>{
                                                                                               pesquisando3 = true;
                                                                                             });
                                                                                           }
+                                                                                        }else{
+                                                                                          showToast("Nada foi encontrado!", context: context);
+                                                                                          setStater((){
+                                                                                            pesquisando3 = true;
+                                                                                          });
                                                                                         }
                                                                                       },
                                                                                       child: Image.asset(
@@ -8354,6 +8451,9 @@ class _homeAppState extends State<homeApp>{
                                                                         if(showSearchBar == true){
                                                                           setStater((){
                                                                             showSearchBar = false;
+                                                                            pesquisando6 = false;
+                                                                            pesquisando4 = false;
+                                                                            pesquisando3 = false;
                                                                           });
                                                                         }
                                                                       },
