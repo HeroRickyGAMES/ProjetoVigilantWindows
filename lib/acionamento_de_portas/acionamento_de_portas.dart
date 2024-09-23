@@ -268,7 +268,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
         }
 
         //String message = "000D${tipoDisp.toString()}${numDisp.toString()}${rele.toString()}${geraEvt.toString()}";
-        String message = "0000000D$tipoDisp$numDisp$rele${geraEvt}00";
+        String message = "1600000D$tipoDisp$numDisp$rele${geraEvt}00";
         print(message);
         String checksum = calculaChecksum(message);
         print(checksum);
