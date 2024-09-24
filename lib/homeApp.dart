@@ -7433,37 +7433,15 @@ class _homeAppState extends State<homeApp>{
                                                                           width: 1.0,
                                                                         ),
                                                                       ),
-                                                                      child: Column(
-                                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                                        children: [
-                                                                          Container(
-                                                                              padding: const EdgeInsets.all(6),
-                                                                              child: Text(
-                                                                                "Nome: ${documents["Nome"]}",
-                                                                                style: TextStyle(
-                                                                                    color: textColorWidgets
-                                                                                ),
-                                                                              )
-                                                                          ),
-                                                                          Container(
-                                                                              padding: const EdgeInsets.all(6),
-                                                                              child: Text(
-                                                                                "CPF: ${documents["CPFVist"]}",
-                                                                                style: TextStyle(
-                                                                                    color: textColorWidgets
-                                                                                ),
-                                                                              )
-                                                                          ),
-                                                                          Container(
-                                                                              padding: const EdgeInsets.all(6),
-                                                                              child: Text(
-                                                                                "Empresa: ${documents["Empresa"]}",
-                                                                                style: TextStyle(
-                                                                                    color: textColorWidgets
-                                                                                ),
-                                                                              )
-                                                                          ),
-                                                                        ],
+                                                                      child: Container(
+                                                                          padding: const EdgeInsets.all(6),
+                                                                          child: Text(
+                                                                            "Nome: ${documents["Nome"]}\nCPF: ${documents["CPFVist"]}\nEmpresa: ${documents["Empresa"]}",
+                                                                            style: TextStyle(
+                                                                                color: Colors.white,
+                                                                                fontSize: 12
+                                                                            ),
+                                                                          )
                                                                       ),
                                                                     );
                                                                   }).toList(),
@@ -7515,6 +7493,8 @@ class _homeAppState extends State<homeApp>{
                                                             String Cracha = "";
                                                             String Placa = "";
                                                             String Telefone = "";
+                                                            String Celular = "";
+                                                            String Qualificacao = "";
                                                             String Previsao = "Sem Previsão";
 
                                                             //Campos obrigatórios
@@ -7812,6 +7792,80 @@ class _homeAppState extends State<homeApp>{
                                                                                             autocorrect: false,
                                                                                             onChanged: (value){
                                                                                               setStater(() {
+                                                                                                Celular = value;
+                                                                                              });
+                                                                                            },
+                                                                                            decoration: InputDecoration(
+                                                                                              filled: true,
+                                                                                              fillColor: Colors.white,
+                                                                                              labelStyle: TextStyle(
+                                                                                                  color: textAlertDialogColor,
+                                                                                                  backgroundColor: Colors.white
+                                                                                              ),
+                                                                                              border: const OutlineInputBorder(),
+                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                              ),
+                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                borderSide: BorderSide(
+                                                                                                    width: 3,
+                                                                                                    color: Colors.black
+                                                                                                ),
+                                                                                              ),
+                                                                                              labelText: 'Celular',
+                                                                                            ),
+                                                                                            style: TextStyle(
+                                                                                                color: textAlertDialogColor
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Container(
+                                                                                          padding: const EdgeInsets.all(16),
+                                                                                          child: TextField(
+                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                            enableSuggestions: false,
+                                                                                            autocorrect: false,
+                                                                                            onChanged: (value){
+                                                                                              setStater(() {
+                                                                                                Qualificacao = value;
+                                                                                              });
+                                                                                            },
+                                                                                            decoration: InputDecoration(
+                                                                                              filled: true,
+                                                                                              fillColor: Colors.white,
+                                                                                              labelStyle: TextStyle(
+                                                                                                  color: textAlertDialogColor,
+                                                                                                  backgroundColor: Colors.white
+                                                                                              ),
+                                                                                              border: const OutlineInputBorder(),
+                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                              ),
+                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                borderSide: BorderSide(
+                                                                                                    width: 3,
+                                                                                                    color: Colors.black
+                                                                                                ),
+                                                                                              ),
+                                                                                              labelText: 'Qualificação',
+                                                                                            ),
+                                                                                            style: TextStyle(
+                                                                                                color: textAlertDialogColor
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      Center(
+                                                                                        child: Container(
+                                                                                          padding: const EdgeInsets.all(16),
+                                                                                          child: TextField(
+                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                            enableSuggestions: false,
+                                                                                            autocorrect: false,
+                                                                                            onChanged: (value){
+                                                                                              setStater(() {
                                                                                                 Cracha = value;
                                                                                               });
                                                                                             },
@@ -8091,11 +8145,13 @@ class _homeAppState extends State<homeApp>{
                                                                                                     "Cracha": Cracha,
                                                                                                     "Placa": Placa,
                                                                                                     "Telefone": Telefone,
+                                                                                                    "Celular": Celular,
+                                                                                                    "Qualificacao": Qualificacao,
                                                                                                     "Previsao": Previsao,
                                                                                                     "Nome": Nome,
                                                                                                     "CPFVist": CPFVist,
                                                                                                     "idCondominio": idCondominio,
-                                                                                                    "imageURI": await ref.getDownloadURL(),
+                                                                                                    "imageURI": await ref,
                                                                                                   }).whenComplete((){
                                                                                                     Navigator.pop(context);
                                                                                                     Navigator.pop(context);
