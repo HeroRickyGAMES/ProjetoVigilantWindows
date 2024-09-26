@@ -7435,12 +7435,59 @@ class _homeAppState extends State<homeApp>{
                                                                       ),
                                                                       child: Container(
                                                                           padding: const EdgeInsets.all(6),
-                                                                          child: Text(
-                                                                            "Nome: ${documents["Nome"]}\nCPF: ${documents["CPFVist"]}\nEmpresa: ${documents["Empresa"]}",
-                                                                            style: TextStyle(
-                                                                                color: Colors.white,
-                                                                                fontSize: 12
-                                                                            ),
+                                                                          child: Row(
+                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                            children: [
+                                                                              Text(
+                                                                                "Nome: ${documents["Nome"]}\nCPF: ${documents["CPFVist"]}\nEmpresa: ${documents["Empresa"]}",
+                                                                                style: const TextStyle(
+                                                                                    color: Colors.white,
+                                                                                    fontSize: 12
+                                                                                ),
+                                                                              ),
+                                                                              TextButton(
+                                                                                  onPressed: (){
+                                                                                    showDialog(
+                                                                                      context: context,
+                                                                                      builder: (BuildContext context) {
+                                                                                        return AlertDialog(
+                                                                                          title: const Text('Deseja deletar esse visitante?'),
+                                                                                          actions: [
+                                                                                            Row(
+                                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                              children: [
+                                                                                                ElevatedButton(
+                                                                                                    onPressed: (){
+                                                                                                      Navigator.pop(context);
+                                                                                                    },
+                                                                                                    child: const Text("Não")
+                                                                                                ),
+                                                                                                ElevatedButton(
+                                                                                                    onPressed: (){
+                                                                                                      FirebaseFirestore.instance
+                                                                                                          .collection("Visitantes")
+                                                                                                          .doc(documents["ID"])
+                                                                                                          .delete().
+                                                                                                          whenComplete((){
+                                                                                                                Navigator.pop(context);
+                                                                                                                    }
+                                                                                                                  );
+                                                                                                    },
+                                                                                                    child: const Text("Sim")
+                                                                                                ),
+                                                                                              ],
+                                                                                            ),
+                                                                                          ],
+                                                                                        );
+                                                                                      },
+                                                                                    );
+                                                                                  },
+                                                                                  child: const Icon(
+                                                                                      Icons.delete,
+                                                                                      color: Colors.red,
+                                                                                  )
+                                                                              )
+                                                                            ],
                                                                           )
                                                                       ),
                                                                     );
@@ -8136,6 +8183,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                   var ref = carregarImagem(context, _imageFile!, UUID, idCondominio);
 
                                                                                                   FirebaseFirestore.instance.collection('Visitantes').doc(UUID).set({
+                                                                                                    "ID": UUID,
                                                                                                     "Unidade": Unidade,
                                                                                                     "Bloco": Bloco,
                                                                                                     "Rua": Rua,
