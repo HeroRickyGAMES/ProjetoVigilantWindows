@@ -161,7 +161,6 @@ class _homeAppState extends State<homeApp>{
 
     //Pega todas as permissões do usuario
     checkarAsPermissoes() async {
-      await WindowManager.instance.maximize();
       try{
         await Future.delayed(const Duration(seconds: 1));
         var getUserPermissions = await FirebaseFirestore.instance

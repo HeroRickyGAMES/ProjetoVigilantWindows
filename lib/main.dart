@@ -56,7 +56,10 @@ class _mainAppState extends State<mainApp> {
       await windowManager.show();
       await windowManager.focus();
     });
+  }
 
+  maximizar() async {
+    await WindowManager.instance.maximize();
   }
 
   @override
@@ -75,12 +78,14 @@ class _mainAppState extends State<mainApp> {
 
     //Vai para a tela de login
     GoToLoginScreen(){
+      maximizar();
       Get.to(const login());
     }
 
 
     //Vai para a homeApp
     GoToHome(){
+      maximizar();
       Get.to(const homeApp());
     }
 
