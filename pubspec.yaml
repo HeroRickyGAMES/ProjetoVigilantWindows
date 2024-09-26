@@ -45,7 +45,7 @@ dependencies:
   media_kit: ^1.1.10
   media_kit_video: ^1.2.4
   media_kit_libs_video: ^1.0.4
-  image_picker: ^1.1.0
+  image_picker: ^1.1.2
   livekit_client: ^2.1.4
   audioplayers: ^6.0.0
   sip_ua: ^0.6.0
@@ -61,6 +61,7 @@ dependencies:
   fluid_kit: ^3.0.0
   path_provider: ^2.1.4
   window_manager: ^0.4.2
+  full_picker: ^2.1.0
 
 dependency_overrides:
   dart_vlc_ffi:

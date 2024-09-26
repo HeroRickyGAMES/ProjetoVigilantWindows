@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fluid_kit/fluid_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:full_picker/full_picker.dart';
 import 'package:get/route_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:native_context_menu_ng/native_context_menu_widget.dart';
@@ -17,12 +18,11 @@ import 'package:vigilant/botaoDireito.dart';
 import 'package:vigilant/getIds.dart';
 import 'package:vigilant/intRamdom/intRamdom.dart';
 import 'package:vigilant/login/login.dart';
-import 'package:vigilant/pushPessoas/cadastroDeUsuariosNoEquipamento.dart';
-import 'package:vigilant/pushPessoas/pushPessoas.dart';
+import 'package:vigilant/libDePessoas/cadastroDeUsuariosNoEquipamento.dart';
+import 'package:vigilant/libDePessoas/pushPessoas.dart';
 import 'package:vigilant/videoStream/videoStreamWidget.dart';
 import 'package:vigilant/voip/voipAPI.dart';
 import 'package:uuid/uuid.dart';
-import 'package:window_manager/window_manager.dart';
 
 //Desenvolvido por HeroRickyGames com ajuda de Deus!
 
@@ -6961,37 +6961,6 @@ class _homeAppState extends State<homeApp>{
                                                                               ),
                                                                             ),
                                                                           ),
-                                                                          _imageFile != null ? Center(
-                                                                            child: SizedBox(
-                                                                              width: 300,
-                                                                              height: 300,
-                                                                              child: Image.file(_imageFile!),
-                                                                            ),
-                                                                          ): Container(),
-                                                                          Center(
-                                                                            child: ElevatedButton(
-                                                                              onPressed: () async {
-                                                                                final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-                                                                                setStater(() {
-                                                                                  if (pickedFile != null) {
-                                                                                    _imageFile = File(pickedFile.path);
-                                                                                  } else {
-                                                                                    showToast("Imagem não selecionada!",context:context);
-                                                                                  }
-                                                                                });
-                                                                              },
-                                                                              style: ElevatedButton.styleFrom(
-                                                                                  backgroundColor: colorBtn
-                                                                              ),
-                                                                              child: Text(
-                                                                                'Selecione uma Imagem de perfil',
-                                                                                style: TextStyle(
-                                                                                    color: textColor
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ),
                                                                           Center(
                                                                             child: ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
                                                                               return DropdownButton(
@@ -7125,6 +7094,40 @@ class _homeAppState extends State<homeApp>{
                                                                                     child: Text('Sem dados!',)
                                                                                 );
                                                                               },
+                                                                            ),
+                                                                          ),
+                                                                          _imageFile != null ? Center(
+                                                                            child: SizedBox(
+                                                                              width: 300,
+                                                                              height: 300,
+                                                                              child: Image.file(_imageFile!),
+                                                                            ),
+                                                                          ): Container(),
+                                                                          Container(
+                                                                            padding: const EdgeInsets.all(5),
+                                                                            child: Center(
+                                                                              child: ElevatedButton(
+                                                                                onPressed: () async {
+                                                                                  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+//
+                                                                                  setStater(() {
+                                                                                    if (pickedFile != null) {
+                                                                                      _imageFile = File(pickedFile.path);
+                                                                                    } else {
+                                                                                      showToast("Imagem não selecionada!",context:context);
+                                                                                    }
+                                                                                  });
+                                                                                },
+                                                                                style: ElevatedButton.styleFrom(
+                                                                                    backgroundColor: colorBtn
+                                                                                ),
+                                                                                child: Text(
+                                                                                  'Selecione uma Imagem de perfil',
+                                                                                  style: TextStyle(
+                                                                                      color: textColor
+                                                                                  ),
+                                                                                ),
+                                                                              ),
                                                                             ),
                                                                           ),
                                                                           Container(
