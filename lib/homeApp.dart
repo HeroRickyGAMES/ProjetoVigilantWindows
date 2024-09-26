@@ -22,6 +22,7 @@ import 'package:vigilant/pushPessoas/pushPessoas.dart';
 import 'package:vigilant/videoStream/videoStreamWidget.dart';
 import 'package:vigilant/voip/voipAPI.dart';
 import 'package:uuid/uuid.dart';
+import 'package:window_manager/window_manager.dart';
 
 //Desenvolvido por HeroRickyGames com ajuda de Deus!
 
@@ -160,6 +161,7 @@ class _homeAppState extends State<homeApp>{
 
     //Pega todas as permissões do usuario
     checkarAsPermissoes() async {
+      await WindowManager.instance.maximize();
       try{
         await Future.delayed(const Duration(seconds: 1));
         var getUserPermissions = await FirebaseFirestore.instance
@@ -7427,69 +7429,61 @@ class _homeAppState extends State<homeApp>{
                                                                 child: ListView(
                                                                   children: snapshot.data!.docs.map((documents){
                                                                     return Container(
-                                                                      decoration: BoxDecoration(
-                                                                        border: Border.all(
-                                                                          color: Colors.blue,
-                                                                          width: 1.0,
-                                                                        ),
-                                                                      ),
-                                                                      child: Container(
-                                                                          padding: const EdgeInsets.all(6),
-                                                                          child: Row(
-                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              Text(
-                                                                                "Nome: ${documents["Nome"]}\nCPF: ${documents["CPFVist"]}\nEmpresa: ${documents["Empresa"]}",
-                                                                                style: const TextStyle(
-                                                                                    color: Colors.white,
-                                                                                    fontSize: 12
-                                                                                ),
+                                                                        padding: const EdgeInsets.all(6),
+                                                                        child: Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Text(
+                                                                              "Nome: ${documents["Nome"]}\nCPF: ${documents["CPFVist"]}\nEmpresa: ${documents["Empresa"]}",
+                                                                              style: const TextStyle(
+                                                                                  color: Colors.white,
+                                                                                  fontSize: 13
                                                                               ),
-                                                                              TextButton(
-                                                                                  onPressed: (){
-                                                                                    showDialog(
-                                                                                      context: context,
-                                                                                      builder: (BuildContext context) {
-                                                                                        return AlertDialog(
-                                                                                          title: const Text('Deseja deletar esse visitante?'),
-                                                                                          actions: [
-                                                                                            Row(
-                                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                              children: [
-                                                                                                ElevatedButton(
-                                                                                                    onPressed: (){
-                                                                                                      Navigator.pop(context);
-                                                                                                    },
-                                                                                                    child: const Text("Não")
-                                                                                                ),
-                                                                                                ElevatedButton(
-                                                                                                    onPressed: (){
-                                                                                                      FirebaseFirestore.instance
-                                                                                                          .collection("Visitantes")
-                                                                                                          .doc(documents["ID"])
-                                                                                                          .delete().
-                                                                                                          whenComplete((){
-                                                                                                                Navigator.pop(context);
-                                                                                                                    }
-                                                                                                                  );
-                                                                                                    },
-                                                                                                    child: const Text("Sim")
-                                                                                                ),
-                                                                                              ],
-                                                                                            ),
-                                                                                          ],
-                                                                                        );
-                                                                                      },
-                                                                                    );
-                                                                                  },
-                                                                                  child: const Icon(
-                                                                                      Icons.delete,
-                                                                                      color: Colors.red,
-                                                                                  )
-                                                                              )
-                                                                            ],
-                                                                          )
-                                                                      ),
+                                                                            ),
+                                                                            TextButton(
+                                                                                onPressed: (){
+                                                                                  showDialog(
+                                                                                    context: context,
+                                                                                    builder: (BuildContext context) {
+                                                                                      return AlertDialog(
+                                                                                        title: const Text('Deseja deletar esse visitante?'),
+                                                                                        actions: [
+                                                                                          Row(
+                                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                            children: [
+                                                                                              ElevatedButton(
+                                                                                                  onPressed: (){
+                                                                                                    Navigator.pop(context);
+                                                                                                  },
+                                                                                                  child: const Text("Não")
+                                                                                              ),
+                                                                                              ElevatedButton(
+                                                                                                  onPressed: (){
+                                                                                                    FirebaseFirestore.instance
+                                                                                                        .collection("Visitantes")
+                                                                                                        .doc(documents["ID"])
+                                                                                                        .delete().
+                                                                                                        whenComplete((){
+                                                                                                              Navigator.pop(context);
+                                                                                                                  }
+                                                                                                                );
+                                                                                                  },
+                                                                                                  child: const Text("Sim")
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                        ],
+                                                                                      );
+                                                                                    },
+                                                                                  );
+                                                                                },
+                                                                                child: const Icon(
+                                                                                    Icons.delete,
+                                                                                    color: Colors.red,
+                                                                                )
+                                                                            )
+                                                                          ],
+                                                                        )
                                                                     );
                                                                   }).toList(),
                                                                 ),

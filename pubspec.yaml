@@ -60,6 +60,7 @@ dependencies:
   crypto: ^3.0.5
   fluid_kit: ^3.0.0
   path_provider: ^2.1.4
+  window_manager: ^0.4.2
 
 dependency_overrides:
   dart_vlc_ffi:

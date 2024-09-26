@@ -17,6 +17,8 @@ list(APPEND FLUTTER_PLUGIN_LIST
   native_context_menu_ng
   record_windows
   screen_brightness_windows
+  screen_retriever
+  window_manager
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

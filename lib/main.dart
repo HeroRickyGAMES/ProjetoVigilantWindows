@@ -10,6 +10,7 @@ import 'package:vigilant/checkUser.dart';
 import 'package:vigilant/firebase_options.dart';
 import 'package:vigilant/homeApp.dart';
 import 'package:vigilant/login/login.dart';
+import 'package:window_manager/window_manager.dart';
 
 //Desenvolvido por HeroRickyGames com ajuda de Deus!
 
@@ -42,8 +43,25 @@ class mainApp extends StatefulWidget {
 
 class _mainAppState extends State<mainApp> {
 
+  initWindow() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await windowManager.ensureInitialized();
+
+    WindowOptions windowOptions = const WindowOptions(
+      size: Size(1280, 740),
+      center: true,
+      backgroundColor: Colors.transparent,
+    );
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+
+  }
+
   @override
   void initState() {
+    initWindow();
     super.initState();
   }
 
