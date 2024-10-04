@@ -17,6 +17,7 @@ import 'package:window_manager/window_manager.dart';
 String loaderAviso = "";
 bool delayOcorred = false;
 bool iniciadoPrimeiro = false;
+bool iniciado = false;
 
 main(){
   runApp(
@@ -59,7 +60,9 @@ class _mainAppState extends State<mainApp> {
   }
 
   maximizar() async {
-    await WindowManager.instance.maximize();
+    if(iniciado == false){
+      await WindowManager.instance.maximize();
+    }
   }
 
   @override
@@ -79,6 +82,7 @@ class _mainAppState extends State<mainApp> {
     //Vai para a tela de login
     GoToLoginScreen(){
       maximizar();
+      iniciado = true;
       Get.to(const login());
     }
 
@@ -86,6 +90,7 @@ class _mainAppState extends State<mainApp> {
     //Vai para a homeApp
     GoToHome(){
       maximizar();
+      iniciado = true;
       Get.to(const homeApp());
     }
 

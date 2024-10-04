@@ -6,7 +6,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fluid_kit/fluid_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:full_picker/full_picker.dart';
 import 'package:get/route_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:native_context_menu_ng/native_context_menu_widget.dart';
@@ -1269,43 +1268,31 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                   if(PassAccess == ""){
                                                                                                                                     showToast("A Senha para acesso das cameras está vazia!",context:context);
                                                                                                                                   }else{
-                                                                                                                                    if(SIPUrl == ""){
-                                                                                                                                      showToast("A URL do SIP não pode estar vazia!",context:context);
-                                                                                                                                    }else{
-                                                                                                                                      if(Porta == ""){
-                                                                                                                                        showToast("A porta do SIP não pode estar vazia!",context:context);
-                                                                                                                                      }else{
-                                                                                                                                        if(AuthUser == ""){
-                                                                                                                                          showToast("o acesso do usuario do SIP não pode estar vazio!",context:context);
-                                                                                                                                        }else{
-                                                                                                                                          FirebaseFirestore.instance.collection('Condominios').doc(documents["idCondominio"]).update({
-                                                                                                                                            "idCondominio": documents["idCondominio"],
-                                                                                                                                            "Nome": NomeCondominio,
-                                                                                                                                            "IpCamera": IPCameras,
-                                                                                                                                            "PortaCameras": PortaCameras,
-                                                                                                                                            "UserAccess": UserAccess,
-                                                                                                                                            "PassAccess": PassAccess,
-                                                                                                                                            "SIPUrl": SIPUrl,
-                                                                                                                                            "PortaSIP": Porta,
-                                                                                                                                            "authUserSIP": AuthUser,
-                                                                                                                                            "authSenhaSIP": Pass,
-                                                                                                                                            "Codigo" : codigo,
-                                                                                                                                            "ipCameraModelo": modeloselecionado,
-                                                                                                                                            "Cidade": Cidade,
-                                                                                                                                            "Endereco": Endereco,
-                                                                                                                                            "bairro": bairro,
-                                                                                                                                            "cep": cep,
-                                                                                                                                            "Sindico": Sindico,
-                                                                                                                                            "Telefone": Telefone,
-                                                                                                                                            "CNPJ": CNPJ,
-                                                                                                                                            "Zelador": Zelador,
-                                                                                                                                          }).whenComplete(() {
-                                                                                                                                            showToast('Sucesso!', context: context);
-                                                                                                                                            Navigator.pop(context);
-                                                                                                                                          });
-                                                                                                                                        }
-                                                                                                                                      }
-                                                                                                                                    }
+                                                                                                                                    FirebaseFirestore.instance.collection('Condominios').doc(documents["idCondominio"]).update({
+                                                                                                                                      "idCondominio": documents["idCondominio"],
+                                                                                                                                      "Nome": NomeCondominio,
+                                                                                                                                      "IpCamera": IPCameras,
+                                                                                                                                      "PortaCameras": PortaCameras,
+                                                                                                                                      "UserAccess": UserAccess,
+                                                                                                                                      "PassAccess": PassAccess,
+                                                                                                                                      "SIPUrl": SIPUrl,
+                                                                                                                                      "PortaSIP": Porta,
+                                                                                                                                      "authUserSIP": AuthUser,
+                                                                                                                                      "authSenhaSIP": Pass,
+                                                                                                                                      "Codigo" : codigo,
+                                                                                                                                      "ipCameraModelo": modeloselecionado,
+                                                                                                                                      "Cidade": Cidade,
+                                                                                                                                      "Endereco": Endereco,
+                                                                                                                                      "bairro": bairro,
+                                                                                                                                      "cep": cep,
+                                                                                                                                      "Sindico": Sindico,
+                                                                                                                                      "Telefone": Telefone,
+                                                                                                                                      "CNPJ": CNPJ,
+                                                                                                                                      "Zelador": Zelador,
+                                                                                                                                    }).whenComplete(() {
+                                                                                                                                      showToast('Sucesso!', context: context);
+                                                                                                                                      Navigator.pop(context);
+                                                                                                                                    });
                                                                                                                                   }
                                                                                                                                 }
                                                                                                                               }
@@ -2313,83 +2300,71 @@ class _homeAppState extends State<homeApp>{
                                                                                               if(PassAccess == ""){
                                                                                                 showToast("A Senha para acesso das cameras está vazia!",context:context);
                                                                                               }else{
-                                                                                                if(SIPUrl == ""){
-                                                                                                  showToast("A URL do SIP não pode estar vazia!",context:context);
-                                                                                                }else{
-                                                                                                  if(Porta == ""){
-                                                                                                    showToast("A porta do SIP não pode estar vazia!",context:context);
-                                                                                                  }else{
-                                                                                                    if(AuthUser == ""){
-                                                                                                      showToast("o acesso do usuario do SIP não pode estar vazio!",context:context);
-                                                                                                    }else{
-                                                                                                      Uuid uuid = const Uuid();
-                                                                                                      String UUID = uuid.v4();
-                                                                                                      FirebaseFirestore.instance.collection('Condominios').doc(UUID).set({
-                                                                                                        "idCondominio": UUID,
-                                                                                                        "Nome": NomeCondominio,
-                                                                                                        "IpCamera": IPCameras,
-                                                                                                        "PortaCameras": PortaCameras,
-                                                                                                        "UserAccess": UserAccess,
-                                                                                                        "PassAccess": PassAccess,
-                                                                                                        "Aviso": "",
-                                                                                                        "SIPUrl": SIPUrl,
-                                                                                                        "PortaSIP": Porta,
-                                                                                                        "authUserSIP": AuthUser,
-                                                                                                        "authSenhaSIP": Pass,
-                                                                                                        "Codigo" : codigo,
-                                                                                                        'idEmpresaPertence' : EmpresaPertence,
-                                                                                                        "ipCameraModelo": modeloselecionado,
-                                                                                                        "Cidade": Cidade,
-                                                                                                        "Endereco": Endereco,
-                                                                                                        "bairro": bairro,
-                                                                                                        "cep": cep,
-                                                                                                        "Sindico": Sindico,
-                                                                                                        "Telefone": Telefone,
-                                                                                                        "CNPJ": CNPJ,
-                                                                                                        "Zelador": Zelador,
-                                                                                                        "ipCamera1": 1,
-                                                                                                        "ipCamera2": 2,
-                                                                                                        "ipCamera3": 3,
-                                                                                                        "ipCamera4": 4,
-                                                                                                        "ipCamera5": 5,
-                                                                                                        "ipCamera6": 6,
-                                                                                                        "ipCamera7": 7,
-                                                                                                        "ipCamera8": 8,
-                                                                                                        "ipCamera9": 9,
-                                                                                                        "ipCamera10": 10,
-                                                                                                        "ipCamera11": 11,
-                                                                                                        "ipCamera12": 12,
-                                                                                                        "ipCamera13": 13,
-                                                                                                        "ipCamera14": 14,
-                                                                                                        "ipCamera15": 15,
-                                                                                                        "ipCamera16": 16,
-                                                                                                        "ipCamera17": 17,
-                                                                                                        "ipCamera18": 18,
-                                                                                                        "ipCamera19": 19,
-                                                                                                        "ipCamera20": 20,
-                                                                                                        "ipCamera21": 21,
-                                                                                                        "ipCamera22": 22,
-                                                                                                        "ipCamera23": 23,
-                                                                                                        "ipCamera24": 24,
-                                                                                                        "ipCamera25": 25,
-                                                                                                        "ipCamera26": 26,
-                                                                                                        "ipCamera27": 27,
-                                                                                                        "ipCamera28": 28,
-                                                                                                        "ipCamera29": 29,
-                                                                                                        "ipCamera30": 30,
-                                                                                                        "ipCamera31": 31,
-                                                                                                        "ipCamera32": 32,
-                                                                                                        "ipCamera33": 33,
-                                                                                                        "ipCamera34": 34,
-                                                                                                        "ipCamera35": 35,
-                                                                                                        "ipCamera36": 36,
-                                                                                                      }).whenComplete(() {
-                                                                                                        showToast('Sucesso!', context: context);
-                                                                                                        Navigator.pop(context);
-                                                                                                      });
-                                                                                                    }
-                                                                                                  }
-                                                                                                }
+                                                                                                Uuid uuid = const Uuid();
+                                                                                                String UUID = uuid.v4();
+                                                                                                FirebaseFirestore.instance.collection('Condominios').doc(UUID).set({
+                                                                                                  "idCondominio": UUID,
+                                                                                                  "Nome": NomeCondominio,
+                                                                                                  "IpCamera": IPCameras,
+                                                                                                  "PortaCameras": PortaCameras,
+                                                                                                  "UserAccess": UserAccess,
+                                                                                                  "PassAccess": PassAccess,
+                                                                                                  "Aviso": "",
+                                                                                                  "SIPUrl": SIPUrl,
+                                                                                                  "PortaSIP": Porta,
+                                                                                                  "authUserSIP": AuthUser,
+                                                                                                  "authSenhaSIP": Pass,
+                                                                                                  "Codigo" : codigo,
+                                                                                                  'idEmpresaPertence' : EmpresaPertence,
+                                                                                                  "ipCameraModelo": modeloselecionado,
+                                                                                                  "Cidade": Cidade,
+                                                                                                  "Endereco": Endereco,
+                                                                                                  "bairro": bairro,
+                                                                                                  "cep": cep,
+                                                                                                  "Sindico": Sindico,
+                                                                                                  "Telefone": Telefone,
+                                                                                                  "CNPJ": CNPJ,
+                                                                                                  "Zelador": Zelador,
+                                                                                                  "ipCamera1": 1,
+                                                                                                  "ipCamera2": 2,
+                                                                                                  "ipCamera3": 3,
+                                                                                                  "ipCamera4": 4,
+                                                                                                  "ipCamera5": 5,
+                                                                                                  "ipCamera6": 6,
+                                                                                                  "ipCamera7": 7,
+                                                                                                  "ipCamera8": 8,
+                                                                                                  "ipCamera9": 9,
+                                                                                                  "ipCamera10": 10,
+                                                                                                  "ipCamera11": 11,
+                                                                                                  "ipCamera12": 12,
+                                                                                                  "ipCamera13": 13,
+                                                                                                  "ipCamera14": 14,
+                                                                                                  "ipCamera15": 15,
+                                                                                                  "ipCamera16": 16,
+                                                                                                  "ipCamera17": 17,
+                                                                                                  "ipCamera18": 18,
+                                                                                                  "ipCamera19": 19,
+                                                                                                  "ipCamera20": 20,
+                                                                                                  "ipCamera21": 21,
+                                                                                                  "ipCamera22": 22,
+                                                                                                  "ipCamera23": 23,
+                                                                                                  "ipCamera24": 24,
+                                                                                                  "ipCamera25": 25,
+                                                                                                  "ipCamera26": 26,
+                                                                                                  "ipCamera27": 27,
+                                                                                                  "ipCamera28": 28,
+                                                                                                  "ipCamera29": 29,
+                                                                                                  "ipCamera30": 30,
+                                                                                                  "ipCamera31": 31,
+                                                                                                  "ipCamera32": 32,
+                                                                                                  "ipCamera33": 33,
+                                                                                                  "ipCamera34": 34,
+                                                                                                  "ipCamera35": 35,
+                                                                                                  "ipCamera36": 36,
+                                                                                                }).whenComplete(() {
+                                                                                                  showToast('Sucesso!', context: context);
+                                                                                                  Navigator.pop(context);
+                                                                                                });
                                                                                               }
                                                                                             }
                                                                                           }

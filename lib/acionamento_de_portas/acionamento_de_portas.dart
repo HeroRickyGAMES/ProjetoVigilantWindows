@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:get/get.dart';
-import 'package:get/get_navigation/src/bottomsheet/bottomsheet.dart';
 import 'package:http_auth/http_auth.dart' as http_auth;
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
+import 'package:vigilant/FirebaseHost.dart';
+import 'package:vigilant/acionamento_de_portas/guarita_call_nativo.dart';
 
 //Programado por HeroRickyGames com ajuda de Deus!
 
@@ -224,87 +223,6 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
 
   //Modulo Guarita (Nice)
   if(modelo == "Modulo Guarita (Nice)"){
-    String enderecoDisp = ip;
-    int portaDisp = porta;
-    String codigoAcesso = "";
-    int timeout = 10;
-
-    List<int> hexStringToByteArray(String s) {
-      final length = s.length;
-      final data = List<int>.filled(length ~/ 2, 0);
-      for (int i = 0; i < length; i += 2) {
-        data[i ~/ 2] = int.parse(s.substring(i, i + 2), radix: 16);
-      }
-      return data;
-    }
-
-    String calculaChecksum(String input) {
-      var parts = RegExp(r'..').allMatches(input).map((m) => m.group(0)!).toList();
-      int cs = 0;
-      for (var part in parts) {
-        int decimal = int.parse(part, radix: 16);
-        cs += decimal;
-      }
-
-      if (cs > 255) {
-        cs = cs & 0xFF;
-      }
-
-      String csHex = cs.toRadixString(16).toUpperCase().padLeft(2, '0');
-      return input + csHex;
-    }
-
-    Future<bool> acionaRele(int tipoDisp, int numDisp, int rele, int geraEvt) async {
-      tipoDisp = tipoDisp.clamp(1, 7);
-      numDisp = numDisp.clamp(0, 7);
-      rele = rele.clamp(1, 4);
-      geraEvt = (geraEvt == 0) ? 0 : 1;
-
-      try {
-        final socket = await Socket.connect(enderecoDisp, portaDisp, timeout: Duration(seconds: timeout));
-        if (codigoAcesso.isNotEmpty) {
-          socket.add(utf8.encode(codigoAcesso));
-          await socket.flush();
-        }
-
-        //String message = "000D${tipoDisp.toString()}${numDisp.toString()}${rele.toString()}${geraEvt.toString()}";
-        String message = "1600000D$tipoDisp$numDisp$rele${geraEvt}00";
-        print(message);
-        String checksum = calculaChecksum(message);
-        print(checksum);
-        var messageBytes = hexStringToByteArray(checksum);
-        print(messageBytes);
-        await socket.flush();
-        await socket.close();
-        return true;
-      } catch (e) {
-        print("Erro! $e");
-      }
-
-      return false;
-    }
-
-    print("Testando!");
-    showToast("Aguarde!", context: context);
-    bool handshakeDone = await acionaRele(1, 7, canal, 0);
-    print(handshakeDone);
-
-    if(handshakeDone == true){
-      showToast("Relê acionado!", context: context);
-      if(id != ""){
-        FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
-          "prontoParaAtivar" : false,
-          "deuErro": false
-        });
-      }
-    }else{
-      showToast('Ocorreu um erro com a conexão! Possivelmente o Guarita está offiline!', context: context);
-      if(id != ""){
-        FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
-          "prontoParaAtivar" : false,
-          "deuErro": true
-        });
-      }
-    }
+    chamarSDK(id, ip, porta);
   }
 }
