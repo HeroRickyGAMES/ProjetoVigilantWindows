@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:http_auth/http_auth.dart' as http_auth;
@@ -9,7 +10,7 @@ import 'package:vigilant/acionamento_de_portas/guarita_call_nativo.dart';
 
 //Programado por HeroRickyGames com ajuda de Deus!
 
-acionarPorta(var context, String ip, int porta, String modelo, int canal, String usuario, String senha, String id) async {
+acionarPorta(var context, String ip, int porta, String modelo, int canal, String usuario, String senha, String id, String Receptor, String can) async {
 
   //Intelbras
   if(modelo == "Intelbras"){
@@ -223,6 +224,19 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
 
   //Modulo Guarita (Nice)
   if(modelo == "Modulo Guarita (Nice)"){
-    chamarSDK(context, id, ip, porta, 'RF', '1', "$canal");
+    if(ip.contains('ddns.net')){
+      List<InternetAddress> addresses = await InternetAddress.lookup(ip);
+
+      // Exibe os endereços IP encontrados
+      for (var address in addresses) {
+        print('IP: ${address.address}');
+
+        ip = address.address;
+
+      }
+      chamarSDK(context, id, ip, porta, Receptor, can, "$canal");
+    }else{
+      chamarSDK(context, id, ip, porta, Receptor, can, "$canal");
+    }
   }
 }

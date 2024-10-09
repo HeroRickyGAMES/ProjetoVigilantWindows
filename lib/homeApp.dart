@@ -2614,7 +2614,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 });
                                                                               }
                                                                               if(documents["prontoParaAtivar"] == true){
-                                                                                acionarPorta(context, documents["ip"], documents["porta"], documents["modelo"], documents["canal"], documents["usuario"], documents["senha"], documents["id"]);
+                                                                                acionarPorta(context, documents["ip"], documents["porta"], documents["modelo"], documents["canal"], documents["usuario"], documents["senha"], documents["id"], documents["receptor"], documents["can"]);
                                                                               }
                                                                             },
                                                                             child: Stack(
@@ -2676,6 +2676,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       TextEditingController canalcontr = TextEditingController(text: "${documents["canal"]}");
                                                                                       TextEditingController usuariocontr = TextEditingController(text: documents["usuario"]);
                                                                                       TextEditingController senhacontr = TextEditingController(text: documents["senha"]);
+                                                                                      TextEditingController cancontr = TextEditingController(text: documents["can"]);
 
                                                                                       String nome = documents["nome"];
                                                                                       String ip = documents["ip"];
@@ -2685,6 +2686,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       String senha = documents["senha"];
                                                                                       String modeloselecionado = documents["modelo"];
                                                                                       String iconeSelecionado = documents["iconeSeleciondo"];
+                                                                                      String can = documents["can"];
                                                                                       var dropValue4 = ValueNotifier(iconeSelecionado);
 
                                                                                       List icones = [
@@ -2695,6 +2697,18 @@ class _homeAppState extends State<homeApp>{
                                                                                         "assets/garagem.png",
                                                                                       ];
                                                                                       var dropValue3 = ValueNotifier(modeloselecionado);
+
+                                                                                      String receptorSelecionado = documents["receptor"];
+                                                                                      List listaReceptores = [
+                                                                                        "TX (RF)",
+                                                                                        "TAG Ativo (TA)",
+                                                                                        "Cartão (CT/CTW)",
+                                                                                        "TAG Passivo (TP/UHF)"
+                                                                                      ];
+
+
+                                                                                      var dropValue50 = ValueNotifier(receptorSelecionado);
+
                                                                                       showDialog(
                                                                                         context: context,
                                                                                         builder: (BuildContext context) {
@@ -2749,6 +2763,39 @@ class _homeAppState extends State<homeApp>{
                                                                                                             Center(
                                                                                                               child: Column(
                                                                                                                 children: [
+                                                                                                                  const Center(
+                                                                                                                    child: Text('Selecione o modelo'),
+                                                                                                                  ),
+                                                                                                                  Center(
+                                                                                                                    child: ValueListenableBuilder(valueListenable: dropValue3, builder: (context, String value, _){
+                                                                                                                      return DropdownButton(
+                                                                                                                        hint: Text(
+                                                                                                                          'Selecione o modelo',
+                                                                                                                          style: TextStyle(
+                                                                                                                              color: textColorDrop
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        value: (value.isEmpty)? null : value,
+                                                                                                                        onChanged: (escolha) async {
+                                                                                                                          dropValue3.value = escolha.toString();
+                                                                                                                          setStater(() {
+                                                                                                                            modeloselecionado = escolha.toString();
+                                                                                                                          });
+                                                                                                                        },
+                                                                                                                        items: ModelosAcionamentos.map((opcao) => DropdownMenuItem(
+                                                                                                                          value: opcao,
+                                                                                                                          child:
+                                                                                                                          Text(
+                                                                                                                            opcao,
+                                                                                                                            style: TextStyle(
+                                                                                                                                color: textColorDrop
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        ).toList(),
+                                                                                                                      );
+                                                                                                                    }),
+                                                                                                                  ),
                                                                                                                   Center(
                                                                                                                     child: Container(
                                                                                                                       padding: const EdgeInsets.all(10),
@@ -3013,26 +3060,64 @@ class _homeAppState extends State<homeApp>{
                                                                                                               }
                                                                                                               ),
                                                                                                             ),
-                                                                                                            const Center(
-                                                                                                              child: Text('Selecione o modelo'),
-                                                                                                            ),
-                                                                                                            Center(
-                                                                                                              child: ValueListenableBuilder(valueListenable: dropValue3, builder: (context, String value, _){
+                                                                                                            modeloselecionado == "Modulo Guarita (Nice)" ? Center(
+                                                                                                              child: Container(
+                                                                                                                padding: const EdgeInsets.all(10),
+                                                                                                                child: TextField(
+                                                                                                                  controller: cancontr,
+                                                                                                                  keyboardType: TextInputType.name,
+                                                                                                                  enableSuggestions: true,
+                                                                                                                  autocorrect: true,
+                                                                                                                  onChanged: (value){
+                                                                                                                    setStater(() {
+                                                                                                                      can = value;
+                                                                                                                    });
+                                                                                                                  },
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    filled: true,
+                                                                                                                    fillColor: Colors.white,
+                                                                                                                    labelStyle: TextStyle(
+                                                                                                                        color: textAlertDialogColor,
+                                                                                                                        backgroundColor: Colors.white
+                                                                                                                    ),
+                                                                                                                    border: const OutlineInputBorder(),
+                                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                    ),
+                                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(
+                                                                                                                          width: 3,
+                                                                                                                          color: Colors.black
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                    label: const Text('Can'),
+                                                                                                                  ),
+                                                                                                                  style: TextStyle(
+                                                                                                                      color: textAlertDialogColor
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ): Container(),
+                                                                                                            modeloselecionado == "Modulo Guarita (Nice)" ? const Center(
+                                                                                                              child: Text('Receptor'),
+                                                                                                            ): Container(),
+                                                                                                            modeloselecionado == "Modulo Guarita (Nice)" ? Center(
+                                                                                                              child: ValueListenableBuilder(valueListenable: dropValue50, builder: (context, String value, _){
                                                                                                                 return DropdownButton(
                                                                                                                   hint: Text(
-                                                                                                                    'Selecione o modelo',
+                                                                                                                    'Receptor',
                                                                                                                     style: TextStyle(
                                                                                                                         color: textColorDrop
                                                                                                                     ),
                                                                                                                   ),
                                                                                                                   value: (value.isEmpty)? null : value,
                                                                                                                   onChanged: (escolha) async {
-                                                                                                                    dropValue3.value = escolha.toString();
+                                                                                                                    dropValue50.value = escolha.toString();
                                                                                                                     setStater(() {
-                                                                                                                      modeloselecionado = escolha.toString();
+                                                                                                                      receptorSelecionado = escolha.toString();
                                                                                                                     });
                                                                                                                   },
-                                                                                                                  items: ModelosAcionamentos.map((opcao) => DropdownMenuItem(
+                                                                                                                  items: listaReceptores.map((opcao) => DropdownMenuItem(
                                                                                                                     value: opcao,
                                                                                                                     child:
                                                                                                                     Text(
@@ -3045,7 +3130,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                   ).toList(),
                                                                                                                 );
                                                                                                               }),
-                                                                                                            ),
+                                                                                                            ) : Container(),
                                                                                                             ElevatedButton(
                                                                                                               onPressed: (){
                                                                                                                 //"Modulo Guarita (Nice)"
@@ -3078,19 +3163,26 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                 if(modeloselecionado == ""){
                                                                                                                                   showToast("O modelo precisa ser selecionado!",context:context);
                                                                                                                                 }else{
-                                                                                                                                  FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).update({
-                                                                                                                                    "nome": nome,
-                                                                                                                                    "ip": ip,
-                                                                                                                                    "porta": int.parse(porta),
-                                                                                                                                    "canal": int.parse(canal),
-                                                                                                                                    "usuario": usuario,
-                                                                                                                                    "senha": senha,
-                                                                                                                                    "modelo": modeloselecionado,
-                                                                                                                                    "idCondominio": idCondominio,
-                                                                                                                                    "iconeSeleciondo": iconeSelecionado
-                                                                                                                                  }).whenComplete((){
-                                                                                                                                    Navigator.pop(context);
-                                                                                                                                  });
+                                                                                                                                  if(can == ""){
+                                                                                                                                    showToast("O CAN precisa ser selecionado!",context:context);
+                                                                                                                                  }else{
+                                                                                                                                    FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).update({
+                                                                                                                                      "nome": nome,
+                                                                                                                                      "ip": ip,
+                                                                                                                                      "porta": int.parse(porta),
+                                                                                                                                      "canal": int.parse(canal),
+                                                                                                                                      "usuario": usuario,
+                                                                                                                                      "senha": senha,
+                                                                                                                                      "modelo": modeloselecionado,
+                                                                                                                                      "idCondominio": idCondominio,
+                                                                                                                                      "iconeSeleciondo": iconeSelecionado,
+                                                                                                                                      "receptor": receptorSelecionado,
+                                                                                                                                      "can": can,
+                                                                                                                                    }).whenComplete((){
+                                                                                                                                      showToast("Salvo!",context:context);
+                                                                                                                                      Navigator.pop(context);
+                                                                                                                                    });
+                                                                                                                                  }
                                                                                                                                 }
                                                                                                                               }
                                                                                                                             }
@@ -3143,8 +3235,11 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                         "senha": senha,
                                                                                                                                         "modelo": modeloselecionado,
                                                                                                                                         "idCondominio": idCondominio,
-                                                                                                                                        "iconeSeleciondo": iconeSelecionado
+                                                                                                                                        "iconeSeleciondo": iconeSelecionado,
+                                                                                                                                        "receptor": receptorSelecionado,
+                                                                                                                                        "can": can,
                                                                                                                                       }).whenComplete((){
+                                                                                                                                        showToast("Salvo!",context:context);
                                                                                                                                         Navigator.pop(context);
                                                                                                                                       });
                                                                                                                                     }
@@ -3294,6 +3389,7 @@ class _homeAppState extends State<homeApp>{
                                                                 String canal = "";
                                                                 String usuario = "";
                                                                 String senha = "";
+                                                                String can = "";
                                                                 var dropValue3 = ValueNotifier('Intelbras');
                                                                 var dropValue4 = ValueNotifier('assets/portaria_acept.png');
                                                                 String iconeSelecionado = "assets/portaria_acept.png";
@@ -3304,6 +3400,16 @@ class _homeAppState extends State<homeApp>{
                                                                   "assets/door.png",
                                                                   "assets/garagem.png",
                                                                 ];
+
+                                                                String receptorSelecionado = 'TX (RF)';
+                                                                List listaReceptores = [
+                                                                  "TX (RF)",
+                                                                  "TAG Ativo (TA)",
+                                                                  "Cartão (CT/CTW)",
+                                                                  "TAG Passivo (TP/UHF)"
+                                                                ];
+
+                                                                var dropValue50 = ValueNotifier(receptorSelecionado);
 
                                                                 return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
                                                                   return Center(
@@ -3356,6 +3462,39 @@ class _homeAppState extends State<homeApp>{
                                                                                   Center(
                                                                                     child: Column(
                                                                                       children: [
+                                                                                        const Center(
+                                                                                          child: Text('Selecione o modelo'),
+                                                                                        ),
+                                                                                        Center(
+                                                                                          child: ValueListenableBuilder(valueListenable: dropValue3, builder: (context, String value, _){
+                                                                                            return DropdownButton(
+                                                                                              hint: Text(
+                                                                                                'Selecione o modelo',
+                                                                                                style: TextStyle(
+                                                                                                    color: textColorDrop
+                                                                                                ),
+                                                                                              ),
+                                                                                              value: (value.isEmpty)? null : value,
+                                                                                              onChanged: (escolha) async {
+                                                                                                dropValue3.value = escolha.toString();
+                                                                                                setStater(() {
+                                                                                                  modeloselecionado = escolha.toString();
+                                                                                                });
+                                                                                              },
+                                                                                              items: ModelosAcionamentos.map((opcao) => DropdownMenuItem(
+                                                                                                value: opcao,
+                                                                                                child:
+                                                                                                Text(
+                                                                                                  opcao,
+                                                                                                  style: TextStyle(
+                                                                                                      color: textColorDrop
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                              ).toList(),
+                                                                                            );
+                                                                                          }),
+                                                                                        ),
                                                                                         Center(
                                                                                           child: Container(
                                                                                             padding: const EdgeInsets.all(10),
@@ -3504,6 +3643,43 @@ class _homeAppState extends State<homeApp>{
                                                                                             ),
                                                                                           ),
                                                                                         ),
+                                                                                        modeloselecionado == "Modulo Guarita (Nice)" ? Center(
+                                                                                          child: Container(
+                                                                                            padding: const EdgeInsets.all(10),
+                                                                                            child: TextField(
+                                                                                              keyboardType: TextInputType.name,
+                                                                                              enableSuggestions: true,
+                                                                                              autocorrect: true,
+                                                                                              onChanged: (value){
+                                                                                                setStater(() {
+                                                                                                  can = value;
+                                                                                                });
+                                                                                              },
+                                                                                              decoration: InputDecoration(
+                                                                                                filled: true,
+                                                                                                fillColor: Colors.white,
+                                                                                                labelStyle: TextStyle(
+                                                                                                    color: textAlertDialogColor,
+                                                                                                    backgroundColor: Colors.white
+                                                                                                ),
+                                                                                                border: const OutlineInputBorder(),
+                                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                ),
+                                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                                  borderSide: BorderSide(
+                                                                                                      width: 3,
+                                                                                                      color: Colors.black
+                                                                                                  ),
+                                                                                                ),
+                                                                                                label: const Text('Can'),
+                                                                                              ),
+                                                                                              style: TextStyle(
+                                                                                                  color: textAlertDialogColor
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ): Container(),
                                                                                         modeloselecionado == "Modulo Guarita (Nice)" ? Container():
                                                                                         Center(
                                                                                           child: Container(
@@ -3614,26 +3790,26 @@ class _homeAppState extends State<homeApp>{
                                                                                     }
                                                                                     ),
                                                                                   ),
-                                                                                  const Center(
-                                                                                    child: Text('Selecione o modelo'),
-                                                                                  ),
-                                                                                  Center(
-                                                                                    child: ValueListenableBuilder(valueListenable: dropValue3, builder: (context, String value, _){
+                                                                                  modeloselecionado == "Modulo Guarita (Nice)" ? const Center(
+                                                                                    child: Text('Receptor'),
+                                                                                  ): Container(),
+                                                                                  modeloselecionado == "Modulo Guarita (Nice)" ? Center(
+                                                                                    child: ValueListenableBuilder(valueListenable: dropValue50, builder: (context, String value, _){
                                                                                       return DropdownButton(
                                                                                         hint: Text(
-                                                                                          'Selecione o modelo',
+                                                                                          'Receptor',
                                                                                           style: TextStyle(
                                                                                               color: textColorDrop
                                                                                           ),
                                                                                         ),
                                                                                         value: (value.isEmpty)? null : value,
                                                                                         onChanged: (escolha) async {
-                                                                                          dropValue3.value = escolha.toString();
+                                                                                          dropValue50.value = escolha.toString();
                                                                                           setStater(() {
-                                                                                            modeloselecionado = escolha.toString();
+                                                                                            receptorSelecionado = escolha.toString();
                                                                                           });
                                                                                         },
-                                                                                        items: ModelosAcionamentos.map((opcao) => DropdownMenuItem(
+                                                                                        items: listaReceptores.map((opcao) => DropdownMenuItem(
                                                                                           value: opcao,
                                                                                           child:
                                                                                           Text(
@@ -3646,7 +3822,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         ).toList(),
                                                                                       );
                                                                                     }),
-                                                                                  ),
+                                                                                  ) : Container(),
                                                                                   ElevatedButton(
                                                                                     onPressed: (){
                                                                                       //Manda para o banco de dados toda a informação do Relê!
@@ -3665,6 +3841,8 @@ class _homeAppState extends State<homeApp>{
                                                                                           "deuErro": false,
                                                                                           "idCondominio": idCondominio,
                                                                                           "id": UUID,
+                                                                                          "receptor": receptorSelecionado,
+                                                                                          "can": can,
                                                                                           "iconeSeleciondo": iconeSelecionado
                                                                                         }).whenComplete((){
                                                                                           Navigator.pop(context);
@@ -3695,14 +3873,17 @@ class _homeAppState extends State<homeApp>{
                                                                                                   if(regex.hasMatch(canal)){
                                                                                                     showToast("O relê contem letras, e letras não são permitidas!",context:context);
                                                                                                   }else{
-
                                                                                                     if(iconeSelecionado == ""){
                                                                                                       showToast("O icone precisa ser selecionado!",context:context);
                                                                                                     }else{
                                                                                                       if(modeloselecionado == ""){
                                                                                                         showToast("O modelo precisa ser selecionado!",context:context);
                                                                                                       }else{
-                                                                                                        toDB();
+                                                                                                        if(can == ""){
+                                                                                                          showToast("O CAN precisa ser selecionado!",context:context);
+                                                                                                        }else{
+                                                                                                          toDB();
+                                                                                                        }
                                                                                                       }
                                                                                                     }
                                                                                                   }
@@ -5155,7 +5336,7 @@ class _homeAppState extends State<homeApp>{
                                                                   ),
                                                                   ElevatedButton(
                                                                       onPressed: (){
-                                                                        acionarPorta(context, IP, int.parse(Porta), modeloselecionado, int.parse(Canal), Usuario, Senha, "vazio");
+                                                                        acionarPorta(context, IP, int.parse(Porta), modeloselecionado, int.parse(Canal), Usuario, Senha, "vazio", "TX (RF)", "1");
                                                                       },
                                                                       style: ElevatedButton.styleFrom(
                                                                           backgroundColor: colorBtn
