@@ -223,6 +223,6 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
 
   //Modulo Guarita (Nice)
   if(modelo == "Modulo Guarita (Nice)"){
-    chamarSDK(id, ip, porta);
+    chamarSDK(context, id, ip, porta, 'RF', '1', "$canal");
   }
 }
