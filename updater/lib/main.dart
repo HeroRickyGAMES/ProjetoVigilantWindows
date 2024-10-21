@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:csharp_rpc/csharp_rpc.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -40,8 +41,8 @@ class _mainAppState extends State<mainApp> {
   Widget build(BuildContext context) {
 
     executarVigilant() async {
-      String command = 'VigilantBinary/vigilant.exe';
-      await Process.run('powershell.exe', ['-c', command]);
+      String command = 'cd VigilantBinary ; ./vigilant.exe';
+      await Process.run('powershell.exe', ["-c", command]);
     }
 
     executarcomClose() async {
@@ -54,7 +55,7 @@ class _mainAppState extends State<mainApp> {
     downloadZip(String lastV) async {
       String urle = 'http://spartaserver.ddns.net:4003/vigilant/versions/main/vigilantV$lastV.zip';
 
-      String localZipPath = 'vigilantV1.0.1.zip';
+      String localZipPath = 'vigilant$lastV.zip';
 
       try {
         // Baixa o arquivo ZIP
@@ -84,7 +85,7 @@ class _mainAppState extends State<mainApp> {
 
                 verificandoAtualizacoes = "";
                 downloadSpeed = 'Velocidade de download: ${speedMbps.toStringAsFixed(2)} MB/s';
-                totalBaixado = 'Total de bytes baixados: ${numberFormat.format(totalBytes / 1048000)} MB';
+                totalBaixado = 'Total de megabytes baixados: ${numberFormat.format(totalBytes / 1048000)} MB';
               });
             }
           }, onDone: () async {

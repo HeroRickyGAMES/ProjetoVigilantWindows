@@ -22,6 +22,7 @@ chamarSDK(var context, String id, String ip, int porta, String receptor, String 
   }
 
   String command = 'guaritanicesdk/demoLinearIP.exe --ip $ip --porta $porta --receptor $recept --CAN $can --rele $rele';
+
   ProcessResult result = await Process.run('powershell.exe', ['-c', command]);
 
   print(result.stdout);
