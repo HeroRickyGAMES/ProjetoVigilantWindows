@@ -231,10 +231,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
       for (var address in addresses) {
         print('IP: ${address.address}');
 
-        ip = address.address;
-
+        chamarSDK(context, id, address.address, porta, Receptor, can, "$canal");
       }
-      chamarSDK(context, id, ip, porta, Receptor, can, "$canal");
     }else{
       chamarSDK(context, id, ip, porta, Receptor, can, "$canal");
     }
