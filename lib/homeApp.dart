@@ -20,7 +20,6 @@ import 'package:vigilant/login/login.dart';
 import 'package:vigilant/libDePessoas/cadastroDeUsuariosNoEquipamento.dart';
 import 'package:vigilant/libDePessoas/pushPessoas.dart';
 import 'package:vigilant/videoStream/videoStreamWidget.dart';
-import 'package:vigilant/voip/voipAPI.dart';
 import 'package:uuid/uuid.dart';
 
 //Desenvolvido por HeroRickyGames com ajuda de Deus!
@@ -4002,16 +4001,67 @@ class _homeAppState extends State<homeApp>{
                                                                 width: double.infinity,
                                                                 child: Center(
                                                                   child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                     children: [
-                                                                      Container(
-                                                                        padding: const EdgeInsets.only(left: 5, right: 5),
-                                                                          child: const Icon(Icons.call)
-                                                                      ),
-                                                                      Column(
+                                                                      Row(
                                                                         children: [
+                                                                          Container(
+                                                                            padding: const EdgeInsets.only(left: 5, right: 5),
+                                                                              child: const Icon(Icons.call)
+                                                                          ),
                                                                           Text("${documents['NomeRamal']}\n${documents['RamalNumber']}"),
                                                                         ],
                                                                       ),
+                                                                      TextButton(
+                                                                        onPressed: (){
+                                                                          showDialog(
+                                                                            context: context,
+                                                                            builder: (BuildContext context) {
+                                                                              return AlertDialog(
+                                                                                title: const Text('Deseja deletar esse Ramal?'),
+                                                                                actions: [
+                                                                                  Row(
+                                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                                    children: [
+                                                                                      TextButton(
+                                                                                          onPressed: (){
+                                                                                            Navigator.pop(context);
+                                                                                          },
+                                                                                          child: const Text(
+                                                                                              'Não',
+                                                                                            style: TextStyle(
+                                                                                                color: Colors.white
+                                                                                            ),
+                                                                                          )
+                                                                                      ),
+                                                                                      ElevatedButton(
+                                                                                          onPressed: (){
+                                                                                            FirebaseFirestore.instance.collection("Ramais").doc('his won document').delete().whenComplete((){
+                                                                                              Navigator.pop(context);
+                                                                                            });
+                                                                                          },
+                                                                                          style: ElevatedButton.styleFrom(
+                                                                                            backgroundColor: Colors.red
+                                                                                          ),
+                                                                                          child: const Text(
+                                                                                              'Sim',
+                                                                                            style: TextStyle(
+                                                                                              color: Colors.white
+                                                                                            ),
+                                                                                          ),
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
+                                                                                ],
+                                                                              );
+                                                                            },
+                                                                          );
+                                                                        },
+                                                                        child: const Icon(
+                                                                            Icons.delete,
+                                                                          color: Colors.red,
+                                                                        ),
+                                                                      )
                                                                     ],
                                                                   ),
                                                                 ),
@@ -4176,6 +4226,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               Uuid uuid = const Uuid();
                                                                                               String UUID = uuid.v4();
                                                                                               FirebaseFirestore.instance.collection('Ramais').doc(UUID).set({
+                                                                                                'id': UUID,
                                                                                                 "NomeRamal": NomeRamal,
                                                                                                 "RamalNumber": RamalNumber,
                                                                                                 "IDEmpresaPertence": UID,

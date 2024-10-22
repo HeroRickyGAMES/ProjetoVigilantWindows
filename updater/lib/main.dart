@@ -42,7 +42,10 @@ class _mainAppState extends State<mainApp> {
 
     executarVigilant() async {
       String command = 'cd VigilantBinary ; ./vigilant.exe';
-      await Process.run('powershell.exe', ["-c", command]);
+      var processo = await Process.run('powershell.exe', [command]);
+
+      print(processo.stderr);
+      print(processo.stdout);
     }
 
     executarcomClose() async {

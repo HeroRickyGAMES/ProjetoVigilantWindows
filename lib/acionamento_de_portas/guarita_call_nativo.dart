@@ -35,10 +35,19 @@ chamarSDK(var context, String id, String ip, int porta, String receptor, String 
     });
     showToast("Guarita acionada", context: context);
   }else{
-    FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
-      "prontoParaAtivar" : false,
-      "deuErro": true
-    });
+    if(result.stdout.toString().contains('FALHA CONEXAO TCP"')){
+      FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+        "prontoParaAtivar" : false,
+        "deuErro": true
+      });
+      showToast("FALHA CONEXAO TCP", context: context);
+    }else{
+      FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+        "prontoParaAtivar" : false,
+        "deuErro": true
+      });
+      showToast("A SDK não foi iniciada!", context: context);
+    }
   }
 
   print(result.exitCode);
