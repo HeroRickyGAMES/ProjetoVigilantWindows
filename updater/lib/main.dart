@@ -58,7 +58,7 @@ class _mainAppState extends State<mainApp> {
     downloadZip(String lastV) async {
       String urle = 'http://spartaserver.ddns.net:4003/vigilant/versions/main/vigilantV$lastV.zip';
 
-      String localZipPath = 'vigilant$lastV.zip';
+      String localZipPath = 'vigilantV$lastV.zip';
 
       try {
         // Baixa o arquivo ZIP

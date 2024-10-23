@@ -46,7 +46,7 @@ chamarSDK(var context, String id, String ip, int porta, String receptor, String 
         "prontoParaAtivar" : false,
         "deuErro": true
       });
-      showToast("A SDK não foi iniciada!", context: context);
+      showToast("A SDK não foi iniciada ou ocorreu qualquer outro erro desconhecido!", context: context);
     }
   }
 
