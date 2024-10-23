@@ -65,119 +65,122 @@ namespace demoLinearIP
                     csTCP.Blocking = false;
                     AsyncCallback onconnect = new AsyncCallback(OnConnect);
                     csTCP.BeginConnect(epServer, onconnect, csTCP);
+
+                    System.Threading.Thread.Sleep(2000);
+
+                    if (rele == "1") {
+                        byte[] lFrame = new byte[6];
+
+                        lFrame[0] = 0x00;
+                        lFrame[1] = 0x0D;
+
+                        //+Dispositivo
+                        lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
+                        //+CAN
+                        lFrame[3] = (byte)cbCAN.SelectedIndex;
+                        //+Relé (Saída)
+                        lFrame[4] = 0x01;
+                        //+Gera eventos
+                        if (cxEVT.Checked)
+                            lFrame[5] = 0x01;  // Gera evento - Comando 4
+                        else
+                            lFrame[5] = 0x00;  // Não gera evento
+                                               // Sem resposta do Guarita
+                        enviaComando(lFrame);
+
+                        System.Threading.Thread.Sleep(4000);
+                        Console.WriteLine("Rele acionado");
+                        Close();
+                    }
+
+                    if (rele == "2") {
+                        // Acionamento Relé 2 - RECEPTOR
+                        // Comando 13 - 0x00 + 0x0D + <tipo_disp> + <num_disp> + <num_saida> + <gera_evt> + <cs>
+                        byte[] lFrame = new byte[6];
+
+                        lFrame[0] = 0x00;
+                        lFrame[1] = 0x0D;
+
+                        //+Dispositivo
+                        lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
+                        //+CAN
+                        lFrame[3] = (byte)cbCAN.SelectedIndex;
+                        //+Relé (Saída)
+                        lFrame[4] = 0x02;
+                        //+Gera eventos
+                        if (cxEVT.Checked)
+                            lFrame[5] = 0x01;  // Gera evento - Comando 4
+                        else
+                            lFrame[5] = 0x00;  // Não gera evento
+
+                        // Sem resposta do Guarita
+                        enviaComando(lFrame);
+
+                        System.Threading.Thread.Sleep(4000);
+                        Console.WriteLine("Rele acionado");
+                        Close();
+                    }
+
+                    if (rele == "3") {
+                        // Acionamento Relé 3 - RECEPTOR
+                        // Comando 13 - 0x00 + 0x0D + <tipo_disp> + <num_disp> + <num_saida> + <gera_evt> + <cs>
+                        byte[] lFrame = new byte[6];
+
+                        lFrame[0] = 0x00;
+                        lFrame[1] = 0x0D;
+
+                        //+Dispositivo
+                        lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
+                        //+CAN
+                        lFrame[3] = (byte)cbCAN.SelectedIndex;
+                        //+Relé (Saída)
+                        lFrame[4] = 0x03;
+                        //+Gera eventos
+                        if (cxEVT.Checked)
+                            lFrame[5] = 0x01;  // Gera evento - Comando 4
+                        else
+                            lFrame[5] = 0x00;  // Não gera evento
+
+                        // Sem resposta do Guarita
+                        enviaComando(lFrame);
+
+                        System.Threading.Thread.Sleep(4000);
+                        Console.WriteLine("Rele acionado");
+                        Close();
+                    }
+
+                    if (rele == "4") {
+                        // Acionamento Relé 4 - RECEPTOR
+                        // Comando 13 - 0x00 + 0x0D + <tipo_disp> + <num_disp> + <num_saida> + <gera_evt> + <cs>
+                        byte[] lFrame = new byte[6];
+
+                        lFrame[0] = 0x00;
+                        lFrame[1] = 0x0D;
+
+                        //+Dispositivo
+                        lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
+                        //+CAN
+                        lFrame[3] = (byte)cbCAN.SelectedIndex;
+                        //+Relé (Saída)
+                        lFrame[4] = 0x04;
+                        //+Gera eventos
+                        if (cxEVT.Checked)
+                            lFrame[5] = 0x01;  // Gera evento - Comando 4
+                        else
+                            lFrame[5] = 0x00;  // Não gera evento
+
+                        // Sem resposta do Guarita
+                        enviaComando(lFrame);
+
+                        System.Threading.Thread.Sleep(4000);
+                        Console.WriteLine("Rele acionado");
+                        Close();
+                    }
+
                 }
                 catch (Exception ex) {
                     Application.UseWaitCursor = false;
                     Console.WriteLine("FALHA CONEXAO TCP");
-                    Close();
-                }
-
-                if (rele == "1") {
-                    byte[] lFrame = new byte[6];
-
-                    lFrame[0] = 0x00;
-                    lFrame[1] = 0x0D;
-
-                    //+Dispositivo
-                    lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
-                    //+CAN
-                    lFrame[3] = (byte)cbCAN.SelectedIndex;
-                    //+Relé (Saída)
-                    lFrame[4] = 0x01;
-                    //+Gera eventos
-                    if (cxEVT.Checked)
-                        lFrame[5] = 0x01;  // Gera evento - Comando 4
-                    else
-                        lFrame[5] = 0x00;  // Não gera evento
-                                           // Sem resposta do Guarita
-                    enviaComando(lFrame);
-
-                    System.Threading.Thread.Sleep(5000);
-                    Console.WriteLine("Rele acionado");
-                    Close();
-                }
-
-                if (rele == "2") {
-                    // Acionamento Relé 2 - RECEPTOR
-                    // Comando 13 - 0x00 + 0x0D + <tipo_disp> + <num_disp> + <num_saida> + <gera_evt> + <cs>
-                    byte[] lFrame = new byte[6];
-
-                    lFrame[0] = 0x00;
-                    lFrame[1] = 0x0D;
-
-                    //+Dispositivo
-                    lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
-                    //+CAN
-                    lFrame[3] = (byte)cbCAN.SelectedIndex;
-                    //+Relé (Saída)
-                    lFrame[4] = 0x02;
-                    //+Gera eventos
-                    if (cxEVT.Checked)
-                        lFrame[5] = 0x01;  // Gera evento - Comando 4
-                    else
-                        lFrame[5] = 0x00;  // Não gera evento
-
-                    // Sem resposta do Guarita
-                    enviaComando(lFrame);
-
-                    System.Threading.Thread.Sleep(5000);
-                    Console.WriteLine("Rele acionado");
-                    Close();
-                }
-
-                if (rele == "3") {
-                    // Acionamento Relé 3 - RECEPTOR
-                    // Comando 13 - 0x00 + 0x0D + <tipo_disp> + <num_disp> + <num_saida> + <gera_evt> + <cs>
-                    byte[] lFrame = new byte[6];
-
-                    lFrame[0] = 0x00;
-                    lFrame[1] = 0x0D;
-
-                    //+Dispositivo
-                    lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
-                    //+CAN
-                    lFrame[3] = (byte)cbCAN.SelectedIndex;
-                    //+Relé (Saída)
-                    lFrame[4] = 0x03;
-                    //+Gera eventos
-                    if (cxEVT.Checked)
-                        lFrame[5] = 0x01;  // Gera evento - Comando 4
-                    else
-                        lFrame[5] = 0x00;  // Não gera evento
-
-                    // Sem resposta do Guarita
-                    enviaComando(lFrame);
-
-                    System.Threading.Thread.Sleep(5000);
-                    Console.WriteLine("Rele acionado");
-                    Close();
-                }
-
-                if (rele == "4") {
-                    // Acionamento Relé 4 - RECEPTOR
-                    // Comando 13 - 0x00 + 0x0D + <tipo_disp> + <num_disp> + <num_saida> + <gera_evt> + <cs>
-                    byte[] lFrame = new byte[6];
-
-                    lFrame[0] = 0x00;
-                    lFrame[1] = 0x0D;
-
-                    //+Dispositivo
-                    lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
-                    //+CAN
-                    lFrame[3] = (byte)cbCAN.SelectedIndex;
-                    //+Relé (Saída)
-                    lFrame[4] = 0x04;
-                    //+Gera eventos
-                    if (cxEVT.Checked)
-                        lFrame[5] = 0x01;  // Gera evento - Comando 4
-                    else
-                        lFrame[5] = 0x00;  // Não gera evento
-
-                    // Sem resposta do Guarita
-                    enviaComando(lFrame);
-
-                    System.Threading.Thread.Sleep(5000);
-                    Console.WriteLine("Rele acionado");
                     Close();
                 }
             }
