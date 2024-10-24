@@ -3996,6 +3996,12 @@ class _homeAppState extends State<homeApp>{
                                                         ),
                                                         child: ListView(
                                                           children: snapshot.data!.docs.map((documents){
+                                                            double textSize = 16;
+                                                            
+                                                            if(documents['NomeRamal'].length >= 16){
+                                                              textSize = 10;
+                                                            }
+
                                                             return InkWell(
                                                               onTap: (){
                                                                 //startCall(context, documents['RamalNumber']);
@@ -4013,7 +4019,16 @@ class _homeAppState extends State<homeApp>{
                                                                             padding: const EdgeInsets.only(left: 5, right: 5),
                                                                               child: const Icon(Icons.call)
                                                                           ),
-                                                                          Text("${documents['NomeRamal']}\n${documents['RamalNumber']}"),
+                                                                          Text(
+                                                                              "${documents['NomeRamal']}\n${documents['RamalNumber']}",
+                                                                            style: documents['NomeRamal'].length >= 16 ?
+                                                                            TextStyle(
+                                                                                fontSize: textSize,
+                                                                                fontWeight: FontWeight.bold
+                                                                            ): TextStyle(
+                                                                                fontSize: textSize
+                                                                            ),
+                                                                          ),
                                                                         ],
                                                                       ),
                                                                       TextButton(
