@@ -8554,10 +8554,53 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ],
                                                                                     ),
-                                                                                    TextButton(onPressed: (){},
+                                                                                    TextButton(
+                                                                                        onPressed: (){
+                                                                                          showDialog(
+                                                                                            context: context,
+                                                                                            builder: (BuildContext context) {
+                                                                                              return AlertDialog(
+                                                                                                title: const Text('Deseja deletar esse Veiculo?'),
+                                                                                                actions: [
+                                                                                                  Row(
+                                                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                    children: [
+                                                                                                      TextButton(
+                                                                                                          onPressed: (){
+                                                                                                            Navigator.pop(context);
+                                                                                                          },
+                                                                                                          child: const Text(
+                                                                                                            'Não',
+                                                                                                            style: TextStyle(
+                                                                                                                color: Colors.white
+                                                                                                            ),
+                                                                                                          )
+                                                                                                      ),
+                                                                                                      ElevatedButton(
+                                                                                                        onPressed: (){
+                                                                                                          FirebaseFirestore.instance.collection('Veiculos').doc(documents['id']).delete().whenComplete((){
+                                                                                                            Navigator.pop(context);
+                                                                                                          });
+                                                                                                        },
+                                                                                                        style: ElevatedButton.styleFrom(
+                                                                                                            backgroundColor: Colors.red
+                                                                                                        ),
+                                                                                                        child: const Text(
+                                                                                                          'Sim',
+                                                                                                          style: TextStyle(
+                                                                                                              color: Colors.white
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      )
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                ],
+                                                                                              );
+                                                                                            },
+                                                                                          );
+                                                                                        },
                                                                                         child:
-                                                                                        const Icon(
-                                                                                        Icons.delete,
+                                                                                        const Icon(Icons.delete,
                                                                                         color: Colors.red,
                                                                                         )
                                                                                     )
@@ -9199,7 +9242,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                               "MarcaV": MarcaV,
                                                                                                               "corV": corV,
                                                                                                               "PlacaV": PlacaV,
-                                                                                                              "idCondominio": idCondominio
+                                                                                                              "idCondominio": idCondominio,
+                                                                                                              'id': UUID
                                                                                                             }).whenComplete((){
                                                                                                               Navigator.pop(context);
                                                                                                             });
