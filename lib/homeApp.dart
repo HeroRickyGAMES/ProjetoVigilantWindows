@@ -8560,7 +8560,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             context: context,
                                                                                             builder: (BuildContext context) {
                                                                                               return AlertDialog(
-                                                                                                title: const Text('Deseja deletar esse Veiculo'),
+                                                                                                title: const Text('Deseja deletar esse Veiculo?'),
                                                                                                 actions: [
                                                                                                   Row(
                                                                                                     mainAxisAlignment: MainAxisAlignment.center,
