@@ -56,6 +56,7 @@ String pesquisa8 = '';
 String pesquisa9 = '';
 String pesquisa10 = '';
 String pesquisa11 = '';
+String pesquisa12 = '';
 String EmpresaPertence = "";
 
 //Controladores
@@ -79,6 +80,7 @@ bool pesquisando10  = false;
 bool showSearchBar = false;
 bool showSearchBar2 = false;
 bool pesquisaUnid = false;
+bool pesquisaBloc = false;
 
 //Booleanos de controle dos usuarios
 bool AdicionarCondominios = false;
@@ -5497,6 +5499,12 @@ class _homeAppState extends State<homeApp>{
                                                     .where("Unidade", isGreaterThanOrEqualTo: pesquisa2)
                                                     .where("Unidade", isLessThan: "${pesquisa2}z")
                                                     .snapshots():
+                                                pesquisaBloc == true ?
+                                                FirebaseFirestore.instance
+                                                    .collection("Pessoas")
+                                                    .where("Bloco", isGreaterThanOrEqualTo: pesquisa2)
+                                                    .where("Bloco", isLessThan: "${pesquisa2}z")
+                                                    .snapshots():
                                                 FirebaseFirestore.instance
                                                     .collection("Pessoas")
                                                     .where("idCondominio", isEqualTo: idCondominio)
@@ -6522,6 +6530,96 @@ class _homeAppState extends State<homeApp>{
                                                                                                       showToast("Nada foi encontrado!", context: context);
                                                                                                       setStater((){
                                                                                                         pesquisaUnid = true;
+                                                                                                      });
+                                                                                                    }
+                                                                                                  }
+                                                                                                },
+                                                                                                child: Image.asset(
+                                                                                                    "assets/search.png",
+                                                                                                    scale: 14
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      Container(
+                                                                                        padding: const EdgeInsets.all(2),
+                                                                                        child: Stack(
+                                                                                          children: [
+                                                                                            TextField(
+                                                                                              cursorColor: Colors.black,
+                                                                                              keyboardType: TextInputType.name,
+                                                                                              enableSuggestions: true,
+                                                                                              autocorrect: true,
+                                                                                              onChanged: (value){
+                                                                                                pesquisa2 = value;
+
+                                                                                                if(value == ""){
+                                                                                                  setStater(() {
+                                                                                                    pesquisando2 = false;
+                                                                                                    pesquisaCPF = false;
+                                                                                                  });
+                                                                                                }
+                                                                                              },
+                                                                                              decoration: const InputDecoration(
+                                                                                                  filled: true,
+                                                                                                  fillColor: Colors.white,
+                                                                                                  border: OutlineInputBorder(),
+                                                                                                  enabledBorder: OutlineInputBorder(
+                                                                                                    borderSide: BorderSide(width: 3, color: Colors.white), //<-- SEE HERE
+                                                                                                  ),
+                                                                                                  focusedBorder: OutlineInputBorder(
+                                                                                                    borderSide: BorderSide(
+                                                                                                        width: 3,
+                                                                                                        color: Colors.black
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  label: Text(
+                                                                                                    'Bloco',
+                                                                                                    style: TextStyle(
+                                                                                                        color: Colors.black,
+                                                                                                        backgroundColor: Colors.white
+                                                                                                    ),
+                                                                                                  )
+                                                                                              ),
+                                                                                              style: const TextStyle(
+                                                                                                  color: Colors.black
+                                                                                              ),
+                                                                                            ),
+                                                                                            Container(
+                                                                                              alignment: AlignmentDirectional.centerEnd,
+                                                                                              padding: const EdgeInsets.only(right: 35),
+                                                                                              child: TextButton(
+                                                                                                onPressed: () async {
+
+                                                                                                  if(pesquisa2 == ""){
+                                                                                                    setStater(() {
+                                                                                                      pesquisando2 = false;
+                                                                                                      pesquisaCPF = false;
+                                                                                                      pesquisaBloc = false;
+                                                                                                    });
+                                                                                                  }else{
+                                                                                                    //Pesquisa CPF
+                                                                                                    QuerySnapshot snapshotCPF = await FirebaseFirestore.instance.collection("Pessoas")
+                                                                                                        .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                        .where("Bloco", isGreaterThanOrEqualTo: pesquisa2)
+                                                                                                        .where("Bloco", isLessThan: "${pesquisa2}z")
+                                                                                                        .get();
+
+                                                                                                    if(snapshotCPF.docs.isNotEmpty){
+                                                                                                      for (var doc in snapshotCPF.docs) {
+                                                                                                        //Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+                                                                                                        //print("Dados: $data");
+
+                                                                                                        setStater((){
+                                                                                                          pesquisaBloc = true;
+                                                                                                        });
+                                                                                                      }
+                                                                                                    }else{
+                                                                                                      showToast("Nada foi encontrado!", context: context);
+                                                                                                      setStater((){
+                                                                                                        pesquisaBloc  = true;
                                                                                                       });
                                                                                                     }
                                                                                                   }
