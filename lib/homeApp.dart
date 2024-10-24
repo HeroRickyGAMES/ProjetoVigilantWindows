@@ -5507,8 +5507,672 @@ class _homeAppState extends State<homeApp>{
                                                         width: double.infinity,
                                                         height: heig / 4,
                                                         child: SingleChildScrollView(
-                                                          child: Column(
+                                                          child: Stack(
                                                             children: [
+                                                              Column(
+                                                                children: [
+                                                                  Container(
+                                                                    height: 60,
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: double.infinity,
+                                                                    height: heig / 7,
+                                                                    child: ListView(
+                                                                      children: snapshot.data!.docs.map((documents){
+                                                                        return InkWell(
+                                                                          onTap: (){
+                                                                            showDialog(
+                                                                              context: context,
+                                                                              builder: (BuildContext context) {
+                                                                                String anotacaoMorador = documents["anotacao"];
+                                                                                String nomeMorador = documents["Nome"];
+                                                                                String RGMorador = documents["RG"];
+                                                                                String CPFMorador = documents["CPF"];
+                                                                                String UnidadeMorador = documents["Unidade"];
+                                                                                String BlocoMorador = documents["Bloco"];
+                                                                                String TelefoneMorador = documents["Telefone"];
+                                                                                String CelularMorador = documents["Celular"];
+                                                                                String QualificacaoMorador = documents["Qualificacao"];
+
+                                                                                TextEditingController anotacaoControl = TextEditingController(text: anotacaoMorador);
+                                                                                TextEditingController nomeMoradorController = TextEditingController(text: nomeMorador);
+                                                                                TextEditingController RGMoradorController = TextEditingController(text: RGMorador);
+                                                                                TextEditingController CPFMoradorController = TextEditingController(text: CPFMorador);
+                                                                                TextEditingController UnidadeMoradorController = TextEditingController(text: UnidadeMorador);
+                                                                                TextEditingController BlocoMoradorController = TextEditingController(text: BlocoMorador);
+                                                                                TextEditingController TelefoneMoradorController = TextEditingController(text: TelefoneMorador);
+                                                                                TextEditingController CelularMoradorController = TextEditingController(text: CelularMorador);
+                                                                                TextEditingController QualificacaoMoradorController = TextEditingController(text: QualificacaoMorador);
+
+                                                                                bool editarInfosMorador = false;
+
+                                                                                double widthe = 600;
+                                                                                double heighte = 660;
+
+                                                                                return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
+                                                                                  if(editarInfosMorador == true){
+                                                                                    widthe = 600;
+                                                                                    heighte = 1000;
+                                                                                  }else{
+                                                                                    widthe = 600;
+                                                                                    heighte = 660;
+                                                                                  }
+                                                                                  return Center(
+                                                                                    child: Dialog(
+                                                                                      child: Stack(
+                                                                                        children: [
+                                                                                          Positioned.fill(
+                                                                                            child: ClipRRect(
+                                                                                              borderRadius: BorderRadius.circular(10),
+                                                                                              child: Image.asset(
+                                                                                                "assets/FundoMetalPreto.jpg",
+                                                                                                fit: BoxFit.fill,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                          SizedBox(
+                                                                                              width: widthe,
+                                                                                              height: heighte,
+                                                                                              child: SingleChildScrollView(
+                                                                                                child: Column(
+                                                                                                  children: [
+                                                                                                    Row(
+                                                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                      children: [
+                                                                                                        Container(
+                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                          child: const Text(
+                                                                                                            'Informações do morador',
+                                                                                                            style: TextStyle(
+                                                                                                                fontSize: 25,
+                                                                                                                fontWeight: FontWeight.bold
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        SizedBox(
+                                                                                                            width: 100,
+                                                                                                            height: 100,
+                                                                                                            child: TextButton(onPressed: (){
+                                                                                                              Navigator.pop(context);
+                                                                                                            }, child: const Center(
+                                                                                                              child: Icon(
+                                                                                                                Icons.close,
+                                                                                                                size: 40,
+                                                                                                              ),
+                                                                                                            )
+                                                                                                            )
+                                                                                                        )
+                                                                                                      ],
+                                                                                                    ),
+                                                                                                    Fluid(
+                                                                                                      children: [
+                                                                                                        Fluidable(
+                                                                                                          fluid: 1,
+                                                                                                          minWidth: 100,
+                                                                                                          child: documents["imageURI"] != ""?
+                                                                                                          Container(
+                                                                                                              padding: const EdgeInsets.all(25),
+                                                                                                              child: Image.network(
+                                                                                                                  height: 200,
+                                                                                                                  width: 200,
+                                                                                                                  documents["imageURI"]
+                                                                                                              )
+                                                                                                          ): Container(
+                                                                                                              alignment: Alignment.center,
+                                                                                                              padding: const EdgeInsets.all(8),
+                                                                                                              child: const Text(
+                                                                                                                "Nenhuma imagem encontrada!",
+                                                                                                                textAlign: TextAlign.center,
+                                                                                                              )
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        Fluidable(
+                                                                                                          fluid: 1,
+                                                                                                          minWidth: 200,
+                                                                                                          child: Center(
+                                                                                                            child: editarInfosMorador == false ? Column(
+                                                                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                              children: [
+                                                                                                                Container(
+                                                                                                                    padding: const EdgeInsets.all(8),
+                                                                                                                    child: Text(
+                                                                                                                      "Nome: ${documents["Nome"]}",
+                                                                                                                      textAlign: TextAlign.start,
+                                                                                                                    )
+                                                                                                                ),
+                                                                                                                Container(
+                                                                                                                    padding: const EdgeInsets.all(8),
+                                                                                                                    child: Text("RG: ${documents["RG"]}")
+                                                                                                                ),
+                                                                                                                Container(
+                                                                                                                    padding: const EdgeInsets.all(8),
+                                                                                                                    child: Text("CPF: ${documents["CPF"]}",)
+                                                                                                                ),
+                                                                                                                Container(
+                                                                                                                    padding: const EdgeInsets.all(8),
+                                                                                                                    child: Text("Unidade: ${documents["Unidade"]}")
+                                                                                                                ),
+                                                                                                                Container(
+                                                                                                                    padding: const EdgeInsets.all(8),
+                                                                                                                    child: Text("Bloco: ${documents["Bloco"]}")
+                                                                                                                ),
+                                                                                                                Container(
+                                                                                                                    padding: const EdgeInsets.all(8),
+                                                                                                                    child: Text("Telefone: ${documents["Telefone"]}")
+                                                                                                                ),
+                                                                                                                Container(
+                                                                                                                    padding: const EdgeInsets.all(8),
+                                                                                                                    child: Text("Celular: ${documents["Celular"]}")
+                                                                                                                ),
+                                                                                                                Container(
+                                                                                                                    padding: const EdgeInsets.all(8),
+                                                                                                                    child: Text("Qualificacao: ${documents["Qualificacao"]}")
+                                                                                                                ),
+                                                                                                              ],
+                                                                                                            ) : Column(
+                                                                                                              children: [
+                                                                                                                Center(
+                                                                                                                  child: Container(
+                                                                                                                    padding: const EdgeInsets.all(16),
+                                                                                                                    child: TextField(
+                                                                                                                      controller: nomeMoradorController,
+                                                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                                                      enableSuggestions: false,
+                                                                                                                      autocorrect: false,
+                                                                                                                      onChanged: (value){
+                                                                                                                        setStater(() {
+                                                                                                                          nomeMorador = value;
+                                                                                                                        });
+                                                                                                                      },
+                                                                                                                      decoration: InputDecoration(
+                                                                                                                        filled: true,
+                                                                                                                        fillColor: Colors.white,
+                                                                                                                        labelStyle: TextStyle(
+                                                                                                                            color: textAlertDialogColor,
+                                                                                                                            backgroundColor: Colors.white
+                                                                                                                        ),
+                                                                                                                        border: const OutlineInputBorder(),
+                                                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                        ),
+                                                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                                                          borderSide: BorderSide(
+                                                                                                                              width: 3,
+                                                                                                                              color: Colors.black
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        labelText: 'Nome',
+                                                                                                                      ),
+                                                                                                                      style: TextStyle(
+                                                                                                                          color: textAlertDialogColor
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                                Center(
+                                                                                                                  child: Container(
+                                                                                                                    padding: const EdgeInsets.all(16),
+                                                                                                                    child: TextField(
+                                                                                                                      controller: RGMoradorController,
+                                                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                                                      enableSuggestions: false,
+                                                                                                                      autocorrect: false,
+                                                                                                                      onChanged: (value){
+                                                                                                                        setStater(() {
+                                                                                                                          RGMorador = value;
+                                                                                                                        });
+                                                                                                                      },
+                                                                                                                      decoration: InputDecoration(
+                                                                                                                        filled: true,
+                                                                                                                        fillColor: Colors.white,
+                                                                                                                        labelStyle: TextStyle(
+                                                                                                                            color: textAlertDialogColor,
+                                                                                                                            backgroundColor: Colors.white
+                                                                                                                        ),
+                                                                                                                        border: const OutlineInputBorder(),
+                                                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                        ),
+                                                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                                                          borderSide: BorderSide(
+                                                                                                                              width: 3,
+                                                                                                                              color: Colors.black
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        labelText: 'RG',
+                                                                                                                      ),
+                                                                                                                      style: TextStyle(
+                                                                                                                          color: textAlertDialogColor
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                                Center(
+                                                                                                                  child: Container(
+                                                                                                                    padding: const EdgeInsets.all(16),
+                                                                                                                    child: TextField(
+                                                                                                                      controller: CPFMoradorController,
+                                                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                                                      enableSuggestions: false,
+                                                                                                                      autocorrect: false,
+                                                                                                                      onChanged: (value){
+                                                                                                                        setStater(() {
+                                                                                                                          CPFMorador = value;
+                                                                                                                        });
+                                                                                                                      },
+                                                                                                                      decoration: InputDecoration(
+                                                                                                                        filled: true,
+                                                                                                                        fillColor: Colors.white,
+                                                                                                                        labelStyle: TextStyle(
+                                                                                                                            color: textAlertDialogColor,
+                                                                                                                            backgroundColor: Colors.white
+                                                                                                                        ),
+                                                                                                                        border: const OutlineInputBorder(),
+                                                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                        ),
+                                                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                                                          borderSide: BorderSide(
+                                                                                                                              width: 3,
+                                                                                                                              color: Colors.black
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        labelText: 'CPF',
+                                                                                                                      ),
+                                                                                                                      style: TextStyle(
+                                                                                                                          color: textAlertDialogColor
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                                Center(
+                                                                                                                  child: Container(
+                                                                                                                    padding: const EdgeInsets.all(16),
+                                                                                                                    child: TextField(
+                                                                                                                      controller: UnidadeMoradorController,
+                                                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                                                      enableSuggestions: false,
+                                                                                                                      autocorrect: false,
+                                                                                                                      onChanged: (value){
+                                                                                                                        setStater(() {
+                                                                                                                          UnidadeMorador = value;
+                                                                                                                        });
+                                                                                                                      },
+                                                                                                                      decoration: InputDecoration(
+                                                                                                                        filled: true,
+                                                                                                                        fillColor: Colors.white,
+                                                                                                                        labelStyle: TextStyle(
+                                                                                                                            color: textAlertDialogColor,
+                                                                                                                            backgroundColor: Colors.white
+                                                                                                                        ),
+                                                                                                                        border: const OutlineInputBorder(),
+                                                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                        ),
+                                                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                                                          borderSide: BorderSide(
+                                                                                                                              width: 3,
+                                                                                                                              color: Colors.black
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        labelText: 'Unidade',
+                                                                                                                      ),
+                                                                                                                      style: TextStyle(
+                                                                                                                          color: textAlertDialogColor
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                                Center(
+                                                                                                                  child: Container(
+                                                                                                                    padding: const EdgeInsets.all(16),
+                                                                                                                    child: TextField(
+                                                                                                                      controller: BlocoMoradorController,
+                                                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                                                      enableSuggestions: false,
+                                                                                                                      autocorrect: false,
+                                                                                                                      onChanged: (value){
+                                                                                                                        setStater(() {
+                                                                                                                          BlocoMorador = value;
+                                                                                                                        });
+                                                                                                                      },
+                                                                                                                      decoration: InputDecoration(
+                                                                                                                        filled: true,
+                                                                                                                        fillColor: Colors.white,
+                                                                                                                        labelStyle: TextStyle(
+                                                                                                                            color: textAlertDialogColor,
+                                                                                                                            backgroundColor: Colors.white
+                                                                                                                        ),
+                                                                                                                        border: const OutlineInputBorder(),
+                                                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                        ),
+                                                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                                                          borderSide: BorderSide(
+                                                                                                                              width: 3,
+                                                                                                                              color: Colors.black
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        labelText: 'Bloco',
+                                                                                                                      ),
+                                                                                                                      style: TextStyle(
+                                                                                                                          color: textAlertDialogColor
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                                Center(
+                                                                                                                  child: Container(
+                                                                                                                    padding: const EdgeInsets.all(16),
+                                                                                                                    child: TextField(
+                                                                                                                      controller: TelefoneMoradorController,
+                                                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                                                      enableSuggestions: false,
+                                                                                                                      autocorrect: false,
+                                                                                                                      onChanged: (value){
+                                                                                                                        setStater(() {
+                                                                                                                          TelefoneMorador = value;
+                                                                                                                        });
+                                                                                                                      },
+                                                                                                                      decoration: InputDecoration(
+                                                                                                                        filled: true,
+                                                                                                                        fillColor: Colors.white,
+                                                                                                                        labelStyle: TextStyle(
+                                                                                                                            color: textAlertDialogColor,
+                                                                                                                            backgroundColor: Colors.white
+                                                                                                                        ),
+                                                                                                                        border: const OutlineInputBorder(),
+                                                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                        ),
+                                                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                                                          borderSide: BorderSide(
+                                                                                                                              width: 3,
+                                                                                                                              color: Colors.black
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        labelText: 'Telefone',
+                                                                                                                      ),
+                                                                                                                      style: TextStyle(
+                                                                                                                          color: textAlertDialogColor
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                                Center(
+                                                                                                                  child: Container(
+                                                                                                                    padding: const EdgeInsets.all(16),
+                                                                                                                    child: TextField(
+                                                                                                                      controller: CelularMoradorController,
+                                                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                                                      enableSuggestions: false,
+                                                                                                                      autocorrect: false,
+                                                                                                                      onChanged: (value){
+                                                                                                                        setStater(() {
+                                                                                                                          CelularMorador = value;
+                                                                                                                        });
+                                                                                                                      },
+                                                                                                                      decoration: InputDecoration(
+                                                                                                                        filled: true,
+                                                                                                                        fillColor: Colors.white,
+                                                                                                                        labelStyle: TextStyle(
+                                                                                                                            color: textAlertDialogColor,
+                                                                                                                            backgroundColor: Colors.white
+                                                                                                                        ),
+                                                                                                                        border: const OutlineInputBorder(),
+                                                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                        ),
+                                                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                                                          borderSide: BorderSide(
+                                                                                                                              width: 3,
+                                                                                                                              color: Colors.black
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        labelText: 'Celular',
+                                                                                                                      ),
+                                                                                                                      style: TextStyle(
+                                                                                                                          color: textAlertDialogColor
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                                Center(
+                                                                                                                  child: Container(
+                                                                                                                    padding: const EdgeInsets.all(16),
+                                                                                                                    child: TextField(
+                                                                                                                      controller: QualificacaoMoradorController,
+                                                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                                                      enableSuggestions: false,
+                                                                                                                      autocorrect: false,
+                                                                                                                      onChanged: (value){
+                                                                                                                        setStater(() {
+                                                                                                                          QualificacaoMorador = value;
+                                                                                                                        });
+                                                                                                                      },
+                                                                                                                      decoration: InputDecoration(
+                                                                                                                        filled: true,
+                                                                                                                        fillColor: Colors.white,
+                                                                                                                        labelStyle: TextStyle(
+                                                                                                                            color: textAlertDialogColor,
+                                                                                                                            backgroundColor: Colors.white
+                                                                                                                        ),
+                                                                                                                        border: const OutlineInputBorder(),
+                                                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                        ),
+                                                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                                                          borderSide: BorderSide(
+                                                                                                                              width: 3,
+                                                                                                                              color: Colors.black
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        labelText: 'Qualificação',
+                                                                                                                      ),
+                                                                                                                      style: TextStyle(
+                                                                                                                          color: textAlertDialogColor
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                                ElevatedButton(
+                                                                                                                    onPressed: (){
+                                                                                                                      FirebaseFirestore.instance.collection('Pessoas').doc(documents['id']).update({
+                                                                                                                        'Nome': nomeMorador,
+                                                                                                                        'RG': RGMorador,
+                                                                                                                        'CPF': CPFMorador,
+                                                                                                                        'Unidade': UnidadeMorador,
+                                                                                                                        'Bloco': BlocoMorador,
+                                                                                                                        'Telefone': TelefoneMorador,
+                                                                                                                        'Celular': CelularMorador,
+                                                                                                                        'Qualificacao': QualificacaoMorador,
+                                                                                                                      }).whenComplete((){
+                                                                                                                        setStater((){
+                                                                                                                          editarInfosMorador = false;
+                                                                                                                        });
+                                                                                                                        showToast("Informações salvas com sucesso!", context: context);
+                                                                                                                      });
+                                                                                                                    },
+                                                                                                                    child: const Text('Salvar')
+                                                                                                                )
+                                                                                                              ],
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ],
+                                                                                                    ),
+                                                                                                    Container(
+                                                                                                      padding: const EdgeInsets.all(16),
+                                                                                                      child: TextField(
+                                                                                                        keyboardType: TextInputType.multiline,
+                                                                                                        enableSuggestions: true,
+                                                                                                        autocorrect: true,
+                                                                                                        minLines: 5,
+                                                                                                        maxLines: null,
+                                                                                                        controller: anotacaoControl,
+                                                                                                        onChanged: (value){
+                                                                                                          setStater(() {
+                                                                                                            anotacaoMorador = value;
+                                                                                                          });
+                                                                                                        },
+                                                                                                        decoration: const InputDecoration(
+                                                                                                          filled: true,
+                                                                                                          fillColor: Colors.white,
+                                                                                                          border: OutlineInputBorder(),
+                                                                                                          enabledBorder: OutlineInputBorder(
+                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black),
+                                                                                                          ),
+                                                                                                          focusedBorder: OutlineInputBorder(
+                                                                                                            borderSide: BorderSide(
+                                                                                                                width: 3,
+                                                                                                                color: Colors.black
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                          label: Text('Anotação',
+                                                                                                            style: TextStyle(
+                                                                                                                color: Colors.black,
+                                                                                                                backgroundColor: Colors.white
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        style: const TextStyle(
+                                                                                                            color: Colors.black
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    Container(
+                                                                                                      padding: const EdgeInsets.only(bottom: 10),
+                                                                                                      child: ElevatedButton(
+                                                                                                          onPressed: (){
+                                                                                                            FirebaseFirestore.instance.collection('Pessoas').doc(documents['id']).update({
+                                                                                                              'anotacao': anotacaoMorador
+                                                                                                            }).whenComplete((){
+                                                                                                              showToast("Anotação salva com sucesso!", context: context);
+                                                                                                            });
+                                                                                                          },
+                                                                                                          child: const Text('Salvar anotação')
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    editarInfosMorador == false ? adicionarMoradores == true ?
+                                                                                                    ElevatedButton(
+                                                                                                      onPressed: (){
+                                                                                                        setStater((){
+                                                                                                          editarInfosMorador = true;
+                                                                                                        });
+                                                                                                      },
+                                                                                                      child: const Text('Editar informações'),
+                                                                                                    ): Container()
+                                                                                                        : Container()
+                                                                                                  ],
+                                                                                                ),
+                                                                                              )
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                  );
+                                                                                 }
+                                                                                );
+                                                                              },
+                                                                            );
+                                                                          },
+                                                                          child: SizedBox(
+                                                                            width: double.infinity,
+                                                                            height: 50,
+                                                                            child: Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              children: [
+                                                                                Container(
+                                                                                  padding: const EdgeInsets.only(left: 10),
+                                                                                  child: Text(
+                                                                                    "Nome: ${documents['Nome']}"
+                                                                                        "\nCPF: ${documents['CPF']}",
+                                                                                    style: documents['Nome'].length >= 20 && documents['Nome'].length <= 29 ?
+                                                                                    TextStyle(
+                                                                                        color: textColorInitBlue,
+                                                                                        fontSize: 9,
+                                                                                        fontWeight: FontWeight.bold
+                                                                                    ): documents['Nome'].length >= 30 ?
+                                                                                    TextStyle(
+                                                                                        color: textColorInitBlue,
+                                                                                        fontSize: 8,
+                                                                                        fontWeight: FontWeight.bold
+                                                                                    ):
+                                                                                    TextStyle(
+                                                                                        color: textColorInitBlue,
+                                                                                        fontSize: 14
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                adicionarMoradores == true ?
+                                                                                Container(
+                                                                                  padding: const EdgeInsets.all(10),
+                                                                                  child: TextButton(
+                                                                                    onPressed: (){
+                                                                                      showDialog(
+                                                                                        context: context,
+                                                                                        builder: (BuildContext context) {
+                                                                                          return AlertDialog(
+                                                                                            title: const Text('Você tem certeza que deseja\nremover esse morador?'),
+                                                                                            actions: [
+                                                                                              Column(
+                                                                                                children: [
+                                                                                                  Container(
+                                                                                                    padding: const EdgeInsets.all(3),
+                                                                                                    child: Column(
+                                                                                                      children: [
+                                                                                                        Text("Nome: ${documents['Nome']}"),
+                                                                                                        Text("CPF: ${documents['CPF']}"),
+                                                                                                      ],
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  Container(
+                                                                                                    padding: const EdgeInsets.all(3),
+                                                                                                    child: Row(
+                                                                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                                      children: [
+                                                                                                        ElevatedButton(
+                                                                                                            onPressed: (){
+                                                                                                                Navigator.pop(context);
+                                                                                                            },
+                                                                                                            child: const Text('Não')
+                                                                                                        ),
+                                                                                                        ElevatedButton(
+                                                                                                            onPressed: (){
+                                                                                                              FirebaseFirestore.instance.collection('Pessoas').doc("${documents['id']}").delete().whenComplete((){
+                                                                                                                Navigator.pop(context);
+                                                                                                                showToast("Deletado com sucesso!", context: context);
+                                                                                                                }
+                                                                                                              );
+                                                                                                          },
+                                                                                                            child: const Text('Sim')
+                                                                                                        )
+                                                                                                      ],
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ],
+                                                                                              )
+                                                                                            ],
+                                                                                          );
+                                                                                        },
+                                                                                      );
+                                                                                    },
+                                                                                    child: const Icon(
+                                                                                      Icons.delete,
+                                                                                      color: Colors.red
+                                                                                    ),
+                                                                                  ),
+                                                                                ) : Container()
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        );
+                                                                      }).toList(),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
                                                               Center(
                                                                 child: Container(
                                                                   padding: const EdgeInsets.all(10),
@@ -5550,42 +6214,42 @@ class _homeAppState extends State<homeApp>{
                                                                       Stack(
                                                                         children: [
                                                                           Container(
-                                                                              alignment: AlignmentDirectional.centerEnd,
-                                                                              child: TextButton(
-                                                                                onPressed: (){
-                                                                                  if(showSearchBar2 == true){
-                                                                                    setStater((){
-                                                                                      showSearchBar2 = false;
-                                                                                    });
-                                                                                  }else{
-                                                                                    setStater((){
-                                                                                      showSearchBar2 = true;
-                                                                                    });
-                                                                                  }
-                                                                                },
+                                                                            alignment: AlignmentDirectional.centerEnd,
+                                                                            child: TextButton(
+                                                                              onPressed: (){
+                                                                                if(showSearchBar2 == true){
+                                                                                  setStater((){
+                                                                                    showSearchBar2 = false;
+                                                                                  });
+                                                                                }else{
+                                                                                  setStater((){
+                                                                                    showSearchBar2 = true;
+                                                                                  });
+                                                                                }
+                                                                              },
+                                                                              child: Center(
                                                                                 child: Center(
-                                                                                  child: Center(
-                                                                                    child: Stack(
-                                                                                      children: [
-                                                                                        Container(
-                                                                                          height: 50,
-                                                                                          color: Colors.white,
+                                                                                  child: Stack(
+                                                                                    children: [
+                                                                                      Container(
+                                                                                        height: 50,
+                                                                                        color: Colors.white,
+                                                                                      ),
+                                                                                      Container(
+                                                                                        alignment: Alignment.centerRight,
+                                                                                        child: TextButton(
+                                                                                            onPressed: null,
+                                                                                            child: Image.asset(
+                                                                                                "assets/search.png",
+                                                                                                scale: 14
+                                                                                            )
                                                                                         ),
-                                                                                        Container(
-                                                                                          alignment: Alignment.centerRight,
-                                                                                          child: TextButton(
-                                                                                              onPressed: null,
-                                                                                              child: Image.asset(
-                                                                                                  "assets/search.png",
-                                                                                                  scale: 14
-                                                                                              )
-                                                                                          ),
-                                                                                        ),
-                                                                                      ],
-                                                                                    ),
+                                                                                      ),
+                                                                                    ],
                                                                                   ),
                                                                                 ),
                                                                               ),
+                                                                            ),
                                                                           ),
                                                                           showSearchBar2 == true ? Center(
                                                                             child: Stack(
@@ -5798,663 +6462,6 @@ class _homeAppState extends State<homeApp>{
                                                                       ),
                                                                     ],
                                                                   ),
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: double.infinity,
-                                                                height: heig / 7,
-                                                                child: ListView(
-                                                                  children: snapshot.data!.docs.map((documents){
-                                                                    return InkWell(
-                                                                      onTap: (){
-                                                                        showDialog(
-                                                                          context: context,
-                                                                          builder: (BuildContext context) {
-                                                                            String anotacaoMorador = documents["anotacao"];
-                                                                            String nomeMorador = documents["Nome"];
-                                                                            String RGMorador = documents["RG"];
-                                                                            String CPFMorador = documents["CPF"];
-                                                                            String UnidadeMorador = documents["Unidade"];
-                                                                            String BlocoMorador = documents["Bloco"];
-                                                                            String TelefoneMorador = documents["Telefone"];
-                                                                            String CelularMorador = documents["Celular"];
-                                                                            String QualificacaoMorador = documents["Qualificacao"];
-
-                                                                            TextEditingController anotacaoControl = TextEditingController(text: anotacaoMorador);
-                                                                            TextEditingController nomeMoradorController = TextEditingController(text: nomeMorador);
-                                                                            TextEditingController RGMoradorController = TextEditingController(text: RGMorador);
-                                                                            TextEditingController CPFMoradorController = TextEditingController(text: CPFMorador);
-                                                                            TextEditingController UnidadeMoradorController = TextEditingController(text: UnidadeMorador);
-                                                                            TextEditingController BlocoMoradorController = TextEditingController(text: BlocoMorador);
-                                                                            TextEditingController TelefoneMoradorController = TextEditingController(text: TelefoneMorador);
-                                                                            TextEditingController CelularMoradorController = TextEditingController(text: CelularMorador);
-                                                                            TextEditingController QualificacaoMoradorController = TextEditingController(text: QualificacaoMorador);
-
-                                                                            bool editarInfosMorador = false;
-
-                                                                            double widthe = 600;
-                                                                            double heighte = 660;
-
-                                                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
-                                                                              if(editarInfosMorador == true){
-                                                                                widthe = 600;
-                                                                                heighte = 1000;
-                                                                              }else{
-                                                                                widthe = 600;
-                                                                                heighte = 660;
-                                                                              }
-                                                                              return Center(
-                                                                                child: Dialog(
-                                                                                  child: Stack(
-                                                                                    children: [
-                                                                                      Positioned.fill(
-                                                                                        child: ClipRRect(
-                                                                                          borderRadius: BorderRadius.circular(10),
-                                                                                          child: Image.asset(
-                                                                                            "assets/FundoMetalPreto.jpg",
-                                                                                            fit: BoxFit.fill,
-                                                                                          ),
-                                                                                        ),
-                                                                                      ),
-                                                                                      SizedBox(
-                                                                                          width: widthe,
-                                                                                          height: heighte,
-                                                                                          child: SingleChildScrollView(
-                                                                                            child: Column(
-                                                                                              children: [
-                                                                                                Row(
-                                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                                  children: [
-                                                                                                    Container(
-                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                      child: const Text(
-                                                                                                        'Informações do morador',
-                                                                                                        style: TextStyle(
-                                                                                                            fontSize: 25,
-                                                                                                            fontWeight: FontWeight.bold
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                    SizedBox(
-                                                                                                        width: 100,
-                                                                                                        height: 100,
-                                                                                                        child: TextButton(onPressed: (){
-                                                                                                          Navigator.pop(context);
-                                                                                                        }, child: const Center(
-                                                                                                          child: Icon(
-                                                                                                            Icons.close,
-                                                                                                            size: 40,
-                                                                                                          ),
-                                                                                                        )
-                                                                                                        )
-                                                                                                    )
-                                                                                                  ],
-                                                                                                ),
-                                                                                                Fluid(
-                                                                                                  children: [
-                                                                                                    Fluidable(
-                                                                                                      fluid: 1,
-                                                                                                      minWidth: 100,
-                                                                                                      child: documents["imageURI"] != ""?
-                                                                                                      Container(
-                                                                                                          padding: const EdgeInsets.all(25),
-                                                                                                          child: Image.network(
-                                                                                                              height: 200,
-                                                                                                              width: 200,
-                                                                                                              documents["imageURI"]
-                                                                                                          )
-                                                                                                      ): Container(
-                                                                                                          alignment: Alignment.center,
-                                                                                                          padding: const EdgeInsets.all(8),
-                                                                                                          child: const Text(
-                                                                                                            "Nenhuma imagem encontrada!",
-                                                                                                            textAlign: TextAlign.center,
-                                                                                                          )
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                    Fluidable(
-                                                                                                      fluid: 1,
-                                                                                                      minWidth: 200,
-                                                                                                      child: Center(
-                                                                                                        child: editarInfosMorador == false ? Column(
-                                                                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                          children: [
-                                                                                                            Container(
-                                                                                                                padding: const EdgeInsets.all(8),
-                                                                                                                child: Text(
-                                                                                                                  "Nome: ${documents["Nome"]}",
-                                                                                                                  textAlign: TextAlign.start,
-                                                                                                                )
-                                                                                                            ),
-                                                                                                            Container(
-                                                                                                                padding: const EdgeInsets.all(8),
-                                                                                                                child: Text("RG: ${documents["RG"]}")
-                                                                                                            ),
-                                                                                                            Container(
-                                                                                                                padding: const EdgeInsets.all(8),
-                                                                                                                child: Text("CPF: ${documents["CPF"]}",)
-                                                                                                            ),
-                                                                                                            Container(
-                                                                                                                padding: const EdgeInsets.all(8),
-                                                                                                                child: Text("Unidade: ${documents["Unidade"]}")
-                                                                                                            ),
-                                                                                                            Container(
-                                                                                                                padding: const EdgeInsets.all(8),
-                                                                                                                child: Text("Bloco: ${documents["Bloco"]}")
-                                                                                                            ),
-                                                                                                            Container(
-                                                                                                                padding: const EdgeInsets.all(8),
-                                                                                                                child: Text("Telefone: ${documents["Telefone"]}")
-                                                                                                            ),
-                                                                                                            Container(
-                                                                                                                padding: const EdgeInsets.all(8),
-                                                                                                                child: Text("Celular: ${documents["Celular"]}")
-                                                                                                            ),
-                                                                                                            Container(
-                                                                                                                padding: const EdgeInsets.all(8),
-                                                                                                                child: Text("Qualificacao: ${documents["Qualificacao"]}")
-                                                                                                            ),
-                                                                                                          ],
-                                                                                                        ) : Column(
-                                                                                                          children: [
-                                                                                                            Center(
-                                                                                                              child: Container(
-                                                                                                                padding: const EdgeInsets.all(16),
-                                                                                                                child: TextField(
-                                                                                                                  controller: nomeMoradorController,
-                                                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                                                  enableSuggestions: false,
-                                                                                                                  autocorrect: false,
-                                                                                                                  onChanged: (value){
-                                                                                                                    setStater(() {
-                                                                                                                      nomeMorador = value;
-                                                                                                                    });
-                                                                                                                  },
-                                                                                                                  decoration: InputDecoration(
-                                                                                                                    filled: true,
-                                                                                                                    fillColor: Colors.white,
-                                                                                                                    labelStyle: TextStyle(
-                                                                                                                        color: textAlertDialogColor,
-                                                                                                                        backgroundColor: Colors.white
-                                                                                                                    ),
-                                                                                                                    border: const OutlineInputBorder(),
-                                                                                                                    enabledBorder: const OutlineInputBorder(
-                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                    ),
-                                                                                                                    focusedBorder: const OutlineInputBorder(
-                                                                                                                      borderSide: BorderSide(
-                                                                                                                          width: 3,
-                                                                                                                          color: Colors.black
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    labelText: 'Nome',
-                                                                                                                  ),
-                                                                                                                  style: TextStyle(
-                                                                                                                      color: textAlertDialogColor
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                            Center(
-                                                                                                              child: Container(
-                                                                                                                padding: const EdgeInsets.all(16),
-                                                                                                                child: TextField(
-                                                                                                                  controller: RGMoradorController,
-                                                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                                                  enableSuggestions: false,
-                                                                                                                  autocorrect: false,
-                                                                                                                  onChanged: (value){
-                                                                                                                    setStater(() {
-                                                                                                                      RGMorador = value;
-                                                                                                                    });
-                                                                                                                  },
-                                                                                                                  decoration: InputDecoration(
-                                                                                                                    filled: true,
-                                                                                                                    fillColor: Colors.white,
-                                                                                                                    labelStyle: TextStyle(
-                                                                                                                        color: textAlertDialogColor,
-                                                                                                                        backgroundColor: Colors.white
-                                                                                                                    ),
-                                                                                                                    border: const OutlineInputBorder(),
-                                                                                                                    enabledBorder: const OutlineInputBorder(
-                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                    ),
-                                                                                                                    focusedBorder: const OutlineInputBorder(
-                                                                                                                      borderSide: BorderSide(
-                                                                                                                          width: 3,
-                                                                                                                          color: Colors.black
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    labelText: 'RG',
-                                                                                                                  ),
-                                                                                                                  style: TextStyle(
-                                                                                                                      color: textAlertDialogColor
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                            Center(
-                                                                                                              child: Container(
-                                                                                                                padding: const EdgeInsets.all(16),
-                                                                                                                child: TextField(
-                                                                                                                  controller: CPFMoradorController,
-                                                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                                                  enableSuggestions: false,
-                                                                                                                  autocorrect: false,
-                                                                                                                  onChanged: (value){
-                                                                                                                    setStater(() {
-                                                                                                                      CPFMorador = value;
-                                                                                                                    });
-                                                                                                                  },
-                                                                                                                  decoration: InputDecoration(
-                                                                                                                    filled: true,
-                                                                                                                    fillColor: Colors.white,
-                                                                                                                    labelStyle: TextStyle(
-                                                                                                                        color: textAlertDialogColor,
-                                                                                                                        backgroundColor: Colors.white
-                                                                                                                    ),
-                                                                                                                    border: const OutlineInputBorder(),
-                                                                                                                    enabledBorder: const OutlineInputBorder(
-                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                    ),
-                                                                                                                    focusedBorder: const OutlineInputBorder(
-                                                                                                                      borderSide: BorderSide(
-                                                                                                                          width: 3,
-                                                                                                                          color: Colors.black
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    labelText: 'CPF',
-                                                                                                                  ),
-                                                                                                                  style: TextStyle(
-                                                                                                                      color: textAlertDialogColor
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                            Center(
-                                                                                                              child: Container(
-                                                                                                                padding: const EdgeInsets.all(16),
-                                                                                                                child: TextField(
-                                                                                                                  controller: UnidadeMoradorController,
-                                                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                                                  enableSuggestions: false,
-                                                                                                                  autocorrect: false,
-                                                                                                                  onChanged: (value){
-                                                                                                                    setStater(() {
-                                                                                                                      UnidadeMorador = value;
-                                                                                                                    });
-                                                                                                                  },
-                                                                                                                  decoration: InputDecoration(
-                                                                                                                    filled: true,
-                                                                                                                    fillColor: Colors.white,
-                                                                                                                    labelStyle: TextStyle(
-                                                                                                                        color: textAlertDialogColor,
-                                                                                                                        backgroundColor: Colors.white
-                                                                                                                    ),
-                                                                                                                    border: const OutlineInputBorder(),
-                                                                                                                    enabledBorder: const OutlineInputBorder(
-                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                    ),
-                                                                                                                    focusedBorder: const OutlineInputBorder(
-                                                                                                                      borderSide: BorderSide(
-                                                                                                                          width: 3,
-                                                                                                                          color: Colors.black
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    labelText: 'Unidade',
-                                                                                                                  ),
-                                                                                                                  style: TextStyle(
-                                                                                                                      color: textAlertDialogColor
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                            Center(
-                                                                                                              child: Container(
-                                                                                                                padding: const EdgeInsets.all(16),
-                                                                                                                child: TextField(
-                                                                                                                  controller: BlocoMoradorController,
-                                                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                                                  enableSuggestions: false,
-                                                                                                                  autocorrect: false,
-                                                                                                                  onChanged: (value){
-                                                                                                                    setStater(() {
-                                                                                                                      BlocoMorador = value;
-                                                                                                                    });
-                                                                                                                  },
-                                                                                                                  decoration: InputDecoration(
-                                                                                                                    filled: true,
-                                                                                                                    fillColor: Colors.white,
-                                                                                                                    labelStyle: TextStyle(
-                                                                                                                        color: textAlertDialogColor,
-                                                                                                                        backgroundColor: Colors.white
-                                                                                                                    ),
-                                                                                                                    border: const OutlineInputBorder(),
-                                                                                                                    enabledBorder: const OutlineInputBorder(
-                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                    ),
-                                                                                                                    focusedBorder: const OutlineInputBorder(
-                                                                                                                      borderSide: BorderSide(
-                                                                                                                          width: 3,
-                                                                                                                          color: Colors.black
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    labelText: 'Bloco',
-                                                                                                                  ),
-                                                                                                                  style: TextStyle(
-                                                                                                                      color: textAlertDialogColor
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                            Center(
-                                                                                                              child: Container(
-                                                                                                                padding: const EdgeInsets.all(16),
-                                                                                                                child: TextField(
-                                                                                                                  controller: TelefoneMoradorController,
-                                                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                                                  enableSuggestions: false,
-                                                                                                                  autocorrect: false,
-                                                                                                                  onChanged: (value){
-                                                                                                                    setStater(() {
-                                                                                                                      TelefoneMorador = value;
-                                                                                                                    });
-                                                                                                                  },
-                                                                                                                  decoration: InputDecoration(
-                                                                                                                    filled: true,
-                                                                                                                    fillColor: Colors.white,
-                                                                                                                    labelStyle: TextStyle(
-                                                                                                                        color: textAlertDialogColor,
-                                                                                                                        backgroundColor: Colors.white
-                                                                                                                    ),
-                                                                                                                    border: const OutlineInputBorder(),
-                                                                                                                    enabledBorder: const OutlineInputBorder(
-                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                    ),
-                                                                                                                    focusedBorder: const OutlineInputBorder(
-                                                                                                                      borderSide: BorderSide(
-                                                                                                                          width: 3,
-                                                                                                                          color: Colors.black
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    labelText: 'Telefone',
-                                                                                                                  ),
-                                                                                                                  style: TextStyle(
-                                                                                                                      color: textAlertDialogColor
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                            Center(
-                                                                                                              child: Container(
-                                                                                                                padding: const EdgeInsets.all(16),
-                                                                                                                child: TextField(
-                                                                                                                  controller: CelularMoradorController,
-                                                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                                                  enableSuggestions: false,
-                                                                                                                  autocorrect: false,
-                                                                                                                  onChanged: (value){
-                                                                                                                    setStater(() {
-                                                                                                                      CelularMorador = value;
-                                                                                                                    });
-                                                                                                                  },
-                                                                                                                  decoration: InputDecoration(
-                                                                                                                    filled: true,
-                                                                                                                    fillColor: Colors.white,
-                                                                                                                    labelStyle: TextStyle(
-                                                                                                                        color: textAlertDialogColor,
-                                                                                                                        backgroundColor: Colors.white
-                                                                                                                    ),
-                                                                                                                    border: const OutlineInputBorder(),
-                                                                                                                    enabledBorder: const OutlineInputBorder(
-                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                    ),
-                                                                                                                    focusedBorder: const OutlineInputBorder(
-                                                                                                                      borderSide: BorderSide(
-                                                                                                                          width: 3,
-                                                                                                                          color: Colors.black
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    labelText: 'Celular',
-                                                                                                                  ),
-                                                                                                                  style: TextStyle(
-                                                                                                                      color: textAlertDialogColor
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                            Center(
-                                                                                                              child: Container(
-                                                                                                                padding: const EdgeInsets.all(16),
-                                                                                                                child: TextField(
-                                                                                                                  controller: QualificacaoMoradorController,
-                                                                                                                  keyboardType: TextInputType.emailAddress,
-                                                                                                                  enableSuggestions: false,
-                                                                                                                  autocorrect: false,
-                                                                                                                  onChanged: (value){
-                                                                                                                    setStater(() {
-                                                                                                                      QualificacaoMorador = value;
-                                                                                                                    });
-                                                                                                                  },
-                                                                                                                  decoration: InputDecoration(
-                                                                                                                    filled: true,
-                                                                                                                    fillColor: Colors.white,
-                                                                                                                    labelStyle: TextStyle(
-                                                                                                                        color: textAlertDialogColor,
-                                                                                                                        backgroundColor: Colors.white
-                                                                                                                    ),
-                                                                                                                    border: const OutlineInputBorder(),
-                                                                                                                    enabledBorder: const OutlineInputBorder(
-                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                    ),
-                                                                                                                    focusedBorder: const OutlineInputBorder(
-                                                                                                                      borderSide: BorderSide(
-                                                                                                                          width: 3,
-                                                                                                                          color: Colors.black
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    labelText: 'Qualificação',
-                                                                                                                  ),
-                                                                                                                  style: TextStyle(
-                                                                                                                      color: textAlertDialogColor
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                            ElevatedButton(
-                                                                                                                onPressed: (){
-                                                                                                                  FirebaseFirestore.instance.collection('Pessoas').doc(documents['id']).update({
-                                                                                                                    'Nome': nomeMorador,
-                                                                                                                    'RG': RGMorador,
-                                                                                                                    'CPF': CPFMorador,
-                                                                                                                    'Unidade': UnidadeMorador,
-                                                                                                                    'Bloco': BlocoMorador,
-                                                                                                                    'Telefone': TelefoneMorador,
-                                                                                                                    'Celular': CelularMorador,
-                                                                                                                    'Qualificacao': QualificacaoMorador,
-                                                                                                                  }).whenComplete((){
-                                                                                                                    setStater((){
-                                                                                                                      editarInfosMorador = false;
-                                                                                                                    });
-                                                                                                                    showToast("Informações salvas com sucesso!", context: context);
-                                                                                                                  });
-                                                                                                                },
-                                                                                                                child: const Text('Salvar')
-                                                                                                            )
-                                                                                                          ],
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                  ],
-                                                                                                ),
-                                                                                                Container(
-                                                                                                  padding: const EdgeInsets.all(16),
-                                                                                                  child: TextField(
-                                                                                                    keyboardType: TextInputType.multiline,
-                                                                                                    enableSuggestions: true,
-                                                                                                    autocorrect: true,
-                                                                                                    minLines: 5,
-                                                                                                    maxLines: null,
-                                                                                                    controller: anotacaoControl,
-                                                                                                    onChanged: (value){
-                                                                                                      setStater(() {
-                                                                                                        anotacaoMorador = value;
-                                                                                                      });
-                                                                                                    },
-                                                                                                    decoration: const InputDecoration(
-                                                                                                      filled: true,
-                                                                                                      fillColor: Colors.white,
-                                                                                                      border: OutlineInputBorder(),
-                                                                                                      enabledBorder: OutlineInputBorder(
-                                                                                                        borderSide: BorderSide(width: 3, color: Colors.black),
-                                                                                                      ),
-                                                                                                      focusedBorder: OutlineInputBorder(
-                                                                                                        borderSide: BorderSide(
-                                                                                                            width: 3,
-                                                                                                            color: Colors.black
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                      label: Text('Anotação',
-                                                                                                        style: TextStyle(
-                                                                                                            color: Colors.black,
-                                                                                                            backgroundColor: Colors.white
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                    style: const TextStyle(
-                                                                                                        color: Colors.black
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                ),
-                                                                                                Container(
-                                                                                                  padding: const EdgeInsets.only(bottom: 10),
-                                                                                                  child: ElevatedButton(
-                                                                                                      onPressed: (){
-                                                                                                        FirebaseFirestore.instance.collection('Pessoas').doc(documents['id']).update({
-                                                                                                          'anotacao': anotacaoMorador
-                                                                                                        }).whenComplete((){
-                                                                                                          showToast("Anotação salva com sucesso!", context: context);
-                                                                                                        });
-                                                                                                      },
-                                                                                                      child: const Text('Salvar anotação')
-                                                                                                  ),
-                                                                                                ),
-                                                                                                editarInfosMorador == false ? adicionarMoradores == true ?
-                                                                                                ElevatedButton(
-                                                                                                  onPressed: (){
-                                                                                                    setStater((){
-                                                                                                      editarInfosMorador = true;
-                                                                                                    });
-                                                                                                  },
-                                                                                                  child: const Text('Editar informações'),
-                                                                                                ): Container()
-                                                                                                    : Container()
-                                                                                              ],
-                                                                                            ),
-                                                                                          )
-                                                                                      ),
-                                                                                    ],
-                                                                                  ),
-                                                                                ),
-                                                                              );
-                                                                             }
-                                                                            );
-                                                                          },
-                                                                        );
-                                                                      },
-                                                                      child: SizedBox(
-                                                                        width: double.infinity,
-                                                                        height: 50,
-                                                                        child: Row(
-                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                          children: [
-                                                                            Container(
-                                                                              padding: const EdgeInsets.only(left: 10),
-                                                                              child: Text(
-                                                                                "Nome: ${documents['Nome']}"
-                                                                                    "\nCPF: ${documents['CPF']}",
-                                                                                style: documents['Nome'].length >= 20 && documents['Nome'].length <= 29 ?
-                                                                                TextStyle(
-                                                                                    color: textColorInitBlue,
-                                                                                    fontSize: 9,
-                                                                                    fontWeight: FontWeight.bold
-                                                                                ): documents['Nome'].length >= 30 ?
-                                                                                TextStyle(
-                                                                                    color: textColorInitBlue,
-                                                                                    fontSize: 8,
-                                                                                    fontWeight: FontWeight.bold
-                                                                                ):
-                                                                                TextStyle(
-                                                                                    color: textColorInitBlue,
-                                                                                    fontSize: 14
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            adicionarMoradores == true ?
-                                                                            Container(
-                                                                              padding: const EdgeInsets.all(10),
-                                                                              child: TextButton(
-                                                                                onPressed: (){
-                                                                                  showDialog(
-                                                                                    context: context,
-                                                                                    builder: (BuildContext context) {
-                                                                                      return AlertDialog(
-                                                                                        title: const Text('Você tem certeza que deseja\nremover esse morador?'),
-                                                                                        actions: [
-                                                                                          Column(
-                                                                                            children: [
-                                                                                              Container(
-                                                                                                padding: const EdgeInsets.all(3),
-                                                                                                child: Column(
-                                                                                                  children: [
-                                                                                                    Text("Nome: ${documents['Nome']}"),
-                                                                                                    Text("CPF: ${documents['CPF']}"),
-                                                                                                  ],
-                                                                                                ),
-                                                                                              ),
-                                                                                              Container(
-                                                                                                padding: const EdgeInsets.all(3),
-                                                                                                child: Row(
-                                                                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                                                  children: [
-                                                                                                    ElevatedButton(
-                                                                                                        onPressed: (){
-                                                                                                            Navigator.pop(context);
-                                                                                                        },
-                                                                                                        child: const Text('Não')
-                                                                                                    ),
-                                                                                                    ElevatedButton(
-                                                                                                        onPressed: (){
-                                                                                                          FirebaseFirestore.instance.collection('Pessoas').doc("${documents['id']}").delete().whenComplete((){
-                                                                                                            Navigator.pop(context);
-                                                                                                            showToast("Deletado com sucesso!", context: context);
-                                                                                                            }
-                                                                                                          );
-                                                                                                      },
-                                                                                                        child: const Text('Sim')
-                                                                                                    )
-                                                                                                  ],
-                                                                                                ),
-                                                                                              ),
-                                                                                            ],
-                                                                                          )
-                                                                                        ],
-                                                                                      );
-                                                                                    },
-                                                                                  );
-                                                                                },
-                                                                                child: const Icon(
-                                                                                  Icons.delete,
-                                                                                  color: Colors.red
-                                                                                ),
-                                                                              ),
-                                                                            ) : Container()
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    );
-                                                                  }).toList(),
                                                                 ),
                                                               ),
                                                             ],
@@ -8468,8 +8475,103 @@ class _homeAppState extends State<homeApp>{
                                                           ),
                                                         )
                                                         )
-                                                      else Column(
+                                                      else Stack(
                                                         children: [
+                                                          Column(
+                                                            children: [
+                                                              Container(
+                                                                height: 60,
+                                                              ),
+                                                              StreamBuilder(
+                                                                  stream: pesquisando3 == true ?
+                                                                  FirebaseFirestore.instance
+                                                                      .collection("Veiculos")
+                                                                      .where("idCondominio", isEqualTo: idCondominio)
+                                                                      .where("Unidade", isGreaterThanOrEqualTo: pesquisa3)
+                                                                      .where("Unidade", isLessThan: "${pesquisa3}9")
+                                                                      .snapshots() :
+                                                                  pesquisando4 == true ?
+                                                                  FirebaseFirestore.instance
+                                                                      .collection("Veiculos")
+                                                                      .where("idCondominio", isEqualTo: idCondominio)
+                                                                      .where("blocoV", isGreaterThanOrEqualTo: pesquisa4)
+                                                                      .where("blocoV", isLessThan: "${pesquisa4}z")
+                                                                      .snapshots() :
+                                                                  pesquisando5 == true ? FirebaseFirestore.instance
+                                                                      .collection("Veiculos")
+                                                                      .where("idCondominio", isEqualTo: idCondominio)
+                                                                      .where("IdentificacaoModeloV", isGreaterThanOrEqualTo: pesquisa5)
+                                                                      .where("IdentificacaoModeloV", isLessThan: "${pesquisa5}z")
+                                                                      .snapshots():
+                                                                  pesquisando6 == true ? FirebaseFirestore.instance
+                                                                      .collection("Veiculos")
+                                                                      .where("idCondominio", isEqualTo: idCondominio)
+                                                                      .where("PlacaV", isGreaterThanOrEqualTo: pesquisa6)
+                                                                      .where("PlacaV", isLessThan: "${pesquisa6}z")
+                                                                      .snapshots():
+                                                                  FirebaseFirestore.instance
+                                                                      .collection("Veiculos")
+                                                                      .where("idCondominio", isEqualTo: idCondominio)
+                                                                      .snapshots(),
+                                                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+
+                                                                    if (!snapshot.hasData) {
+                                                                      return const Center(
+                                                                        child: CircularProgressIndicator(),
+                                                                      );
+                                                                    }
+
+                                                                    return Container(
+                                                                      width: wid,
+                                                                      height: heig / 5,
+                                                                      decoration: BoxDecoration(
+                                                                        border: Border.all(
+                                                                          color: Colors.blue,
+                                                                          width: 1.0,
+                                                                        ),
+                                                                      ),
+                                                                      child: ListView(
+                                                                        children: snapshot.data!.docs.map((documents){
+                                                                          return Center(
+                                                                            child: Container(
+                                                                                padding: const EdgeInsets.all(6),
+                                                                                child: Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                  children: [
+                                                                                    Row(
+                                                                                      children: [
+                                                                                        const Icon(
+                                                                                            Icons.directions_car_filled_rounded,
+                                                                                        color: Colors.black,),
+                                                                                        Container(
+                                                                                          padding: const EdgeInsets.only(left: 16),
+                                                                                          child: Text(
+                                                                                            "Placa: ${documents["PlacaV"]}",
+                                                                                            style: TextStyle(
+                                                                                                color: textColorWidgets
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                    TextButton(onPressed: (){},
+                                                                                        child:
+                                                                                        const Icon(
+                                                                                        Icons.delete,
+                                                                                        color: Colors.red,
+                                                                                        )
+                                                                                    )
+                                                                                  ],
+                                                                                )
+                                                                            ),
+                                                                          );
+                                                                        }).toList(),
+                                                                      ),
+                                                                    );
+                                                                  }
+                                                              ),
+                                                            ],
+                                                          ),
                                                           Stack(
                                                             children: [
                                                               TextButton(
@@ -8773,72 +8875,6 @@ class _homeAppState extends State<homeApp>{
                                                                 ],
                                                               ): Container()
                                                             ],
-                                                          ),
-                                                          StreamBuilder(
-                                                              stream: pesquisando3 == true ?
-                                                              FirebaseFirestore.instance
-                                                                  .collection("Veiculos")
-                                                                  .where("idCondominio", isEqualTo: idCondominio)
-                                                                  .where("Unidade", isGreaterThanOrEqualTo: pesquisa3)
-                                                                  .where("Unidade", isLessThan: "${pesquisa3}9")
-                                                                  .snapshots() :
-                                                              pesquisando4 == true ?
-                                                              FirebaseFirestore.instance
-                                                                  .collection("Veiculos")
-                                                                  .where("idCondominio", isEqualTo: idCondominio)
-                                                                  .where("blocoV", isGreaterThanOrEqualTo: pesquisa4)
-                                                                  .where("blocoV", isLessThan: "${pesquisa4}z")
-                                                                  .snapshots() :
-                                                              pesquisando5 == true ? FirebaseFirestore.instance
-                                                                  .collection("Veiculos")
-                                                                  .where("idCondominio", isEqualTo: idCondominio)
-                                                                  .where("IdentificacaoModeloV", isGreaterThanOrEqualTo: pesquisa5)
-                                                                  .where("IdentificacaoModeloV", isLessThan: "${pesquisa5}z")
-                                                                  .snapshots():
-                                                              pesquisando6 == true ? FirebaseFirestore.instance
-                                                                  .collection("Veiculos")
-                                                                  .where("idCondominio", isEqualTo: idCondominio)
-                                                                  .where("PlacaV", isGreaterThanOrEqualTo: pesquisa6)
-                                                                  .where("PlacaV", isLessThan: "${pesquisa6}z")
-                                                                  .snapshots():
-                                                              FirebaseFirestore.instance
-                                                                  .collection("Veiculos")
-                                                                  .where("idCondominio", isEqualTo: idCondominio)
-                                                                  .snapshots(),
-                                                              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-
-                                                                if (!snapshot.hasData) {
-                                                                  return const Center(
-                                                                    child: CircularProgressIndicator(),
-                                                                  );
-                                                                }
-
-                                                                return Container(
-                                                                  width: wid,
-                                                                  height: 100,
-                                                                  decoration: BoxDecoration(
-                                                                    border: Border.all(
-                                                                      color: Colors.blue,
-                                                                      width: 1.0,
-                                                                    ),
-                                                                  ),
-                                                                  child: ListView(
-                                                                    children: snapshot.data!.docs.map((documents){
-                                                                      return Center(
-                                                                        child: Container(
-                                                                            padding: const EdgeInsets.all(6),
-                                                                            child: Text(
-                                                                              "Placa: ${documents["PlacaV"]}",
-                                                                              style: TextStyle(
-                                                                                  color: textColorWidgets
-                                                                              ),
-                                                                            )
-                                                                        ),
-                                                                      );
-                                                                    }).toList(),
-                                                                  ),
-                                                                );
-                                                              }
                                                           ),
                                                         ],
                                                       ),
