@@ -6785,6 +6785,155 @@ class _homeAppState extends State<homeApp>{
                                                                           ),
                                                                           Center(
                                                                             child: ElevatedButton(
+                                                                              onPressed: (){
+
+                                                                                Map acionamentosCadastrados = {
+                                                                                  'ip': '',
+                                                                                  'porta': '',
+                                                                                  'modelo': '',
+                                                                                  'id': '',
+                                                                                  'nome': ''
+                                                                                };
+
+                                                                                showDialog(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) {
+                                                                                    return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                      return AlertDialog(
+                                                                                        title: const Text('Importar usuarios cadastrados para multiplos acionamentos!'),
+                                                                                        actions: [
+                                                                                          Center(
+                                                                                            child: SizedBox(
+                                                                                              width: 600,
+                                                                                              height: 500,
+                                                                                              child: StreamBuilder(
+                                                                                                stream: FirebaseFirestore.instance
+                                                                                                    .collection('acionamentos')
+                                                                                                    .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                    .where("modelo", whereIn: ["Control iD", "Hikvision"])
+                                                                                                    .snapshots(),
+                                                                                                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                                                                                  if (snapshot.hasError) {
+                                                                                                    return const Center(child:
+                                                                                                     Text('Algo deu errado!')
+                                                                                                    );
+                                                                                                  }
+
+                                                                                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                                                                                    return const Center(child: CircularProgressIndicator());
+                                                                                                  }
+
+                                                                                                  if (snapshot.hasData) {
+                                                                                                    return GridView.count(
+                                                                                                        childAspectRatio: 1.2,
+                                                                                                        crossAxisCount: 3,
+                                                                                                        children: snapshot.data!.docs.map((documents) {
+                                                                                                          double tamanhotext = 14;
+                                                                                                          bool isBolded = false;
+
+                                                                                                          if(documents["nome"].length >= 16){
+                                                                                                            tamanhotext = 12;
+                                                                                                          }
+
+                                                                                                          if(documents["nome"].length >= 20){
+                                                                                                            tamanhotext = 9;
+                                                                                                            isBolded = true;
+                                                                                                          }
+
+                                                                                                          return Container(
+                                                                                                            padding: const EdgeInsets.all(16),
+                                                                                                            child: Column(
+                                                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                              children: [
+                                                                                                                Row(
+                                                                                                                  children: [
+                                                                                                                    Checkbox(
+                                                                                                                      value: acionamentosCadastrados.containsKey(documents['id']),
+                                                                                                                      onChanged: (bool? value) {
+                                                                                                                        if(!acionamentosCadastrados.containsKey(documents['id'])){
+                                                                                                                          setState((){
+                                                                                                                            acionamentosCadastrados[documents['id']] = {
+                                                                                                                              'ip': documents['ip'],
+                                                                                                                              'porta': documents['porta'],
+                                                                                                                              'modelo': documents['modelo'],
+                                                                                                                              'id': documents['id'],
+                                                                                                                              'nome': documents['nome']
+                                                                                                                            };
+                                                                                                                            print(acionamentosCadastrados);
+                                                                                                                          });
+                                                                                                                        }else{
+                                                                                                                          setState((){
+                                                                                                                            acionamentosCadastrados.remove(documents['id']);
+                                                                                                                          });
+                                                                                                                        }
+                                                                                                                      },
+                                                                                                                    ),
+                                                                                                                    Column(
+                                                                                                                      children: [
+                                                                                                                        SizedBox(
+                                                                                                                          height: 50,
+                                                                                                                          child: Stack(
+                                                                                                                            alignment: Alignment.center,
+                                                                                                                            children: [
+                                                                                                                              Image.asset(
+                                                                                                                                documents["deuErro"] == true ?
+                                                                                                                                "assets/btnIsNotAbleToConnect.png":
+                                                                                                                                documents["prontoParaAtivar"] == false ?
+                                                                                                                                "assets/btnInactive.png" :
+                                                                                                                                "assets/btnIsAbleToAction.png",
+                                                                                                                                scale: 5,
+                                                                                                                              ),
+                                                                                                                              Image.asset(
+                                                                                                                                  documents["iconeSeleciondo"],
+                                                                                                                                  scale: 45
+                                                                                                                              ),
+                                                                                                                            ],
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        Text(
+                                                                                                                          documents["nome"],
+                                                                                                                          style: isBolded == true?
+                                                                                                                          TextStyle(
+                                                                                                                              color: textAlertDialogColorReverse,
+                                                                                                                              fontSize: tamanhotext,
+                                                                                                                              fontWeight: FontWeight.bold
+                                                                                                                          )
+                                                                                                                              :
+                                                                                                                          TextStyle(
+                                                                                                                            color: textAlertDialogColorReverse,
+                                                                                                                            fontSize: tamanhotext,
+                                                                                                                          ),
+                                                                                                                          textAlign: TextAlign.center,
+                                                                                                                        ),
+                                                                                                                      ],
+                                                                                                                    )
+                                                                                                                  ],
+                                                                                                                ),
+                                                                                                              ],
+                                                                                                            ),
+                                                                                                          );
+                                                                                                        }).toList().reversed.toList()
+                                                                                                    );
+                                                                                                  }
+                                                                                                  return const Center(
+                                                                                                      child: Text('Sem dados!',)
+                                                                                                  );
+                                                                                                },
+                                                                                              ),
+                                                                                            ),
+                                                                                          )
+                                                                                        ],
+                                                                                      );
+                                                                                    },);
+                                                                                  },
+                                                                                );
+
+                                                                              },
+                                                                              child: const Text('Importar usuarios cadastrados para multiplos acionamentos.'),
+                                                                            ),
+                                                                          ),
+                                                                          Center(
+                                                                            child: ElevatedButton(
                                                                                 onPressed: (){
                                                                                   showDialog(
                                                                                     context: context,

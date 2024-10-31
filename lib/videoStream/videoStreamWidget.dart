@@ -127,8 +127,6 @@ List ipcamerasDisp = [
 ];
 
 class _VideoStreamWidgetState extends State<VideoStreamWidget> {
-
-
   @override
   Widget build(BuildContext context) {
     //doubles
@@ -149,7 +147,6 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
     print(widget.heig);
 
     return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
-
       getIpCameraFromSettings(int numeroCameraSelect1, int numeroCameraSelect2, int numeroCameraSelect3,
           int numeroCameraSelect4, int numeroCameraSelect5, int numeroCameraSelect6, int numeroCameraSelect7,
           int numeroCameraSelect8, int numeroCameraSelect9) async {
@@ -172,7 +169,6 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
             widget.camera9 = getIpCameraSettings["ipCamera$numeroCameraSelect9"];
           });
         }
-
       }
 
       getIpCameraCond() async {
@@ -281,7 +277,6 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
           blackContainerSize = widget.heig / 2.35;
         });
       }
-
       return Flexible(
         child: Expanded(
           child: widget.ip != "" ? Column(
