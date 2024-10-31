@@ -6836,6 +6836,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                 setState((){
                                                                                                                                   usuariosCadastrados[documents['id']] = {
                                                                                                                                     'nome': documents['Nome'],
+                                                                                                                                    'id': int.parse(documents['id'].replaceAll(idCondominio, '')),
                                                                                                                                   };
                                                                                                                                 });
                                                                                                                               }else{
@@ -6910,7 +6911,9 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                       'porta': documents['porta'],
                                                                                                                                       'modelo': documents['modelo'],
                                                                                                                                       'id': documents['id'],
-                                                                                                                                      'nome': documents['nome']
+                                                                                                                                      'nome': documents['nome'],
+                                                                                                                                      'usuario': documents['usuario'],
+                                                                                                                                      'senha': documents['senha']
                                                                                                                                     };
                                                                                                                                   });
                                                                                                                                 }else{
@@ -6983,26 +6986,19 @@ class _homeAppState extends State<homeApp>{
                                                                                                           List idsPessoas = pessoas.keys.toList();
                                                                                                           int indicePessoa = 0;
 
-                                                                                                          acionamentos.forEach((idAcionamento, dadosAcionamento) {
+                                                                                                          acionamentos.forEach((idAcionamento, dadosAcionamento) async {
                                                                                                             // Associa a pessoa atual ao acionamento
                                                                                                             String idPessoa = idsPessoas[indicePessoa];
                                                                                                             dadosAcionamento['pessoa'] = pessoas[idPessoa]!['nome'];
-
-
-
-                                                                                                            print("Associado ${pessoas[idPessoa]!['nome']} ao acionamento ${dadosAcionamento['nome']}");
-
                                                                                                             // Avança para a próxima pessoa na lista, ou reinicia se atingir o fim
                                                                                                             indicePessoa = (indicePessoa + 1) % idsPessoas.length;
+                                                                                                            await cadastronoEquipamento(context, dadosAcionamento['ip'], dadosAcionamento['porta'], dadosAcionamento['usuario'], dadosAcionamento['senha'], dadosAcionamento['modelo'], pessoas[idPessoa]!['nome'], pessoas[idPessoa]!['id']);
+
                                                                                                           });
                                                                                                         }
 
 
                                                                                                         associarPessoasAosAcionamentos(acionamentosCadastrados, usuariosCadastrados);
-
-                                                                                                        print(acionamentosCadastrados);
-
-                                                                                                        print(usuariosCadastrados);
                                                                                                       },
                                                                                                       child: const Text('Cadastrar usuarios no acionamento')
                                                                                                   )
