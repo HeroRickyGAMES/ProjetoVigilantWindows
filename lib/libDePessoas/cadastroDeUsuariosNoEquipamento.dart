@@ -87,6 +87,8 @@ Future<Map<String, dynamic>> cadastronoEquipamento(var context, String ip, int p
   }
 
   if(modelo == "Hikvision"){
+
+    print('$ip:$porta\n"employeeNo": "$id"\n"name": $Nome,\n"beginTime": "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}T${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().microsecond}"');
     // URL do endpoint
     String url = 'http://$ip:$porta/ISAPI/AccessControl/UserInfo/Record?format=json&devIndex=0';
 
@@ -102,7 +104,7 @@ Future<Map<String, dynamic>> cadastronoEquipamento(var context, String ip, int p
         "userType": "normal",
         "Valid": {
           "enable": true,
-          "beginTime": "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}T${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().microsecond}",
+          "beginTime": "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}T${DateTime.now().hour}:${DateTime.now().minute}:00",
           "endTime": "2025-08-01T17:30:08"
         }
       }
@@ -134,6 +136,9 @@ Future<Map<String, dynamic>> cadastronoEquipamento(var context, String ip, int p
         showToast("Cadastrado no equipamento!", context: context);
       } else {
         showToast("Erro ao criar usuário: ${response.statusCode}\nResposta: ${response.body}", context: context);
+        if(response.body.contains('employeeNoAlreadyExist')){
+          showToast("O numero do ID do usuario já está cadastrado no equipamento!", context: context);
+        }
       }
     } else {
       showToast('Falha ao obter o header WWW-Authenticate', context: context);

@@ -61,6 +61,13 @@ String EmpresaPertence = "";
 
 //Controladores
 TextEditingController anotacaoControlCondominio = TextEditingController(text: anotacao);
+TextEditingController nomeControler = TextEditingController(text: pesquisa2);
+TextEditingController cpfControler = TextEditingController(text: pesquisa2);
+TextEditingController blocoControler = TextEditingController(text: pesquisa2);
+TextEditingController unidadeControler = TextEditingController(text: pesquisa2);
+TextEditingController placaControler = TextEditingController(text: pesquisa2);
+TextEditingController blocoVControler = TextEditingController(text: pesquisa2);
+TextEditingController unidadeVControler = TextEditingController(text: pesquisa2);
 
 //Booleanos
 bool pesquisaNumeros = false;
@@ -6297,9 +6304,9 @@ class _homeAppState extends State<homeApp>{
                                                                                               keyboardType: TextInputType.name,
                                                                                               enableSuggestions: true,
                                                                                               autocorrect: true,
+                                                                                              controller: nomeControler,
                                                                                               onChanged: (value){
                                                                                                 pesquisa2 = value;
-                                                                            
                                                                                                 if(value == ""){
                                                                                                   setStater(() {
                                                                                                     pesquisando2 = false;
@@ -6367,6 +6374,16 @@ class _homeAppState extends State<homeApp>{
                                                                                                         });
                                                                                                       }
                                                                                                     }
+                                                                                                    if(showSearchBar2 == true){
+                                                                                                      setStater((){
+                                                                                                        showSearchBar2 = false;
+                                                                                                      });
+                                                                                                    }
+                                                                                                    if(showSearchBar2 == true){
+                                                                                                      setStater((){
+                                                                                                        showSearchBar2 = false;
+                                                                                                      });
+                                                                                                    }
                                                                                                   },
                                                                                                   child: Image.asset(
                                                                                                       "assets/search.png",
@@ -6386,6 +6403,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               keyboardType: TextInputType.name,
                                                                                               enableSuggestions: true,
                                                                                               autocorrect: true,
+                                                                                              controller: cpfControler,
                                                                                               onChanged: (value){
                                                                                                 pesquisa2 = value;
                                                                             
@@ -6457,6 +6475,11 @@ class _homeAppState extends State<homeApp>{
                                                                                                         });
                                                                                                       }
                                                                                                     }
+                                                                                                    if(showSearchBar2 == true){
+                                                                                                      setStater((){
+                                                                                                        showSearchBar2 = false;
+                                                                                                      });
+                                                                                                    }
                                                                                                   },
                                                                                                   child: Image.asset(
                                                                                                       "assets/search.png",
@@ -6476,6 +6499,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               keyboardType: TextInputType.name,
                                                                                               enableSuggestions: true,
                                                                                               autocorrect: true,
+                                                                                              controller: unidadeControler,
                                                                                               onChanged: (value){
                                                                                                 pesquisa2 = value;
 
@@ -6548,6 +6572,11 @@ class _homeAppState extends State<homeApp>{
                                                                                                       });
                                                                                                     }
                                                                                                   }
+                                                                                                  if(showSearchBar2 == true){
+                                                                                                    setStater((){
+                                                                                                      showSearchBar2 = false;
+                                                                                                    });
+                                                                                                  }
                                                                                                 },
                                                                                                 child: Image.asset(
                                                                                                     "assets/search.png",
@@ -6567,6 +6596,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               keyboardType: TextInputType.name,
                                                                                               enableSuggestions: true,
                                                                                               autocorrect: true,
+                                                                                              controller: blocoControler,
                                                                                               onChanged: (value){
                                                                                                 pesquisa2 = value;
 
@@ -6657,8 +6687,6 @@ class _homeAppState extends State<homeApp>{
                                                                                         showSearchBar2 = true;
                                                                                         if(showSearchBar2 == true){
                                                                                           setStater((){
-                                                                                            pesquisando2 = false;
-                                                                                            pesquisaCPF = false;
                                                                                             showSearchBar2 = false;
                                                                                           });
                                                                                         }
@@ -6897,10 +6925,23 @@ class _homeAppState extends State<homeApp>{
                                                                                                                               onChanged: (bool? value) {
                                                                                                                                 if(!usuariosCadastrados.containsKey(documents['id'])){
                                                                                                                                   setState((){
-                                                                                                                                    usuariosCadastrados[documents['id']] = {
-                                                                                                                                      'nome': documents['Nome'],
-                                                                                                                                      'id': int.parse(documents['id'].replaceAll(idCondominio, '')),
-                                                                                                                                    };
+
+                                                                                                                                    print(documents['id']);
+                                                                                                                                    RegExp regexApenasNumeros = RegExp(r'^\d+#\w+$');
+                                                                                                                                    if(regexApenasNumeros.hasMatch(documents['id'])){
+                                                                                                                                      usuariosCadastrados[documents['id']] = {
+                                                                                                                                        'nome': documents['Nome'],
+                                                                                                                                        'id': int.parse(documents['id'].replaceAll(idCondominio, '')),
+                                                                                                                                      };
+                                                                                                                                    }else{
+                                                                                                                                      setState((){
+                                                                                                                                        int id = gerarNumero();
+                                                                                                                                        usuariosCadastrados[documents['id']] = {
+                                                                                                                                          'nome': documents['Nome'],
+                                                                                                                                          'id': id,
+                                                                                                                                        };
+                                                                                                                                      });
+                                                                                                                                    }
                                                                                                                                   });
                                                                                                                                 }else{
                                                                                                                                   setState((){
@@ -7107,6 +7148,7 @@ class _homeAppState extends State<homeApp>{
 
                                                                                                             List idsPessoas = pessoas.keys.toList();
                                                                                                             int indicePessoa = 0;
+                                                                                                            int quantidadedeVezesExecutado = 0;
 
                                                                                                             acionamentos.forEach((idAcionamento, dadosAcionamento) async {
                                                                                                               // Associa a pessoa atual ao acionamento
@@ -7115,10 +7157,15 @@ class _homeAppState extends State<homeApp>{
                                                                                                               // Avança para a próxima pessoa na lista, ou reinicia se atingir o fim
                                                                                                               indicePessoa = (indicePessoa + 1) % idsPessoas.length;
                                                                                                               await cadastronoEquipamento(context, dadosAcionamento['ip'], dadosAcionamento['porta'], dadosAcionamento['usuario'], dadosAcionamento['senha'], dadosAcionamento['modelo'], pessoas[idPessoa]!['nome'], pessoas[idPessoa]!['id']);
+                                                                                                              for (int i = 0; i <= idsPessoas.length; i++) {
+                                                                                                                quantidadedeVezesExecutado = i;
+                                                                                                              }
+                                                                                                              if(quantidadedeVezesExecutado == idsPessoas.length){
+                                                                                                                Navigator.pop(context);
+                                                                                                                Navigator.pop(context);
+                                                                                                                Navigator.pop(context);
+                                                                                                              }
                                                                                                             });
-                                                                                                            Navigator.pop(context);
-                                                                                                            Navigator.pop(context);
-                                                                                                            Navigator.pop(context);
                                                                                                           }
                                                                                                           associarPessoasAosAcionamentos(acionamentosCadastrados, usuariosCadastrados);
                                                                                                         },
@@ -8161,7 +8208,6 @@ class _homeAppState extends State<homeApp>{
                                                                           pesquisando8 = true;
                                                                         });
                                                                       }
-
                                                                     },
                                                                     child: Image.asset(
                                                                         "assets/search.png",
@@ -9247,6 +9293,7 @@ class _homeAppState extends State<homeApp>{
                                                                                     keyboardType: TextInputType.name,
                                                                                     enableSuggestions: true,
                                                                                     autocorrect: true,
+                                                                                    controller: placaControler,
                                                                                     onChanged: (value){
                                                                                       pesquisa3 = value;
                                                                 
@@ -9304,6 +9351,11 @@ class _homeAppState extends State<homeApp>{
                                                                                               pesquisando6 = true;
                                                                                             });
                                                                                           }
+                                                                                          if(showSearchBar == true){
+                                                                                            setStater((){
+                                                                                              showSearchBar = false;
+                                                                                            });
+                                                                                          }
                                                                                         },
                                                                                         child: Image.asset(
                                                                                             "assets/search.png",
@@ -9326,6 +9378,7 @@ class _homeAppState extends State<homeApp>{
                                                                                     keyboardType: TextInputType.name,
                                                                                     enableSuggestions: true,
                                                                                     autocorrect: true,
+                                                                                    controller: blocoVControler,
                                                                                     onChanged: (value){
                                                                                       pesquisa3 = value;
                                                                 
@@ -9383,6 +9436,11 @@ class _homeAppState extends State<homeApp>{
                                                                                               pesquisando4 = true;
                                                                                             });
                                                                                           }
+                                                                                          if(showSearchBar == true){
+                                                                                            setStater((){
+                                                                                              showSearchBar = false;
+                                                                                            });
+                                                                                          }
                                                                                         },
                                                                                         child: Image.asset(
                                                                                             "assets/search.png",
@@ -9405,6 +9463,7 @@ class _homeAppState extends State<homeApp>{
                                                                                     keyboardType: TextInputType.name,
                                                                                     enableSuggestions: true,
                                                                                     autocorrect: true,
+                                                                                    controller: unidadeVControler,
                                                                                     onChanged: (value){
                                                                                       pesquisa3 = value;
                                                                 
@@ -9462,6 +9521,11 @@ class _homeAppState extends State<homeApp>{
                                                                                               pesquisando3 = true;
                                                                                             });
                                                                                           }
+                                                                                          if(showSearchBar == true){
+                                                                                            setStater((){
+                                                                                              showSearchBar = false;
+                                                                                            });
+                                                                                          }
                                                                                         },
                                                                                         child: Image.asset(
                                                                                             "assets/search.png",
@@ -9483,9 +9547,6 @@ class _homeAppState extends State<homeApp>{
                                                                           if(showSearchBar == true){
                                                                             setStater((){
                                                                               showSearchBar = false;
-                                                                              pesquisando6 = false;
-                                                                              pesquisando4 = false;
-                                                                              pesquisando3 = false;
                                                                             });
                                                                           }
                                                                         },
