@@ -6783,78 +6783,199 @@ class _homeAppState extends State<homeApp>{
                                                                               ],
                                                                             ),
                                                                           ),
-                                                                          Center(
-                                                                            child: ElevatedButton(
-                                                                              onPressed: (){
-                                                                                bool todasPessoasSelecionadas = false;
+                                                                          Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: Center(
+                                                                              child: ElevatedButton(
+                                                                                onPressed: (){
+                                                                                  bool todasPessoasSelecionadas = false;
 
-                                                                                bool todosAcionamentosSelecionados = false;
+                                                                                  bool todosAcionamentosSelecionados = false;
 
-                                                                                Map acionamentosCadastrados = {};
+                                                                                  Map acionamentosCadastrados = {};
 
-                                                                                Map usuariosCadastrados = {};
+                                                                                  Map usuariosCadastrados = {};
 
-                                                                                showDialog(
-                                                                                  context: context,
-                                                                                  builder: (BuildContext context) {
-                                                                                    return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                                                                      return Center(
-                                                                                        child: SingleChildScrollView(
-                                                                                          child: AlertDialog(
-                                                                                            title: const Text('Importar usuarios cadastrados para multiplos acionamentos!'),
-                                                                                            actions: [
-                                                                                              Column(
+                                                                                  showDialog(
+                                                                                    context: context,
+                                                                                    builder: (BuildContext context) {
+                                                                                      return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                        return Center(
+                                                                                          child: SingleChildScrollView(
+                                                                                            child: AlertDialog(
+                                                                                              title: Row(
                                                                                                 children: [
-                                                                                                  Center(
-                                                                                                    child: Row(
-                                                                                                      children: [
-                                                                                                        Checkbox(
-                                                                                                          value: todasPessoasSelecionadas,
-                                                                                                          onChanged: (bool? value) async {
-                                                                                                            // Define o valor de todasPessoasSelecionadas para adicionar ou remover todos de uma vez
-                                                                                                            setState(() {
-                                                                                                              todasPessoasSelecionadas = value ?? false;
-                                                                                                            });
+                                                                                                  const Text('Importar usuarios cadastrados para multiplos acionamentos!'),
+                                                                                                  SizedBox(
+                                                                                                    width: 80,
+                                                                                                    height: 80,
+                                                                                                    child: TextButton(onPressed: (){
+                                                                                                      Navigator.pop(context);
+                                                                                                    },
+                                                                                                        child: const Center(
+                                                                                                          child: Icon(
+                                                                                                            Icons.close,
+                                                                                                            size: 35,
+                                                                                                          ),
+                                                                                                        )
+                                                                                                    ),
+                                                                                                  )
+                                                                                                ],
+                                                                                              ),
+                                                                                              actions: [
+                                                                                                Column(
+                                                                                                  children: [
+                                                                                                    Center(
+                                                                                                      child: Row(
+                                                                                                        children: [
+                                                                                                          Checkbox(
+                                                                                                            value: todasPessoasSelecionadas,
+                                                                                                            onChanged: (bool? value) async {
+                                                                                                              // Define o valor de todasPessoasSelecionadas para adicionar ou remover todos de uma vez
+                                                                                                              setState(() {
+                                                                                                                todasPessoasSelecionadas = value ?? false;
+                                                                                                              });
 
-                                                                                                            QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+                                                                                                              QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+                                                                                                                  .collection("Pessoas")
+                                                                                                                  .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                                  .get();
+
+                                                                                                              for (var doc in querySnapshot.docs) {
+                                                                                                                Map<String, dynamic> dadosUsuario = doc.data() as Map<String, dynamic>;
+
+                                                                                                                if (todasPessoasSelecionadas) {
+                                                                                                                  // Adiciona o usuário ao Map
+                                                                                                                  setState(() {
+                                                                                                                    usuariosCadastrados[dadosUsuario['id']] = {
+                                                                                                                      'nome': dadosUsuario['Nome'],
+                                                                                                                      'id': int.parse(dadosUsuario['id'].replaceAll(idCondominio, '')),
+                                                                                                                    };
+                                                                                                                  });
+                                                                                                                } else {
+                                                                                                                  // Remove o usuário do Map
+                                                                                                                  setState(() {
+                                                                                                                    usuariosCadastrados.remove(dadosUsuario['id']);
+                                                                                                                  });
+                                                                                                                }
+                                                                                                              }
+                                                                                                            },
+                                                                                                          ),
+                                                                                                          const Text('Selecionar todos as pessoas cadastradas no banco de dados')
+                                                                                                        ],
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    Center(
+                                                                                                      child: SizedBox(
+                                                                                                        width: 600,
+                                                                                                        height: 300,
+                                                                                                        child: StreamBuilder(
+                                                                                                            stream: FirebaseFirestore.instance
                                                                                                                 .collection("Pessoas")
                                                                                                                 .where("idCondominio", isEqualTo: idCondominio)
-                                                                                                                .get();
-
-                                                                                                            for (var doc in querySnapshot.docs) {
-                                                                                                              Map<String, dynamic> dadosUsuario = doc.data() as Map<String, dynamic>;
-
-                                                                                                              if (todasPessoasSelecionadas) {
-                                                                                                                // Adiciona o usuário ao Map
-                                                                                                                setState(() {
-                                                                                                                  usuariosCadastrados[dadosUsuario['id']] = {
-                                                                                                                    'nome': dadosUsuario['Nome'],
-                                                                                                                    'id': int.parse(dadosUsuario['id'].replaceAll(idCondominio, '')),
-                                                                                                                  };
-                                                                                                                });
-                                                                                                              } else {
-                                                                                                                // Remove o usuário do Map
-                                                                                                                setState(() {
-                                                                                                                  usuariosCadastrados.remove(dadosUsuario['id']);
-                                                                                                                });
+                                                                                                                .snapshots(),
+                                                                                                            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+                                                                                                              if (snapshot.hasError) {
+                                                                                                                return const Center(child:
+                                                                                                                Text('Algo deu errado!')
+                                                                                                                );
                                                                                                               }
-                                                                                                            }
-                                                                                                          },
-                                                                                                        ),
-                                                                                                        const Text('Selecionar todos as pessoas cadastradas no banco de dados')
-                                                                                                      ],
+
+                                                                                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                                                                                return const Center(child: CircularProgressIndicator());
+                                                                                                              }
+
+                                                                                                              return SingleChildScrollView(
+                                                                                                                child: Column(
+                                                                                                                  children: snapshot.data!.docs.map((documents){
+                                                                                                                    return Container(
+                                                                                                                        padding: const EdgeInsets.all(10),
+                                                                                                                        child: Row(
+                                                                                                                          children: [
+                                                                                                                            Checkbox(
+                                                                                                                              value: usuariosCadastrados.containsKey(documents['id']),
+                                                                                                                              onChanged: (bool? value) {
+                                                                                                                                if(!usuariosCadastrados.containsKey(documents['id'])){
+                                                                                                                                  setState((){
+                                                                                                                                    usuariosCadastrados[documents['id']] = {
+                                                                                                                                      'nome': documents['Nome'],
+                                                                                                                                      'id': int.parse(documents['id'].replaceAll(idCondominio, '')),
+                                                                                                                                    };
+                                                                                                                                  });
+                                                                                                                                }else{
+                                                                                                                                  setState((){
+                                                                                                                                    usuariosCadastrados.remove(documents['id']);
+                                                                                                                                  });
+                                                                                                                                }
+                                                                                                                              },
+                                                                                                                            ),
+                                                                                                                            Text("Nome: ${documents['Nome']}\nCPF: ${documents['CPF']}"),
+                                                                                                                          ],
+                                                                                                                        )
+                                                                                                                    );
+                                                                                                                  }).toList(),
+                                                                                                                ),
+                                                                                                              );
+                                                                                                            }),
+                                                                                                      ),
                                                                                                     ),
-                                                                                                  ),
-                                                                                                  Center(
-                                                                                                    child: SizedBox(
-                                                                                                      width: 600,
-                                                                                                      height: 300,
-                                                                                                      child: StreamBuilder(
+                                                                                                    Center(
+                                                                                                      child: Row(
+                                                                                                        children: [
+                                                                                                          Checkbox(
+                                                                                                            value: todosAcionamentosSelecionados,
+                                                                                                            onChanged: (bool? value) async {
+                                                                                                              // Define o valor de todasPessoasSelecionadas para adicionar ou remover todos de uma vez
+                                                                                                              setState(() {
+                                                                                                                todosAcionamentosSelecionados = value ?? false;
+                                                                                                              });
+
+                                                                                                              QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+                                                                                                                  .collection('acionamentos')
+                                                                                                                  .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                                  .where("modelo", whereIn: ["Control iD", "Hikvision"])
+                                                                                                                  .get();
+
+                                                                                                              for (var doc in querySnapshot.docs) {
+                                                                                                                Map<String, dynamic> dadosUsuario = doc.data() as Map<String, dynamic>;
+
+                                                                                                                if (todosAcionamentosSelecionados) {
+                                                                                                                  // Adiciona o usuário ao Map
+                                                                                                                  setState(() {
+                                                                                                                    acionamentosCadastrados[dadosUsuario['id']] = {
+                                                                                                                      'ip': dadosUsuario['ip'],
+                                                                                                                      'porta': dadosUsuario['porta'],
+                                                                                                                      'modelo': dadosUsuario['modelo'],
+                                                                                                                      'id': dadosUsuario['id'],
+                                                                                                                      'nome': dadosUsuario['nome'],
+                                                                                                                      'usuario': dadosUsuario['usuario'],
+                                                                                                                      'senha': dadosUsuario['senha']
+                                                                                                                    };
+                                                                                                                  });
+                                                                                                                } else {
+                                                                                                                  // Remove o usuário do Map
+                                                                                                                  setState(() {
+                                                                                                                    acionamentosCadastrados.remove(dadosUsuario['id']);
+                                                                                                                  });
+                                                                                                                }
+                                                                                                              }
+                                                                                                            },
+                                                                                                          ),
+                                                                                                          const Text('Selecionar todos os acionamentos')
+                                                                                                        ],
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    Center(
+                                                                                                      child: SizedBox(
+                                                                                                        width: 600,
+                                                                                                        height: 300,
+                                                                                                        child: StreamBuilder(
                                                                                                           stream: FirebaseFirestore.instance
-                                                                                                              .collection("Pessoas")
+                                                                                                              .collection('acionamentos')
                                                                                                               .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                              .where("modelo", whereIn: ["Control iD", "Hikvision"])
                                                                                                               .snapshots(),
-                                                                                                          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+                                                                                                          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                                                                                             if (snapshot.hasError) {
                                                                                                               return const Center(child:
                                                                                                               Text('Algo deu errado!')
@@ -6865,257 +6986,165 @@ class _homeAppState extends State<homeApp>{
                                                                                                               return const Center(child: CircularProgressIndicator());
                                                                                                             }
 
-                                                                                                            return SingleChildScrollView(
-                                                                                                              child: Column(
-                                                                                                                children: snapshot.data!.docs.map((documents){
-                                                                                                                  return Container(
-                                                                                                                      padding: const EdgeInsets.all(10),
-                                                                                                                      child: Row(
+                                                                                                            if (snapshot.hasData) {
+                                                                                                              return GridView.count(
+                                                                                                                  childAspectRatio: 1.2,
+                                                                                                                  crossAxisCount: 3,
+                                                                                                                  children: snapshot.data!.docs.map((documents) {
+                                                                                                                    double tamanhotext = 14;
+                                                                                                                    bool isBolded = false;
+
+                                                                                                                    if(documents["nome"].length >= 16){
+                                                                                                                      tamanhotext = 12;
+                                                                                                                    }
+
+                                                                                                                    if(documents["nome"].length >= 20){
+                                                                                                                      tamanhotext = 9;
+                                                                                                                      isBolded = true;
+                                                                                                                    }
+
+                                                                                                                    return Container(
+                                                                                                                      padding: const EdgeInsets.all(16),
+                                                                                                                      child: Column(
+                                                                                                                        mainAxisAlignment: MainAxisAlignment.center,
                                                                                                                         children: [
-                                                                                                                          Checkbox(
-                                                                                                                            value: usuariosCadastrados.containsKey(documents['id']),
-                                                                                                                            onChanged: (bool? value) {
-                                                                                                                              if(!usuariosCadastrados.containsKey(documents['id'])){
-                                                                                                                                setState((){
-                                                                                                                                  usuariosCadastrados[documents['id']] = {
-                                                                                                                                    'nome': documents['Nome'],
-                                                                                                                                    'id': int.parse(documents['id'].replaceAll(idCondominio, '')),
-                                                                                                                                  };
-                                                                                                                                });
-                                                                                                                              }else{
-                                                                                                                                setState((){
-                                                                                                                                  usuariosCadastrados.remove(documents['id']);
-                                                                                                                                });
-                                                                                                                              }
-                                                                                                                            },
-                                                                                                                          ),
-                                                                                                                          Text("Nome: ${documents['Nome']}\nCPF: ${documents['CPF']}"),
-                                                                                                                        ],
-                                                                                                                      )
-                                                                                                                  );
-                                                                                                                }).toList(),
-                                                                                                              ),
-                                                                                                            );
-                                                                                                          }),
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  Center(
-                                                                                                    child: Row(
-                                                                                                      children: [
-                                                                                                        Checkbox(
-                                                                                                          value: todosAcionamentosSelecionados,
-                                                                                                          onChanged: (bool? value) async {
-                                                                                                            // Define o valor de todasPessoasSelecionadas para adicionar ou remover todos de uma vez
-                                                                                                            setState(() {
-                                                                                                              todosAcionamentosSelecionados = value ?? false;
-                                                                                                            });
-
-                                                                                                            QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-                                                                                                                .collection('acionamentos')
-                                                                                                                .where("idCondominio", isEqualTo: idCondominio)
-                                                                                                                .where("modelo", whereIn: ["Control iD", "Hikvision"])
-                                                                                                                .get();
-
-                                                                                                            for (var doc in querySnapshot.docs) {
-                                                                                                              Map<String, dynamic> dadosUsuario = doc.data() as Map<String, dynamic>;
-
-                                                                                                              if (todosAcionamentosSelecionados) {
-                                                                                                                // Adiciona o usuário ao Map
-                                                                                                                setState(() {
-                                                                                                                  acionamentosCadastrados[dadosUsuario['id']] = {
-                                                                                                                    'ip': dadosUsuario['ip'],
-                                                                                                                    'porta': dadosUsuario['porta'],
-                                                                                                                    'modelo': dadosUsuario['modelo'],
-                                                                                                                    'id': dadosUsuario['id'],
-                                                                                                                    'nome': dadosUsuario['nome'],
-                                                                                                                    'usuario': dadosUsuario['usuario'],
-                                                                                                                    'senha': dadosUsuario['senha']
-                                                                                                                  };
-                                                                                                                });
-                                                                                                              } else {
-                                                                                                                // Remove o usuário do Map
-                                                                                                                setState(() {
-                                                                                                                  acionamentosCadastrados.remove(dadosUsuario['id']);
-                                                                                                                });
-                                                                                                              }
-                                                                                                            }
-                                                                                                          },
-                                                                                                        ),
-                                                                                                        const Text('Selecionar todos os acionamentos')
-                                                                                                      ],
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  Center(
-                                                                                                    child: SizedBox(
-                                                                                                      width: 600,
-                                                                                                      height: 300,
-                                                                                                      child: StreamBuilder(
-                                                                                                        stream: FirebaseFirestore.instance
-                                                                                                            .collection('acionamentos')
-                                                                                                            .where("idCondominio", isEqualTo: idCondominio)
-                                                                                                            .where("modelo", whereIn: ["Control iD", "Hikvision"])
-                                                                                                            .snapshots(),
-                                                                                                        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                                                                                          if (snapshot.hasError) {
-                                                                                                            return const Center(child:
-                                                                                                            Text('Algo deu errado!')
-                                                                                                            );
-                                                                                                          }
-
-                                                                                                          if (snapshot.connectionState == ConnectionState.waiting) {
-                                                                                                            return const Center(child: CircularProgressIndicator());
-                                                                                                          }
-
-                                                                                                          if (snapshot.hasData) {
-                                                                                                            return GridView.count(
-                                                                                                                childAspectRatio: 1.2,
-                                                                                                                crossAxisCount: 3,
-                                                                                                                children: snapshot.data!.docs.map((documents) {
-                                                                                                                  double tamanhotext = 14;
-                                                                                                                  bool isBolded = false;
-
-                                                                                                                  if(documents["nome"].length >= 16){
-                                                                                                                    tamanhotext = 12;
-                                                                                                                  }
-
-                                                                                                                  if(documents["nome"].length >= 20){
-                                                                                                                    tamanhotext = 9;
-                                                                                                                    isBolded = true;
-                                                                                                                  }
-
-                                                                                                                  return Container(
-                                                                                                                    padding: const EdgeInsets.all(16),
-                                                                                                                    child: Column(
-                                                                                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                                      children: [
-                                                                                                                        Row(
-                                                                                                                          children: [
-                                                                                                                            Checkbox(
-                                                                                                                              value: acionamentosCadastrados.containsKey(documents['id']),
-                                                                                                                              onChanged: (bool? value) {
-                                                                                                                                if(!acionamentosCadastrados.containsKey(documents['id'])){
-                                                                                                                                  setState((){
-                                                                                                                                    acionamentosCadastrados[documents['id']] = {
-                                                                                                                                      'ip': documents['ip'],
-                                                                                                                                      'porta': documents['porta'],
-                                                                                                                                      'modelo': documents['modelo'],
-                                                                                                                                      'id': documents['id'],
-                                                                                                                                      'nome': documents['nome'],
-                                                                                                                                      'usuario': documents['usuario'],
-                                                                                                                                      'senha': documents['senha']
-                                                                                                                                    };
-                                                                                                                                  });
-                                                                                                                                }else{
-                                                                                                                                  setState((){
-                                                                                                                                    acionamentosCadastrados.remove(documents['id']);
-                                                                                                                                  });
-                                                                                                                                }
-                                                                                                                              },
-                                                                                                                            ),
-                                                                                                                            Column(
-                                                                                                                              children: [
-                                                                                                                                SizedBox(
-                                                                                                                                  height: 40,
-                                                                                                                                  child: Stack(
-                                                                                                                                    alignment: Alignment.center,
-                                                                                                                                    children: [
-                                                                                                                                      Image.asset(
-                                                                                                                                        documents["deuErro"] == true ?
-                                                                                                                                        "assets/btnIsNotAbleToConnect.png":
-                                                                                                                                        documents["prontoParaAtivar"] == false ?
-                                                                                                                                        "assets/btnInactive.png" :
-                                                                                                                                        "assets/btnIsAbleToAction.png",
-                                                                                                                                        scale: 5,
-                                                                                                                                      ),
-                                                                                                                                      Image.asset(
-                                                                                                                                          documents["iconeSeleciondo"],
-                                                                                                                                          scale: 45
-                                                                                                                                      ),
-                                                                                                                                    ],
+                                                                                                                          Row(
+                                                                                                                            children: [
+                                                                                                                              Checkbox(
+                                                                                                                                value: acionamentosCadastrados.containsKey(documents['id']),
+                                                                                                                                onChanged: (bool? value) {
+                                                                                                                                  if(!acionamentosCadastrados.containsKey(documents['id'])){
+                                                                                                                                    setState((){
+                                                                                                                                      acionamentosCadastrados[documents['id']] = {
+                                                                                                                                        'ip': documents['ip'],
+                                                                                                                                        'porta': documents['porta'],
+                                                                                                                                        'modelo': documents['modelo'],
+                                                                                                                                        'id': documents['id'],
+                                                                                                                                        'nome': documents['nome'],
+                                                                                                                                        'usuario': documents['usuario'],
+                                                                                                                                        'senha': documents['senha']
+                                                                                                                                      };
+                                                                                                                                    });
+                                                                                                                                  }else{
+                                                                                                                                    setState((){
+                                                                                                                                      acionamentosCadastrados.remove(documents['id']);
+                                                                                                                                    });
+                                                                                                                                  }
+                                                                                                                                },
+                                                                                                                              ),
+                                                                                                                              Column(
+                                                                                                                                children: [
+                                                                                                                                  SizedBox(
+                                                                                                                                    height: 40,
+                                                                                                                                    child: Stack(
+                                                                                                                                      alignment: Alignment.center,
+                                                                                                                                      children: [
+                                                                                                                                        Image.asset(
+                                                                                                                                          documents["deuErro"] == true ?
+                                                                                                                                          "assets/btnIsNotAbleToConnect.png":
+                                                                                                                                          documents["prontoParaAtivar"] == false ?
+                                                                                                                                          "assets/btnInactive.png" :
+                                                                                                                                          "assets/btnIsAbleToAction.png",
+                                                                                                                                          scale: 5,
+                                                                                                                                        ),
+                                                                                                                                        Image.asset(
+                                                                                                                                            documents["iconeSeleciondo"],
+                                                                                                                                            scale: 45
+                                                                                                                                        ),
+                                                                                                                                      ],
+                                                                                                                                    ),
                                                                                                                                   ),
-                                                                                                                                ),
-                                                                                                                                Text(
-                                                                                                                                  documents["nome"],
-                                                                                                                                  style: isBolded == true?
-                                                                                                                                  TextStyle(
+                                                                                                                                  Text(
+                                                                                                                                    documents["nome"],
+                                                                                                                                    style: isBolded == true?
+                                                                                                                                    TextStyle(
+                                                                                                                                        color: textAlertDialogColorReverse,
+                                                                                                                                        fontSize: tamanhotext,
+                                                                                                                                        fontWeight: FontWeight.bold
+                                                                                                                                    )
+                                                                                                                                        :
+                                                                                                                                    TextStyle(
                                                                                                                                       color: textAlertDialogColorReverse,
                                                                                                                                       fontSize: tamanhotext,
-                                                                                                                                      fontWeight: FontWeight.bold
-                                                                                                                                  )
-                                                                                                                                      :
-                                                                                                                                  TextStyle(
-                                                                                                                                    color: textAlertDialogColorReverse,
-                                                                                                                                    fontSize: tamanhotext,
+                                                                                                                                    ),
+                                                                                                                                    textAlign: TextAlign.center,
                                                                                                                                   ),
-                                                                                                                                  textAlign: TextAlign.center,
-                                                                                                                                ),
-                                                                                                                              ],
-                                                                                                                            )
-                                                                                                                          ],
-                                                                                                                        ),
-                                                                                                                      ],
-                                                                                                                    ),
-                                                                                                                  );
-                                                                                                                }).toList().reversed.toList()
-                                                                                                            );
-                                                                                                          }
-                                                                                                          return const Center(
-                                                                                                              child: Text('Sem dados!',)
-                                                                                                          );
-                                                                                                        },
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  ElevatedButton(
-                                                                                                      onPressed: (){
-                                                                                                        showDialog(
-                                                                                                          context: context,
-                                                                                                          builder: (BuildContext context) {
-                                                                                                            return const AlertDialog(
-                                                                                                              title: Text('Aguarde!'),
-                                                                                                              actions: [
-                                                                                                                Center(
-                                                                                                                  child: CircularProgressIndicator(),
-                                                                                                                )
-                                                                                                              ],
+                                                                                                                                ],
+                                                                                                                              )
+                                                                                                                            ],
+                                                                                                                          ),
+                                                                                                                        ],
+                                                                                                                      ),
+                                                                                                                    );
+                                                                                                                  }).toList().reversed.toList()
+                                                                                                              );
+                                                                                                            }
+                                                                                                            return const Center(
+                                                                                                                child: Text('Sem dados!',)
                                                                                                             );
                                                                                                           },
-                                                                                                        );
-                                                                                                        void associarPessoasAosAcionamentos(
-                                                                                                            Map acionamentos,
-                                                                                                            Map pessoas) {
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    ElevatedButton(
+                                                                                                        onPressed: (){
+                                                                                                          showDialog(
+                                                                                                            context: context,
+                                                                                                            builder: (BuildContext context) {
+                                                                                                              return const AlertDialog(
+                                                                                                                title: Text('Aguarde!'),
+                                                                                                                actions: [
+                                                                                                                  Center(
+                                                                                                                    child: CircularProgressIndicator(),
+                                                                                                                  )
+                                                                                                                ],
+                                                                                                              );
+                                                                                                            },
+                                                                                                          );
+                                                                                                          void associarPessoasAosAcionamentos(
+                                                                                                              Map acionamentos,
+                                                                                                              Map pessoas) {
 
-                                                                                                          List idsPessoas = pessoas.keys.toList();
-                                                                                                          int indicePessoa = 0;
+                                                                                                            List idsPessoas = pessoas.keys.toList();
+                                                                                                            int indicePessoa = 0;
 
-                                                                                                          acionamentos.forEach((idAcionamento, dadosAcionamento) async {
-                                                                                                            // Associa a pessoa atual ao acionamento
-                                                                                                            String idPessoa = idsPessoas[indicePessoa];
-                                                                                                            dadosAcionamento['pessoa'] = pessoas[idPessoa]!['nome'];
-                                                                                                            // Avança para a próxima pessoa na lista, ou reinicia se atingir o fim
-                                                                                                            indicePessoa = (indicePessoa + 1) % idsPessoas.length;
-                                                                                                            await cadastronoEquipamento(context, dadosAcionamento['ip'], dadosAcionamento['porta'], dadosAcionamento['usuario'], dadosAcionamento['senha'], dadosAcionamento['modelo'], pessoas[idPessoa]!['nome'], pessoas[idPessoa]!['id']);
-                                                                                                          });
-                                                                                                          Navigator.pop(context);
-                                                                                                          Navigator.pop(context);
-                                                                                                          Navigator.pop(context);
-                                                                                                        }
-                                                                                                        associarPessoasAosAcionamentos(acionamentosCadastrados, usuariosCadastrados);
-                                                                                                      },
-                                                                                                      child: const Text('Cadastrar usuarios no acionamento')
-                                                                                                  )
-                                                                                                ],
-                                                                                              ),
-                                                                                            ],
+                                                                                                            acionamentos.forEach((idAcionamento, dadosAcionamento) async {
+                                                                                                              // Associa a pessoa atual ao acionamento
+                                                                                                              String idPessoa = idsPessoas[indicePessoa];
+                                                                                                              dadosAcionamento['pessoa'] = pessoas[idPessoa]!['nome'];
+                                                                                                              // Avança para a próxima pessoa na lista, ou reinicia se atingir o fim
+                                                                                                              indicePessoa = (indicePessoa + 1) % idsPessoas.length;
+                                                                                                              await cadastronoEquipamento(context, dadosAcionamento['ip'], dadosAcionamento['porta'], dadosAcionamento['usuario'], dadosAcionamento['senha'], dadosAcionamento['modelo'], pessoas[idPessoa]!['nome'], pessoas[idPessoa]!['id']);
+                                                                                                            });
+                                                                                                            Navigator.pop(context);
+                                                                                                            Navigator.pop(context);
+                                                                                                            Navigator.pop(context);
+                                                                                                          }
+                                                                                                          associarPessoasAosAcionamentos(acionamentosCadastrados, usuariosCadastrados);
+                                                                                                        },
+                                                                                                        child: const Text('Cadastrar usuarios no acionamento')
+                                                                                                    )
+                                                                                                  ],
+                                                                                                ),
+                                                                                              ],
+                                                                                            ),
                                                                                           ),
-                                                                                        ),
-                                                                                      );
-                                                                                    },);
-                                                                                  },
-                                                                                );
+                                                                                        );
+                                                                                      },);
+                                                                                    },
+                                                                                  );
 
-                                                                              },
-                                                                              child: const Text('Importar usuarios cadastrados para multiplos acionamentos.'),
+                                                                                },
+                                                                                style: ElevatedButton.styleFrom(
+                                                                                    backgroundColor: Colors.blue
+                                                                                ),
+                                                                                child: const Text(
+                                                                                    'Importar usuarios cadastrados para multiplos acionamentos.',
+                                                                                  style: TextStyle(
+                                                                                    color: Colors.white
+                                                                                  )
+                                                                                ),
+                                                                              ),
                                                                             ),
                                                                           ),
                                                                           Center(
