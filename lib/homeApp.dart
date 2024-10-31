@@ -6786,6 +6786,9 @@ class _homeAppState extends State<homeApp>{
                                                                           Center(
                                                                             child: ElevatedButton(
                                                                               onPressed: (){
+                                                                                bool todasPessoasSelecionadas = false;
+
+                                                                                bool todosAcionamentosSelecionados = false;
 
                                                                                 Map acionamentosCadastrados = {};
 
@@ -6803,9 +6806,49 @@ class _homeAppState extends State<homeApp>{
                                                                                               Column(
                                                                                                 children: [
                                                                                                   Center(
+                                                                                                    child: Row(
+                                                                                                      children: [
+                                                                                                        Checkbox(
+                                                                                                          value: todasPessoasSelecionadas,
+                                                                                                          onChanged: (bool? value) async {
+                                                                                                            // Define o valor de todasPessoasSelecionadas para adicionar ou remover todos de uma vez
+                                                                                                            setState(() {
+                                                                                                              todasPessoasSelecionadas = value ?? false;
+                                                                                                            });
+
+                                                                                                            QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+                                                                                                                .collection("Pessoas")
+                                                                                                                .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                                .get();
+
+                                                                                                            for (var doc in querySnapshot.docs) {
+                                                                                                              Map<String, dynamic> dadosUsuario = doc.data() as Map<String, dynamic>;
+
+                                                                                                              if (todasPessoasSelecionadas) {
+                                                                                                                // Adiciona o usuário ao Map
+                                                                                                                setState(() {
+                                                                                                                  usuariosCadastrados[dadosUsuario['id']] = {
+                                                                                                                    'nome': dadosUsuario['Nome'],
+                                                                                                                    'id': int.parse(dadosUsuario['id'].replaceAll(idCondominio, '')),
+                                                                                                                  };
+                                                                                                                });
+                                                                                                              } else {
+                                                                                                                // Remove o usuário do Map
+                                                                                                                setState(() {
+                                                                                                                  usuariosCadastrados.remove(dadosUsuario['id']);
+                                                                                                                });
+                                                                                                              }
+                                                                                                            }
+                                                                                                          },
+                                                                                                        ),
+                                                                                                        const Text('Selecionar todos as pessoas cadastradas no banco de dados')
+                                                                                                      ],
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  Center(
                                                                                                     child: SizedBox(
                                                                                                       width: 600,
-                                                                                                      height: 500,
+                                                                                                      height: 300,
                                                                                                       child: StreamBuilder(
                                                                                                           stream: FirebaseFirestore.instance
                                                                                                               .collection("Pessoas")
@@ -6854,6 +6897,52 @@ class _homeAppState extends State<homeApp>{
                                                                                                               ),
                                                                                                             );
                                                                                                           }),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  Center(
+                                                                                                    child: Row(
+                                                                                                      children: [
+                                                                                                        Checkbox(
+                                                                                                          value: todosAcionamentosSelecionados,
+                                                                                                          onChanged: (bool? value) async {
+                                                                                                            // Define o valor de todasPessoasSelecionadas para adicionar ou remover todos de uma vez
+                                                                                                            setState(() {
+                                                                                                              todosAcionamentosSelecionados = value ?? false;
+                                                                                                            });
+
+                                                                                                            QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+                                                                                                                .collection('acionamentos')
+                                                                                                                .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                                .where("modelo", whereIn: ["Control iD", "Hikvision"])
+                                                                                                                .get();
+
+                                                                                                            for (var doc in querySnapshot.docs) {
+                                                                                                              Map<String, dynamic> dadosUsuario = doc.data() as Map<String, dynamic>;
+
+                                                                                                              if (todosAcionamentosSelecionados) {
+                                                                                                                // Adiciona o usuário ao Map
+                                                                                                                setState(() {
+                                                                                                                  acionamentosCadastrados[dadosUsuario['id']] = {
+                                                                                                                    'ip': dadosUsuario['ip'],
+                                                                                                                    'porta': dadosUsuario['porta'],
+                                                                                                                    'modelo': dadosUsuario['modelo'],
+                                                                                                                    'id': dadosUsuario['id'],
+                                                                                                                    'nome': dadosUsuario['nome'],
+                                                                                                                    'usuario': dadosUsuario['usuario'],
+                                                                                                                    'senha': dadosUsuario['senha']
+                                                                                                                  };
+                                                                                                                });
+                                                                                                              } else {
+                                                                                                                // Remove o usuário do Map
+                                                                                                                setState(() {
+                                                                                                                  acionamentosCadastrados.remove(dadosUsuario['id']);
+                                                                                                                });
+                                                                                                              }
+                                                                                                            }
+                                                                                                          },
+                                                                                                        ),
+                                                                                                        const Text('Selecionar todos os acionamentos')
+                                                                                                      ],
                                                                                                     ),
                                                                                                   ),
                                                                                                   Center(
@@ -6926,7 +7015,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             Column(
                                                                                                                               children: [
                                                                                                                                 SizedBox(
-                                                                                                                                  height: 50,
+                                                                                                                                  height: 40,
                                                                                                                                   child: Stack(
                                                                                                                                     alignment: Alignment.center,
                                                                                                                                     children: [
@@ -6979,6 +7068,19 @@ class _homeAppState extends State<homeApp>{
                                                                                                   ),
                                                                                                   ElevatedButton(
                                                                                                       onPressed: (){
+                                                                                                        showDialog(
+                                                                                                          context: context,
+                                                                                                          builder: (BuildContext context) {
+                                                                                                            return const AlertDialog(
+                                                                                                              title: Text('Aguarde!'),
+                                                                                                              actions: [
+                                                                                                                Center(
+                                                                                                                  child: CircularProgressIndicator(),
+                                                                                                                )
+                                                                                                              ],
+                                                                                                            );
+                                                                                                          },
+                                                                                                        );
                                                                                                         void associarPessoasAosAcionamentos(
                                                                                                             Map acionamentos,
                                                                                                             Map pessoas) {
@@ -6993,11 +7095,11 @@ class _homeAppState extends State<homeApp>{
                                                                                                             // Avança para a próxima pessoa na lista, ou reinicia se atingir o fim
                                                                                                             indicePessoa = (indicePessoa + 1) % idsPessoas.length;
                                                                                                             await cadastronoEquipamento(context, dadosAcionamento['ip'], dadosAcionamento['porta'], dadosAcionamento['usuario'], dadosAcionamento['senha'], dadosAcionamento['modelo'], pessoas[idPessoa]!['nome'], pessoas[idPessoa]!['id']);
-
                                                                                                           });
+                                                                                                          Navigator.pop(context);
+                                                                                                          Navigator.pop(context);
+                                                                                                          Navigator.pop(context);
                                                                                                         }
-
-
                                                                                                         associarPessoasAosAcionamentos(acionamentosCadastrados, usuariosCadastrados);
                                                                                                       },
                                                                                                       child: const Text('Cadastrar usuarios no acionamento')
