@@ -206,8 +206,6 @@ class _homeAppState extends State<homeApp>{
       double wid = constrains.maxWidth;
       double heig = constrains.maxHeight;
 
-
-
       return Scaffold(
         body: SingleChildScrollView(
           child: Center(
@@ -369,18 +367,27 @@ class _homeAppState extends State<homeApp>{
                                                                     .where("idEmpresaPertence", isEqualTo: EmpresaPertence)
                                                                     .snapshots(),
                                                                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                                                                  double textSizeCond = 16;
 
                                                                   if (!snapshot.hasData) {
                                                                     return const Center(
                                                                       child: CircularProgressIndicator(),
                                                                     );
                                                                   }
-
                                                                   return SizedBox(
                                                                     width: double.infinity,
                                                                     height: heig / 2.2,
                                                                     child: ListView(
                                                                       children: snapshot.data!.docs.map((documents){
+
+                                                                        if("${documents["Codigo"]} ${documents["Nome"]}".length >= 20){
+                                                                          textSizeCond = 14;
+                                                                        }
+
+                                                                        if("${documents["Codigo"]} ${documents["Nome"]}".length <= 20){
+                                                                          textSizeCond = 16;
+                                                                        }
+
                                                                         return SizedBox(
                                                                           width: wid / 4,
                                                                           height: 70,
@@ -422,7 +429,6 @@ class _homeAppState extends State<homeApp>{
                                                                                 FutureBuilder<NativeMenu>(
                                                                                   future: initMenuCondominio(),
                                                                                   builder: (BuildContext context, AsyncSnapshot<NativeMenu> snapshot){
-
                                                                                     if (!snapshot.hasData) {
                                                                                       return const Center(
                                                                                         child: CircularProgressIndicator(),
@@ -1372,7 +1378,7 @@ class _homeAppState extends State<homeApp>{
                                                                                           Text(
                                                                                             "${documents["Codigo"]} ${documents['Nome']}",
                                                                                             style: TextStyle(
-                                                                                              fontSize: 16,
+                                                                                              fontSize: textSizeCond,
                                                                                               foreground: Paint()
                                                                                                 ..style = PaintingStyle.stroke
                                                                                                 ..strokeWidth = 4
@@ -1383,7 +1389,7 @@ class _homeAppState extends State<homeApp>{
                                                                                           Text(
                                                                                             "${documents["Codigo"]} ${documents['Nome']}",
                                                                                             style: TextStyle(
-                                                                                              fontSize: 16,
+                                                                                              fontSize: textSizeCond,
                                                                                               color: textColorInitBlue,
                                                                                             ),
                                                                                           ),
@@ -3333,7 +3339,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                   ), child: const Text('Não'),
                                                                                                                 ),
                                                                                                                 ElevatedButton(onPressed: (){
-                                                                                                                  FirebaseFirestore.instance.collection("acionamentos").doc(documents["idCondominio"]).delete().whenComplete((){
+                                                                                                                  FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).delete().whenComplete((){
                                                                                                                     showToast("Acionamento deletado!",context:context);
                                                                                                                   });
                                                                                                                 },
