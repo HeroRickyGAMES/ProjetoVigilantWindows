@@ -4068,7 +4068,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       ),
                                                                                       ElevatedButton(
                                                                                           onPressed: (){
-                                                                                            FirebaseFirestore.instance.collection("Ramais").doc('his won document').delete().whenComplete((){
+                                                                                            FirebaseFirestore.instance.collection("Ramais").doc(documents['id']).delete().whenComplete((){
                                                                                               Navigator.pop(context);
                                                                                             });
                                                                                           },
