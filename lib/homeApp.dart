@@ -2628,9 +2628,17 @@ class _homeAppState extends State<homeApp>{
                                                                                   "prontoParaAtivar" : true,
                                                                                   "deuErro": false
                                                                                 });
+
+                                                                                FirebaseFirestore.instance.collection("logs").doc().update({
+                                                                                  "text" : 'Houve um check de acionamento',
+                                                                                  "codigoDeResposta" : 000,
+                                                                                  'acionamentoID': documents["id"],
+                                                                                  'acionamentoNome': documents["nome"],
+                                                                                  'Condominio': idCondominio,
+                                                                                });
                                                                               }
                                                                               if(documents["prontoParaAtivar"] == true){
-                                                                                acionarPorta(context, documents["ip"], documents["porta"], documents["modelo"], documents["canal"], documents["usuario"], documents["senha"], documents["id"], documents["receptor"], documents["can"]);
+                                                                                acionarPorta(context, documents["ip"], documents["porta"], documents["modelo"], documents["canal"], documents["usuario"], documents["senha"], documents["id"], documents["receptor"], documents["can"], documents["nome"]);
                                                                               }
                                                                             },
                                                                             child: Stack(
@@ -5419,7 +5427,7 @@ class _homeAppState extends State<homeApp>{
                                                                   ),
                                                                   ElevatedButton(
                                                                       onPressed: (){
-                                                                        acionarPorta(context, IP, int.parse(Porta), modeloselecionado, int.parse(Canal), Usuario, Senha, "vazio", "TX (RF)", "1");
+                                                                        acionarPorta(context, IP, int.parse(Porta), modeloselecionado, int.parse(Canal), Usuario, Senha, "vazio", "TX (RF)", "1", "Vazio");
                                                                       },
                                                                       style: ElevatedButton.styleFrom(
                                                                           backgroundColor: colorBtn

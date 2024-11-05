@@ -7,10 +7,11 @@ import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 import 'package:vigilant/FirebaseHost.dart';
 import 'package:vigilant/acionamento_de_portas/guarita_call_nativo.dart';
+import 'package:vigilant/homeApp.dart';
 
 //Programado por HeroRickyGames com ajuda de Deus!
 
-acionarPorta(var context, String ip, int porta, String modelo, int canal, String usuario, String senha, String id, String Receptor, String can) async {
+acionarPorta(var context, String ip, int porta, String modelo, int canal, String usuario, String senha, String id, String Receptor, String can, String nomeAc) async {
 
   //Intelbras
   if(modelo == "Intelbras"){
@@ -34,6 +35,13 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
             "prontoParaAtivar" : false,
             "deuErro": false
           });
+          FirebaseFirestore.instance.collection("logs").doc().update({
+            "text" : 'Acionamento concluido com sucesso!',
+            "codigoDeResposta" : response.statusCode,
+            'acionamentoID': id,
+            'acionamentoNome': nomeAc,
+            'Condominio': idCondominio,
+          });
         }
       } else {
         showToast("Erro com a comunicação, status: ${response.statusCode}",context:context);
@@ -41,6 +49,13 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
           FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
             "prontoParaAtivar" : false,
             "deuErro": true
+          });
+          FirebaseFirestore.instance.collection("logs").doc().update({
+            "text" : 'Acionamento falhou!',
+            "codigoDeResposta" : response.statusCode,
+            'acionamentoID': id,
+            'acionamentoNome': nomeAc,
+            'Condominio': idCondominio,
           });
         }
       }
@@ -102,6 +117,13 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
                 "prontoParaAtivar" : false,
                 "deuErro": false
               });
+              FirebaseFirestore.instance.collection("logs").doc().update({
+                "text" : 'Acionamento concluido com sucesso!',
+                "codigoDeResposta" : response.statusCode,
+                'acionamentoID': id,
+                'acionamentoNome': nomeAc,
+                'Condominio': idCondominio,
+              });
             }
           } else {
             showToast("Erro com a comunicação, status: ${response.statusCode}", context: context);
@@ -109,6 +131,13 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
               FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
                 "prontoParaAtivar" : false,
                 "deuErro": true
+              });
+              FirebaseFirestore.instance.collection("logs").doc().update({
+                "text" : 'Acionamento falhou!',
+                "codigoDeResposta" : response.statusCode,
+                'acionamentoID': id,
+                'acionamentoNome': nomeAc,
+                'Condominio': idCondominio,
               });
             }
           }
@@ -118,6 +147,13 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
             FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
               "prontoParaAtivar" : false,
               "deuErro": true
+            });
+            FirebaseFirestore.instance.collection("logs").doc().update({
+              "text" : 'Acionamento falhou!',
+              "codigoDeResposta" : response.statusCode,
+              'acionamentoID': id,
+              'acionamentoNome': nomeAc,
+              'Condominio': idCondominio,
             });
           }
         }
@@ -130,6 +166,13 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
             "deuErro": true
           });
         }
+        FirebaseFirestore.instance.collection("logs").doc().update({
+          "text" : 'Acionamento falhou!',
+          "codigoDeResposta" : response.statusCode,
+          'acionamentoID': id,
+          'acionamentoNome': nomeAc,
+          'Condominio': idCondominio,
+        });
       }
     } catch (e) {
       showToast("Erro ao executar a requisição: $e", context: context);
@@ -139,6 +182,13 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
           "deuErro": true
         });
       }
+      FirebaseFirestore.instance.collection("logs").doc().update({
+        "text" : 'Acionamento falhou!',
+        "codigoDeResposta" : 600,
+        'acionamentoID': id,
+        'acionamentoNome': nomeAc,
+        'Condominio': idCondominio,
+      });
     }
   }
 
@@ -192,6 +242,13 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
               "prontoParaAtivar" : false,
               "deuErro": false
             });
+            FirebaseFirestore.instance.collection("logs").doc().update({
+              "text" : 'Acionamento concluido com sucesso!',
+              "codigoDeResposta" : response2.statusCode,
+              'acionamentoID': id,
+              'acionamentoNome': nomeAc,
+              'Condominio': idCondominio,
+            });
           }
         } else {
           showToast('Erro ao enviar comando: ${response2.statusCode}', context: context);
@@ -199,6 +256,13 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
             FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
               "prontoParaAtivar" : false,
               "deuErro": true
+            });
+            FirebaseFirestore.instance.collection("logs").doc().update({
+              "text" : 'Acionamento falhou: Erro ao enviar comando!',
+              "codigoDeResposta" : response2.statusCode,
+              'acionamentoID': id,
+              'acionamentoNome': nomeAc,
+              'Condominio': idCondominio,
             });
           }
         }
@@ -209,6 +273,13 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
             "prontoParaAtivar" : false,
             "deuErro": true
           });
+          FirebaseFirestore.instance.collection("logs").doc().update({
+            "text" : 'Acionamento falhou: Cabeçalho WWW-Authenticate não encontrado! Possivelmente o login ou senha está incorreto!',
+            "codigoDeResposta" : response1.statusCode,
+            'acionamentoID': id,
+            'acionamentoNome': nomeAc,
+            'Condominio': idCondominio,
+          });
         }
       }
     } else {
@@ -217,6 +288,13 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
         FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
           "prontoParaAtivar" : false,
           "deuErro": true
+        });
+        FirebaseFirestore.instance.collection("logs").doc().update({
+          "text" : 'Acionamento falhou: Falha ao obter nonce!',
+          "codigoDeResposta" : response1.statusCode,
+          'acionamentoID': id,
+          'acionamentoNome': nomeAc,
+          'Condominio': idCondominio,
         });
       }
     }
@@ -231,10 +309,10 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
       for (var address in addresses) {
         print('IP: ${address.address}');
 
-        chamarSDK(context, id, address.address, porta, Receptor, can, "$canal");
+        chamarSDK(context, id, address.address, porta, Receptor, can, "$canal", nomeAc);
       }
     }else{
-      chamarSDK(context, id, ip, porta, Receptor, can, "$canal");
+      chamarSDK(context, id, ip, porta, Receptor, can, "$canal", nomeAc);
     }
   }
 }
