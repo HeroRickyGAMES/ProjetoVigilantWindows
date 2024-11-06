@@ -7388,9 +7388,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                     List<dynamic> Tratado = userInfo['UserInfoSearch']['UserInfo'];
 
                                                                                                                                     int lent = Tratado.length - 1;
-
                                                                                                                                     for (int i = 0; i < lent; i++) {
-                                                                                                                                      ImagemEquipamentoHikvision(documents['ip'], documents['porta'], documents['usuario'], documents['senha'], i, "1");
+                                                                                                                                      ImagemEquipamentoHikvision(documents['ip'], documents['porta'], documents['usuario'], documents['senha'], 1, "${userInfo['UserInfoSearch']['UserInfo'][i]['numOfFace']}", '${userInfo['UserInfoSearch']['UserInfo'][i]['numOfFP']}');
 
                                                                                                                                       FirebaseFirestore.instance.collection('Pessoas').doc("${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$idCondominio").set({
                                                                                                                                         "id": "${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$idCondominio",

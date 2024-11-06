@@ -34,7 +34,7 @@ chamarSDK(var context, String id, String ip, int porta, String receptor, String 
       "prontoParaAtivar" : false,
       "deuErro": false
     });
-    FirebaseFirestore.instance.collection("logs").doc().update({
+    FirebaseFirestore.instance.collection("logs").doc().set({
       "text" : 'Acionamento concluido com sucesso!',
       "codigoDeResposta" : 200,
       'acionamentoID': id,
@@ -49,7 +49,7 @@ chamarSDK(var context, String id, String ip, int porta, String receptor, String 
         "deuErro": true
       });
       showToast("FALHA CONEXAO TCP", context: context);
-      FirebaseFirestore.instance.collection("logs").doc().update({
+      FirebaseFirestore.instance.collection("logs").doc().set({
         "text" : 'Acionamento falhou: FALHA CONEXAO TCP: guaritaTCPerror',
         "codigoDeResposta" : 482748282737767,
         'acionamentoID': id,
@@ -62,7 +62,7 @@ chamarSDK(var context, String id, String ip, int porta, String receptor, String 
         "deuErro": true
       });
       showToast("A SDK não foi iniciada ou ocorreu qualquer outro erro desconhecido!", context: context);
-      FirebaseFirestore.instance.collection("logs").doc().update({
+      FirebaseFirestore.instance.collection("logs").doc().set({
         "text" : 'Acionamento falhou: A SDK não foi iniciada ou ocorreu qualquer outro erro desconhecido!: SDKUnknownError',
         "codigoDeResposta" : 735865669637767,
         'acionamentoID': id,

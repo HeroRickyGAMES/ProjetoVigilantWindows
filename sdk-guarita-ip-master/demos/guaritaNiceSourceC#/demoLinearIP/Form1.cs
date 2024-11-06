@@ -66,7 +66,7 @@ namespace demoLinearIP
                     AsyncCallback onconnect = new AsyncCallback(OnConnect);
                     csTCP.BeginConnect(epServer, onconnect, csTCP);
 
-                    System.Threading.Thread.Sleep(2000);
+                    System.Threading.Thread.Sleep(10);
 
                     if (rele == "1") {
                         byte[] lFrame = new byte[6];
@@ -88,7 +88,7 @@ namespace demoLinearIP
                                                // Sem resposta do Guarita
                         enviaComando(lFrame);
 
-                        System.Threading.Thread.Sleep(4000);
+                        //System.Threading.Thread.Sleep(100);
                         Console.WriteLine("Rele acionado");
                         Close();
                     }
@@ -116,7 +116,7 @@ namespace demoLinearIP
                         // Sem resposta do Guarita
                         enviaComando(lFrame);
 
-                        System.Threading.Thread.Sleep(4000);
+                        //System.Threading.Thread.Sleep(100);
                         Console.WriteLine("Rele acionado");
                         Close();
                     }
@@ -144,7 +144,7 @@ namespace demoLinearIP
                         // Sem resposta do Guarita
                         enviaComando(lFrame);
 
-                        System.Threading.Thread.Sleep(4000);
+                        //System.Threading.Thread.Sleep(100);
                         Console.WriteLine("Rele acionado");
                         Close();
                     }
@@ -172,7 +172,7 @@ namespace demoLinearIP
                         // Sem resposta do Guarita
                         enviaComando(lFrame);
 
-                        System.Threading.Thread.Sleep(4000);
+                        //System.Threading.Thread.Sleep(100);
                         Console.WriteLine("Rele acionado");
                         Close();
                     }

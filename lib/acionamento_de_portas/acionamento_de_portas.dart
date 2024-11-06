@@ -242,7 +242,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
               "prontoParaAtivar" : false,
               "deuErro": false
             });
-            FirebaseFirestore.instance.collection("logs").doc().update({
+            FirebaseFirestore.instance.collection("logs").doc().set({
               "text" : 'Acionamento concluido com sucesso!',
               "codigoDeResposta" : response2.statusCode,
               'acionamentoID': id,
@@ -257,7 +257,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
               "prontoParaAtivar" : false,
               "deuErro": true
             });
-            FirebaseFirestore.instance.collection("logs").doc().update({
+            FirebaseFirestore.instance.collection("logs").doc().set({
               "text" : 'Acionamento falhou: Erro ao enviar comando!',
               "codigoDeResposta" : response2.statusCode,
               'acionamentoID': id,
@@ -273,7 +273,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
             "prontoParaAtivar" : false,
             "deuErro": true
           });
-          FirebaseFirestore.instance.collection("logs").doc().update({
+          FirebaseFirestore.instance.collection("logs").doc().set({
             "text" : 'Acionamento falhou: Cabeçalho WWW-Authenticate não encontrado! Possivelmente o login ou senha está incorreto!',
             "codigoDeResposta" : response1.statusCode,
             'acionamentoID': id,
@@ -289,7 +289,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
           "prontoParaAtivar" : false,
           "deuErro": true
         });
-        FirebaseFirestore.instance.collection("logs").doc().update({
+        FirebaseFirestore.instance.collection("logs").doc().set({
           "text" : 'Acionamento falhou: Falha ao obter nonce!',
           "codigoDeResposta" : response1.statusCode,
           'acionamentoID': id,

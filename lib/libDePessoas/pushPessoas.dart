@@ -46,7 +46,7 @@ ImagemEquipamentoCotroliD(String host, int port, String Season, int id) async {
   }
 }
 
-ImagemEquipamentoHikvision(String host, int port, String usuario, String senha, int id, String FDID) async {
+ImagemEquipamentoHikvision(String host, int port, String usuario, String senha, int id, String FPID, String FDID) async {
   // URL do endpoint
   String url = 'http://spartanet.ddns.net:8191/ISAPI/Intelligent/FDLib/FDSearch?format=json&devIndex=0';
   print(url);
@@ -76,7 +76,8 @@ ImagemEquipamentoHikvision(String host, int port, String usuario, String senha, 
       "maxResults": 30,
       "searchResultPosition": 0,
       "faceLibType": "blackFD",
-      "FDID": FDID
+      "FDID": "1",
+      "FPID" : FPID
     };
 
     // Requisição POST com a autenticação Digest
