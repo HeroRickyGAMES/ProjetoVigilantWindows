@@ -337,7 +337,7 @@ namespace demoLinearIP
             "TX (RF)",
             "TAG Ativo (TA)",
             "Cartão (CT/CTW)",
-            "Cartão (CT/CTW)"});
+            "TAG Passivo (TP/UHF)"});
             this.cbDisp.Location = new System.Drawing.Point(211, 53);
             this.cbDisp.Name = "cbDisp";
             this.cbDisp.Size = new System.Drawing.Size(142, 21);

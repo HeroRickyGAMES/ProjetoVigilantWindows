@@ -76,7 +76,7 @@ ImagemEquipamentoHikvision(String host, int port, String usuario, String senha, 
       "maxResults": 30,
       "searchResultPosition": 0,
       "faceLibType": "blackFD",
-      "FDID": "1",
+      "FDID": FDID,
       "FPID" : FPID
     };
 

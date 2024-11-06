@@ -1,12 +1,15 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:uuid/uuid.dart';
 import 'package:vigilant/homeApp.dart';
 
 //Programado por HeroRickyGames com ajuda de Deus
 
 chamarSDK(var context, String id, String ip, int porta, String receptor, String can, String rele, String nomeAc) async {
 
+  Uuid uuid = const Uuid();
+  String UUID = uuid.v4();
   String recept = "";
 
   if (receptor == "TX (RF)") {
@@ -18,7 +21,7 @@ chamarSDK(var context, String id, String ip, int porta, String receptor, String 
   if (receptor == "Cartão (CT/CTW)") {
     recept = "CT_CTW";
   }
-  if (receptor == "Cartão (CT/CTW)") {
+  if (receptor == "TAG Passivo (TP/UHF)") {
     recept = "TP_UHF";
   }
 
@@ -26,35 +29,34 @@ chamarSDK(var context, String id, String ip, int porta, String receptor, String 
 
   ProcessResult result = await Process.run('powershell.exe', ['-c', command]);
 
-  print(result.stdout);
-  print(result.stderr);
-
   if(result.stdout.toString().contains("Rele acionado")){
     FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
       "prontoParaAtivar" : false,
       "deuErro": false
     });
-    FirebaseFirestore.instance.collection("logs").doc().set({
+    FirebaseFirestore.instance.collection("logs").doc(UUID).set({
       "text" : 'Acionamento concluido com sucesso!',
       "codigoDeResposta" : 200,
       'acionamentoID': id,
       'acionamentoNome': nomeAc,
       'Condominio': idCondominio,
+      "id": UUID
     });
     showToast("Guarita acionada", context: context);
   }else{
-    if(result.stdout.toString().contains('FALHA CONEXAO TCP"')){
+    if(result.stdout.toString().contains('FALHA CONEXAO TCP')){
       FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
         "prontoParaAtivar" : false,
         "deuErro": true
       });
       showToast("FALHA CONEXAO TCP", context: context);
-      FirebaseFirestore.instance.collection("logs").doc().set({
+      FirebaseFirestore.instance.collection("logs").doc(UUID).set({
         "text" : 'Acionamento falhou: FALHA CONEXAO TCP: guaritaTCPerror',
         "codigoDeResposta" : 482748282737767,
         'acionamentoID': id,
         'acionamentoNome': nomeAc,
         'Condominio': idCondominio,
+        "id": UUID
       });
     }else{
       FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
@@ -62,12 +64,13 @@ chamarSDK(var context, String id, String ip, int porta, String receptor, String 
         "deuErro": true
       });
       showToast("A SDK não foi iniciada ou ocorreu qualquer outro erro desconhecido!", context: context);
-      FirebaseFirestore.instance.collection("logs").doc().set({
+      FirebaseFirestore.instance.collection("logs").doc(UUID).set({
         "text" : 'Acionamento falhou: A SDK não foi iniciada ou ocorreu qualquer outro erro desconhecido!: SDKUnknownError',
         "codigoDeResposta" : 735865669637767,
         'acionamentoID': id,
         'acionamentoNome': nomeAc,
         'Condominio': idCondominio,
+        "id": UUID
       });
     }
   }
