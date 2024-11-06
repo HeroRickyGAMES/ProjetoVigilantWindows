@@ -6939,8 +6939,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                                               onChanged: (bool? value) {
                                                                                                                                 if(!usuariosCadastrados.containsKey(documents['id'])){
                                                                                                                                   setState((){
-
-                                                                                                                                    print(documents['id']);
                                                                                                                                     RegExp regexApenasNumeros = RegExp(r'^\d+#\w+$');
                                                                                                                                     if(regexApenasNumeros.hasMatch(documents['id'])){
                                                                                                                                       usuariosCadastrados[documents['id']] = {
@@ -7392,6 +7390,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                     int lent = Tratado.length - 1;
 
                                                                                                                                     for (int i = 0; i < lent; i++) {
+                                                                                                                                      ImagemEquipamentoHikvision(documents['ip'], documents['porta'], documents['usuario'], documents['senha'], i, "1");
+
                                                                                                                                       FirebaseFirestore.instance.collection('Pessoas').doc("${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$idCondominio").set({
                                                                                                                                         "id": "${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$idCondominio",
                                                                                                                                         "idCondominio": idCondominio,
