@@ -64,139 +64,140 @@ namespace demoLinearIP
                     // Tenta conectar ao Server (método non-blocking)
                     csTCP.Blocking = false;
                     AsyncCallback onconnect = new AsyncCallback(OnConnect);
-                    csTCP.BeginConnect(epServer, onconnect, csTCP);
+                    var tcpConnected = csTCP.BeginConnect(epServer, onconnect, csTCP);
+                    System.Threading.Thread.Sleep(50);
+                    //Console.WriteLine(testconnect.IsCompleted);
+                    if (tcpConnected.IsCompleted) {
+                        if (rele == "1") {
+                            byte[] lFrame = new byte[6];
 
-                    System.Threading.Thread.Sleep(10);
+                            lFrame[0] = 0x00;
+                            lFrame[1] = 0x0D;
 
-                    if (rele == "1") {
-                        byte[] lFrame = new byte[6];
-
-                        lFrame[0] = 0x00;
-                        lFrame[1] = 0x0D;
-
-                        //+Dispositivo
-                        lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
-                        //+CAN
-                        lFrame[3] = (byte)cbCAN.SelectedIndex;
-                        //+Relé (Saída)
-                        lFrame[4] = 0x01;
-                        //+Gera eventos
-                        if (cxEVT.Checked) {
-                            lFrame[5] = 0x01;  // Gera evento - Comando 4
-                            enviaComando(lFrame);
-                            Console.WriteLine("Rele acionado");
-                            Close();
-                        }
-                        else {
-                            lFrame[5] = 0x00;  // Não gera evento
-                                               // Sem resposta do Guarita
-                            enviaComando(lFrame);
-                            Console.WriteLine("FALHA CONEXAO TCP");
-                            Close();
-                        }
-                    }
-
-                    if (rele == "2") {
-                        // Acionamento Relé 2 - RECEPTOR
-                        // Comando 13 - 0x00 + 0x0D + <tipo_disp> + <num_disp> + <num_saida> + <gera_evt> + <cs>
-                        byte[] lFrame = new byte[6];
-
-                        lFrame[0] = 0x00;
-                        lFrame[1] = 0x0D;
-
-                        //+Dispositivo
-                        lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
-                        //+CAN
-                        lFrame[3] = (byte)cbCAN.SelectedIndex;
-                        //+Relé (Saída)
-                        lFrame[4] = 0x02;
-                        //+Gera eventos
-                        if (cxEVT.Checked) {
-                            lFrame[5] = 0x01;  // Gera evento - Comando 4
-                            enviaComando(lFrame);
-
-                            //System.Threading.Thread.Sleep(100);
-                            Console.WriteLine("Rele acionado");
-                            Close();
-                        }
-                        else {
-                            lFrame[5] = 0x00;  // Não gera evento
-                            enviaComando(lFrame);
-
-                            //System.Threading.Thread.Sleep(100);
-                            Console.WriteLine("FALHA CONEXAO TCP");
-                            Close();
-                        }
-                    }
-
-                    if (rele == "3") {
-                        // Acionamento Relé 3 - RECEPTOR
-                        // Comando 13 - 0x00 + 0x0D + <tipo_disp> + <num_disp> + <num_saida> + <gera_evt> + <cs>
-                        byte[] lFrame = new byte[6];
-
-                        lFrame[0] = 0x00;
-                        lFrame[1] = 0x0D;
-
-                        //+Dispositivo
-                        lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
-                        //+CAN
-                        lFrame[3] = (byte)cbCAN.SelectedIndex;
-                        //+Relé (Saída)
-                        lFrame[4] = 0x03;
-                        //+Gera eventos
-                        if (cxEVT.Checked) {
-                            lFrame[5] = 0x01;  // Gera evento - Comando 4
-
-                            // Sem resposta do Guarita
-                            enviaComando(lFrame);
-
-                            //System.Threading.Thread.Sleep(100);
-                            Console.WriteLine("Rele acionado");
-                            Close();
-                        }
-                        else {
-                            lFrame[5] = 0x00;  // Não gera evento
-                            enviaComando(lFrame);
-
-                            //System.Threading.Thread.Sleep(100);
-                            Console.WriteLine("FALHA CONEXAO TCP");
-                            Close();
-                        }
-                    }
-
-                    if (rele == "4") {
-                        // Acionamento Relé 4 - RECEPTOR
-                        // Comando 13 - 0x00 + 0x0D + <tipo_disp> + <num_disp> + <num_saida> + <gera_evt> + <cs>
-                        byte[] lFrame = new byte[6];
-
-                        lFrame[0] = 0x00;
-                        lFrame[1] = 0x0D;
-
-                        //+Dispositivo
-                        lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
-                        //+CAN
-                        lFrame[3] = (byte)cbCAN.SelectedIndex;
-                        //+Relé (Saída)
-                        lFrame[4] = 0x04;
-                        //+Gera eventos
-                        if (cxEVT.Checked) {
-                            lFrame[5] = 0x01;  // Gera evento - Comando 4
-                            enviaComando(lFrame);
-
-                            //System.Threading.Thread.Sleep(100);
-                            Console.WriteLine("Rele acionado");
-                            Close();
-                        }
-                        else {
-                            lFrame[5] = 0x00;  // Não gera evento
-                            enviaComando(lFrame);
-
-                            //System.Threading.Thread.Sleep(100);
-                            Console.WriteLine("FALHA CONEXAO TCP");
-                            Close();
+                            //+Dispositivo
+                            lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
+                            //+CAN
+                            lFrame[3] = (byte)cbCAN.SelectedIndex;
+                            //+Relé (Saída)
+                            lFrame[4] = 0x01;
+                            //+Gera eventos
+                            if (cxEVT.Checked) {
+                                lFrame[5] = 0x01;  // Gera evento - Comando 4
+                                enviaComando(lFrame);
+                                Console.WriteLine("Rele acionado");
+                                Close();
+                            }
+                            else {
+                                lFrame[5] = 0x00;  // Não gera evento
+                                                   // Sem resposta do Guarita
+                                enviaComando(lFrame);
+                                Console.WriteLine("FALHA CONEXAO TCP");
+                                Close();
+                            }
                         }
 
+                        if (rele == "2") {
+                            // Acionamento Relé 2 - RECEPTOR
+                            // Comando 13 - 0x00 + 0x0D + <tipo_disp> + <num_disp> + <num_saida> + <gera_evt> + <cs>
+                            byte[] lFrame = new byte[6];
 
+                            lFrame[0] = 0x00;
+                            lFrame[1] = 0x0D;
+
+                            //+Dispositivo
+                            lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
+                            //+CAN
+                            lFrame[3] = (byte)cbCAN.SelectedIndex;
+                            //+Relé (Saída)
+                            lFrame[4] = 0x02;
+                            //+Gera eventos
+                            if (cxEVT.Checked) {
+                                lFrame[5] = 0x01;  // Gera evento - Comando 4
+                                enviaComando(lFrame);
+
+                                //System.Threading.Thread.Sleep(100);
+                                Console.WriteLine("Rele acionado");
+                                Close();
+                            }
+                            else {
+                                lFrame[5] = 0x00;  // Não gera evento
+                                enviaComando(lFrame);
+
+                                //System.Threading.Thread.Sleep(100);
+                                Console.WriteLine("FALHA CONEXAO TCP");
+                                Close();
+                            }
+                        }
+
+                        if (rele == "3") {
+                            // Acionamento Relé 3 - RECEPTOR
+                            // Comando 13 - 0x00 + 0x0D + <tipo_disp> + <num_disp> + <num_saida> + <gera_evt> + <cs>
+                            byte[] lFrame = new byte[6];
+
+                            lFrame[0] = 0x00;
+                            lFrame[1] = 0x0D;
+
+                            //+Dispositivo
+                            lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
+                            //+CAN
+                            lFrame[3] = (byte)cbCAN.SelectedIndex;
+                            //+Relé (Saída)
+                            lFrame[4] = 0x03;
+                            //+Gera eventos
+                            if (cxEVT.Checked) {
+                                lFrame[5] = 0x01;  // Gera evento - Comando 4
+
+                                // Sem resposta do Guarita
+                                enviaComando(lFrame);
+
+                                //System.Threading.Thread.Sleep(100);
+                                Console.WriteLine("Rele acionado");
+                                Close();
+                            }
+                            else {
+                                lFrame[5] = 0x00;  // Não gera evento
+                                enviaComando(lFrame);
+
+                                //System.Threading.Thread.Sleep(100);
+                                Console.WriteLine("FALHA CONEXAO TCP");
+                                Close();
+                            }
+                        }
+
+                        if (rele == "4") {
+                            // Acionamento Relé 4 - RECEPTOR
+                            // Comando 13 - 0x00 + 0x0D + <tipo_disp> + <num_disp> + <num_saida> + <gera_evt> + <cs>
+                            byte[] lFrame = new byte[6];
+
+                            lFrame[0] = 0x00;
+                            lFrame[1] = 0x0D;
+
+                            //+Dispositivo
+                            lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
+                            //+CAN
+                            lFrame[3] = (byte)cbCAN.SelectedIndex;
+                            //+Relé (Saída)
+                            lFrame[4] = 0x04;
+                            //+Gera eventos
+                            if (cxEVT.Checked) {
+                                lFrame[5] = 0x01;  // Gera evento - Comando 4
+                                enviaComando(lFrame);
+
+                                //System.Threading.Thread.Sleep(100);
+                                Console.WriteLine("Rele acionado");
+                                Close();
+                            }
+                            else {
+                                lFrame[5] = 0x00;  // Não gera evento
+                                enviaComando(lFrame);
+
+                                //System.Threading.Thread.Sleep(100);
+                                Console.WriteLine("FALHA CONEXAO TCP");
+                                Close();
+                            }
+                        }
+                    } else {
+                        Console.WriteLine("FALHA CONEXAO TCP");
                     }
                 }
                 catch (Exception ex) {
