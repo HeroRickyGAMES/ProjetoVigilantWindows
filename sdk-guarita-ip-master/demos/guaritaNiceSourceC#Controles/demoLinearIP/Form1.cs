@@ -4,11 +4,14 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace demoLinearIP
 {
     public partial class fprincipal : Form
     {
+        int quantidadelida = 0;
+
         static Socket csTCP = null;
         static byte[] gl_RecTCPBuff= new byte[2000];  // Buffer de recepção TCP
 
@@ -34,15 +37,59 @@ namespace demoLinearIP
         [DllImport("AvzScanner.dll")]
         public static extern Int32 AvzMatch(byte[] pFeature0, byte[] pFeature1, UInt16 level, UInt16 rotate);
 
-        public fprincipal()
+        public fprincipal(String ip , String porta, string checkUsers, string createuser)
         {
-            InitializeComponent();
+            InitializeComponent(ip, porta, createuser);
 
+            if (ip == "") {
+                messageBox(this, "Inicio normal, caso esteja vendo essa mensagem a SDK foi iniciada manualmente para testes ou qualquer outra finalidade!", "Inicio Normal");
+            } else {
+                try {
+                    // Cria o objeto socket
+                    csTCP = new Socket(AddressFamily.InterNetwork,
+                        SocketType.Stream, ProtocolType.Tcp);
+
+                    // Associa IP e Port do Server
+                    IPEndPoint epServer =
+                        new IPEndPoint(IPAddress.Parse(tbIp.Text), int.Parse(tbPort.Text));
+
+                    // Tenta conectar ao Server (método non-blocking)
+                    csTCP.Blocking = false;
+                    AsyncCallback onconnect = new AsyncCallback(OnConnect);
+                    var tcpConnected = csTCP.BeginConnect(epServer, onconnect, csTCP);
+                    System.Threading.Thread.Sleep(50);
+
+                    if (checkUsers == "--checkusers") {
+                        // Botão "Ler dispositivos"
+                        // Solicita quantidade (Comando 7: 0x00 + 0x07 + <cs>)
+                        Application.UseWaitCursor = true;
+
+                        lsDisp.Items.Clear();
+
+                        // Resposta de 5 bytes: 0x00 + 0x07 + <quant. parte alta> + <quant. parte baixa> + <cs>
+                        toutComando(true, 5);
+                        enviaComando(new byte[] { 0x00, 0x07 });
+
+                        Thread.Sleep(1000);
+                        if (lsDisp.Items.Count == quantidadelida) {
+                            for (int i = 0; i <= quantidadelida; i++) {
+                                lsDisp.SelectedIndex = i;
+                            }
+                        }
+                        
+                    }
+                    if (createuser == "--createuser") {
+                    }
+
+                } catch (Exception ex) {
+                    Application.UseWaitCursor = false;
+                    Console.WriteLine("FALHA CONEXAO TCP");
+                    Console.WriteLine(ex);
+                    Close();
+                }
+            }
             for (int i = 0; i < 10000; i++)
             {
-                // Lista portas seriais (1 a 254)
-                if ( (i > 0) && (i < 255) ) cbPorta.Items.Add("COM" + i);
-
                 // Lista Unidades (0 a 9999)
                 cbUnidade.Items.Add(i);
 
@@ -60,14 +107,10 @@ namespace demoLinearIP
                 if (i <= 15) cbGrupo.Items.Add(i);
             }
 
-            // Valores padrões dos ComboBoxes            
-            cbPorta.SelectedIndex = 0;
-            cbBaudrate.SelectedIndex = 1;
-            cbDisp.SelectedIndex = 0;
+            // Valores padrões dos ComboBoxes
             cbDisp2.SelectedIndex = 0;
             cbUnidade.SelectedIndex = 0;
             cbBloco.SelectedIndex = 0;
-            cbCAN.SelectedIndex = 0;
             cbMarcaV.SelectedIndex = 31;
             cbCorV.SelectedIndex = 0;
             cbGrupo.SelectedIndex = 0;
@@ -101,12 +144,13 @@ namespace demoLinearIP
         // LISTBOX.ITENS.ADD(text);
         delegate void AddTextCallback(Form fr, ListBox lb, string text);
 
-        public static void AddText(Form fr, ListBox lb, string text)
+        public void AddText(Form fr, ListBox lb, string text)
         {
-            if (lb.InvokeRequired)
-                fr.Invoke(new AddTextCallback(AddText), new object[] { fr, lb, text });                
-            else
+            if (lb.InvokeRequired) {
+                fr.Invoke(new AddTextCallback(AddText), new object[] { fr, lb, text });
+            }else {
                 lb.Items.Add(text);
+            }
         }
 
         // COMBOBOX.SELECTEDINDEX = ix;
@@ -308,19 +352,10 @@ namespace demoLinearIP
             }
 
             // "Checksum" apenas para frames com 2 bytes ou mais!!
-            if (tamFrameHex > 1) tamFrameHex++;              
+            if (tamFrameHex > 1) tamFrameHex++;
 
-            // Envia para o componente de comunicação selecionado
-            if (rbSerial.Checked)
-            {
-                spCOM.Write(frameEnvioHex, 0, tamFrameHex);
-            }
-            else //if (rbTcp.Checked)
-            {
-                if ( (csTCP != null) && (csTCP.Connected) )
-                {
-                    csTCP.Send(frameEnvioHex, tamFrameHex, 0);
-                }
+            if ((csTCP != null) && (csTCP.Connected)) {
+                csTCP.Send(frameEnvioHex, tamFrameHex, 0);
             }
         }
 
@@ -348,8 +383,6 @@ namespace demoLinearIP
                     linha += l_frameHex[3 + i].ToString("X2");
                     frameEvt[i] = l_frameHex[3 + i];
                 }
-
-                SetText(this, tbFrame, linha);
 
                 // *Interpretação dos bytes*
                 byte t_evt = (byte)((frameEvt[0] & 0xF0) >> 4);
@@ -416,13 +449,11 @@ namespace demoLinearIP
                         linha = "- - - -";
                         break;
                 }
-                SetText(this, lbSerial, linha);
 
                 //+Data e hora
                 linha = string.Format("{0:D2}/{1:D2}/{2:D2} {3:D2}:{4:D2}:{5:D2}",
                     bcd2int(frameEvt[7]), bcd2int(frameEvt[8]), bcd2int(frameEvt[9]),
                     bcd2int(frameEvt[4]), bcd2int(frameEvt[5]), bcd2int(frameEvt[6]));
-                SetText(this, lbDataHora, linha);
 
                 //+Dispositivo e End. CAN
                 switch (t_evt)
@@ -450,7 +481,6 @@ namespace demoLinearIP
                         linha = "- - - -";
                         break;
                 }
-                SetText(this, lbDisp, linha);
 
                 //+Unidade
                 switch (t_evt)
@@ -464,8 +494,6 @@ namespace demoLinearIP
                         linha = "- - - -";
                         break;
                 }
-                SetText(this, lbUnid, linha);
-
                 //+Bloco
                 switch (t_evt)
                 {
@@ -481,7 +509,7 @@ namespace demoLinearIP
                         linha = "- - - -";
                         break;
                 }
-                SetText(this, lbBloco, linha);
+               
 
                 //+<flagsEvt0> (byte 15 - 7 6 54 3 210)
                 //-Saída (Relé) - 54
@@ -500,13 +528,12 @@ namespace demoLinearIP
                         linha = "- - - -";
                         break;
                 }
-                SetText(this, lbSaida, linha);
 
                 //-Tecla do Guarita (apenas evento tipo 5)
                 if (t_evt == 0x05)
                 {
                     linha += "  | Tecla " + (bits2int(frameEvt[14], 2, 0) + 1).ToString();
-                    SetText(this, lbSaida, linha);
+                   
                 }
 
                 //-Bateria (apenas TX e TA)
@@ -521,8 +548,7 @@ namespace demoLinearIP
                 {
                     linha = "- - - -";
                 }
-                SetText(this, lbBat, linha);
-
+                
                 //-Dupla passagem (apenas evento tipo 1)
                 if ((t_evt == 0x01) && (bits2int(frameEvt[14], 3, 3) == 1))
                 {
@@ -589,9 +615,6 @@ namespace demoLinearIP
                         }
                         break;                    
                 }
-
-                SetText(this, lbTipo, linhaTipo);
-
                 return;
             }
 
@@ -961,8 +984,11 @@ namespace demoLinearIP
                     enviaComando(new byte[] { 0x00, 0x2B });
 
                     Application.UseWaitCursor = false;
+                    Console.WriteLine("Leitura finalizada!");
+                    Console.WriteLine("{ ");
+                    Console.WriteLine("'Quantidade': " + lsDisp.Items.Count + ",");
 
-                    messageBox(this, "Leitura finalizada!", "SUCESSO");
+                    quantidadelida = lsDisp.Items.Count;
                 }
                 else
                 {
@@ -971,7 +997,6 @@ namespace demoLinearIP
                     toutComando(true, 5);
                     enviaComando(new byte[] { 0x00 });
                 }
-
                 return;
             }
 
@@ -1172,12 +1197,6 @@ namespace demoLinearIP
 
         private void rbSerial_CheckedChanged(object sender, EventArgs e)
         {
-            // Conexão SERIAL marcada
-            lbPorta.Enabled = true;
-            cbPorta.Enabled = true;
-            lbBaudrate.Enabled = true;
-            cbBaudrate.Enabled = true;
-
             lbIp.Enabled = false;
             tbIp.Enabled = false;
             lbPort.Enabled = false;
@@ -1186,11 +1205,6 @@ namespace demoLinearIP
 
         private void rbTcp_CheckedChanged(object sender, EventArgs e)
         {
-            // Conexão TCP marcada
-            lbPorta.Enabled = false;
-            cbPorta.Enabled = false;
-            lbBaudrate.Enabled = false;
-            cbBaudrate.Enabled = false;
 
             lbIp.Enabled = true;
             tbIp.Enabled = true;
@@ -1260,82 +1274,40 @@ namespace demoLinearIP
 
         private void btConectar_Click(object sender, EventArgs e)
         {
-            // Iniciar ou Terminar conexão Serial/TCP
+            if (btConectar.Text == "Conectar") {
+                Application.UseWaitCursor = true;
 
-            if (rbSerial.Checked)
-            {
-                // ** Conexão SERIAL **
-                if (btConectar.Text == "Conectar")
-                {
-                    spCOM.PortName = cbPorta.Text;
-                    spCOM.BaudRate = int.Parse(cbBaudrate.Text);
+                try {
+                    // Cria o objeto socket
+                    csTCP = new Socket(AddressFamily.InterNetwork,
+                        SocketType.Stream, ProtocolType.Tcp);
 
-                    try
-                    {
-                        spCOM.Open();
-                    }
-                    catch (Exception ex)
-                    {
-                        messageBox(this, ex.Message, "FALHA CONEXAO SERIAL");
-                    }
+                    // Associa IP e Port do Server
+                    IPEndPoint epServer =
+                        new IPEndPoint(IPAddress.Parse(tbIp.Text), int.Parse(tbPort.Text));
 
-                    if (spCOM.IsOpen)
-                    {
-                        ConexaoExterna(this, true, groupBox1, tGuias, btConectar);
-                    }
+                    // Tenta conectar ao Server (método non-blocking)
+                    csTCP.Blocking = false;
+                    AsyncCallback onconnect = new AsyncCallback(OnConnect);
+                    csTCP.BeginConnect(epServer, onconnect, csTCP);
                 }
-                else //if (btConectar.Text == "Desconectar")
-                {
-                    toutComando(false, 1);
+                catch (Exception ex) {
                     Application.UseWaitCursor = false;
-
-                    spCOM.Close();
-
-                    ConexaoExterna(this, false, groupBox1, tGuias, btConectar);
+                    messageBox(this, ex.Message, "FALHA CONEXAO TCP");
                 }
             }
-            else //if (rbTcp.Checked)
+            else //if (btConectar.Text == "Desconectar")
             {
-                // ** Conexão TCP ***
-                if (btConectar.Text == "Conectar")
-                {
-                    Application.UseWaitCursor = true;
+                toutComando(false, 1);
+                Application.UseWaitCursor = false;
 
-                    try
-                    {
-                        // Cria o objeto socket
-                        csTCP = new Socket(AddressFamily.InterNetwork,
-                            SocketType.Stream, ProtocolType.Tcp);
-
-                        // Associa IP e Port do Server
-                        IPEndPoint epServer =
-                            new IPEndPoint(IPAddress.Parse(tbIp.Text), int.Parse(tbPort.Text));
-
-                        // Tenta conectar ao Server (método non-blocking)
-                        csTCP.Blocking = false;
-                        AsyncCallback onconnect = new AsyncCallback(OnConnect);
-                        csTCP.BeginConnect(epServer, onconnect, csTCP);
-                    }
-                    catch (Exception ex)
-                    {
-                        Application.UseWaitCursor = false;
-                        messageBox(this, ex.Message, "FALHA CONEXAO TCP");
-                    }                    
+                if ((csTCP != null) && (csTCP.Connected)) {
+                    csTCP.Shutdown(SocketShutdown.Both);
+                    System.Threading.Thread.Sleep(10);
+                    csTCP.Close();
                 }
-                else //if (btConectar.Text == "Desconectar")
-                {
-                    toutComando(false, 1);
-                    Application.UseWaitCursor = false;
 
-                    if ( (csTCP != null) && (csTCP.Connected) )
-                    {
-                        csTCP.Shutdown(SocketShutdown.Both);
-                        System.Threading.Thread.Sleep(10);
-                        csTCP.Close();
-                    }
-
-                    ConexaoExterna(this, false, groupBox1, tGuias, btConectar);
-                }
+                ConexaoExterna(this, false, groupBox1, tGuias, btConectar);
             }
         }
 
@@ -1388,6 +1360,7 @@ namespace demoLinearIP
             enviaComando(new byte[] { 0x00, 0x07 });
         }
 
+        //Dispositivo Selecionado (IMPORTANTE!)
         private void lsDisp_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Clique simples no "ListBox"
@@ -1417,7 +1390,7 @@ namespace demoLinearIP
                 case 0x06: lbTipoD.Text = "TAG Passivo"; break;
                 case 0x07: lbTipoD.Text = "Senha"; break;                
             }
-
+            
             //+Serial
             if (t_disp == 0x01)
             {
@@ -1453,7 +1426,7 @@ namespace demoLinearIP
                 lbBlocoD.Text = ((char)(frameDisp[8] + 'A')).ToString();  // Bloco em letras A ~ Z
             else
                 lbBlocoD.Text = (frameDisp[8] - 0x19).ToString();  // Blocos em números 1 ~ 230
-
+         
             //+Grupo (apenas para Receptor Multifunção 4A)
             lbGrupoD.Text = frameDisp[9].ToString();
 
@@ -1475,17 +1448,17 @@ namespace demoLinearIP
 
             //-Último acionamento (bits 6..4)
             lbAcionD.Text = bits2int(frameDisp[29], 6, 4).ToString();
-
+          
             //-Status Bateria (bits 3..0 -> 0 = Boa, F = Ruim) apenas TX e TA
             if ((t_disp == 0x01) || (t_disp == 0x02))
                 lbBatD.Text = bits2int(frameDisp[29], 3, 0).ToString();
             else
                 lbBatD.Text = "- - - -";
-
+           
             //+Veículo
             //-Marca
             lbMarcaD.Text = retorna_marcav(frameDisp[30]);
-                        
+
             if (frameDisp[30] != 0x1F)
             {
                 //-Cor do veículo (se aplicável -> 0x1F = SEM VEICULO)
@@ -1499,108 +1472,22 @@ namespace demoLinearIP
 
                 lbMarcaD.Text += " | " + aux;
             }
+
+
+            Console.WriteLine("'id': " + "'" + lbSerialD.Text + "'" + ": {");
+            Console.WriteLine("'Tipo': " + "'" + lbTipoD.Text + "'" + ",");
+            Console.WriteLine("'Serial': " + "'" + lbSerialD.Text + "'" + ",");
+            Console.WriteLine("'Controlador/ID': " + "'" + lbContaD.Text + "'" + ",");
+            Console.WriteLine("'Unidade': " + "'" + lbUnidD.Text + "'" + ",");
+            Console.WriteLine("'Grupo': " + "'" + lbGrupoD.Text + "'" + ",");
+            Console.WriteLine("'Rec Destino': " + "'" + lbHabD.Text + "'" + ",");
+            Console.WriteLine("'Identificacao': " + "'" + lbLabelD.Text.Trim() + "'" + ",");
+            Console.WriteLine("'Ultimo Acionamento': " + "'" + lbAcionD.Text + "'" + ",");
+            Console.WriteLine("'Status de bateria': " + "'" + lbBatD.Text + "'" + ",");
+            Console.WriteLine("'Veiculo/Marca': " + "'" + lbMarcaD.Text + "'" + ",");
+            Console.WriteLine("},");
+
         }
-
-        private void btR1_Click(object sender, EventArgs e)
-        {
-            // Acionamento Relé 1 - RECEPTOR
-            // Comando 13 - 0x00 + 0x0D + <tipo_disp> + <num_disp> + <num_saida> + <gera_evt> + <cs>
-            byte[] lFrame = new byte[6];
-
-            lFrame[0] = 0x00;
-            lFrame[1] = 0x0D;
-
-            //+Dispositivo
-            lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
-            //+CAN
-            lFrame[3] = (byte)cbCAN.SelectedIndex;
-            //+Relé (Saída)
-            lFrame[4] = 0x01;
-            //+Gera eventos
-            if (cxEVT.Checked)
-                lFrame[5] = 0x01;  // Gera evento - Comando 4
-            else
-                lFrame[5] = 0x00;  // Não gera evento
-
-            // Sem resposta do Guarita
-            enviaComando(lFrame);
-        }
-
-        private void btR2_Click(object sender, EventArgs e)
-        {
-            // Acionamento Relé 2 - RECEPTOR
-            // Comando 13 - 0x00 + 0x0D + <tipo_disp> + <num_disp> + <num_saida> + <gera_evt> + <cs>
-            byte[] lFrame = new byte[6];
-
-            lFrame[0] = 0x00;
-            lFrame[1] = 0x0D;
-
-            //+Dispositivo
-            lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
-            //+CAN
-            lFrame[3] = (byte)cbCAN.SelectedIndex;
-            //+Relé (Saída)
-            lFrame[4] = 0x02;
-            //+Gera eventos
-            if (cxEVT.Checked)
-                lFrame[5] = 0x01;  // Gera evento - Comando 4
-            else
-                lFrame[5] = 0x00;  // Não gera evento
-
-            // Sem resposta do Guarita
-            enviaComando(lFrame);
-        }
-
-        private void btR3_Click(object sender, EventArgs e)
-        {
-            // Acionamento Relé 3 - RECEPTOR
-            // Comando 13 - 0x00 + 0x0D + <tipo_disp> + <num_disp> + <num_saida> + <gera_evt> + <cs>
-            byte[] lFrame = new byte[6];
-
-            lFrame[0] = 0x00;
-            lFrame[1] = 0x0D;
-
-            //+Dispositivo
-            lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
-            //+CAN
-            lFrame[3] = (byte)cbCAN.SelectedIndex;
-            //+Relé (Saída)
-            lFrame[4] = 0x03;
-            //+Gera eventos
-            if (cxEVT.Checked)
-                lFrame[5] = 0x01;  // Gera evento - Comando 4
-            else
-                lFrame[5] = 0x00;  // Não gera evento
-
-            // Sem resposta do Guarita
-            enviaComando(lFrame);
-        }
-
-        private void btR4_Click(object sender, EventArgs e)
-        {
-            // Acionamento Relé 4 - RECEPTOR
-            // Comando 13 - 0x00 + 0x0D + <tipo_disp> + <num_disp> + <num_saida> + <gera_evt> + <cs>
-            byte[] lFrame = new byte[6];
-
-            lFrame[0] = 0x00;
-            lFrame[1] = 0x0D;
-
-            //+Dispositivo
-            lFrame[2] = cbDispTotipoDisp(cbDisp.SelectedIndex);
-            //+CAN
-            lFrame[3] = (byte)cbCAN.SelectedIndex;
-            //+Relé (Saída)
-            lFrame[4] = 0x04;
-            //+Gera eventos
-            if (cxEVT.Checked)
-                lFrame[5] = 0x01;  // Gera evento - Comando 4
-            else
-                lFrame[5] = 0x00;  // Não gera evento
-
-            // Sem resposta do Guarita
-            enviaComando(lFrame);
-        }
-
         private void btCadastrar_Click(object sender, EventArgs e)
         {
             // Botão "CADASTRAR" (aba "Cadastrar Dispositivo")

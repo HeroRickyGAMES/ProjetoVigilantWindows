@@ -6,7 +6,7 @@ import 'package:http_auth/http_auth.dart' as http_auth;
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 import 'package:uuid/uuid.dart';
-import 'package:vigilant/acionamento_de_portas/guarita_call_nativo.dart';
+import 'package:vigilant/moduloGuarita/guarita_call_nativo.dart';
 import 'package:vigilant/homeApp.dart';
 
 //Programado por HeroRickyGames com ajuda de Deus!

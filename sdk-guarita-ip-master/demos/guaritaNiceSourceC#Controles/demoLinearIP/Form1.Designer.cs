@@ -26,7 +26,7 @@
         /// Método necessário para suporte ao Designer - não modifique 
         /// o conteúdo deste método com o editor de código.
         /// </summary>
-        private void InitializeComponent()
+        private void InitializeComponent(string ip, string porta, string createuser)
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -34,37 +34,11 @@
             this.lbIp = new System.Windows.Forms.Label();
             this.tbPort = new System.Windows.Forms.TextBox();
             this.tbIp = new System.Windows.Forms.TextBox();
-            this.lbBaudrate = new System.Windows.Forms.Label();
-            this.lbPorta = new System.Windows.Forms.Label();
-            this.cbBaudrate = new System.Windows.Forms.ComboBox();
-            this.cbPorta = new System.Windows.Forms.ComboBox();
             this.rbTcp = new System.Windows.Forms.RadioButton();
-            this.rbSerial = new System.Windows.Forms.RadioButton();
             this.btConectar = new System.Windows.Forms.Button();
             this.tGuias = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.btLerRelogio = new System.Windows.Forms.Button();
-            this.btEnviarRelogio = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lbBat = new System.Windows.Forms.Label();
-            this.lbSaida = new System.Windows.Forms.Label();
-            this.lbBloco = new System.Windows.Forms.Label();
-            this.lbUnid = new System.Windows.Forms.Label();
-            this.lbDisp = new System.Windows.Forms.Label();
-            this.lbDataHora = new System.Windows.Forms.Label();
-            this.lbSerial = new System.Windows.Forms.Label();
-            this.lbTipo = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.tbFrame = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btApagarDisp = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lbGrupoD = new System.Windows.Forms.Label();
             this.lbMarcaD = new System.Windows.Forms.Label();
@@ -128,26 +102,9 @@
             this.lblContador = new System.Windows.Forms.Label();
             this.lblSerial = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.btModoRemoto = new System.Windows.Forms.Button();
-            this.label24 = new System.Windows.Forms.Label();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.btR4 = new System.Windows.Forms.Button();
-            this.btR3 = new System.Windows.Forms.Button();
-            this.btR2 = new System.Windows.Forms.Button();
-            this.btR1 = new System.Windows.Forms.Button();
-            this.cxEVT = new System.Windows.Forms.CheckBox();
-            this.cbCAN = new System.Windows.Forms.ComboBox();
-            this.cbDisp = new System.Windows.Forms.ComboBox();
-            this.label35 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
             this.spCOM = new System.IO.Ports.SerialPort(this.components);
-            this.btApagarDisp = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.tGuias.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -155,9 +112,6 @@
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.tabPage4.SuspendLayout();
-            this.groupBox9.SuspendLayout();
-            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -166,12 +120,7 @@
             this.groupBox1.Controls.Add(this.lbIp);
             this.groupBox1.Controls.Add(this.tbPort);
             this.groupBox1.Controls.Add(this.tbIp);
-            this.groupBox1.Controls.Add(this.lbBaudrate);
-            this.groupBox1.Controls.Add(this.lbPorta);
-            this.groupBox1.Controls.Add(this.cbBaudrate);
-            this.groupBox1.Controls.Add(this.cbPorta);
             this.groupBox1.Controls.Add(this.rbTcp);
-            this.groupBox1.Controls.Add(this.rbSerial);
             this.groupBox1.Location = new System.Drawing.Point(87, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(517, 122);
@@ -183,7 +132,7 @@
             // 
             this.lbPort.AutoSize = true;
             this.lbPort.Enabled = false;
-            this.lbPort.Location = new System.Drawing.Point(410, 64);
+            this.lbPort.Location = new System.Drawing.Point(290, 65);
             this.lbPort.Name = "lbPort";
             this.lbPort.Size = new System.Drawing.Size(59, 13);
             this.lbPort.TabIndex = 9;
@@ -193,7 +142,7 @@
             // 
             this.lbIp.AutoSize = true;
             this.lbIp.Enabled = false;
-            this.lbIp.Location = new System.Drawing.Point(292, 63);
+            this.lbIp.Location = new System.Drawing.Point(172, 64);
             this.lbIp.Name = "lbIp";
             this.lbIp.Size = new System.Drawing.Size(69, 13);
             this.lbIp.TabIndex = 8;
@@ -202,73 +151,30 @@
             // tbPort
             // 
             this.tbPort.Enabled = false;
-            this.tbPort.Location = new System.Drawing.Point(413, 80);
+            this.tbPort.Location = new System.Drawing.Point(293, 81);
             this.tbPort.MaxLength = 5;
             this.tbPort.Name = "tbPort";
             this.tbPort.Size = new System.Drawing.Size(56, 20);
             this.tbPort.TabIndex = 7;
-            this.tbPort.Text = "9000";
+            this.tbPort.Text = porta;
             this.tbPort.WordWrap = false;
             this.tbPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbPort_KeyPress);
             // 
             // tbIp
             // 
             this.tbIp.Enabled = false;
-            this.tbIp.Location = new System.Drawing.Point(295, 79);
+            this.tbIp.Location = new System.Drawing.Point(175, 80);
             this.tbIp.MaxLength = 15;
             this.tbIp.Name = "tbIp";
             this.tbIp.Size = new System.Drawing.Size(100, 20);
             this.tbIp.TabIndex = 6;
-            this.tbIp.Text = "192.168.0.10";
+            this.tbIp.Text = ip;
             this.tbIp.WordWrap = false;
-            // 
-            // lbBaudrate
-            // 
-            this.lbBaudrate.AutoSize = true;
-            this.lbBaudrate.Location = new System.Drawing.Point(112, 64);
-            this.lbBaudrate.Name = "lbBaudrate";
-            this.lbBaudrate.Size = new System.Drawing.Size(53, 13);
-            this.lbBaudrate.TabIndex = 5;
-            this.lbBaudrate.Text = "Baudrate:";
-            // 
-            // lbPorta
-            // 
-            this.lbPorta.AutoSize = true;
-            this.lbPorta.Location = new System.Drawing.Point(15, 63);
-            this.lbPorta.Name = "lbPorta";
-            this.lbPorta.Size = new System.Drawing.Size(64, 13);
-            this.lbPorta.TabIndex = 4;
-            this.lbPorta.Text = "Porta Serial:";
-            // 
-            // cbBaudrate
-            // 
-            this.cbBaudrate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbBaudrate.FormattingEnabled = true;
-            this.cbBaudrate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cbBaudrate.IntegralHeight = false;
-            this.cbBaudrate.Items.AddRange(new object[] {
-            "9600",
-            "19200",
-            "115200"});
-            this.cbBaudrate.Location = new System.Drawing.Point(115, 78);
-            this.cbBaudrate.Name = "cbBaudrate";
-            this.cbBaudrate.Size = new System.Drawing.Size(82, 21);
-            this.cbBaudrate.TabIndex = 3;
-            // 
-            // cbPorta
-            // 
-            this.cbPorta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbPorta.FormattingEnabled = true;
-            this.cbPorta.IntegralHeight = false;
-            this.cbPorta.Location = new System.Drawing.Point(18, 79);
-            this.cbPorta.Name = "cbPorta";
-            this.cbPorta.Size = new System.Drawing.Size(82, 21);
-            this.cbPorta.TabIndex = 2;
             // 
             // rbTcp
             // 
             this.rbTcp.AutoSize = true;
-            this.rbTcp.Location = new System.Drawing.Point(295, 28);
+            this.rbTcp.Location = new System.Drawing.Point(175, 29);
             this.rbTcp.Name = "rbTcp";
             this.rbTcp.Size = new System.Drawing.Size(204, 17);
             this.rbTcp.TabIndex = 1;
@@ -276,18 +182,6 @@
             this.rbTcp.Text = "TCP/IP (Guarita/Conversor SERVER)";
             this.rbTcp.UseVisualStyleBackColor = true;
             this.rbTcp.CheckedChanged += new System.EventHandler(this.rbTcp_CheckedChanged);
-            // 
-            // rbSerial
-            // 
-            this.rbSerial.AutoSize = true;
-            this.rbSerial.Location = new System.Drawing.Point(18, 28);
-            this.rbSerial.Name = "rbSerial";
-            this.rbSerial.Size = new System.Drawing.Size(123, 17);
-            this.rbSerial.TabIndex = 0;
-            this.rbSerial.TabStop = true;
-            this.rbSerial.Text = "Serial (RS-232/USB)";
-            this.rbSerial.UseVisualStyleBackColor = true;
-            this.rbSerial.CheckedChanged += new System.EventHandler(this.rbSerial_CheckedChanged);
             // 
             // btConectar
             // 
@@ -301,10 +195,14 @@
             // 
             // tGuias
             // 
-            this.tGuias.Controls.Add(this.tabPage1);
-            this.tGuias.Controls.Add(this.tabPage2);
-            this.tGuias.Controls.Add(this.tabPage3);
-            this.tGuias.Controls.Add(this.tabPage4);
+            if (createuser == "--createuser") {
+                this.tGuias.Controls.Add(this.tabPage3);
+                this.tGuias.Controls.Add(this.tabPage2);
+            }
+            else {
+                this.tGuias.Controls.Add(this.tabPage2);
+                this.tGuias.Controls.Add(this.tabPage3);
+            }
             this.tGuias.Location = new System.Drawing.Point(27, 179);
             this.tGuias.Name = "tGuias";
             this.tGuias.SelectedIndex = 0;
@@ -312,238 +210,8 @@
             this.tGuias.TabIndex = 2;
             this.tGuias.Visible = false;
             // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.btLerRelogio);
-            this.tabPage1.Controls.Add(this.btEnviarRelogio);
-            this.tabPage1.Controls.Add(this.groupBox2);
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.tbFrame);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(628, 391);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Eventos";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // btLerRelogio
-            // 
-            this.btLerRelogio.Location = new System.Drawing.Point(349, 347);
-            this.btLerRelogio.Name = "btLerRelogio";
-            this.btLerRelogio.Size = new System.Drawing.Size(115, 23);
-            this.btLerRelogio.TabIndex = 4;
-            this.btLerRelogio.Text = "Ler Data e Hora";
-            this.btLerRelogio.UseVisualStyleBackColor = true;
-            this.btLerRelogio.Click += new System.EventHandler(this.btLerRelogio_Click);
-            // 
-            // btEnviarRelogio
-            // 
-            this.btEnviarRelogio.Location = new System.Drawing.Point(165, 347);
-            this.btEnviarRelogio.Name = "btEnviarRelogio";
-            this.btEnviarRelogio.Size = new System.Drawing.Size(115, 23);
-            this.btEnviarRelogio.TabIndex = 3;
-            this.btEnviarRelogio.Text = "Enviar Data e Hora";
-            this.btEnviarRelogio.UseVisualStyleBackColor = true;
-            this.btEnviarRelogio.Click += new System.EventHandler(this.btEnviarRelogio_Click);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.lbBat);
-            this.groupBox2.Controls.Add(this.lbSaida);
-            this.groupBox2.Controls.Add(this.lbBloco);
-            this.groupBox2.Controls.Add(this.lbUnid);
-            this.groupBox2.Controls.Add(this.lbDisp);
-            this.groupBox2.Controls.Add(this.lbDataHora);
-            this.groupBox2.Controls.Add(this.lbSerial);
-            this.groupBox2.Controls.Add(this.lbTipo);
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(165, 84);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(299, 238);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Evento (Envio automático - Comando 4)";
-            // 
-            // lbBat
-            // 
-            this.lbBat.AutoSize = true;
-            this.lbBat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbBat.Location = new System.Drawing.Point(58, 205);
-            this.lbBat.Name = "lbBat";
-            this.lbBat.Size = new System.Drawing.Size(35, 13);
-            this.lbBat.TabIndex = 15;
-            this.lbBat.Text = "- - - -";
-            // 
-            // lbSaida
-            // 
-            this.lbSaida.AutoSize = true;
-            this.lbSaida.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSaida.Location = new System.Drawing.Point(56, 179);
-            this.lbSaida.Name = "lbSaida";
-            this.lbSaida.Size = new System.Drawing.Size(35, 13);
-            this.lbSaida.TabIndex = 14;
-            this.lbSaida.Text = "- - - -";
-            // 
-            // lbBloco
-            // 
-            this.lbBloco.AutoSize = true;
-            this.lbBloco.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbBloco.Location = new System.Drawing.Point(53, 155);
-            this.lbBloco.Name = "lbBloco";
-            this.lbBloco.Size = new System.Drawing.Size(35, 13);
-            this.lbBloco.TabIndex = 13;
-            this.lbBloco.Text = "- - - -";
-            // 
-            // lbUnid
-            // 
-            this.lbUnid.AutoSize = true;
-            this.lbUnid.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbUnid.Location = new System.Drawing.Point(69, 127);
-            this.lbUnid.Name = "lbUnid";
-            this.lbUnid.Size = new System.Drawing.Size(35, 13);
-            this.lbUnid.TabIndex = 12;
-            this.lbUnid.Text = "- - - -";
-            // 
-            // lbDisp
-            // 
-            this.lbDisp.AutoSize = true;
-            this.lbDisp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDisp.Location = new System.Drawing.Point(114, 98);
-            this.lbDisp.Name = "lbDisp";
-            this.lbDisp.Size = new System.Drawing.Size(35, 13);
-            this.lbDisp.TabIndex = 11;
-            this.lbDisp.Text = "- - - -";
-            // 
-            // lbDataHora
-            // 
-            this.lbDataHora.AutoSize = true;
-            this.lbDataHora.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDataHora.Location = new System.Drawing.Point(88, 74);
-            this.lbDataHora.Name = "lbDataHora";
-            this.lbDataHora.Size = new System.Drawing.Size(35, 13);
-            this.lbDataHora.TabIndex = 10;
-            this.lbDataHora.Text = "- - - -";
-            // 
-            // lbSerial
-            // 
-            this.lbSerial.AutoSize = true;
-            this.lbSerial.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSerial.Location = new System.Drawing.Point(110, 51);
-            this.lbSerial.Name = "lbSerial";
-            this.lbSerial.Size = new System.Drawing.Size(35, 13);
-            this.lbSerial.TabIndex = 9;
-            this.lbSerial.Text = "- - - -";
-            // 
-            // lbTipo
-            // 
-            this.lbTipo.AutoSize = true;
-            this.lbTipo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTipo.Location = new System.Drawing.Point(47, 27);
-            this.lbTipo.Name = "lbTipo";
-            this.lbTipo.Size = new System.Drawing.Size(35, 13);
-            this.lbTipo.TabIndex = 8;
-            this.lbTipo.Text = "- - - -";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(16, 205);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(43, 13);
-            this.label9.TabIndex = 7;
-            this.label9.Text = "Bateria:";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(16, 179);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(39, 13);
-            this.label8.TabIndex = 6;
-            this.label8.Text = "Saída:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(16, 155);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(37, 13);
-            this.label7.TabIndex = 5;
-            this.label7.Text = "Bloco:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(16, 127);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(50, 13);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "Unidade:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(16, 98);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(95, 13);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "Dispositivo e CAN:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(16, 74);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(68, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Data e Hora:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 51);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(88, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Serial/Senha/ID:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 27);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 13);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Tipo:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(162, 26);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(118, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Frame de acionamento:";
-            // 
-            // tbFrame
-            // 
-            this.tbFrame.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbFrame.Location = new System.Drawing.Point(165, 42);
-            this.tbFrame.Name = "tbFrame";
-            this.tbFrame.ReadOnly = true;
-            this.tbFrame.Size = new System.Drawing.Size(299, 19);
-            this.tbFrame.TabIndex = 0;
-            // 
             // tabPage2
-            // 
+            //
             this.tabPage2.Controls.Add(this.btApagarDisp);
             this.tabPage2.Controls.Add(this.groupBox3);
             this.tabPage2.Controls.Add(this.lsDisp);
@@ -557,6 +225,17 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Dispositivos";
             this.tabPage2.UseVisualStyleBackColor = true;
+
+            // 
+            // btApagarDisp
+            // 
+            this.btApagarDisp.Location = new System.Drawing.Point(493, 34);
+            this.btApagarDisp.Name = "btApagarDisp";
+            this.btApagarDisp.Size = new System.Drawing.Size(119, 23);
+            this.btApagarDisp.TabIndex = 5;
+            this.btApagarDisp.Text = "Apagar Dispositivo";
+            this.btApagarDisp.UseVisualStyleBackColor = true;
+            this.btApagarDisp.Click += new System.EventHandler(this.btApagarDisp_Click);
             // 
             // groupBox3
             // 
@@ -1236,183 +915,9 @@
             this.label11.TabIndex = 0;
             this.label11.Text = "Tipo:";
             // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.groupBox9);
-            this.tabPage4.Controls.Add(this.groupBox8);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(628, 391);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Acionar Saídas";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // groupBox9
-            // 
-            this.groupBox9.Controls.Add(this.btModoRemoto);
-            this.groupBox9.Controls.Add(this.label24);
-            this.groupBox9.Location = new System.Drawing.Point(137, 208);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(355, 108);
-            this.groupBox9.TabIndex = 1;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Modo Remoto (Receptores - Comando 35)";
-            // 
-            // btModoRemoto
-            // 
-            this.btModoRemoto.Location = new System.Drawing.Point(141, 67);
-            this.btModoRemoto.Name = "btModoRemoto";
-            this.btModoRemoto.Size = new System.Drawing.Size(75, 23);
-            this.btModoRemoto.TabIndex = 1;
-            this.btModoRemoto.Text = "Ativar";
-            this.btModoRemoto.UseVisualStyleBackColor = true;
-            this.btModoRemoto.Click += new System.EventHandler(this.btModoRemoto_Click);
-            // 
-            // label24
-            // 
-            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.Location = new System.Drawing.Point(18, 26);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(318, 33);
-            this.label24.TabIndex = 0;
-            this.label24.Text = "Relés de TODOS os Receptores serão acionados somente pelo PC (por 90 segundos)";
-            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.btR4);
-            this.groupBox8.Controls.Add(this.btR3);
-            this.groupBox8.Controls.Add(this.btR2);
-            this.groupBox8.Controls.Add(this.btR1);
-            this.groupBox8.Controls.Add(this.cxEVT);
-            this.groupBox8.Controls.Add(this.cbCAN);
-            this.groupBox8.Controls.Add(this.cbDisp);
-            this.groupBox8.Controls.Add(this.label35);
-            this.groupBox8.Controls.Add(this.label34);
-            this.groupBox8.Location = new System.Drawing.Point(137, 53);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(355, 129);
-            this.groupBox8.TabIndex = 0;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Acionar relés (Receptores - Comando 13)";
-            // 
-            // btR4
-            // 
-            this.btR4.Location = new System.Drawing.Point(261, 85);
-            this.btR4.Name = "btR4";
-            this.btR4.Size = new System.Drawing.Size(75, 23);
-            this.btR4.TabIndex = 8;
-            this.btR4.Text = "Relé 4";
-            this.btR4.UseVisualStyleBackColor = true;
-            this.btR4.Click += new System.EventHandler(this.btR4_Click);
-            // 
-            // btR3
-            // 
-            this.btR3.Location = new System.Drawing.Point(180, 85);
-            this.btR3.Name = "btR3";
-            this.btR3.Size = new System.Drawing.Size(75, 23);
-            this.btR3.TabIndex = 7;
-            this.btR3.Text = "Relé 3";
-            this.btR3.UseVisualStyleBackColor = true;
-            this.btR3.Click += new System.EventHandler(this.btR3_Click);
-            // 
-            // btR2
-            // 
-            this.btR2.Location = new System.Drawing.Point(99, 85);
-            this.btR2.Name = "btR2";
-            this.btR2.Size = new System.Drawing.Size(75, 23);
-            this.btR2.TabIndex = 6;
-            this.btR2.Text = "Relé 2";
-            this.btR2.UseVisualStyleBackColor = true;
-            this.btR2.Click += new System.EventHandler(this.btR2_Click);
-            // 
-            // btR1
-            // 
-            this.btR1.Location = new System.Drawing.Point(18, 85);
-            this.btR1.Name = "btR1";
-            this.btR1.Size = new System.Drawing.Size(75, 23);
-            this.btR1.TabIndex = 5;
-            this.btR1.Text = "Relé 1";
-            this.btR1.UseVisualStyleBackColor = true;
-            this.btR1.Click += new System.EventHandler(this.btR1_Click);
-            // 
-            // cxEVT
-            // 
-            this.cxEVT.AutoSize = true;
-            this.cxEVT.Checked = true;
-            this.cxEVT.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cxEVT.Location = new System.Drawing.Point(242, 45);
-            this.cxEVT.Name = "cxEVT";
-            this.cxEVT.Size = new System.Drawing.Size(94, 17);
-            this.cxEVT.TabIndex = 4;
-            this.cxEVT.Text = "Gerar evento?";
-            this.cxEVT.UseVisualStyleBackColor = true;
-            // 
-            // cbCAN
-            // 
-            this.cbCAN.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbCAN.FormattingEnabled = true;
-            this.cbCAN.IntegralHeight = false;
-            this.cbCAN.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8"});
-            this.cbCAN.Location = new System.Drawing.Point(172, 41);
-            this.cbCAN.Name = "cbCAN";
-            this.cbCAN.Size = new System.Drawing.Size(54, 21);
-            this.cbCAN.TabIndex = 3;
-            // 
-            // cbDisp
-            // 
-            this.cbDisp.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbDisp.FormattingEnabled = true;
-            this.cbDisp.IntegralHeight = false;
-            this.cbDisp.Items.AddRange(new object[] {
-            "TX (RF)",
-            "TAG Ativo (TA)",
-            "Cartão (CT/CTW)",
-            "TAG Passivo (TP/UHF)"});
-            this.cbDisp.Location = new System.Drawing.Point(18, 41);
-            this.cbDisp.Name = "cbDisp";
-            this.cbDisp.Size = new System.Drawing.Size(142, 21);
-            this.cbDisp.TabIndex = 2;
-            // 
-            // label35
-            // 
-            this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(169, 25);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(57, 13);
-            this.label35.TabIndex = 1;
-            this.label35.Text = "End. CAN:";
-            // 
-            // label34
-            // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(15, 25);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(54, 13);
-            this.label34.TabIndex = 0;
-            this.label34.Text = "Receptor:";
-            // 
             // spCOM
             // 
             this.spCOM.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.spCOM_DataReceived);
-            // 
-            // btApagarDisp
-            // 
-            this.btApagarDisp.Location = new System.Drawing.Point(493, 34);
-            this.btApagarDisp.Name = "btApagarDisp";
-            this.btApagarDisp.Size = new System.Drawing.Size(119, 23);
-            this.btApagarDisp.TabIndex = 5;
-            this.btApagarDisp.Text = "Apagar Dispositivo";
-            this.btApagarDisp.UseVisualStyleBackColor = true;
-            this.btApagarDisp.Click += new System.EventHandler(this.btApagarDisp_Click);
             // 
             // fprincipal
             // 
@@ -1430,10 +935,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tGuias.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -1447,10 +948,6 @@
             this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.tabPage4.ResumeLayout(false);
-            this.groupBox9.ResumeLayout(false);
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1458,41 +955,15 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ComboBox cbBaudrate;
-        private System.Windows.Forms.ComboBox cbPorta;
         private System.Windows.Forms.RadioButton rbTcp;
-        private System.Windows.Forms.RadioButton rbSerial;
-        private System.Windows.Forms.Label lbBaudrate;
-        private System.Windows.Forms.Label lbPorta;
         private System.Windows.Forms.Label lbPort;
         private System.Windows.Forms.Label lbIp;
         private System.Windows.Forms.TextBox tbPort;
         private System.Windows.Forms.TextBox tbIp;
         private System.Windows.Forms.Button btConectar;
         private System.Windows.Forms.TabControl tGuias;
-        private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox tbFrame;
-        private System.Windows.Forms.Label lbBat;
-        private System.Windows.Forms.Label lbSaida;
-        private System.Windows.Forms.Label lbBloco;
-        private System.Windows.Forms.Label lbUnid;
-        private System.Windows.Forms.Label lbDisp;
-        private System.Windows.Forms.Label lbDataHora;
-        private System.Windows.Forms.Label lbSerial;
-        private System.Windows.Forms.Label lbTipo;
         private System.Windows.Forms.ListBox lsDisp;
         private System.Windows.Forms.Label lbQuantDisp;
         private System.Windows.Forms.Label label10;
@@ -1550,24 +1021,9 @@
         private System.Windows.Forms.Button btConvWie;
         private System.Windows.Forms.Button btAtualizar;
         private System.Windows.Forms.Button btCadastrar;
-        private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.Button btR4;
-        private System.Windows.Forms.Button btR3;
-        private System.Windows.Forms.Button btR2;
-        private System.Windows.Forms.Button btR1;
-        private System.Windows.Forms.CheckBox cxEVT;
-        private System.Windows.Forms.ComboBox cbCAN;
-        private System.Windows.Forms.ComboBox cbDisp;
-        private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.Label label34;
         private System.IO.Ports.SerialPort spCOM;
-        private System.Windows.Forms.Button btLerRelogio;
-        private System.Windows.Forms.Button btEnviarRelogio;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.ComboBox cbGrupo;
-        private System.Windows.Forms.GroupBox groupBox9;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Button btModoRemoto;
         private System.Windows.Forms.Button btVincularDigital;
         private System.Windows.Forms.Button btIdVago;
         private System.Windows.Forms.Label lblMsgDigital;

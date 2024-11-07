@@ -4,6 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Windows.Forms;
 
+//Programado por HeroRickyGAMES
+//É gambiarra? É mais funciona!
+
 namespace demoLinearIP
 {
     static class Program
