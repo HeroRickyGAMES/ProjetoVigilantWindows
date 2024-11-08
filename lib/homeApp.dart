@@ -19,6 +19,7 @@ import 'package:vigilant/intRamdom/intRamdom.dart';
 import 'package:vigilant/login/login.dart';
 import 'package:vigilant/libDePessoas/cadastroDeUsuariosNoEquipamento.dart';
 import 'package:vigilant/libDePessoas/pushPessoas.dart';
+import 'package:vigilant/moduloGuarita/consultaDeUsuariosdoGuarita.dart';
 import 'package:vigilant/videoStream/videoStreamWidget.dart';
 import 'package:uuid/uuid.dart';
 
@@ -6824,6 +6825,119 @@ class _homeAppState extends State<homeApp>{
                                                                                 )
                                                                               ],
                                                                             ),
+                                                                          ),
+                                                                          ElevatedButton(
+                                                                            onPressed: (){
+                                                                              showDialog(
+                                                                                context: context,
+                                                                                builder: (BuildContext context) {
+                                                                                  return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                    return Center(
+                                                                                      child: AlertDialog(
+                                                                                        scrollable: true,
+                                                                                        title: Column(
+                                                                                          children: [
+                                                                                            const Text('Importar ou cadastrar Usuarios diretamente do Guarita'),
+                                                                                            Container(
+                                                                                              padding: const EdgeInsets.only(top: 16, bottom: 6),
+                                                                                              child: ElevatedButton(
+                                                                                                onPressed: (){
+                                                                                                  Consulta(context);
+                                                                                                },
+                                                                                                child: const Text("Puxar usuarios do guarita"),
+                                                                                              ),
+                                                                                            ),
+                                                                                            Container(
+                                                                                              padding: const EdgeInsets.only(top: 16, bottom: 6),
+                                                                                              child: ElevatedButton(
+                                                                                                onPressed: (){
+                                                                                                  Cadastro(context);
+                                                                                                },
+                                                                                                child: const Text("Cadastrar usuarios no guarita"),
+                                                                                              ),
+                                                                                            ),
+                                                                                            Center(
+                                                                                              child: Column(
+                                                                                                children: [
+                                                                                                  StreamBuilder(
+                                                                                                    stream: FirebaseFirestore.instance
+                                                                                                        .collection('Controles')
+                                                                                                        .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                        .snapshots(),
+                                                                                                    builder: (context, snapshot){
+                                                                                                      if (snapshot.connectionState == ConnectionState.waiting) {
+                                                                                                        return const Center(child: CircularProgressIndicator());
+                                                                                                      }
+
+                                                                                                      if (snapshot.hasError) {
+                                                                                                        return Center(
+                                                                                                            child: Container(
+                                                                                                              padding: const EdgeInsets.all(16),
+                                                                                                              child: Text('Erro: ${snapshot.error}',
+                                                                                                                style: const TextStyle(
+                                                                                                                    fontSize: 15
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            )
+                                                                                                        );
+                                                                                                      }
+
+                                                                                                      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                                                                                                        return Center(
+                                                                                                            child: Container(
+                                                                                                              padding: const EdgeInsets.all(16),
+                                                                                                              // ignore: prefer_const_constructors
+                                                                                                              child: Text('Nenhum usuário encontrado.',
+                                                                                                                style: const TextStyle(
+                                                                                                                    fontSize: 15
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            )
+                                                                                                        );
+                                                                                                      }
+
+                                                                                                      return Column(
+                                                                                                          children: snapshot.data!.docs.map((documents){
+                                                                                                            return Container(
+                                                                                                              padding: const EdgeInsets.all(10),
+                                                                                                              child: Column(
+                                                                                                                children: [
+                                                                                                                  Text(
+                                                                                                                      'Nome: ${documents['Identificacao']}',
+                                                                                                                    style: const TextStyle(
+                                                                                                                      fontSize: 15
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  Text(
+                                                                                                                      "Bloco: ${documents['Bloco']}",
+                                                                                                                    style: TextStyle(
+                                                                                                                        fontSize: 15
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  Text(
+                                                                                                                      "Unidade: ${documents['Unidade']}",
+                                                                                                                    style: const TextStyle(
+                                                                                                                        fontSize: 15
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ],
+                                                                                                              ),
+                                                                                                            );
+                                                                                                          }).toList()
+                                                                                                      );
+                                                                                                    },)
+                                                                                                ],
+                                                                                              ),
+                                                                                            )
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    );
+                                                                                  },);
+                                                                                },
+                                                                              );
+                                                                            },
+                                                                            child: const Text('Importar Usuarios diretamente do Guarita'),
                                                                           ),
                                                                           Container(
                                                                             padding: const EdgeInsets.all(16),

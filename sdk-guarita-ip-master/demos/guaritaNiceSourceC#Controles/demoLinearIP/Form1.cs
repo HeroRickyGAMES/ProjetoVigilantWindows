@@ -20,7 +20,7 @@ namespace demoLinearIP
         { 'U', 20 }, { 'V', 21 }, { 'W', 22 }, { 'X', 23 }, { 'Y', 24 },
         { 'Z', 25 }
     };
-
+        int id = 0;
         Dictionary<int, string> listaMarcas = new Dictionary<int, string>()
             {
                 { 0, "AUDI" },
@@ -107,7 +107,7 @@ namespace demoLinearIP
             InitializeComponent(ip, porta, createuser, tipo, serial, contador, unidade, bloco, identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8);
 
             if (ip == "") {
-                messageBox(this, "Inicio normal, caso esteja vendo essa mensagem a SDK foi iniciada manualmente para testes ou qualquer outra finalidade!", "Inicio Normal");
+                MessageBox.Show("Inicio normal, caso esteja vendo essa mensagem a SDK foi iniciada manualmente para testes ou qualquer outra finalidade!", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Information);
             } else {
                 try {
                     // Cria o objeto socket
@@ -151,7 +151,7 @@ namespace demoLinearIP
 
                 } catch (Exception ex) {
                     Application.UseWaitCursor = false;
-                    Console.WriteLine("FALHA CONEXAO TCP");
+                    //Console.WriteLine("FALHA CONEXAO TCP");
                     Console.WriteLine(ex);
                     Close();
                 }
@@ -212,6 +212,15 @@ namespace demoLinearIP
                 Dictionary<string, int> listaMarcasInvertida = new Dictionary<string, int>();
                 Dictionary<string, int> listaCoresInvertida = new Dictionary<string, int>();
 
+                bool receptbooleano1;
+                bool receptbooleano2;
+                bool receptbooleano3;
+                bool receptbooleano4;
+                bool receptbooleano5;
+                bool receptbooleano6;
+                bool receptbooleano7;
+                bool receptbooleano8;
+
                 foreach (var item in listaMarcas) {
                     listaMarcasInvertida.Add(item.Value, item.Key); // Inverte chave e valor
                 }
@@ -231,6 +240,156 @@ namespace demoLinearIP
                 tbContador.Text = contador;
                 tbIdentificacao.Text = identificacao;
                 tbPlacaV.Text = placa;
+
+                if (bool.TryParse(receptor1, out receptbooleano1)) {
+                    clRecs.SetItemChecked(0, receptbooleano1);
+                }
+
+                if (bool.TryParse(receptor2, out receptbooleano2)) {
+                    clRecs.SetItemChecked(1, receptbooleano2);
+                }
+
+                if (bool.TryParse(receptor3, out receptbooleano3)) {
+                    clRecs.SetItemChecked(2, receptbooleano3);
+                }
+
+                if (bool.TryParse(receptor4, out receptbooleano4)) {
+                    clRecs.SetItemChecked(3, receptbooleano4);
+                }
+
+                if (bool.TryParse(receptor5, out receptbooleano5)) {
+                    clRecs.SetItemChecked(4, receptbooleano5);
+                }
+                if (bool.TryParse(receptor6, out receptbooleano6)) {
+                    clRecs.SetItemChecked(5, receptbooleano6);
+                }
+                if (bool.TryParse(receptor7, out receptbooleano7)) {
+                    clRecs.SetItemChecked(6, receptbooleano7);
+                }
+                if (bool.TryParse(receptor8, out receptbooleano8)) {
+                    clRecs.SetItemChecked(7, receptbooleano8);
+                }
+
+                //Hora de cadastrar
+
+
+                // Botão "CADASTRAR" (aba "Cadastrar Dispositivo")
+                byte[] frameDisp = new byte[39];
+                int vSerial, vConta;
+                byte t_disp;
+
+                // <tipo_disp>
+                t_disp = cbDispTotipoDisp(cbDisp2.SelectedIndex);
+
+                // Completa SERIAL com zeros à esquerda...
+                while (tbSerial.TextLength < tbSerial.MaxLength)
+                    tbSerial.Text = "0" + tbSerial.Text;
+
+                vSerial = int.Parse(tbSerial.Text, System.Globalization.NumberStyles.HexNumber);
+
+                // Completa CONTADOR com zeros à esquerda...
+                while (tbContador.TextLength < 4)
+                    tbContador.Text = "0" + tbContador.Text;
+
+                if (t_disp == 0x05)
+                    vConta = int.Parse(tbContador.Text);  // BM: ID Digital
+                else
+                    vConta = int.Parse(tbContador.Text, System.Globalization.NumberStyles.HexNumber);  // Demais Disp.: Contador
+
+                //Verifica se SERIAL é não-nulo (para disp. não-BIOMETRIA)
+                //Verifica se CONTADOR é não-nulo (para disp. BIOMETRIA)
+                if (((t_disp != 0x05) && (vSerial != 0x00)) ||
+                     ((t_disp == 0x05) && (vConta != 0x00))) {
+                    // Tudo certo! Gerando <frame de disp. (39 bytes)>...           
+                    Application.UseWaitCursor = true;
+
+                    //+Byte 1
+                    frameDisp[0] = (byte)((t_disp << 4) & 0xF0);
+                    //Se <tipo_disp> igual a BIOMETRIA ou SENHA, nibble low (<disp_dest>) será igual a '3' (destino: CTW/CTWB)
+                    //Se <tipo_disp> igual a CONTROLE (TX), nibble low será o primeiro dígito do SERIAL
+                    //Demais <tipo_disp>, nibble low será igual a '0'
+                    if ((t_disp == 0x05) || (t_disp == 0x07))
+                        frameDisp[0] |= 0x03;
+                    else if (t_disp == 0x01)
+                        frameDisp[0] |= (byte)((vSerial & 0x0F000000) >> 24);
+                    else
+                        frameDisp[0] |= 0x00;
+
+                    //+Bytes 2, 3 e 4
+                    frameDisp[1] = (byte)((vSerial & 0x00FF0000) >> 16);
+                    frameDisp[2] = (byte)((vSerial & 0x0000FF00) >> 8);
+                    frameDisp[3] = (byte)(vSerial & 0x000000FF);
+
+                    //+Bytes 5 e 6
+                    //Se <tipo_disp> igual a BIOMETRIA, <idBio_high> e <idBio_low>
+                    frameDisp[4] = (byte)((vConta & 0xFF00) >> 8);
+                    frameDisp[5] = (byte)(vConta & 0x00FF);
+
+                    //+Byte 7
+                    frameDisp[6] = (byte)(cbUnidade.SelectedIndex / 100);  //<unid_h>
+
+                    //+Byte 8
+                    frameDisp[7] = (byte)(cbUnidade.SelectedIndex % 100);  //<unid_l>
+
+                    //+Byte 9
+                    frameDisp[8] = (byte)(cbBloco.SelectedIndex);
+
+                    //+Byte 10
+                    frameDisp[9] = (byte)(cbGrupo.SelectedIndex);
+
+                    //+Byte 11
+                    frameDisp[10] = 0x00;
+                    for (int i = 0; i < 8; i++) {
+                        if (clRecs.GetItemChecked(i))
+                            frameDisp[10] |= (byte)(0x01 << i);
+                    }
+
+                    //+Bytes 12 a 29
+                    for (int i = 0; i < 18; i++) {
+                        if (i < tbIdentificacao.TextLength)
+                            frameDisp[11 + i] = (byte)(tbIdentificacao.Text[i]);
+                        else
+                            frameDisp[11 + i] = 0x20;  // Espaço
+                    }
+
+                    //+Byte 30
+                    frameDisp[29] = 0x00;  // Apenas LEITURA!
+
+                    //+Byte 31
+                    frameDisp[30] = (byte)(cbMarcaV.SelectedIndex);
+
+                    //+Byte 32
+                    frameDisp[31] = (byte)(cbCorV.SelectedIndex);
+
+                    //+Bytes 33 a 39
+                    for (int i = 0; i < 7; i++) {
+                        if (i < tbPlacaV.TextLength)
+                            frameDisp[32 + i] = (byte)(tbPlacaV.Text[i]);
+                        else
+                            frameDisp[32 + i] = 0x20;  // Espaço
+                    }
+
+                    // Cadastrar dispositivo (Comando 67: 0x00 + 0x43 + 0x00 + <frame de disp. (39 bytes)> + <cs>)                
+                    byte[] lFrame = new byte[42];
+
+                    lFrame[0] = 0x00;
+                    lFrame[1] = 0x43;
+                    lFrame[2] = 0x00;
+
+                    Buffer.BlockCopy(frameDisp, 0, lFrame, 3, 39);
+
+                    // Resposta de 5 bytes: 0x00 + 0x43 + 0x00 + <resposta> + <cs>
+                    toutComando(true, 5);
+                    enviaComando(lFrame);
+                    Console.WriteLine("Dispositivo Cadastrado com sucesso!");
+                    Thread.Sleep(1000);
+                    Close();
+                }
+                else {
+                    Thread.Sleep(1000);
+                    Close();
+                    Console.WriteLine("Campo SERIAL/SENHA/ID inválido!");
+                }
             }
             else {
                 // Valores padrões dos ComboBoxes
@@ -780,7 +939,7 @@ namespace demoLinearIP
                 toutComando(false, 1);
                 Application.UseWaitCursor = false;
 
-                messageBox(this, "Data e Hora enviadas com sucesso!", "SUCESSO");
+                Console.WriteLine("Data e Hora enviadas com sucesso!");
 
                 return;
             }
@@ -812,9 +971,9 @@ namespace demoLinearIP
                 Application.UseWaitCursor = false;
 
                 if (l_frameHex[2] == 0x00)
-                    messageBox(this, "Receptores Atualizados com sucesso!", "SUCESSO");
+                    Console.WriteLine("Receptores Atualizados com sucesso!");
                 else
-                    messageBox(this, "Falha na Atualização dos Receptores!", "FALHA");
+                    Console.WriteLine("Falha na Atualização dos Receptores!");
 
                 return;
             }
@@ -1044,7 +1203,7 @@ namespace demoLinearIP
                 int vInt = (l_frameHex[3] << 8) + l_frameHex[4];
 
                 if ( vInt == 0xFFFF )
-                    messageBox(this, "Biometria cheia!", "FALHA");
+                    Console.WriteLine("Biometria cheia!");
                 else
                     SetText(this, tbContador, vInt.ToString());
 
@@ -1061,10 +1220,10 @@ namespace demoLinearIP
 
                 switch (l_frameHex[3])
                 {
-                    case 0x00: messageBox(this, "Dispositivo cadastrado com sucesso!", "SUCESSO"); break;
-                    case 0x01: messageBox(this, "Memória do Guarita cheia!", "FALHA"); break;
-                    case 0x02: messageBox(this, "Dispositivo já existe na memória!", "FALHA"); break;
-                    case 0xFE: messageBox(this, "Frame de cadastro inválido!", "FALHA"); break;
+                    case 0x00: Console.WriteLine("Dispositivo cadastrado com sucesso!"); ; break;
+                    case 0x01: Console.WriteLine("Memória do Guarita cheia!"); break;
+                    case 0x02: Console.WriteLine("Dispositivo já existe na memória!"); break;
+                    case 0xFE: Console.WriteLine("Frame de cadastro inválido!"); break;
                 }
 
                 return;
@@ -1077,12 +1236,12 @@ namespace demoLinearIP
             {
                 toutComando(false, 1);
                 Application.UseWaitCursor = false;
-
+                
                 switch (l_frameHex[3])
                 {
-                    case 0x00: messageBox(this, "Dispositivo apagado com sucesso!", "SUCESSO"); break;
-                    case 0x03: messageBox(this, "Dispositivo não encontrado!", "FALHA"); break;
-                    case 0xFE: messageBox(this, "Frame inválido!", "FALHA"); break;
+                    case 0x00: Console.WriteLine("Dispositivo apagado com sucesso!"); break;
+                    case 0x03: Console.WriteLine("Dispositivo não encontrado!"); break;
+                    case 0xFE: Console.WriteLine("Frame inválido!"); break;
                 }
 
                 return;
@@ -1112,9 +1271,8 @@ namespace demoLinearIP
                     enviaComando(new byte[] { 0x00, 0x2B });
 
                     Application.UseWaitCursor = false;
-                    Console.WriteLine("Leitura finalizada!");
                     Console.WriteLine("{ ");
-                    Console.WriteLine("'Quantidade': " + lsDisp.Items.Count + ",");
+                    //Console.WriteLine("'Quantidade': " + lsDisp.Items.Count + ",");
 
                     quantidadelida = lsDisp.Items.Count;
                 }
@@ -1140,12 +1298,12 @@ namespace demoLinearIP
 
                 switch (l_frameHex[2])
                 {
-                    case 0x00: messageBox(this, "Digitais vinculadas com sucesso!", "SUCESSO"); break;
-                    case 0x03: messageBox(this, "ERRO: ID não encontrado!", "FALHA"); break;
-                    case 0x04: messageBox(this, "ERRO: Sem resposta da Bio. Mestre!", "FALHA"); break;
-                    case 0x05: messageBox(this, "ERRO: ID inválido!", "FALHA"); break;
-                    case 0xFE: messageBox(this, "ERRO: Frame de digital inválido!", "FALHA"); break;
-                    case 0xFF: messageBox(this, "ERRO: Tamanho do Frame Digital inválido!", "FALHA"); break;
+                    case 0x00: Console.WriteLine("Digitais vinculadas com sucesso!"); break;
+                    case 0x03: Console.WriteLine("ERRO: ID não encontrado!"); break;
+                    case 0x04: Console.WriteLine("ERRO: Sem resposta da Bio. Mestre!"); break;
+                    case 0x05: Console.WriteLine("ERRO: ID inválido!"); break;
+                    case 0xFE: Console.WriteLine("ERRO: Frame de digital inválido!"); break;
+                    case 0xFF: Console.WriteLine("ERRO: Tamanho do Frame Digital inválido!"); break;
                 }
 
                 return;
@@ -1159,7 +1317,7 @@ namespace demoLinearIP
 
             Application.UseWaitCursor = false;
 
-            messageBox(this, "SEM RESPOSTA do comando!", "TIMEOUT");
+            Console.WriteLine("SEM RESPOSTA do comando!");
         }
         // ***********************************************************
 
@@ -1214,7 +1372,7 @@ namespace demoLinearIP
                     ConexaoExterna(this, true, groupBox1, tGuias, btConectar);
                 }
                 else
-                    messageBox(this, "Impossível conectar ao equipamento!", "FALHA CONEXAO TCP");
+                    Console.WriteLine("Impossível conectar ao equipamento!");
             }
             catch (Exception ex)
             {
@@ -1600,19 +1758,20 @@ namespace demoLinearIP
 
                 lbMarcaD.Text += " | " + aux;
             }
+            id++;
 
-
-            Console.WriteLine("'id': " + "'" + lbSerialD.Text + "'" + ": {");
+            Console.WriteLine("'" + id + "'" + ": {");
             Console.WriteLine("'Tipo': " + "'" + lbTipoD.Text + "'" + ",");
             Console.WriteLine("'Serial': " + "'" + lbSerialD.Text + "'" + ",");
             Console.WriteLine("'Controlador/ID': " + "'" + lbContaD.Text + "'" + ",");
             Console.WriteLine("'Unidade': " + "'" + lbUnidD.Text + "'" + ",");
+            Console.WriteLine("'Bloco': " + "'" + lbBlocoD.Text + "'" + ",");
             Console.WriteLine("'Grupo': " + "'" + lbGrupoD.Text + "'" + ",");
             Console.WriteLine("'Rec Destino': " + "'" + lbHabD.Text + "'" + ",");
             Console.WriteLine("'Identificacao': " + "'" + lbLabelD.Text.Trim() + "'" + ",");
             Console.WriteLine("'Ultimo Acionamento': " + "'" + lbAcionD.Text + "'" + ",");
             Console.WriteLine("'Status de bateria': " + "'" + lbBatD.Text + "'" + ",");
-            Console.WriteLine("'Veiculo/Marca': " + "'" + lbMarcaD.Text + "'" + ",");
+            Console.WriteLine("'Veiculo/Marca': " + "'" + lbMarcaD.Text + "'" + "");
             Console.WriteLine("},");
 
         }
@@ -1732,7 +1891,7 @@ namespace demoLinearIP
                 enviaComando(lFrame);
             }
             else
-                messageBox(this, "Campo SERIAL/SENHA/ID inválido!", "FALHA");
+                Console.WriteLine("Campo SERIAL/SENHA/ID inválido!");
         }
 
         private void btAtualizar_Click(object sender, EventArgs e)
@@ -1781,7 +1940,7 @@ namespace demoLinearIP
             // Sem resposta do Guarita
             enviaComando(lFrame);
 
-            messageBox(this, "Comando enviado! Verifique o LED INDICADOR DE STATUS dos Receptores!", "SUCESSO");
+            Console.WriteLine("Comando enviado! Verifique o LED INDICADOR DE STATUS dos Receptores!");
         }
 
         private void btIdVago_Click(object sender, EventArgs e)
@@ -1828,7 +1987,7 @@ namespace demoLinearIP
                 enviaComando(new byte[] { 0x00, 0x39 });
             }
             else
-                messageBox(this, "Campo ID inválido!", "FALHA");
+                Console.WriteLine("Campo ID inválido!");
         }
 
         private void OnToutComando57(Object source, ElapsedEventArgs e)
