@@ -63,6 +63,7 @@ namespace demoLinearIP
                                 if (args.Contains("--createuser") || args.Contains("--tipo") || args.Contains("--serial") || args.Contains("--contador") || args.Contains("--unidade") || args.Contains("--bloco") || args.Contains("--identificacao") || args.Contains("--grupo") || args.Contains("--marca") || args.Contains("--cor") || args.Contains("--placa") || args.Contains("--receptor1")) {
                                     createuser = args[i + 4];
                                     tipo = args[i + 6];
+                                    Console.WriteLine(tipo);
                                     serial = args[i + 8];
                                     contador = args[i + 10];
                                     unidade = args[i + 12];
@@ -79,10 +80,9 @@ namespace demoLinearIP
                                     receptor5 = args[i + 34];
                                     receptor6 = args[i + 36];
                                     receptor7 = args[i + 38];
-                                    receptor8 = args[i + 40];
-                                                                        
+                                    receptor8 = args[i + 40];                        
                                 }                               
-                                iniciarApp(args, ip, porta, checkusers, createuser);
+                                iniciarApp(args, ip, porta, checkusers, createuser, tipo, serial, contador, unidade, bloco, identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8);
                                 return;
                             }
                         }
@@ -90,13 +90,13 @@ namespace demoLinearIP
                 }
             }
             else {
-                iniciarApp(args, ip, porta, checkusers, createuser);
+                iniciarApp(args, ip, porta, checkusers, createuser, tipo, serial, contador, unidade, bloco, identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8);
             }
         }
-        static void iniciarApp(string[] argumentos, String ip, String porta, String checkUsers, String createuser) {
+        static void iniciarApp(string[] argumentos, String ip, String porta, String checkUsers, String createuser, String tipo, String serial, String contador , String unidade, String bloco, String identificacao, String grupo, String marca, String cor, String placa, String receptor1, String receptor2, String receptor3, String receptor4, String receptor5, String receptor6, String receptor7, String receptor8) {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new fprincipal(ip, porta, checkUsers, createuser));
+            Application.Run(new fprincipal(ip, porta, checkUsers, createuser, tipo, serial, contador, unidade, bloco, identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8));
         }
     }
 }

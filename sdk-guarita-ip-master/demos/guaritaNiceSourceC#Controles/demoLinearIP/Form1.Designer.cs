@@ -1,4 +1,6 @@
-﻿namespace demoLinearIP
+﻿using System;
+
+namespace demoLinearIP
 {
     partial class fprincipal
     {
@@ -26,8 +28,8 @@
         /// Método necessário para suporte ao Designer - não modifique 
         /// o conteúdo deste método com o editor de código.
         /// </summary>
-        private void InitializeComponent(string ip, string porta, string createuser)
-        {
+        private void InitializeComponent(string ip, string porta, string createuser, string tipo, string serial, string contador, string unidade, string bloco, string identificacao, string grupo, string marca, string cor, string placa, string receptor1, string receptor2, string receptor3, string receptor4, string receptor5, string receptor6, string receptor7, string receptor8) {
+
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lbPort = new System.Windows.Forms.Label();
@@ -747,6 +749,8 @@
             this.groupBox5.TabIndex = 1;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Dados da moradia";
+            
+
             // 
             // label36
             // 
@@ -872,6 +876,7 @@
             // 
             // cbDisp2
             // 
+            //Cadastro
             this.cbDisp2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbDisp2.FormattingEnabled = true;
             this.cbDisp2.IntegralHeight = false;
@@ -885,17 +890,8 @@
             this.cbDisp2.Location = new System.Drawing.Point(21, 40);
             this.cbDisp2.Name = "cbDisp2";
             this.cbDisp2.Size = new System.Drawing.Size(112, 21);
-            this.cbDisp2.TabIndex = 3;
+            this.cbDisp2.TabIndex = 3;   
             this.cbDisp2.SelectedIndexChanged += new System.EventHandler(this.cbDisp2_SelectedIndexChanged);
-            // 
-            // lblContador
-            // 
-            this.lblContador.AutoSize = true;
-            this.lblContador.Location = new System.Drawing.Point(223, 24);
-            this.lblContador.Name = "lblContador";
-            this.lblContador.Size = new System.Drawing.Size(79, 13);
-            this.lblContador.TabIndex = 2;
-            this.lblContador.Text = "Contador (hex):";
             // 
             // lblSerial
             // 
@@ -905,6 +901,15 @@
             this.lblSerial.Size = new System.Drawing.Size(62, 13);
             this.lblSerial.TabIndex = 1;
             this.lblSerial.Text = "Serial (hex):";
+            // 
+            // lblContador
+            // 
+            this.lblContador.AutoSize = true;
+            this.lblContador.Location = new System.Drawing.Point(223, 24);
+            this.lblContador.Name = "lblContador";
+            this.lblContador.Size = new System.Drawing.Size(79, 13);
+            this.lblContador.TabIndex = 2;
+            this.lblContador.Text = "Contador (hex):";
             // 
             // label11
             // 
@@ -931,7 +936,7 @@
             this.MaximizeBox = false;
             this.Name = "fprincipal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Exemplo Guarita IP - v2";
+            this.Text = "Guarita Nice SDK Desenvolvido por HeroRickyGAMES";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tGuias.ResumeLayout(false);

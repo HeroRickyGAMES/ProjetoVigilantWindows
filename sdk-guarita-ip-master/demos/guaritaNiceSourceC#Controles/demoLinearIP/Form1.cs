@@ -5,11 +5,76 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace demoLinearIP
 {
     public partial class fprincipal : Form
     {
+            static Dictionary<char, int> letraParaNumero = new Dictionary<char, int>()
+    {
+        { 'A', 0 }, { 'B', 1 }, { 'C', 2 }, { 'D', 3 }, { 'E', 4 },
+        { 'F', 5 }, { 'G', 6 }, { 'H', 7 }, { 'I', 8 }, { 'J', 9 },
+        { 'K', 10 }, { 'L', 11 }, { 'M', 12 }, { 'N', 13 }, { 'O', 14 },
+        { 'P', 15 }, { 'Q', 16 }, { 'R', 17 }, { 'S', 18 }, { 'T', 19 },
+        { 'U', 20 }, { 'V', 21 }, { 'W', 22 }, { 'X', 23 }, { 'Y', 24 },
+        { 'Z', 25 }
+    };
+
+        Dictionary<int, string> listaMarcas = new Dictionary<int, string>()
+            {
+                { 0, "AUDI" },
+                { 1, "BMW" },
+                { 2, "CHEVROLET" },
+                { 3, "CHRYSLER" },
+                { 4, "CITROEN" },
+                { 5, "FERRARI" },
+                { 6, "FIAT" },
+                { 7, "FORD" },
+                { 8, "GM" },
+                { 9, "HONDA" },
+                { 10, "HYUNDAI" },
+                { 11, "IMPORTADO" },
+                { 12, "JAGUAR" },
+                { 13, "JEEP" },
+                { 14, "KIA" },
+                { 15, "LAMBORGHINI" },
+                { 16, "LAND ROVER" },
+                { 17, "MAZDA" },
+                { 18, "MERCEDES" },
+                { 19, "MITSUBISHI" },
+                { 20, "MOTO" },
+                { 21, "NISSAN" },
+                { 22, "VEICULO" },
+                { 23, "PEUGEOT" },
+                { 24, "PORSCHE" },
+                { 25, "RENAULT" },
+                { 26, "SUBARU" },
+                { 27, "SUZUKI" },
+                { 28, "TOYOTA" },
+                { 29, "VOLKSWAGEN" },
+                { 30, "VOLVO" }
+            };
+
+        Dictionary<int, string> listaCores = new Dictionary<int, string>()
+        {
+            { 0, "AMARELO" },
+            { 1, "AZUL" },
+            { 2, "BEGE" },
+            { 3, "BRANCO" },
+            { 4, "CINZA" },
+            { 5, "DOURADO" },
+            { 6, "FANTASIA" },
+            { 7, "GRENA" },
+            { 8, "LARANJA" },
+            { 9, "MARROM" },
+            { 10, "PRATA" },
+            { 11, "PRETO" },
+            { 12, "ROSA" },
+            { 13, "ROXO" },
+            { 14, "VERDE" },
+            { 15, "VERMELHO" }
+        };
         int quantidadelida = 0;
 
         static Socket csTCP = null;
@@ -37,9 +102,9 @@ namespace demoLinearIP
         [DllImport("AvzScanner.dll")]
         public static extern Int32 AvzMatch(byte[] pFeature0, byte[] pFeature1, UInt16 level, UInt16 rotate);
 
-        public fprincipal(String ip , String porta, string checkUsers, string createuser)
+        public fprincipal(String ip , String porta, string checkUsers, string createuser, String tipo, String serial, String contador, String unidade, String bloco, String identificacao, String grupo, String marca, String cor, String placa, String receptor1, String receptor2, String receptor3, String receptor4, String receptor5, String receptor6, String receptor7, String receptor8)
         {
-            InitializeComponent(ip, porta, createuser);
+            InitializeComponent(ip, porta, createuser, tipo, serial, contador, unidade, bloco, identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8);
 
             if (ip == "") {
                 messageBox(this, "Inicio normal, caso esteja vendo essa mensagem a SDK foi iniciada manualmente para testes ou qualquer outra finalidade!", "Inicio Normal");
@@ -79,6 +144,9 @@ namespace demoLinearIP
                         
                     }
                     if (createuser == "--createuser") {
+                        if (tipo == "TX") {
+                            
+                        }
                     }
 
                 } catch (Exception ex) {
@@ -105,15 +173,75 @@ namespace demoLinearIP
 
                 // Lista Grupos
                 if (i <= 15) cbGrupo.Items.Add(i);
+
+                
             }
 
-            // Valores padrões dos ComboBoxes
-            cbDisp2.SelectedIndex = 0;
-            cbUnidade.SelectedIndex = 0;
-            cbBloco.SelectedIndex = 0;
-            cbMarcaV.SelectedIndex = 31;
-            cbCorV.SelectedIndex = 0;
-            cbGrupo.SelectedIndex = 0;
+            if (createuser == "--createuser") {
+                if (tipo == "TX") {
+                    cbDisp2.SelectedIndex = 0;
+                }
+                else {
+                    cbDisp2.SelectedIndex = 1;
+                }
+
+                if (tipo == "TAG") {
+                    cbDisp2.SelectedIndex = 1;
+                }
+                if (tipo == "CARD") {
+                    cbDisp2.SelectedIndex = 2;
+                }
+                if (tipo == "BIO") {
+                    cbDisp2.SelectedIndex = 3;
+                }
+                if (tipo == "Senha CTW") {
+                    cbDisp2.SelectedIndex = 4;
+                }
+
+                int bloc = 0;
+
+                char blc = bloco[0];
+
+                int carsMarc = 0;
+
+                char carMars = marca[0];
+
+                if (letraParaNumero.TryGetValue(blc, out int value)) {
+                    bloc = value;
+                }
+                Dictionary<string, int> listaMarcasInvertida = new Dictionary<string, int>();
+                Dictionary<string, int> listaCoresInvertida = new Dictionary<string, int>();
+
+                foreach (var item in listaMarcas) {
+                    listaMarcasInvertida.Add(item.Value, item.Key); // Inverte chave e valor
+                }
+
+                foreach (var item in listaCores) {
+                    listaMarcasInvertida.Add(item.Value, item.Key); // Inverte chave e valor
+                }
+
+
+                // Valores padrões dos ComboBoxes
+                cbUnidade.SelectedIndex = int.Parse(unidade);
+                cbBloco.SelectedIndex = bloc;
+                cbMarcaV.SelectedIndex = listaMarcasInvertida[marca];
+                cbCorV.SelectedIndex = listaMarcasInvertida[cor];
+                cbGrupo.SelectedIndex = int.Parse(grupo);
+                tbSerial.Text = serial;
+                tbContador.Text = contador;
+                tbIdentificacao.Text = identificacao;
+                tbPlacaV.Text = placa;
+            }
+            else {
+                // Valores padrões dos ComboBoxes
+                cbDisp2.SelectedIndex = 0;
+                cbUnidade.SelectedIndex = 0;
+                cbBloco.SelectedIndex = 0;
+                cbMarcaV.SelectedIndex = 31;
+                cbCorV.SelectedIndex = 0;
+                cbGrupo.SelectedIndex = 0;
+            }
+            
 
             // Associa evento de "Timer" para Timeout dos comandos
             gl_Timer.Elapsed += OnTimedEvent;

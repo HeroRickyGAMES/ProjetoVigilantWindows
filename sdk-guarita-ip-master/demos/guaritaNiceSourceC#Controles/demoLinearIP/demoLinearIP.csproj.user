@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>--ip 152.249.21.111 --porta 9000 --createuser --tipo TX --serial 052A --contador --052A --unidade 0 --bloco a --identificacao fulano --grupo 0 --marca MERCEDES --cor AMARELO --placa EDK1111 --receptor1 true --receptor2 true --receptor3 true --receptor4 true --receptor5 true --receptor6 true --receptor7 true --receptor8 true</StartArguments>
+    <StartArguments>--ip 152.249.21.111 --porta 9000 --createuser --tipo TX --serial 052A --contador 052A --unidade 0 --bloco A --identificacao fulano --grupo 0 --marca MERCEDES --cor AMARELO --placa EDK1111 --receptor1 true --receptor2 true --receptor3 true --receptor4 true --receptor5 true --receptor6 true --receptor7 true --receptor8 true</StartArguments>
   </PropertyGroup>
 </Project>

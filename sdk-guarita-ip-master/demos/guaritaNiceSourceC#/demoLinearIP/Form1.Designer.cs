@@ -374,7 +374,7 @@ namespace demoLinearIP
             this.MaximizeBox = false;
             this.Name = "fprincipal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Exemplo Guarita IP - v2";
+            this.Text = "Guarita Nice SDK Desenvolvido por HeroRickyGAMES";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
