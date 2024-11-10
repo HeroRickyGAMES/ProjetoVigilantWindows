@@ -11,6 +11,9 @@ namespace demoLinearIP
 {
     public partial class fprincipal : Form
     {
+
+        String DeleteUser = "";
+        int IDGuarita;
             static Dictionary<char, int> letraParaNumero = new Dictionary<char, int>()
     {
         { 'A', 0 }, { 'B', 1 }, { 'C', 2 }, { 'D', 3 }, { 'E', 4 },
@@ -102,9 +105,11 @@ namespace demoLinearIP
         [DllImport("AvzScanner.dll")]
         public static extern Int32 AvzMatch(byte[] pFeature0, byte[] pFeature1, UInt16 level, UInt16 rotate);
 
-        public fprincipal(String ip , String porta, string checkUsers, string createuser, String tipo, String serial, String contador, String unidade, String bloco, String identificacao, String grupo, String marca, String cor, String placa, String receptor1, String receptor2, String receptor3, String receptor4, String receptor5, String receptor6, String receptor7, String receptor8)
+        public fprincipal(String ip , String porta, string checkUsers, string createuser, String tipo, String serial, String contador, String unidade, String bloco, String identificacao, String grupo, String marca, String cor, String placa, String receptor1, String receptor2, String receptor3, String receptor4, String receptor5, String receptor6, String receptor7, String receptor8, String deleteUser, String idGuarita)
         {
             InitializeComponent(ip, porta, createuser, tipo, serial, contador, unidade, bloco, identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8);
+
+            DeleteUser = deleteUser;
 
             if (ip == "") {
                 MessageBox.Show("Inicio normal, caso esteja vendo essa mensagem a SDK foi iniciada manualmente para testes ou qualquer outra finalidade!", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -124,7 +129,7 @@ namespace demoLinearIP
                     var tcpConnected = csTCP.BeginConnect(epServer, onconnect, csTCP);
                     System.Threading.Thread.Sleep(50);
 
-                    if (checkUsers == "--checkusers") {
+                    if (checkUsers == "--checkusers" || deleteUser == "--deleteuser") {
                         // Botão "Ler dispositivos"
                         // Solicita quantidade (Comando 7: 0x00 + 0x07 + <cs>)
                         Application.UseWaitCursor = true;
@@ -135,20 +140,26 @@ namespace demoLinearIP
                         toutComando(true, 5);
                         enviaComando(new byte[] { 0x00, 0x07 });
 
-                        Thread.Sleep(1000);
-                        if (lsDisp.Items.Count == quantidadelida) {
-                            for (int i = 0; i <= quantidadelida; i++) {
-                                lsDisp.SelectedIndex = i;
+                        if (checkUsers == "--checkusers") {
+                            Thread.Sleep(1000);
+                            if (lsDisp.Items.Count == quantidadelida) {
+                                for (int i = 0; i <= quantidadelida - 1; i++) {
+                                    lsDisp.SelectedIndex = i;
+
+                                    if (i == quantidadelida -1) {
+                                        //Close();
+                                    }
+                                }
                             }
                         }
-                        
-                    }
-                    if (createuser == "--createuser") {
-                        if (tipo == "TX") {
-                            
+
+                        if (deleteUser == "--deleteuser") {
+                            Thread.Sleep(1000);
+                            IDGuarita = int.Parse(idGuarita) - 1;
+                            lsDisp.SelectedIndex = int.Parse(idGuarita) - 1;
+                            Close();
                         }
                     }
-
                 } catch (Exception ex) {
                     Application.UseWaitCursor = false;
                     //Console.WriteLine("FALHA CONEXAO TCP");
@@ -1773,6 +1784,57 @@ namespace demoLinearIP
             Console.WriteLine("'Status de bateria': " + "'" + lbBatD.Text + "'" + ",");
             Console.WriteLine("'Veiculo/Marca': " + "'" + lbMarcaD.Text + "'" + "");
             Console.WriteLine("},");
+
+
+            if (DeleteUser == "--deleteuser") {
+                if (lsDisp.SelectedIndex == IDGuarita) {
+                    byte[] lFrame = new byte[42];
+                    for (int i = 0; i < 39; i++)
+                        frameDisp[i] = byte.Parse(linha[2 * i].ToString() + linha[2 * i + 1].ToString(), System.Globalization.NumberStyles.HexNumber);
+
+                    //+Frame COMPLETO
+                    //Buffer.BlockCopy(frameDisp, 0, lFrame, 3, 39);
+                    //OU
+                    //+Bytes RELEVANTES (demais iguais a 0x00)
+                    for (int i = 0; i < 39; i++)
+                        lFrame[3 + i] = 0x00;
+
+                    //-Tipo disp.
+                    t_disp = (byte)((frameDisp[0] & 0xF0) >> 4);
+
+                    if (t_disp == 0x05) {
+                        //BIOMETRIA: <idBio_high> e <idBio_low> relevantes
+                        lFrame[3 + 0] = 0x53;
+                        lFrame[3 + 4] = frameDisp[4];
+                        lFrame[3 + 5] = frameDisp[5];
+                    }
+                    else if (t_disp == 0x07) {
+                        //SENHA: "senha", unid_h e unid_l relevantes
+                        lFrame[3 + 0] = 0x73;
+                        lFrame[3 + 1] = frameDisp[1];
+                        lFrame[3 + 2] = frameDisp[2];
+                        lFrame[3 + 3] = frameDisp[3];
+                        lFrame[3 + 6] = frameDisp[6];
+                        lFrame[3 + 7] = frameDisp[7];
+                    }
+                    else {
+                        //DEMAIS DISP.: apenas "serial" relevante
+                        lFrame[3 + 0] = frameDisp[0];
+                        lFrame[3 + 1] = frameDisp[1];
+                        lFrame[3 + 2] = frameDisp[2];
+                        lFrame[3 + 3] = frameDisp[3];
+                    }
+
+                    // Apagar dispositivo (Comando 67: 0x00 + 0x43 + 0x04 + <frame de disp. (39 bytes)> + <cs>)
+                    lFrame[0] = 0x00;
+                    lFrame[1] = 0x43;
+                    lFrame[2] = 0x04;
+
+                    // Resposta de 5 bytes: 0x00 + 0x43 + 0x04 + <resposta> + <cs>
+                    toutComando(true, 5);
+                    enviaComando(lFrame);
+                }
+            }
 
         }
         private void btCadastrar_Click(object sender, EventArgs e)

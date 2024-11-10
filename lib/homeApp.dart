@@ -6837,7 +6837,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         scrollable: true,
                                                                                         title: Column(
                                                                                           children: [
-                                                                                            const Text('Importar ou cadastrar Usuarios diretamente do Guarita'),
+                                                                                            const Text('Importar ou cadastrar controles diretamente do Guarita'),
                                                                                             Container(
                                                                                               padding: const EdgeInsets.only(top: 16, bottom: 6),
                                                                                               child: ElevatedButton(
@@ -6853,7 +6853,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                 onPressed: (){
                                                                                                   Cadastro(context);
                                                                                                 },
-                                                                                                child: const Text("Cadastrar usuarios no guarita"),
+                                                                                                child: const Text("Cadastrar controle no guarita"),
                                                                                               ),
                                                                                             ),
                                                                                             Center(
@@ -6887,7 +6887,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                             child: Container(
                                                                                                               padding: const EdgeInsets.all(16),
                                                                                                               // ignore: prefer_const_constructors
-                                                                                                              child: Text('Nenhum usuário encontrado.',
+                                                                                                              child: Text('Nenhum controle encontrado.',
                                                                                                                 style: const TextStyle(
                                                                                                                     fontSize: 15
                                                                                                                 ),
@@ -6910,7 +6910,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                   ),
                                                                                                                   Text(
                                                                                                                       "Bloco: ${documents['Bloco']}",
-                                                                                                                    style: TextStyle(
+                                                                                                                    style: const TextStyle(
                                                                                                                         fontSize: 15
                                                                                                                     ),
                                                                                                                   ),

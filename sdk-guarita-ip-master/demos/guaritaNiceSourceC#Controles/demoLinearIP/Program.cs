@@ -26,7 +26,7 @@ namespace demoLinearIP
 
             //Check users
             String checkusers = "";
-            
+
             //Criar usuario
             String createuser = "";
             String tipo = "";
@@ -48,9 +48,19 @@ namespace demoLinearIP
             String receptor7 = "";
             String receptor8 = "";
 
+            //DeleteUser
+            String deleteUser = "";
+            String idGuarita = "";
+
+            //EditarUsuario
+            String editUser = "";
+
             if (args.Length > 0) {
                 foreach (var arg in args) {
-                    if (arg.Contains("--ip") || args.Contains("--porta") || args.Contains("--checkusers") || args.Contains("--createuser")) {
+                    if (arg.Contains("--ip") ||
+                        args.Contains("--porta") || args.Contains("--checkusers") ||
+                        args.Contains("--createuser") || args.Contains("--deleteuser")
+                        || args.Contains("--idguarita")) {
 
                         for (int i = 0; i < args.Length; i++) {
                             if (i + 1 < arg.Length) {
@@ -60,7 +70,12 @@ namespace demoLinearIP
                                 if (args.Contains("--checkusers")) {
                                     checkusers = args[i + 4];
                                 }
-                                if (args.Contains("--createuser") || args.Contains("--tipo") || args.Contains("--serial") || args.Contains("--contador") || args.Contains("--unidade") || args.Contains("--bloco") || args.Contains("--identificacao") || args.Contains("--grupo") || args.Contains("--marca") || args.Contains("--cor") || args.Contains("--placa") || args.Contains("--receptor1")) {
+                                if (args.Contains("--createuser") || args.Contains("--tipo") ||
+                                    args.Contains("--serial") || args.Contains("--contador") ||
+                                    args.Contains("--unidade") || args.Contains("--bloco") ||
+                                    args.Contains("--identificacao") || args.Contains("--grupo") ||
+                                    args.Contains("--marca") || args.Contains("--cor") ||
+                                    args.Contains("--placa") || args.Contains("--receptor1")) {
                                     createuser = args[i + 4];
                                     tipo = args[i + 6];
                                     Console.WriteLine(tipo);
@@ -81,8 +96,23 @@ namespace demoLinearIP
                                     receptor6 = args[i + 36];
                                     receptor7 = args[i + 38];
                                     receptor8 = args[i + 40];                        
-                                }                               
-                                iniciarApp(args, ip, porta, checkusers, createuser, tipo, serial, contador, unidade, bloco, identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8);
+                                }
+                                if (args.Contains("--deleteuser") || args.Contains("--idguarita")) {
+                                    deleteUser = args[i + 4];
+                                    idGuarita = args[i + 6];
+                                    Console.WriteLine(idGuarita);
+                                }
+
+                                iniciarApp(args, ip, porta, checkusers,
+                                    createuser, tipo, serial,
+                                    contador, unidade, bloco,
+                                    identificacao, grupo,
+                                    marca, cor, placa,
+                                    receptor1, receptor2,
+                                    receptor3, receptor4,
+                                    receptor5, receptor6,
+                                    receptor7, receptor8,
+                                    deleteUser, idGuarita);
                                 return;
                             }
                         }
@@ -90,13 +120,26 @@ namespace demoLinearIP
                 }
             }
             else {
-                iniciarApp(args, ip, porta, checkusers, createuser, tipo, serial, contador, unidade, bloco, identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8);
+                iniciarApp(args, ip, porta, checkusers,
+                    createuser, tipo, serial,
+                    contador, unidade, bloco,
+                    identificacao, grupo, marca,
+                    cor, placa, receptor1, receptor2,
+                    receptor3, receptor4, receptor5,
+                    receptor6, receptor7, receptor8,
+                    deleteUser, idGuarita);
             }
         }
-        static void iniciarApp(string[] argumentos, String ip, String porta, String checkUsers, String createuser, String tipo, String serial, String contador , String unidade, String bloco, String identificacao, String grupo, String marca, String cor, String placa, String receptor1, String receptor2, String receptor3, String receptor4, String receptor5, String receptor6, String receptor7, String receptor8) {
+        static void iniciarApp(string[] argumentos, String ip, String porta, String checkUsers, String createuser, String tipo, String serial, String contador , String unidade, String bloco, String identificacao, String grupo, String marca, String cor, String placa, String receptor1, String receptor2, String receptor3, String receptor4, String receptor5, String receptor6, String receptor7, String receptor8, String deleteUser, String idGuarita) {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new fprincipal(ip, porta, checkUsers, createuser, tipo, serial, contador, unidade, bloco, identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8));
+            Application.Run(new fprincipal(ip, porta, checkUsers,
+                createuser, tipo, serial, contador, unidade,
+                bloco, identificacao, grupo,
+                marca, cor, placa, receptor1,
+                receptor2, receptor3, receptor4,
+                receptor5, receptor6, receptor7,
+                receptor8, deleteUser, idGuarita));
         }
     }
 }
