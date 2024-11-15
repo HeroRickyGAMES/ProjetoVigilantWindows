@@ -147,7 +147,7 @@ namespace demoLinearIP
                                     lsDisp.SelectedIndex = i;
 
                                     if (i == quantidadelida -1) {
-                                        //Close();
+                                        Close();
                                     }
                                 }
                             }
@@ -1327,8 +1327,8 @@ namespace demoLinearIP
             gl_Timer.Enabled = false;
 
             Application.UseWaitCursor = false;
-
             Console.WriteLine("SEM RESPOSTA do comando!");
+            Close();
         }
         // ***********************************************************
 

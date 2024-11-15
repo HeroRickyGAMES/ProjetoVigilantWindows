@@ -6851,9 +6851,46 @@ class _homeAppState extends State<homeApp>{
                                                                                               padding: const EdgeInsets.only(top: 16, bottom: 6),
                                                                                               child: ElevatedButton(
                                                                                                 onPressed: (){
-                                                                                                  Cadastro(context);
+                                                                                                  showDialog(
+                                                                                                    context: context,
+                                                                                                    builder: (BuildContext context) {
+                                                                                                      String tipo = "";
+                                                                                                      String serial = "";
+                                                                                                      String Contador = "";
+                                                                                                      int unidade = 0;
+                                                                                                      String Identificacao = "";
+                                                                                                      int grupo = 0;
+                                                                                                      String marca = "";
+                                                                                                      String cor = "";
+                                                                                                      String placa = "";
+                                                                                                      bool receptor1 = false;
+                                                                                                      bool receptor2 = false;
+                                                                                                      bool receptor3 = false;
+                                                                                                      bool receptor4 = false;
+                                                                                                      bool receptor5 = false;
+                                                                                                      bool receptor6 = false;
+                                                                                                      bool receptor7 = false;
+                                                                                                      bool receptor8 = false;
+                                                                                                      
+                                                                                                      return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                                        return AlertDialog(
+                                                                                                          title: const Text('Cadastro de novos controles no Guarita'),
+                                                                                                          actions: [
+                                                                                                            Center(
+                                                                                                              child: Column(
+                                                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                children: [
+
+                                                                                                                ],
+                                                                                                              ),
+                                                                                                            )
+                                                                                                          ],
+                                                                                                        );
+                                                                                                      },);
+                                                                                                    },
+                                                                                                  );
                                                                                                 },
-                                                                                                child: const Text("Cadastrar controle no guarita"),
+                                                                                                child: const Text("Cadastro de novos controles no Guarita"),
                                                                                               ),
                                                                                             ),
                                                                                             Center(
@@ -6896,34 +6933,85 @@ class _homeAppState extends State<homeApp>{
                                                                                                         );
                                                                                                       }
 
-                                                                                                      return Column(
-                                                                                                          children: snapshot.data!.docs.map((documents){
-                                                                                                            return Container(
-                                                                                                              padding: const EdgeInsets.all(10),
-                                                                                                              child: Column(
-                                                                                                                children: [
-                                                                                                                  Text(
-                                                                                                                      'Nome: ${documents['Identificacao']}',
-                                                                                                                    style: const TextStyle(
-                                                                                                                      fontSize: 15
+                                                                                                      return Container(
+                                                                                                        padding: const EdgeInsets.all(16),
+                                                                                                        child: Column(
+                                                                                                            children: snapshot.data!.docs.map((documents){
+                                                                                                              return Container(
+                                                                                                                padding: const EdgeInsets.all(10),
+                                                                                                                child: Row(
+                                                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                                  children: [
+                                                                                                                    Column(
+                                                                                                                      crossAxisAlignment: CrossAxisAlignment.start, // Alinha os textos à esquerda
+                                                                                                                      mainAxisAlignment: MainAxisAlignment.center,  // Centraliza verticalmente na Column
+                                                                                                                      children: [
+                                                                                                                        Text(
+                                                                                                                            'Nome: ${documents['Identificacao']}',
+                                                                                                                          textAlign: TextAlign.start,
+                                                                                                                          style: const TextStyle(
+                                                                                                                            fontSize: 15
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        Text(
+                                                                                                                            "Bloco: ${documents['Bloco']}",
+                                                                                                                          textAlign: TextAlign.start,
+                                                                                                                          style: const TextStyle(
+                                                                                                                              fontSize: 15
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        Text(
+                                                                                                                            "Unidade: ${documents['Unidade']}",
+                                                                                                                          textAlign: TextAlign.start,
+                                                                                                                          style: const TextStyle(
+                                                                                                                              fontSize: 15
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ],
                                                                                                                     ),
-                                                                                                                  ),
-                                                                                                                  Text(
-                                                                                                                      "Bloco: ${documents['Bloco']}",
-                                                                                                                    style: const TextStyle(
-                                                                                                                        fontSize: 15
+                                                                                                                    TextButton(onPressed: (){
+                                                                                                                      showDialog(
+                                                                                                                        context: context,
+                                                                                                                        builder: (BuildContext context) {
+                                                                                                                          return AlertDialog(
+                                                                                                                            title: const Text('Tem certeza que deseja deletar esse controle?'),
+                                                                                                                            actions: [
+                                                                                                                              Row(
+                                                                                                                                children: [
+                                                                                                                                  ElevatedButton(
+                                                                                                                                      onPressed: (){
+                                                                                                                                          Navigator.pop(context);
+                                                                                                                                      },
+                                                                                                                                      child: const Text('Não')
+                                                                                                                                  ),
+                                                                                                                                  ElevatedButton(
+                                                                                                                                      onPressed: (){
+                                                                                                                                        Deletecao(context, documents['idGuarita'], documents['id'], documents['hostGuarita'], documents['portGuarita']);
+                                                                                                                                      },
+                                                                                                                                    style: ElevatedButton.styleFrom(
+                                                                                                                                      backgroundColor: Colors.red
+                                                                                                                                    ),
+                                                                                                                                      child: const Text(
+                                                                                                                                          'Sim',
+                                                                                                                                        style: TextStyle(
+                                                                                                                                          color: Colors.white
+                                                                                                                                        ),
+                                                                                                                                      ),
+                                                                                                                                  )
+                                                                                                                                ],
+                                                                                                                              )
+                                                                                                                            ],
+                                                                                                                          );
+                                                                                                                        },
+                                                                                                                      );
+                                                                                                                      },
+                                                                                                                        child: const Icon(Icons.delete)
                                                                                                                     ),
-                                                                                                                  ),
-                                                                                                                  Text(
-                                                                                                                      "Unidade: ${documents['Unidade']}",
-                                                                                                                    style: const TextStyle(
-                                                                                                                        fontSize: 15
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                ],
-                                                                                                              ),
-                                                                                                            );
-                                                                                                          }).toList()
+                                                                                                                  ],
+                                                                                                                ),
+                                                                                                              );
+                                                                                                            }).toList()
+                                                                                                        ),
                                                                                                       );
                                                                                                     },)
                                                                                                 ],
