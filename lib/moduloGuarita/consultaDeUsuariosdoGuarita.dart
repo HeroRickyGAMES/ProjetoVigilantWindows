@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vigilant/homeApp.dart';
+import 'package:vigilant/intRamdom/intRamdom.dart';
 
 //Desenvolvidor por HeroRickyGAMES com ajuda de Deus!
 
@@ -60,7 +61,7 @@ Consulta(var context) async {
   }
 }
 
-Cadastro(var context) async {
+Cadastro(var context, String host, int port, String tipo, String serieal, String contador, int unidade, String bloco, String identificacao, int grupo, String Marca, String cor, String Placa, bool receptor1, bool receptor2, bool receptor3, bool receptor4, bool receptor5, bool receptor6, bool receptor7, bool receptor8) async {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -74,7 +75,8 @@ Cadastro(var context) async {
       );
     },
   );
-  String command = 'guaritaConrole/demoLinearIP.exe --ip 152.249.21.111 --porta 9000 --createuser --tipo TX --serial 052A --contador 052A --unidade 0 --bloco A --identificacao fulano --grupo 0 --marca MERCEDES --cor AMARELO --placa EDK1111 --receptor1 true --receptor2 true --receptor3 true --receptor4 true --receptor5 true --receptor6 true --receptor7 true --receptor8 true';
+
+  String command = 'guaritaConrole/demoLinearIP.exe --ip $host --porta $port --createuser --tipo $tipo --serial $serieal --contador $contador --unidade $unidade --bloco $bloco --identificacao $identificacao --grupo $grupo --marca $Marca --cor $cor --placa $Placa --receptor1 $receptor1 --receptor2 $receptor2 --receptor3 $receptor3 --receptor4 $receptor4 --receptor5 $receptor5 --receptor6 $receptor6 --receptor7 $receptor7 --receptor8 $receptor8';
 
   ProcessResult result = await Process.run('powershell.exe', ['-c', command]);
   print("ST ERRORS: ${result.stderr}");
@@ -84,17 +86,48 @@ Cadastro(var context) async {
     showToast("Controle já existe na memória!",context:context);
     Navigator.pop(context);
   }else{
+    String id = "${gerarNumero()}";
+
+    List<String> receptoresAtivos = [];
+
+    // Verificar cada receptor e adicionar o número correspondente à lista
+    if (receptor1) receptoresAtivos.add('1');
+    if (receptor2) receptoresAtivos.add('2');
+    if (receptor3) receptoresAtivos.add('3');
+    if (receptor4) receptoresAtivos.add('4');
+    if (receptor5) receptoresAtivos.add('5');
+    if (receptor6) receptoresAtivos.add('6');
+    if (receptor7) receptoresAtivos.add('7');
+    if (receptor8) receptoresAtivos.add('8');
+
+    // Juntar os números dos receptores em uma única String
+    String receptoresAtivo = receptoresAtivos.join(' ');
+
+    FirebaseFirestore.instance.doc(id).set({
+      "Tipo": tipo,
+      'Serial': serieal,
+      "Controlador/ID": contador,
+      "Unidade": unidade,
+      'Bloco': bloco,
+      "Grupo": grupo,
+      "Rec Destino": receptoresAtivo,
+      "Identificacao": identificacao,
+      "Ultimo Acionamento": "0",
+      'Status de bateria': "- - - -",
+      "Veiculo/Marca": Marca
+    });
+
     showToast("pronto!",context:context);
     Navigator.pop(context);
-    Consulta(context);
+    Navigator.pop(context);
   }
 }
 
-edicao(var context, String idGuarita, String id, String host, int port){
+edicao(var context, String idGuarita, String id, String host, int port, String tipo, String serieal, String contador, int unidade, String bloco, String identificacao, int grupo, String Marca, String cor, String Placa, bool receptor1, bool receptor2, bool receptor3, bool receptor4, bool receptor5, bool receptor6, bool receptor7, bool receptor8){
   //Primeiro ele vai deletar o usuario x
   Deletecao(context, idGuarita, id, host, port);
   //Depois ele vai cadastrar com os dados mandados do proprio vigilant
-  Cadastro(context);
+  Cadastro(context, host, port, tipo, serieal, contador, unidade, bloco, identificacao, grupo, Marca, cor, Placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8);
   //Por ultimo ele consulta usuarios do guarita
 }
 
