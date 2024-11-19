@@ -94,7 +94,7 @@ namespace demoLinearIP
                                     receptor5 = args[i + 34];
                                     receptor6 = args[i + 36];
                                     receptor7 = args[i + 38];
-                                    receptor8 = args[i + 40];      
+                                    receptor8 = args[i + 40];
                                 }
                                 if (args.Contains("--deleteuser") || args.Contains("--idguarita")) {
                                     deleteUser = args[i + 4];

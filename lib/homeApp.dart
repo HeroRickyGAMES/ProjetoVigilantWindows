@@ -7047,7 +7047,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                       String grupo = '';
                                                                                                       String marca = "";
                                                                                                       String cor = "";
-                                                                                                      String placa = "";
+                                                                                                      String placa = "null";
                                                                                                       bool receptor1 = false;
                                                                                                       bool receptor2 = false;
                                                                                                       bool receptor3 = false;
@@ -7621,6 +7621,9 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         setStater(() {
                                                                                                                           placa = value;
                                                                                                                         });
+                                                                                                                        if(value == ""){
+                                                                                                                          placa = "null";
+                                                                                                                        }
                                                                                                                       },
                                                                                                                       decoration: InputDecoration(
                                                                                                                         filled: true,
@@ -8081,7 +8084,14 @@ class _homeAppState extends State<homeApp>{
                                                                                                                               String grupo = documents['Grupo'];
                                                                                                                               String marca = documents['Veiculo_Marca'];
                                                                                                                               String cor = documents['Cor'];
-                                                                                                                              String placa = documents['Placa'];
+                                                                                                                              String placa = 'null';
+
+                                                                                                                              if(documents['Placa'] == ""){
+                                                                                                                                placa = "null";
+                                                                                                                              }else{
+                                                                                                                                placa = documents['Placa'];
+                                                                                                                              }
+
                                                                                                                               bool receptor1 = documents['receptor1'];
                                                                                                                               bool receptor2 = documents['receptor2'];
                                                                                                                               bool receptor3 = documents['receptor3'];
@@ -8543,6 +8553,9 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                               setStater(() {
                                                                                                                                                 placa = value;
                                                                                                                                               });
+                                                                                                                                              if(value == ""){
+                                                                                                                                                placa = "null";
+                                                                                                                                              }
                                                                                                                                             },
                                                                                                                                             decoration: InputDecoration(
                                                                                                                                               filled: true,
@@ -8753,10 +8766,9 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                                                 showToast("A cor está vazia!",context:context);
                                                                                                                                                               }else{
                                                                                                                                                                 if(placa == ""){
-                                                                                                                                                                  showToast("A placa está vazia!",context:context);
-                                                                                                                                                                }else{
-                                                                                                                                                                  edicao(context, documents['idGuarita'],documents['id'], documents['hostGuarita'], porta, tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa);
+                                                                                                                                                                  placa = "null";
                                                                                                                                                                 }
+                                                                                                                                                                edicao(context, documents['idGuarita'],documents['id'], documents['hostGuarita'], porta, tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa);
                                                                                                                                                               }
                                                                                                                                                             }
                                                                                                                                                           }

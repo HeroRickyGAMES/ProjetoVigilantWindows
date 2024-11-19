@@ -172,9 +172,9 @@ namespace demoLinearIP
                         // Resposta de 5 bytes: 0x00 + 0x07 + <quant. parte alta> + <quant. parte baixa> + <cs>
                         toutComando(true, 5);
                         enviaComando(new byte[] { 0x00, 0x07 });
-                        
+
+                        Thread.Sleep(5000);
                         if (deleteUser == "--deleteuser") {
-                            Thread.Sleep(5000);
                             IDGuarita = int.Parse(idGuarita) - 1;
                             lsDisp.SelectedIndex = int.Parse(idGuarita) - 1;
                             Close();
@@ -318,9 +318,6 @@ namespace demoLinearIP
                 t_disp = cbDispTotipoDisp(cbDisp2.SelectedIndex);
 
                 // Completa SERIAL com zeros à esquerda...
-                //while (tbSerial.TextLength < tbSerial.MaxLength)
-                //    tbSerial.Text = "0" + tbSerial.Text;
-
                 vSerial = int.Parse(tbSerial.Text, System.Globalization.NumberStyles.HexNumber);
 
                 // Completa CONTADOR com zeros à esquerda...
