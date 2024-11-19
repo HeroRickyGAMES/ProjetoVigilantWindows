@@ -65,7 +65,7 @@ namespace demoLinearIP
                     csTCP.Blocking = false;
                     AsyncCallback onconnect = new AsyncCallback(OnConnect);
                     var tcpConnected = csTCP.BeginConnect(epServer, onconnect, csTCP);
-                    System.Threading.Thread.Sleep(50);
+                    System.Threading.Thread.Sleep(100);
                     //Console.WriteLine(testconnect.IsCompleted);
                     if (tcpConnected.IsCompleted) {
                         if (rele == "1") {

@@ -31,6 +31,8 @@ Consulta(var context, String host, int port) async {
   String pwdString = pwdresult.stdout.toString().replaceAll("Test-Path guaritaConrole/", '').replaceAll("Path", "").replaceAll("----", '').trim();
   String comando = result.stdout.toString().replaceAll("System.ArgumentOutOfRangeException: InvalidArgument=Value ", '').replaceAll("não é um valor válido para 'SelectedIndex'.", "").replaceAll("Nome do parâmetro: SelectedIndex", '').replaceAll("   em System.Windows.Forms.ListBox.set_SelectedIndex(Int32 value)", '').replaceAll("em demoLinearIP.fprincipal..ctor(String ip, String porta, String checkUsers, String createuser, String tipo, String serial, String contador, String unidade, String bloco, String identificacao, String grupo, String", '').replaceAll("marca, String cor, String placa, String receptor1, String receptor2, String receptor3, String receptor4, String receptor5, String receptor6, String receptor7, String receptor8) na $pwdString", '').replaceAll("\\sdk-guarita-ip-master\\demos\\guaritaNiceSourceC#Controles\\demoLinearIP\\Form1.cs:linha 141", '').replaceAll("'", '"').trim();
   String tratado = "$comando}";
+  print(command);
+  print(pwdString);
   print(tratado);
   try{
     Map<String, dynamic> Controles = jsonDecode(tratado.replaceAll("},}", "}}"));
@@ -151,9 +153,10 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
       "receptor8": receptor8,
     });
 
+    Navigator.pop(context);
+
     showToast("Pronto!",context:context);
-    Navigator.pop(context);
-    Navigator.pop(context);
+    return "Pronto!";
   }
 }
 

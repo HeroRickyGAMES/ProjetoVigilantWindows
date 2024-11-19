@@ -78,7 +78,6 @@ namespace demoLinearIP
                                     args.Contains("--placa") || args.Contains("--receptor1")) {
                                     createuser = args[i + 4];
                                     tipo = args[i + 6];
-                                    Console.WriteLine(tipo);
                                     serial = args[i + 8];
                                     contador = args[i + 10];
                                     unidade = args[i + 12];
@@ -95,7 +94,7 @@ namespace demoLinearIP
                                     receptor5 = args[i + 34];
                                     receptor6 = args[i + 36];
                                     receptor7 = args[i + 38];
-                                    receptor8 = args[i + 40];                        
+                                    receptor8 = args[i + 40];      
                                 }
                                 if (args.Contains("--deleteuser") || args.Contains("--idguarita")) {
                                     deleteUser = args[i + 4];

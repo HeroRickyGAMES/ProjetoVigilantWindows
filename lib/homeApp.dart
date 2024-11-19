@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -2638,7 +2639,7 @@ class _homeAppState extends State<homeApp>{
                                                                       SizedBox(
                                                                         height: 50,
                                                                         child: TextButton(
-                                                                            onPressed: (){
+                                                                            onPressed: () async {
                                                                               if(documents["prontoParaAtivar"] == false){
                                                                                 FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).update({
                                                                                   "prontoParaAtivar" : true,
@@ -2653,9 +2654,16 @@ class _homeAppState extends State<homeApp>{
                                                                                   'Condominio': idCondominio,
                                                                                 });
                                                                               }
+
                                                                               if(documents["prontoParaAtivar"] == true){
                                                                                 acionarPorta(context, documents["ip"], documents["porta"], documents["modelo"], documents["canal"], documents["usuario"], documents["senha"], documents["id"], documents["receptor"], documents["can"], documents["nome"]);
                                                                               }
+
+                                                                              //Timer? _timer = Timer(Duration(seconds: 5));
+
+
+
+                                                                              //await Future.delayed(Duration(seconds: 5));
                                                                             },
                                                                             child: Stack(
                                                                               alignment: Alignment.center,
@@ -6998,9 +7006,12 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         showToast("É necessario selecionar um guarita primeiro!",context:context);
                                                                                                                       }else{
                                                                                                                         var ip = await hostToIp(host);
-                                                                                                                        Consulta(context, "${ip[0]}".replaceAll('InternetAddress(', '').replaceAll(", IPv4)", '').replaceAll("'", ''), porta);
-                                                                                                                        await Future.delayed(const Duration(seconds: 1));
-                                                                                                                        Navigator.pop(context);
+                                                                                                                        var consult = await Consulta(context, "${ip[0]}".replaceAll('InternetAddress(', '').replaceAll(", IPv4)", '').replaceAll("'", ''), porta);
+                                                                                                                        if(consult == "Pronto!"){
+                                                                                                                          Navigator.pop(context);
+                                                                                                                        }else{
+                                                                                                                          Navigator.pop(context);
+                                                                                                                        }
                                                                                                                       }
                                                                                                                     },
                                                                                                                     child: const Text('Puxar usuarios do guarita selecionado'),

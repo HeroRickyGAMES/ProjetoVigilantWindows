@@ -11,7 +11,6 @@ namespace demoLinearIP
 {
     public partial class fprincipal : Form
     {
-
         bool receptbooleano1;
         bool receptbooleano2;
         bool receptbooleano3;
@@ -20,6 +19,8 @@ namespace demoLinearIP
         bool receptbooleano6;
         bool receptbooleano7;
         bool receptbooleano8;
+
+        String checkarUsers = "";
 
         String DeleteUser = "";
         int IDGuarita;
@@ -159,6 +160,8 @@ namespace demoLinearIP
                     var tcpConnected = csTCP.BeginConnect(epServer, onconnect, csTCP);
                     System.Threading.Thread.Sleep(50);
 
+                    checkarUsers = "--checkusers";
+
                     if (checkUsers == "--checkusers" || deleteUser == "--deleteuser") {
                         // Botão "Ler dispositivos"
                         // Solicita quantidade (Comando 7: 0x00 + 0x07 + <cs>)
@@ -169,30 +172,27 @@ namespace demoLinearIP
                         // Resposta de 5 bytes: 0x00 + 0x07 + <quant. parte alta> + <quant. parte baixa> + <cs>
                         toutComando(true, 5);
                         enviaComando(new byte[] { 0x00, 0x07 });
-
-                        if (checkUsers == "--checkusers") {
-                            Thread.Sleep(1000);
-                            if (lsDisp.Items.Count == quantidadelida) {
-                                for (int i = 0; i <= quantidadelida - 1; i++) {
-                                    lsDisp.SelectedIndex = i;
-
-                                    if (i == quantidadelida -1) {
-                                        Close();
-                                    }
-                                }
-                            }
-                        }
-
+                        
                         if (deleteUser == "--deleteuser") {
-                            Thread.Sleep(1000);
+                            Thread.Sleep(5000);
                             IDGuarita = int.Parse(idGuarita) - 1;
                             lsDisp.SelectedIndex = int.Parse(idGuarita) - 1;
                             Close();
                         }
+                        Thread.Sleep(5000);
+                        if (checkarUsers == "--checkusers") {
+                            for (int i = 0; i <= quantidadelida - 1; i++) {
+                                lsDisp.SelectedIndex = i;
+
+                                if (i == quantidadelida - 1) {
+                                    Close();
+                                }
+                            }
+                        }
                     }
                 } catch (Exception ex) {
                     Application.UseWaitCursor = false;
-                    //Console.WriteLine("FALHA CONEXAO TCP");
+                    Console.WriteLine("FALHA CONEXAO TCP");
                     Console.WriteLine(ex);
                     Close();
                 }
@@ -219,6 +219,7 @@ namespace demoLinearIP
             }
 
             if (createuser == "--createuser") {
+                Thread.Sleep(1000);
                 if (tipo == "TX") {
                     cbDisp2.SelectedIndex = 0;
                 }
@@ -317,8 +318,8 @@ namespace demoLinearIP
                 t_disp = cbDispTotipoDisp(cbDisp2.SelectedIndex);
 
                 // Completa SERIAL com zeros à esquerda...
-                while (tbSerial.TextLength < tbSerial.MaxLength)
-                    tbSerial.Text = "0" + tbSerial.Text;
+                //while (tbSerial.TextLength < tbSerial.MaxLength)
+                //    tbSerial.Text = "0" + tbSerial.Text;
 
                 vSerial = int.Parse(tbSerial.Text, System.Globalization.NumberStyles.HexNumber);
 
@@ -417,11 +418,9 @@ namespace demoLinearIP
                     toutComando(true, 5);
                     enviaComando(lFrame);
                     Console.WriteLine("Dispositivo Cadastrado com sucesso!");
-                    Thread.Sleep(1000);
                     Close();
                 }
                 else {
-                    Thread.Sleep(1000);
                     Close();
                     Console.WriteLine("Campo SERIAL/SENHA/ID inválido!");
                 }
@@ -1298,18 +1297,15 @@ namespace demoLinearIP
                 AddText(this, lsDisp, linha);
 
                 gl_conta++;
-
                 if (gl_conta == gl_qtDisp)
                 {
                     // Leitura finalizada!
                     // Cancelando timeout do Guarita (sem resposta)
                     enviaComando(new byte[] { 0x00, 0x2B });
-
                     Application.UseWaitCursor = false;
                     Console.WriteLine("{ ");
-                    //Console.WriteLine("'Quantidade': " + lsDisp.Items.Count + ",");
-
                     quantidadelida = lsDisp.Items.Count;
+                    //Console.WriteLine("'Quantidade': " + lsDisp.Items.Count + ",");
                 }
                 else
                 {
@@ -1833,8 +1829,7 @@ namespace demoLinearIP
             Console.WriteLine("'receptor8': " + "'" + receptbooleano8 + "'" + ",");
             Console.WriteLine("'Placa': " + "'" + aux + "'" + "");
             Console.WriteLine("},");
-
-
+           
             if (DeleteUser == "--deleteuser") {
                 if (lsDisp.SelectedIndex == IDGuarita) {
                     byte[] lFrame = new byte[42];
