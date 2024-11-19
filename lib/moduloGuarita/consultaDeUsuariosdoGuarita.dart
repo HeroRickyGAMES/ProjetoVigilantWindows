@@ -36,6 +36,27 @@ Consulta(var context, String host, int port) async {
     Map<String, dynamic> Controles = jsonDecode(tratado.replaceAll("},}", "}}"));
 
     Controles.forEach((serial, fields) async {
+      if (fields.containsKey('Controlador/ID')) {
+        fields['Controlador_ID'] = fields['Controlador/ID'];
+        fields.remove('Controlador/ID');
+      }
+
+      if (fields.containsKey('Veiculo/Marca')) {
+        fields['Veiculo_Marca'] = fields['Veiculo/Marca'];
+        fields.remove('Veiculo/Marca');
+      }
+
+      fields.forEach((key, value) {
+        // Verifica se o valor é uma String e converte "True"/"False" para bool
+        if (value is String) {
+          if (value.toLowerCase() == "true") {
+            fields[key] = true;
+          } else if (value.toLowerCase() == "false") {
+            fields[key] = false;
+          }
+        }
+      });
+
       Uuid uuid = const Uuid();
       String UUID = uuid.v4();
       String id = "$UUID$serial$idCondominio";
@@ -57,7 +78,7 @@ Consulta(var context, String host, int port) async {
   }
 }
 
-Cadastro(var context, String host, int port, String tipo, String serieal, String contador, int unidade, String bloco, String identificacao, int grupo, String Marca, String cor, String Placa, bool receptor1, bool receptor2, bool receptor3, bool receptor4, bool receptor5, bool receptor6, bool receptor7, bool receptor8) async {
+Cadastro(var context, String host, int port, String tipo, String serieal, String contador, String unidade, String bloco, String identificacao, String grupo, String Marca, String cor, String Placa, bool receptor1, bool receptor2, bool receptor3, bool receptor4, bool receptor5, bool receptor6, bool receptor7, bool receptor8, String placa) async {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -72,6 +93,8 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
     },
   );
 
+  print(port);
+
   String command = 'guaritaConrole/demoLinearIP.exe --ip $host --porta $port --createuser --tipo $tipo --serial $serieal --contador $contador --unidade $unidade --bloco $bloco --identificacao $identificacao --grupo $grupo --marca $Marca --cor $cor --placa $Placa --receptor1 $receptor1 --receptor2 $receptor2 --receptor3 $receptor3 --receptor4 $receptor4 --receptor5 $receptor5 --receptor6 $receptor6 --receptor7 $receptor7 --receptor8 $receptor8';
 
   ProcessResult result = await Process.run('powershell.exe', ['-c', command]);
@@ -82,7 +105,7 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
     showToast("Controle já existe na memória!",context:context);
     Navigator.pop(context);
   }else{
-    String id = "${gerarNumero()}";
+    String id = "${gerarNumero()}$idCondominio";
 
     List<String> receptoresAtivos = [];
 
@@ -99,11 +122,11 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
     // Juntar os números dos receptores em uma única String
     String receptoresAtivo = receptoresAtivos.join(' ');
 
-    FirebaseFirestore.instance.doc(id).set({
+    FirebaseFirestore.instance.collection("Controles").doc(id).set({
       "Tipo": tipo,
       'Serial': serieal,
       'idGuarita': serieal,
-      "Controlador/ID": contador,
+      "Controlador_ID": contador,
       "Unidade": unidade,
       'Bloco': bloco,
       "Grupo": grupo,
@@ -111,28 +134,38 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
       "Identificacao": identificacao,
       "Ultimo Acionamento": "0",
       'Status de bateria': "- - - -",
-      "Veiculo/Marca": Marca,
+      "Veiculo_Marca": Marca,
       "hostGuarita": host,
       "portGuarita": port,
       "id": id,
       "idCondominio": idCondominio,
+      "Cor": cor,
+      "Placa": placa,
+      "receptor1": receptor1,
+      "receptor2": receptor2,
+      "receptor3": receptor3,
+      "receptor4": receptor4,
+      "receptor5": receptor5,
+      "receptor6": receptor6,
+      "receptor7": receptor7,
+      "receptor8": receptor8,
     });
 
-    showToast("pronto!",context:context);
+    showToast("Pronto!",context:context);
     Navigator.pop(context);
     Navigator.pop(context);
   }
 }
 
-edicao(var context, String idGuarita, String id, String host, int port, String tipo, String serieal, String contador, int unidade, String bloco, String identificacao, int grupo, String Marca, String cor, String Placa, bool receptor1, bool receptor2, bool receptor3, bool receptor4, bool receptor5, bool receptor6, bool receptor7, bool receptor8){
+edicao(var context, String idGuarita, String id, String host, int port, String tipo, String serieal, String contador, String unidade, String bloco, String identificacao, String grupo, String Marca, String cor, String Placa, bool receptor1, bool receptor2, bool receptor3, bool receptor4, bool receptor5, bool receptor6, bool receptor7, bool receptor8, placa){
   //Primeiro ele vai deletar o usuario x
-  Deletecao(context, idGuarita, id, host, port);
+  Deletecao(context, idGuarita, id, host, port, "Edicao");
   //Depois ele vai cadastrar com os dados mandados do proprio vigilant
-  Cadastro(context, host, port, tipo, serieal, contador, unidade, bloco, identificacao, grupo, Marca, cor, Placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8);
+  Cadastro(context, host, port, tipo, serieal, contador, unidade, bloco, identificacao, grupo, Marca, cor, Placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8, placa);
   //Por ultimo ele consulta usuarios do guarita
 }
 
-Deletecao(var context, String idGuarita, String id, String host, int port) async {
+Deletecao(var context, String idGuarita, String id, String host, int port, String veiode) async {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -153,6 +186,12 @@ Deletecao(var context, String idGuarita, String id, String host, int port) async
 
   await Process.run('powershell.exe', ['-c', command]);
 
-  Navigator.pop(context);
-  showToast("Deletado com sucesso!",context:context);
+  if(veiode == "Deletacao"){
+    Navigator.pop(context);
+    Navigator.pop(context);
+    showToast("Deletado com sucesso!",context:context);
+  }
+  if(veiode == 'Edicao'){
+    Navigator.pop(context);
+  }
 }

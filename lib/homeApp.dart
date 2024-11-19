@@ -6855,7 +6855,25 @@ class _homeAppState extends State<homeApp>{
                                                                                         scrollable: true,
                                                                                         title: Column(
                                                                                           children: [
-                                                                                            const Text('Importar ou cadastrar controles diretamente do Guarita'),
+                                                                                            Row(
+                                                                                              children: [
+                                                                                                const Text('Importar, cadastrar e editar controles diretamente do Guarita'),
+                                                                                                SizedBox(
+                                                                                                  width: 80,
+                                                                                                  height: 80,
+                                                                                                  child: TextButton(onPressed: (){
+                                                                                                    Navigator.pop(context);
+                                                                                                  },
+                                                                                                      child: const Center(
+                                                                                                        child: Icon(
+                                                                                                          Icons.close,
+                                                                                                          size: 35,
+                                                                                                        ),
+                                                                                                      )
+                                                                                                  ),
+                                                                                                )
+                                                                                              ],
+                                                                                            ),
                                                                                             Container(
                                                                                               padding: const EdgeInsets.only(top: 16, bottom: 6),
                                                                                               child: ElevatedButton(
@@ -6863,7 +6881,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                   showDialog(
                                                                                                     context: context,
                                                                                                     builder: (BuildContext context) {
-                                                                                                      return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                                      return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
                                                                                                         return AlertDialog(
                                                                                                           title: const Text('Selecione um Guarita'),
                                                                                                           actions: [
@@ -7009,13 +7027,13 @@ class _homeAppState extends State<homeApp>{
                                                                                                       String ip = "";
                                                                                                       int porta = 9000;
 
-                                                                                                      String tipo = "";
+                                                                                                      String tipo = 'TX';
                                                                                                       String serial = "";
                                                                                                       String Contador = "";
-                                                                                                      int unidade = 0;
+                                                                                                      String unidade = '';
                                                                                                       String bloco = "";
                                                                                                       String Identificacao = "";
-                                                                                                      int grupo = 0;
+                                                                                                      String grupo = '';
                                                                                                       String marca = "";
                                                                                                       String cor = "";
                                                                                                       String placa = "";
@@ -7094,7 +7112,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                       "KIA" ,
                                                                                                       "LAMBORGHINI",
                                                                                                       "LAND ROVER" ,
-                                                                                                      "MAZDA"
+                                                                                                      "MAZDA",
                                                                                                       "MERCEDES" ,
                                                                                                       "MITSUBISHI"
                                                                                                       "MOTO" ,
@@ -7108,7 +7126,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                       "TOYOTA" ,
                                                                                                       "VOLKSWAGEN" ,
                                                                                                       "VOLVO",
-                                                                                                      "Sem Veiculo",
+                                                                                                      "SEM VEICULO",
+                                                                                                      "EDITAVEL",
                                                                                                       ];
 
                                                                                                       List corList = [
@@ -7129,7 +7148,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                       "VERDE",
                                                                                                       "VERMELHO"
                                                                                                       ];
-                                                                                                      
+
                                                                                                       return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
                                                                                                         return AlertDialog(
                                                                                                           scrollable: true,
@@ -7423,7 +7442,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         autocorrect: false,
                                                                                                                         onChanged: (value){
                                                                                                                           setStater(() {
-                                                                                                                            unidade = int.parse(value);
+                                                                                                                            unidade = value;
                                                                                                                           });
                                                                                                                         },
                                                                                                                         decoration: InputDecoration(
@@ -7465,7 +7484,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           dropValue91.value = escolha.toString();
 
                                                                                                                           setStater((){
-                                                                                                                            tipo = escolha.toString();
+                                                                                                                            bloco = escolha.toString();
                                                                                                                           });
 
                                                                                                                         },
@@ -7497,7 +7516,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           dropValue92.value = escolha.toString();
 
                                                                                                                           setStater((){
-                                                                                                                            grupo = int.parse(escolha.toString());
+                                                                                                                            grupo = escolha.toString();
                                                                                                                           });
 
                                                                                                                         },
@@ -7800,12 +7819,9 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                         if(cor == ""){
                                                                                                                                           showToast("A cor está vazia!",context:context);
                                                                                                                                         }else{
-                                                                                                                                          if(placa == ""){
-                                                                                                                                            showToast("A placa está vazia!",context:context);
-                                                                                                                                          }else{
-                                                                                                                                              var ips = await hostToIp(ip);
-                                                                                                                                              Cadastro(context, "${ips[0]}".replaceAll('InternetAddress(', '').replaceAll(", IPv4)", '').replaceAll("'", ''), porta, tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 );
-                                                                                                                                            }
+                                                                                                                                          var ips = await hostToIp(ip);
+                                                                                                                                          print(ips[0]);
+                                                                                                                                          Cadastro(context, "${ips[0]}".replaceAll('InternetAddress(', '').replaceAll(", IPv4)", '').replaceAll("'", ''), porta, tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa);
                                                                                                                                           }
                                                                                                                                         }
                                                                                                                                       }
@@ -7840,10 +7856,102 @@ class _homeAppState extends State<homeApp>{
                                                                                               ),
                                                                                             ),
                                                                                             Center(
+                                                                                              child: Container(
+                                                                                                padding: const EdgeInsets.all(6),
+                                                                                                child: Stack(
+                                                                                                  children: [
+                                                                                                    TextField(
+                                                                                                      cursorColor: Colors.black,
+                                                                                                      keyboardType: TextInputType.name,
+                                                                                                      enableSuggestions: true,
+                                                                                                      autocorrect: true,
+                                                                                                      controller: unidadeVControler,
+                                                                                                      onChanged: (value){
+                                                                                                        pesquisa3 = value;
+
+                                                                                                        if(value == ""){
+                                                                                                          setState(() {
+                                                                                                            pesquisando3 = false;
+                                                                                                            pesquisa3 = value;
+                                                                                                          });
+                                                                                                        }
+                                                                                                      },
+                                                                                                      decoration: InputDecoration(
+                                                                                                        filled: true,
+                                                                                                        fillColor: Colors.white,
+                                                                                                        border: const OutlineInputBorder(),
+                                                                                                        labelStyle: TextStyle(
+                                                                                                            color: textAlertDialogColor,
+                                                                                                            backgroundColor: Colors.white
+                                                                                                        ),
+                                                                                                        labelText: 'Nome',
+                                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                                          borderSide: BorderSide(
+                                                                                                              width: 3,
+                                                                                                              color: Colors.black
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      style: const TextStyle(
+                                                                                                          color: Colors.black
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    Container(
+                                                                                                      alignment: Alignment.centerRight,
+                                                                                                      padding: const EdgeInsets.only(right: 35),
+                                                                                                      child: TextButton(
+                                                                                                          onPressed: () async {
+                                                                                                            //Pesquisa de nomes;
+                                                                                                            QuerySnapshot snapshotNome = await FirebaseFirestore.instance
+                                                                                                                .collection("Controles")
+                                                                                                                .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                                .where("Identificacao", isGreaterThanOrEqualTo: pesquisa6)
+                                                                                                                .where("Identificacao", isLessThan: "${pesquisa6}z")
+                                                                                                                .get();
+
+                                                                                                            if(snapshotNome.docs.isNotEmpty){
+                                                                                                              for (var doc in snapshotNome.docs) {
+                                                                                                                //Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+                                                                                                                //print("Dados: $data");
+
+                                                                                                                setState((){
+                                                                                                                  pesquisando3 = true;
+                                                                                                                });
+                                                                                                              }
+                                                                                                            }else{
+                                                                                                              showToast("Nada foi encontrado!", context: context);
+                                                                                                              setState((){
+                                                                                                                pesquisando3 = true;
+                                                                                                              });
+                                                                                                            }
+                                                                                                            if(showSearchBar == true){
+                                                                                                              setState((){
+                                                                                                                showSearchBar = false;
+                                                                                                              });
+                                                                                                            }
+                                                                                                          },
+                                                                                                          child: Image.asset(
+                                                                                                              "assets/search.png",
+                                                                                                              scale: 14
+                                                                                                          )
+                                                                                                      ),
+                                                                                                    )
+                                                                                                  ],
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                            Center(
                                                                                               child: Column(
                                                                                                 children: [
                                                                                                   StreamBuilder(
-                                                                                                    stream: FirebaseFirestore.instance
+                                                                                                    stream: pesquisando3 == true?
+                                                                                                    FirebaseFirestore.instance
+                                                                                                        .collection('Controles')
+                                                                                                        .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                        .where("Identificacao", isGreaterThanOrEqualTo: pesquisa3)
+                                                                                                        .where("Identificacao", isLessThan: "${pesquisa3}z")
+                                                                                                        .snapshots():
+                                                                                                    FirebaseFirestore.instance
                                                                                                         .collection('Controles')
                                                                                                         .where("idCondominio", isEqualTo: idCondominio)
                                                                                                         .snapshots(),
@@ -7915,43 +8023,804 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         ),
                                                                                                                       ],
                                                                                                                     ),
-                                                                                                                    TextButton(onPressed: (){
-                                                                                                                      showDialog(
-                                                                                                                        context: context,
-                                                                                                                        builder: (BuildContext context) {
-                                                                                                                          return AlertDialog(
-                                                                                                                            title: const Text('Tem certeza que deseja deletar esse controle?'),
-                                                                                                                            actions: [
-                                                                                                                              Row(
-                                                                                                                                children: [
-                                                                                                                                  ElevatedButton(
-                                                                                                                                      onPressed: (){
-                                                                                                                                          Navigator.pop(context);
-                                                                                                                                      },
-                                                                                                                                      child: const Text('Não')
-                                                                                                                                  ),
-                                                                                                                                  ElevatedButton(
-                                                                                                                                      onPressed: (){
-                                                                                                                                        Deletecao(context, documents['idGuarita'], documents['id'], documents['hostGuarita'], documents['portGuarita']);
-                                                                                                                                      },
-                                                                                                                                    style: ElevatedButton.styleFrom(
-                                                                                                                                      backgroundColor: Colors.red
-                                                                                                                                    ),
-                                                                                                                                      child: const Text(
-                                                                                                                                          'Sim',
-                                                                                                                                        style: TextStyle(
-                                                                                                                                          color: Colors.white
+                                                                                                                    Row(
+                                                                                                                      children: [
+                                                                                                                        TextButton(onPressed: (){
+                                                                                                                          showDialog(
+                                                                                                                            context: context,
+                                                                                                                            builder: (BuildContext context) {
+                                                                                                                              String ip = "";
+                                                                                                                              int porta = 9000;
+
+                                                                                                                              String tipo = '';
+                                                                                                                              String serial = documents['Serial'];
+                                                                                                                              String Contador = documents['Controlador_ID'];
+
+                                                                                                                              if(documents['Tipo'].contains('TX')){
+                                                                                                                                tipo = 'Controle';
+                                                                                                                              }
+
+                                                                                                                              if(documents['Tipo'].contains('Controle')){
+                                                                                                                                tipo = 'Controle';
+                                                                                                                              }
+
+                                                                                                                              if(documents['Tipo'].contains('TAG')){
+                                                                                                                                tipo = 'TAG';
+                                                                                                                              }
+
+                                                                                                                              if(documents['Tipo'].contains('CARD')){
+                                                                                                                                tipo = 'Cartão';
+                                                                                                                              }
+
+                                                                                                                              if(documents['Tipo'].contains('BIO')){
+                                                                                                                                tipo = 'BIO';
+                                                                                                                              }
+
+                                                                                                                              if(documents['Tipo'].contains('TAGP')){
+                                                                                                                                tipo = 'TAGP';
+                                                                                                                              }
+
+                                                                                                                              if(documents['Tipo'].contains('Senha CTW')){
+                                                                                                                                Contador = 'Senha CTW';
+                                                                                                                              }
+
+                                                                                                                              String unidade = documents['Unidade'];
+                                                                                                                              String bloco = documents['Bloco'];
+                                                                                                                              String Identificacao = documents['Identificacao'];
+                                                                                                                              String grupo = documents['Grupo'];
+                                                                                                                              String marca = documents['Veiculo_Marca'];
+                                                                                                                              String cor = documents['Cor'];
+                                                                                                                              String placa = documents['Placa'];
+                                                                                                                              bool receptor1 = documents['receptor1'];
+                                                                                                                              bool receptor2 = documents['receptor2'];
+                                                                                                                              bool receptor3 = documents['receptor3'];
+                                                                                                                              bool receptor4 = documents['receptor4'];
+                                                                                                                              bool receptor5 = documents['receptor5'];
+                                                                                                                              bool receptor6 = documents['receptor6'];
+                                                                                                                              bool receptor7 = documents['receptor7'];
+                                                                                                                              bool receptor8 = documents['receptor8'];
+
+                                                                                                                              final TextEditingController nomeController = TextEditingController(text: Identificacao);
+                                                                                                                              final TextEditingController serialController = TextEditingController(text: serial);
+                                                                                                                              final TextEditingController contadorlController = TextEditingController(text: Contador);
+                                                                                                                              final TextEditingController unidadelController = TextEditingController(text: unidade);
+                                                                                                                              final TextEditingController PlacaController = TextEditingController(text: placa);
+
+                                                                                                                              List tipos = [
+                                                                                                                                "Controle",
+                                                                                                                                "TAG",
+                                                                                                                                "Cartão",
+                                                                                                                                'BIO',
+                                                                                                                                'TAGP',
+                                                                                                                                "Senha CTW"
+                                                                                                                              ];
+
+                                                                                                                              List blocolist = [
+                                                                                                                                'A',
+                                                                                                                                'B',
+                                                                                                                                'C',
+                                                                                                                                'D',
+                                                                                                                                'E',
+                                                                                                                                'F',
+                                                                                                                                'G',
+                                                                                                                                'H',
+                                                                                                                                'I',
+                                                                                                                                'J',
+                                                                                                                                'K',
+                                                                                                                                'L',
+                                                                                                                                'M',
+                                                                                                                                'N',
+                                                                                                                                'O',
+                                                                                                                                'P',
+                                                                                                                                'Q',
+                                                                                                                                'R',
+                                                                                                                                'S',
+                                                                                                                                'T',
+                                                                                                                                'U',
+                                                                                                                                'V',
+                                                                                                                                'W',
+                                                                                                                                'X',
+                                                                                                                                'Y',
+                                                                                                                                'Z',
+                                                                                                                              ];
+
+                                                                                                                              List grupolist = [
+                                                                                                                                '0',
+                                                                                                                                '1',
+                                                                                                                                '2',
+                                                                                                                                '3',
+                                                                                                                                '4',
+                                                                                                                                '5',
+                                                                                                                                '6',
+                                                                                                                                '7',
+                                                                                                                                '8',
+                                                                                                                                '9',
+                                                                                                                                '10',
+                                                                                                                                '11',
+                                                                                                                                '12',
+                                                                                                                                '13',
+                                                                                                                                '14',
+                                                                                                                                '15',
+                                                                                                                              ];
+
+                                                                                                                              List veiculoList = [
+                                                                                                                                "AUDI" ,
+                                                                                                                                "BMW" ,
+                                                                                                                                "CHEVROLET",
+                                                                                                                                "CHRYSLER" ,
+                                                                                                                                "CITROEN" ,
+                                                                                                                                "FERRARI" ,
+                                                                                                                                "FIAT" ,
+                                                                                                                                "FORD" ,
+                                                                                                                                "GM" ,
+                                                                                                                                "HONDA",
+                                                                                                                                "HYUNDAI",
+                                                                                                                                "IMPORTADO",
+                                                                                                                                "JAGUAR",
+                                                                                                                                "JEEP" ,
+                                                                                                                                "KIA" ,
+                                                                                                                                "LAMBORGHINI",
+                                                                                                                                "LAND ROVER" ,
+                                                                                                                                "MAZDA",
+                                                                                                                                "MERCEDES" ,
+                                                                                                                                "MITSUBISHI"
+                                                                                                                                 "MOTO" ,
+                                                                                                                                "NISSAN" ,
+                                                                                                                                "VEICULO" ,
+                                                                                                                                "PEUGEOT" ,
+                                                                                                                                "PORSCHE" ,
+                                                                                                                                "RENAULT" ,
+                                                                                                                                "SUBARU" ,
+                                                                                                                                "SUZUKI" ,
+                                                                                                                                "TOYOTA" ,
+                                                                                                                                "VOLKSWAGEN" ,
+                                                                                                                                "VOLVO",
+                                                                                                                                "SEM VEICULO",
+                                                                                                                                "EDITAVEL",
+                                                                                                                              ];
+
+                                                                                                                              List corList = [
+                                                                                                                                "AMARELO",
+                                                                                                                                "AZUL" ,
+                                                                                                                                "BEGE",
+                                                                                                                                "BRANCO",
+                                                                                                                                "CINZA",
+                                                                                                                                "DOURADO",
+                                                                                                                                "FANTASIA",
+                                                                                                                                "GRENA",
+                                                                                                                                "LARANJA",
+                                                                                                                                "MARROM",
+                                                                                                                                "PRATA",
+                                                                                                                                "PRETO",
+                                                                                                                                "ROSA",
+                                                                                                                                "ROXO",
+                                                                                                                                "VERDE",
+                                                                                                                                "VERMELHO"
+                                                                                                                              ];
+
+                                                                                                                              var dropValue90 = ValueNotifier(tipo);
+                                                                                                                              var dropValue91 = ValueNotifier(bloco);
+                                                                                                                              var dropValue92 = ValueNotifier(grupo);
+                                                                                                                              var dropValue93 = ValueNotifier(marca);
+                                                                                                                              var dropValue94 = ValueNotifier(cor);
+
+                                                                                                                              return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
+                                                                                                                                return AlertDialog(
+                                                                                                                                  scrollable: true,
+                                                                                                                                  title: Column(
+                                                                                                                                    children: [
+                                                                                                                                      const Text('Cadastro de novos controles no Guarita'),
+                                                                                                                                      const Center(
+                                                                                                                                          child: Text('Selecione um modulo guarita para o cadastro')
+                                                                                                                                      ),
+                                                                                                                                      Center(
+                                                                                                                                        child: ValueListenableBuilder(valueListenable: dropValue90, builder: (context, String value, _){
+                                                                                                                                          return DropdownButton(
+                                                                                                                                            hint: Text(
+                                                                                                                                              'Selecione um tipo de dispositivo',
+                                                                                                                                              style: TextStyle(
+                                                                                                                                                  color: textColorDrop
+                                                                                                                                              ),
+                                                                                                                                            ),
+                                                                                                                                            value: (value.isEmpty)? null : value,
+                                                                                                                                            onChanged: (escolha) async {
+                                                                                                                                              dropValue90.value = escolha.toString();
+                                                                                                                                              tipo = escolha.toString();
+                                                                                                                                            },
+                                                                                                                                            items: tipos.map((opcao) => DropdownMenuItem(
+                                                                                                                                              value: opcao,
+                                                                                                                                              child:
+                                                                                                                                              Text(
+                                                                                                                                                opcao,
+                                                                                                                                                style: TextStyle(
+                                                                                                                                                    color: textColorDrop
+                                                                                                                                                ),
+                                                                                                                                              ),
+                                                                                                                                            ),
+                                                                                                                                            ).toList(),
+                                                                                                                                          );
+                                                                                                                                        }),
+                                                                                                                                      ),
+                                                                                                                                      Center(
+                                                                                                                                        child: Container(
+                                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                                          child: TextField(
+                                                                                                                                            controller: nomeController,
+                                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                                            enableSuggestions: false,
+                                                                                                                                            autocorrect: false,
+                                                                                                                                            onChanged: (value){
+                                                                                                                                              setStater(() {
+                                                                                                                                                Identificacao = value;
+                                                                                                                                              });
+                                                                                                                                            },
+                                                                                                                                            decoration: InputDecoration(
+                                                                                                                                              filled: true,
+                                                                                                                                              fillColor: Colors.white,
+                                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                                              ),
+                                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                                              ),
+                                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                                borderSide: BorderSide(
+                                                                                                                                                    width: 3,
+                                                                                                                                                    color: Colors.black
+                                                                                                                                                ),
+                                                                                                                                              ),
+                                                                                                                                              labelText: 'Nome',
+                                                                                                                                            ),
+                                                                                                                                            style: TextStyle(
+                                                                                                                                                color: textAlertDialogColor
+                                                                                                                                            ),
+                                                                                                                                          ),
                                                                                                                                         ),
                                                                                                                                       ),
-                                                                                                                                  )
-                                                                                                                                ],
-                                                                                                                              )
-                                                                                                                            ],
+                                                                                                                                      Center(
+                                                                                                                                        child: Container(
+                                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                                          child: TextField(
+                                                                                                                                            controller: serialController,
+                                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                                            enableSuggestions: false,
+                                                                                                                                            autocorrect: false,
+                                                                                                                                            onChanged: (value){
+                                                                                                                                              setStater(() {
+                                                                                                                                                serial = value;
+                                                                                                                                              });
+                                                                                                                                            },
+                                                                                                                                            decoration: InputDecoration(
+                                                                                                                                              filled: true,
+                                                                                                                                              fillColor: Colors.white,
+                                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                                              ),
+                                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                                              ),
+                                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                                borderSide: BorderSide(
+                                                                                                                                                    width: 3,
+                                                                                                                                                    color: Colors.black
+                                                                                                                                                ),
+                                                                                                                                              ),
+                                                                                                                                              labelText: 'Serial (Hex)',
+                                                                                                                                            ),
+                                                                                                                                            style: TextStyle(
+                                                                                                                                                color: textAlertDialogColor
+                                                                                                                                            ),
+                                                                                                                                          ),
+                                                                                                                                        ),
+                                                                                                                                      ),
+                                                                                                                                      Center(
+                                                                                                                                        child: Container(
+                                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                                          child: TextField(
+                                                                                                                                            controller: contadorlController,
+                                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                                            enableSuggestions: false,
+                                                                                                                                            autocorrect: false,
+                                                                                                                                            onChanged: (value){
+                                                                                                                                              setStater(() {
+                                                                                                                                                Contador = value;
+                                                                                                                                              });
+                                                                                                                                            },
+                                                                                                                                            decoration: InputDecoration(
+                                                                                                                                              filled: true,
+                                                                                                                                              fillColor: Colors.white,
+                                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                                              ),
+                                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                                              ),
+                                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                                borderSide: BorderSide(
+                                                                                                                                                    width: 3,
+                                                                                                                                                    color: Colors.black
+                                                                                                                                                ),
+                                                                                                                                              ),
+                                                                                                                                              labelText: 'Contador (Hex)',
+                                                                                                                                            ),
+                                                                                                                                            style: TextStyle(
+                                                                                                                                                color: textAlertDialogColor
+                                                                                                                                            ),
+                                                                                                                                          ),
+                                                                                                                                        ),
+                                                                                                                                      ),
+                                                                                                                                      Center(
+                                                                                                                                        child: Container(
+                                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                                          child: TextField(
+                                                                                                                                            controller: unidadelController,
+                                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                                            enableSuggestions: false,
+                                                                                                                                            autocorrect: false,
+                                                                                                                                            onChanged: (value){
+                                                                                                                                              setStater(() {
+                                                                                                                                                unidade = value;
+                                                                                                                                              });
+                                                                                                                                            },
+                                                                                                                                            decoration: InputDecoration(
+                                                                                                                                              filled: true,
+                                                                                                                                              fillColor: Colors.white,
+                                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                                              ),
+                                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                                              ),
+                                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                                borderSide: BorderSide(
+                                                                                                                                                    width: 3,
+                                                                                                                                                    color: Colors.black
+                                                                                                                                                ),
+                                                                                                                                              ),
+                                                                                                                                              labelText: 'Unidade',
+                                                                                                                                            ),
+                                                                                                                                            style: TextStyle(
+                                                                                                                                                color: textAlertDialogColor
+                                                                                                                                            ),
+                                                                                                                                          ),
+                                                                                                                                        ),
+                                                                                                                                      ),
+                                                                                                                                      Center(
+                                                                                                                                        child: ValueListenableBuilder(valueListenable: dropValue91, builder: (context, String value, _){
+                                                                                                                                          return DropdownButton(
+                                                                                                                                            hint: Text(
+                                                                                                                                              'Bloco',
+                                                                                                                                              style: TextStyle(
+                                                                                                                                                  color: textColorDrop
+                                                                                                                                              ),
+                                                                                                                                            ),
+                                                                                                                                            value: (value.isEmpty)? null : value,
+                                                                                                                                            onChanged: (escolha) async {
+                                                                                                                                              dropValue91.value = escolha.toString();
+                                                                                                                                              setStater((){
+                                                                                                                                                bloco = escolha.toString();
+                                                                                                                                              });
+                                                                                                                                            },
+                                                                                                                                            items: blocolist.map((opcao) => DropdownMenuItem(
+                                                                                                                                              value: opcao,
+                                                                                                                                              child:
+                                                                                                                                              Text(
+                                                                                                                                                opcao,
+                                                                                                                                                style: TextStyle(
+                                                                                                                                                    color: textColorDrop
+                                                                                                                                                ),
+                                                                                                                                              ),
+                                                                                                                                            ),
+                                                                                                                                            ).toList(),
+                                                                                                                                          );
+                                                                                                                                        }),
+                                                                                                                                      ),
+                                                                                                                                      Center(
+                                                                                                                                        child: ValueListenableBuilder(valueListenable: dropValue92, builder: (context, String value, _){
+                                                                                                                                          return DropdownButton(
+                                                                                                                                            hint: Text(
+                                                                                                                                              'Grupo',
+                                                                                                                                              style: TextStyle(
+                                                                                                                                                  color: textColorDrop
+                                                                                                                                              ),
+                                                                                                                                            ),
+                                                                                                                                            value: (value.isEmpty)? null : value,
+                                                                                                                                            onChanged: (escolha) async {
+                                                                                                                                              dropValue92.value = escolha.toString();
+
+                                                                                                                                              setStater((){
+                                                                                                                                                grupo = escolha.toString();
+                                                                                                                                              });
+
+                                                                                                                                            },
+                                                                                                                                            items: grupolist.map((opcao) => DropdownMenuItem(
+                                                                                                                                              value: opcao,
+                                                                                                                                              child:
+                                                                                                                                              Text(
+                                                                                                                                                opcao,
+                                                                                                                                                style: TextStyle(
+                                                                                                                                                    color: textColorDrop
+                                                                                                                                                ),
+                                                                                                                                              ),
+                                                                                                                                            ),
+                                                                                                                                            ).toList(),
+                                                                                                                                          );
+                                                                                                                                        }),
+                                                                                                                                      ),
+                                                                                                                                      const Center(child: Text('Dados do veiculo')),
+                                                                                                                                      Center(
+                                                                                                                                        child: ValueListenableBuilder(valueListenable: dropValue93, builder: (context, String value, _){
+                                                                                                                                          return DropdownButton(
+                                                                                                                                            hint: Text(
+                                                                                                                                              'Marca',
+                                                                                                                                              style: TextStyle(
+                                                                                                                                                  color: textColorDrop
+                                                                                                                                              ),
+                                                                                                                                            ),
+                                                                                                                                            value: (value.isEmpty)? null : value,
+                                                                                                                                            onChanged: (escolha) async {
+                                                                                                                                              dropValue93.value = escolha.toString();
+
+                                                                                                                                              setStater((){
+                                                                                                                                                marca = escolha.toString();
+                                                                                                                                              });
+
+                                                                                                                                            },
+                                                                                                                                            items: veiculoList.map((opcao) => DropdownMenuItem(
+                                                                                                                                              value: opcao,
+                                                                                                                                              child:
+                                                                                                                                              Text(
+                                                                                                                                                opcao,
+                                                                                                                                                style: TextStyle(
+                                                                                                                                                    color: textColorDrop
+                                                                                                                                                ),
+                                                                                                                                              ),
+                                                                                                                                            ),
+                                                                                                                                            ).toList(),
+                                                                                                                                          );
+                                                                                                                                        }),
+                                                                                                                                      ),
+                                                                                                                                      Center(
+                                                                                                                                        child: ValueListenableBuilder(valueListenable: dropValue94, builder: (context, String value, _){
+                                                                                                                                          return DropdownButton(
+                                                                                                                                            hint: Text(
+                                                                                                                                              'Cor',
+                                                                                                                                              style: TextStyle(
+                                                                                                                                                  color: textColorDrop
+                                                                                                                                              ),
+                                                                                                                                            ),
+                                                                                                                                            value: (value.isEmpty)? null : value,
+                                                                                                                                            onChanged: (escolha) async {
+                                                                                                                                              dropValue94.value = escolha.toString();
+
+                                                                                                                                              setState((){
+                                                                                                                                                cor = escolha.toString();
+                                                                                                                                              });
+
+                                                                                                                                            },
+                                                                                                                                            items: corList.map((opcao) => DropdownMenuItem(
+                                                                                                                                              value: opcao,
+                                                                                                                                              child:
+                                                                                                                                              Text(
+                                                                                                                                                opcao,
+                                                                                                                                                style: TextStyle(
+                                                                                                                                                    color: textColorDrop
+                                                                                                                                                ),
+                                                                                                                                              ),
+                                                                                                                                            ),
+                                                                                                                                            ).toList(),
+                                                                                                                                          );
+                                                                                                                                        }),
+                                                                                                                                      ),
+                                                                                                                                      Center(
+                                                                                                                                        child: Container(
+                                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                                          child: TextField(
+                                                                                                                                            controller: PlacaController,
+                                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                                            enableSuggestions: false,
+                                                                                                                                            autocorrect: false,
+                                                                                                                                            onChanged: (value){
+                                                                                                                                              setStater(() {
+                                                                                                                                                placa = value;
+                                                                                                                                              });
+                                                                                                                                            },
+                                                                                                                                            decoration: InputDecoration(
+                                                                                                                                              filled: true,
+                                                                                                                                              fillColor: Colors.white,
+                                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                                              ),
+                                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                                              ),
+                                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                                borderSide: BorderSide(
+                                                                                                                                                    width: 3,
+                                                                                                                                                    color: Colors.black
+                                                                                                                                                ),
+                                                                                                                                              ),
+                                                                                                                                              labelText: 'Placa',
+                                                                                                                                            ),
+                                                                                                                                            style: TextStyle(
+                                                                                                                                                color: textAlertDialogColor
+                                                                                                                                            ),
+                                                                                                                                          ),
+                                                                                                                                        ),
+                                                                                                                                      ),
+                                                                                                                                      const Center(child: Text('Receptores de destino')),
+                                                                                                                                      Center(
+                                                                                                                                        child: Row(
+                                                                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                                          children: [
+                                                                                                                                            Checkbox(value: receptor1,
+                                                                                                                                                onChanged: (bool? value){
+                                                                                                                                                  setStater((){
+                                                                                                                                                    receptor1 = value ?? false;
+                                                                                                                                                  });
+                                                                                                                                                }),
+                                                                                                                                            const Text(
+                                                                                                                                                'Receptor 1',
+                                                                                                                                                style: TextStyle(
+                                                                                                                                                    fontSize: 16
+                                                                                                                                                )
+                                                                                                                                            ),
+                                                                                                                                          ],
+                                                                                                                                        ),
+                                                                                                                                      ),
+                                                                                                                                      Center(
+                                                                                                                                        child: Row(
+                                                                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                                          children: [
+                                                                                                                                            Checkbox(value: receptor2,
+                                                                                                                                                onChanged: (bool? value){
+                                                                                                                                                  setStater((){
+                                                                                                                                                    receptor2 = value ?? false;
+                                                                                                                                                  });
+                                                                                                                                                }),
+                                                                                                                                            const Text(
+                                                                                                                                                'Receptor 2',
+                                                                                                                                                style: TextStyle(
+                                                                                                                                                    fontSize: 16
+                                                                                                                                                )
+                                                                                                                                            ),
+                                                                                                                                          ],
+                                                                                                                                        ),
+                                                                                                                                      ),
+                                                                                                                                      Center(
+                                                                                                                                        child: Row(
+                                                                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                                          children: [
+                                                                                                                                            Checkbox(value: receptor3,
+                                                                                                                                                onChanged: (bool? value){
+                                                                                                                                                  setStater((){
+                                                                                                                                                    receptor3 = value ?? false;
+                                                                                                                                                  });
+                                                                                                                                                }),
+                                                                                                                                            const Text(
+                                                                                                                                                'Receptor 3',
+                                                                                                                                                style: TextStyle(
+                                                                                                                                                    fontSize: 16
+                                                                                                                                                )
+                                                                                                                                            ),
+                                                                                                                                          ],
+                                                                                                                                        ),
+                                                                                                                                      ),
+                                                                                                                                      Center(
+                                                                                                                                        child: Row(
+                                                                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                                          children: [
+                                                                                                                                            Checkbox(value: receptor4,
+                                                                                                                                                onChanged: (bool? value){
+                                                                                                                                                  setStater((){
+                                                                                                                                                    receptor4 = value ?? false;
+                                                                                                                                                  });
+                                                                                                                                                }),
+                                                                                                                                            const Text(
+                                                                                                                                                'Receptor 4',
+                                                                                                                                                style: TextStyle(
+                                                                                                                                                    fontSize: 16
+                                                                                                                                                )
+                                                                                                                                            ),
+                                                                                                                                          ],
+                                                                                                                                        ),
+                                                                                                                                      ),
+                                                                                                                                      Center(
+                                                                                                                                        child: Row(
+                                                                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                                          children: [
+                                                                                                                                            Checkbox(value: receptor5,
+                                                                                                                                                onChanged: (bool? value){
+                                                                                                                                                  setStater((){
+                                                                                                                                                    receptor5 = value ?? false;
+                                                                                                                                                  });
+                                                                                                                                                }),
+                                                                                                                                            const Text(
+                                                                                                                                                'Receptor 5',
+                                                                                                                                                style: TextStyle(
+                                                                                                                                                    fontSize: 16
+                                                                                                                                                )
+                                                                                                                                            ),
+                                                                                                                                          ],
+                                                                                                                                        ),
+                                                                                                                                      ),
+                                                                                                                                      Center(
+                                                                                                                                        child: Row(
+                                                                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                                          children: [
+                                                                                                                                            Checkbox(value: receptor6,
+                                                                                                                                                onChanged: (bool? value){
+                                                                                                                                                  setStater((){
+                                                                                                                                                    receptor6 = value ?? false;
+                                                                                                                                                  });
+                                                                                                                                                }),
+                                                                                                                                            const Text(
+                                                                                                                                                'Receptor 6',
+                                                                                                                                                style: TextStyle(
+                                                                                                                                                    fontSize: 16
+                                                                                                                                                )
+                                                                                                                                            ),
+                                                                                                                                          ],
+                                                                                                                                        ),
+                                                                                                                                      ),
+                                                                                                                                      Center(
+                                                                                                                                        child: Row(
+                                                                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                                          children: [
+                                                                                                                                            Checkbox(value: receptor7,
+                                                                                                                                                onChanged: (bool? value){
+                                                                                                                                                  setStater((){
+                                                                                                                                                    receptor7 = value ?? false;
+                                                                                                                                                  });
+
+                                                                                                                                                }),
+                                                                                                                                            const Text(
+                                                                                                                                                'Receptor 7',
+                                                                                                                                                style: TextStyle(
+                                                                                                                                                    fontSize: 16
+                                                                                                                                                )
+                                                                                                                                            ),
+                                                                                                                                          ],
+                                                                                                                                        ),
+                                                                                                                                      ),
+                                                                                                                                      Center(
+                                                                                                                                        child: Row(
+                                                                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                                          children: [
+                                                                                                                                            Checkbox(value: receptor8,
+                                                                                                                                                onChanged: (bool? value){
+                                                                                                                                                  setStater((){
+                                                                                                                                                    receptor8 = value ?? false;
+                                                                                                                                                  });
+
+                                                                                                                                                }),
+                                                                                                                                            const Text(
+                                                                                                                                                'Receptor 8',
+                                                                                                                                                style: TextStyle(
+                                                                                                                                                    fontSize: 16
+                                                                                                                                                )
+                                                                                                                                            ),
+                                                                                                                                          ],
+                                                                                                                                        ),
+                                                                                                                                      ),
+                                                                                                                                      Row(
+                                                                                                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                                        children: [
+                                                                                                                                          Container(
+                                                                                                                                            padding: const EdgeInsets.all(5),
+                                                                                                                                            child: ElevatedButton(
+                                                                                                                                                onPressed: () async {
+                                                                                                                                                  if(Identificacao == ''){
+                                                                                                                                                    showToast("O nome está vazio!",context:context);
+                                                                                                                                                  }else{
+                                                                                                                                                    if(tipo  == ""){
+                                                                                                                                                      showToast("O tipo está vazio!",context:context);
+                                                                                                                                                    }else{
+                                                                                                                                                      if(serial == ""){
+                                                                                                                                                        showToast("O tipo está vazio!",context:context);
+                                                                                                                                                      }else{
+                                                                                                                                                        if(Contador == ''){
+                                                                                                                                                          showToast("O contador está vazio!",context:context);
+                                                                                                                                                        }else{
+                                                                                                                                                          if(bloco == ""){
+                                                                                                                                                            showToast("O bloco está vazio!",context:context);
+                                                                                                                                                          }else{
+                                                                                                                                                            if(marca == ""){
+                                                                                                                                                              showToast("A marca está vazia!",context:context);
+                                                                                                                                                            }else{
+                                                                                                                                                              if(cor == ""){
+                                                                                                                                                                showToast("A cor está vazia!",context:context);
+                                                                                                                                                              }else{
+                                                                                                                                                                if(placa == ""){
+                                                                                                                                                                  showToast("A placa está vazia!",context:context);
+                                                                                                                                                                }else{
+                                                                                                                                                                  edicao(context, documents['idGuarita'],documents['id'], documents['hostGuarita'], porta, tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa);
+                                                                                                                                                                }
+                                                                                                                                                              }
+                                                                                                                                                            }
+                                                                                                                                                          }
+                                                                                                                                                        }
+                                                                                                                                                      }
+                                                                                                                                                    }
+                                                                                                                                                  }
+                                                                                                                                                },
+                                                                                                                                                child: const Text('Finalizar')
+                                                                                                                                            ),
+                                                                                                                                          ),
+                                                                                                                                          Container(
+                                                                                                                                            padding: const EdgeInsets.all(5),
+                                                                                                                                            child: ElevatedButton(
+                                                                                                                                                onPressed: (){
+                                                                                                                                                  Navigator.pop(context);
+                                                                                                                                                },
+                                                                                                                                                child: const Text('Cancelar')
+                                                                                                                                            ),
+                                                                                                                                          ),
+                                                                                                                                        ],
+                                                                                                                                      )
+                                                                                                                                    ],
+                                                                                                                                  ),
+                                                                                                                                );
+                                                                                                                              },
+                                                                                                                              );
+                                                                                                                            },
                                                                                                                           );
                                                                                                                         },
-                                                                                                                      );
-                                                                                                                      },
-                                                                                                                        child: const Icon(Icons.delete)
+                                                                                                                            child: const Icon(Icons.edit)
+                                                                                                                        ),
+                                                                                                                        TextButton(onPressed: (){
+                                                                                                                          showDialog(
+                                                                                                                            context: context,
+                                                                                                                            builder: (BuildContext context) {
+                                                                                                                              return AlertDialog(
+                                                                                                                                title: const Text('Tem certeza que deseja deletar esse controle?'),
+                                                                                                                                actions: [
+                                                                                                                                  Center(
+                                                                                                                                    child: Row(
+                                                                                                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                                                                      children: [
+                                                                                                                                        ElevatedButton(
+                                                                                                                                            onPressed: (){
+                                                                                                                                                Navigator.pop(context);
+                                                                                                                                            },
+                                                                                                                                            child: const Text('Não')
+                                                                                                                                        ),
+                                                                                                                                        ElevatedButton(
+                                                                                                                                            onPressed: (){
+                                                                                                                                              Deletecao(context, documents['idGuarita'], documents['id'], documents['hostGuarita'], documents['portGuarita'], "Deletacao");
+                                                                                                                                            },
+                                                                                                                                          style: ElevatedButton.styleFrom(
+                                                                                                                                            backgroundColor: Colors.red
+                                                                                                                                          ),
+                                                                                                                                            child: const Text(
+                                                                                                                                                'Sim',
+                                                                                                                                              style: TextStyle(
+                                                                                                                                                color: Colors.white
+                                                                                                                                              ),
+                                                                                                                                            ),
+                                                                                                                                        )
+                                                                                                                                      ],
+                                                                                                                                    ),
+                                                                                                                                  )
+                                                                                                                                ],
+                                                                                                                              );
+                                                                                                                            },
+                                                                                                                          );
+                                                                                                                          },
+                                                                                                                            child: const Icon(Icons.delete)
+                                                                                                                        ),
+                                                                                                                      ],
                                                                                                                     ),
                                                                                                                   ],
                                                                                                                 ),
@@ -7971,7 +8840,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 },
                                                                               );
                                                                             },
-                                                                            child: const Text('Importar Usuarios diretamente do Guarita'),
+                                                                            child: const Text('Controles do Guarita'),
                                                                           ),
                                                                           Container(
                                                                             padding: const EdgeInsets.all(16),

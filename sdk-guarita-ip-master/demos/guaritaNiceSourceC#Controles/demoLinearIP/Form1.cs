@@ -12,6 +12,15 @@ namespace demoLinearIP
     public partial class fprincipal : Form
     {
 
+        bool receptbooleano1;
+        bool receptbooleano2;
+        bool receptbooleano3;
+        bool receptbooleano4;
+        bool receptbooleano5;
+        bool receptbooleano6;
+        bool receptbooleano7;
+        bool receptbooleano8;
+
         String DeleteUser = "";
         int IDGuarita;
             static Dictionary<char, int> letraParaNumero = new Dictionary<char, int>()
@@ -246,15 +255,6 @@ namespace demoLinearIP
                 }
                 Dictionary<string, int> listaMarcasInvertida = new Dictionary<string, int>();
                 Dictionary<string, int> listaCoresInvertida = new Dictionary<string, int>();
-
-                bool receptbooleano1;
-                bool receptbooleano2;
-                bool receptbooleano3;
-                bool receptbooleano4;
-                bool receptbooleano5;
-                bool receptbooleano6;
-                bool receptbooleano7;
-                bool receptbooleano8;
 
                 foreach (var item in listaMarcas) {
                     listaMarcasInvertida.Add(item.Value, item.Key); // Inverte chave e valor
@@ -1779,6 +1779,7 @@ namespace demoLinearIP
             //+Veículo
             //-Marca
             lbMarcaD.Text = retorna_marcav(frameDisp[30]);
+            string aux = "";
 
             if (frameDisp[30] != 0x1F)
             {
@@ -1786,8 +1787,7 @@ namespace demoLinearIP
                 lbMarcaD.Text += " | " + retorna_corv(frameDisp[31]);
 
                 //-Placa do veículo (se aplicável -> 0x1F = SEM VEICULO)
-                string aux = "";
-
+                
                 for (int i = 0; i < 7; i++)
                     aux += ((char)frameDisp[32 + i]).ToString();
 
@@ -1795,10 +1795,25 @@ namespace demoLinearIP
             }
             id++;
 
+            string[] numerosAtivos = lbHabD.Text.Split(' ');
+
+            foreach (string numero in numerosAtivos) {
+                switch (numero) {
+                    case "1": receptbooleano1 = true; break;
+                    case "2": receptbooleano2 = true; break;
+                    case "3": receptbooleano3 = true; break;
+                    case "4": receptbooleano4 = true; break;
+                    case "5": receptbooleano5 = true; break;
+                    case "6": receptbooleano6 = true; break;
+                    case "7": receptbooleano7 = true; break;
+                    case "8": receptbooleano8 = true; break;
+                }
+            }
+
             Console.WriteLine("'" + id + "'" + ": {");
             Console.WriteLine("'Tipo': " + "'" + lbTipoD.Text + "'" + ",");
             Console.WriteLine("'Serial': " + "'" + lbSerialD.Text + "'" + ",");
-            Console.WriteLine("'Controlador/ID': " + "'" + lbContaD.Text + "'" + ",");
+            Console.WriteLine("'Controlador_ID': " + "'" + lbContaD.Text + "'" + ",");
             Console.WriteLine("'Unidade': " + "'" + lbUnidD.Text + "'" + ",");
             Console.WriteLine("'Bloco': " + "'" + lbBlocoD.Text + "'" + ",");
             Console.WriteLine("'Grupo': " + "'" + lbGrupoD.Text + "'" + ",");
@@ -1806,7 +1821,17 @@ namespace demoLinearIP
             Console.WriteLine("'Identificacao': " + "'" + lbLabelD.Text.Trim() + "'" + ",");
             Console.WriteLine("'Ultimo Acionamento': " + "'" + lbAcionD.Text + "'" + ",");
             Console.WriteLine("'Status de bateria': " + "'" + lbBatD.Text + "'" + ",");
-            Console.WriteLine("'Veiculo/Marca': " + "'" + lbMarcaD.Text + "'" + "");
+            Console.WriteLine("'Veiculo_Marca': " + "'" + retorna_marcav(frameDisp[30]) + "'" + ",");
+            Console.WriteLine("'Cor': " + "'" + retorna_corv(frameDisp[31]) + "'" + ",");
+            Console.WriteLine("'receptor1': " + "'" + receptbooleano1 + "'" + ",");
+            Console.WriteLine("'receptor2': " + "'" + receptbooleano2 + "'" + ",");
+            Console.WriteLine("'receptor3': " + "'" + receptbooleano3 + "'" + ",");
+            Console.WriteLine("'receptor4': " + "'" + receptbooleano4 + "'" + ",");
+            Console.WriteLine("'receptor5': " + "'" + receptbooleano5 + "'" + ",");
+            Console.WriteLine("'receptor6': " + "'" + receptbooleano6 + "'" + ",");
+            Console.WriteLine("'receptor7': " + "'" + receptbooleano7 + "'" + ",");
+            Console.WriteLine("'receptor8': " + "'" + receptbooleano8 + "'" + ",");
+            Console.WriteLine("'Placa': " + "'" + aux + "'" + "");
             Console.WriteLine("},");
 
 
