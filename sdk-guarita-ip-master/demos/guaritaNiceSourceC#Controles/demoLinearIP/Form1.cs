@@ -16,11 +16,31 @@ namespace demoLinearIP
         int IDGuarita;
             static Dictionary<char, int> letraParaNumero = new Dictionary<char, int>()
     {
-        { 'A', 0 }, { 'B', 1 }, { 'C', 2 }, { 'D', 3 }, { 'E', 4 },
-        { 'F', 5 }, { 'G', 6 }, { 'H', 7 }, { 'I', 8 }, { 'J', 9 },
-        { 'K', 10 }, { 'L', 11 }, { 'M', 12 }, { 'N', 13 }, { 'O', 14 },
-        { 'P', 15 }, { 'Q', 16 }, { 'R', 17 }, { 'S', 18 }, { 'T', 19 },
-        { 'U', 20 }, { 'V', 21 }, { 'W', 22 }, { 'X', 23 }, { 'Y', 24 },
+        { 'A', 0 },
+        { 'B', 1 },
+        { 'C', 2 },
+        { 'D', 3 },
+        { 'E', 4 },
+        { 'F', 5 },
+        { 'G', 6 },
+        { 'H', 7 },
+        { 'I', 8 },
+        { 'J', 9 },
+        { 'K', 10 },
+        { 'L', 11 },
+        { 'M', 12 },
+        { 'N', 13 },
+        { 'O', 14 },
+        { 'P', 15 },
+        { 'Q', 16 },
+        { 'R', 17 },
+        { 'S', 18 },
+        { 'T', 19 },
+        { 'U', 20 },
+        { 'V', 21 },
+        { 'W', 22 },
+        { 'X', 23 },
+        { 'Y', 24 },
         { 'Z', 25 }
     };
         int id = 0;
@@ -56,7 +76,8 @@ namespace demoLinearIP
                 { 27, "SUZUKI" },
                 { 28, "TOYOTA" },
                 { 29, "VOLKSWAGEN" },
-                { 30, "VOLVO" }
+                { 30, "VOLVO" },
+                { 31, "Sem Veiculo" }
             };
 
         Dictionary<int, string> listaCores = new Dictionary<int, string>()
@@ -205,8 +226,11 @@ namespace demoLinearIP
                 if (tipo == "BIO") {
                     cbDisp2.SelectedIndex = 3;
                 }
-                if (tipo == "Senha CTW") {
+                if (tipo == "TAGP") {
                     cbDisp2.SelectedIndex = 4;
+                }
+                if (tipo == "Senha CTW") {
+                    cbDisp2.SelectedIndex = 5;
                 }
 
                 int bloc = 0;

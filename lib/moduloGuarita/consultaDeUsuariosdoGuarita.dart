@@ -9,10 +9,7 @@ import 'package:vigilant/intRamdom/intRamdom.dart';
 
 //Desenvolvidor por HeroRickyGAMES com ajuda de Deus!
 
-Consulta(var context) async {
-  String host = "189.79.153.218";
-  int porta = 9000;
-
+Consulta(var context, String host, int port) async {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -26,7 +23,7 @@ Consulta(var context) async {
       );
     },
   );
-  String command = 'guaritaConrole/demoLinearIP.exe --ip $host --porta $porta --checkusers';
+  String command = 'guaritaConrole/demoLinearIP.exe --ip $host --porta $port --checkusers';
   String pwd = 'pwd';
 
   ProcessResult result = await Process.run('powershell.exe', ['-c', command]);
@@ -36,7 +33,6 @@ Consulta(var context) async {
   String tratado = "$comando}";
   print(tratado);
   try{
-
     Map<String, dynamic> Controles = jsonDecode(tratado.replaceAll("},}", "}}"));
 
     Controles.forEach((serial, fields) async {
@@ -106,6 +102,7 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
     FirebaseFirestore.instance.doc(id).set({
       "Tipo": tipo,
       'Serial': serieal,
+      'idGuarita': serieal,
       "Controlador/ID": contador,
       "Unidade": unidade,
       'Bloco': bloco,
@@ -114,7 +111,11 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
       "Identificacao": identificacao,
       "Ultimo Acionamento": "0",
       'Status de bateria': "- - - -",
-      "Veiculo/Marca": Marca
+      "Veiculo/Marca": Marca,
+      "hostGuarita": host,
+      "portGuarita": port,
+      "id": id,
+      "idCondominio": idCondominio,
     });
 
     showToast("pronto!",context:context);
