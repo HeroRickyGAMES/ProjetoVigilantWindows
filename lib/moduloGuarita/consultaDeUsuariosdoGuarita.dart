@@ -95,7 +95,18 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
     },
   );
 
-  print(port);
+  if(contador == ""){
+    contador = "null";
+  }
+
+  if(unidade == ""){
+    unidade = "null";
+  }
+
+  if(bloco == ""){
+    bloco = "null";
+  }
+
 
   String command = 'guaritaConrole/demoLinearIP.exe --ip $host --porta $port --createuser --tipo $tipo --serial $serieal --contador $contador --unidade $unidade --bloco $bloco --identificacao $identificacao --grupo $grupo --marca $Marca --cor $cor --placa $Placa --receptor1 $receptor1 --receptor2 $receptor2 --receptor3 $receptor3 --receptor4 $receptor4 --receptor5 $receptor5 --receptor6 $receptor6 --receptor7 $receptor7 --receptor8 $receptor8';
 
