@@ -219,7 +219,7 @@ namespace demoLinearIP
             }
 
             if (createuser == "--createuser") {
-                Thread.Sleep(1000);
+                
                 if (tipo == "TX") {
                     cbDisp2.SelectedIndex = 0;
                 }
@@ -307,7 +307,7 @@ namespace demoLinearIP
                 }
 
                 //Hora de cadastrar
-
+                
 
                 // Botão "CADASTRAR" (aba "Cadastrar Dispositivo")
                 byte[] frameDisp = new byte[39];
@@ -323,6 +323,8 @@ namespace demoLinearIP
                 // Completa CONTADOR com zeros à esquerda...
                 while (tbContador.TextLength < 4)
                     tbContador.Text = "0" + tbContador.Text;
+
+                Thread.Sleep(1000);
 
                 if (t_disp == 0x05)
                     vConta = int.Parse(tbContador.Text);  // BM: ID Digital

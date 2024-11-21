@@ -7,3 +7,12 @@ E:\Android Studio Projetos\ProjetoVigilantWindows\sdk-guarita-ip-master\demos\gu
 E:\Android Studio Projetos\ProjetoVigilantWindows\sdk-guarita-ip-master\demos\guaritaNiceSourceC#Controles\demoLinearIP\obj\Debug\demoLinearIP.csproj.CoreCompileInputs.cache
 E:\Android Studio Projetos\ProjetoVigilantWindows\sdk-guarita-ip-master\demos\guaritaNiceSourceC#Controles\demoLinearIP\obj\Debug\demoLinearIP.exe
 E:\Android Studio Projetos\ProjetoVigilantWindows\sdk-guarita-ip-master\demos\guaritaNiceSourceC#Controles\demoLinearIP\obj\Debug\demoLinearIP.pdb
+C:\Users\USUARIO\Documents\ProjetoVigilantWindows\sdk-guarita-ip-master\demos\guaritaNiceSourceC#Controles\demoLinearIP\bin\Debug\demoLinearIP.exe
+C:\Users\USUARIO\Documents\ProjetoVigilantWindows\sdk-guarita-ip-master\demos\guaritaNiceSourceC#Controles\demoLinearIP\bin\Debug\demoLinearIP.pdb
+C:\Users\USUARIO\Documents\ProjetoVigilantWindows\sdk-guarita-ip-master\demos\guaritaNiceSourceC#Controles\demoLinearIP\obj\Debug\demoLinearIP.csproj.AssemblyReference.cache
+C:\Users\USUARIO\Documents\ProjetoVigilantWindows\sdk-guarita-ip-master\demos\guaritaNiceSourceC#Controles\demoLinearIP\obj\Debug\demoLinearIP.fprincipal.resources
+C:\Users\USUARIO\Documents\ProjetoVigilantWindows\sdk-guarita-ip-master\demos\guaritaNiceSourceC#Controles\demoLinearIP\obj\Debug\demoLinearIP.Properties.Resources.resources
+C:\Users\USUARIO\Documents\ProjetoVigilantWindows\sdk-guarita-ip-master\demos\guaritaNiceSourceC#Controles\demoLinearIP\obj\Debug\demoLinearIP.csproj.GenerateResource.cache
+C:\Users\USUARIO\Documents\ProjetoVigilantWindows\sdk-guarita-ip-master\demos\guaritaNiceSourceC#Controles\demoLinearIP\obj\Debug\demoLinearIP.csproj.CoreCompileInputs.cache
+C:\Users\USUARIO\Documents\ProjetoVigilantWindows\sdk-guarita-ip-master\demos\guaritaNiceSourceC#Controles\demoLinearIP\obj\Debug\demoLinearIP.exe
+C:\Users\USUARIO\Documents\ProjetoVigilantWindows\sdk-guarita-ip-master\demos\guaritaNiceSourceC#Controles\demoLinearIP\obj\Debug\demoLinearIP.pdb

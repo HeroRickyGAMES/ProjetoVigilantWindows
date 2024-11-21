@@ -80,7 +80,7 @@ Consulta(var context, String host, int port) async {
   }
 }
 
-Cadastro(var context, String host, int port, String tipo, String serieal, String contador, String unidade, String bloco, String identificacao, String grupo, String Marca, String cor, String Placa, bool receptor1, bool receptor2, bool receptor3, bool receptor4, bool receptor5, bool receptor6, bool receptor7, bool receptor8, String placa) async {
+Cadastro(var context, String host, int port, String tipo, String serieal, String contador, String unidade, String bloco, String identificacao, String grupo, String Marca, String cor, String Placa, bool receptor1, bool receptor2, bool receptor3, bool receptor4, bool receptor5, bool receptor6, bool receptor7, bool receptor8, String placa, String ide) async {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -119,7 +119,13 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
     showToast("Controle já existe na memória!",context:context);
     Navigator.pop(context);
   }else{
-    String id = "${gerarNumero()}$idCondominio";
+    String id = "";
+
+    if(ide == ""){
+      id = "${gerarNumero()}$idCondominio";
+    }else{
+      id = ide;
+    }
 
     List<String> receptoresAtivos = [];
 
@@ -181,7 +187,7 @@ edicao(var context, String idGuarita, String id, String host, int port, String t
   //Primeiro ele vai deletar o usuario x
   Deletecao(context, idGuarita, id, host, port, "Edicao");
   //Depois ele vai cadastrar com os dados mandados do proprio vigilant
-  Cadastro(context, host, port, tipo, serieal, contador, unidade, bloco, identificacao, grupo, Marca, cor, Placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8, placa);
+  Cadastro(context, host, port, tipo, serieal, contador, unidade, bloco, identificacao, grupo, Marca, cor, Placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8, placa, id);
   //Por ultimo ele consulta usuarios do guarita
 }
 
