@@ -173,13 +173,13 @@ namespace demoLinearIP
                         toutComando(true, 5);
                         enviaComando(new byte[] { 0x00, 0x07 });
 
-                        Thread.Sleep(5000);
+                        //Thread.Sleep(5000);
                         if (deleteUser == "--deleteuser") {
                             IDGuarita = int.Parse(idGuarita) - 1;
                             lsDisp.SelectedIndex = int.Parse(idGuarita) - 1;
                             Close();
                         }
-                        Thread.Sleep(5000);
+                        //Thread.Sleep(5000);
                         if (checkarUsers == "--checkusers") {
                             for (int i = 0; i <= quantidadelida - 1; i++) {
                                 lsDisp.SelectedIndex = i;
@@ -323,8 +323,6 @@ namespace demoLinearIP
                 // Completa CONTADOR com zeros à esquerda...
                 while (tbContador.TextLength < 4)
                     tbContador.Text = "0" + tbContador.Text;
-
-                Thread.Sleep(1000);
 
                 if (t_disp == 0x05)
                     vConta = int.Parse(tbContador.Text);  // BM: ID Digital
@@ -659,6 +657,7 @@ namespace demoLinearIP
         // **Método para envio de frame Linear-HCS (com cálculo de checksum), para a interface selecionada
         public void enviaComando(byte[] frameHex)
         {
+            Thread.Sleep(1000);
             int tamFrameHex = frameHex.Length;
             byte[] frameEnvioHex = new byte[tamFrameHex + 1];
 

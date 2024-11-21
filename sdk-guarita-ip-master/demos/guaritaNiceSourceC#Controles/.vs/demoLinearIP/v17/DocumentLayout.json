@@ -28,6 +28,23 @@
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\ProjetoVigilantWindows\\sdk-guarita-ip-master\\demos\\guaritaNiceSourceC#Controles\\demoLinearIP\\Form1.cs",
+              "RelativeDocumentMoniker": "demoLinearIP\\Form1.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\ProjetoVigilantWindows\\sdk-guarita-ip-master\\demos\\guaritaNiceSourceC#Controles\\demoLinearIP\\Form1.cs",
+              "RelativeToolTip": "demoLinearIP\\Form1.cs",
+              "ViewState": "AgIAAPsFAAAAAAAAAAAAAPsFAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-07T15:40:39.819Z",
+              "EditorCaption": ""
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "Program.cs",
@@ -38,23 +55,6 @@
               "ViewState": "AgIAADkAAAAAAAAAAAAqwFoAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-19T19:29:55.609Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\ProjetoVigilantWindows\\sdk-guarita-ip-master\\demos\\guaritaNiceSourceC#Controles\\demoLinearIP\\Form1.cs",
-              "RelativeDocumentMoniker": "demoLinearIP\\Form1.cs",
-              "ToolTip": "C:\\Users\\USUARIO\\Documents\\ProjetoVigilantWindows\\sdk-guarita-ip-master\\demos\\guaritaNiceSourceC#Controles\\demoLinearIP\\Form1.cs",
-              "RelativeToolTip": "demoLinearIP\\Form1.cs",
-              "ViewState": "AgIAAJABAAAAAAAAAAAcwKMBAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-07T15:40:39.819Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
               "$type": "Document",
