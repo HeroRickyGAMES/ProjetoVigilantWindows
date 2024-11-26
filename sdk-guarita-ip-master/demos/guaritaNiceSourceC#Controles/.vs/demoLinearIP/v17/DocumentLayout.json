@@ -3,15 +3,15 @@
   "WorkspaceRootPath": "E:\\Android Studio Projetos\\ProjetoVigilantWindows\\sdk-guarita-ip-master\\demos\\guaritaNiceSourceC#Controles\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{385F160B-5ED7-4C86-944E-6B67B143C9AC}|demoLinearIP\\demoLinearIP.csproj|e:\\android studio projetos\\projetovigilantwindows\\sdk-guarita-ip-master\\demos\\guaritanicesourcec#controles\\demolinearip\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{385F160B-5ED7-4C86-944E-6B67B143C9AC}|demoLinearIP\\demoLinearIP.csproj|solutionrelative:demolinearip\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|demoLinearIP||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{385F160B-5ED7-4C86-944E-6B67B143C9AC}|demoLinearIP\\demoLinearIP.csproj|E:\\Android Studio Projetos\\ProjetoVigilantWindows\\sdk-guarita-ip-master\\demos\\guaritaNiceSourceC#Controles\\demolinearip\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{385F160B-5ED7-4C86-944E-6B67B143C9AC}|demoLinearIP\\demoLinearIP.csproj|e:\\android studio projetos\\projetovigilantwindows\\sdk-guarita-ip-master\\demos\\guaritanicesourcec#controles\\demolinearip\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{385F160B-5ED7-4C86-944E-6B67B143C9AC}|demoLinearIP\\demoLinearIP.csproj|solutionrelative:demolinearip\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{385F160B-5ED7-4C86-944E-6B67B143C9AC}|demoLinearIP\\demoLinearIP.csproj|E:\\Android Studio Projetos\\ProjetoVigilantWindows\\sdk-guarita-ip-master\\demos\\guaritaNiceSourceC#Controles\\demolinearip\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{385F160B-5ED7-4C86-944E-6B67B143C9AC}|demoLinearIP\\demoLinearIP.csproj|solutionrelative:demolinearip\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{385F160B-5ED7-4C86-944E-6B67B143C9AC}|demoLinearIP\\demoLinearIP.csproj|e:\\android studio projetos\\projetovigilantwindows\\sdk-guarita-ip-master\\demos\\guaritanicesourcec#controles\\demolinearip\\||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|6185191f-1008-4fb2-a715-3a4e4f27e610"
@@ -24,7 +24,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -32,7 +32,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "demoLinearIP",
               "DocumentMoniker": "E:\\Android Studio Projetos\\ProjetoVigilantWindows\\sdk-guarita-ip-master\\demos\\guaritaNiceSourceC#Controles\\demoLinearIP\\demoLinearIP.csproj",
               "RelativeDocumentMoniker": "demoLinearIP\\demoLinearIP.csproj",
@@ -44,26 +44,25 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Form1.cs",
               "DocumentMoniker": "E:\\Android Studio Projetos\\ProjetoVigilantWindows\\sdk-guarita-ip-master\\demos\\guaritaNiceSourceC#Controles\\demoLinearIP\\Form1.cs",
               "RelativeDocumentMoniker": "demoLinearIP\\Form1.cs",
               "ToolTip": "E:\\Android Studio Projetos\\ProjetoVigilantWindows\\sdk-guarita-ip-master\\demos\\guaritaNiceSourceC#Controles\\demoLinearIP\\Form1.cs",
               "RelativeToolTip": "demoLinearIP\\Form1.cs",
-              "ViewState": "AgIAAAQHAAAAAAAAAAArwBgHAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAAPsAAAAAAAAAAAArwBABAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-07T15:40:39.819Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-07T15:40:39.819Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "E:\\Android Studio Projetos\\ProjetoVigilantWindows\\sdk-guarita-ip-master\\demos\\guaritaNiceSourceC#Controles\\demoLinearIP\\Program.cs",
               "RelativeDocumentMoniker": "demoLinearIP\\Program.cs",
               "ToolTip": "E:\\Android Studio Projetos\\ProjetoVigilantWindows\\sdk-guarita-ip-master\\demos\\guaritaNiceSourceC#Controles\\demoLinearIP\\Program.cs",
               "RelativeToolTip": "demoLinearIP\\Program.cs",
-              "ViewState": "AgIAAHUAAAAAAAAAAAArwIYAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAHYAAAAAAAAAAAAjwIYAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-19T19:29:55.609Z",
               "EditorCaption": ""

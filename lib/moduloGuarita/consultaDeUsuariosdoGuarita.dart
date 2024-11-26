@@ -104,8 +104,7 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
       );
     },
   );
-
-
+  
   String countGuarita = "";
 
   var ip = await hostToIp(host);
@@ -123,7 +122,7 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
     bloco = "null";
   }
 
-  String command = 'guaritaConrole/demoLinearIP.exe --ip $hostd --porta $port --createuser --tipo $tipo --serial $serieal --contador $contador --unidade $unidade --bloco $bloco --identificacao $identificacao --grupo $grupo --marca $Marca --cor $cor --placa $Placa --receptor1 $receptor1 --receptor2 $receptor2 --receptor3 $receptor3 --receptor4 $receptor4 --receptor5 $receptor5 --receptor6 $receptor6 --receptor7 $receptor7 --receptor8 $receptor8';
+  String command = 'guaritaConrole/demoLinearIP.exe --ip $hostd --porta $port --createuser --tipo $tipo --serial $serieal --contador $contador --unidade $unidade --bloco $bloco --identificacao ${identificacao.replaceAll(" ", "_")} --grupo $grupo --marca ${Marca.replaceAll(" ", "_")} --cor $cor --placa ${Placa.replaceAll(" ", "_")} --receptor1 $receptor1 --receptor2 $receptor2 --receptor3 $receptor3 --receptor4 $receptor4 --receptor5 $receptor5 --receptor6 $receptor6 --receptor7 $receptor7 --receptor8 $receptor8';
 
   print(command);
 
@@ -309,22 +308,19 @@ edicao(var context, String idGuarita, String id, String host, int port, String t
 }
 
 Deletecao(var context, String idGuarita, String id, String host, int port, String veiode) async {
-
-  if(veiode == 'Edicao'){
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return const AlertDialog(
-          title: Text('Aguarde!'),
-          actions: [
-            Center(
-              child: CircularProgressIndicator(),
-            )
-          ],
-        );
-      },
-    );
-  }
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return const AlertDialog(
+        title: Text('Aguarde!'),
+        actions: [
+          Center(
+            child: CircularProgressIndicator(),
+          )
+        ],
+      );
+    },
+  );
 
   var ip = await hostToIp(host);
   String hostd = ip;
@@ -338,6 +334,7 @@ Deletecao(var context, String idGuarita, String id, String host, int port, Strin
   await Process.run('powershell.exe', ['-c', command]);
 
   if(veiode == "Deletacao"){
+    Navigator.pop(context);
     Navigator.pop(context);
     showToast("Deletado com sucesso!",context:context);
   }

@@ -7613,11 +7613,12 @@ class _homeAppState extends State<homeApp>{
                                                                                                                       enableSuggestions: false,
                                                                                                                       autocorrect: false,
                                                                                                                       onChanged: (value){
-                                                                                                                        setStater(() {
-                                                                                                                          placa = value;
-                                                                                                                        });
                                                                                                                         if(value == ""){
                                                                                                                           placa = "null";
+                                                                                                                        }else{
+                                                                                                                          setStater(() {
+                                                                                                                            placa = value;
+                                                                                                                          });
                                                                                                                         }
                                                                                                                       },
                                                                                                                       decoration: InputDecoration(
@@ -7829,8 +7830,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                           showToast("A cor está vazia!",context:context);
                                                                                                                                         }else{
                                                                                                                                           Cadastro(context, ip, porta, tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa, "", "");
-                                                                                                                                          //Navigator.pop(context);
-    }
                                                                                                                                         }
                                                                                                                                       }
                                                                                                                                     }
@@ -8544,11 +8543,12 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                             enableSuggestions: false,
                                                                                                                                             autocorrect: false,
                                                                                                                                             onChanged: (value){
-                                                                                                                                              setStater(() {
-                                                                                                                                                placa = value;
-                                                                                                                                              });
                                                                                                                                               if(value == ""){
                                                                                                                                                 placa = "null";
+                                                                                                                                              }else{
+                                                                                                                                                setStater(() {
+                                                                                                                                                  placa = value;
+                                                                                                                                                });
                                                                                                                                               }
                                                                                                                                             },
                                                                                                                                             decoration: InputDecoration(

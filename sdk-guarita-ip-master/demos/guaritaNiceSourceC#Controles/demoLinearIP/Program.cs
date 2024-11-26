@@ -82,11 +82,11 @@ namespace demoLinearIP
                                     contador = args[i + 10];
                                     unidade = args[i + 12];
                                     bloco = args[i + 14];
-                                    identificacao = args[i + 16];
+                                    identificacao = args[i + 16].Replace("_", " ");
                                     grupo = args[i + 18];
-                                    marca = args[i + 20];
+                                    marca = args[i + 20].Replace("_", " ");
                                     cor = args[i + 22];
-                                    placa = args[i + 24];
+                                    placa = args[i + 24].Replace("_", " ");
                                     receptor1 = args[i + 26];
                                     receptor2 = args[i + 28];
                                     receptor3 = args[i + 30];
