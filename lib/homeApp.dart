@@ -7831,6 +7831,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                         }else{
                                                                                                                                           Cadastro(context, ip, porta, tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa, "", "");
                                                                                                                                         }
+                                                                                                                                       }
                                                                                                                                       }
                                                                                                                                     }
                                                                                                                                   }
