@@ -7005,13 +7005,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                       if(host == ""){
                                                                                                                         showToast("É necessario selecionar um guarita primeiro!",context:context);
                                                                                                                       }else{
-                                                                                                                        var ip = await hostToIp(host);
-                                                                                                                        var consult = await Consulta(context, "${ip[0]}".replaceAll('InternetAddress(', '').replaceAll(", IPv4)", '').replaceAll("'", ''), porta);
-                                                                                                                        if(consult == "Pronto!"){
-                                                                                                                          Navigator.pop(context);
-                                                                                                                        }else{
-                                                                                                                          Navigator.pop(context);
-                                                                                                                        }
+                                                                                                                       Consulta(context, host, porta, "Scan");
+
                                                                                                                       }
                                                                                                                     },
                                                                                                                     child: const Text('Puxar usuarios do guarita selecionado'),
@@ -7833,10 +7828,9 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                         if(cor == ""){
                                                                                                                                           showToast("A cor está vazia!",context:context);
                                                                                                                                         }else{
-                                                                                                                                          var ips = await hostToIp(ip);
-                                                                                                                                          print(ips[0]);
-                                                                                                                                          Cadastro(context, "${ips[0]}".replaceAll('InternetAddress(', '').replaceAll(", IPv4)", '').replaceAll("'", ''), porta, tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa, "");
-                                                                                                                                          }
+                                                                                                                                          Cadastro(context, ip, porta, tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa, "", "");
+                                                                                                                                          //Navigator.pop(context);
+    }
                                                                                                                                         }
                                                                                                                                       }
                                                                                                                                     }
