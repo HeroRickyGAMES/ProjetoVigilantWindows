@@ -7033,7 +7033,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                       String ip = "";
                                                                                                       int porta = 9000;
 
-                                                                                                      String tipo = 'TX';
+                                                                                                      String tipo = '';
                                                                                                       String serial = "";
                                                                                                       String Contador = "";
                                                                                                       String unidade = '';
@@ -7829,8 +7829,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                         if(cor == ""){
                                                                                                                                           showToast("A cor está vazia!",context:context);
                                                                                                                                         }else{
-                                                                                                                                          Cadastro(context, ip, porta, tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa, "", "");
-                                                                                                                                        }
+                                                                                                                                            Cadastro(context, ip, porta, tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa, "", "");
+                                                                                                                                          }
                                                                                                                                        }
                                                                                                                                       }
                                                                                                                                     }

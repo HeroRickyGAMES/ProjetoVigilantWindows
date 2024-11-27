@@ -25,6 +25,15 @@ Consulta(var context, String host, int port, String veiode) async {
     },
   );
 
+  if(veiode == "Scan"){
+    CollectionReference collectionRef = FirebaseFirestore.instance.collection("Controles");
+    QuerySnapshot querySnapshot = await collectionRef.get();
+
+    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+      await doc.reference.delete();
+    }
+  }
+
   var ip = await hostToIp(host);
   String hostd = ip;
 
