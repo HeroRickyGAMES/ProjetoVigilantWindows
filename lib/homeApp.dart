@@ -21,7 +21,6 @@ import 'package:vigilant/login/login.dart';
 import 'package:vigilant/libDePessoas/cadastroDeUsuariosNoEquipamento.dart';
 import 'package:vigilant/libDePessoas/pushPessoas.dart';
 import 'package:vigilant/moduloGuarita/consultaDeUsuariosdoGuarita.dart';
-import 'package:vigilant/moduloGuarita/hostToIP.dart';
 import 'package:vigilant/videoStream/videoStreamWidget.dart';
 import 'package:uuid/uuid.dart';
 
@@ -169,6 +168,9 @@ List tipos = [
 //doubles
 double topbot = 7.5;
 
+//Timers
+Timer? _inactivityTimer;
+
 class homeApp extends StatefulWidget {
   const homeApp({super.key});
 
@@ -180,6 +182,12 @@ class _homeAppState extends State<homeApp>{
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _inactivityTimer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -2653,17 +2661,15 @@ class _homeAppState extends State<homeApp>{
                                                                                   'acionamentoNome': documents["nome"],
                                                                                   'Condominio': idCondominio,
                                                                                 });
-                                                                              }
+                                                                                _inactivityTimer?.cancel();
+                                                                                _inactivityTimer = Timer(const Duration(seconds: 5), () {
+                                                                                  originalParameter(documents["id"]);
+                                                                                });
 
+                                                                              }
                                                                               if(documents["prontoParaAtivar"] == true){
                                                                                 acionarPorta(context, documents["ip"], documents["porta"], documents["modelo"], documents["canal"], documents["usuario"], documents["senha"], documents["id"], documents["receptor"], documents["can"], documents["nome"]);
                                                                               }
-
-                                                                              //Timer? _timer = Timer(Duration(seconds: 5));
-
-
-
-                                                                              //await Future.delayed(Duration(seconds: 5));
                                                                             },
                                                                             child: Stack(
                                                                               alignment: Alignment.center,

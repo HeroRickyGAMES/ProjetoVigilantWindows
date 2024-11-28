@@ -14,6 +14,13 @@ import 'package:vigilant/homeApp.dart';
 Uuid uuid = const Uuid();
 String UUID = uuid.v4();
 
+originalParameter(String id){
+  FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+    "prontoParaAtivar" : false,
+    "deuErro": false
+  });
+}
+
 acionarPorta(var context, String ip, int porta, String modelo, int canal, String usuario, String senha, String id, String Receptor, String can, String nomeAc) async {
 
   //Intelbras
