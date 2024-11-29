@@ -4048,7 +4048,7 @@ class _homeAppState extends State<homeApp>{
                                                         child: ListView(
                                                           children: snapshot.data!.docs.map((documents){
                                                             double textSize = 16;
-                                                            
+
                                                             if(documents['NomeRamal'].length >= 16){
                                                               textSize = 10;
                                                             }
@@ -6388,7 +6388,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                 padding: const EdgeInsets.only(right: 35),
                                                                                                 child: TextButton(
                                                                                                   onPressed: () async {
-                                                                            
+
                                                                                                     if(pesquisa2 == ""){
                                                                                                       setStater(() {
                                                                                                         pesquisando2 = false;
@@ -6401,12 +6401,12 @@ class _homeAppState extends State<homeApp>{
                                                                                                           .where("Nome", isGreaterThanOrEqualTo: pesquisa2)
                                                                                                           .where("Nome", isLessThan: "${pesquisa2}z")
                                                                                                           .get();
-                                                                            
+
                                                                                                       if(snapshotNome.docs.isNotEmpty){
                                                                                                         for (var doc in snapshotNome.docs) {
                                                                                                           //Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
                                                                                                           //print("Dados: $data");
-                                                                            
+
                                                                                                           setStater((){
                                                                                                             pesquisando2 = true;
                                                                                                           });
@@ -6450,7 +6450,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               controller: cpfControler,
                                                                                               onChanged: (value){
                                                                                                 pesquisa2 = value;
-                                                                            
+
                                                                                                 if(value == ""){
                                                                                                   setStater(() {
                                                                                                     pesquisando2 = false;
@@ -6488,7 +6488,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                 padding: const EdgeInsets.only(right: 35),
                                                                                                 child: TextButton(
                                                                                                   onPressed: () async {
-                                                                            
+
                                                                                                     if(pesquisa2 == ""){
                                                                                                       setStater(() {
                                                                                                         pesquisando2 = false;
@@ -6502,12 +6502,12 @@ class _homeAppState extends State<homeApp>{
                                                                                                           .where("CPF", isGreaterThanOrEqualTo: pesquisa2)
                                                                                                           .where("CPF", isLessThan: "${pesquisa2}z")
                                                                                                           .get();
-                                                                            
+
                                                                                                       if(snapshotCPF.docs.isNotEmpty){
                                                                                                         for (var doc in snapshotCPF.docs) {
                                                                                                           //Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
                                                                                                           //print("Dados: $data");
-                                                                            
+
                                                                                                           setStater((){
                                                                                                             pesquisaCPF = true;
                                                                                                           });
@@ -7034,6 +7034,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               child: ElevatedButton(
                                                                                                 onPressed: (){
                                                                                                   showDialog(
+                                                                                                    barrierDismissible: false,
                                                                                                     context: context,
                                                                                                     builder: (BuildContext context) {
                                                                                                       String ip = "";
@@ -7836,7 +7837,33 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                           showToast("A cor está vazia!",context:context);
                                                                                                                                         }else{
                                                                                                                                             Cadastro(context, ip, porta, tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa, "", "");
-                                                                                                                                          }
+                                                                                                                                            setStater((){
+                                                                                                                                              dropValue91 = ValueNotifier('');
+                                                                                                                                              dropValue92 = ValueNotifier('');
+                                                                                                                                              dropValue93 = ValueNotifier('');
+                                                                                                                                              dropValue94 = ValueNotifier('');
+                                                                                                                                              ip = "";
+                                                                                                                                              porta = 9000;
+                                                                                                                                              tipo = '';
+                                                                                                                                              serial = "";
+                                                                                                                                              Contador = "";
+                                                                                                                                              unidade = '';
+                                                                                                                                              bloco = "";
+                                                                                                                                              Identificacao = "";
+                                                                                                                                              grupo = '';
+                                                                                                                                              marca = "";
+                                                                                                                                              cor = "";
+                                                                                                                                              placa = "null";
+                                                                                                                                              receptor1 = false;
+                                                                                                                                              receptor2 = false;
+                                                                                                                                              receptor3 = false;
+                                                                                                                                              receptor4 = false;
+                                                                                                                                              receptor5 = false;
+                                                                                                                                              receptor6 = false;
+                                                                                                                                              receptor7 = false;
+                                                                                                                                              receptor8 = false;
+                                                                                                                                            });
+                                                                                                                                        }
                                                                                                                                        }
                                                                                                                                       }
                                                                                                                                     }
@@ -8041,6 +8068,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                       children: [
                                                                                                                         TextButton(onPressed: (){
                                                                                                                           showDialog(
+                                                                                                                            barrierDismissible: false,
                                                                                                                             context: context,
                                                                                                                             builder: (BuildContext context) {
                                                                                                                               String ip = "";
@@ -8101,11 +8129,11 @@ class _homeAppState extends State<homeApp>{
                                                                                                                               bool receptor7 = documents['receptor7'];
                                                                                                                               bool receptor8 = documents['receptor8'];
 
-                                                                                                                              final TextEditingController nomeController = TextEditingController(text: Identificacao);
-                                                                                                                              final TextEditingController serialController = TextEditingController(text: serial);
-                                                                                                                              final TextEditingController contadorlController = TextEditingController(text: Contador);
-                                                                                                                              final TextEditingController unidadelController = TextEditingController(text: unidade);
-                                                                                                                              final TextEditingController PlacaController = TextEditingController(text: placa);
+                                                                                                                              TextEditingController nomeController = TextEditingController(text: Identificacao);
+                                                                                                                              TextEditingController serialController = TextEditingController(text: serial);
+                                                                                                                              TextEditingController contadorlController = TextEditingController(text: Contador);
+                                                                                                                              TextEditingController unidadelController = TextEditingController(text: unidade);
+                                                                                                                              TextEditingController PlacaController = TextEditingController(text: placa);
 
                                                                                                                               List tipos = [
                                                                                                                                 "Controle",
@@ -8230,7 +8258,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                   scrollable: true,
                                                                                                                                   title: Column(
                                                                                                                                     children: [
-                                                                                                                                      const Text('Cadastro de novos controles no Guarita'),
+                                                                                                                                      const Text('Editar controles no Guarita'),
                                                                                                                                       const Center(
                                                                                                                                           child: Text('Selecione um modulo guarita para o cadastro')
                                                                                                                                       ),
@@ -8770,6 +8798,40 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                                                   placa = "null";
                                                                                                                                                                 }
                                                                                                                                                                 edicao(context, documents['idGuarita'],documents['id'], documents['hostGuarita'], porta, tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa);
+
+                                                                                                                                                                setStater((){
+                                                                                                                                                                  dropValue90 = ValueNotifier('');
+                                                                                                                                                                  dropValue91 = ValueNotifier('');
+                                                                                                                                                                  dropValue92 = ValueNotifier('');
+                                                                                                                                                                  dropValue93 = ValueNotifier('');
+                                                                                                                                                                  dropValue94 = ValueNotifier('');
+
+                                                                                                                                                                  nomeController = TextEditingController(text: '');
+                                                                                                                                                                  serialController = TextEditingController(text: '');
+                                                                                                                                                                  contadorlController = TextEditingController(text: '');
+                                                                                                                                                                  unidadelController = TextEditingController(text: '');
+                                                                                                                                                                  PlacaController = TextEditingController(text: '');
+
+                                                                                                                                                                  unidade = '';
+                                                                                                                                                                  bloco = '';
+                                                                                                                                                                  Identificacao = '';
+                                                                                                                                                                  grupo = '';
+                                                                                                                                                                  marca = '';
+                                                                                                                                                                  cor = '';
+                                                                                                                                                                  placa = 'null';
+                                                                                                                                                                  tipo = '';
+                                                                                                                                                                  serial = '';
+                                                                                                                                                                  Contador = '';
+
+                                                                                                                                                                  receptor1 = false;
+                                                                                                                                                                  receptor2 = false;
+                                                                                                                                                                  receptor3 = false;
+                                                                                                                                                                  receptor4 = false;
+                                                                                                                                                                  receptor5 = false;
+                                                                                                                                                                  receptor6 = false;
+                                                                                                                                                                  receptor7 = false;
+                                                                                                                                                                  receptor8 = false;
+                                                                                                                                                                });
                                                                                                                                                               }
                                                                                                                                                             }
                                                                                                                                                           }
@@ -8785,6 +8847,39 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                             padding: const EdgeInsets.all(5),
                                                                                                                                             child: ElevatedButton(
                                                                                                                                                 onPressed: (){
+                                                                                                                                                  setStater((){
+                                                                                                                                                    dropValue90 = ValueNotifier('');
+                                                                                                                                                    dropValue91 = ValueNotifier('');
+                                                                                                                                                    dropValue92 = ValueNotifier('');
+                                                                                                                                                    dropValue93 = ValueNotifier('');
+                                                                                                                                                    dropValue94 = ValueNotifier('');
+
+                                                                                                                                                    nomeController = TextEditingController(text: '');
+                                                                                                                                                    serialController = TextEditingController(text: '');
+                                                                                                                                                    contadorlController = TextEditingController(text: '');
+                                                                                                                                                    unidadelController = TextEditingController(text: '');
+                                                                                                                                                    PlacaController = TextEditingController(text: '');
+
+                                                                                                                                                    unidade = '';
+                                                                                                                                                    bloco = '';
+                                                                                                                                                    Identificacao = '';
+                                                                                                                                                    grupo = '';
+                                                                                                                                                    marca = '';
+                                                                                                                                                    cor = '';
+                                                                                                                                                    placa = 'null';
+                                                                                                                                                    tipo = '';
+                                                                                                                                                    serial = '';
+                                                                                                                                                    Contador = '';
+
+                                                                                                                                                    receptor1 = false;
+                                                                                                                                                    receptor2 = false;
+                                                                                                                                                    receptor3 = false;
+                                                                                                                                                    receptor4 = false;
+                                                                                                                                                    receptor5 = false;
+                                                                                                                                                    receptor6 = false;
+                                                                                                                                                    receptor7 = false;
+                                                                                                                                                    receptor8 = false;
+                                                                                                                                                  });
                                                                                                                                                   Navigator.pop(context);
                                                                                                                                                 },
                                                                                                                                                 child: const Text('Cancelar')
