@@ -21,7 +21,7 @@ originalParameter(String id){
   });
 }
 
-acionarPorta(var context, String ip, int porta, String modelo, int canal, String usuario, String senha, String id, String Receptor, String can, String nomeAc) async {
+acionarPorta(var context, String ip, int porta, String modelo, int canal, String usuario, String senha, String id, String Receptor, String can, String nomeAc, bool secbox) async {
 
   //Intelbras
   if(modelo == "Intelbras"){
@@ -78,68 +78,219 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
 
   //Control iD
   if(modelo == "Control iD"){
+    if(secbox == true){
+      final urlog = Uri.parse('http://$ip:$porta/login.fcgi');
 
-    final urlog = Uri.parse('http://$ip:$porta/login.fcgi');
+      Map<String, String> headerslog = {
+        "Content-Type": "application/json"
+      };
 
-    Map<String, String> headerslog = {
-      "Content-Type": "application/json"
-    };
+      Map<String, dynamic> bodylog = {
+        "login": usuario,
+        "password": senha
+      };
 
-    Map<String, dynamic> bodylog = {
-      "login": usuario,
-      "password": senha
-    };
+      try {
+        final response = await http.post(
+          urlog,
+          headers: headerslog,
+          body: jsonEncode(bodylog),
+        );
 
-    try {
-      final response = await http.post(
-        urlog,
-        headers: headerslog,
-        body: jsonEncode(bodylog),
-      );
+        if (response.statusCode == 200) {
+          Map<String, dynamic> responseData = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
-        Map<String, dynamic> responseData = jsonDecode(response.body);
+          final url = Uri.parse('http://$ip:$porta/execute_actions.fcgi?session=${responseData["session"]}');
 
-        final url = Uri.parse('http://$ip:$porta/execute_actions.fcgi?session=${responseData["session"]}');
+          // Corpo da requisição
+          final body = jsonEncode({
+            "actions": [
+              {
+                "action": "sec_box",
+                "parameters": "id=65793,reason=3",
+              }
+            ],
+          });
 
-        Map<String, String> headers = {
-          "Content-Type": "application/json"
-        };
+          // Configurar cabeçalhos
+          final headers = {
+            'Content-Type': 'application/json',
+          };
 
-        Map<String, dynamic> body = {
-          "actions": [
-            {
-              "action": "sec_box",
-              "parameters": "id=65793, reason=3"
-            }
-          ]
-        };
+          try {
+            // Fazer requisição POST
+            final response = await http.post(
+              url,
+              headers: headers,
+              body: body,
+            );
 
-        try {
-          final response = await http.post(
-            url,
-            headers: headers,
-            body: jsonEncode(body),
-          );
-
-          if (response.statusCode == 200) {
-            showToast("Porta aberta!", context: context);
-            if(id != ""){
-              FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
-                "prontoParaAtivar" : false,
-                "deuErro": false
-              });
+            // Verificar resposta
+            if (response.statusCode == 200) {
+              showToast("Porta aberta!", context: context);
+              if(id != ""){
+                FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+                  "prontoParaAtivar" : false,
+                  "deuErro": false
+                });
+                FirebaseFirestore.instance.collection("logs").doc(UUID).update({
+                  "text" : 'Acionamento concluido com sucesso!',
+                  "codigoDeResposta" : response.statusCode,
+                  'acionamentoID': id,
+                  'acionamentoNome': nomeAc,
+                  'Condominio': idCondominio,
+                  "id": UUID
+                });
+              }
+            } else {
+              showToast("Erro ao executar a requisição", context: context);
+              if(id != ""){
+                FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+                  "prontoParaAtivar" : false,
+                  "deuErro": true
+                });
+              }
               FirebaseFirestore.instance.collection("logs").doc(UUID).update({
-                "text" : 'Acionamento concluido com sucesso!',
-                "codigoDeResposta" : response.statusCode,
+                "text" : 'Acionamento falhou!',
+                "codigoDeResposta" : 600,
                 'acionamentoID': id,
                 'acionamentoNome': nomeAc,
                 'Condominio': idCondominio,
                 "id": UUID
               });
             }
-          } else {
-            showToast("Erro com a comunicação, status: ${response.statusCode}", context: context);
+          } catch (e) {
+            showToast("Erro ao executar a requisição: $e", context: context);
+            if(id != ""){
+              FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+                "prontoParaAtivar" : false,
+                "deuErro": true
+              });
+            }
+            FirebaseFirestore.instance.collection("logs").doc(UUID).update({
+              "text" : 'Acionamento falhou!',
+              "codigoDeResposta" : 600,
+              'acionamentoID': id,
+              'acionamentoNome': nomeAc,
+              'Condominio': idCondominio,
+              "id": UUID
+            });
+          }
+
+        } else {
+          showToast("Erro com a comunicação, status: ${response.statusCode}", context: context);
+          if(id != ""){
+            FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+              "prontoParaAtivar" : false,
+              "deuErro": true
+            });
+          }
+          FirebaseFirestore.instance.collection("logs").doc(id).update({
+            "text" : 'Acionamento falhou!',
+            "codigoDeResposta" : response.statusCode,
+            'acionamentoID': id,
+            'acionamentoNome': nomeAc,
+            'Condominio': idCondominio,
+            "id": UUID
+          });
+        }
+      } catch (e) {
+        showToast("Erro ao executar a requisição: $e", context: context);
+        if(id != ""){
+          FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+            "prontoParaAtivar" : false,
+            "deuErro": true
+          });
+        }
+        FirebaseFirestore.instance.collection("logs").doc(UUID).update({
+          "text" : 'Acionamento falhou!',
+          "codigoDeResposta" : 600,
+          'acionamentoID': id,
+          'acionamentoNome': nomeAc,
+          'Condominio': idCondominio,
+          "id": UUID
+        });
+      }
+
+    }else{
+      final urlog = Uri.parse('http://$ip:$porta/login.fcgi');
+
+      Map<String, String> headerslog = {
+        "Content-Type": "application/json"
+      };
+
+      Map<String, dynamic> bodylog = {
+        "login": usuario,
+        "password": senha
+      };
+
+      try {
+        final response = await http.post(
+          urlog,
+          headers: headerslog,
+          body: jsonEncode(bodylog),
+        );
+
+        if (response.statusCode == 200) {
+          Map<String, dynamic> responseData = jsonDecode(response.body);
+
+          final url = Uri.parse('http://$ip:$porta/execute_actions.fcgi?session=${responseData["session"]}');
+
+          Map<String, String> headers = {
+            "Content-Type": "application/json"
+          };
+
+          Map<String, dynamic> body = {
+            "actions": [
+              {
+                "action": "sec_box",
+                "parameters": "id=65793, reason=3"
+              }
+            ]
+          };
+
+          try {
+            final response = await http.post(
+              url,
+              headers: headers,
+              body: jsonEncode(body),
+            );
+
+            if (response.statusCode == 200) {
+              showToast("Porta aberta!", context: context);
+              if(id != ""){
+                FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+                  "prontoParaAtivar" : false,
+                  "deuErro": false
+                });
+                FirebaseFirestore.instance.collection("logs").doc(UUID).update({
+                  "text" : 'Acionamento concluido com sucesso!',
+                  "codigoDeResposta" : response.statusCode,
+                  'acionamentoID': id,
+                  'acionamentoNome': nomeAc,
+                  'Condominio': idCondominio,
+                  "id": UUID
+                });
+              }
+            } else {
+              showToast("Erro com a comunicação, status: ${response.statusCode}", context: context);
+              if(id != ""){
+                FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
+                  "prontoParaAtivar" : false,
+                  "deuErro": true
+                });
+                FirebaseFirestore.instance.collection("logs").doc(UUID).update({
+                  "text" : 'Acionamento falhou!',
+                  "codigoDeResposta" : response.statusCode,
+                  'acionamentoID': id,
+                  'acionamentoNome': nomeAc,
+                  'Condominio': idCondominio,
+                  "id": UUID
+                });
+              }
+            }
+          } catch (e) {
+            showToast("Erro ao executar a requisição: $e", context: context);
             if(id != ""){
               FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
                 "prontoParaAtivar" : false,
@@ -155,57 +306,41 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
               });
             }
           }
-        } catch (e) {
-          showToast("Erro ao executar a requisição: $e", context: context);
+
+        } else {
+          showToast("Erro com a comunicação, status: ${response.statusCode}", context: context);
           if(id != ""){
             FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
               "prontoParaAtivar" : false,
               "deuErro": true
             });
-            FirebaseFirestore.instance.collection("logs").doc(UUID).update({
-              "text" : 'Acionamento falhou!',
-              "codigoDeResposta" : response.statusCode,
-              'acionamentoID': id,
-              'acionamentoNome': nomeAc,
-              'Condominio': idCondominio,
-              "id": UUID
-            });
           }
+          FirebaseFirestore.instance.collection("logs").doc(id).update({
+            "text" : 'Acionamento falhou!',
+            "codigoDeResposta" : response.statusCode,
+            'acionamentoID': id,
+            'acionamentoNome': nomeAc,
+            'Condominio': idCondominio,
+            "id": UUID
+          });
         }
-
-      } else {
-        showToast("Erro com a comunicação, status: ${response.statusCode}", context: context);
+      } catch (e) {
+        showToast("Erro ao executar a requisição: $e", context: context);
         if(id != ""){
           FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
             "prontoParaAtivar" : false,
             "deuErro": true
           });
         }
-        FirebaseFirestore.instance.collection("logs").doc(id).update({
+        FirebaseFirestore.instance.collection("logs").doc(UUID).update({
           "text" : 'Acionamento falhou!',
-          "codigoDeResposta" : response.statusCode,
+          "codigoDeResposta" : 600,
           'acionamentoID': id,
           'acionamentoNome': nomeAc,
           'Condominio': idCondominio,
           "id": UUID
         });
       }
-    } catch (e) {
-      showToast("Erro ao executar a requisição: $e", context: context);
-      if(id != ""){
-        FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
-          "prontoParaAtivar" : false,
-          "deuErro": true
-        });
-      }
-      FirebaseFirestore.instance.collection("logs").doc(UUID).update({
-        "text" : 'Acionamento falhou!',
-        "codigoDeResposta" : 600,
-        'acionamentoID': id,
-        'acionamentoNome': nomeAc,
-        'Condominio': idCondominio,
-        "id": UUID
-      });
     }
   }
 

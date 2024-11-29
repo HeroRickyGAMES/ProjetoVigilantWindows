@@ -2668,7 +2668,7 @@ class _homeAppState extends State<homeApp>{
 
                                                                               }
                                                                               if(documents["prontoParaAtivar"] == true){
-                                                                                acionarPorta(context, documents["ip"], documents["porta"], documents["modelo"], documents["canal"], documents["usuario"], documents["senha"], documents["id"], documents["receptor"], documents["can"], documents["nome"]);
+                                                                                acionarPorta(context, documents["ip"], documents["porta"], documents["modelo"], documents["canal"], documents["usuario"], documents["senha"], documents["id"], documents["receptor"], documents["can"], documents["nome"], documents["secbox"]);
                                                                               }
                                                                             },
                                                                             child: Stack(
@@ -2742,6 +2742,8 @@ class _homeAppState extends State<homeApp>{
                                                                                       String iconeSelecionado = documents["iconeSeleciondo"];
                                                                                       String can = documents["can"];
                                                                                       var dropValue4 = ValueNotifier(iconeSelecionado);
+
+                                                                                      bool secbox = documents["secbox"];
 
                                                                                       List icones = [
                                                                                         "assets/portaria_acept.png",
@@ -3086,6 +3088,26 @@ class _homeAppState extends State<homeApp>{
                                                                                                             const Center(
                                                                                                               child: Text('Selecione um icone'),
                                                                                                             ),
+                                                                                                            modeloselecionado == "Control iD" ? Center(
+                                                                                                              child: Row(
+                                                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                                                children: [
+                                                                                                                  Checkbox(
+                                                                                                                    value: secbox,
+                                                                                                                    onChanged: (bool? value) {
+                                                                                                                      setStater(() {
+                                                                                                                        secbox  = value!;
+                                                                                                                      });
+                                                                                                                    },
+                                                                                                                  ),
+                                                                                                                  const Text(
+                                                                                                                    'É SecBox?',
+                                                                                                                    style: TextStyle(fontSize: 18),
+                                                                                                                  ),
+                                                                                                                ],
+                                                                                                              ),
+                                                                                                            ): Container(),
                                                                                                             Center(
                                                                                                               child: ValueListenableBuilder(valueListenable: dropValue4, builder: (context, String value, _){
                                                                                                                 return DropdownButton(
@@ -3444,6 +3466,8 @@ class _homeAppState extends State<homeApp>{
                                                                 String usuario = "";
                                                                 String senha = "";
                                                                 String can = "";
+                                                                bool secbox = false;
+
                                                                 var dropValue3 = ValueNotifier('Intelbras');
                                                                 var dropValue4 = ValueNotifier('assets/portaria_acept.png');
                                                                 String iconeSelecionado = "assets/portaria_acept.png";
@@ -3813,6 +3837,26 @@ class _homeAppState extends State<homeApp>{
                                                                                       ],
                                                                                     ),
                                                                                   ),
+                                                                                  modeloselecionado == "Control iD" ? Center(
+                                                                                    child: Row(
+                                                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                      children: [
+                                                                                        Checkbox(
+                                                                                          value: secbox,
+                                                                                          onChanged: (bool? value) {
+                                                                                            setStater(() {
+                                                                                              secbox  = value!;
+                                                                                            });
+                                                                                          },
+                                                                                        ),
+                                                                                        const Text(
+                                                                                          'É SecBox?',
+                                                                                          style: TextStyle(fontSize: 18),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                  ): Container(),
                                                                                   const Center(
                                                                                     child: Text('Selecione um icone'),
                                                                                   ),
@@ -3897,7 +3941,8 @@ class _homeAppState extends State<homeApp>{
                                                                                           "id": UUID,
                                                                                           "receptor": receptorSelecionado,
                                                                                           "can": can,
-                                                                                          "iconeSeleciondo": iconeSelecionado
+                                                                                          "iconeSeleciondo": iconeSelecionado,
+                                                                                          "secbox": secbox
                                                                                         }).whenComplete((){
                                                                                           Navigator.pop(context);
                                                                                         });
@@ -5457,7 +5502,7 @@ class _homeAppState extends State<homeApp>{
                                                                   ),
                                                                   ElevatedButton(
                                                                       onPressed: (){
-                                                                        acionarPorta(context, IP, int.parse(Porta), modeloselecionado, int.parse(Canal), Usuario, Senha, "vazio", "TX (RF)", "1", "Vazio");
+                                                                        acionarPorta(context, IP, int.parse(Porta), modeloselecionado, int.parse(Canal), Usuario, Senha, "vazio", "TX (RF)", "1", "Vazio", false);
                                                                       },
                                                                       style: ElevatedButton.styleFrom(
                                                                           backgroundColor: colorBtn
