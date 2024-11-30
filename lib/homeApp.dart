@@ -407,7 +407,7 @@ class _homeAppState extends State<homeApp>{
                                                                       children: snapshot.data!.docs.map((documents){
 
                                                                         if("${documents["Codigo"]} ${documents["Nome"]}".length >= 20){
-                                                                          textSizeCond = 14;
+                                                                          textSizeCond = 12;
                                                                         }
 
                                                                         if("${documents["Codigo"]} ${documents["Nome"]}".length <= 20){
@@ -4120,7 +4120,7 @@ class _homeAppState extends State<homeApp>{
                                                                               "${documents['NomeRamal']}\n${documents['RamalNumber']}",
                                                                             style: documents['NomeRamal'].length >= 16 ?
                                                                             TextStyle(
-                                                                                fontSize: textSize,
+                                                                                fontSize: textSize - 3,
                                                                                 fontWeight: FontWeight.bold
                                                                             ): TextStyle(
                                                                                 fontSize: textSize
