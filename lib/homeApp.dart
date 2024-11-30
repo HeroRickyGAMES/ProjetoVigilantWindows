@@ -17,6 +17,7 @@ import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
 import 'package:vigilant/botaoDireito.dart';
 import 'package:vigilant/getIds.dart';
 import 'package:vigilant/intRamdom/intRamdom.dart';
+import 'package:vigilant/libDePessoas/ExelImport.dart';
 import 'package:vigilant/login/login.dart';
 import 'package:vigilant/libDePessoas/cadastroDeUsuariosNoEquipamento.dart';
 import 'package:vigilant/libDePessoas/pushPessoas.dart';
@@ -9004,7 +9005,15 @@ class _homeAppState extends State<homeApp>{
                                                                                 },
                                                                               );
                                                                             },
-                                                                            child: const Text('Controles do Guarita'),
+                                                                            style: ElevatedButton.styleFrom(
+                                                                                backgroundColor: Colors.blue
+                                                                            ),
+                                                                            child: const Text(
+                                                                                'Controles do Guarita',
+                                                                              style: TextStyle(
+                                                                                color: Colors.white
+                                                                              ),
+                                                                            ),
                                                                           ),
                                                                           Container(
                                                                             padding: const EdgeInsets.all(16),
@@ -9373,7 +9382,6 @@ class _homeAppState extends State<homeApp>{
                                                                                       },);
                                                                                     },
                                                                                   );
-
                                                                                 },
                                                                                 style: ElevatedButton.styleFrom(
                                                                                     backgroundColor: Colors.blue
@@ -9487,7 +9495,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             height: 50,
                                                                                                                             child: TextButton(
                                                                                                                                 onPressed: () async {
-
                                                                                                                                   showDialog(
                                                                                                                                     context: context,
                                                                                                                                     builder: (BuildContext context) {
@@ -9660,6 +9667,23 @@ class _homeAppState extends State<homeApp>{
                                                                                       color: Colors.white
                                                                                   ),
                                                                                 )
+                                                                            ),
+                                                                          ),
+                                                                          Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: ElevatedButton(
+                                                                              onPressed: (){
+                                                                                ImportarExel(context);
+                                                                              },
+                                                                              style: ElevatedButton.styleFrom(
+                                                                                  backgroundColor: Colors.blue
+                                                                              ),
+                                                                              child: const Text(
+                                                                                  'Importar usuarios a partir do exel',
+                                                                                style: TextStyle(
+                                                                                    color: Colors.white
+                                                                                ),
+                                                                              ),
                                                                             ),
                                                                           ),
                                                                           Center(

@@ -64,6 +64,7 @@ dependencies:
   full_picker: ^2.1.0
   flutter_pty: ^0.4.1
   excel: ^4.0.6
+  file_picker: ^8.0.7
 
 dependency_overrides:
   dart_vlc_ffi:
