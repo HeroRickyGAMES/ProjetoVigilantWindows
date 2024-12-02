@@ -8220,7 +8220,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                               }
 
                                                                                                                               if(documents['Tipo'].contains('Senha CTW')){
-                                                                                                                                Contador = 'Senha CTW';
+                                                                                                                                tipo = 'Senha CTW';
                                                                                                                               }
 
                                                                                                                               String unidade = documents['Unidade'];

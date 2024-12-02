@@ -266,7 +266,6 @@ namespace demoLinearIP
                 // Valores padrões dos ComboBoxes
                 cbUnidade.SelectedIndex = int.Parse(unidade);
                 cbBloco.SelectedIndex = bloc;
-                Console.WriteLine(marca);
                 cbMarcaV.SelectedIndex = listaMarcasInvertida[marca];
                 cbCorV.SelectedIndex = listaMarcasInvertida[cor];
                 cbGrupo.SelectedIndex = int.Parse(grupo);

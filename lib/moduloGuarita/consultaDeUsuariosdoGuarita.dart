@@ -113,7 +113,27 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
       );
     },
   );
-  
+
+  if (tipo == "Controle") {
+    tipo = 'TX';
+  }
+
+  if (tipo == "TAG") {
+    tipo = 'TAG';
+  }
+  if (tipo == "Cartão") {
+    tipo = 'CARD';
+  }
+  if (tipo == "BIO") {
+    tipo = 'BIO';
+  }
+  if (tipo == "TAGP") {
+    tipo = 'TAGP';
+  }
+  if (tipo == "Senha CTW") {
+    tipo = 'Senha CTW';
+  }
+
   String countGuarita = "";
 
   var ip = await hostToIp(host);
