@@ -21,7 +21,7 @@ originalParameter(String id){
   });
 }
 
-acionarPorta(var context, String ip, int porta, String modelo, int canal, String usuario, String senha, String id, String Receptor, String can, String nomeAc, bool secbox) async {
+acionarPorta(var context, String ip, int porta, String modelo, int canal, String usuario, String senha, String id, String Receptor, String can, String nomeAc, bool secbox, String tagVeicular) async {
 
   //Intelbras
   if(modelo == "Intelbras"){
@@ -45,7 +45,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
             "prontoParaAtivar" : false,
             "deuErro": false
           });
-          FirebaseFirestore.instance.collection("logs").doc(UUID).update({
+          FirebaseFirestore.instance.collection("logs").doc(UUID).set({
             "text" : 'Acionamento concluido com sucesso!',
             "codigoDeResposta" : response.statusCode,
             'acionamentoID': id,
@@ -61,7 +61,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
             "prontoParaAtivar" : false,
             "deuErro": true
           });
-          FirebaseFirestore.instance.collection("logs").doc(UUID).update({
+          FirebaseFirestore.instance.collection("logs").doc(UUID).set({
             "text" : 'Acionamento falhou!',
             "codigoDeResposta" : response.statusCode,
             'acionamentoID': id,
@@ -102,12 +102,15 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
 
           final url = Uri.parse('http://$ip:$porta/execute_actions.fcgi?session=${responseData["session"]}');
 
+          print(url);
+
           // Corpo da requisição
           final body = jsonEncode({
             "actions": [
               {
                 "action": "sec_box",
-                "parameters": "id=65793,reason=3",
+                "user_id": "10",
+                "parameters": "id=65793, reason=$tagVeicular"
               }
             ],
           });
@@ -133,7 +136,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
                   "prontoParaAtivar" : false,
                   "deuErro": false
                 });
-                FirebaseFirestore.instance.collection("logs").doc(UUID).update({
+
+                FirebaseFirestore.instance.collection("logs").doc(UUID).set({
                   "text" : 'Acionamento concluido com sucesso!',
                   "codigoDeResposta" : response.statusCode,
                   'acionamentoID': id,
@@ -150,7 +154,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
                   "deuErro": true
                 });
               }
-              FirebaseFirestore.instance.collection("logs").doc(UUID).update({
+              FirebaseFirestore.instance.collection("logs").doc(UUID).set({
                 "text" : 'Acionamento falhou!',
                 "codigoDeResposta" : 600,
                 'acionamentoID': id,
@@ -167,7 +171,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
                 "deuErro": true
               });
             }
-            FirebaseFirestore.instance.collection("logs").doc(UUID).update({
+            FirebaseFirestore.instance.collection("logs").doc(UUID).set({
               "text" : 'Acionamento falhou!',
               "codigoDeResposta" : 600,
               'acionamentoID': id,
@@ -185,7 +189,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
               "deuErro": true
             });
           }
-          FirebaseFirestore.instance.collection("logs").doc(id).update({
+          FirebaseFirestore.instance.collection("logs").doc(UUID).set({
             "text" : 'Acionamento falhou!',
             "codigoDeResposta" : response.statusCode,
             'acionamentoID': id,
@@ -202,7 +206,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
             "deuErro": true
           });
         }
-        FirebaseFirestore.instance.collection("logs").doc(UUID).update({
+        FirebaseFirestore.instance.collection("logs").doc(UUID).set({
           "text" : 'Acionamento falhou!',
           "codigoDeResposta" : 600,
           'acionamentoID': id,
@@ -243,8 +247,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
           Map<String, dynamic> body = {
             "actions": [
               {
-                "action": "sec_box",
-                "parameters": "id=65793, reason=3"
+                "action": "door",
+                "parameters": "door=$canal"
               }
             ]
           };
@@ -263,7 +267,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
                   "prontoParaAtivar" : false,
                   "deuErro": false
                 });
-                FirebaseFirestore.instance.collection("logs").doc(UUID).update({
+                FirebaseFirestore.instance.collection("logs").doc(UUID).set({
                   "text" : 'Acionamento concluido com sucesso!',
                   "codigoDeResposta" : response.statusCode,
                   'acionamentoID': id,
@@ -279,7 +283,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
                   "prontoParaAtivar" : false,
                   "deuErro": true
                 });
-                FirebaseFirestore.instance.collection("logs").doc(UUID).update({
+                FirebaseFirestore.instance.collection("logs").doc(UUID).set({
                   "text" : 'Acionamento falhou!',
                   "codigoDeResposta" : response.statusCode,
                   'acionamentoID': id,
@@ -296,7 +300,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
                 "prontoParaAtivar" : false,
                 "deuErro": true
               });
-              FirebaseFirestore.instance.collection("logs").doc(UUID).update({
+              FirebaseFirestore.instance.collection("logs").doc(UUID).set({
                 "text" : 'Acionamento falhou!',
                 "codigoDeResposta" : response.statusCode,
                 'acionamentoID': id,
@@ -315,7 +319,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
               "deuErro": true
             });
           }
-          FirebaseFirestore.instance.collection("logs").doc(id).update({
+          FirebaseFirestore.instance.collection("logs").doc(UUID).set({
             "text" : 'Acionamento falhou!',
             "codigoDeResposta" : response.statusCode,
             'acionamentoID': id,
@@ -332,7 +336,7 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
             "deuErro": true
           });
         }
-        FirebaseFirestore.instance.collection("logs").doc(UUID).update({
+        FirebaseFirestore.instance.collection("logs").doc(UUID).set({
           "text" : 'Acionamento falhou!',
           "codigoDeResposta" : 600,
           'acionamentoID': id,

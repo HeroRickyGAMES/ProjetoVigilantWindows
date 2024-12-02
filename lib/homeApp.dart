@@ -2655,7 +2655,7 @@ class _homeAppState extends State<homeApp>{
                                                                                   "deuErro": false
                                                                                 });
 
-                                                                                FirebaseFirestore.instance.collection("logs").doc().update({
+                                                                                FirebaseFirestore.instance.collection("logs").doc().set({
                                                                                   "text" : 'Houve um check de acionamento',
                                                                                   "codigoDeResposta" : 000,
                                                                                   'acionamentoID': documents["id"],
@@ -2663,13 +2663,83 @@ class _homeAppState extends State<homeApp>{
                                                                                   'Condominio': idCondominio,
                                                                                 });
                                                                                 _inactivityTimer?.cancel();
-                                                                                _inactivityTimer = Timer(const Duration(seconds: 5), () {
+                                                                                _inactivityTimer = Timer(const Duration(seconds: 10), () {
                                                                                   originalParameter(documents["id"]);
                                                                                 });
 
                                                                               }
                                                                               if(documents["prontoParaAtivar"] == true){
-                                                                                acionarPorta(context, documents["ip"], documents["porta"], documents["modelo"], documents["canal"], documents["usuario"], documents["senha"], documents["id"], documents["receptor"], documents["can"], documents["nome"], documents["secbox"]);
+                                                                                if(documents["secbox"] == true){
+                                                                                  String tag = "";
+                                                                                  showDialog(
+                                                                                    context: context,
+                                                                                    builder: (BuildContext context) {
+                                                                                      return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                        return AlertDialog(
+                                                                                          title: const Text('Digite uma tag veicular'),
+                                                                                          actions: [
+                                                                                            Center(
+                                                                                              child: Column(
+                                                                                                children: [
+                                                                                                  Center(
+                                                                                                    child: Container(
+                                                                                                      padding: const EdgeInsets.all(10),
+                                                                                                      child: TextField(
+                                                                                                        keyboardType: TextInputType.name,
+                                                                                                        enableSuggestions: true,
+                                                                                                        autocorrect: true,
+                                                                                                        onChanged: (value){
+                                                                                                          setState(() {
+                                                                                                            tag = value;
+                                                                                                          });
+                                                                                                        },
+                                                                                                        decoration: InputDecoration(
+                                                                                                          filled: true,
+                                                                                                          fillColor: Colors.white,
+                                                                                                          labelStyle: TextStyle(
+                                                                                                              color: textAlertDialogColor,
+                                                                                                              backgroundColor: Colors.white
+                                                                                                          ),
+                                                                                                          border: const OutlineInputBorder(),
+                                                                                                          enabledBorder: const OutlineInputBorder(
+                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                          ),
+                                                                                                          focusedBorder: const OutlineInputBorder(
+                                                                                                            borderSide: BorderSide(
+                                                                                                                width: 3,
+                                                                                                                color: Colors.black
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                          label: const Text('TAG'),
+                                                                                                        ),
+                                                                                                        style: TextStyle(
+                                                                                                            color: textAlertDialogColor
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  TextButton(
+                                                                                                      onPressed: (){
+                                                                                                        if(tag == ""){
+                                                                                                          showToast("A tag precisa ser preenchida!",context:context);
+                                                                                                        }else{
+                                                                                                          acionarPorta(context, documents["ip"], documents["porta"], documents["modelo"], documents["canal"], documents["usuario"], documents["senha"], documents["id"], documents["receptor"], documents["can"], documents["nome"], documents["secbox"], tag);
+                                                                                                          Navigator.of(context).pop();
+                                                                                                        }
+                                                                                                      }, child: const Text('Acionar')
+                                                                                                  )
+                                                                                                ],
+                                                                                              ),
+                                                                                            )
+                                                                                          ],
+                                                                                        );
+                                                                                      },);
+                                                                                    },
+                                                                                  );
+
+                                                                                }else {
+                                                                                  acionarPorta(context, documents["ip"], documents["porta"], documents["modelo"], documents["canal"], documents["usuario"], documents["senha"], documents["id"], documents["receptor"], documents["can"], documents["nome"], documents["secbox"], "");
+                                                                                }
                                                                               }
                                                                             },
                                                                             child: Stack(
@@ -3315,6 +3385,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                         "iconeSeleciondo": iconeSelecionado,
                                                                                                                                         "receptor": receptorSelecionado,
                                                                                                                                         "can": can,
+                                                                                                                                        "secbox": secbox,
                                                                                                                                       }).whenComplete((){
                                                                                                                                         showToast("Salvo!",context:context);
                                                                                                                                         Navigator.pop(context);
@@ -5503,7 +5574,7 @@ class _homeAppState extends State<homeApp>{
                                                                   ),
                                                                   ElevatedButton(
                                                                       onPressed: (){
-                                                                        acionarPorta(context, IP, int.parse(Porta), modeloselecionado, int.parse(Canal), Usuario, Senha, "vazio", "TX (RF)", "1", "Vazio", false);
+                                                                        acionarPorta(context, IP, int.parse(Porta), modeloselecionado, int.parse(Canal), Usuario, Senha, "vazio", "TX (RF)", "1", "Vazio", false, "");
                                                                       },
                                                                       style: ElevatedButton.styleFrom(
                                                                           backgroundColor: colorBtn

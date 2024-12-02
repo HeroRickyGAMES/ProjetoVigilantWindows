@@ -223,9 +223,6 @@ namespace demoLinearIP
                 if (tipo == "TX") {
                     cbDisp2.SelectedIndex = 0;
                 }
-                else {
-                    cbDisp2.SelectedIndex = 1;
-                }
 
                 if (tipo == "TAG") {
                     cbDisp2.SelectedIndex = 1;
