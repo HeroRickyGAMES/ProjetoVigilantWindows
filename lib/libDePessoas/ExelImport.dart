@@ -9,11 +9,11 @@ import 'package:vigilant/intRamdom/intRamdom.dart';
 //Programado por HeroRickyGAMES com a ajuda de Deus
 
 void ImportarExel(var context) async {
+  showToast("O tipo de arquivo suportado é apenas xlsx!",context:context);
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
-    allowedExtensions: ['xls', 'xlsx'],
+    allowedExtensions: ['xlsx'],
   );
-
   if (result != null) {
     File file = File(result.files.single.path!);
     var bytes = file.readAsBytesSync();
