@@ -9,7 +9,6 @@ import 'package:vigilant/intRamdom/intRamdom.dart';
 //Programado por HeroRickyGAMES com a ajuda de Deus
 
 void ImportarExel(var context) async {
-  showToast("O tipo de arquivo suportado é apenas xlsx!",context:context);
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
     allowedExtensions: ['xlsx'],
@@ -35,7 +34,7 @@ void ImportarExel(var context) async {
             'CPF': "${userMap['coluna_7']}",
             'tipo': "${userMap['coluna_9']}".replaceAll(" ", "").replaceAll("-", "").replaceAll("0", "").replaceAll("1", "").replaceAll("2", "").replaceAll("3", "").replaceAll("4", "").replaceAll("5", "").replaceAll("6", "").replaceAll("7", "").replaceAll("8", "").replaceAll("9", ""),
             'anotacao': "",
-            'Bloco': "",
+            'Bloco': "${userMap['coluna_1']}",
             'id': "${gerarNumero()}$idCondominio",
             'idCondominio': idCondominio,
             'imageURI': "",
@@ -43,7 +42,7 @@ void ImportarExel(var context) async {
             'Qualificacao': "",
             'RG': "${userMap['coluna_7']}",
             'Telefone': "",
-            'Unidade': "",
+            'Unidade': "${userMap['coluna_0']}",
           };
 
           FirebaseFirestore.instance.collection("Pessoas").doc(tratado['id']).set(
@@ -51,8 +50,6 @@ void ImportarExel(var context) async {
           ).whenComplete((){
             showToast("Importado para o banco de dados!", context: context);
           });
-
-
         }
       }
     }
