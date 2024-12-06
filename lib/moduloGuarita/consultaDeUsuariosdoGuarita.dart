@@ -27,7 +27,7 @@ Consulta(var context, String host, int port, String veiode) async {
 
   if(veiode == "Scan"){
     CollectionReference collectionRef = FirebaseFirestore.instance.collection("Controles");
-    QuerySnapshot querySnapshot = await collectionRef.get();
+    QuerySnapshot querySnapshot = await collectionRef.where("idCondominio", isEqualTo: idCondominio).get();
 
     for (QueryDocumentSnapshot doc in querySnapshot.docs) {
       await doc.reference.delete();
@@ -48,55 +48,48 @@ Consulta(var context, String host, int port, String veiode) async {
   print(command);
   print(pwdString);
   print(tratado);
-  try{
-    Map<String, dynamic> Controles = jsonDecode(tratado.replaceAll("},}", "}}"));
+  Map<String, dynamic> Controles = jsonDecode(tratado.replaceAll("},}", "}}"));
 
-    Controles.forEach((serial, fields) async {
-      if (fields.containsKey('Controlador/ID')) {
-        fields['Controlador_ID'] = fields['Controlador/ID'];
-        fields.remove('Controlador/ID');
-      }
+  Controles.forEach((serial, fields) async {
+    if (fields.containsKey('Controlador/ID')) {
+      fields['Controlador_ID'] = fields['Controlador/ID'];
+      fields.remove('Controlador/ID');
+    }
 
-      if (fields.containsKey('Veiculo/Marca')) {
-        fields['Veiculo_Marca'] = fields['Veiculo/Marca'];
-        fields.remove('Veiculo/Marca');
-      }
+    if (fields.containsKey('Veiculo/Marca')) {
+      fields['Veiculo_Marca'] = fields['Veiculo/Marca'];
+      fields.remove('Veiculo/Marca');
+    }
 
-      fields.forEach((key, value) {
-        // Verifica se o valor é uma String e converte "True"/"False" para bool
-        if (value is String) {
-          if (value.toLowerCase() == "true") {
-            fields[key] = true;
-          } else if (value.toLowerCase() == "false") {
-            fields[key] = false;
-          }
+    fields.forEach((key, value) {
+      // Verifica se o valor é uma String e converte "True"/"False" para bool
+      if (value is String) {
+        if (value.toLowerCase() == "true") {
+          fields[key] = true;
+        } else if (value.toLowerCase() == "false") {
+          fields[key] = false;
         }
-      });
-
-      Uuid uuid = const Uuid();
-      String UUID = uuid.v4();
-      String id = "$UUID$serial$idCondominio";
-      // Usa o serial como ID do documento
-      fields['idCondominio'] = idCondominio;
-      fields['id'] = id;
-      fields['idGuarita'] = serial;
-      fields['hostGuarita'] = host;
-      fields['portGuarita'] = porta;
-      if(veiode == "Scan"){
-        FirebaseFirestore.instance.collection("Controles").doc(id).set(
-            fields
-        );
       }
     });
-    Navigator.pop(context);
-    Navigator.pop(context);
-  }catch(e){
-    showToast(e.toString(),context:context);
+
+    Uuid uuid = const Uuid();
+    String UUID = uuid.v4();
+    String id = "$UUID$serial$idCondominio";
+    // Usa o serial como ID do documento
+    fields['idCondominio'] = idCondominio;
+    fields['id'] = id;
+    fields['idGuarita'] = serial;
+    fields['hostGuarita'] = host;
+    fields['portGuarita'] = port;
     if(veiode == "Scan"){
-      Navigator.pop(context);
-      Navigator.pop(context);
+      FirebaseFirestore.instance.collection("Controles").doc(id).set(
+          fields
+      );
+      showToast("Importado com sucesso!",context:context);
     }
-  }
+  });
+  Navigator.pop(context);
+  Navigator.pop(context);
 }
 
 Cadastro(var context, String host, int port, String tipo, String serieal, String contador, String unidade, String bloco, String identificacao, String grupo, String Marca, String cor, String Placa, bool receptor1, bool receptor2, bool receptor3, bool receptor4, bool receptor5, bool receptor6, bool receptor7, bool receptor8, String placa, String ide, String idGuarita) async {
@@ -318,6 +311,9 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
       if(idGuarita != ""){
         Navigator.pop(context);
         Navigator.pop(context);
+      }else{
+        Navigator.pop(context);
+        Navigator.pop(context);
       }
     }else{
       showToast("Ocorreu algum erro!",context:context);
@@ -330,7 +326,7 @@ edicao(var context, String idGuarita, String id, String host, int port, String t
   String hostd = ip;
   //Primeiro ele vai deletar o usuario x
   Deletecao(context, idGuarita, id, hostd, port, "Edicao");
-  await Future.delayed(const Duration(seconds: 15));
+  await Future.delayed(const Duration(seconds: 20));
   //Depois ele vai cadastrar com os dados mandados do proprio vigilant
   Cadastro(context, hostd, port, tipo, serieal, contador, unidade, bloco, identificacao, grupo, Marca, cor, Placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8, placa, id, idGuarita);
   //Por ultimo ele consulta usuarios do guarita
@@ -360,14 +356,22 @@ Deletecao(var context, String idGuarita, String id, String host, int port, Strin
 
   print(command);
 
-  await Process.run('powershell.exe', ['-c', command]);
+  var processoDelete = await Process.run('powershell.exe', ['-c', command]);
 
   if(veiode == "Deletacao"){
-    Navigator.pop(context);
-    Navigator.pop(context);
-    showToast("Deletado com sucesso!",context:context);
+    if(processoDelete.stdout.toString().contains("Deletado com sucesso!")){
+      Navigator.pop(context);
+      Navigator.pop(context);
+      showToast("Deletado com sucesso!",context:context);
+    }else{
+      showToast("Ocorreu algum erro durante a deleteção no aparelho!",context:context);
+    }
   }
   if(veiode == 'Edicao'){
-    Navigator.pop(context);
+    if(processoDelete.stdout.toString().contains("Deletado com sucesso!")){
+      Navigator.pop(context);
+    }else{
+      showToast("Ocorreu um erro ao editar, a informação foi pro banco de dados mas não para o guarita!",context:context);
+    }
   }
 }

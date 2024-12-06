@@ -158,7 +158,7 @@ namespace demoLinearIP
                     csTCP.Blocking = false;
                     AsyncCallback onconnect = new AsyncCallback(OnConnect);
                     var tcpConnected = csTCP.BeginConnect(epServer, onconnect, csTCP);
-                    System.Threading.Thread.Sleep(50);
+                    Thread.Sleep(50);
 
                     checkarUsers = "--checkusers";
 
@@ -304,8 +304,8 @@ namespace demoLinearIP
                 }
 
                 //Hora de cadastrar
-                
 
+                Thread.Sleep(50);
                 // Botão "CADASTRAR" (aba "Cadastrar Dispositivo")
                 byte[] frameDisp = new byte[39];
                 int vSerial, vConta;
@@ -1874,6 +1874,7 @@ namespace demoLinearIP
                     // Resposta de 5 bytes: 0x00 + 0x43 + 0x04 + <resposta> + <cs>
                     toutComando(true, 5);
                     enviaComando(lFrame);
+                    Console.WriteLine("Deletado com sucesso!");
                 }
             }
 

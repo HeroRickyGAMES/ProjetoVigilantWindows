@@ -8188,9 +8188,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             barrierDismissible: false,
                                                                                                                             context: context,
                                                                                                                             builder: (BuildContext context) {
-                                                                                                                              String ip = "";
-                                                                                                                              int porta = 9000;
-
                                                                                                                               String tipo = '';
                                                                                                                               String serial = documents['Serial'];
                                                                                                                               String Contador = documents['Controlador_ID'];
@@ -8914,7 +8911,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                                                 if(placa == ""){
                                                                                                                                                                   placa = "null";
                                                                                                                                                                 }
-                                                                                                                                                                edicao(context, documents['idGuarita'],documents['id'], documents['hostGuarita'], porta, tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa);
+                                                                                                                                                                edicao(context, documents['idGuarita'],documents['id'], documents['hostGuarita'], documents['portGuarita'], tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa);
 
                                                                                                                                                                 setStater((){
                                                                                                                                                                   dropValue90 = ValueNotifier('');

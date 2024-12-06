@@ -4,7 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:http_auth/http_auth.dart' as http_auth;
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:http/http.dart' as http;
-import 'package:vigilant/checkUser.dart';
+import 'package:vigilant/infosdoPc/checkUser.dart';
 
 //Programado por HeroRickyGames
 
