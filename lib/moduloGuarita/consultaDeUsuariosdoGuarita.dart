@@ -158,7 +158,13 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
   String serial = generateHex(4);
   String contadors = generateHex(4);
 
-  String command = 'guaritaConrole/demoLinearIP.exe --ip $hostd --porta $port --createuser --tipo $tipo --serial $serial --contador $contadors --unidade $unidade --bloco $bloco --identificacao ${identificacao.replaceAll(" ", "_")} --grupo $grupo --marca ${Marca.replaceAll(" ", "_")} --cor $cor --placa ${Placa.replaceAll(" ", "_")} --receptor1 $receptor1 --receptor2 $receptor2 --receptor3 $receptor3 --receptor4 $receptor4 --receptor5 $receptor5 --receptor6 $receptor6 --receptor7 $receptor7 --receptor8 $receptor8';
+  String command = "";
+
+  if(idGuarita == ""){
+    command = 'guaritaConrole/demoLinearIP.exe --ip $hostd --porta $port --createuser --tipo $tipo --serial $serial --contador $contadors --unidade $unidade --bloco $bloco --identificacao ${identificacao.replaceAll(" ", "_")} --grupo $grupo --marca ${Marca.replaceAll(" ", "_")} --cor $cor --placa ${Placa.replaceAll(" ", "_")} --receptor1 $receptor1 --receptor2 $receptor2 --receptor3 $receptor3 --receptor4 $receptor4 --receptor5 $receptor5 --receptor6 $receptor6 --receptor7 $receptor7 --receptor8 $receptor8';
+  }else{
+    command = 'guaritaConrole/demoLinearIP.exe --ip $hostd --porta $port --createuser --tipo $tipo --serial $serieal --contador $contador --unidade $unidade --bloco $bloco --identificacao ${identificacao.replaceAll(" ", "_")} --grupo $grupo --marca ${Marca.replaceAll(" ", "_")} --cor $cor --placa ${Placa.replaceAll(" ", "_")} --receptor1 $receptor1 --receptor2 $receptor2 --receptor3 $receptor3 --receptor4 $receptor4 --receptor5 $receptor5 --receptor6 $receptor6 --receptor7 $receptor7 --receptor8 $receptor8';
+  }
 
   print(command);
 
@@ -387,6 +393,7 @@ edicao(var context, String idGuarita, String id, String host, int port, String t
   }
 
   //Depois ele vai cadastrar com os dados mandados do proprio vigilant
+  print(idGuarita);
   Cadastro(context, hostd, port, tipo, serieal, contador, unidade, bloco, identificacao, grupo, Marca, cor, Placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8, placa, id, idGuarita);
   //Por ultimo ele consulta usuarios do guarita
 }

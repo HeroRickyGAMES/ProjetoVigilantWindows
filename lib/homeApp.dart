@@ -7130,7 +7130,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         showToast("É necessario selecionar um guarita primeiro!",context:context);
                                                                                                                       }else{
                                                                                                                        Consulta(context, host, porta, "Scan");
-
                                                                                                                       }
                                                                                                                     },
                                                                                                                     child: const Text('Puxar usuarios do guarita selecionado'),
@@ -8355,82 +8354,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                                 ),
                                                                                                                                               ),
                                                                                                                                               labelText: 'Nome',
-                                                                                                                                            ),
-                                                                                                                                            style: TextStyle(
-                                                                                                                                                color: textAlertDialogColor
-                                                                                                                                            ),
-                                                                                                                                          ),
-                                                                                                                                        ),
-                                                                                                                                      ),
-                                                                                                                                      Center(
-                                                                                                                                        child: Container(
-                                                                                                                                          padding: const EdgeInsets.all(16),
-                                                                                                                                          child: TextField(
-                                                                                                                                            controller: serialController,
-                                                                                                                                            keyboardType: TextInputType.emailAddress,
-                                                                                                                                            enableSuggestions: false,
-                                                                                                                                            autocorrect: false,
-                                                                                                                                            onChanged: (value){
-                                                                                                                                              setStater(() {
-                                                                                                                                                serial = value;
-                                                                                                                                              });
-                                                                                                                                            },
-                                                                                                                                            decoration: InputDecoration(
-                                                                                                                                              filled: true,
-                                                                                                                                              fillColor: Colors.white,
-                                                                                                                                              labelStyle: TextStyle(
-                                                                                                                                                  color: textAlertDialogColor,
-                                                                                                                                                  backgroundColor: Colors.white
-                                                                                                                                              ),
-                                                                                                                                              border: const OutlineInputBorder(),
-                                                                                                                                              enabledBorder: const OutlineInputBorder(
-                                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                                              ),
-                                                                                                                                              focusedBorder: const OutlineInputBorder(
-                                                                                                                                                borderSide: BorderSide(
-                                                                                                                                                    width: 3,
-                                                                                                                                                    color: Colors.black
-                                                                                                                                                ),
-                                                                                                                                              ),
-                                                                                                                                              labelText: 'Serial (Hex)',
-                                                                                                                                            ),
-                                                                                                                                            style: TextStyle(
-                                                                                                                                                color: textAlertDialogColor
-                                                                                                                                            ),
-                                                                                                                                          ),
-                                                                                                                                        ),
-                                                                                                                                      ),
-                                                                                                                                      Center(
-                                                                                                                                        child: Container(
-                                                                                                                                          padding: const EdgeInsets.all(16),
-                                                                                                                                          child: TextField(
-                                                                                                                                            controller: contadorlController,
-                                                                                                                                            keyboardType: TextInputType.emailAddress,
-                                                                                                                                            enableSuggestions: false,
-                                                                                                                                            autocorrect: false,
-                                                                                                                                            onChanged: (value){
-                                                                                                                                              setStater(() {
-                                                                                                                                                Contador = value;
-                                                                                                                                              });
-                                                                                                                                            },
-                                                                                                                                            decoration: InputDecoration(
-                                                                                                                                              filled: true,
-                                                                                                                                              fillColor: Colors.white,
-                                                                                                                                              labelStyle: TextStyle(
-                                                                                                                                                  color: textAlertDialogColor,
-                                                                                                                                                  backgroundColor: Colors.white
-                                                                                                                                              ),
-                                                                                                                                              border: const OutlineInputBorder(),
-                                                                                                                                              enabledBorder: const OutlineInputBorder(
-                                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                                              ),
-                                                                                                                                              focusedBorder: const OutlineInputBorder(
-                                                                                                                                                borderSide: BorderSide(
-                                                                                                                                                    width: 3,
-                                                                                                                                                    color: Colors.black
-                                                                                                                                                ),
-                                                                                                                                              ),
-                                                                                                                                              labelText: 'Contador (Hex)',
                                                                                                                                             ),
                                                                                                                                             style: TextStyle(
                                                                                                                                                 color: textAlertDialogColor
