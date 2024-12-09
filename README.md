@@ -5,20 +5,20 @@ Esse projeto vai ser de monitoramento com CFTV, acionamento de reles remotos, vo
 
 Requisitos minimos para rodar o Sparta Monitoramento:
 6GB de RAM.
-Dual Core Processador (2.50 GHz)
+Quadcore Core Processador (3.00 GHz)
 GPU com 1GB de VRAM
-130MB de espaço sobrando no disco
+500MB de espaço sobrando no disco
 Internet estavel
 
 Requisitos recomendados:
 8GB de RAM
-Quadcore processador (3.33 GHz)
+Exacore processador (3.6 GHz >)
 GPU com 2GB de VRAM
-130MB de espaço sobrando no disco
+500MB de espaço sobrando no disco
 Internet estavel
 
 Requisitos recomendados para Servidor:
-Processador com 2 nucleos ou 4 threds (3.33 GHz)
+Quadcore Core Processador (3.00 GHz)
 16GB de RAM
 1TB de SSD
 Placa mãe com BIOS UEFI.
