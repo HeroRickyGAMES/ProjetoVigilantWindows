@@ -3,7 +3,7 @@
 
 Esse projeto vai ser de monitoramento com CFTV, acionamento de reles remotos, voz por VOIP (voz por transmissão desejavel via api web ou algo assim) e o cadastros com o banco de dados geral Firebase!
 
-Requisitos minimos para rodar o Sparta Monitoramento:
+Requisitos minimos para rodar o Vigilant:
 6GB de RAM.
 Quadcore Core Processador (3.00 GHz)
 GPU com 1GB de VRAM
