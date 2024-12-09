@@ -16,6 +16,7 @@ import 'package:vigilant/FirebaseHost.dart';
 import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
 import 'package:vigilant/botaoDireito.dart';
 import 'package:vigilant/getIds.dart';
+import 'package:vigilant/infosdoPc/getCores.dart';
 import 'package:vigilant/intRamdom/intRamdom.dart';
 import 'package:vigilant/libDePessoas/ExelImport.dart';
 import 'package:vigilant/login/login.dart';
@@ -7498,80 +7499,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         autocorrect: false,
                                                                                                                         onChanged: (value){
                                                                                                                           setStater(() {
-                                                                                                                            serial = value;
-                                                                                                                          });
-                                                                                                                        },
-                                                                                                                        decoration: InputDecoration(
-                                                                                                                          filled: true,
-                                                                                                                          fillColor: Colors.white,
-                                                                                                                          labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor,
-                                                                                                                              backgroundColor: Colors.white
-                                                                                                                          ),
-                                                                                                                          border: const OutlineInputBorder(),
-                                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                          ),
-                                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(
-                                                                                                                                width: 3,
-                                                                                                                                color: Colors.black
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          labelText: 'Serial (Hex)',
-                                                                                                                        ),
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textAlertDialogColor
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  Center(
-                                                                                                                    child: Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: TextField(
-                                                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                                                        enableSuggestions: false,
-                                                                                                                        autocorrect: false,
-                                                                                                                        onChanged: (value){
-                                                                                                                          setStater(() {
-                                                                                                                            Contador = value;
-                                                                                                                          });
-                                                                                                                        },
-                                                                                                                        decoration: InputDecoration(
-                                                                                                                          filled: true,
-                                                                                                                          fillColor: Colors.white,
-                                                                                                                          labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor,
-                                                                                                                              backgroundColor: Colors.white
-                                                                                                                          ),
-                                                                                                                          border: const OutlineInputBorder(),
-                                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                          ),
-                                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(
-                                                                                                                                width: 3,
-                                                                                                                                color: Colors.black
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          labelText: 'Contador (Hex)',
-                                                                                                                        ),
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textAlertDialogColor
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  Center(
-                                                                                                                    child: Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: TextField(
-                                                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                                                        enableSuggestions: false,
-                                                                                                                        autocorrect: false,
-                                                                                                                        onChanged: (value){
-                                                                                                                          setStater(() {
                                                                                                                             unidade = value;
                                                                                                                           });
                                                                                                                         },
@@ -7938,53 +7865,46 @@ class _homeAppState extends State<homeApp>{
                                                                                                                               if(tipo  == ""){
                                                                                                                                 showToast("O tipo está vazio!",context:context);
                                                                                                                               }else{
-                                                                                                                                if(serial == ""){
-                                                                                                                                  showToast("O tipo está vazio!",context:context);
+                                                                                                                                if(bloco == ""){
+                                                                                                                                  showToast("O bloco está vazio!",context:context);
                                                                                                                                 }else{
-                                                                                                                                  if(Contador == ''){
-                                                                                                                                    showToast("O contador está vazio!",context:context);
+                                                                                                                                  if(marca == ""){
+                                                                                                                                    showToast("A marca está vazia!",context:context);
                                                                                                                                   }else{
-                                                                                                                                    if(bloco == ""){
-                                                                                                                                      showToast("O bloco está vazio!",context:context);
+                                                                                                                                    if(unidade == ""){
+                                                                                                                                      showToast("A unidade está vazia!",context:context);
                                                                                                                                     }else{
-                                                                                                                                      if(marca == ""){
-                                                                                                                                        showToast("A marca está vazia!",context:context);
+                                                                                                                                      if(cor == ""){
+                                                                                                                                        showToast("A cor está vazia!",context:context);
                                                                                                                                       }else{
-                                                                                                                                        if(cor == ""){
-                                                                                                                                          showToast("A cor está vazia!",context:context);
-                                                                                                                                        }else{
-                                                                                                                                            Cadastro(context, ip, porta, tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa, "", "");
-                                                                                                                                            setStater((){
-                                                                                                                                              dropValue91 = ValueNotifier('');
-                                                                                                                                              dropValue92 = ValueNotifier('');
-                                                                                                                                              dropValue93 = ValueNotifier('');
-                                                                                                                                              dropValue94 = ValueNotifier('');
-                                                                                                                                              ip = "";
-                                                                                                                                              porta = 9000;
-                                                                                                                                              tipo = '';
-                                                                                                                                              serial = "";
-                                                                                                                                              Contador = "";
-                                                                                                                                              unidade = '';
-                                                                                                                                              bloco = "";
-                                                                                                                                              Identificacao = "";
-                                                                                                                                              grupo = '';
-                                                                                                                                              marca = "";
-                                                                                                                                              cor = "";
-                                                                                                                                              placa = "null";
-                                                                                                                                              receptor1 = false;
-                                                                                                                                              receptor2 = false;
-                                                                                                                                              receptor3 = false;
-                                                                                                                                              receptor4 = false;
-                                                                                                                                              receptor5 = false;
-                                                                                                                                              receptor6 = false;
-                                                                                                                                              receptor7 = false;
-                                                                                                                                              receptor8 = false;
-                                                                                                                                            });
-                                                                                                                                        }
-                                                                                                                                       }
+                                                                                                                                        Cadastro(context, ip, porta, tipo, '', "", unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa, "", "");
+                                                                                                                                        setStater((){
+                                                                                                                                          dropValue91 = ValueNotifier('');
+                                                                                                                                          dropValue92 = ValueNotifier('');
+                                                                                                                                          dropValue93 = ValueNotifier('');
+                                                                                                                                          dropValue94 = ValueNotifier('');
+                                                                                                                                          ip = "";
+                                                                                                                                          porta = 9000;
+                                                                                                                                          tipo = '';
+                                                                                                                                          bloco = "";
+                                                                                                                                          Identificacao = "";
+                                                                                                                                          grupo = '';
+                                                                                                                                          marca = "";
+                                                                                                                                          cor = "";
+                                                                                                                                          placa = "null";
+                                                                                                                                          receptor1 = false;
+                                                                                                                                          receptor2 = false;
+                                                                                                                                          receptor3 = false;
+                                                                                                                                          receptor4 = false;
+                                                                                                                                          receptor5 = false;
+                                                                                                                                          receptor6 = false;
+                                                                                                                                          receptor7 = false;
+                                                                                                                                          receptor8 = false;
+                                                                                                                                        });
                                                                                                                                       }
                                                                                                                                     }
                                                                                                                                   }
+                                                                                                                                }
                                                                                                                                 }
                                                                                                                               }
                                                                                                                             },
@@ -8893,60 +8813,57 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                                     if(tipo  == ""){
                                                                                                                                                       showToast("O tipo está vazio!",context:context);
                                                                                                                                                     }else{
-                                                                                                                                                      if(serial == ""){
-                                                                                                                                                        showToast("O tipo está vazio!",context:context);
+                                                                                                                                                      if(unidade == ""){
+                                                                                                                                                        showToast("A unidade está vazia!",context:context);
                                                                                                                                                       }else{
-                                                                                                                                                        if(Contador == ''){
-                                                                                                                                                          showToast("O contador está vazio!",context:context);
+
+                                                                                                                                                        if(bloco == ""){
+                                                                                                                                                          showToast("O bloco está vazio!",context:context);
                                                                                                                                                         }else{
-                                                                                                                                                          if(bloco == ""){
-                                                                                                                                                            showToast("O bloco está vazio!",context:context);
+                                                                                                                                                          if(marca == ""){
+                                                                                                                                                            showToast("A marca está vazia!",context:context);
                                                                                                                                                           }else{
-                                                                                                                                                            if(marca == ""){
-                                                                                                                                                              showToast("A marca está vazia!",context:context);
+                                                                                                                                                            if(cor == ""){
+                                                                                                                                                              showToast("A cor está vazia!",context:context);
                                                                                                                                                             }else{
-                                                                                                                                                              if(cor == ""){
-                                                                                                                                                                showToast("A cor está vazia!",context:context);
-                                                                                                                                                              }else{
-                                                                                                                                                                if(placa == ""){
-                                                                                                                                                                  placa = "null";
-                                                                                                                                                                }
-                                                                                                                                                                edicao(context, documents['idGuarita'],documents['id'], documents['hostGuarita'], documents['portGuarita'], tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa);
-
-                                                                                                                                                                setStater((){
-                                                                                                                                                                  dropValue90 = ValueNotifier('');
-                                                                                                                                                                  dropValue91 = ValueNotifier('');
-                                                                                                                                                                  dropValue92 = ValueNotifier('');
-                                                                                                                                                                  dropValue93 = ValueNotifier('');
-                                                                                                                                                                  dropValue94 = ValueNotifier('');
-
-                                                                                                                                                                  nomeController = TextEditingController(text: '');
-                                                                                                                                                                  serialController = TextEditingController(text: '');
-                                                                                                                                                                  contadorlController = TextEditingController(text: '');
-                                                                                                                                                                  unidadelController = TextEditingController(text: '');
-                                                                                                                                                                  PlacaController = TextEditingController(text: '');
-
-                                                                                                                                                                  unidade = '';
-                                                                                                                                                                  bloco = '';
-                                                                                                                                                                  Identificacao = '';
-                                                                                                                                                                  grupo = '';
-                                                                                                                                                                  marca = '';
-                                                                                                                                                                  cor = '';
-                                                                                                                                                                  placa = 'null';
-                                                                                                                                                                  tipo = '';
-                                                                                                                                                                  serial = '';
-                                                                                                                                                                  Contador = '';
-
-                                                                                                                                                                  receptor1 = false;
-                                                                                                                                                                  receptor2 = false;
-                                                                                                                                                                  receptor3 = false;
-                                                                                                                                                                  receptor4 = false;
-                                                                                                                                                                  receptor5 = false;
-                                                                                                                                                                  receptor6 = false;
-                                                                                                                                                                  receptor7 = false;
-                                                                                                                                                                  receptor8 = false;
-                                                                                                                                                                });
+                                                                                                                                                              if(placa == ""){
+                                                                                                                                                                placa = "null";
                                                                                                                                                               }
+                                                                                                                                                              edicao(context, documents['idGuarita'],documents['id'], documents['hostGuarita'], documents['portGuarita'], tipo, serial, Contador, unidade, bloco, Identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8 , placa);
+
+                                                                                                                                                              setStater((){
+                                                                                                                                                                dropValue90 = ValueNotifier('');
+                                                                                                                                                                dropValue91 = ValueNotifier('');
+                                                                                                                                                                dropValue92 = ValueNotifier('');
+                                                                                                                                                                dropValue93 = ValueNotifier('');
+                                                                                                                                                                dropValue94 = ValueNotifier('');
+
+                                                                                                                                                                nomeController = TextEditingController(text: '');
+                                                                                                                                                                serialController = TextEditingController(text: '');
+                                                                                                                                                                contadorlController = TextEditingController(text: '');
+                                                                                                                                                                unidadelController = TextEditingController(text: '');
+                                                                                                                                                                PlacaController = TextEditingController(text: '');
+
+                                                                                                                                                                unidade = '';
+                                                                                                                                                                bloco = '';
+                                                                                                                                                                Identificacao = '';
+                                                                                                                                                                grupo = '';
+                                                                                                                                                                marca = '';
+                                                                                                                                                                cor = '';
+                                                                                                                                                                placa = 'null';
+                                                                                                                                                                tipo = '';
+                                                                                                                                                                serial = '';
+                                                                                                                                                                Contador = '';
+
+                                                                                                                                                                receptor1 = false;
+                                                                                                                                                                receptor2 = false;
+                                                                                                                                                                receptor3 = false;
+                                                                                                                                                                receptor4 = false;
+                                                                                                                                                                receptor5 = false;
+                                                                                                                                                                receptor6 = false;
+                                                                                                                                                                receptor7 = false;
+                                                                                                                                                                receptor8 = false;
+                                                                                                                                                              });
                                                                                                                                                             }
                                                                                                                                                           }
                                                                                                                                                         }
@@ -9030,8 +8947,9 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                             child: const Text('Não')
                                                                                                                                         ),
                                                                                                                                         ElevatedButton(
-                                                                                                                                            onPressed: (){
-                                                                                                                                              Deletecao(context, documents['idGuarita'], documents['id'], documents['hostGuarita'], documents['portGuarita'], "Deletacao");
+                                                                                                                                            onPressed: () async {
+                                                                                                                                              int numCores = await GetCores();
+                                                                                                                                              Deletecao(context, documents['idGuarita'], documents['id'], documents['hostGuarita'], documents['portGuarita'], "Deletacao", numCores);
                                                                                                                                             },
                                                                                                                                           style: ElevatedButton.styleFrom(
                                                                                                                                             backgroundColor: Colors.red

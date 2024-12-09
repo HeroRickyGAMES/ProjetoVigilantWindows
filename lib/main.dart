@@ -9,7 +9,6 @@ import 'package:vigilant/FirebaseHost.dart';
 import 'package:vigilant/infosdoPc/checkUser.dart';
 import 'package:vigilant/firebase_options.dart';
 import 'package:vigilant/homeApp.dart';
-import 'package:vigilant/infosdoPc/getCPUGHZ.dart';
 import 'package:vigilant/login/login.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -134,7 +133,6 @@ class _mainAppState extends State<mainApp> {
         }
         initDB();
       });
-      GetCPUGHz();
     }
 
     runFirebase() async {

@@ -110,6 +110,7 @@ namespace demoLinearIP
             { 15, "VERMELHO" }
         };
         int quantidadelida = 0;
+        String NumCores = "";
 
         static Socket csTCP = null;
         static byte[] gl_RecTCPBuff= new byte[2000];  // Buffer de recepção TCP
@@ -136,11 +137,13 @@ namespace demoLinearIP
         [DllImport("AvzScanner.dll")]
         public static extern Int32 AvzMatch(byte[] pFeature0, byte[] pFeature1, UInt16 level, UInt16 rotate);
 
-        public fprincipal(String ip , String porta, string checkUsers, string createuser, String tipo, String serial, String contador, String unidade, String bloco, String identificacao, String grupo, String marca, String cor, String placa, String receptor1, String receptor2, String receptor3, String receptor4, String receptor5, String receptor6, String receptor7, String receptor8, String deleteUser, String idGuarita)
+        public fprincipal(String ip , String porta, string checkUsers, string createuser, String tipo, String serial, String contador, String unidade, String bloco, String identificacao, String grupo, String marca, String cor, String placa, String receptor1, String receptor2, String receptor3, String receptor4, String receptor5, String receptor6, String receptor7, String receptor8, String deleteUser, String idGuarita, String numberOfCores)
         {
             InitializeComponent(ip, porta, createuser, tipo, serial, contador, unidade, bloco, identificacao, grupo, marca, cor, placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8);
 
             DeleteUser = deleteUser;
+
+            NumCores = numberOfCores;
 
             if (ip == "") {
                 MessageBox.Show("Inicio normal, caso esteja vendo essa mensagem a SDK foi iniciada manualmente para testes ou qualquer outra finalidade!", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -172,19 +175,44 @@ namespace demoLinearIP
                         // Resposta de 5 bytes: 0x00 + 0x07 + <quant. parte alta> + <quant. parte baixa> + <cs>
                         toutComando(true, 5);
                         enviaComando(new byte[] { 0x00, 0x07 });
-
-                        Thread.Sleep(5000);
+                        Console.WriteLine(deleteUser);
                         if (deleteUser == "--deleteuser") {
-                            IDGuarita = int.Parse(idGuarita) - 1;
-                            lsDisp.SelectedIndex = int.Parse(idGuarita) - 1;
-                            Close();
-                        }
-                        Thread.Sleep(5000);
-                        if (checkarUsers == "--checkusers") {
-                            for (int i = 0; i <= quantidadelida - 1; i++) {
-                                lsDisp.SelectedIndex = i;
+                            //por o if aqui
+                            int cores = int.Parse(NumCores);
 
-                                if (i == quantidadelida - 1) {
+                            if (cores >= 1 && cores <= 3) {
+                                Thread.Sleep(5000);
+                            }
+
+                            if (cores >= 4 && cores <= 5) {
+                                Thread.Sleep(2000);
+                            }
+
+                            if (cores >= 6 && cores <= 7) {
+                                Thread.Sleep(1000);
+                            }
+
+                            if (cores >= 8 && cores <= 9) {
+                                Thread.Sleep(1000);
+                            }
+
+                            if (cores >= 10 && cores <= 12) {
+                                Thread.Sleep(500);
+                            }
+
+                            if (cores > 13) {
+                                Thread.Sleep(500);
+                            }
+
+                            IDGuarita = int.Parse(idGuarita);
+                            lsDisp.SelectedIndex = int.Parse(idGuarita);
+                        }
+                        if (checkarUsers == "--checkusers") {
+                            for (int i = 0; i <= quantidadelida; i++) {
+                                lsDisp.SelectedIndex = i -1;
+                                
+                                if (i == quantidadelida) {
+                                    Thread.Sleep(5000);
                                     Close();
                                 }
                             }
@@ -192,7 +220,7 @@ namespace demoLinearIP
                     }
                 } catch (Exception ex) {
                     Application.UseWaitCursor = false;
-                    Console.WriteLine("FALHA CONEXAO TCP");
+                    //Console.WriteLine("FALHA CONEXAO TCP");
                     Console.WriteLine(ex);
                     Close();
                 }
@@ -305,7 +333,7 @@ namespace demoLinearIP
 
                 //Hora de cadastrar
 
-                Thread.Sleep(50);
+                Thread.Sleep(100);
                 // Botão "CADASTRAR" (aba "Cadastrar Dispositivo")
                 byte[] frameDisp = new byte[39];
                 int vSerial, vConta;
@@ -1345,7 +1373,32 @@ namespace demoLinearIP
 
             Application.UseWaitCursor = false;
             Console.WriteLine("SEM RESPOSTA do comando!");
-            Close();
+            int cores = int.Parse(NumCores);
+
+            if (cores >= 1 && cores <= 3) {
+                Thread.Sleep(30);
+            }
+
+            if (cores >= 4 && cores <= 5) {
+                Thread.Sleep(30);
+            }
+
+            if (cores >= 6 && cores <= 7) {
+                Thread.Sleep(30);
+            }
+
+            if (cores >= 8 && cores <= 9) {
+                Thread.Sleep(30);
+            }
+
+            if (cores >= 10 && cores <= 12) {
+                Thread.Sleep(20);
+            }
+
+            if (cores > 13) {
+                Thread.Sleep(10);
+            }
+            //Close();
         }
         // ***********************************************************
 
@@ -1828,6 +1881,9 @@ namespace demoLinearIP
             Console.WriteLine("},");
            
             if (DeleteUser == "--deleteuser") {
+                Console.WriteLine(IDGuarita);
+                Console.WriteLine(lsDisp.SelectedIndex );
+
                 if (lsDisp.SelectedIndex == IDGuarita) {
                     byte[] lFrame = new byte[42];
                     for (int i = 0; i < 39; i++)
@@ -1874,7 +1930,35 @@ namespace demoLinearIP
                     // Resposta de 5 bytes: 0x00 + 0x43 + 0x04 + <resposta> + <cs>
                     toutComando(true, 5);
                     enviaComando(lFrame);
+
+                    int cores = int.Parse(NumCores);
+
+                    if (cores >= 1 && cores <= 3) {
+                        Thread.Sleep(5000);
+                    }
+
+                    if (cores >= 4 && cores <= 5) {
+                        Thread.Sleep(2000);
+                    }
+
+                    if (cores >= 6 && cores <= 7) {
+                        Thread.Sleep(1000);
+                    }
+
+                    if (cores >= 8 && cores <= 9) {
+                        Thread.Sleep(1000);
+                    }
+
+                    if (cores >= 10 && cores <= 12) {
+                        Thread.Sleep(500);
+                    }
+
+                    if (cores > 13) {
+                        Thread.Sleep(500);
+                    }
+
                     Console.WriteLine("Deletado com sucesso!");
+                    Close();
                 }
             }
 

@@ -51,6 +51,7 @@ namespace demoLinearIP
             //DeleteUser
             String deleteUser = "";
             String idGuarita = "";
+            String numberOfCores = "";
 
             //EditarUsuario
             String editUser = "";
@@ -99,7 +100,7 @@ namespace demoLinearIP
                                 if (args.Contains("--deleteuser") || args.Contains("--idguarita")) {
                                     deleteUser = args[i + 4];
                                     idGuarita = args[i + 6];
-                                    Console.WriteLine(idGuarita);
+                                    numberOfCores = args[i + 8];
                                 }
 
                                 iniciarApp(args, ip, porta, checkusers,
@@ -111,7 +112,7 @@ namespace demoLinearIP
                                     receptor3, receptor4,
                                     receptor5, receptor6,
                                     receptor7, receptor8,
-                                    deleteUser, idGuarita);
+                                    deleteUser, idGuarita, numberOfCores);
                                 return;
                             }
                         }
@@ -126,10 +127,10 @@ namespace demoLinearIP
                     cor, placa, receptor1, receptor2,
                     receptor3, receptor4, receptor5,
                     receptor6, receptor7, receptor8,
-                    deleteUser, idGuarita);
+                    deleteUser, idGuarita, numberOfCores);
             }
         }
-        static void iniciarApp(string[] argumentos, String ip, String porta, String checkUsers, String createuser, String tipo, String serial, String contador , String unidade, String bloco, String identificacao, String grupo, String marca, String cor, String placa, String receptor1, String receptor2, String receptor3, String receptor4, String receptor5, String receptor6, String receptor7, String receptor8, String deleteUser, String idGuarita) {
+        static void iniciarApp(string[] argumentos, String ip, String porta, String checkUsers, String createuser, String tipo, String serial, String contador , String unidade, String bloco, String identificacao, String grupo, String marca, String cor, String placa, String receptor1, String receptor2, String receptor3, String receptor4, String receptor5, String receptor6, String receptor7, String receptor8, String deleteUser, String idGuarita, String numberOfCores) {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new fprincipal(ip, porta, checkUsers,
@@ -138,7 +139,7 @@ namespace demoLinearIP
                 marca, cor, placa, receptor1,
                 receptor2, receptor3, receptor4,
                 receptor5, receptor6, receptor7,
-                receptor8, deleteUser, idGuarita));
+                receptor8, deleteUser, idGuarita, numberOfCores));
         }
     }
 }

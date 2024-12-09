@@ -5,10 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vigilant/homeApp.dart';
+import 'package:vigilant/infosdoPc/getCores.dart';
 import 'package:vigilant/intRamdom/intRamdom.dart';
 import 'package:vigilant/moduloGuarita/hostToIP.dart';
+import 'dart:math';
 
 //Desenvolvidor por HeroRickyGAMES com ajuda de Deus!
+
+String generateHex(int length) {
+  final random = Random();
+  const hexChars = '0123456789ABCDEF';
+
+  return List.generate(length, (index) => hexChars[random.nextInt(16)]).join();
+}
 
 Consulta(var context, String host, int port, String veiode) async {
   showDialog(
@@ -48,48 +57,54 @@ Consulta(var context, String host, int port, String veiode) async {
   print(command);
   print(pwdString);
   print(tratado);
-  Map<String, dynamic> Controles = jsonDecode(tratado.replaceAll("},}", "}}"));
+  if(result.stdout.toString().contains("FALHA CONEXAO TCP")){
+    showToast("FALHA CONEXAO TCP!",context:context);
+    Navigator.pop(context);
+    Navigator.pop(context);
+  }else{
+    Map<String, dynamic> Controles = jsonDecode(tratado.replaceAll("},}", "}}"));
 
-  Controles.forEach((serial, fields) async {
-    if (fields.containsKey('Controlador/ID')) {
-      fields['Controlador_ID'] = fields['Controlador/ID'];
-      fields.remove('Controlador/ID');
-    }
+    Controles.forEach((serial, fields) async {
+      if (fields.containsKey('Controlador/ID')) {
+        fields['Controlador_ID'] = fields['Controlador/ID'];
+        fields.remove('Controlador/ID');
+      }
 
-    if (fields.containsKey('Veiculo/Marca')) {
-      fields['Veiculo_Marca'] = fields['Veiculo/Marca'];
-      fields.remove('Veiculo/Marca');
-    }
+      if (fields.containsKey('Veiculo/Marca')) {
+        fields['Veiculo_Marca'] = fields['Veiculo/Marca'];
+        fields.remove('Veiculo/Marca');
+      }
 
-    fields.forEach((key, value) {
-      // Verifica se o valor é uma String e converte "True"/"False" para bool
-      if (value is String) {
-        if (value.toLowerCase() == "true") {
-          fields[key] = true;
-        } else if (value.toLowerCase() == "false") {
-          fields[key] = false;
+      fields.forEach((key, value) {
+        // Verifica se o valor é uma String e converte "True"/"False" para bool
+        if (value is String) {
+          if (value.toLowerCase() == "true") {
+            fields[key] = true;
+          } else if (value.toLowerCase() == "false") {
+            fields[key] = false;
+          }
         }
+      });
+
+      Uuid uuid = const Uuid();
+      String UUID = uuid.v4();
+      String id = "$UUID$serial$idCondominio";
+      // Usa o serial como ID do documento
+      fields['idCondominio'] = idCondominio;
+      fields['id'] = id;
+      fields['idGuarita'] = "${int.parse(serial)-1}";
+      fields['hostGuarita'] = host;
+      fields['portGuarita'] = port;
+      if(veiode == "Scan"){
+        FirebaseFirestore.instance.collection("Controles").doc(id).set(
+            fields
+        );
+        showToast("Importado com sucesso!",context:context);
       }
     });
-
-    Uuid uuid = const Uuid();
-    String UUID = uuid.v4();
-    String id = "$UUID$serial$idCondominio";
-    // Usa o serial como ID do documento
-    fields['idCondominio'] = idCondominio;
-    fields['id'] = id;
-    fields['idGuarita'] = serial;
-    fields['hostGuarita'] = host;
-    fields['portGuarita'] = port;
-    if(veiode == "Scan"){
-      FirebaseFirestore.instance.collection("Controles").doc(id).set(
-          fields
-      );
-      showToast("Importado com sucesso!",context:context);
-    }
-  });
-  Navigator.pop(context);
-  Navigator.pop(context);
+    Navigator.pop(context);
+    Navigator.pop(context);
+  }
 }
 
 Cadastro(var context, String host, int port, String tipo, String serieal, String contador, String unidade, String bloco, String identificacao, String grupo, String Marca, String cor, String Placa, bool receptor1, bool receptor2, bool receptor3, bool receptor4, bool receptor5, bool receptor6, bool receptor7, bool receptor8, String placa, String ide, String idGuarita) async {
@@ -132,10 +147,6 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
   var ip = await hostToIp(host);
   String hostd = ip;
 
-  if(contador == ""){
-    contador = "null";
-  }
-
   if(unidade == ""){
     unidade = "null";
   }
@@ -144,7 +155,10 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
     bloco = "null";
   }
 
-  String command = 'guaritaConrole/demoLinearIP.exe --ip $hostd --porta $port --createuser --tipo $tipo --serial $serieal --contador $contador --unidade $unidade --bloco $bloco --identificacao ${identificacao.replaceAll(" ", "_")} --grupo $grupo --marca ${Marca.replaceAll(" ", "_")} --cor $cor --placa ${Placa.replaceAll(" ", "_")} --receptor1 $receptor1 --receptor2 $receptor2 --receptor3 $receptor3 --receptor4 $receptor4 --receptor5 $receptor5 --receptor6 $receptor6 --receptor7 $receptor7 --receptor8 $receptor8';
+  String serial = generateHex(4);
+  String contadors = generateHex(4);
+
+  String command = 'guaritaConrole/demoLinearIP.exe --ip $hostd --porta $port --createuser --tipo $tipo --serial $serial --contador $contadors --unidade $unidade --bloco $bloco --identificacao ${identificacao.replaceAll(" ", "_")} --grupo $grupo --marca ${Marca.replaceAll(" ", "_")} --cor $cor --placa ${Placa.replaceAll(" ", "_")} --receptor1 $receptor1 --receptor2 $receptor2 --receptor3 $receptor3 --receptor4 $receptor4 --receptor5 $receptor5 --receptor6 $receptor6 --receptor7 $receptor7 --receptor8 $receptor8';
 
   print(command);
 
@@ -203,13 +217,13 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
           // Usa o serial como ID do documento
           fields['idCondominio'] = idCondominio;
           fields['id'] = id;
-          fields['idGuarita'] = serial;
+          fields['idGuarita'] = "${int.parse(serial) - 1}";
           fields['hostGuarita'] = host;
           fields['portGuarita'] = porta;
 
           Controles.forEach((chave, valor) {
           if (valor["Identificacao"] == identificacao) {
-            countGuarita = chave;
+            countGuarita = "${int.parse(chave) - 1}";
            }
           });
         });
@@ -249,9 +263,9 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
     if(idGuarita == ""){
       FirebaseFirestore.instance.collection("Controles").doc(id).set({
         "Tipo": tipo,
-        'Serial': serieal,
+        'Serial': serial,
         'idGuarita': countGuarita,
-        "Controlador_ID": contador,
+        "Controlador_ID": contadors,
         "Unidade": unidade,
         'Bloco': bloco,
         "Grupo": grupo,
@@ -303,6 +317,8 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
         "receptor6": receptor6,
         "receptor7": receptor7,
         "receptor8": receptor8,
+      }).whenComplete((){
+        Navigator.pop(context);
       });
     }
 
@@ -322,17 +338,7 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
 }
 
 edicao(var context, String idGuarita, String id, String host, int port, String tipo, String serieal, String contador, String unidade, String bloco, String identificacao, String grupo, String Marca, String cor, String Placa, bool receptor1, bool receptor2, bool receptor3, bool receptor4, bool receptor5, bool receptor6, bool receptor7, bool receptor8, placa) async {
-  var ip = await hostToIp(host);
-  String hostd = ip;
-  //Primeiro ele vai deletar o usuario x
-  Deletecao(context, idGuarita, id, hostd, port, "Edicao");
-  await Future.delayed(const Duration(seconds: 20));
-  //Depois ele vai cadastrar com os dados mandados do proprio vigilant
-  Cadastro(context, hostd, port, tipo, serieal, contador, unidade, bloco, identificacao, grupo, Marca, cor, Placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8, placa, id, idGuarita);
-  //Por ultimo ele consulta usuarios do guarita
-}
 
-Deletecao(var context, String idGuarita, String id, String host, int port, String veiode) async {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -347,12 +353,67 @@ Deletecao(var context, String idGuarita, String id, String host, int port, Strin
     },
   );
 
+  int numCores = await GetCores();
+
+  var ip = await hostToIp(host);
+  String hostd = ip;
+
+  //Primeiro ele vai deletar o usuario x
+  Deletecao(context, idGuarita, id, hostd, port, "Edicao", numCores);
+
+  if (numCores >= 1 && numCores <= 3) {
+    await Future.delayed(const Duration(minutes: 1));
+  }
+
+  if (numCores >= 4 && numCores <= 5) {
+    await Future.delayed(const Duration(seconds: 50));
+  }
+
+  if (numCores >= 6 && numCores <= 7) {
+    await Future.delayed(const Duration(seconds: 50));
+  }
+
+  if (numCores >= 8 && numCores <= 9) {
+    await Future.delayed(const Duration(seconds: 50));
+  }
+
+  if (numCores >= 10 && numCores <= 12) {
+    //await Future.delayed(const Duration(seconds: 100));
+    await Future.delayed(const Duration(seconds: 50));
+  }
+
+  if(numCores > 13){
+    await Future.delayed(const Duration(seconds: 50));
+  }
+
+  //Depois ele vai cadastrar com os dados mandados do proprio vigilant
+  Cadastro(context, hostd, port, tipo, serieal, contador, unidade, bloco, identificacao, grupo, Marca, cor, Placa, receptor1, receptor2, receptor3, receptor4, receptor5, receptor6, receptor7, receptor8, placa, id, idGuarita);
+  //Por ultimo ele consulta usuarios do guarita
+}
+
+Deletecao(var context, String idGuarita, String id, String host, int port, String veiode, int numberOfCores) async {
+  if(veiode == "Deletacao"){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          title: Text('Aguarde!'),
+          actions: [
+            Center(
+              child: CircularProgressIndicator(),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   var ip = await hostToIp(host);
   String hostd = ip;
 
   FirebaseFirestore.instance.collection("Controles").doc(id).delete();
 
-  String command = 'guaritaConrole/demoLinearIP.exe --ip $hostd --porta $port --deleteuser --idguarita $idGuarita';
+  String command = 'guaritaConrole/demoLinearIP.exe --ip $hostd --porta $port --deleteuser --idguarita $idGuarita --cores $numberOfCores';
 
   print(command);
 
@@ -364,14 +425,15 @@ Deletecao(var context, String idGuarita, String id, String host, int port, Strin
       Navigator.pop(context);
       showToast("Deletado com sucesso!",context:context);
     }else{
+      Navigator.pop(context);
+      Navigator.pop(context);
       showToast("Ocorreu algum erro durante a deleteção no aparelho!",context:context);
     }
   }
   if(veiode == 'Edicao'){
-    if(processoDelete.stdout.toString().contains("Deletado com sucesso!")){
-      Navigator.pop(context);
-    }else{
+    if(!processoDelete.stdout.toString().contains("Deletado com sucesso!")){
       showToast("Ocorreu um erro ao editar, a informação foi pro banco de dados mas não para o guarita!",context:context);
+      Navigator.pop(context);
     }
   }
 }
