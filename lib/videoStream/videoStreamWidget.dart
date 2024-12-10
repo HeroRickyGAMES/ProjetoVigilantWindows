@@ -402,7 +402,12 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                                     showToast("Deletado!",context:context);
                                                   });
                                                 },
-                                                child: const Icon(Icons.delete)),
+                                                  child: const Icon(
+                                                      Icons.delete,
+                                                  size: 17,
+                                                  color: Colors.blue,
+                                                )
+                                            ),
                                             TextButton(
                                                 onPressed: (){
                                                   String IP = documents['ip'];
@@ -700,7 +705,8 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                                 },
                                                 child: const Icon(
                                                     Icons.edit,
-                                                  color: Colors.red,
+                                                  color: Colors.blue,
+                                                  size: 17,
                                                 )
                                             ),
                                           ],
