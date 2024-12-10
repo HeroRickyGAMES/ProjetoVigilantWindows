@@ -448,7 +448,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 camera7 = getIpCameraSettings["ipCamera7"];
                                                                                 camera8 = getIpCameraSettings["ipCamera8"];
                                                                                 camera9 = getIpCameraSettings["ipCamera9"];
-                                                                                isStarted = true;
+
                                                                               });
                                                                             },
                                                                             child: Stack(
@@ -466,6 +466,19 @@ class _homeAppState extends State<homeApp>{
                                                                                       width: wid / 4,
                                                                                       child: NativeContextMenuWidget(
                                                                                         actionCallback: (action) {
+                                                                                          if(action == "addCFTV"){
+                                                                                            for (int i = 1; i < 35; i++) {
+                                                                                              print('Número na posição $i é $i');
+                                                                                              FirebaseFirestore.instance.collection("CFTV").doc("${i}$idCondominio").set({
+                                                                                                "ip": "spartaflamingo.ddns.net",
+                                                                                                "porta": 554,
+                                                                                                "user": "admin",
+                                                                                                "pass": "pisp116ta",
+                                                                                                "canal": i,
+                                                                                                "modelo": "Intelbras"
+                                                                                              });
+                                                                                            }
+                                                                                          }
                                                                                           if(action == "editCondominio"){
 
                                                                                             String NomeCondominio = documents["Nome"];
