@@ -225,7 +225,7 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
           fields['id'] = id;
           fields['idGuarita'] = "${int.parse(serial) - 1}";
           fields['hostGuarita'] = host;
-          fields['portGuarita'] = porta;
+          fields['portGuarita'] = port;
 
           Controles.forEach((chave, valor) {
           if (valor["Identificacao"] == identificacao) {

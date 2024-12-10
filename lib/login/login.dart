@@ -189,7 +189,7 @@ class _loginState extends State<login> {
                                         title: Text('Aguarde!'),
                                         actions: [
                                           Center(
-                                            child: CircularProgressIndicator(),
+                                            child: CircularProgressIndicator(color: Colors.white,),
                                           )
                                         ],
                                       );

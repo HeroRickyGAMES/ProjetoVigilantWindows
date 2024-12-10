@@ -29,9 +29,6 @@ import 'package:uuid/uuid.dart';
 //Desenvolvido por HeroRickyGames com ajuda de Deus!
 
 //Strings
-String ip = '';
-String user = "";
-String pass = "";
 String anotacao = "";
 String idCondominio = "";
 String idCondominioAnt = "";
@@ -106,18 +103,6 @@ bool adicionarVisitante = false;
 bool EditarCFTV = false;
 bool acessoDevFunc = false;
 bool deslogando = false;
-
-//Inteiros
-int porta = 00;
-int? camera1;
-int? camera2;
-int? camera3;
-int? camera4;
-int? camera5;
-int? camera6;
-int? camera7;
-int? camera8;
-int? camera9;
 
 //DropDownValues
 var dropValue = ValueNotifier('');
@@ -317,7 +302,6 @@ class _homeAppState extends State<homeApp>{
                                                                             pesquisaNumeros = false;
                                                                           });
                                                                         }
-
                                                                       },
                                                                       decoration: const InputDecoration(
                                                                         filled: true,
@@ -398,7 +382,7 @@ class _homeAppState extends State<homeApp>{
 
                                                                   if (!snapshot.hasData) {
                                                                     return const Center(
-                                                                      child: CircularProgressIndicator(),
+                                                                      child: CircularProgressIndicator(color: Colors.white,),
                                                                     );
                                                                   }
                                                                   return SizedBox(
@@ -422,33 +406,12 @@ class _homeAppState extends State<homeApp>{
                                                                           child: InkWell(
                                                                             onTap: () async {
                                                                               setState(() {
-                                                                                ip = documents["IpCamera"];
-                                                                                user = documents["UserAccess"];
-                                                                                pass = documents["PassAccess"];
-                                                                                porta = documents["PortaCameras"];
                                                                                 idCondominio = documents["idCondominio"];
                                                                                 anotacao = documents["Aviso"];
                                                                                 ModeloDoCFTV = documents['ipCameraModelo'];
                                                                                 idCondominioAnt = documents["idCondominio"];
                                                                                 anotacao = documents["Aviso"];
                                                                                 anotacaoControlCondominio.text = anotacao;
-                                                                              });
-
-                                                                              var getIpCameraSettings = await FirebaseFirestore.instance
-                                                                                  .collection("Condominios")
-                                                                                  .doc(idCondominio).get();
-                                                                              setState((){
-                                                                                CFTV = 0;
-                                                                                camera1 = getIpCameraSettings["ipCamera1"];
-                                                                                camera2 = getIpCameraSettings["ipCamera2"];
-                                                                                camera3 = getIpCameraSettings["ipCamera3"];
-                                                                                camera4 = getIpCameraSettings["ipCamera4"];
-                                                                                camera5 = getIpCameraSettings["ipCamera5"];
-                                                                                camera6 = getIpCameraSettings["ipCamera6"];
-                                                                                camera7 = getIpCameraSettings["ipCamera7"];
-                                                                                camera8 = getIpCameraSettings["ipCamera8"];
-                                                                                camera9 = getIpCameraSettings["ipCamera9"];
-
                                                                               });
                                                                             },
                                                                             child: Stack(
@@ -458,7 +421,7 @@ class _homeAppState extends State<homeApp>{
                                                                                   builder: (BuildContext context, AsyncSnapshot<NativeMenu> snapshot){
                                                                                     if (!snapshot.hasData) {
                                                                                       return const Center(
-                                                                                        child: CircularProgressIndicator(),
+                                                                                        child: CircularProgressIndicator(color: Colors.white,),
                                                                                       );
                                                                                     }
 
@@ -467,24 +430,24 @@ class _homeAppState extends State<homeApp>{
                                                                                       child: NativeContextMenuWidget(
                                                                                         actionCallback: (action) {
                                                                                           if(action == "addCFTV"){
-                                                                                            for (int i = 1; i < 35; i++) {
-                                                                                              print('Número na posição $i é $i');
-                                                                                              FirebaseFirestore.instance.collection("CFTV").doc("${i}$idCondominio").set({
-                                                                                                "ip": "spartaflamingo.ddns.net",
-                                                                                                "porta": 554,
-                                                                                                "user": "admin",
-                                                                                                "pass": "pisp116ta",
-                                                                                                "canal": i,
-                                                                                                "modelo": "Intelbras"
-                                                                                              });
-                                                                                            }
+                                                                                            //for (int i = 1; i < 37; i++) {
+                                                                                            //  print('Número na posição $i é $i');
+                                                                                            //  FirebaseFirestore.instance.collection("CFTV").doc("$i$idCondominio").set({
+                                                                                            //    "ip": documents['IpCamera'],
+                                                                                            //    "porta": documents['PortaCameras'],
+                                                                                            //    "user": documents['UserAccess'],
+                                                                                            //    "pass": documents['PassAccess'],
+                                                                                            //    "canal": i,
+                                                                                            //    "modelo": "Intelbras",
+                                                                                            //    "idCondominio": idCondominio,
+                                                                                            //    "id": "$i$idCondominio",
+                                                                                            //    "Ordem": i
+                                                                                            //  });
+                                                                                            //}
                                                                                           }
                                                                                           if(action == "editCondominio"){
 
                                                                                             String NomeCondominio = documents["Nome"];
-                                                                                            String IPCameras = documents["IpCamera"];
-                                                                                            int PortaCameras = documents["PortaCameras"];
-                                                                                            String UserAccess = documents["UserAccess"];
                                                                                             String Cidade = documents["Cidade"];
                                                                                             String Endereco = documents["Endereco"];
                                                                                             String bairro = documents["bairro"];
@@ -493,18 +456,14 @@ class _homeAppState extends State<homeApp>{
                                                                                             String Telefone = documents["Telefone"];
                                                                                             String CNPJ = documents["CNPJ"];
                                                                                             String Zelador = documents["Zelador"];
-                                                                                            String PassAccess = documents["PassAccess"];
                                                                                             String SIPUrl = documents["SIPUrl"];
                                                                                             String Porta = documents["PortaSIP"];
                                                                                             String AuthUser = documents["authUserSIP"];
-                                                                                            String Pass = documents["PassAccess"];
+                                                                                            String Pass = documents["authSenhaSIP"];
                                                                                             String codigo = documents["Codigo"];
-                                                                                            String modeloselecionado = documents["ipCameraModelo"];
-                                                                                            var dropValue2 = ValueNotifier(modeloselecionado);
 
                                                                                             //Controladores
                                                                                             TextEditingController NomeCondominioControl = TextEditingController(text: NomeCondominio);
-                                                                                            TextEditingController IPCamerasControl = TextEditingController(text: IPCameras);
                                                                                             TextEditingController CidadeControl = TextEditingController(text: Cidade);
                                                                                             TextEditingController EnderecoControl = TextEditingController(text: Endereco);
                                                                                             TextEditingController bairroControl = TextEditingController(text: bairro);
@@ -513,9 +472,6 @@ class _homeAppState extends State<homeApp>{
                                                                                             TextEditingController TelefoneControl = TextEditingController(text: Telefone);
                                                                                             TextEditingController CNPJControl = TextEditingController(text: CNPJ);
                                                                                             TextEditingController ZeladorControl = TextEditingController(text: Zelador);
-                                                                                            TextEditingController PortaCamerasControl = TextEditingController(text: "$PortaCameras");
-                                                                                            TextEditingController UserAccessControl = TextEditingController(text: UserAccess);
-                                                                                            TextEditingController PassAccessControl = TextEditingController(text: PassAccess);
                                                                                             TextEditingController SIPUrlControl = TextEditingController(text: SIPUrl);
                                                                                             TextEditingController PortaSIPControl = TextEditingController(text: Porta);
                                                                                             TextEditingController AuthUserSIPControl = TextEditingController(text: AuthUser);
@@ -559,7 +515,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                                                                           children: [
                                                                                                                             const Text(
-                                                                                                                              'Cadastro de Cliente',
+                                                                                                                              'Editar Cliente',
                                                                                                                               style: TextStyle(
                                                                                                                                 fontSize: 30,
                                                                                                                               ),
@@ -965,194 +921,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                                       ),
                                                                                                                     ),
                                                                                                                     Center(
-                                                                                                                      child: Column(
-                                                                                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                                                                                        children: [
-                                                                                                                          const Text('Modelo do CFTV:'),
-                                                                                                                          ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
-                                                                                                                            return DropdownButton(
-                                                                                                                              hint: Text(
-                                                                                                                                'Selecione o modelo',
-                                                                                                                                style: TextStyle(
-                                                                                                                                    color: textColorDrop
-                                                                                                                                ),
-                                                                                                                              ),
-                                                                                                                              value: (value.isEmpty)? null : value,
-                                                                                                                              onChanged: (escolha) async {
-                                                                                                                                dropValue2.value = escolha.toString();
-                                                                                                                                setStater(() {
-                                                                                                                                  modeloselecionado = escolha.toString();
-                                                                                                                                });
-                                                                                                                              },
-                                                                                                                              items: ModelosdeCFTV.map((opcao) => DropdownMenuItem(
-                                                                                                                                value: opcao,
-                                                                                                                                child:
-                                                                                                                                Text(
-                                                                                                                                  opcao,
-                                                                                                                                  style: TextStyle(
-                                                                                                                                      color: textColorDrop
-                                                                                                                                  ),
-                                                                                                                                ),
-                                                                                                                              ),
-                                                                                                                              ).toList(),
-                                                                                                                            );
-                                                                                                                          }),
-                                                                                                                        ],
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    Center(
-                                                                                                                      child: Container(
-                                                                                                                        padding: const EdgeInsets.all(16),
-                                                                                                                        child: TextField(
-                                                                                                                          controller: IPCamerasControl,
-                                                                                                                          keyboardType: TextInputType.emailAddress,
-                                                                                                                          enableSuggestions: false,
-                                                                                                                          autocorrect: false,
-                                                                                                                          onChanged: (value){
-                                                                                                                            setStater(() {
-                                                                                                                              IPCameras = value;
-                                                                                                                            });
-                                                                                                                          },
-                                                                                                                          decoration: InputDecoration(
-                                                                                                                            filled: true,
-                                                                                                                            fillColor: Colors.white,
-                                                                                                                            border: const OutlineInputBorder(),
-                                                                                                                            enabledBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                            ),
-                                                                                                                            focusedBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(
-                                                                                                                                  width: 3,
-                                                                                                                                  color: Colors.black
-                                                                                                                              ),
-                                                                                                                            ),
-                                                                                                                            labelStyle: TextStyle(
-                                                                                                                                color: textAlertDialogColor,
-                                                                                                                                backgroundColor: Colors.white
-                                                                                                                            ),
-                                                                                                                            labelText: 'URL do CFTV (RTSP)',
-                                                                                                                          ),
-                                                                                                                          style: TextStyle(
-                                                                                                                              color: textAlertDialogColor
-                                                                                                                          ),
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    Center(
-                                                                                                                      child: Container(
-                                                                                                                        padding: const EdgeInsets.all(16),
-                                                                                                                        child: TextField(
-                                                                                                                          controller: PortaCamerasControl,
-                                                                                                                          keyboardType: TextInputType.emailAddress,
-                                                                                                                          enableSuggestions: false,
-                                                                                                                          autocorrect: false,
-                                                                                                                          onChanged: (value){
-                                                                                                                            setStater(() {
-                                                                                                                              PortaCameras = int.parse(value);
-                                                                                                                            });
-                                                                                                                          },
-                                                                                                                          decoration: InputDecoration(
-                                                                                                                            filled: true,
-                                                                                                                            fillColor: Colors.white,
-                                                                                                                            border: const OutlineInputBorder(),
-                                                                                                                            enabledBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                            ),
-                                                                                                                            focusedBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(
-                                                                                                                                  width: 3,
-                                                                                                                                  color: Colors.black
-                                                                                                                              ),
-                                                                                                                            ),
-                                                                                                                            labelStyle: TextStyle(
-                                                                                                                                color: textAlertDialogColor,
-                                                                                                                                backgroundColor: Colors.white
-                                                                                                                            ),
-                                                                                                                            labelText: 'Porta do CFTV (RTSP) (Normalmente é 554, mas pode variar dependendo do CFTV)',
-                                                                                                                          ),
-                                                                                                                          style: TextStyle(
-                                                                                                                              color: textAlertDialogColor
-                                                                                                                          ),
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    Center(
-                                                                                                                      child: Container(
-                                                                                                                        padding: const EdgeInsets.all(16),
-                                                                                                                        child: TextField(
-                                                                                                                          controller: UserAccessControl ,
-                                                                                                                          keyboardType: TextInputType.emailAddress,
-                                                                                                                          enableSuggestions: false,
-                                                                                                                          autocorrect: false,
-                                                                                                                          onChanged: (value){
-                                                                                                                            setStater(() {
-                                                                                                                              UserAccess = value;
-                                                                                                                            });
-                                                                                                                          },
-                                                                                                                          decoration: InputDecoration(
-                                                                                                                            filled: true,
-                                                                                                                            fillColor: Colors.white,
-                                                                                                                            border: const OutlineInputBorder(),
-                                                                                                                            enabledBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                            ),
-                                                                                                                            focusedBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(
-                                                                                                                                  width: 3,
-                                                                                                                                  color: Colors.black
-                                                                                                                              ),
-                                                                                                                            ),
-                                                                                                                            labelStyle: TextStyle(
-                                                                                                                                color: textAlertDialogColor,
-                                                                                                                                backgroundColor: Colors.white
-                                                                                                                            ),
-                                                                                                                            labelText: 'Usuario para acesso das cameras',
-                                                                                                                          ),
-                                                                                                                          style: TextStyle(
-                                                                                                                              color: textAlertDialogColor
-                                                                                                                          ),
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    Center(
-                                                                                                                      child: Container(
-                                                                                                                        padding: const EdgeInsets.all(16),
-                                                                                                                        child: TextField(
-                                                                                                                          controller: PassAccessControl,
-                                                                                                                          keyboardType: TextInputType.emailAddress,
-                                                                                                                          enableSuggestions: false,
-                                                                                                                          autocorrect: false,
-                                                                                                                          onChanged: (value){
-                                                                                                                            setStater(() {
-                                                                                                                              PassAccess = value;
-                                                                                                                            });
-                                                                                                                          },
-                                                                                                                          decoration: InputDecoration(
-                                                                                                                            filled: true,
-                                                                                                                            fillColor: Colors.white,
-                                                                                                                            border: const OutlineInputBorder(),
-                                                                                                                            enabledBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                            ),
-                                                                                                                            focusedBorder: const OutlineInputBorder(
-                                                                                                                              borderSide: BorderSide(
-                                                                                                                                  width: 3,
-                                                                                                                                  color: Colors.black
-                                                                                                                              ),
-                                                                                                                            ),
-                                                                                                                            labelStyle: TextStyle(
-                                                                                                                                color: textAlertDialogColor,
-                                                                                                                                backgroundColor: Colors.white
-                                                                                                                            ),
-                                                                                                                            labelText: 'Senha para acesso das cameras',
-                                                                                                                          ),
-                                                                                                                          style: TextStyle(
-                                                                                                                              color: textAlertDialogColor
-                                                                                                                          ),
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    Center(
                                                                                                                       child: Container(
                                                                                                                         padding: const EdgeInsets.all(16),
                                                                                                                         child: TextField(
@@ -1312,47 +1080,26 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           showToast("O codigo está vazio!",context:context);
                                                                                                                         }else{
                                                                                                                           if(codigo.length == 4){
-                                                                                                                            if(IPCameras == ""){
-                                                                                                                              showToast("A URL das Cameras está vazia!",context:context);
-                                                                                                                            }else{
-                                                                                                                              if(PortaCameras == null){
-                                                                                                                                showToast("A Porta em RTSP das Cameras está vazia!",context:context);
-                                                                                                                              }else{
-                                                                                                                                if(UserAccess == ""){
-                                                                                                                                  showToast("O Usuario para acesso das cameras está vazio!",context:context);
-                                                                                                                                }else{
-                                                                                                                                  if(PassAccess == ""){
-                                                                                                                                    showToast("A Senha para acesso das cameras está vazia!",context:context);
-                                                                                                                                  }else{
-                                                                                                                                    FirebaseFirestore.instance.collection('Condominios').doc(documents["idCondominio"]).update({
-                                                                                                                                      "idCondominio": documents["idCondominio"],
-                                                                                                                                      "Nome": NomeCondominio,
-                                                                                                                                      "IpCamera": IPCameras,
-                                                                                                                                      "PortaCameras": PortaCameras,
-                                                                                                                                      "UserAccess": UserAccess,
-                                                                                                                                      "PassAccess": PassAccess,
-                                                                                                                                      "SIPUrl": SIPUrl,
-                                                                                                                                      "PortaSIP": Porta,
-                                                                                                                                      "authUserSIP": AuthUser,
-                                                                                                                                      "authSenhaSIP": Pass,
-                                                                                                                                      "Codigo" : codigo,
-                                                                                                                                      "ipCameraModelo": modeloselecionado,
-                                                                                                                                      "Cidade": Cidade,
-                                                                                                                                      "Endereco": Endereco,
-                                                                                                                                      "bairro": bairro,
-                                                                                                                                      "cep": cep,
-                                                                                                                                      "Sindico": Sindico,
-                                                                                                                                      "Telefone": Telefone,
-                                                                                                                                      "CNPJ": CNPJ,
-                                                                                                                                      "Zelador": Zelador,
-                                                                                                                                    }).whenComplete(() {
-                                                                                                                                      showToast('Sucesso!', context: context);
-                                                                                                                                      Navigator.pop(context);
-                                                                                                                                    });
-                                                                                                                                  }
-                                                                                                                                }
-                                                                                                                              }
-                                                                                                                            }
+                                                                                                                            FirebaseFirestore.instance.collection('Condominios').doc(documents["idCondominio"]).update({
+                                                                                                                              "idCondominio": documents["idCondominio"],
+                                                                                                                              "Nome": NomeCondominio,
+                                                                                                                              "SIPUrl": SIPUrl,
+                                                                                                                              "PortaSIP": Porta,
+                                                                                                                              "authUserSIP": AuthUser,
+                                                                                                                              "authSenhaSIP": Pass,
+                                                                                                                              "Codigo" : codigo,
+                                                                                                                              "Cidade": Cidade,
+                                                                                                                              "Endereco": Endereco,
+                                                                                                                              "bairro": bairro,
+                                                                                                                              "cep": cep,
+                                                                                                                              "Sindico": Sindico,
+                                                                                                                              "Telefone": Telefone,
+                                                                                                                              "CNPJ": CNPJ,
+                                                                                                                              "Zelador": Zelador,
+                                                                                                                            }).whenComplete(() {
+                                                                                                                              showToast('Sucesso!', context: context);
+                                                                                                                              Navigator.pop(context);
+                                                                                                                            });
                                                                                                                           }else{
                                                                                                                             if(codigo.length > 4){
                                                                                                                               showToast("Existem mais caracteres do que o permitido no codigo do condominio!",context:context);
@@ -1390,6 +1137,11 @@ class _homeAppState extends State<homeApp>{
                                                                                           }
                                                                                           if(action == "remover_condominio"){
                                                                                             FirebaseFirestore.instance.collection("Condominios").doc(documents["idCondominio"]).delete().whenComplete((){
+                                                                                              if(idCondominio == documents["idCondominio"]){
+                                                                                                setStater((){
+                                                                                                  idCondominio = "";
+                                                                                                });
+                                                                                              }
                                                                                               showToast("Cliente deletado!",context:context);
                                                                                             });
                                                                                           }
@@ -2356,15 +2108,25 @@ class _homeAppState extends State<homeApp>{
                                                                                               if(PassAccess == ""){
                                                                                                 showToast("A Senha para acesso das cameras está vazia!",context:context);
                                                                                               }else{
+                                                                                                showDialog(
+                                                                                                  context: context,
+                                                                                                  builder: (BuildContext context) {
+                                                                                                    return const AlertDialog(
+                                                                                                      title: Text('Aguarde!'),
+                                                                                                      actions: [
+                                                                                                        Center(
+                                                                                                          child: CircularProgressIndicator(color: Colors.white,),
+                                                                                                        )
+                                                                                                      ],
+                                                                                                    );
+                                                                                                  },
+                                                                                                );
+
                                                                                                 Uuid uuid = const Uuid();
                                                                                                 String UUID = uuid.v4();
                                                                                                 FirebaseFirestore.instance.collection('Condominios').doc(UUID).set({
                                                                                                   "idCondominio": UUID,
                                                                                                   "Nome": NomeCondominio,
-                                                                                                  "IpCamera": IPCameras,
-                                                                                                  "PortaCameras": PortaCameras,
-                                                                                                  "UserAccess": UserAccess,
-                                                                                                  "PassAccess": PassAccess,
                                                                                                   "Aviso": "",
                                                                                                   "SIPUrl": SIPUrl,
                                                                                                   "PortaSIP": Porta,
@@ -2418,8 +2180,24 @@ class _homeAppState extends State<homeApp>{
                                                                                                   "ipCamera35": 35,
                                                                                                   "ipCamera36": 36,
                                                                                                 }).whenComplete(() {
-                                                                                                  showToast('Sucesso!', context: context);
-                                                                                                  Navigator.pop(context);
+                                                                                                  for (int i = 1; i < 37; i++) {
+                                                                                                    FirebaseFirestore.instance.collection("CFTV").doc("$i$UUID").set({
+                                                                                                      "ip": IPCameras,
+                                                                                                      "porta": PortaCameras,
+                                                                                                      "user": UserAccess,
+                                                                                                      "pass": PassAccess,
+                                                                                                      "canal": i,
+                                                                                                      "modelo": modeloselecionado,
+                                                                                                      "idCondominio": UUID,
+                                                                                                      "id": "$i$UUID",
+                                                                                                      "Ordem": i
+                                                                                                    });
+                                                                                                    if(i == 36){
+                                                                                                      showToast('Sucesso!', context: context);
+                                                                                                      Navigator.pop(context);
+                                                                                                      Navigator.pop(context);
+                                                                                                    }
+                                                                                                  }
                                                                                                 });
                                                                                               }
                                                                                             }
@@ -2591,7 +2369,7 @@ class _homeAppState extends State<homeApp>{
                                 //CFTV AQUI!
                                 StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
                                       return VideoStreamWidget(
-                                          ip, porta, user, pass, corDasBarras, wid, heig, camera1, camera2, camera3, camera4, camera5, camera6, camera7, camera8, camera9, ModeloDoCFTV
+                                          corDasBarras, wid, heig
                                       );
                                     }
                                 ),
@@ -2634,7 +2412,7 @@ class _homeAppState extends State<homeApp>{
                                                         }
 
                                                         if (snapshot.connectionState == ConnectionState.waiting) {
-                                                          return const Center(child: CircularProgressIndicator());
+                                                          return const Center(child: CircularProgressIndicator(color: Colors.white,));
                                                         }
 
                                                         if (snapshot.hasData) {
@@ -2801,7 +2579,7 @@ class _homeAppState extends State<homeApp>{
 
                                                                                 if (!snapshot.hasData) {
                                                                                   return const Center(
-                                                                                    child: CircularProgressIndicator(),
+                                                                                    child: CircularProgressIndicator(color: Colors.white,),
                                                                                   );
                                                                                 }
 
@@ -4164,7 +3942,7 @@ class _homeAppState extends State<homeApp>{
                                                         .snapshots(), builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
                                                       if (!snapshot.hasData) {
                                                         return const Center(
-                                                          child: CircularProgressIndicator(),
+                                                          child: CircularProgressIndicator(color: Colors.white,),
                                                         );
                                                       }
                                                       return Container(
@@ -4616,7 +4394,7 @@ class _homeAppState extends State<homeApp>{
                                                                           .snapshots(), builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
                                                                         if (!snapshot.hasData) {
                                                                           return const Center(
-                                                                            child: CircularProgressIndicator(),
+                                                                            child: CircularProgressIndicator(color: Colors.white,),
                                                                           );
                                                                         }
 
@@ -5609,10 +5387,6 @@ class _homeAppState extends State<homeApp>{
                                                                   onPressed: inicializado == true ? (){
                                                                     FirebaseAuth.instance.signOut().whenComplete(() async {
                                                                       setStater((){
-                                                                        ip = "";
-                                                                        user = "";
-                                                                        pass = "";
-                                                                        porta = 00;
                                                                         idCondominio = "";
                                                                         anotacao = "";
                                                                         UID = "";
@@ -5710,7 +5484,7 @@ class _homeAppState extends State<homeApp>{
 
                                                   if (!snapshot.hasData) {
                                                     return const Center(
-                                                      child: CircularProgressIndicator(),
+                                                      child: CircularProgressIndicator(color: Colors.white,),
                                                     );
                                                   }
 
@@ -7051,7 +6825,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           }
 
                                                                                                                           if (snapshot.connectionState == ConnectionState.waiting) {
-                                                                                                                            return const Center(child: CircularProgressIndicator());
+                                                                                                                            return const Center(child: CircularProgressIndicator(color: Colors.white,));
                                                                                                                           }
 
                                                                                                                           if (snapshot.hasData) {
@@ -7319,7 +7093,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           }
 
                                                                                                                           if (snapshot.connectionState == ConnectionState.waiting) {
-                                                                                                                            return const Center(child: CircularProgressIndicator());
+                                                                                                                            return const Center(child: CircularProgressIndicator(color: Colors.white,));
                                                                                                                           }
 
                                                                                                                           if (snapshot.hasData) {
@@ -8047,7 +7821,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                         .snapshots(),
                                                                                                     builder: (context, snapshot){
                                                                                                       if (snapshot.connectionState == ConnectionState.waiting) {
-                                                                                                        return const Center(child: CircularProgressIndicator());
+                                                                                                        return const Center(child: CircularProgressIndicator(color: Colors.white,));
                                                                                                       }
 
                                                                                                       if (snapshot.hasError) {
@@ -9036,7 +8810,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                               }
 
                                                                                                               if (snapshot.connectionState == ConnectionState.waiting) {
-                                                                                                                return const Center(child: CircularProgressIndicator());
+                                                                                                                return const Center(child: CircularProgressIndicator(color: Colors.white,));
                                                                                                               }
 
                                                                                                               return SingleChildScrollView(
@@ -9148,7 +8922,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                             }
 
                                                                                                             if (snapshot.connectionState == ConnectionState.waiting) {
-                                                                                                              return const Center(child: CircularProgressIndicator());
+                                                                                                              return const Center(child: CircularProgressIndicator(color: Colors.white,));
                                                                                                             }
 
                                                                                                             if (snapshot.hasData) {
@@ -9260,7 +9034,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                 title: Text('Aguarde!'),
                                                                                                                 actions: [
                                                                                                                   Center(
-                                                                                                                    child: CircularProgressIndicator(),
+                                                                                                                    child: CircularProgressIndicator(color: Colors.white,),
                                                                                                                   )
                                                                                                                 ],
                                                                                                               );
@@ -9388,7 +9162,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                             }
 
                                                                                                             if (snapshot.connectionState == ConnectionState.waiting) {
-                                                                                                              return const Center(child: CircularProgressIndicator());
+                                                                                                              return const Center(child: CircularProgressIndicator(color: Colors.white,));
                                                                                                             }
 
                                                                                                             if (snapshot.hasData) {
@@ -9424,7 +9198,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                         title: Text('Aguarde!'),
                                                                                                                                         actions: [
                                                                                                                                           Center(
-                                                                                                                                            child: CircularProgressIndicator(),
+                                                                                                                                            child: CircularProgressIndicator(color: Colors.white,),
                                                                                                                                           )
                                                                                                                                         ],
                                                                                                                                       );
@@ -9991,7 +9765,7 @@ class _homeAppState extends State<homeApp>{
                                                                                 }
 
                                                                                 if (snapshot.connectionState == ConnectionState.waiting) {
-                                                                                  return const Center(child: CircularProgressIndicator());
+                                                                                  return const Center(child: CircularProgressIndicator(color: Colors.white,));
                                                                                 }
 
                                                                                 if (snapshot.hasData) {
@@ -10163,7 +9937,7 @@ class _homeAppState extends State<homeApp>{
                                                                                               title: Text('Aguarde!'),
                                                                                               actions: [
                                                                                                 Center(
-                                                                                                  child: CircularProgressIndicator(),
+                                                                                                  child: CircularProgressIndicator(color: Colors.white,),
                                                                                                 ),
                                                                                               ],
                                                                                             );
@@ -10394,7 +10168,7 @@ class _homeAppState extends State<homeApp>{
 
                                                               if (!snapshot.hasData) {
                                                                 return const Center(
-                                                                  child: CircularProgressIndicator(),
+                                                                  child: CircularProgressIndicator(color: Colors.white,),
                                                                 );
                                                               }
 
@@ -11146,7 +10920,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                         title: Text('Aguarde!'),
                                                                                                         actions: [
                                                                                                           Center(
-                                                                                                            child: CircularProgressIndicator(),
+                                                                                                            child: CircularProgressIndicator(color: Colors.white,),
                                                                                                           )
                                                                                                         ],
                                                                                                       );
@@ -11282,7 +11056,7 @@ class _homeAppState extends State<homeApp>{
 
                                                                     if (!snapshot.hasData) {
                                                                       return const Center(
-                                                                        child: CircularProgressIndicator(),
+                                                                        child: CircularProgressIndicator(color: Colors.white,),
                                                                       );
                                                                     }
 

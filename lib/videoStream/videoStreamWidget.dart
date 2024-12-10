@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vigilant/homeApp.dart';
 import 'package:vigilant/videoStream/VideoStreamAlert.dart';
@@ -8,29 +9,20 @@ import 'package:vigilant/videoStream/videoStream.dart';
 //Desenvolvido por HeroRickyGames com ajuda de Deus!
 
 class VideoStreamWidget extends StatefulWidget {
-  String ip = "";
-  int porta = 00;
-  String user = "";
-  String pass = "";
   Color corDasBarras;
   double wid;
   double heig;
-  int? camera1;
-  int? camera2;
-  int? camera3;
-  int? camera4;
-  int? camera5;
-  int? camera6;
-  int? camera7;
-  int? camera8;
-  int? camera9;
-  String Modelo = "";
-  VideoStreamWidget(this.ip, this.porta, this.user, this.pass, this.corDasBarras, this.wid, this.heig, this.camera1, this.camera2, this.camera3, this.camera4, this.camera5,
-      this.camera6, this.camera7, this.camera8, this.camera9, this.Modelo,  {super.key});
+  VideoStreamWidget(this.corDasBarras, this.wid, this.heig, {super.key});
 
   @override
   State<VideoStreamWidget> createState() => _VideoStreamWidgetState();
 }
+
+//Strings
+String userSelecionado = "";
+String passSelecionado = "";
+String ipSelecionado = "";
+String ModeloSelecionado = "";
 
 //Double
 double aspectRT = 2.2;
@@ -40,6 +32,8 @@ Color textCAMS = Colors.white;
 //Inteiros
 int colunasIPCamera = 3;
 int CFTV = 0;
+int portaSelecionada = 0;
+int canalSelecionado = 0;
 
 var dropValue36 = ValueNotifier('');
 
@@ -166,7 +160,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
       }
       return Flexible(
         child: Expanded(
-          child: widget.ip != "" ? Column(
+          child: idCondominio != "" ? Column(
             children: [
               Container(
                 padding: const EdgeInsets.only(bottom: 5, top: 5),
@@ -324,43 +318,420 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                 child: Expanded(
                   child: Stack(
                       children: [
-                        StreamBuilder<QuerySnapshot>(
-                          stream: FirebaseFirestore.instance
-                              .collection('CFTV')
-                              .where('canal', isGreaterThanOrEqualTo: 1)
-                              .where('canal', isLessThanOrEqualTo: 36)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting) {
-                              return const Center(child: CircularProgressIndicator());
-                            }
+                        Container(
+                          color: Colors.black,
+                          child: StreamBuilder<QuerySnapshot>(
+                            stream:
+                                 gradeum == true ?
+                                 FirebaseFirestore.instance
+                                .collection('CFTV')
+                                .where("idCondominio", isEqualTo: idCondominio)
+                                .where('Ordem', isGreaterThanOrEqualTo: 1)
+                                .where('Ordem', isLessThanOrEqualTo: 9)
+                                .snapshots():
+                                 gradedois == true?
+                                 FirebaseFirestore.instance
+                                     .collection('CFTV')
+                                     .where("idCondominio", isEqualTo: idCondominio)
+                                     .where('Ordem', isGreaterThanOrEqualTo: 10)
+                                     .where('Ordem', isLessThanOrEqualTo: 18)
+                                     .snapshots():
+                                 gradetres == true?
+                                 FirebaseFirestore.instance
+                                     .collection('CFTV')
+                                     .where("idCondominio", isEqualTo: idCondominio)
+                                     .where('Ordem', isGreaterThanOrEqualTo: 19)
+                                     .where('Ordem', isLessThanOrEqualTo: 27)
+                                     .snapshots():
+                                 gradequatro == true?
+                                 FirebaseFirestore.instance
+                                     .collection('CFTV')
+                                     .where("idCondominio", isEqualTo: idCondominio)
+                                     .where('Ordem', isGreaterThanOrEqualTo: 28)
+                                     .where('Ordem', isLessThanOrEqualTo: 37)
+                                     .snapshots():
+                                 FirebaseFirestore.instance
+                                     .collection('CFTV')
+                                     .where("idCondominio", isEqualTo: idCondominio)
+                                     .where('Ordem', isGreaterThanOrEqualTo: 1)
+                                     .where('Ordem', isLessThanOrEqualTo: 9)
+                                     .snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return const Center(child:CircularProgressIndicator(color: Colors.white,));
+                              }
 
-                            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                              return const Center(child: Text('Nenhum dado encontrado'));
-                            }
+                              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                                return const Center(child: Text('Nenhum dado encontrado'));
+                              }
 
-                            return GridView.count(
-                              crossAxisCount: colunasIPCamera,
-                              childAspectRatio: aspectRT,
-                              children: snapshot.data!.docs.map((documents){
-                                return Center(
-                                  child: videoStream(documents['user'], documents['pass'], documents['ip'], documents['porta'],documents['canal'], documents['modelo']),
-                                );
-                              }).toList(),
-                            );
-                          },
+                              return GridView.count(
+                                crossAxisCount: colunasIPCamera,
+                                childAspectRatio: aspectRT,
+                                children: snapshot.data!.docs.map((documents){
+                                  return Center(
+                                  child: Stack(
+                                    children: [
+                                      InkWell(
+                                        onTap: (){
+                                          setStater((){
+                                            userSelecionado = documents['user'];
+                                            passSelecionado = documents['pass'];
+                                            ipSelecionado = documents['ip'];
+                                            portaSelecionada = documents['porta'];
+                                            canalSelecionado = documents['canal'];
+                                            ModeloSelecionado = documents['modelo'];
+                                          });
+                                        },
+                                        child: videoStream(documents['user'], documents['pass'], documents['ip'], documents['porta'],documents['canal'], documents['modelo']),
+                                      ),
+                                      EditarCFTV == true ? Container(
+                                        alignment: Alignment.topRight,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            TextButton(
+                                                onPressed: (){
+                                                  FirebaseFirestore.instance.collection("CFTV").doc(documents['id']).update({
+                                                    "ip": '',
+                                                    "porta": 00,
+                                                    "user": '',
+                                                    "pass": '',
+                                                    "canal": 00,
+                                                  }).whenComplete((){
+                                                    showToast("Deletado!",context:context);
+                                                  });
+                                                },
+                                                child: const Icon(Icons.delete)),
+                                            TextButton(
+                                                onPressed: (){
+                                                  String IP = documents['ip'];
+                                                  String porta = "${documents['porta']}";
+                                                  String user = documents['user'];
+                                                  String pass = documents['pass'];
+                                                  String canal = "${documents['canal']}";
+                                                  String modeloselecionado = "${documents['modelo']}";
+                                                  var dropValue2 = ValueNotifier(modeloselecionado);
+
+                                                  TextEditingController IpControl = TextEditingController(text: IP);
+                                                  TextEditingController portaControl = TextEditingController(text: porta);
+                                                  TextEditingController userControl = TextEditingController(text: user);
+                                                  TextEditingController passControl = TextEditingController(text: pass);
+                                                  TextEditingController canalControl = TextEditingController(text: canal);
+
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      return StatefulBuilder(builder: (BuildContext context, StateSetter setStates){
+                                                        return AlertDialog(
+                                                          title: Column(
+                                                            children: [
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                children: [
+                                                                  const Text('Editar CFTV'),
+                                                                  ElevatedButton(
+                                                                      onPressed: (){
+                                                                        Navigator.pop(context);
+                                                                      },
+                                                                      child: const Icon(Icons.close))
+                                                                ],
+                                                              ),
+                                                              Center(
+                                                                child: Container(
+                                                                  padding: const EdgeInsets.all(16),
+                                                                  child: TextField(
+                                                                    controller: IpControl,
+                                                                    keyboardType: TextInputType.emailAddress,
+                                                                    enableSuggestions: false,
+                                                                    autocorrect: false,
+                                                                    onChanged: (value){
+                                                                      setStates(() {
+                                                                        IP = value;
+                                                                      });
+                                                                    },
+                                                                    decoration: InputDecoration(
+                                                                      filled: true,
+                                                                      fillColor: Colors.white,
+                                                                      labelStyle: TextStyle(
+                                                                          color: textAlertDialogColor,
+                                                                          backgroundColor: Colors.white
+                                                                      ),
+                                                                      border: const OutlineInputBorder(),
+                                                                      enabledBorder: const OutlineInputBorder(
+                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                      ),
+                                                                      focusedBorder: const OutlineInputBorder(
+                                                                        borderSide: BorderSide(
+                                                                            width: 3,
+                                                                            color: Colors.black
+                                                                        ),
+                                                                      ),
+                                                                      labelText: 'Host',
+                                                                    ),
+                                                                    style: TextStyle(
+                                                                        color: textAlertDialogColor
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Center(
+                                                                child: Container(
+                                                                  padding: const EdgeInsets.all(16),
+                                                                  child: TextField(
+                                                                    controller: portaControl,
+                                                                    keyboardType: TextInputType.emailAddress,
+                                                                    enableSuggestions: false,
+                                                                    autocorrect: false,
+                                                                    onChanged: (value){
+                                                                      setStates(() {
+                                                                        IP = value;
+                                                                      });
+                                                                    },
+                                                                    decoration: InputDecoration(
+                                                                      filled: true,
+                                                                      fillColor: Colors.white,
+                                                                      labelStyle: TextStyle(
+                                                                          color: textAlertDialogColor,
+                                                                          backgroundColor: Colors.white
+                                                                      ),
+                                                                      border: const OutlineInputBorder(),
+                                                                      enabledBorder: const OutlineInputBorder(
+                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                      ),
+                                                                      focusedBorder: const OutlineInputBorder(
+                                                                        borderSide: BorderSide(
+                                                                            width: 3,
+                                                                            color: Colors.black
+                                                                        ),
+                                                                      ),
+                                                                      labelText: 'Porta',
+                                                                    ),
+                                                                    style: TextStyle(
+                                                                        color: textAlertDialogColor
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Center(
+                                                                child: Container(
+                                                                  padding: const EdgeInsets.all(16),
+                                                                  child: TextField(
+                                                                    controller: userControl,
+                                                                    keyboardType: TextInputType.emailAddress,
+                                                                    enableSuggestions: false,
+                                                                    autocorrect: false,
+                                                                    onChanged: (value){
+                                                                      setStates(() {
+                                                                        user = value;
+                                                                      });
+                                                                    },
+                                                                    decoration: InputDecoration(
+                                                                      filled: true,
+                                                                      fillColor: Colors.white,
+                                                                      labelStyle: TextStyle(
+                                                                          color: textAlertDialogColor,
+                                                                          backgroundColor: Colors.white
+                                                                      ),
+                                                                      border: const OutlineInputBorder(),
+                                                                      enabledBorder: const OutlineInputBorder(
+                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                      ),
+                                                                      focusedBorder: const OutlineInputBorder(
+                                                                        borderSide: BorderSide(
+                                                                            width: 3,
+                                                                            color: Colors.black
+                                                                        ),
+                                                                      ),
+                                                                      labelText: 'Usuario',
+                                                                    ),
+                                                                    style: TextStyle(
+                                                                        color: textAlertDialogColor
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Center(
+                                                                child: Container(
+                                                                  padding: const EdgeInsets.all(16),
+                                                                  child: TextField(
+                                                                    controller: passControl,
+                                                                    keyboardType: TextInputType.emailAddress,
+                                                                    enableSuggestions: false,
+                                                                    autocorrect: false,
+                                                                    onChanged: (value){
+                                                                      setStates(() {
+                                                                        pass = value;
+                                                                      });
+                                                                    },
+                                                                    decoration: InputDecoration(
+                                                                      filled: true,
+                                                                      fillColor: Colors.white,
+                                                                      labelStyle: TextStyle(
+                                                                          color: textAlertDialogColor,
+                                                                          backgroundColor: Colors.white
+                                                                      ),
+                                                                      border: const OutlineInputBorder(),
+                                                                      enabledBorder: const OutlineInputBorder(
+                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                      ),
+                                                                      focusedBorder: const OutlineInputBorder(
+                                                                        borderSide: BorderSide(
+                                                                            width: 3,
+                                                                            color: Colors.black
+                                                                        ),
+                                                                      ),
+                                                                      labelText: 'Senha',
+                                                                    ),
+                                                                    style: TextStyle(
+                                                                        color: textAlertDialogColor
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Center(
+                                                                child: Container(
+                                                                  padding: const EdgeInsets.all(16),
+                                                                  child: TextField(
+                                                                    controller: canalControl,
+                                                                    keyboardType: TextInputType.emailAddress,
+                                                                    enableSuggestions: false,
+                                                                    autocorrect: false,
+                                                                    onChanged: (value){
+                                                                      setStates(() {
+                                                                        canal = value;
+                                                                      });
+                                                                    },
+                                                                    decoration: InputDecoration(
+                                                                      filled: true,
+                                                                      fillColor: Colors.white,
+                                                                      labelStyle: TextStyle(
+                                                                          color: textAlertDialogColor,
+                                                                          backgroundColor: Colors.white
+                                                                      ),
+                                                                      border: const OutlineInputBorder(),
+                                                                      enabledBorder: const OutlineInputBorder(
+                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                      ),
+                                                                      focusedBorder: const OutlineInputBorder(
+                                                                        borderSide: BorderSide(
+                                                                            width: 3,
+                                                                            color: Colors.black
+                                                                        ),
+                                                                      ),
+                                                                      labelText: 'Canal',
+                                                                    ),
+                                                                    style: TextStyle(
+                                                                        color: textAlertDialogColor
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Center(
+                                                                child: Column(
+                                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                                  children: [
+                                                                    const Text(
+                                                                        'Modelo do CFTV:',
+                                                                    style: TextStyle(
+                                                                      fontSize: 16
+                                                                    ),),
+                                                                    ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
+                                                                      return DropdownButton(
+                                                                        hint: Text(
+                                                                          'Selecione o modelo',
+                                                                          style: TextStyle(
+                                                                              color: textColorDrop
+                                                                          ),
+                                                                        ),
+                                                                        value: (value.isEmpty)? null : value,
+                                                                        onChanged: (escolha) async {
+                                                                          dropValue2.value = escolha.toString();
+                                                                          setStates(() {
+                                                                            modeloselecionado = escolha.toString();
+                                                                          });
+                                                                        },
+                                                                        items: ModelosdeCFTV.map((opcao) => DropdownMenuItem(
+                                                                          value: opcao,
+                                                                          child:
+                                                                          Text(
+                                                                            opcao,
+                                                                            style: TextStyle(
+                                                                                color: textColorDrop
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        ).toList(),
+                                                                      );
+                                                                    }),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              ElevatedButton(
+                                                                  onPressed: (){
+                                                                      FirebaseFirestore.instance.collection("CFTV").doc(documents['id']).update({
+                                                                        "ip": IP,
+                                                                        "porta": int.parse(porta),
+                                                                        "user": user,
+                                                                        "pass": pass,
+                                                                        "canal": int.parse(canal),
+                                                                        "modelo": modeloselecionado,
+                                                                      }).whenComplete((){
+                                                                        Navigator.pop(context);
+                                                                      });
+                                                                  },
+                                                                style: ElevatedButton.styleFrom(
+                                                                    backgroundColor: colorBtn
+                                                                ),
+                                                                  child: const Text(
+                                                                      'Salvar',
+                                                                  style: TextStyle(
+                                                                    color: Colors.white
+                                                                  ),),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          scrollable: true,
+                                                        );
+                                                      },
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: const Icon(
+                                                    Icons.edit,
+                                                  color: Colors.red,
+                                                )
+                                            ),
+                                          ],
+                                        ),
+                                      ): Container()
+                                    ],
+                                  ),
+                                  );
+                                }).toList(),
+                              );
+                            },
+                          ),
                         ),
-                        CFTV == 0 ?
+                        canalSelecionado == 0 ?
                         Container():
                         Stack(
                             children: [
-                              videoStreamAlert(widget.user, widget.pass, widget.ip, widget.porta, CFTV, widget.Modelo),
+                              videoStreamAlert(userSelecionado, passSelecionado, ipSelecionado, portaSelecionada, canalSelecionado, ModeloSelecionado),
                               Container(
                                 alignment: Alignment.topRight,
                                 padding: const EdgeInsets.all(16),
                                 child: IconButton(onPressed: (){
                                   setStater(() {
-                                    CFTV = 0;
+                                    setStater((){
+                                      userSelecionado = '';
+                                      passSelecionado = '';
+                                      ipSelecionado = '';
+                                      portaSelecionada = 0;
+                                      canalSelecionado = 0;
+                                      ModeloSelecionado = '';
+                                    });
                                   });
                                 },
                                     icon: const Icon(Icons.close)

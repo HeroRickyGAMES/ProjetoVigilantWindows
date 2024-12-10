@@ -165,7 +165,7 @@ class _mainAppState extends State<mainApp> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const CircularProgressIndicator(),
+            const CircularProgressIndicator(color: Colors.white,),
             Container(
                 padding: const EdgeInsets.all(16),
                 child: Text(loaderAviso)

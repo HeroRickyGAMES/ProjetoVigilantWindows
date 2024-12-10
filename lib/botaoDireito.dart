@@ -8,7 +8,7 @@ Future<NativeMenu> initMenuCondominio() async {
   NativeMenu menu = NativeMenu();
   if(AdicionarCondominios == true){
     menu.addItem(NativeMenuItem.simple(title: "Editar informações do cliente", action: "editCondominio"));
-    menu.addItem(NativeMenuItem.simple(title: "Adicionar CFTVS (TEST)", action: "addCFTV"));
+    //menu.addItem(NativeMenuItem.simple(title: "Adicionar CFTVS (TEST)", action: "addCFTV"));
     itemNew = NativeMenuItem.simple(title: "Deletar cliente", action: "remover_condominio");
     menu.addItem(itemNew);
   }else{
