@@ -21,7 +21,8 @@ void ImportarExel(var context) async {
     'Condominio': idCondominio,
     "id": UUID,
     'QuemFez': await getUserName(),
-    "idAcionou": UID
+    "idAcionou": UID,
+    "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
   });
 
   FilePickerResult? result = await FilePicker.platform.pickFiles(

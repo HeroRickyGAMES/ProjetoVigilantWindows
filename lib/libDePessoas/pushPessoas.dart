@@ -177,7 +177,8 @@ Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, Stri
               'Condominio': idCondominio,
               "id": UUID,
               'QuemFez': await getUserName(),
-              "idAcionou": UID
+              "idAcionou": UID,
+              "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
             });
 
             return users;
@@ -220,7 +221,8 @@ Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, Stri
           'Condominio': idCondominio,
           "id": UUID,
           'QuemFez': await getUserName(),
-          "idAcionou": UID
+          "idAcionou": UID,
+          "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
         });
         print(response.body);
       } else {
@@ -279,7 +281,8 @@ Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, Stri
           'Condominio': idCondominio,
           "id": UUID,
           'QuemFez': await getUserName(),
-          "idAcionou": UID
+          "idAcionou": UID,
+          "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
         });
         // Converte a resposta JSON para Map
         return jsonDecode(response.body);

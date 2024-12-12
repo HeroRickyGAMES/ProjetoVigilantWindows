@@ -53,7 +53,8 @@ Consulta(var context, String host, int port, String veiode) async {
       'Condominio': idCondominio,
       "id": UUID,
       'QuemFez': await getUserName(),
-      "idAcionou": UID
+      "idAcionou": UID,
+      "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
     });
   }
 
@@ -183,7 +184,8 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
       'Condominio': idCondominio,
       "id": UUID,
       'QuemFez': await getUserName(),
-      "idAcionou": UID
+      "idAcionou": UID,
+      "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
     });
 
     command = 'guaritaConrole/demoLinearIP.exe --ip $hostd --porta $port --createuser --tipo $tipo --serial $serial --contador $contadors --unidade $unidade --bloco $bloco --identificacao ${identificacao.replaceAll(" ", "_")} --grupo $grupo --marca ${Marca.replaceAll(" ", "_")} --cor $cor --placa ${Placa.replaceAll(" ", "_")} --receptor1 $receptor1 --receptor2 $receptor2 --receptor3 $receptor3 --receptor4 $receptor4 --receptor5 $receptor5 --receptor6 $receptor6 --receptor7 $receptor7 --receptor8 $receptor8';
@@ -378,7 +380,8 @@ edicao(var context, String idGuarita, String id, String host, int port, String t
     'Condominio': idCondominio,
     "id": UUID,
     'QuemFez': await getUserName(),
-    "idAcionou": UID
+    "idAcionou": UID,
+    "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
   });
 
   showDialog(
@@ -471,7 +474,8 @@ Deletecao(var context, String idGuarita, String id, String host, int port, Strin
       'Condominio': idCondominio,
       "id": UUID,
       'QuemFez': await getUserName(),
-      "idAcionou": UID
+      "idAcionou": UID,
+      "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
     });
 
     if(processoDelete.stdout.toString().contains("Deletado com sucesso!")){

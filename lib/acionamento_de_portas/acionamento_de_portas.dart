@@ -55,7 +55,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
             'Condominio': idCondominio,
             "id": UUID,
             'QuemFez': await getUserName(),
-            "idAcionou": UID
+            "idAcionou": UID,
+            "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
           });
         }
       } else {
@@ -73,7 +74,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
             'Condominio': idCondominio,
             "id": UUID,
             'QuemFez': await getUserName(),
-            "idAcionou": UID
+            "idAcionou": UID,
+            "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
           });
         }
       }
@@ -151,7 +153,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
                   'Condominio': idCondominio,
                   "id": UUID,
                   'QuemFez': await getUserName(),
-                  "idAcionou": UID
+                  "idAcionou": UID,
+                  "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
                 });
               }
             } else {
@@ -170,7 +173,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
                 'Condominio': idCondominio,
                 "id": UUID,
                 'QuemFez': await getUserName(),
-                "idAcionou": UID
+                "idAcionou": UID,
+                "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
               });
             }
           } catch (e) {
@@ -189,7 +193,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
               'Condominio': idCondominio,
               "id": UUID,
               'QuemFez': await getUserName(),
-              "idAcionou": UID
+              "idAcionou": UID,
+              "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
             });
           }
 
@@ -209,7 +214,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
             'Condominio': idCondominio,
             "id": UUID,
             'QuemFez': await getUserName(),
-            "idAcionou": UID
+            "idAcionou": UID,
+            "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
           });
         }
       } catch (e) {
@@ -228,7 +234,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
           'Condominio': idCondominio,
           "id": UUID,
           'QuemFez': await getUserName(),
-          "idAcionou": UID
+          "idAcionou": UID,
+          "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
         });
       }
 
@@ -291,7 +298,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
                   'Condominio': idCondominio,
                   "id": UUID,
                   'QuemFez': await getUserName(),
-                  "idAcionou": UID
+                  "idAcionou": UID,
+                  "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
                 });
               }
             } else {
@@ -309,7 +317,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
                   'Condominio': idCondominio,
                   "id": UUID,
                   'QuemFez': await getUserName(),
-                  "idAcionou": UID
+                  "idAcionou": UID,
+                  "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
                 });
               }
             }
@@ -328,7 +337,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
                 'Condominio': idCondominio,
                 "id": UUID,
                 'QuemFez': await getUserName(),
-                "idAcionou": UID
+                "idAcionou": UID,
+                "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
               });
             }
           }
@@ -349,7 +359,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
             'Condominio': idCondominio,
             "id": UUID,
             'QuemFez': await getUserName(),
-            "idAcionou": UID
+            "idAcionou": UID,
+            "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
           });
         }
       } catch (e) {
@@ -368,7 +379,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
           'Condominio': idCondominio,
           "id": UUID,
           'QuemFez': await getUserName(),
-          "idAcionou": UID
+          "idAcionou": UID,
+          "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
         });
       }
     }
@@ -432,7 +444,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
               'Condominio': idCondominio,
               "id": UUID,
               'QuemFez': await getUserName(),
-              "idAcionou": UID
+              "idAcionou": UID,
+              "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
             });
           }
         } else {
@@ -450,7 +463,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
               'Condominio': idCondominio,
               "id": UUID,
               'QuemFez': await getUserName(),
-              "idAcionou": UID
+              "idAcionou": UID,
+              "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
             });
           }
         }
@@ -469,7 +483,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
             'Condominio': idCondominio,
             "id": UUID,
             'QuemFez': await getUserName(),
-            "idAcionou": UID
+            "idAcionou": UID,
+            "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
           });
         }
       }
@@ -488,7 +503,8 @@ acionarPorta(var context, String ip, int porta, String modelo, int canal, String
           'Condominio': idCondominio,
           "id": UUID,
           'QuemFez': await getUserName(),
-          "idAcionou": UID
+          "idAcionou": UID,
+          "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
         });
       }
     }

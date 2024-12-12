@@ -90,6 +90,7 @@ bool showSearchBar = false;
 bool showSearchBar2 = false;
 bool pesquisaUnid = false;
 bool pesquisaBloc = false;
+bool logs = false;
 
 //Booleanos de controle dos usuarios
 bool AdicionarCondominios = false;
@@ -202,6 +203,7 @@ class _homeAppState extends State<homeApp>{
           acessoDevFunc = getUserPermissions['acessoDevFunc'];
           EditarCFTV = getUserPermissions['editarCFTV'];
           EmpresaPertence = getUserPermissions['idEmpresaPertence'];
+          logs = getUserPermissions['logs'];
           //Setar a inicialização
           inicializado = true;
         });
@@ -1105,7 +1107,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                 'Condominio': idCondominio,
                                                                                                                                 "id": UUID,
                                                                                                                                 'QuemFez': await getUserName(),
-                                                                                                                                "idAcionou": UID
+                                                                                                                                "idAcionou": UID,
+                                                                                                                                "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
                                                                                                                               });
                                                                                                                               showToast('Sucesso!', context: context);
                                                                                                                               Navigator.pop(context);
@@ -2215,7 +2218,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                         'Condominio': "$i$UUID",
                                                                                                         "id": UUID,
                                                                                                         'QuemFez': await getUserName(),
-                                                                                                        "idAcionou": UID
+                                                                                                        "idAcionou": UID,
+                                                                                                        "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
                                                                                                       });
                                                                                                     }
                                                                                                   }
@@ -2474,6 +2478,9 @@ class _homeAppState extends State<homeApp>{
                                                                                   'acionamentoID': documents["id"],
                                                                                   'acionamentoNome': documents["nome"],
                                                                                   'Condominio': idCondominio,
+                                                                                  "id": UUID,
+                                                                                  'QuemFez': await getUserName(),
+                                                                                  "idAcionou": UID
                                                                                 });
                                                                                 _inactivityTimer?.cancel();
                                                                                 _inactivityTimer = Timer(const Duration(seconds: 10), () {
@@ -4352,7 +4359,7 @@ class _homeAppState extends State<homeApp>{
                                                                 )
                                                               ],
                                                             ),
-                                                            acessoDevFunc == true ? Container(
+                                                            Container(
                                                               padding: const EdgeInsets.all(16),
                                                               child: Row(
                                                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -4374,7 +4381,7 @@ class _homeAppState extends State<homeApp>{
                                                                       ),
                                                                     ),
                                                                   ): Container(),
-                                                                  ElevatedButton(
+                                                                  acessoDevFunc == true ? ElevatedButton(
                                                                     onPressed: (){
                                                                       setStater((){
                                                                         janela = 2;
@@ -4389,10 +4396,26 @@ class _homeAppState extends State<homeApp>{
                                                                           color: textAlertDialogColorReverse
                                                                       ),
                                                                     ),
-                                                                  ),
+                                                                  ) : Container(),
+                                                                  logs == true ? ElevatedButton(
+                                                                    onPressed: (){
+                                                                      setStater((){
+                                                                        janela = 3;
+                                                                      });
+                                                                    },
+                                                                    style: ElevatedButton.styleFrom(
+                                                                        backgroundColor: Colors.blue
+                                                                    ),
+                                                                    child: Text(
+                                                                      "Logs",
+                                                                      style: TextStyle(
+                                                                          color: textAlertDialogColorReverse
+                                                                      ),
+                                                                    ),
+                                                                  ) : Container(),
                                                                 ],
                                                               ),
-                                                            ): Container(),
+                                                            ),
                                                             permissaoCriarUsuarios == true? Center(
                                                               child: janela == 1 ?
                                                               Stack(
@@ -4472,6 +4495,7 @@ class _homeAppState extends State<homeApp>{
                                                                         bool editarAnotacao = false;
                                                                         bool adicionarUsuarioss = false;
                                                                         bool isEmpresa = false;
+                                                                        bool logers = false;
 
                                                                         showDialog(
                                                                           context: context,
@@ -4984,6 +5008,27 @@ class _homeAppState extends State<homeApp>{
                                                                                                   ],
                                                                                                 ),
                                                                                               ),
+                                                                                              Center(
+                                                                                                child: Row(
+                                                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                  children: [
+                                                                                                    Checkbox(
+                                                                                                      value: logers,
+                                                                                                      onChanged: (bool? value){
+                                                                                                        setStater((){
+                                                                                                          logers = value!;
+                                                                                                        });
+                                                                                                      },
+                                                                                                    ),
+                                                                                                    const Text(
+                                                                                                        'Acesso a logs',
+                                                                                                        style: TextStyle(
+                                                                                                            fontSize: 16
+                                                                                                        )
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                ),
+                                                                                              ),
                                                                                               ElevatedButton(onPressed: () async {
                                                                                                 if(Nome == ""){
                                                                                                   showToast("O nome está vazio!",context:context);
@@ -5034,7 +5079,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                             "adicionarRamal": adicionarRamal,
                                                                                                             "adicionarUsuarios": adicionarUsuarioss,
                                                                                                             "editarCFTV": editCFTV,
-                                                                                                            "idEmpresaPertence": idEmpresa
+                                                                                                            "idEmpresaPertence": idEmpresa,
+                                                                                                            "logs": logers
                                                                                                           }).whenComplete((){
                                                                                                             //Vai exibir uma ação para copiar as credenciais!
                                                                                                             Navigator.pop(context);
@@ -5400,6 +5446,68 @@ class _homeAppState extends State<homeApp>{
                                                                       )
                                                                   ),
                                                                 ],
+                                                              ):janela == 3 ? Center(
+                                                                child: StreamBuilder(stream: FirebaseFirestore.instance
+                                                                    .collection("logs")
+                                                                    .where("Condominio", isEqualTo: idCondominio)
+                                                                    .snapshots(), builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+
+                                                                  if (!snapshot.hasData) {
+                                                                    return const Center(
+                                                                      child: CircularProgressIndicator(color: Colors.white,),
+                                                                    );
+                                                                  }
+
+                                                                    return Column(
+                                                                      children: [
+                                                                        const Text(
+                                                                            'Logs',
+                                                                            style: TextStyle(
+                                                                                fontSize: 20,
+                                                                                fontWeight: FontWeight.bold
+                                                                            )
+                                                                        ),
+                                                                        Container(
+                                                                          width: double.infinity,
+                                                                          height: heig / 7,
+                                                                          padding: EdgeInsets.all(10),
+                                                                          child: ListView(
+                                                                            children: snapshot.data!.docs.map((documents){
+                                                                              return Column(
+                                                                                children: [
+                                                                                  Text(
+                                                                                    "Codigo de Resposta: ${documents['codigoDeResposta']}",
+                                                                                    style: const TextStyle(
+                                                                                      fontSize: 16
+                                                                                    ),
+                                                                                  ),
+                                                                                  Text(
+                                                                                      "Informação: ${documents['text']}",
+                                                                                    style: const TextStyle(
+                                                                                        fontSize: 16
+                                                                                    ),
+                                                                                  ),
+                                                                                  Text(
+                                                                                      "Quem fez: ${documents['QuemFez']}",
+                                                                                    style: const TextStyle(
+                                                                                        fontSize: 16
+                                                                                    ),
+                                                                                  ),
+                                                                                  Text(
+                                                                                      "Acionamento: ${documents['acionamentoNome']}",
+                                                                                    style: const TextStyle(
+                                                                                        fontSize: 16
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              );
+                                                                            }).toList()
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    );
+                                                                }
+                                                              ),
                                                               ): Container(),
                                                             ): Container(),
                                                             Container(

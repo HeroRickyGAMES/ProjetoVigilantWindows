@@ -63,7 +63,8 @@ Future<Map<String, dynamic>> cadastronoEquipamento(var context, String ip, int p
             'Condominio': idCondominio,
             "id": UUID,
             'QuemFez': await getUserName(),
-            "idAcionou": UID
+            "idAcionou": UID,
+            "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}",
           });
 
           Map<String, dynamic> userID = jsonDecode(responsee.body);
@@ -158,7 +159,8 @@ Future<Map<String, dynamic>> cadastronoEquipamento(var context, String ip, int p
           'Condominio': idCondominio,
           "id": UUID,
           'QuemFez': await getUserName(),
-          "idAcionou": UID
+          "idAcionou": UID,
+          "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
         });
       } else {
         showToast("Erro ao criar usuário: ${response.statusCode}\nResposta: ${response.body}", context: context);

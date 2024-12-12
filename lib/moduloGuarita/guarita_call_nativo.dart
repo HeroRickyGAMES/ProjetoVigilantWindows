@@ -44,7 +44,8 @@ chamarSDK(var context, String id, String ip, int porta, String receptor, String 
       'Condominio': idCondominio,
       "id": UUID,
       'QuemFez': await getUserName(),
-      "idAcionou": UID
+      "idAcionou": UID,
+      "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
     });
     showToast("Guarita acionada", context: context);
   }else{
@@ -62,7 +63,8 @@ chamarSDK(var context, String id, String ip, int porta, String receptor, String 
         'Condominio': idCondominio,
         "id": UUID,
         'QuemFez': await getUserName(),
-        "idAcionou": UID
+        "idAcionou": UID,
+        "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
       });
     }else{
       FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
@@ -78,7 +80,8 @@ chamarSDK(var context, String id, String ip, int porta, String receptor, String 
         'Condominio': idCondominio,
         "id": UUID,
         'QuemFez': await getUserName(),
-        "idAcionou": UID
+        "idAcionou": UID,
+        "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
       });
     }
   }
