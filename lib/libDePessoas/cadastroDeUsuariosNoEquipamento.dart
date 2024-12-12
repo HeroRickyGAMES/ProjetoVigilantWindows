@@ -1,7 +1,12 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
+import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
+import 'package:vigilant/homeApp.dart';
+import 'package:vigilant/informacoesLogais/getIds.dart';
+import 'package:vigilant/informacoesLogais/getUserInformations.dart';
 
 //Programado por HeroRickyGames com ajuda de Deus!
 
@@ -50,6 +55,17 @@ Future<Map<String, dynamic>> cadastronoEquipamento(var context, String ip, int p
           body: jsonEncode(body),
         );
         if (responsee.statusCode == 200) {
+          FirebaseFirestore.instance.collection("logs").doc(UUID).set({
+            "text" : 'Dados do acionamento foi recolhidos',
+            "codigoDeResposta" : response.statusCode,
+            'acionamentoID': id,
+            'acionamentoNome': ip,
+            'Condominio': idCondominio,
+            "id": UUID,
+            'QuemFez': await getUserName(),
+            "idAcionou": UID
+          });
+
           Map<String, dynamic> userID = jsonDecode(responsee.body);
           showToast("Cadastrado no equipamento!", context: context);
           return userID;
@@ -134,6 +150,16 @@ Future<Map<String, dynamic>> cadastronoEquipamento(var context, String ip, int p
 
       if (response.statusCode == 200) {
         showToast("Cadastrado no equipamento!", context: context);
+        FirebaseFirestore.instance.collection("logs").doc(UUID).set({
+          "text" : 'Dados do acionamento foi recolhidos',
+          "codigoDeResposta" : response.statusCode,
+          'acionamentoID': id,
+          'acionamentoNome': ip,
+          'Condominio': idCondominio,
+          "id": UUID,
+          'QuemFez': await getUserName(),
+          "idAcionou": UID
+        });
       } else {
         showToast("Erro ao criar usuário: ${response.statusCode}\nResposta: ${response.body}", context: context);
         if(response.body.contains('employeeNoAlreadyExist')){

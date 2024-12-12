@@ -1,9 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:http_auth/http_auth.dart' as http_auth;
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:http/http.dart' as http;
+import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
+import 'package:vigilant/homeApp.dart';
+import 'package:vigilant/informacoesLogais/getIds.dart';
+import 'package:vigilant/informacoesLogais/getUserInformations.dart';
 import 'package:vigilant/infosdoPc/checkUser.dart';
 
 //Programado por HeroRickyGames
@@ -164,6 +169,16 @@ Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, Stri
             Map<String, dynamic> users = jsonDecode(responsee.body);
 
             users.addAll({"Season": responseData["session"]});
+            FirebaseFirestore.instance.collection("logs").doc(UUID).set({
+              "text" : 'Dados do acionamento foi recolhidos',
+              "codigoDeResposta" : response.statusCode,
+              'acionamentoID': '',
+              'acionamentoNome': ip,
+              'Condominio': idCondominio,
+              "id": UUID,
+              'QuemFez': await getUserName(),
+              "idAcionou": UID
+            });
 
             return users;
           } else {
@@ -197,6 +212,16 @@ Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, Stri
       final response = await client.get(url, headers: headers);
 
       if (response.statusCode == 200) {
+        FirebaseFirestore.instance.collection("logs").doc(UUID).set({
+          "text" : 'Dados do acionamento foi recolhidos',
+          "codigoDeResposta" : response.statusCode,
+          'acionamentoID': '',
+          'acionamentoNome': ip,
+          'Condominio': idCondominio,
+          "id": UUID,
+          'QuemFez': await getUserName(),
+          "idAcionou": UID
+        });
         print(response.body);
       } else {
         showToast("Erro com a comunicação, status: ${response.statusCode}",context:context);
@@ -246,6 +271,16 @@ Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, Stri
       );
 
       if (response.statusCode == 200) {
+        FirebaseFirestore.instance.collection("logs").doc(UUID).set({
+          "text" : 'Dados do acionamento foi recolhidos',
+          "codigoDeResposta" : response.statusCode,
+          'acionamentoID': '',
+          'acionamentoNome': ip,
+          'Condominio': idCondominio,
+          "id": UUID,
+          'QuemFez': await getUserName(),
+          "idAcionou": UID
+        });
         // Converte a resposta JSON para Map
         return jsonDecode(response.body);
       } else {

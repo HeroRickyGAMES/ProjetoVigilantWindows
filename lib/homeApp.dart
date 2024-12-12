@@ -15,7 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vigilant/FirebaseHost.dart';
 import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
 import 'package:vigilant/botaoDireito.dart';
-import 'package:vigilant/getIds.dart';
+import 'package:vigilant/informacoesLogais/getIds.dart';
+import 'package:vigilant/informacoesLogais/getUserInformations.dart';
 import 'package:vigilant/infosdoPc/getCores.dart';
 import 'package:vigilant/intRamdom/intRamdom.dart';
 import 'package:vigilant/libDePessoas/ExelImport.dart';
@@ -1081,7 +1082,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         }else{
                                                                                                                           if(codigo.length == 4){
                                                                                                                             FirebaseFirestore.instance.collection('Condominios').doc(documents["idCondominio"]).update({
-                                                                                                                              "idCondominio": documents["idCondominio"],
                                                                                                                               "Nome": NomeCondominio,
                                                                                                                               "SIPUrl": SIPUrl,
                                                                                                                               "PortaSIP": Porta,
@@ -1096,7 +1096,17 @@ class _homeAppState extends State<homeApp>{
                                                                                                                               "Telefone": Telefone,
                                                                                                                               "CNPJ": CNPJ,
                                                                                                                               "Zelador": Zelador,
-                                                                                                                            }).whenComplete(() {
+                                                                                                                            }).whenComplete(() async {
+                                                                                                                              FirebaseFirestore.instance.collection("logs").doc(UUID).set({
+                                                                                                                                "text" : 'Um condominio foi editado',
+                                                                                                                                "codigoDeResposta" : NomeCondominio,
+                                                                                                                                'acionamentoID': "",
+                                                                                                                                'acionamentoNome': "",
+                                                                                                                                'Condominio': idCondominio,
+                                                                                                                                "id": UUID,
+                                                                                                                                'QuemFez': await getUserName(),
+                                                                                                                                "idAcionou": UID
+                                                                                                                              });
                                                                                                                               showToast('Sucesso!', context: context);
                                                                                                                               Navigator.pop(context);
                                                                                                                             });
@@ -2179,7 +2189,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                   "ipCamera34": 34,
                                                                                                   "ipCamera35": 35,
                                                                                                   "ipCamera36": 36,
-                                                                                                }).whenComplete(() {
+                                                                                                }).whenComplete(() async {
                                                                                                   for (int i = 1; i < 37; i++) {
                                                                                                     FirebaseFirestore.instance.collection("CFTV").doc("$i$UUID").set({
                                                                                                       "ip": IPCameras,
@@ -2196,6 +2206,17 @@ class _homeAppState extends State<homeApp>{
                                                                                                       showToast('Sucesso!', context: context);
                                                                                                       Navigator.pop(context);
                                                                                                       Navigator.pop(context);
+
+                                                                                                      FirebaseFirestore.instance.collection("logs").doc(UUID).set({
+                                                                                                        "text" : 'Houve um cadastro de novo cliente',
+                                                                                                        "codigoDeResposta" : 013,
+                                                                                                        'acionamentoID': "",
+                                                                                                        'acionamentoNome': "",
+                                                                                                        'Condominio': "$i$UUID",
+                                                                                                        "id": UUID,
+                                                                                                        'QuemFez': await getUserName(),
+                                                                                                        "idAcionou": UID
+                                                                                                      });
                                                                                                     }
                                                                                                   }
                                                                                                 });

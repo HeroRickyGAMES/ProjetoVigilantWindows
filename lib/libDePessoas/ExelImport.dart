@@ -3,12 +3,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
 import 'package:vigilant/homeApp.dart';
+import 'package:vigilant/informacoesLogais/getIds.dart';
+import 'package:vigilant/informacoesLogais/getUserInformations.dart';
 import 'package:vigilant/intRamdom/intRamdom.dart';
 
 //Programado por HeroRickyGAMES com a ajuda de Deus
 
 void ImportarExel(var context) async {
+
+  FirebaseFirestore.instance.collection("logs").doc(UUID).set({
+    "text" : 'Foi tentado importar dados de um arquivo Exel!',
+    "codigoDeResposta" : 014,
+    'acionamentoID': '',
+    'acionamentoNome': '',
+    'Condominio': idCondominio,
+    "id": UUID,
+    'QuemFez': await getUserName(),
+    "idAcionou": UID
+  });
+
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
     allowedExtensions: ['xlsx'],

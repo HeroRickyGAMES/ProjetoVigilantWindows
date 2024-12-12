@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:vigilant/getIds.dart';
+import 'package:vigilant/informacoesLogais/getIds.dart';
 import 'package:vigilant/homeApp.dart';
 
 //Desenvolvido por HeroRickyGames com ajuda de Deus!

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vigilant/getIds.dart';
+import 'package:vigilant/informacoesLogais/getIds.dart';
 import 'package:vigilant/homeApp.dart';
 
 //Desenvolvido por HeroRickyGames com ajuda de Deus!

@@ -4,7 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:uuid/uuid.dart';
+import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
 import 'package:vigilant/homeApp.dart';
+import 'package:vigilant/informacoesLogais/getIds.dart';
+import 'package:vigilant/informacoesLogais/getUserInformations.dart';
 import 'package:vigilant/infosdoPc/getCores.dart';
 import 'package:vigilant/intRamdom/intRamdom.dart';
 import 'package:vigilant/moduloGuarita/hostToIP.dart';
@@ -41,6 +44,17 @@ Consulta(var context, String host, int port, String veiode) async {
     for (QueryDocumentSnapshot doc in querySnapshot.docs) {
       await doc.reference.delete();
     }
+
+    FirebaseFirestore.instance.collection("logs").doc(UUID).set({
+      "text" : 'Houve Consulta do Guarita',
+      "codigoDeResposta" : 010,
+      'acionamentoID': host,
+      'acionamentoNome': host,
+      'Condominio': idCondominio,
+      "id": UUID,
+      'QuemFez': await getUserName(),
+      "idAcionou": UID
+    });
   }
 
   var ip = await hostToIp(host);
@@ -161,6 +175,17 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
   String command = "";
 
   if(idGuarita == ""){
+    FirebaseFirestore.instance.collection("logs").doc(UUID).set({
+      "text" : 'Houve uma tentativa de cadastro no Guarita',
+      "codigoDeResposta" : 011,
+      'acionamentoID': host,
+      'acionamentoNome': host,
+      'Condominio': idCondominio,
+      "id": UUID,
+      'QuemFez': await getUserName(),
+      "idAcionou": UID
+    });
+
     command = 'guaritaConrole/demoLinearIP.exe --ip $hostd --porta $port --createuser --tipo $tipo --serial $serial --contador $contadors --unidade $unidade --bloco $bloco --identificacao ${identificacao.replaceAll(" ", "_")} --grupo $grupo --marca ${Marca.replaceAll(" ", "_")} --cor $cor --placa ${Placa.replaceAll(" ", "_")} --receptor1 $receptor1 --receptor2 $receptor2 --receptor3 $receptor3 --receptor4 $receptor4 --receptor5 $receptor5 --receptor6 $receptor6 --receptor7 $receptor7 --receptor8 $receptor8';
   }else{
     command = 'guaritaConrole/demoLinearIP.exe --ip $hostd --porta $port --createuser --tipo $tipo --serial $serieal --contador $contador --unidade $unidade --bloco $bloco --identificacao ${identificacao.replaceAll(" ", "_")} --grupo $grupo --marca ${Marca.replaceAll(" ", "_")} --cor $cor --placa ${Placa.replaceAll(" ", "_")} --receptor1 $receptor1 --receptor2 $receptor2 --receptor3 $receptor3 --receptor4 $receptor4 --receptor5 $receptor5 --receptor6 $receptor6 --receptor7 $receptor7 --receptor8 $receptor8';
@@ -345,6 +370,17 @@ Cadastro(var context, String host, int port, String tipo, String serieal, String
 
 edicao(var context, String idGuarita, String id, String host, int port, String tipo, String serieal, String contador, String unidade, String bloco, String identificacao, String grupo, String Marca, String cor, String Placa, bool receptor1, bool receptor2, bool receptor3, bool receptor4, bool receptor5, bool receptor6, bool receptor7, bool receptor8, placa) async {
 
+  FirebaseFirestore.instance.collection("logs").doc(UUID).set({
+    "text" : 'Houve uma tentativa de edição no Guarita',
+    "codigoDeResposta" : 012,
+    'acionamentoID': host,
+    'acionamentoNome': host,
+    'Condominio': idCondominio,
+    "id": UUID,
+    'QuemFez': await getUserName(),
+    "idAcionou": UID
+  });
+
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -427,6 +463,17 @@ Deletecao(var context, String idGuarita, String id, String host, int port, Strin
   var processoDelete = await Process.run('powershell.exe', ['-c', command]);
 
   if(veiode == "Deletacao"){
+    FirebaseFirestore.instance.collection("logs").doc(UUID).set({
+      "text" : 'Houve uma tentativa de deletação de um usuario no Guarita',
+      "codigoDeResposta" : 013,
+      'acionamentoID': host,
+      'acionamentoNome': host,
+      'Condominio': idCondominio,
+      "id": UUID,
+      'QuemFez': await getUserName(),
+      "idAcionou": UID
+    });
+
     if(processoDelete.stdout.toString().contains("Deletado com sucesso!")){
       Navigator.pop(context);
       Navigator.pop(context);

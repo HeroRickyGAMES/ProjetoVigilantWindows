@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vigilant/homeApp.dart';
+import 'package:vigilant/informacoesLogais/getIds.dart';
+import 'package:vigilant/informacoesLogais/getUserInformations.dart';
 
 //Programado por HeroRickyGames com ajuda de Deus
 
@@ -40,7 +42,9 @@ chamarSDK(var context, String id, String ip, int porta, String receptor, String 
       'acionamentoID': id,
       'acionamentoNome': nomeAc,
       'Condominio': idCondominio,
-      "id": UUID
+      "id": UUID,
+      'QuemFez': await getUserName(),
+      "idAcionou": UID
     });
     showToast("Guarita acionada", context: context);
   }else{
@@ -56,7 +60,9 @@ chamarSDK(var context, String id, String ip, int porta, String receptor, String 
         'acionamentoID': id,
         'acionamentoNome': nomeAc,
         'Condominio': idCondominio,
-        "id": UUID
+        "id": UUID,
+        'QuemFez': await getUserName(),
+        "idAcionou": UID
       });
     }else{
       FirebaseFirestore.instance.collection("acionamentos").doc(id).update({
@@ -70,7 +76,9 @@ chamarSDK(var context, String id, String ip, int porta, String receptor, String 
         'acionamentoID': id,
         'acionamentoNome': nomeAc,
         'Condominio': idCondominio,
-        "id": UUID
+        "id": UUID,
+        'QuemFez': await getUserName(),
+        "idAcionou": UID
       });
     }
   }
