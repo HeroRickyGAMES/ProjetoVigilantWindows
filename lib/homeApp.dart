@@ -46,6 +46,7 @@ String MoradorId = "";
 String UnidadeMorador = "";
 String BlocoMorador = "";
 String ModeloDoCFTV = "";
+String EmpresaPertence = "";
 
 //Strings de Pesquisa
 String pesquisa = '';
@@ -60,7 +61,7 @@ String pesquisa9 = '';
 String pesquisa10 = '';
 String pesquisa11 = '';
 String pesquisa12 = '';
-String EmpresaPertence = "";
+String pesquisavalue = "";
 
 //Controladores
 TextEditingController anotacaoControlCondominio = TextEditingController(text: anotacao);
@@ -77,6 +78,8 @@ bool pesquisaNumeros = false;
 bool acionamento1clicado = false;
 bool inicializado = false;
 bool pesquisaCPF = false;
+
+//Booleanos de pesquisa
 bool pesquisando = false;
 bool pesquisando2 = false;
 bool pesquisando3 = false;
@@ -91,7 +94,8 @@ bool showSearchBar = false;
 bool showSearchBar2 = false;
 bool pesquisaUnid = false;
 bool pesquisaBloc = false;
-bool logs = false;
+bool pesquisando55 = false;
+bool pesquisando56 = false;
 
 //Booleanos de controle dos usuarios
 bool AdicionarCondominios = false;
@@ -106,6 +110,7 @@ bool adicionarVisitante = false;
 bool EditarCFTV = false;
 bool acessoDevFunc = false;
 bool deslogando = false;
+bool logs = false;
 
 //DropDownValues
 var dropValue = ValueNotifier('');
@@ -297,7 +302,7 @@ class _homeAppState extends State<homeApp>{
                                                                       enableSuggestions: true,
                                                                       autocorrect: true,
                                                                       onChanged: (value){
-                                                                        pesquisa = value;
+                                                                        pesquisa = value.toUpperCase();
 
                                                                         if(value == ""){
                                                                           setStater((){
@@ -2506,22 +2511,362 @@ class _homeAppState extends State<homeApp>{
                                                                                   showDialog(
                                                                                     context: context,
                                                                                     builder: (BuildContext context) {
-                                                                                      return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                      return StatefulBuilder(builder: (BuildContext context, StateSetter setStates){
                                                                                         return AlertDialog(
                                                                                           title: Center(
                                                                                             child: Column(
+                                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                                              crossAxisAlignment: CrossAxisAlignment.center,
                                                                                               children: [
-                                                                                                const Text(
-                                                                                                    'Tags',
-                                                                                                  style: TextStyle(
-                                                                                                    fontSize: 20,
-                                                                                                    fontWeight: FontWeight.bold
+                                                                                                Container(
+                                                                                                  padding: const EdgeInsets.all(16),
+                                                                                                  child: Row(
+                                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                    children: [
+                                                                                                      const Text(
+                                                                                                          'Tags',
+                                                                                                        style: TextStyle(
+                                                                                                          fontSize: 25,
+                                                                                                          fontWeight: FontWeight.bold
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      SizedBox(
+                                                                                                        width: 50,
+                                                                                                        height: 50,
+                                                                                                        child: TextButton(onPressed: (){
+                                                                                                          Navigator.pop(context);
+                                                                                                        },
+                                                                                                            child:const Center(
+                                                                                                              child: Icon(
+                                                                                                                Icons.close,
+                                                                                                                size: 30,
+                                                                                                              ),
+                                                                                                            )
+                                                                                                        ),
+                                                                                                      )
+                                                                                                    ],
                                                                                                   ),
                                                                                                 ),
                                                                                                 Stack(
                                                                                                   children: [
                                                                                                     Column(
+                                                                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                      crossAxisAlignment: CrossAxisAlignment.center ,
                                                                                                       children: [
+                                                                                                        Row(
+                                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                          crossAxisAlignment: CrossAxisAlignment.center ,
+                                                                                                          children: [
+                                                                                                            SizedBox(
+                                                                                                              width: wid / 3,
+                                                                                                              height: 50,
+                                                                                                              child: TextField(
+                                                                                                                cursorColor: Colors.black,
+                                                                                                                keyboardType: TextInputType.name,
+                                                                                                                enableSuggestions: true,
+                                                                                                                autocorrect: true,
+                                                                                                                onChanged: (value){
+                                                                                                                  pesquisavalue = value.toUpperCase();
+
+                                                                                                                  if(value == ""){
+                                                                                                                    setStates(() {
+                                                                                                                      pesquisando55 = false;
+                                                                                                                    });
+                                                                                                                  }
+                                                                                                                },
+                                                                                                                decoration: const InputDecoration(
+                                                                                                                  filled: true,
+                                                                                                                  fillColor: Colors.white,
+                                                                                                                  border: OutlineInputBorder(),
+                                                                                                                  enabledBorder: OutlineInputBorder(
+                                                                                                                    borderSide: BorderSide(width: 3, color: Colors.white), //<-- SEE HERE
+                                                                                                                  ),
+                                                                                                                  focusedBorder: OutlineInputBorder(
+                                                                                                                    borderSide: BorderSide(
+                                                                                                                        width: 3,
+                                                                                                                        color: Colors.black
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                                style: const TextStyle(
+                                                                                                                    color: Colors.black
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            Container(
+                                                                                                                alignment: AlignmentDirectional.centerEnd,
+                                                                                                                child: TextButton(
+                                                                                                                  onPressed: () async {
+                                                                                                                    if(pesquisavalue == ""){
+                                                                                                                      setStates(() {
+                                                                                                                        pesquisando55 = false;
+                                                                                                                      });
+                                                                                                                    }else{
+                                                                                                                      final RegExp regExp = RegExp(r'^\d+$');
+
+                                                                                                                      if(regExp.hasMatch(pesquisavalue)){
+                                                                                                                        QuerySnapshot snapshotNome = await FirebaseFirestore.instance.collection("tags")
+                                                                                                                            .where("acionamentoID", isEqualTo: id)
+                                                                                                                            .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                                            .where("tagID", isGreaterThanOrEqualTo: pesquisavalue)
+                                                                                                                            .where("tagID", isLessThan: "${pesquisavalue}z")
+                                                                                                                            .get();
+
+                                                                                                                        if(snapshotNome.docs.isNotEmpty){
+                                                                                                                          for (var doc in snapshotNome.docs) {
+                                                                                                                            //Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+                                                                                                                            //print("Dados: $data");
+
+                                                                                                                            setStates((){
+                                                                                                                              pesquisando56 = true;
+                                                                                                                              pesquisando55 = false;
+                                                                                                                            });
+                                                                                                                          }
+                                                                                                                        }else{
+                                                                                                                          showToast("Nada foi encontrado!", context: context);
+                                                                                                                          setStates((){
+                                                                                                                            pesquisando56 = false;
+                                                                                                                          });
+                                                                                                                        }
+                                                                                                                      }else{
+                                                                                                                        //Pesquisa de nomes;
+                                                                                                                        QuerySnapshot snapshotNome = await FirebaseFirestore.instance.collection("tags")
+                                                                                                                            .where("acionamentoID", isEqualTo: id)
+                                                                                                                            .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                                            .where("Nome", isGreaterThanOrEqualTo: pesquisavalue)
+                                                                                                                            .where("Nome", isLessThan: "${pesquisavalue}z")
+                                                                                                                            .get();
+
+                                                                                                                        if(snapshotNome.docs.isNotEmpty){
+                                                                                                                          for (var doc in snapshotNome.docs) {
+                                                                                                                            //Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+                                                                                                                            //print("Dados: $data");
+
+                                                                                                                            setStates((){
+                                                                                                                              pesquisando55 = true;
+                                                                                                                              pesquisando56 = false;
+                                                                                                                            });
+                                                                                                                          }
+                                                                                                                        }else{
+                                                                                                                          showToast("Nada foi encontrado!", context: context);
+                                                                                                                          setStates((){
+                                                                                                                            pesquisando55 = false;
+                                                                                                                          });
+                                                                                                                        }
+                                                                                                                      }
+                                                                                                                    }
+                                                                                                                  },
+                                                                                                                  child: Image.asset(
+                                                                                                                      "assets/search.png",
+                                                                                                                      scale: 14
+                                                                                                                  ),
+                                                                                                                )
+                                                                                                            ),
+                                                                                                            ElevatedButton(
+                                                                                                                onPressed: (){
+                                                                                                                  showDialog(
+                                                                                                                    context: context,
+                                                                                                                    builder: (BuildContext context) {
+                                                                                                                      return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                                                        return AlertDialog(
+                                                                                                                          title: Column(
+                                                                                                                            children: [
+                                                                                                                              const Text('Selecione um acionamento para importar!'),
+                                                                                                                              Center(
+                                                                                                                                child: SizedBox(
+                                                                                                                                  width: 600,
+                                                                                                                                  height: 300,
+                                                                                                                                  child: StreamBuilder(
+                                                                                                                                    stream: FirebaseFirestore.instance
+                                                                                                                                        .collection('acionamentos')
+                                                                                                                                        .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                                                        .where("modelo", whereIn: ["Control iD"])
+                                                                                                                                        .snapshots(),
+                                                                                                                                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                                                                                                                      if (snapshot.hasError) {
+                                                                                                                                        return const Center(child:
+                                                                                                                                        Text('Algo deu errado!')
+                                                                                                                                        );
+                                                                                                                                      }
+                                                                                                            
+                                                                                                                                      if (snapshot.connectionState == ConnectionState.waiting) {
+                                                                                                                                        return const Center(child: CircularProgressIndicator(color: Colors.white,));
+                                                                                                                                      }
+                                                                                                            
+                                                                                                                                      if (snapshot.hasData) {
+                                                                                                                                        return GridView.count(
+                                                                                                                                            childAspectRatio: 1.2,
+                                                                                                                                            crossAxisCount: 3,
+                                                                                                                                            children: snapshot.data!.docs.map((documents) {
+                                                                                                                                              double tamanhotext = 14;
+                                                                                                                                              bool isBolded = false;
+                                                                                                            
+                                                                                                                                              if(documents["nome"].length >= 16){
+                                                                                                                                                tamanhotext = 12;
+                                                                                                                                              }
+                                                                                                            
+                                                                                                                                              if(documents["nome"].length >= 20){
+                                                                                                                                                tamanhotext = 9;
+                                                                                                                                                isBolded = true;
+                                                                                                                                              }
+                                                                                                            
+                                                                                                                                              return Container(
+                                                                                                                                                padding: const EdgeInsets.all(16),
+                                                                                                                                                child: Column(
+                                                                                                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                                                  children: [
+                                                                                                                                                    Column(
+                                                                                                                                                      children: [
+                                                                                                                                                        SizedBox(
+                                                                                                                                                          height: 40,
+                                                                                                                                                          child: InkWell(
+                                                                                                                                                            onTap: () async {
+                                                                                                                                                              showDialog(
+                                                                                                                                                                context: context,
+                                                                                                                                                                builder: (BuildContext context) {
+                                                                                                                                                                  return const AlertDialog(
+                                                                                                                                                                    title: Text('Aguarde!'),
+                                                                                                                                                                    actions: [
+                                                                                                                                                                      Center(
+                                                                                                                                                                        child: CircularProgressIndicator(),
+                                                                                                                                                                      )
+                                                                                                                                                                    ],
+                                                                                                                                                                  );
+                                                                                                                                                                },
+                                                                                                                                                              );
+                                                                                                            
+                                                                                                                                                              Map<String, dynamic> usuarios = await controlidTags(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo']);
+                                                                                                            
+                                                                                                                                                              String ImageURL = "";
+                                                                                                            
+                                                                                                                                                              int lent = usuarios['users'].length - 1;
+                                                                                                            
+                                                                                                                                                              for (int i = 0; i < lent; i++) {
+                                                                                                            
+                                                                                                                                                                cadastrarPs(){
+                                                                                                                                                                  FirebaseFirestore.instance.collection('tags').doc("${usuarios['users'][i]["id"]}$idCondominio").set({
+                                                                                                                                                                    "id": "${usuarios['users'][i]["id"]}$idCondominio",
+                                                                                                                                                                    "tagID": "${usuarios['users'][i]["id"]}",
+                                                                                                                                                                    "idCondominio": idCondominio,
+                                                                                                                                                                    "Nome": usuarios['users'][i]["name"],
+                                                                                                                                                                    "acionamentoID": id,
+                                                                                                                                                                    "CPF": "",
+                                                                                                                                                                    "RG": "",
+                                                                                                                                                                    "imageURI": ImageURL,
+                                                                                                                                                                    "placa": "",
+                                                                                                                                                                    "Unidade":"",
+                                                                                                                                                                    "Bloco": "",
+                                                                                                                                                                    "Celular": "",
+                                                                                                                                                                    "anotacao": "",
+                                                                                                                                                                    "Telefone": '',
+                                                                                                                                                                    "Qualificacao": '',
+                                                                                                                                                                  });
+                                                                                                                                                                }
+                                                                                                            
+                                                                                                                                                                cadastrarSemFoto(){
+                                                                                                                                                                  FirebaseFirestore.instance.collection('tags').doc("${usuarios['users'][i]["id"]}$idCondominio").set({
+                                                                                                                                                                    "id": "${usuarios['users'][i]["id"]}$idCondominio",
+                                                                                                                                                                    "idCondominio": idCondominio,
+                                                                                                                                                                    "Nome": usuarios['users'][i]["name"],
+                                                                                                                                                                    "tagID": "${usuarios['users'][i]["id"]}",
+                                                                                                                                                                    "acionamentoID": id,
+                                                                                                                                                                    "CPF": "",
+                                                                                                                                                                    "RG": "",
+                                                                                                                                                                    "imageURI": '',
+                                                                                                                                                                    "placa": "",
+                                                                                                                                                                    "Unidade":"",
+                                                                                                                                                                    "Bloco": "",
+                                                                                                                                                                    "Telefone": "",
+                                                                                                                                                                    "Celular": "",
+                                                                                                                                                                    "anotacao": "",
+                                                                                                                                                                    "Qualificacao": '',
+                                                                                                                                                                  });
+                                                                                                                                                                }
+                                                                                                            
+                                                                                                                                                                File image;
+                                                                                                            
+                                                                                                                                                                if(await ImagemEquipamentoCotroliD(documents['ip'], documents['porta'], usuarios['Season'], usuarios['users'][i]["id"]) == null){
+                                                                                                                                                                  cadastrarSemFoto();
+                                                                                                                                                                }else{
+                                                                                                                                                                  image = await ImagemEquipamentoCotroliD(documents['ip'], documents['porta'], usuarios['Season'], usuarios['users'][i]["id"]);
+                                                                                                            
+                                                                                                                                                                  ImageURL = await carregarImagem(context, image, "$i", idCondominio);
+                                                                                                                                                                  cadastrarPs();
+                                                                                                            
+                                                                                                                                                                }
+                                                                                                                                                              }
+                                                                                                                                                              Navigator.pop(context);
+                                                                                                                                                              Navigator.pop(context);
+                                                                                                                                                              showToast("Importado com sucesso!", context: context);
+                                                                                                                                                            },
+                                                                                                                                                            child: Stack(
+                                                                                                                                                              alignment: Alignment.center,
+                                                                                                                                                              children: [
+                                                                                                                                                                Image.asset(
+                                                                                                                                                                  documents["deuErro"] == true ?
+                                                                                                                                                                  "assets/btnIsNotAbleToConnect.png":
+                                                                                                                                                                  documents["prontoParaAtivar"] == false ?
+                                                                                                                                                                  "assets/btnInactive.png" :
+                                                                                                                                                                  "assets/btnIsAbleToAction.png",
+                                                                                                                                                                  scale: 5,
+                                                                                                                                                                ),
+                                                                                                                                                                Image.asset(
+                                                                                                                                                                    documents["iconeSeleciondo"],
+                                                                                                                                                                    scale: 45
+                                                                                                                                                                ),
+                                                                                                                                                              ],
+                                                                                                                                                            ),
+                                                                                                                                                          ),
+                                                                                                                                                        ),
+                                                                                                                                                        Text(
+                                                                                                                                                          documents["nome"],
+                                                                                                                                                          style: isBolded == true?
+                                                                                                                                                          TextStyle(
+                                                                                                                                                              color: textAlertDialogColorReverse,
+                                                                                                                                                              fontSize: tamanhotext,
+                                                                                                                                                              fontWeight: FontWeight.bold
+                                                                                                                                                          )
+                                                                                                                                                              :
+                                                                                                                                                          TextStyle(
+                                                                                                                                                            color: textAlertDialogColorReverse,
+                                                                                                                                                            fontSize: tamanhotext,
+                                                                                                                                                          ),
+                                                                                                                                                          textAlign: TextAlign.center,
+                                                                                                                                                        ),
+                                                                                                                                                      ],
+                                                                                                                                                    )
+                                                                                                                                                  ],
+                                                                                                                                                ),
+                                                                                                                                              );
+                                                                                                                                            }).toList().reversed.toList()
+                                                                                                                                        );
+                                                                                                                                      }
+                                                                                                                                      return const Center(
+                                                                                                                                          child: Text('Sem dados!')
+                                                                                                                                      );
+                                                                                                                                    },
+                                                                                                                                  ),
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                            ],
+                                                                                                                          ),
+                                                                                                                        );
+                                                                                                                      },);
+                                                                                                                    },
+                                                                                                                  );
+                                                                                                                },
+                                                                                                                style: ElevatedButton.styleFrom(
+                                                                                                                  backgroundColor: Colors.blue
+                                                                                                                ),
+                                                                                                                child: const Text(
+                                                                                                                    'Importar de um equipamento',
+                                                                                                                  style: TextStyle(
+                                                                                                                    color: Colors.white
+                                                                                                                  ),
+                                                                                                                )
+                                                                                                            )
+                                                                                                          ],
+                                                                                                        ),
                                                                                                         Container(
                                                                                                           padding: const EdgeInsets.all(16),
                                                                                                           child: const Row(
@@ -2534,7 +2879,22 @@ class _homeAppState extends State<homeApp>{
                                                                                                         ),
                                                                                                         Container(
                                                                                                           padding: const EdgeInsets.all(16),
-                                                                                                          child: StreamBuilder(stream: FirebaseFirestore.instance
+                                                                                                          child: StreamBuilder(stream:
+                                                                                                          pesquisando55 == true ?
+                                                                                                          FirebaseFirestore.instance
+                                                                                                              .collection("tags")
+                                                                                                              .where("Nome", isGreaterThanOrEqualTo: pesquisavalue)
+                                                                                                              .where("Nome", isLessThan: "${pesquisavalue}z")
+                                                                                                              .snapshots():
+                                                                                                          pesquisando56 == true ?
+                                                                                                          FirebaseFirestore.instance
+                                                                                                              .collection("tags")
+                                                                                                              .where("acionamentoID", isEqualTo: id)
+                                                                                                              .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                              .where("tagID", isGreaterThanOrEqualTo: pesquisavalue)
+                                                                                                              .where("tagID", isLessThan: "${pesquisavalue}z")
+                                                                                                              .snapshots():
+                                                                                                          FirebaseFirestore.instance
                                                                                                               .collection("tags")
                                                                                                               .where("acionamentoID", isEqualTo: id)
                                                                                                               .where("idCondominio", isEqualTo: idCondominio)
@@ -2580,208 +2940,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                         ),
                                                                                                       ],
                                                                                                     ),
-                                                                                                    Container(
-                                                                                                      width: wid / 2,
-                                                                                                      height: heig / 2,
-                                                                                                      alignment: Alignment.bottomRight,
-                                                                                                      child: TextButton(
-                                                                                                          onPressed: (){
-                                                                                                            showDialog(
-                                                                                                              context: context,
-                                                                                                              builder: (BuildContext context) {
-                                                                                                                return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                                                                                                  return AlertDialog(
-                                                                                                                    title: Column(
-                                                                                                                      children: [
-                                                                                                                        const Text('Selecione um acionamento para importar!'),
-                                                                                                                        Center(
-                                                                                                                          child: SizedBox(
-                                                                                                                            width: 600,
-                                                                                                                            height: 300,
-                                                                                                                            child: StreamBuilder(
-                                                                                                                              stream: FirebaseFirestore.instance
-                                                                                                                                  .collection('acionamentos')
-                                                                                                                                  .where("idCondominio", isEqualTo: idCondominio)
-                                                                                                                                  .where("modelo", whereIn: ["Control iD"])
-                                                                                                                                  .snapshots(),
-                                                                                                                              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                                                                                                                if (snapshot.hasError) {
-                                                                                                                                  return const Center(child:
-                                                                                                                                  Text('Algo deu errado!')
-                                                                                                                                  );
-                                                                                                                                }
-
-                                                                                                                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                                                                                                                  return const Center(child: CircularProgressIndicator(color: Colors.white,));
-                                                                                                                                }
-
-                                                                                                                                if (snapshot.hasData) {
-                                                                                                                                  return GridView.count(
-                                                                                                                                      childAspectRatio: 1.2,
-                                                                                                                                      crossAxisCount: 3,
-                                                                                                                                      children: snapshot.data!.docs.map((documents) {
-                                                                                                                                        double tamanhotext = 14;
-                                                                                                                                        bool isBolded = false;
-
-                                                                                                                                        if(documents["nome"].length >= 16){
-                                                                                                                                          tamanhotext = 12;
-                                                                                                                                        }
-
-                                                                                                                                        if(documents["nome"].length >= 20){
-                                                                                                                                          tamanhotext = 9;
-                                                                                                                                          isBolded = true;
-                                                                                                                                        }
-
-                                                                                                                                        return Container(
-                                                                                                                                          padding: const EdgeInsets.all(16),
-                                                                                                                                          child: Column(
-                                                                                                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                                                            children: [
-                                                                                                                                                  Column(
-                                                                                                                                                    children: [
-                                                                                                                                                      SizedBox(
-                                                                                                                                                        height: 40,
-                                                                                                                                                        child: InkWell(
-                                                                                                                                                          onTap: () async {
-                                                                                                                                                            showDialog(
-                                                                                                                                                              context: context,
-                                                                                                                                                              builder: (BuildContext context) {
-                                                                                                                                                                return const AlertDialog(
-                                                                                                                                                                  title: Text('Aguarde!'),
-                                                                                                                                                                  actions: [
-                                                                                                                                                                    Center(
-                                                                                                                                                                      child: CircularProgressIndicator(),
-                                                                                                                                                                    )
-                                                                                                                                                                  ],
-                                                                                                                                                                );
-                                                                                                                                                              },
-                                                                                                                                                            );
-
-                                                                                                                                                            Map<String, dynamic> usuarios = await controlidTags(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo']);
-
-                                                                                                                                                            String ImageURL = "";
-
-                                                                                                                                                            int lent = usuarios['users'].length - 1;
-
-                                                                                                                                                            for (int i = 0; i < lent; i++) {
-
-                                                                                                                                                              cadastrarPs(){
-                                                                                                                                                                FirebaseFirestore.instance.collection('tags').doc("${usuarios['users'][i]["id"]}$idCondominio").set({
-                                                                                                                                                                  "id": "${usuarios['users'][i]["id"]}$idCondominio",
-                                                                                                                                                                  "tagID": "${usuarios['users'][i]["id"]}",
-                                                                                                                                                                  "idCondominio": idCondominio,
-                                                                                                                                                                  "Nome": usuarios['users'][i]["name"],
-                                                                                                                                                                  "acionamentoID": id,
-                                                                                                                                                                  "CPF": "",
-                                                                                                                                                                  "RG": "",
-                                                                                                                                                                  "imageURI": ImageURL,
-                                                                                                                                                                  "placa": "",
-                                                                                                                                                                  "Unidade":"",
-                                                                                                                                                                  "Bloco": "",
-                                                                                                                                                                  "Celular": "",
-                                                                                                                                                                  "anotacao": "",
-                                                                                                                                                                  "Telefone": '',
-                                                                                                                                                                  "Qualificacao": '',
-                                                                                                                                                                });
-                                                                                                                                                              }
-
-                                                                                                                                                              cadastrarSemFoto(){
-                                                                                                                                                                FirebaseFirestore.instance.collection('tags').doc("${usuarios['users'][i]["id"]}$idCondominio").set({
-                                                                                                                                                                  "id": "${usuarios['users'][i]["id"]}$idCondominio",
-                                                                                                                                                                  "idCondominio": idCondominio,
-                                                                                                                                                                  "Nome": usuarios['users'][i]["name"],
-                                                                                                                                                                  "tagID": "${usuarios['users'][i]["id"]}",
-                                                                                                                                                                  "acionamentoID": id,
-                                                                                                                                                                  "CPF": "",
-                                                                                                                                                                  "RG": "",
-                                                                                                                                                                  "imageURI": '',
-                                                                                                                                                                  "placa": "",
-                                                                                                                                                                  "Unidade":"",
-                                                                                                                                                                  "Bloco": "",
-                                                                                                                                                                  "Telefone": "",
-                                                                                                                                                                  "Celular": "",
-                                                                                                                                                                  "anotacao": "",
-                                                                                                                                                                  "Qualificacao": '',
-                                                                                                                                                                });
-                                                                                                                                                              }
-
-                                                                                                                                                              File image;
-
-                                                                                                                                                              if(await ImagemEquipamentoCotroliD(documents['ip'], documents['porta'], usuarios['Season'], usuarios['users'][i]["id"]) == null){
-                                                                                                                                                                cadastrarSemFoto();
-                                                                                                                                                              }else{
-                                                                                                                                                              image = await ImagemEquipamentoCotroliD(documents['ip'], documents['porta'], usuarios['Season'], usuarios['users'][i]["id"]);
-
-                                                                                                                                                              ImageURL = await carregarImagem(context, image, "$i", idCondominio);
-                                                                                                                                                              cadastrarPs();
-
-                                                                                                                                                              }
-                                                                                                                                                            }
-                                                                                                                                                            Navigator.pop(context);
-                                                                                                                                                            Navigator.pop(context);
-                                                                                                                                                            showToast("Importado com sucesso!", context: context);
-                                                                                                                                                          },
-                                                                                                                                                          child: Stack(
-                                                                                                                                                            alignment: Alignment.center,
-                                                                                                                                                            children: [
-                                                                                                                                                              Image.asset(
-                                                                                                                                                                documents["deuErro"] == true ?
-                                                                                                                                                                "assets/btnIsNotAbleToConnect.png":
-                                                                                                                                                                documents["prontoParaAtivar"] == false ?
-                                                                                                                                                                "assets/btnInactive.png" :
-                                                                                                                                                                "assets/btnIsAbleToAction.png",
-                                                                                                                                                                scale: 5,
-                                                                                                                                                              ),
-                                                                                                                                                              Image.asset(
-                                                                                                                                                                  documents["iconeSeleciondo"],
-                                                                                                                                                                  scale: 45
-                                                                                                                                                              ),
-                                                                                                                                                            ],
-                                                                                                                                                          ),
-                                                                                                                                                        ),
-                                                                                                                                                      ),
-                                                                                                                                                      Text(
-                                                                                                                                                        documents["nome"],
-                                                                                                                                                        style: isBolded == true?
-                                                                                                                                                        TextStyle(
-                                                                                                                                                            color: textAlertDialogColorReverse,
-                                                                                                                                                            fontSize: tamanhotext,
-                                                                                                                                                            fontWeight: FontWeight.bold
-                                                                                                                                                        )
-                                                                                                                                                            :
-                                                                                                                                                        TextStyle(
-                                                                                                                                                          color: textAlertDialogColorReverse,
-                                                                                                                                                          fontSize: tamanhotext,
-                                                                                                                                                        ),
-                                                                                                                                                        textAlign: TextAlign.center,
-                                                                                                                                                      ),
-                                                                                                                                                    ],
-                                                                                                                                                  )
-                                                                                                                                            ],
-                                                                                                                                          ),
-                                                                                                                                        );
-                                                                                                                                      }).toList().reversed.toList()
-                                                                                                                                  );
-                                                                                                                                }
-                                                                                                                                return const Center(
-                                                                                                                                    child: Text('Sem dados!',)
-                                                                                                                                );
-                                                                                                                              },
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                        ),
-                                                                                                                      ],
-                                                                                                                    ),
-                                                                                                                  );
-                                                                                                                },);
-                                                                                                              },
-                                                                                                            );
-                                                                                                          },
-                                                                                                          child: Image.asset(
-                                                                                                          "assets/fab.png",
-                                                                                                          scale: 45
-                                                                                                      ))
-                                                                                                    )
                                                                                                   ],
                                                                                                 )
                                                                                               ],
