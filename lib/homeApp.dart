@@ -24,6 +24,7 @@ import 'package:vigilant/login/login.dart';
 import 'package:vigilant/libDePessoas/cadastroDeUsuariosNoEquipamento.dart';
 import 'package:vigilant/libDePessoas/pushPessoas.dart';
 import 'package:vigilant/moduloGuarita/consultaDeUsuariosdoGuarita.dart';
+import 'package:vigilant/tags/tag.dart';
 import 'package:vigilant/videoStream/videoStreamWidget.dart';
 import 'package:uuid/uuid.dart';
 
@@ -2490,68 +2491,302 @@ class _homeAppState extends State<homeApp>{
                                                                               }
                                                                               if(documents["prontoParaAtivar"] == true){
                                                                                 if(documents["secbox"] == true){
-                                                                                  String tag = "";
+                                                                                  String ip = documents["ip"];
+                                                                                  int porta = documents["porta"];
+                                                                                  String modelo = documents["modelo"];
+                                                                                  int canal = documents["canal"];
+                                                                                  String usuario = documents["usuario"];
+                                                                                  String senha = documents["senha"];
+                                                                                  String id = documents["id"];
+                                                                                  String receptor = documents["receptor"];
+                                                                                  String can = documents["can"];
+                                                                                  String nome = documents["nome"];
+                                                                                  bool secbox = documents["secbox"];
+
                                                                                   showDialog(
                                                                                     context: context,
                                                                                     builder: (BuildContext context) {
                                                                                       return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
                                                                                         return AlertDialog(
-                                                                                          title: const Text('Digite uma tag veicular'),
-                                                                                          actions: [
-                                                                                            Center(
-                                                                                              child: Column(
-                                                                                                children: [
-                                                                                                  Center(
-                                                                                                    child: Container(
-                                                                                                      padding: const EdgeInsets.all(10),
-                                                                                                      child: TextField(
-                                                                                                        keyboardType: TextInputType.name,
-                                                                                                        enableSuggestions: true,
-                                                                                                        autocorrect: true,
-                                                                                                        onChanged: (value){
-                                                                                                          setState(() {
-                                                                                                            tag = value;
-                                                                                                          });
-                                                                                                        },
-                                                                                                        decoration: InputDecoration(
-                                                                                                          filled: true,
-                                                                                                          fillColor: Colors.white,
-                                                                                                          labelStyle: TextStyle(
-                                                                                                              color: textAlertDialogColor,
-                                                                                                              backgroundColor: Colors.white
-                                                                                                          ),
-                                                                                                          border: const OutlineInputBorder(),
-                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                          ),
-                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                            borderSide: BorderSide(
-                                                                                                                width: 3,
-                                                                                                                color: Colors.black
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                          label: const Text('TAG'),
-                                                                                                        ),
-                                                                                                        style: TextStyle(
-                                                                                                            color: textAlertDialogColor
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ),
+                                                                                          title: Center(
+                                                                                            child: Column(
+                                                                                              children: [
+                                                                                                const Text(
+                                                                                                    'Tags',
+                                                                                                  style: TextStyle(
+                                                                                                    fontSize: 20,
+                                                                                                    fontWeight: FontWeight.bold
                                                                                                   ),
-                                                                                                  TextButton(
-                                                                                                      onPressed: (){
-                                                                                                        if(tag == ""){
-                                                                                                          showToast("A tag precisa ser preenchida!",context:context);
-                                                                                                        }else{
-                                                                                                          acionarPorta(context, documents["ip"], documents["porta"], documents["modelo"], documents["canal"], documents["usuario"], documents["senha"], documents["id"], documents["receptor"], documents["can"], documents["nome"], documents["secbox"], tag);
-                                                                                                          Navigator.of(context).pop();
-                                                                                                        }
-                                                                                                      }, child: const Text('Acionar')
-                                                                                                  )
-                                                                                                ],
-                                                                                              ),
-                                                                                            )
-                                                                                          ],
+                                                                                                ),
+                                                                                                Stack(
+                                                                                                  children: [
+                                                                                                    Column(
+                                                                                                      children: [
+                                                                                                        Container(
+                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                          child: const Row(
+                                                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                            children: [
+                                                                                                              Text("Nome"),
+                                                                                                              Text("Tag")
+                                                                                                            ],
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        Container(
+                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                          child: StreamBuilder(stream: FirebaseFirestore.instance
+                                                                                                              .collection("tags")
+                                                                                                              .where("acionamentoID", isEqualTo: id)
+                                                                                                              .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                              .snapshots(), builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                                                                                                            if (!snapshot.hasData) {
+                                                                                                              return const Center(
+                                                                                                                child: CircularProgressIndicator(color: Colors.white,),
+                                                                                                              );
+                                                                                                            }
+                                                                                                            return SizedBox(
+                                                                                                              width: wid / 2,
+                                                                                                              height: heig / 2,
+                                                                                                              child: ListView(
+                                                                                                                children: snapshot.data!.docs.map((documents){
+                                                                                                                    return InkWell(
+                                                                                                                      onTap: (){
+                                                                                                                        acionarPorta(context, ip, porta, modelo, canal, usuario, senha, id, receptor, can, nome, secbox, documents["tagID"]);
+                                                                                                                        Navigator.of(context).pop();
+                                                                                                                      },
+                                                                                                                      child: Row(
+                                                                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                                        children: [
+                                                                                                                          Text(
+                                                                                                                              documents['Nome'],
+                                                                                                                            style: const TextStyle(
+                                                                                                                              fontSize: 18
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                          Text(
+                                                                                                                              documents['tagID'],
+                                                                                                                            style: const TextStyle(
+                                                                                                                                fontSize: 18
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ],
+                                                                                                                      ),
+                                                                                                                    );
+                                                                                                                }).toList(),
+                                                                                                              ),
+                                                                                                            );
+                                                                                                          }
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ],
+                                                                                                    ),
+                                                                                                    Container(
+                                                                                                      width: wid / 2,
+                                                                                                      height: heig / 2,
+                                                                                                      alignment: Alignment.bottomRight,
+                                                                                                      child: TextButton(
+                                                                                                          onPressed: (){
+                                                                                                            showDialog(
+                                                                                                              context: context,
+                                                                                                              builder: (BuildContext context) {
+                                                                                                                return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                                                  return AlertDialog(
+                                                                                                                    title: Column(
+                                                                                                                      children: [
+                                                                                                                        const Text('Selecione um acionamento para importar!'),
+                                                                                                                        Center(
+                                                                                                                          child: SizedBox(
+                                                                                                                            width: 600,
+                                                                                                                            height: 300,
+                                                                                                                            child: StreamBuilder(
+                                                                                                                              stream: FirebaseFirestore.instance
+                                                                                                                                  .collection('acionamentos')
+                                                                                                                                  .where("idCondominio", isEqualTo: idCondominio)
+                                                                                                                                  .where("modelo", whereIn: ["Control iD"])
+                                                                                                                                  .snapshots(),
+                                                                                                                              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                                                                                                                if (snapshot.hasError) {
+                                                                                                                                  return const Center(child:
+                                                                                                                                  Text('Algo deu errado!')
+                                                                                                                                  );
+                                                                                                                                }
+
+                                                                                                                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                                                                                                                  return const Center(child: CircularProgressIndicator(color: Colors.white,));
+                                                                                                                                }
+
+                                                                                                                                if (snapshot.hasData) {
+                                                                                                                                  return GridView.count(
+                                                                                                                                      childAspectRatio: 1.2,
+                                                                                                                                      crossAxisCount: 3,
+                                                                                                                                      children: snapshot.data!.docs.map((documents) {
+                                                                                                                                        double tamanhotext = 14;
+                                                                                                                                        bool isBolded = false;
+
+                                                                                                                                        if(documents["nome"].length >= 16){
+                                                                                                                                          tamanhotext = 12;
+                                                                                                                                        }
+
+                                                                                                                                        if(documents["nome"].length >= 20){
+                                                                                                                                          tamanhotext = 9;
+                                                                                                                                          isBolded = true;
+                                                                                                                                        }
+
+                                                                                                                                        return Container(
+                                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                                          child: Column(
+                                                                                                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                                            children: [
+                                                                                                                                                  Column(
+                                                                                                                                                    children: [
+                                                                                                                                                      SizedBox(
+                                                                                                                                                        height: 40,
+                                                                                                                                                        child: InkWell(
+                                                                                                                                                          onTap: () async {
+                                                                                                                                                            showDialog(
+                                                                                                                                                              context: context,
+                                                                                                                                                              builder: (BuildContext context) {
+                                                                                                                                                                return const AlertDialog(
+                                                                                                                                                                  title: Text('Aguarde!'),
+                                                                                                                                                                  actions: [
+                                                                                                                                                                    Center(
+                                                                                                                                                                      child: CircularProgressIndicator(),
+                                                                                                                                                                    )
+                                                                                                                                                                  ],
+                                                                                                                                                                );
+                                                                                                                                                              },
+                                                                                                                                                            );
+
+                                                                                                                                                            Map<String, dynamic> usuarios = await controlidTags(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo']);
+
+                                                                                                                                                            String ImageURL = "";
+
+                                                                                                                                                            int lent = usuarios['users'].length - 1;
+
+                                                                                                                                                            for (int i = 0; i < lent; i++) {
+
+                                                                                                                                                              cadastrarPs(){
+                                                                                                                                                                FirebaseFirestore.instance.collection('tags').doc("${usuarios['users'][i]["id"]}$idCondominio").set({
+                                                                                                                                                                  "id": "${usuarios['users'][i]["id"]}$idCondominio",
+                                                                                                                                                                  "tagID": "${usuarios['users'][i]["id"]}",
+                                                                                                                                                                  "idCondominio": idCondominio,
+                                                                                                                                                                  "Nome": usuarios['users'][i]["name"],
+                                                                                                                                                                  "acionamentoID": id,
+                                                                                                                                                                  "CPF": "",
+                                                                                                                                                                  "RG": "",
+                                                                                                                                                                  "imageURI": ImageURL,
+                                                                                                                                                                  "placa": "",
+                                                                                                                                                                  "Unidade":"",
+                                                                                                                                                                  "Bloco": "",
+                                                                                                                                                                  "Celular": "",
+                                                                                                                                                                  "anotacao": "",
+                                                                                                                                                                  "Telefone": '',
+                                                                                                                                                                  "Qualificacao": '',
+                                                                                                                                                                });
+                                                                                                                                                              }
+
+                                                                                                                                                              cadastrarSemFoto(){
+                                                                                                                                                                FirebaseFirestore.instance.collection('tags').doc("${usuarios['users'][i]["id"]}$idCondominio").set({
+                                                                                                                                                                  "id": "${usuarios['users'][i]["id"]}$idCondominio",
+                                                                                                                                                                  "idCondominio": idCondominio,
+                                                                                                                                                                  "Nome": usuarios['users'][i]["name"],
+                                                                                                                                                                  "tagID": "${usuarios['users'][i]["id"]}",
+                                                                                                                                                                  "acionamentoID": id,
+                                                                                                                                                                  "CPF": "",
+                                                                                                                                                                  "RG": "",
+                                                                                                                                                                  "imageURI": '',
+                                                                                                                                                                  "placa": "",
+                                                                                                                                                                  "Unidade":"",
+                                                                                                                                                                  "Bloco": "",
+                                                                                                                                                                  "Telefone": "",
+                                                                                                                                                                  "Celular": "",
+                                                                                                                                                                  "anotacao": "",
+                                                                                                                                                                  "Qualificacao": '',
+                                                                                                                                                                });
+                                                                                                                                                              }
+
+                                                                                                                                                              File image;
+
+                                                                                                                                                              if(await ImagemEquipamentoCotroliD(documents['ip'], documents['porta'], usuarios['Season'], usuarios['users'][i]["id"]) == null){
+                                                                                                                                                                cadastrarSemFoto();
+                                                                                                                                                              }else{
+                                                                                                                                                              image = await ImagemEquipamentoCotroliD(documents['ip'], documents['porta'], usuarios['Season'], usuarios['users'][i]["id"]);
+
+                                                                                                                                                              ImageURL = await carregarImagem(context, image, "$i", idCondominio);
+                                                                                                                                                              cadastrarPs();
+
+                                                                                                                                                              }
+                                                                                                                                                            }
+                                                                                                                                                            Navigator.pop(context);
+                                                                                                                                                            Navigator.pop(context);
+                                                                                                                                                            showToast("Importado com sucesso!", context: context);
+                                                                                                                                                          },
+                                                                                                                                                          child: Stack(
+                                                                                                                                                            alignment: Alignment.center,
+                                                                                                                                                            children: [
+                                                                                                                                                              Image.asset(
+                                                                                                                                                                documents["deuErro"] == true ?
+                                                                                                                                                                "assets/btnIsNotAbleToConnect.png":
+                                                                                                                                                                documents["prontoParaAtivar"] == false ?
+                                                                                                                                                                "assets/btnInactive.png" :
+                                                                                                                                                                "assets/btnIsAbleToAction.png",
+                                                                                                                                                                scale: 5,
+                                                                                                                                                              ),
+                                                                                                                                                              Image.asset(
+                                                                                                                                                                  documents["iconeSeleciondo"],
+                                                                                                                                                                  scale: 45
+                                                                                                                                                              ),
+                                                                                                                                                            ],
+                                                                                                                                                          ),
+                                                                                                                                                        ),
+                                                                                                                                                      ),
+                                                                                                                                                      Text(
+                                                                                                                                                        documents["nome"],
+                                                                                                                                                        style: isBolded == true?
+                                                                                                                                                        TextStyle(
+                                                                                                                                                            color: textAlertDialogColorReverse,
+                                                                                                                                                            fontSize: tamanhotext,
+                                                                                                                                                            fontWeight: FontWeight.bold
+                                                                                                                                                        )
+                                                                                                                                                            :
+                                                                                                                                                        TextStyle(
+                                                                                                                                                          color: textAlertDialogColorReverse,
+                                                                                                                                                          fontSize: tamanhotext,
+                                                                                                                                                        ),
+                                                                                                                                                        textAlign: TextAlign.center,
+                                                                                                                                                      ),
+                                                                                                                                                    ],
+                                                                                                                                                  )
+                                                                                                                                            ],
+                                                                                                                                          ),
+                                                                                                                                        );
+                                                                                                                                      }).toList().reversed.toList()
+                                                                                                                                  );
+                                                                                                                                }
+                                                                                                                                return const Center(
+                                                                                                                                    child: Text('Sem dados!',)
+                                                                                                                                );
+                                                                                                                              },
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ],
+                                                                                                                    ),
+                                                                                                                  );
+                                                                                                                },);
+                                                                                                              },
+                                                                                                            );
+                                                                                                          },
+                                                                                                          child: Image.asset(
+                                                                                                          "assets/fab.png",
+                                                                                                          scale: 45
+                                                                                                      ))
+                                                                                                    )
+                                                                                                  ],
+                                                                                                )
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
                                                                                         );
                                                                                       },);
                                                                                     },
@@ -5470,7 +5705,7 @@ class _homeAppState extends State<homeApp>{
                                                                         Container(
                                                                           width: double.infinity,
                                                                           height: heig / 7,
-                                                                          padding: EdgeInsets.all(10),
+                                                                          padding: const EdgeInsets.all(10),
                                                                           child: ListView(
                                                                             children: snapshot.data!.docs.map((documents){
                                                                               return Column(
