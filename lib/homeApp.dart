@@ -5571,6 +5571,19 @@ class _homeAppState extends State<homeApp>{
                                                                     height: heig / 7,
                                                                     child: ListView(
                                                                       children: snapshot.data!.docs.map((documents){
+                                                                        double tamanhodoc = documents['Nome'].length/ 2;
+                                                                        if(documents['Nome'].length <= 5){
+                                                                          tamanhodoc = documents['Nome'].length/ 1;
+                                                                        }else if(documents['Nome'].length <= 7){
+                                                                          tamanhodoc = documents['Nome'].length/ 1;
+                                                                        }else if(documents['Nome'].length > 20 && documents['Nome'].length < 30){
+                                                                          tamanhodoc = documents['Nome'].length - 18.0;
+                                                                        }else if(documents['Nome'].length >= 30){
+                                                                          tamanhodoc = documents['Nome'].length - 25.0;
+                                                                        }
+
+
+
                                                                         return InkWell(
                                                                           onTap: (){
                                                                             showDialog(
@@ -6137,85 +6150,94 @@ class _homeAppState extends State<homeApp>{
                                                                               children: [
                                                                                 Container(
                                                                                   padding: const EdgeInsets.only(left: 10),
-                                                                                  child: Text(
-                                                                                    "Nome: ${documents['Nome']}"
-                                                                                        "\nCPF: ${documents['CPF']}",
-                                                                                    style: documents['Nome'].length >= 20 && documents['Nome'].length <= 29 ?
-                                                                                    TextStyle(
-                                                                                        color: textColorInitBlue,
-                                                                                        fontSize: 9,
-                                                                                        fontWeight: FontWeight.bold
-                                                                                    ): documents['Nome'].length >= 30 ?
-                                                                                    TextStyle(
-                                                                                        color: textColorInitBlue,
-                                                                                        fontSize: 8,
-                                                                                        fontWeight: FontWeight.bold
-                                                                                    ):
+                                                                                  child: documents['Nome'].length >= 2 ?
+                                                                                  Text(
+                                                                                    "Nome: ${documents['Nome'].substring(0, tamanhodoc.floor())}"
+                                                                                        "...\nCPF: ${documents['CPF']}",
+                                                                                    style:
                                                                                     TextStyle(
                                                                                         color: textColorInitBlue,
                                                                                         fontSize: 14
                                                                                     ),
-                                                                                  ),
+                                                                                  ):
+                                                                                  Text(
+                                                                                    "Nome: ${documents['Nome'].substring(0, 2)}"
+                                                                                        "...\nCPF: ${documents['CPF']}",
+                                                                                    style:
+                                                                                    TextStyle(
+                                                                                        color: textColorInitBlue,
+                                                                                        fontSize: 14
+                                                                                    ),
+                                                                                  )
                                                                                 ),
-                                                                                adicionarMoradores == true ?
-                                                                                Container(
-                                                                                  padding: const EdgeInsets.all(10),
-                                                                                  child: TextButton(
-                                                                                    onPressed: (){
-                                                                                      showDialog(
-                                                                                        context: context,
-                                                                                        builder: (BuildContext context) {
-                                                                                          return AlertDialog(
-                                                                                            title: const Text('Você tem certeza que deseja\nremover esse morador?'),
-                                                                                            actions: [
-                                                                                              Column(
-                                                                                                children: [
-                                                                                                  Container(
-                                                                                                    padding: const EdgeInsets.all(3),
-                                                                                                    child: Column(
-                                                                                                      children: [
-                                                                                                        Text("Nome: ${documents['Nome']}"),
-                                                                                                        Text("CPF: ${documents['CPF']}"),
-                                                                                                      ],
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  Container(
-                                                                                                    padding: const EdgeInsets.all(3),
-                                                                                                    child: Row(
-                                                                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                                                      children: [
-                                                                                                        ElevatedButton(
-                                                                                                            onPressed: (){
-                                                                                                                Navigator.pop(context);
-                                                                                                            },
-                                                                                                            child: const Text('Não')
+                                                                                Row(
+                                                                                  children: [
+                                                                                    documents['modeloDoAcionamento'] == "Control iD"?TextButton(
+                                                                                        onPressed: (){
+                                                                                          
+                                                                                        },
+                                                                                        child: const Icon(Icons.fingerprint)): Container(),
+                                                                                    adicionarMoradores == true ?
+                                                                                    Container(
+                                                                                      padding: const EdgeInsets.all(10),
+                                                                                      child: TextButton(
+                                                                                        onPressed: (){
+                                                                                          showDialog(
+                                                                                            context: context,
+                                                                                            builder: (BuildContext context) {
+                                                                                              return AlertDialog(
+                                                                                                title: const Text('Você tem certeza que deseja\nremover esse morador?'),
+                                                                                                actions: [
+                                                                                                  Column(
+                                                                                                    children: [
+                                                                                                      Container(
+                                                                                                        padding: const EdgeInsets.all(3),
+                                                                                                        child: Column(
+                                                                                                          children: [
+                                                                                                            Text("Nome: ${documents['Nome']}"),
+                                                                                                            Text("CPF: ${documents['CPF']}"),
+                                                                                                          ],
                                                                                                         ),
-                                                                                                        ElevatedButton(
-                                                                                                            onPressed: (){
-                                                                                                              FirebaseFirestore.instance.collection('Pessoas').doc("${documents['id']}").delete().whenComplete((){
-                                                                                                                Navigator.pop(context);
-                                                                                                                showToast("Deletado com sucesso!", context: context);
-                                                                                                                }
-                                                                                                              );
-                                                                                                          },
-                                                                                                            child: const Text('Sim')
-                                                                                                        )
-                                                                                                      ],
-                                                                                                    ),
-                                                                                                  ),
+                                                                                                      ),
+                                                                                                      Container(
+                                                                                                        padding: const EdgeInsets.all(3),
+                                                                                                        child: Row(
+                                                                                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                                          children: [
+                                                                                                            ElevatedButton(
+                                                                                                                onPressed: (){
+                                                                                                                  Navigator.pop(context);
+                                                                                                                },
+                                                                                                                child: const Text('Não')
+                                                                                                            ),
+                                                                                                            ElevatedButton(
+                                                                                                                onPressed: (){
+                                                                                                                  FirebaseFirestore.instance.collection('Pessoas').doc("${documents['id']}").delete().whenComplete((){
+                                                                                                                    Navigator.pop(context);
+                                                                                                                    showToast("Deletado com sucesso!", context: context);
+                                                                                                                  }
+                                                                                                                  );
+                                                                                                                },
+                                                                                                                child: const Text('Sim')
+                                                                                                            )
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  )
                                                                                                 ],
-                                                                                              )
-                                                                                            ],
+                                                                                              );
+                                                                                            },
                                                                                           );
                                                                                         },
-                                                                                      );
-                                                                                    },
-                                                                                    child: const Icon(
-                                                                                      Icons.delete,
-                                                                                      color: Colors.red
-                                                                                    ),
-                                                                                  ),
-                                                                                ) : Container()
+                                                                                        child: const Icon(
+                                                                                            Icons.delete,
+                                                                                            color: Colors.red
+                                                                                        ),
+                                                                                      ),
+                                                                                    ) : Container()
+                                                                                  ],
+                                                                                ),
                                                                               ],
                                                                             ),
                                                                           ),
@@ -9299,6 +9321,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                           "anotacao": "",
                                                                                                                                           "Telefone": '',
                                                                                                                                           "Qualificacao": '',
+                                                                                                                                          "modeloDoAcionamento": modeloAcionamento
                                                                                                                                         });
                                                                                                                                       }
 
@@ -9317,6 +9340,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                           "Celular": "",
                                                                                                                                           "anotacao": "",
                                                                                                                                           "Qualificacao": '',
+                                                                                                                                          "modeloDoAcionamento": modeloAcionamento
                                                                                                                                         });
                                                                                                                                       }
 
@@ -9366,6 +9390,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                         "Celular": "",
                                                                                                                                         "anotacao": "",
                                                                                                                                         "Qualificacao": '',
+                                                                                                                                        "modeloDoAcionamento": modeloAcionamento
                                                                                                                                       });
                                                                                                                                     }
                                                                                                                                     Navigator.pop(context);

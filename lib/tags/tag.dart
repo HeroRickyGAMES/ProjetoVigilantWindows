@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:vigilant/FirebaseHost.dart';
 import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
+import 'package:vigilant/controlidCommon/ControlIDCommon.dart';
 import 'package:vigilant/homeApp.dart';
 import 'package:vigilant/informacoesLogais/getIds.dart';
 import 'package:vigilant/informacoesLogais/getUserInformations.dart';
@@ -535,6 +536,18 @@ controledeTags(var context, var wid , var heig){
                                                                                       ),
                                                                                       Row(
                                                                                         children: [
+                                                                                          ElevatedButton(
+                                                                                              onPressed: () {
+                                                                                                mandarRequisicaoParaDigital(context, ip, porta, usuario, senha, documents['tagID']);
+                                                                                              },
+                                                                                              style: ElevatedButton.styleFrom(
+                                                                                                  backgroundColor: Colors.blue
+                                                                                              ),
+                                                                                              child: const Icon(
+                                                                                                  Icons.fingerprint,
+                                                                                                  color: Colors.white
+                                                                                              )
+                                                                                          ),
                                                                                           ElevatedButton(
                                                                                               onPressed: (){
                                                                                                 String nome = documents['Nome'];
