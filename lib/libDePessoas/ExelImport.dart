@@ -49,7 +49,7 @@ void ImportarExel(var context) async {
             'email': "${userMap['coluna_8']}",
             'CPF': "${userMap['coluna_7']}",
             'tipo': "${userMap['coluna_9']}".replaceAll(" ", "").replaceAll("-", "").replaceAll("0", "").replaceAll("1", "").replaceAll("2", "").replaceAll("3", "").replaceAll("4", "").replaceAll("5", "").replaceAll("6", "").replaceAll("7", "").replaceAll("8", "").replaceAll("9", ""),
-            'anotacao': "",
+            'anotacao': "${userMap['coluna_14']}",
             'Bloco': "${userMap['coluna_1']}",
             'id': "${gerarNumero()}$idCondominio",
             'idCondominio': idCondominio,
