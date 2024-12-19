@@ -5,7 +5,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 //Programado por HeroRickyGAMES
 
-mandarRequisicaoParaDigital(var context, String ip, int porta, String usuario, String Senha, String userid) async {
+mandarRequisicaoParaDigital(var context, String ip, int porta, String usuario, String Senha, String userid, String veiode) async {
 
   showDialog(
     context: context,
@@ -70,7 +70,14 @@ mandarRequisicaoParaDigital(var context, String ip, int porta, String usuario, S
       if(responsee.statusCode == 200){
         Map<String, dynamic> resposta = jsonDecode(responsee.body);
         if(resposta['success'] == true){
-          Navigator.pop(context);
+          if(veiode == "pessoas"){
+            Navigator.pop(context);
+            Navigator.pop(context);
+          }
+          if(veiode == "tags"){
+            Navigator.pop(context);
+          }
+
           showToast("Pronto!", context: context);
         }
 

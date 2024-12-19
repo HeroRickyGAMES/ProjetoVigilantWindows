@@ -15,6 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vigilant/FirebaseHost.dart';
 import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
 import 'package:vigilant/botaoDireito.dart';
+import 'package:vigilant/controlidCommon/ControlIDCommon.dart';
 import 'package:vigilant/informacoesLogais/getIds.dart';
 import 'package:vigilant/informacoesLogais/getUserInformations.dart';
 import 'package:vigilant/infosdoPc/getCores.dart';
@@ -6159,9 +6160,18 @@ class _homeAppState extends State<homeApp>{
                                                                                         color: textColorInitBlue,
                                                                                         fontSize: 14
                                                                                     ),
-                                                                                  ):
+                                                                                  ): documents['Nome'].length < 2 && documents['Nome'].length > 1?
                                                                                   Text(
                                                                                     "Nome: ${documents['Nome'].substring(0, 2)}"
+                                                                                        "...\nCPF: ${documents['CPF']}",
+                                                                                    style:
+                                                                                    TextStyle(
+                                                                                        color: textColorInitBlue,
+                                                                                        fontSize: 14
+                                                                                    ),
+                                                                                  ):
+                                                                                  Text(
+                                                                                    "Nome: ${documents['Nome']}"
                                                                                         "...\nCPF: ${documents['CPF']}",
                                                                                     style:
                                                                                     TextStyle(
@@ -6172,11 +6182,61 @@ class _homeAppState extends State<homeApp>{
                                                                                 ),
                                                                                 Row(
                                                                                   children: [
-                                                                                    documents['modeloDoAcionamento'] == "Control iD"?TextButton(
+                                                                                    documents['modeloAcionamento'] == "Control iD" ? TextButton(
                                                                                         onPressed: (){
-                                                                                          
+                                                                                          String docID = documents['id'].replaceAll(idCondominio, "");
+                                                                                          String ip = documents['ipAcionamento'];
+                                                                                          int porta = documents['portaAcionamento'];
+                                                                                          String usuario = documents['usuarioAcionamento'];
+                                                                                          String senha = documents['senhaAcionamento'];
+
+                                                                                          showDialog(
+                                                                                            context: context,
+                                                                                            builder: (BuildContext context) {
+                                                                                              return AlertDialog(
+                                                                                                title: const Text('Deseja enviar um comando para cadastro\nde uma nova Digital para esse usuario?'),
+                                                                                                actions: [
+                                                                                                  Row(
+                                                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                    children: [
+                                                                                                      ElevatedButton(
+                                                                                                          onPressed: (){
+                                                                                                            Navigator.pop(context);
+                                                                                                          },
+                                                                                                          style: ElevatedButton.styleFrom(
+                                                                                                            backgroundColor: Colors.blue
+                                                                                                          ),
+                                                                                                          child: const Text(
+                                                                                                              'Não',
+                                                                                                          style: TextStyle(
+                                                                                                              color: Colors.white
+                                                                                                            ),
+                                                                                                          )
+                                                                                                      ),
+                                                                                                      ElevatedButton(
+                                                                                                          onPressed: (){
+                                                                                                            mandarRequisicaoParaDigital(context, ip, porta, usuario, senha, docID, "pessoas");
+                                                                                                          },
+                                                                                                          style: ElevatedButton.styleFrom(
+                                                                                                              backgroundColor: Colors.blue
+                                                                                                          ),
+                                                                                                          child: const Text(
+                                                                                                            'Sim',
+                                                                                                            style: TextStyle(
+                                                                                                                color: Colors.white
+                                                                                                            ),
+                                                                                                          )
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                ],
+                                                                                              );
+                                                                                            },
+                                                                                          );
+
                                                                                         },
-                                                                                        child: const Icon(Icons.fingerprint)): Container(),
+                                                                                        child: const Icon(Icons.fingerprint)
+                                                                                    ): Container(),
                                                                                     adicionarMoradores == true ?
                                                                                     Container(
                                                                                       padding: const EdgeInsets.all(10),
@@ -9258,6 +9318,13 @@ class _homeAppState extends State<homeApp>{
                                                                                                                   childAspectRatio: 1.2,
                                                                                                                   crossAxisCount: 3,
                                                                                                                   children: snapshot.data!.docs.map((documents) {
+
+                                                                                                                    String modelo = documents['modelo'];
+                                                                                                                    String ip = documents['ip'];
+                                                                                                                    int porta = documents['porta'];
+                                                                                                                    String usuario = documents['usuario'];
+                                                                                                                    String senha = documents['senha'];
+
                                                                                                                     double tamanhotext = 14;
                                                                                                                     bool isBolded = false;
 
@@ -9298,14 +9365,19 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                     String ImageURL = "";
 
                                                                                                                                     int lent = 0;
-                                                                                                                                    if(usuarios['users'].length == 1){
-                                                                                                                                      lent = usuarios['users'].length;
+                                                                                                                                    if(usuarios['users'].length == 0){
+                                                                                                                                      lent = 0;
+                                                                                                                                      showToast("O acionamento não tem usuarios cadastrados!", context: context);
                                                                                                                                     }else{
-                                                                                                                                      lent = usuarios['users'].length - 1;
+                                                                                                                                      if(usuarios['users'].length == 1){
+                                                                                                                                        lent = usuarios['users'].length;
+                                                                                                                                      }else{
+                                                                                                                                        lent = usuarios['users'].length - 1;
+                                                                                                                                      }
                                                                                                                                     }
 
-                                                                                                                                    for (int i = 0; i < lent; i++) {
 
+                                                                                                                                    for (int i = 0; i < lent; i++) {
                                                                                                                                       cadastrarPs(){
                                                                                                                                         FirebaseFirestore.instance.collection('Pessoas').doc("${usuarios['users'][i]["id"]}$idCondominio").set({
                                                                                                                                           "id": "${usuarios['users'][i]["id"]}$idCondominio",
@@ -9321,7 +9393,11 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                           "anotacao": "",
                                                                                                                                           "Telefone": '',
                                                                                                                                           "Qualificacao": '',
-                                                                                                                                          "modeloDoAcionamento": modeloAcionamento
+                                                                                                                                          "modeloAcionamento": modelo,
+                                                                                                                                          "ipAcionamento": ip,
+                                                                                                                                          "portaAcionamento": porta,
+                                                                                                                                          "usuarioAcionamento": usuario,
+                                                                                                                                          "senhaAcionamento": senha,
                                                                                                                                         });
                                                                                                                                       }
 
@@ -9340,7 +9416,11 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                           "Celular": "",
                                                                                                                                           "anotacao": "",
                                                                                                                                           "Qualificacao": '',
-                                                                                                                                          "modeloDoAcionamento": modeloAcionamento
+                                                                                                                                          "modeloAcionamento": modelo,
+                                                                                                                                          "ipAcionamento": ip,
+                                                                                                                                          "portaAcionamento": porta,
+                                                                                                                                          "usuarioAcionamento": usuario,
+                                                                                                                                          "senhaAcionamento": senha,
                                                                                                                                         });
                                                                                                                                       }
 
@@ -9390,7 +9470,11 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                         "Celular": "",
                                                                                                                                         "anotacao": "",
                                                                                                                                         "Qualificacao": '',
-                                                                                                                                        "modeloDoAcionamento": modeloAcionamento
+                                                                                                                                        "modeloAcionamento": modelo,
+                                                                                                                                        "ipAcionamento": ip,
+                                                                                                                                        "portaAcionamento": porta,
+                                                                                                                                        "usuarioAcionamento": usuario,
+                                                                                                                                        "senhaAcionamento": senha,
                                                                                                                                       });
                                                                                                                                     }
                                                                                                                                     Navigator.pop(context);
@@ -10039,6 +10123,10 @@ class _homeAppState extends State<homeApp>{
                                                                                             "Telefone": Telefone,
                                                                                             "Celular": Celular,
                                                                                             "Qualificacao": Qualificacao,
+                                                                                            "ipAcionamento": '',
+                                                                                            "portaAcionamento": '',
+                                                                                            "usuarioAcionamento": '',
+                                                                                            "senhaAcionamento": '',
                                                                                           }).whenComplete(() {
                                                                                             print('completo!');
                                                                                             Navigator.of(context).pop();

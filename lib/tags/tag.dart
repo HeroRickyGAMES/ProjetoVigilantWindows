@@ -538,7 +538,7 @@ controledeTags(var context, var wid , var heig){
                                                                                         children: [
                                                                                           ElevatedButton(
                                                                                               onPressed: () {
-                                                                                                mandarRequisicaoParaDigital(context, ip, porta, usuario, senha, documents['tagID']);
+                                                                                                mandarRequisicaoParaDigital(context, ip, porta, usuario, senha, documents['tagID'], "tags");
                                                                                               },
                                                                                               style: ElevatedButton.styleFrom(
                                                                                                   backgroundColor: Colors.blue
