@@ -6187,7 +6187,7 @@ class _homeAppState extends State<homeApp>{
                                                                                   children: [
                                                                                     documents['modeloAcionamento'] == "Control iD" ? TextButton(
                                                                                         onPressed: (){
-                                                                                          String docID = documents['id'].replaceAll(idCondominio, "");
+                                                                                          int docID = documents['idEquipamento'];
                                                                                           String ip = documents['ipAcionamento'];
                                                                                           int porta = documents['portaAcionamento'];
                                                                                           String usuario = documents['usuarioAcionamento'];
@@ -6242,13 +6242,46 @@ class _homeAppState extends State<homeApp>{
                                                                                     ):documents['modeloAcionamento'] == "Intelbras" ?
                                                                                     TextButton(
                                                                                       onPressed: (){
-                                                                                        String docID = documents['id'].replaceAll(idCondominio, "");
+                                                                                        String docID = documents['id'];
+                                                                                        int idEquipamento = documents['idEquipamento'];
                                                                                         String ip = documents['ipAcionamento'];
                                                                                         int porta = documents['portaAcionamento'];
                                                                                         String usuario = documents['usuarioAcionamento'];
                                                                                         String senha = documents['senhaAcionamento'];
 
-                                                                                        usarFacial(context, ip, porta, usuario, senha, docID);
+                                                                                        showDialog(
+                                                                                          context: context,
+                                                                                          builder: (BuildContext context) {
+                                                                                            return AlertDialog(
+                                                                                              title: const Text('Facial Intelbras'),
+                                                                                              actions: [
+                                                                                                Center(
+                                                                                                  child: Column(
+                                                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                    children: [
+                                                                                                      Container(
+                                                                                                        padding: const EdgeInsets.all(10),
+                                                                                                        child: ElevatedButton(onPressed: (){
+                                                                                                          usarFacial(context, ip, porta, usuario, senha, idEquipamento);
+                                                                                                        },
+                                                                                                        child: const Text('Cadastrar uma nova facial para esse usuario'),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      Container(
+                                                                                                        padding: const EdgeInsets.all(10),
+                                                                                                        child: ElevatedButton(onPressed: (){
+                                                                                                          deletarFacial(context, ip, porta, usuario, senha, idEquipamento);
+                                                                                                        },
+                                                                                                          child: const Text('Deletar facial'),
+                                                                                                        ),
+                                                                                                      )
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                )
+                                                                                              ],
+                                                                                            );
+                                                                                          },
+                                                                                        );
                                                                                       },
                                                                                       child: const Icon(Icons.face),
                                                                                     ):
@@ -6398,9 +6431,9 @@ class _homeAppState extends State<homeApp>{
                                                                                                             ElevatedButton(
                                                                                                                 onPressed: (){
                                                                                                                   FirebaseFirestore.instance.collection('Pessoas').doc("${documents['id']}").delete().whenComplete((){
-                                                                                                                    Navigator.pop(context);
-                                                                                                                    showToast("Deletado com sucesso!", context: context);
-                                                                                                                  }
+                                                                                                                      Navigator.pop(context);
+                                                                                                                      showToast("Deletado com sucesso!", context: context);
+                                                                                                                    }
                                                                                                                   );
                                                                                                                 },
                                                                                                                 child: const Text('Sim')
@@ -9494,11 +9527,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                       lent = 0;
                                                                                                                                       showToast("O acionamento não tem usuarios cadastrados!", context: context);
                                                                                                                                     }else{
-                                                                                                                                      if(usuarios['users'].length == 1){
-                                                                                                                                        lent = usuarios['users'].length;
-                                                                                                                                      }else{
-                                                                                                                                        lent = usuarios['users'].length - 1;
-                                                                                                                                      }
+                                                                                                                                      lent = usuarios['users'].length;
                                                                                                                                     }
 
 
@@ -9562,7 +9591,6 @@ class _homeAppState extends State<homeApp>{
 
                                                                                                                                         ImageURL = await carregarImagem(context, image, "$i${uuid.v4()}", idCondominio);
                                                                                                                                         cadastrarPs();
-
                                                                                                                                       }
                                                                                                                                     }
                                                                                                                                     Navigator.pop(context);
@@ -9597,6 +9625,9 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                       });
                                                                                                                                     }
                                                                                                                                     Navigator.pop(context);
+                                                                                                                                    Navigator.pop(context);
+                                                                                                                                    Navigator.pop(context);
+                                                                                                                                    showToast("Pronto!",context:context);
                                                                                                                                     //print(listaExtraida);
                                                                                                                                   }
                                                                                                                                   if(documents['modelo'] == 'Hikvision'){

@@ -5,8 +5,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 //Programado por HeroRickyGAMES
 
-mandarRequisicaoParaDigital(var context, String ip, int porta, String usuario, String Senha, String userid, String veiode) async {
-
+mandarRequisicaoParaDigital(var context, String ip, int porta, String usuario, String Senha, int userid, String veiode) async {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -55,7 +54,7 @@ mandarRequisicaoParaDigital(var context, String ip, int porta, String usuario, S
 
       Map<String, dynamic> body = {
         "type": "biometry",
-        "user_id": int.parse(userid),
+        "user_id": userid,
         "save": true,
         "sync": true,
         "panic_finger": 0

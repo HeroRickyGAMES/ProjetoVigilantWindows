@@ -263,19 +263,30 @@ controledeTags(var context, var wid , var heig){
                                                                                     },
                                                                                   );
 
-                                                                                  Map<String, dynamic> usuarios = await controlidTags(context, ip, porta, usuario, senha, modelo);
+                                                                                  CollectionReference collectionRef = FirebaseFirestore.instance.collection("tags");
+                                                                                  QuerySnapshot querySnapshot = await collectionRef.where("idCondominio", isEqualTo: idCondominio).get();
+
+                                                                                  for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+                                                                                    await doc.reference.delete();
+                                                                                  }
+
+                                                                                  Map<String, dynamic> usuarios = await controlidTags(context, ip, porta, usuario, senha);
+
+                                                                                  print(usuarios);
 
                                                                                   String ImageURL = "";
                                                                                   int lent = 0;
-                                                                                  if(usuarios['users'].length == 1){
-                                                                                    lent = usuarios['users'].length;
+
+                                                                                  if(usuarios['users'].length == 0){
+                                                                                    lent = 0;
+                                                                                    showToast("O acionamento não tem usuarios cadastrados!", context: context);
                                                                                   }else{
-                                                                                    lent = usuarios['users'].length - 1;
+                                                                                    lent = usuarios['users'].length;
                                                                                   }
 
-                                                                                  print(lent);
-                                                                                  for (int i = 0; i < lent; i++) {
+                                                                                  print(usuarios['users'].length);
 
+                                                                                  for (int i = 0; i < lent; i++) {
                                                                                     cadastrarPs(){
                                                                                       FirebaseFirestore.instance.collection('tags').doc("${usuarios['users'][i]["id"]}$idCondominio").set({
                                                                                         "id": "${usuarios['users'][i]["id"]}$idCondominio",
@@ -297,6 +308,7 @@ controledeTags(var context, var wid , var heig){
                                                                                     }
 
                                                                                     cadastrarSemFoto(){
+
                                                                                       FirebaseFirestore.instance.collection('tags').doc("${usuarios['users'][i]["id"]}$idCondominio").set({
                                                                                         "id": "${usuarios['users'][i]["id"]}$idCondominio",
                                                                                         "idCondominio": idCondominio,
@@ -319,8 +331,10 @@ controledeTags(var context, var wid , var heig){
                                                                                     File image;
 
                                                                                     if(await ImagemEquipamentoCotroliD(ip, porta, usuarios['Season'], usuarios['users'][i]["id"]) == null){
-                                                                                        cadastrarSemFoto();
+                                                                                      print('passei por aqui');
+                                                                                      cadastrarSemFoto();
                                                                                     }else{
+                                                                                      print('passei por aqui');
                                                                                       image = await ImagemEquipamentoCotroliD(ip, porta, usuarios['Season'], usuarios['users'][i]["id"]);
 
                                                                                       ImageURL = await carregarImagem(context, image, "$i", idCondominio);
@@ -538,7 +552,7 @@ controledeTags(var context, var wid , var heig){
                                                                                         children: [
                                                                                           ElevatedButton(
                                                                                               onPressed: () {
-                                                                                                mandarRequisicaoParaDigital(context, ip, porta, usuario, senha, documents['tagID'], "tags");
+                                                                                                mandarRequisicaoParaDigital(context, ip, porta, usuario, senha, int.parse(documents['tagID']), "tags");
                                                                                               },
                                                                                               style: ElevatedButton.styleFrom(
                                                                                                   backgroundColor: Colors.blue
@@ -552,6 +566,7 @@ controledeTags(var context, var wid , var heig){
                                                                                               onPressed: (){
                                                                                                 String nome = documents['Nome'];
                                                                                                 String TAG = documents['tagID'];
+                                                                                                String originaltag = documents['tagID'];
 
                                                                                                 TextEditingController nomeControl = TextEditingController(text: nome);
                                                                                                 TextEditingController tagControl = TextEditingController(text: TAG);
@@ -648,7 +663,7 @@ controledeTags(var context, var wid , var heig){
                                                                                                                     if(TAG == ""){
                                                                                                                       showToast("O campo TAG está vazio!", context: context);
                                                                                                                     }else{
-                                                                                                                      tagEdicao(context,ip, porta, usuario, senha, acionamentoID, nome, TAG);
+                                                                                                                      tagEdicao(context,ip, porta, usuario, senha, acionamentoID, nome, TAG, documents['id'], originaltag);
                                                                                                                     }
                                                                                                                   }
                                                                                                                 },
@@ -791,83 +806,83 @@ controledeTags(var context, var wid , var heig){
   );
 }
 
-
 //Import de usuarios da Controlid tags
-Future<Map<String, dynamic>> controlidTags(var context, String ip, int porta, String usuario, String Senha, String modelo) async {
-  if(modelo == "Control iD"){
-    final ipog = Uri.parse('http://$ip:$porta/login.fcgi');
+Future<Map<String, dynamic>> controlidTags(var context, String ip, int porta, String usuario, String Senha) async {
 
-    Map<String, String> headerslog = {
-      "Content-Type": "application/json"
-    };
+  final ipog = Uri.parse('http://$ip:$porta/login.fcgi');
 
-    Map<String, dynamic> bodylog = {
-      "login": usuario,
-      "password": Senha
-    };
-    try{
-      final response = await http.post(
-        ipog,
-        headers: headerslog,
-        body: jsonEncode(bodylog),
-      );
+  Map<String, String> headerslog = {
+    "Content-Type": "application/json"
+  };
 
-      if (response.statusCode == 200) {
-        Map<String, dynamic> responseData = jsonDecode(response.body);
+  Map<String, dynamic> bodylog = {
+    "login": usuario,
+    "password": Senha
+  };
+  try{
+    final response = await http.post(
+      ipog,
+      headers: headerslog,
+      body: jsonEncode(bodylog),
+    );
 
-        final url = Uri.parse('http://$ip:$porta/load_objects.fcgi?session=${responseData["session"]}');
+    if (response.statusCode == 200) {
+      Map<String, dynamic> responseData = jsonDecode(response.body);
 
-        Map<String, String> headers = {
-          "Content-Type": "application/json"
-        };
+      final url = Uri.parse('http://$ip:$porta/load_objects.fcgi?session=${responseData["session"]}');
 
-        Map<String, dynamic> body = {
-          "object": "users"
-        };
+      Map<String, String> headers = {
+        "Content-Type": "application/json"
+      };
 
-        try {
-          final responsee = await http.post(
-            url,
-            headers: headers,
-            body: jsonEncode(body),
-          );
+      Map<String, dynamic> body = {
+        "object": "users"
+      };
 
-          if (responsee.statusCode == 200) {
-            Map<String, dynamic> users = jsonDecode(responsee.body);
+      try {
+        final responsee = await http.post(
+          url,
+          headers: headers,
+          body: jsonEncode(body),
+        );
 
-            users.addAll({"Season": responseData["session"]});
-            FirebaseFirestore.instance.collection("logs").doc(UUID).set({
-              "text" : 'Dados do acionamento foi recolhidos',
-              "codigoDeResposta" : response.statusCode,
-              'acionamentoID': '',
-              'acionamentoNome': ip,
-              'Condominio': idCondominio,
-              "id": UUID,
-              'QuemFez': await getUserName(),
-              "idAcionou": UID,
-              "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
-            });
+        if (responsee.statusCode == 200) {
+          Map<String, dynamic> users = jsonDecode(responsee.body);
 
-            return users;
-          } else {
-            showToast("Erro com a comunicação, status: ${responsee.statusCode}", context: context);
-            return {};
-          }
-        } catch (e) {
-          showToast("Erro ao executar a requisição: $e", context: context);
+          users.addAll({"Season": responseData["session"]});
+          FirebaseFirestore.instance.collection("logs").doc(UUID).set({
+            "text" : 'Dados do acionamento foi recolhidos',
+            "codigoDeResposta" : response.statusCode,
+            'acionamentoID': '',
+            'acionamentoNome': ip,
+            'Condominio': idCondominio,
+            "id": UUID,
+            'QuemFez': await getUserName(),
+            "idAcionou": UID,
+            "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
+          });
+
+          return users;
+        } else {
+          print("Erro com a comunicação, status: ${response.statusCode} 1");
+          showToast("Erro com a comunicação, status: ${responsee.statusCode}", context: context);
           return {};
         }
-
-      } else {
-        showToast("Erro com a comunicação, status: ${response.statusCode}", context: context);
+      } catch (e) {
+        showToast("Erro ao executar a requisição: $e", context: context);
         return {};
       }
-    }catch(e){
-      showToast("Erro ao executar a requisição: $e", context: context);
+
+    } else {
+      showToast("Erro com a comunicação, status: ${response.statusCode}", context: context);
+      print("Erro com a comunicação, status: ${response.statusCode} 2");
       return {};
     }
+  }catch(e){
+    showToast("Erro ao executar a requisição: $e", context: context);
+    print("Erro ao executar a requisição: $e");
+    return {};
   }
-  return {};
 }
 
 tagCadastro(var context, String ip, int porta, String usuario, String Senha, String acionamentoID, String Nome, String tag) async {
@@ -983,10 +998,8 @@ tagCadastro(var context, String ip, int porta, String usuario, String Senha, Str
   }
 }
 
-tagEdicao(var context, String ip, int porta, String usuario, String Senha, String acionamentoID, String Nome, String tag) async {
+tagEdicao(var context, String ip, int porta, String usuario, String Senha, String acionamentoID, String Nome, String tag, String docID, String originalTag) async {
 
-  print(Nome);
-  print(tag);
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -1044,7 +1057,7 @@ tagEdicao(var context, String ip, int porta, String usuario, String Senha, Strin
           {
             "object": "users",
             "field": "id",
-            "value": int.parse(tag)
+            "value": int.parse(originalTag)
           }
         ],
         "order": ["name"],
@@ -1060,22 +1073,11 @@ tagEdicao(var context, String ip, int porta, String usuario, String Senha, Strin
         body: jsonEncode(body),
       );
       if (responsee.statusCode == 200) {
-        FirebaseFirestore.instance.collection('tags').doc("$tag$idCondominio").set({
-          "id": "$tag$idCondominio",
+        FirebaseFirestore.instance.collection('tags').doc(docID).update({
           "tagID": tag,
           "idCondominio": idCondominio,
           "Nome": Nome,
           "acionamentoID": acionamentoID,
-          "CPF": "",
-          "RG": "",
-          "imageURI": "",
-          "placa": "",
-          "Unidade":"",
-          "Bloco": "",
-          "Celular": "",
-          "anotacao": "",
-          "Telefone": '',
-          "Qualificacao": '',
         });
 
         FirebaseFirestore.instance.collection("logs").doc(UUID).set({

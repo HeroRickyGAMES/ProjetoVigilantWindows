@@ -308,7 +308,6 @@ Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, Stri
   return {};
 }
 
-
 intelbrasUsersImport(var context, String ip, int porta, String usuario, String Senha, String modelo) async {
   //Intelbras
   if(modelo == "Intelbras"){
