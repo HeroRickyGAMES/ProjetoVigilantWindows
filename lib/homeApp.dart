@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fluid_kit/fluid_kit.dart';
@@ -13,6 +14,8 @@ import 'package:native_context_menu_ng/native_context_menu_widget.dart';
 import 'package:native_context_menu_ng/native_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vigilant/FirebaseHost.dart';
+import 'package:vigilant/HikvisionCommon/HikvisionCommon.dart';
+import 'package:vigilant/IntelbrasCommon/intelbrasCommon.dart';
 import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
 import 'package:vigilant/botaoDireito.dart';
 import 'package:vigilant/controlidCommon/ControlIDCommon.dart';
@@ -6236,6 +6239,128 @@ class _homeAppState extends State<homeApp>{
 
                                                                                         },
                                                                                         child: const Icon(Icons.fingerprint)
+                                                                                    ):documents['modeloAcionamento'] == "Intelbras" ?
+                                                                                    TextButton(
+                                                                                      onPressed: (){
+                                                                                        String docID = documents['id'].replaceAll(idCondominio, "");
+                                                                                        String ip = documents['ipAcionamento'];
+                                                                                        int porta = documents['portaAcionamento'];
+                                                                                        String usuario = documents['usuarioAcionamento'];
+                                                                                        String senha = documents['senhaAcionamento'];
+
+                                                                                        usarFacial(context, ip, porta, usuario, senha, docID);
+                                                                                      },
+                                                                                      child: const Icon(Icons.face),
+                                                                                    ):
+                                                                                    documents['modeloAcionamento'] == "Hikvision" ? TextButton(
+                                                                                      onPressed: () {
+                                                                                        String docID = documents['id'];
+                                                                                        String idEquipamento = documents['idEquipamento'];
+                                                                                        String ip = documents['ipAcionamento'];
+                                                                                        int porta = documents['portaAcionamento'];
+                                                                                        String usuario = documents['usuarioAcionamento'];
+                                                                                        String senha = documents['senhaAcionamento'];
+
+
+                                                                                        showDialog(
+                                                                                          context: context,
+                                                                                          builder: (BuildContext context) {
+                                                                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                              return AlertDialog(
+                                                                                                title: Center(
+                                                                                                    child: Column(
+                                                                                                      children: [
+                                                                                                        Image.asset(
+                                                                                                            "assets/facialReconotion.png",
+                                                                                                        scale: 5,
+                                                                                                        ),
+                                                                                                        const Text('Facial Hikvision'),
+                                                                                                        Container(
+                                                                                                          padding: const EdgeInsets.all(10),
+                                                                                                          child: Column(
+                                                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                            children: [
+                                                                                                              ElevatedButton(onPressed: () async {
+                                                                                                                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                                                                                                  type: FileType.image,
+                                                                                                                );
+                                                                                                                if(result != null){
+
+                                                                                                                  showDialog(
+                                                                                                                    context: context,
+                                                                                                                    builder: (BuildContext context) {
+                                                                                                                      return const AlertDialog(
+                                                                                                                        title: Text('Aguarde!'),
+                                                                                                                        actions: [
+                                                                                                                          Center(
+                                                                                                                            child: CircularProgressIndicator(),
+                                                                                                                          )
+                                                                                                                        ],
+                                                                                                                      );
+                                                                                                                    },
+                                                                                                                  );
+
+                                                                                                                  deletarImagem(context, ip, porta, usuario, senha, idEquipamento, "inserirImagem");
+                                                                                                                  await Future.delayed(const Duration(seconds: 3));
+
+                                                                                                                  File file = File(result.files.single.path!);
+                                                                                                                  var imageURL = await carregarImagem(context, file, idEquipamento, idCondominio);
+
+                                                                                                                  var imagem = pegarImagem(context, ip, porta, usuario, senha, idEquipamento, imageURL);
+
+                                                                                                                  if(imagem != null){
+                                                                                                                    FirebaseFirestore.instance.collection('Pessoas').doc(docID).update({
+                                                                                                                      "imageURI": imageURL
+                                                                                                                    }).whenComplete((){
+                                                                                                                      showToast("Pronto!",context:context);
+                                                                                                                      Navigator.pop(context);
+                                                                                                                      Navigator.pop(context);
+                                                                                                                    });
+                                                                                                                  }else{
+                                                                                                                    Navigator.pop(context);
+                                                                                                                    Navigator.pop(context);
+                                                                                                                  }
+                                                                                                                }else{
+                                                                                                                  showToast("Nenhum arquivo selecionado.", context: context);
+                                                                                                                }
+                                                                                                              },
+                                                                                                              child: const Text('Cadastrar uma nova facial para esse usuario'),
+                                                                                                              ),
+                                                                                                              Container(
+                                                                                                                padding: const EdgeInsets.all(10),
+                                                                                                                child: ElevatedButton(onPressed: (){
+                                                                                                                  showDialog(
+                                                                                                                    context: context,
+                                                                                                                    builder: (BuildContext context) {
+                                                                                                                      return const AlertDialog(
+                                                                                                                        title: Text('Aguarde!'),
+                                                                                                                        actions: [
+                                                                                                                          Center(
+                                                                                                                            child: CircularProgressIndicator(),
+                                                                                                                          )
+                                                                                                                        ],
+                                                                                                                      );
+                                                                                                                    },
+                                                                                                                  );
+                                                                                                                  deletarImagem(context, ip, porta, usuario, senha, idEquipamento, "deletarImagem");
+                                                                                                                },
+                                                                                                                  child: const Text('Deletar facial'),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ],
+                                                                                                          ),
+                                                                                                        )
+                                                                                                      ],
+                                                                                                    )
+                                                                                                ),
+                                                                                                scrollable: true,
+                                                                                              );
+                                                                                            },
+                                                                                            );
+                                                                                          },
+                                                                                        );
+                                                                                      },
+                                                                                      child: const Icon(Icons.face),
                                                                                     ): Container(),
                                                                                     adicionarMoradores == true ?
                                                                                     Container(
@@ -9300,7 +9425,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                           stream: FirebaseFirestore.instance
                                                                                                               .collection('acionamentos')
                                                                                                               .where("idCondominio", isEqualTo: idCondominio)
-                                                                                                              .where("modelo", whereIn: ["Control iD", "Hikvision"])
+                                                                                                              .where("modelo", whereIn: ["Control iD", "Hikvision", "Intelbras"])
                                                                                                               .snapshots(),
                                                                                                           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                                                                                             if (snapshot.hasError) {
@@ -9379,8 +9504,9 @@ class _homeAppState extends State<homeApp>{
 
                                                                                                                                     for (int i = 0; i < lent; i++) {
                                                                                                                                       cadastrarPs(){
-                                                                                                                                        FirebaseFirestore.instance.collection('Pessoas').doc("${usuarios['users'][i]["id"]}$idCondominio").set({
-                                                                                                                                          "id": "${usuarios['users'][i]["id"]}$idCondominio",
+                                                                                                                                        String iddoc = uuid.v4();
+                                                                                                                                        FirebaseFirestore.instance.collection('Pessoas').doc("${usuarios['users'][i]["id"]}$iddoc$idCondominio").set({
+                                                                                                                                          "id": "${usuarios['users'][i]["id"]}$iddoc$idCondominio",
                                                                                                                                           "idCondominio": idCondominio,
                                                                                                                                           "Nome": usuarios['users'][i]["name"],
                                                                                                                                           "CPF": "",
@@ -9398,12 +9524,14 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                           "portaAcionamento": porta,
                                                                                                                                           "usuarioAcionamento": usuario,
                                                                                                                                           "senhaAcionamento": senha,
+                                                                                                                                          "idEquipamento": usuarios['users'][i]["id"]
                                                                                                                                         });
                                                                                                                                       }
 
                                                                                                                                       cadastrarSemFoto(){
-                                                                                                                                        FirebaseFirestore.instance.collection('Pessoas').doc("${usuarios['users'][i]["id"]}$idCondominio").set({
-                                                                                                                                          "id": "${usuarios['users'][i]["id"]}$idCondominio",
+                                                                                                                                        String iddoc = uuid.v4();
+                                                                                                                                        FirebaseFirestore.instance.collection('Pessoas').doc("${usuarios['users'][i]["id"]}$iddoc$idCondominio").set({
+                                                                                                                                          "id": "${usuarios['users'][i]["id"]}$iddoc$idCondominio",
                                                                                                                                           "idCondominio": idCondominio,
                                                                                                                                           "Nome": usuarios['users'][i]["name"],
                                                                                                                                           "CPF": "",
@@ -9421,6 +9549,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                           "portaAcionamento": porta,
                                                                                                                                           "usuarioAcionamento": usuario,
                                                                                                                                           "senhaAcionamento": senha,
+                                                                                                                                          "idEquipamento": usuarios['users'][i]["id"]
                                                                                                                                         });
                                                                                                                                       }
 
@@ -9431,7 +9560,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                       }else{
                                                                                                                                         image = await ImagemEquipamentoCotroliD(documents['ip'], documents['porta'], usuarios['Season'], usuarios['users'][i]["id"]);
 
-                                                                                                                                        ImageURL = await carregarImagem(context, image, "$i", idCondominio);
+                                                                                                                                        ImageURL = await carregarImagem(context, image, "$i${uuid.v4()}", idCondominio);
                                                                                                                                         cadastrarPs();
 
                                                                                                                                       }
@@ -9441,23 +9570,65 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                     Navigator.pop(context);
                                                                                                                                     showToast("Importado com sucesso!", context: context);
                                                                                                                                   }
+                                                                                                                                  if(documents['modelo'] == "Intelbras"){
+                                                                                                                                    var listaExtraida = await intelbrasUsersImport(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo']);
+                                                                                                                                    for (int i = 0; i < listaExtraida.length; i++) {
+                                                                                                                                      String iddoc = uuid.v4();
+                                                                                                                                      FirebaseFirestore.instance.collection('Pessoas').doc("${listaExtraida[i]['UserID']}$iddoc$idCondominio").set({
+                                                                                                                                        "id": "${listaExtraida[i]['UserID']}$iddoc$idCondominio",
+                                                                                                                                        "idCondominio": idCondominio,
+                                                                                                                                        "Nome": listaExtraida[i]['CardName'],
+                                                                                                                                        "CPF": "",
+                                                                                                                                        "RG": "",
+                                                                                                                                        "imageURI": '',
+                                                                                                                                        "placa": "",
+                                                                                                                                        "Unidade":"",
+                                                                                                                                        "Bloco": "",
+                                                                                                                                        "Telefone": "",
+                                                                                                                                        "Celular": "",
+                                                                                                                                        "anotacao": "",
+                                                                                                                                        "Qualificacao": '',
+                                                                                                                                        "modeloAcionamento": modelo,
+                                                                                                                                        "ipAcionamento": ip,
+                                                                                                                                        "portaAcionamento": porta,
+                                                                                                                                        "usuarioAcionamento": usuario,
+                                                                                                                                        "senhaAcionamento": senha,
+                                                                                                                                        "idEquipamento": listaExtraida[i]['UserID']
+                                                                                                                                      });
+                                                                                                                                    }
+                                                                                                                                    Navigator.pop(context);
+                                                                                                                                    //print(listaExtraida);
+                                                                                                                                  }
                                                                                                                                   if(documents['modelo'] == 'Hikvision'){
-                                                                                                                                    Map userInfo = await pushPessoas(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo']);
-
-                                                                                                                                    List<dynamic> Tratado = userInfo['UserInfoSearch']['UserInfo'];
-
-                                                                                                                                    int lent = 0;
-                                                                                                                                    if(Tratado.length == 1){
-                                                                                                                                      lent = Tratado.length;
-                                                                                                                                    }else{
-                                                                                                                                      lent = Tratado.length - 1;
+                                                                                                                                    pushcomfoto(Map<dynamic, dynamic> userInfo, int i, String imageURL){
+                                                                                                                                      String iddoc = uuid.v4();
+                                                                                                                                      FirebaseFirestore.instance.collection('Pessoas').doc("${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$iddoc$idCondominio").set({
+                                                                                                                                        "id": "${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$iddoc$idCondominio",
+                                                                                                                                        "idCondominio": idCondominio,
+                                                                                                                                        "Nome": userInfo['UserInfoSearch']['UserInfo'][i]['name'],
+                                                                                                                                        "CPF": "",
+                                                                                                                                        "RG": "",
+                                                                                                                                        "imageURI": imageURL,
+                                                                                                                                        "placa": "",
+                                                                                                                                        "Unidade":"",
+                                                                                                                                        "Bloco": "",
+                                                                                                                                        "Telefone": "",
+                                                                                                                                        "Celular": "",
+                                                                                                                                        "anotacao": "",
+                                                                                                                                        "Qualificacao": '',
+                                                                                                                                        "modeloAcionamento": modelo,
+                                                                                                                                        "ipAcionamento": ip,
+                                                                                                                                        "portaAcionamento": porta,
+                                                                                                                                        "usuarioAcionamento": usuario,
+                                                                                                                                        "senhaAcionamento": senha,
+                                                                                                                                        "idEquipamento": userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']
+                                                                                                                                      });
                                                                                                                                     }
 
-                                                                                                                                    for (int i = 0; i < lent; i++) {
-                                                                                                                                      ImagemEquipamentoHikvision(documents['ip'], documents['porta'], documents['usuario'], documents['senha'], 1, "${userInfo['UserInfoSearch']['UserInfo'][i]['numOfFace']}", '${userInfo['UserInfoSearch']['UserInfo'][i]['numOfFP']}');
-
-                                                                                                                                      FirebaseFirestore.instance.collection('Pessoas').doc("${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$idCondominio").set({
-                                                                                                                                        "id": "${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$idCondominio",
+                                                                                                                                    pushsemfoto(Map<dynamic, dynamic> userInfo, int i){
+                                                                                                                                      String iddoc = uuid.v4();
+                                                                                                                                      FirebaseFirestore.instance.collection('Pessoas').doc("${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$iddoc$idCondominio").set({
+                                                                                                                                        "id": "${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$iddoc$idCondominio",
                                                                                                                                         "idCondominio": idCondominio,
                                                                                                                                         "Nome": userInfo['UserInfoSearch']['UserInfo'][i]['name'],
                                                                                                                                         "CPF": "",
@@ -9475,7 +9646,30 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                         "portaAcionamento": porta,
                                                                                                                                         "usuarioAcionamento": usuario,
                                                                                                                                         "senhaAcionamento": senha,
+                                                                                                                                        "idEquipamento": userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']
                                                                                                                                       });
+                                                                                                                                    }
+
+                                                                                                                                    Map userInfo = await pushPessoas(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo']);
+
+                                                                                                                                    List<dynamic> Tratado = userInfo['UserInfoSearch']['UserInfo'];
+
+                                                                                                                                    int lent = 0;
+                                                                                                                                    if(Tratado.length == 1){
+                                                                                                                                      lent = Tratado.length;
+                                                                                                                                    }else{
+                                                                                                                                      lent = Tratado.length;
+                                                                                                                                    }
+
+                                                                                                                                    for (int i = 0; i < lent; i++) {
+                                                                                                                                      var ImagemEquipamento = await ImagemEquipamentoHikvision(documents['ip'], documents['porta'], documents['usuario'], documents['senha'], i + 1, "${userInfo['UserInfoSearch']['UserInfo'][i]['numOfFace']}", '${userInfo['UserInfoSearch']['UserInfo'][i]['numOfFP']}', context);
+
+                                                                                                                                      if(ImagemEquipamento == null){
+                                                                                                                                        pushsemfoto(userInfo, i);
+                                                                                                                                      }else{
+                                                                                                                                        String ImageURL = await carregarImagem(context, ImagemEquipamento, "$i${uuid.v4()}", idCondominio);
+                                                                                                                                        pushcomfoto(userInfo, i, ImageURL);
+                                                                                                                                      }
                                                                                                                                     }
                                                                                                                                     Navigator.pop(context);
                                                                                                                                     Navigator.pop(context);
@@ -10127,6 +10321,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             "portaAcionamento": '',
                                                                                             "usuarioAcionamento": '',
                                                                                             "senhaAcionamento": '',
+                                                                                            "idEquipamento": ""
                                                                                           }).whenComplete(() {
                                                                                             print('completo!');
                                                                                             Navigator.of(context).pop();
@@ -10153,9 +10348,10 @@ class _homeAppState extends State<homeApp>{
                                                                                             Navigator.of(context).pop();
                                                                                             showToast("Selecione um acionamento! Caso não exista acionamentos, use a opção Outros!",context:context);
                                                                                           }else{
+                                                                                            String iddoc = uuid.v4();
                                                                                             Map<String, dynamic> id = await cadastronoEquipamento(context, ipAcionamento, portaAc, usuarioAc, senhAc, modeloAcionamento, NomeV, 0);
                                                                                             setStater((){
-                                                                                              ID = "${id["ids"][0]}$idCondominio";
+                                                                                              ID = "${id["ids"][0]}$iddoc$idCondominio";
                                                                                             });
                                                                                             Cadastrar(ID);
                                                                                           }
@@ -11153,6 +11349,11 @@ class _homeAppState extends State<homeApp>{
                                                                                                     "CPFVist": CPFVist,
                                                                                                     "idCondominio": idCondominio,
                                                                                                     "imageURI": await ref,
+                                                                                                    "ipAcionamento": '',
+                                                                                                    "portaAcionamento": '',
+                                                                                                    "usuarioAcionamento": '',
+                                                                                                    "senhaAcionamento": '',
+                                                                                                    "idEquipamento": ""
                                                                                                   }).whenComplete((){
                                                                                                     Navigator.pop(context);
                                                                                                     Navigator.pop(context);

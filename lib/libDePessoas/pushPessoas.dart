@@ -11,7 +11,59 @@ import 'package:vigilant/informacoesLogais/getIds.dart';
 import 'package:vigilant/informacoesLogais/getUserInformations.dart';
 import 'package:vigilant/infosdoPc/checkUser.dart';
 
-//Programado por HeroRickyGames
+//Programado por HeroRickyGames com a ajuda de Deus!
+
+List<Map<String, dynamic>> intelbrasToMap(String response) {
+  Map<String, dynamic> result = {};
+  List<String> lines = response.split('\n'); // Quebrar a string em linhas
+
+  for (String line in lines) {
+    if (line.trim().isEmpty) continue; // Ignorar linhas vazias
+    List<String> parts = line.split('='); // Separar chave e valor
+    String key = parts[0].trim(); // Chave
+    String value = parts.length > 1 ? parts[1].trim() : ''; // Valor (ou vazio)
+
+    // Tentar converter o valor para tipos apropriados
+    if (value == 'true') {
+      result[key] = true;
+    } else if (value == 'false') {
+      result[key] = false;
+    } else if (int.tryParse(value) != null) {
+      result[key] = int.parse(value);
+    } else if (double.tryParse(value) != null) {
+      result[key] = double.parse(value);
+    } else {
+      result[key] = value; // Manter como string
+    }
+  }
+
+  List<Map<String, dynamic>> restructureRecords(Map<String, dynamic> map) {
+    Map<int, Map<String, dynamic>> groupedRecords = {};
+
+    map.forEach((key, value) {
+      if (key.startsWith('records[')) {
+        // Extrai o índice e o campo
+        final match = RegExp(r'records\[(\d+)\]\.(.+)').firstMatch(key);
+        if (match != null) {
+          int index = int.parse(match.group(1)!);
+          String field = match.group(2)!;
+
+          // Adiciona ao Map agrupado
+          groupedRecords.putIfAbsent(index, () => {});
+          groupedRecords[index]![field] = value;
+        }
+      }
+    });
+
+    // Converte para uma lista
+    return groupedRecords.values.toList();
+  }
+
+  // Chama a função
+  List<Map<String, dynamic>> recordsList = restructureRecords(result);
+
+  return recordsList;
+}
 
 // Função para gerar o header de autenticação Digest Auth
 String _generateDigestAuth(Map<String, String> authData, String username, String password, String method, String uri) {
@@ -51,10 +103,9 @@ ImagemEquipamentoCotroliD(String host, int port, String Season, int id) async {
   }
 }
 
-ImagemEquipamentoHikvision(String host, int port, String usuario, String senha, int id, String FPID, String FDID) async {
+ImagemEquipamentoHikvision(String host, int port, String usuario, String senha, int id, String FPID, String FDID, var context) async {
   // URL do endpoint
-  String url = 'http://spartanet.ddns.net:8191/ISAPI/Intelligent/FDLib/FDSearch?format=json&devIndex=0';
-  print(url);
+  String url = 'http://$host:$port/ISAPI/Intelligent/FDLib/FDSearch?format=json&devIndex=0';
 
   // Credenciais
   String username = usuario;
@@ -68,7 +119,7 @@ ImagemEquipamentoHikvision(String host, int port, String usuario, String senha, 
     // Extrai os valores do header de autenticação
     final authData = _parseDigestHeader(authHeader!);
     final digestAuth = _generateDigestAuth(authData, username, password, 'POST', url);
-    final digestAuthe = _generateDigestAuth(authData, username, password, 'POST', url);
+    final digestAuthe = _generateDigestAuth(authData, username, password, 'GET', url);
 
     // Cabeçalhos com autenticação Digest
     final headers = {
@@ -98,30 +149,27 @@ ImagemEquipamentoHikvision(String host, int port, String usuario, String senha, 
         'Authorization': digestAuthe,
         'Content-Type': 'application/json',
       };
-      var file = File('C:\\Users\\${await getUsername()}\\AppData\\Local\\Temp$id.jpg');
+      var file = File('C:\\Users\\${await getUsername()}\\AppData\\Local\\Temp\\$id.jpg');
 
       // Escreve os bytes da resposta (imagem) no arquivo
       Map js = jsonDecode(response.body);
-      print(js['MatchList'][0]['faceURL']);
-
       final responsee = await http.get(
           Uri.parse(js['MatchList'][0]['faceURL']),
           headers: headerse,
       );
 
       if (responsee.statusCode == 200) {
-        // Salve o arquivo no sistema de arquivos
-        return await file.writeAsBytes(response.bodyBytes);
+        return await file.writeAsBytes(responsee.bodyBytes);
       } else {
         print(responsee.statusCode);
         throw Exception('Falha ao fazer o download do arquivo');
       }
       //return jsonDecode(response.body);
     } else {
-      throw Exception('Erro na requisição: ${response.statusCode}');
+      return null;
     }
   } else {
-    throw Exception('Falha ao obter o header WWW-Authenticate');
+    return null;
   }
 }
 
@@ -197,42 +245,6 @@ Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, Stri
     }
   }
 
-  //Intelbras
-  if(modelo == "Intelbras"){
-    final url = Uri.parse('http://$ip:$porta/cgi-bin/recordFinder.cgi?action=doSeekFind&name=AccessControlCard&count=4300');
-
-    Map<String, String> headers = {
-      'Accept': '*/*',
-      'Accept-Encoding': 'gzip, deflate, br',
-      'Connection': 'keep-alive',
-    };
-
-    final client = http_auth.DigestAuthClient(usuario, Senha);
-
-    try {
-      final response = await client.get(url, headers: headers);
-
-      if (response.statusCode == 200) {
-        FirebaseFirestore.instance.collection("logs").doc(UUID).set({
-          "text" : 'Dados do acionamento foi recolhidos',
-          "codigoDeResposta" : response.statusCode,
-          'acionamentoID': '',
-          'acionamentoNome': ip,
-          'Condominio': idCondominio,
-          "id": UUID,
-          'QuemFez': await getUserName(),
-          "idAcionou": UID,
-          "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
-        });
-        print(response.body);
-      } else {
-        showToast("Erro com a comunicação, status: ${response.statusCode}",context:context);
-      }
-    } catch (e) {
-      showToast("Erro ao executar a requisição: $e",context:context);
-    }
-  }
-
   if(modelo == "Hikvision"){
     // URL do endpoint
     String url = 'http://$ip:$porta/ISAPI/AccessControl/UserInfo/Search?format=json&devIndex=0';
@@ -291,6 +303,49 @@ Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, Stri
       }
     } else {
       throw Exception('Falha ao obter o header WWW-Authenticate');
+    }
+  }
+  return {};
+}
+
+
+intelbrasUsersImport(var context, String ip, int porta, String usuario, String Senha, String modelo) async {
+  //Intelbras
+  if(modelo == "Intelbras"){
+    final url = Uri.parse('http://$ip:$porta/cgi-bin/recordFinder.cgi?action=doSeekFind&name=AccessControlCard&count=4300');
+
+    Map<String, String> headers = {
+      'Accept': '*/*',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Connection': 'keep-alive',
+      "Content-Type": "application/json"
+    };
+
+    final client = http_auth.DigestAuthClient(usuario, Senha);
+
+    try {
+      final response = await client.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        FirebaseFirestore.instance.collection("logs").doc(UUID).set({
+          "text" : 'Dados do acionamento foi recolhidos',
+          "codigoDeResposta" : response.statusCode,
+          'acionamentoID': '',
+          'acionamentoNome': ip,
+          'Condominio': idCondominio,
+          "id": UUID,
+          'QuemFez': await getUserName(),
+          "idAcionou": UID,
+          "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
+        });
+        List<Map<String, dynamic>> listadeUsuarios = intelbrasToMap(response.body);
+
+        return listadeUsuarios;
+      } else {
+        showToast("Erro com a comunicação, status: ${response.statusCode}",context:context);
+      }
+    } catch (e) {
+      showToast("Erro ao executar a requisição: $e",context:context);
     }
   }
   return {};
