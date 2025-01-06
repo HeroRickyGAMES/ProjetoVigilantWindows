@@ -331,7 +331,6 @@ controledeTags(var context, var wid , var heig){
                                                                                     File image;
 
                                                                                     if(await ImagemEquipamentoCotroliD(ip, porta, usuarios['Season'], usuarios['users'][i]["id"]) == null){
-                                                                                      print('passei por aqui');
                                                                                       cadastrarSemFoto();
                                                                                     }else{
                                                                                       print('passei por aqui');
@@ -453,7 +452,12 @@ controledeTags(var context, var wid , var heig){
                                                                                                     if(TAG == ""){
                                                                                                       showToast("O campo TAG está vazio!", context: context);
                                                                                                     }else{
-                                                                                                      tagCadastro(context,ip, porta, usuario, senha, acionamentoID, nome, TAG);
+                                                                                                      final regex = RegExp(r'[a-zA-Z]');
+                                                                                                      if(TAG.contains(regex)){
+                                                                                                        showToast("A ID das Tags apenas permitem o uso de numeros!", context: context);
+                                                                                                      }else{
+                                                                                                        tagCadastro(context,ip, porta, usuario, senha, acionamentoID, nome, TAG);
+                                                                                                      }
                                                                                                     }
                                                                                                   }
                                                                                                 },
