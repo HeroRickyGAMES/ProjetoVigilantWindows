@@ -45,7 +45,19 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
 
           Map<String, dynamic> jsonMap = jsonDecode(responsee.body);
 
-          print(jsonMap['access_logs'][0]);
+          print(jsonMap['access_logs'].length);
+          print(jsonMap['access_logs'][73]);
+          print(jsonMap['access_logs'][73]['time']);
+          print(jsonMap['access_logs'][73]['user_id']);
+
+          DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(jsonMap['access_logs'][73]['time'] * 1000);
+
+          // Exibe a data e hora no formato padrão
+          print("Data e hora: $dateTime");
+
+          // Formata a data e hora (opcional)
+          String formattedDate = "${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute}:${dateTime.second}";
+          print("Data formatada: $formattedDate");
 
         } else {
           print(responsee.statusCode);
