@@ -452,12 +452,7 @@ controledeTags(var context, var wid , var heig){
                                                                                                     if(TAG == ""){
                                                                                                       showToast("O campo TAG está vazio!", context: context);
                                                                                                     }else{
-                                                                                                      final regex = RegExp(r'[a-zA-Z]');
-                                                                                                      if(TAG.contains(regex)){
-                                                                                                        showToast("A ID das Tags apenas permitem o uso de numeros!", context: context);
-                                                                                                      }else{
-                                                                                                        tagCadastro(context,ip, porta, usuario, senha, acionamentoID, nome, TAG);
-                                                                                                      }
+                                                                                                      tagCadastro(context,ip, porta, usuario, senha, acionamentoID, nome, TAG);
                                                                                                     }
                                                                                                   }
                                                                                                 },
@@ -543,7 +538,7 @@ controledeTags(var context, var wid , var heig){
                                                                                               ),
                                                                                             ),
                                                                                             Text(
-                                                                                              documents['tagID'],
+                                                                                              "${documents['tagID']}",
                                                                                               textAlign: TextAlign.start,
                                                                                               style: const TextStyle(
                                                                                                   fontSize: 18
@@ -903,6 +898,10 @@ tagCadastro(var context, String ip, int porta, String usuario, String Senha, Str
       );
     },
   );
+
+  // Converte o hexadecimal para decimal
+  int valur =  int.parse(tag.trim().toUpperCase(), radix: 16);
+
   final ipog = Uri.parse('http://$ip:$porta/login.fcgi');
 
   Map<String, String> headerslog = {
@@ -936,7 +935,7 @@ tagCadastro(var context, String ip, int porta, String usuario, String Senha, Str
         "order": ["name"],
         "values": [
           {
-            "id": int.parse(tag),
+            "id": valur,
             "name": Nome,
             "registration": "",
             "password": "",
@@ -954,9 +953,9 @@ tagCadastro(var context, String ip, int porta, String usuario, String Senha, Str
         body: jsonEncode(body),
       );
       if (responsee.statusCode == 200) {
-        FirebaseFirestore.instance.collection('tags').doc("$tag$idCondominio").set({
-          "id": "$tag$idCondominio",
-          "tagID": tag,
+        FirebaseFirestore.instance.collection('tags').doc("$valur$idCondominio").set({
+          "id": "$valur$idCondominio",
+          "tagID": valur,
           "idCondominio": idCondominio,
           "Nome": Nome,
           "acionamentoID": acionamentoID,
