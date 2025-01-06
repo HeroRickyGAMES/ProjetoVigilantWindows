@@ -564,8 +564,8 @@ controledeTags(var context, var wid , var heig){
                                                                                           ElevatedButton(
                                                                                               onPressed: (){
                                                                                                 String nome = documents['Nome'];
-                                                                                                String TAG = documents['tagID'];
-                                                                                                String originaltag = documents['tagID'];
+                                                                                                String TAG = "${documents['tagID']}";
+                                                                                                String originaltag = "${documents['tagID']}";
 
                                                                                                 TextEditingController nomeControl = TextEditingController(text: nome);
                                                                                                 TextEditingController tagControl = TextEditingController(text: TAG);
@@ -704,7 +704,7 @@ controledeTags(var context, var wid , var heig){
                                                                                                             ),
                                                                                                             TextButton(
                                                                                                                 onPressed: (){
-                                                                                                                  deleteUsers(context, ip, porta, usuario, senha, documents['tagID'], documents['id']);
+                                                                                                                  deleteUsers(context, ip, porta, usuario, senha, "${documents['tagID']}", documents['id']);
                                                                                                                 },
                                                                                                                 child: const Text('Sim')
                                                                                                             ),
@@ -983,6 +983,8 @@ tagCadastro(var context, String ip, int porta, String usuario, String Senha, Str
           "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}",
         });
 
+        criarCard(context, ip, porta, usuario, Senha, valur);
+
         showToast("Cadastrado no equipamento!", context: context);
         Navigator.pop(context);
         Navigator.pop(context);
@@ -1003,6 +1005,8 @@ tagCadastro(var context, String ip, int porta, String usuario, String Senha, Str
 
 tagEdicao(var context, String ip, int porta, String usuario, String Senha, String acionamentoID, String Nome, String tag, String docID, String originalTag) async {
 
+  int valur = 0;
+
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -1016,6 +1020,14 @@ tagEdicao(var context, String ip, int porta, String usuario, String Senha, Strin
       );
     },
   );
+
+  if(originalTag != tag){
+    valur = int.parse(tag.trim().toUpperCase(), radix: 16);
+    criarCard(context, ip, porta, usuario, Senha, valur);
+  }else{
+    valur = int.parse(tag);
+  }
+
   final ipog = Uri.parse('http://$ip:$porta/login.fcgi');
 
   Map<String, String> headerslog = {
@@ -1066,7 +1078,7 @@ tagEdicao(var context, String ip, int porta, String usuario, String Senha, Strin
         "order": ["name"],
         "values": {
           "name": Nome,
-          "id": int.parse(tag)
+          "id": valur
         }
       };
 
@@ -1077,7 +1089,7 @@ tagEdicao(var context, String ip, int porta, String usuario, String Senha, Strin
       );
       if (responsee.statusCode == 200) {
         FirebaseFirestore.instance.collection('tags').doc(docID).update({
-          "tagID": tag,
+          "tagID": valur,
           "idCondominio": idCondominio,
           "Nome": Nome,
           "acionamentoID": acionamentoID,
@@ -1103,7 +1115,6 @@ tagEdicao(var context, String ip, int porta, String usuario, String Senha, Strin
         Navigator.pop(context);
         Navigator.pop(context);
       }
-
 
     }else{
       showToast("Erro com a comunicação, status: ${response.statusCode}", context: context);
@@ -1180,6 +1191,66 @@ deleteUsers(var context, String ip, int porta, String usuario, String Senha, Str
       showToast("Erro com a comunicação, status: ${response.statusCode}", context: context);
     }
   }catch(e){
+    showToast("Erro ao executar a requisição: $e", context: context);
+  }
+}
+
+criarCard(var context, String ip, int porta, String usuario, String Senha, int tag) async {
+
+  String wg = "${tag / 10000}".replaceAll(".", '');
+
+  final ipog = Uri.parse('http://$ip:$porta/login.fcgi');
+
+  Map<String, String> headerslog = {
+    "Content-Type": "application/json"
+  };
+
+  Map<String, dynamic> bodylog = {
+    "login": usuario,
+    "password": Senha
+  };
+  try{
+    final response = await http.post(
+      ipog,
+      headers: headerslog,
+      body: jsonEncode(bodylog),
+    );
+    if(response.statusCode == 200){
+      Map<String, dynamic> responseData = jsonDecode(response.body);
+
+      final url = Uri.parse('http://$ip:$porta/create_objects.fcgi?session=${responseData["session"]}');
+
+      Map<String, String> headers = {
+        "Content-Type": "application/json"
+      };
+
+      Map<String, dynamic> body = {
+        "object": "cards",
+        "values": [
+          {
+            "value": wg,
+            "user_id": tag
+          }
+        ]
+      };
+
+      final responsee = await http.post(
+        url,
+        headers: headers,
+        body: jsonEncode(body),
+      );
+      if (responsee.statusCode == 200) {
+
+      } else {
+        print("erro? ${response.body}");
+        showToast("Erro com a comunicação, status: ${responsee.statusCode}", context: context);
+      }
+    }else{
+      print("erro? ${response.body}");
+      showToast("Erro com a comunicação, status: ${response.statusCode}", context: context);
+    }
+  }catch(e){
+    print("erro? $e");
     showToast("Erro ao executar a requisição: $e", context: context);
   }
 }

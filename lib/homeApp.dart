@@ -27,6 +27,7 @@ import 'package:vigilant/libDePessoas/ExelImport.dart';
 import 'package:vigilant/login/login.dart';
 import 'package:vigilant/libDePessoas/cadastroDeUsuariosNoEquipamento.dart';
 import 'package:vigilant/libDePessoas/pushPessoas.dart';
+import 'package:vigilant/logs/logsDosEquipamentos.dart';
 import 'package:vigilant/moduloGuarita/consultaDeUsuariosdoGuarita.dart';
 import 'package:vigilant/tags/tag.dart';
 import 'package:vigilant/videoStream/videoStreamWidget.dart';
@@ -2553,6 +2554,11 @@ class _homeAppState extends State<homeApp>{
 
                                                                                 return NativeContextMenuWidget(
                                                                                   actionCallback: (action) {
+
+                                                                                    if(action == "acesso_log"){
+                                                                                      LogsDosEquipamentos(context, documents["ip"], documents["porta"], documents["usuario"], documents["senha"], documents["modelo"]);
+                                                                                    }
+
                                                                                     if(action == "editar_acionamento"){
 
                                                                                       TextEditingController identificacaocontr = TextEditingController(text: documents["nome"]);

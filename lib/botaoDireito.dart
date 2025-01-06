@@ -24,6 +24,7 @@ Future<NativeMenu> initMenuAcionamentos() async {
     itemNew = NativeMenuItem.simple(title: "Editar infos. do acionamento", action: "editar_acionamento");
     menu.addItem(itemNew);
     menu.addItem(NativeMenuItem.simple(title: "Deletar acionamento", action: "delAcionamento"));
+    menu.addItem(NativeMenuItem.simple(title: "Logs", action: "acesso_log"));
   }else{
     menu.addItem(NativeMenuItem.simple(title: "", action: ""));
   }
