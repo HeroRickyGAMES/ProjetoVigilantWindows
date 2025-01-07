@@ -453,10 +453,12 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
         );
       } else {
         print('Erro na requisição: ${response.statusCode}');
+        Navigator.pop(context);
         throw Exception('Erro na requisição: ${response.statusCode}');
       }
     } else {
       print('Falha ao obter o header WWW-Authenticate');
+      Navigator.pop(context);
       throw Exception('Falha ao obter o header WWW-Authenticate');
     }
   }
