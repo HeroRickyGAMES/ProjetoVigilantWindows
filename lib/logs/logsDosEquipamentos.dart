@@ -5,6 +5,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:http/http.dart' as http;
 import 'package:vigilant/logs/identificacao.dart';
 import 'package:http_auth/http_auth.dart' as http_auth;
+import 'package:vigilant/logs/verificacaoLogHikvision.dart';
 
 //Programado por HeroRickyGames com a ajuda de Deus!
 
@@ -298,7 +299,6 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
   }
 
   if(modelo == "Hikvision"){
-
     int maxNumbers = 00;
     double multiplicador = 00;
     List lista = [];
@@ -355,9 +355,9 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
           lista.add(i);
         }
 
-        print(searchNumbrs);
-        print(maxNumbers);
         final List<dynamic> listaFiltrada = jsonMap['AcsEvent']['InfoList'];
+
+        print(listaFiltrada[0]);
 
         Navigator.pop(context);
         showDialog(
@@ -406,8 +406,8 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                             return Card(
                               margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                               child: ListTile(
-                                title: Text('type: ${item['type']}'),
-                                subtitle: Text('serialNo: ${item['serialNo']}'),
+                                title: Text('${logtraduzido("${item['currentVerifyMode']}")}'),
+                                subtitle: Text('Indíce: ${item['serialNo']}'),
                                 trailing: Text('Hora: ${item['time']}'),
                               ),
                             );
@@ -452,11 +452,13 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
           },
         );
       } else {
+        searchNumbrs = 24;
         print('Erro na requisição: ${response.statusCode}');
         Navigator.pop(context);
         throw Exception('Erro na requisição: ${response.statusCode}');
       }
     } else {
+      searchNumbrs = 24;
       print('Falha ao obter o header WWW-Authenticate');
       Navigator.pop(context);
       throw Exception('Falha ao obter o header WWW-Authenticate');

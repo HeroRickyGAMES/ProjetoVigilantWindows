@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
 import 'package:vigilant/homeApp.dart';
@@ -59,6 +60,7 @@ void ImportarExel(var context) async {
             'RG': "${userMap['coluna_7']}",
             'Telefone': "",
             'Unidade': "${userMap['coluna_0']}",
+            "modeloAcionamento": ""
           };
 
           FirebaseFirestore.instance.collection("Pessoas").doc(tratado['id']).set(
@@ -67,6 +69,7 @@ void ImportarExel(var context) async {
             showToast("Importado para o banco de dados!", context: context);
           });
         }
+        Navigator.pop(context);
       }
     }
   } else {
