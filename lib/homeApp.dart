@@ -2556,7 +2556,7 @@ class _homeAppState extends State<homeApp>{
                                                                                   actionCallback: (action) {
 
                                                                                     if(action == "acesso_log"){
-                                                                                      LogsDosEquipamentos(context, documents["ip"], documents["porta"], documents["usuario"], documents["senha"], documents["modelo"]);
+                                                                                      LogsDosEquipamentos(context, documents["ip"], documents["porta"], documents["usuario"], documents["senha"], documents["modelo"], wid, heig);
                                                                                     }
 
                                                                                     if(action == "editar_acionamento"){
