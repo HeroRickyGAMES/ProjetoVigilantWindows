@@ -10,7 +10,7 @@ import 'package:vigilant/logs/verificacaoLogHikvision.dart';
 //Programado por HeroRickyGames com a ajuda de Deus!
 
 int searchNumbrs = 24;
-
+bool primeira = true;
 Map<String, String> _parseDigestHeader(String header) {
   final Map<String, String> authData = {};
   final regExp = RegExp(r'(\w+)=["]?([^",]+)["]?');
@@ -346,6 +346,7 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
       );
 
       if (response.statusCode == 200) {
+        //await Future.delayed(const Duration(seconds: 5));
         Map<String, dynamic> jsonMap = jsonDecode(response.body);
         maxNumbers = jsonMap['AcsEvent']['totalMatches'];
         multiplicador = maxNumbers / 24;
@@ -359,7 +360,18 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
 
         print(listaFiltrada[0]);
 
-        Navigator.pop(context);
+        if(searchNumbrs > 25){
+          Navigator.pop(context);
+          Navigator.pop(context);
+        }else{
+          if(primeira == true){
+            Navigator.pop(context);
+          }else{
+            Navigator.pop(context);
+            Navigator.pop(context);
+          }
+        }
+
         showDialog(
           barrierDismissible: false,
           context: context,
@@ -379,11 +391,11 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                               width: 50,
                               height: 50,
                               child: TextButton(onPressed: (){
-                                Navigator.pop(context);
-                                
                                 setState((){
                                   searchNumbrs = 24;
+                                  primeira = true;
                                 });
+                                Navigator.pop(context);
                               },
                                   child:const Center(
                                     child: Icon(
@@ -424,7 +436,11 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                           searchNumbrs == 24 ? null : (){
                             setState((){
                               searchNumbrs = searchNumbrs - 24;
-                              Navigator.pop(context);
+
+                              if(searchNumbrs == 24){
+                                primeira = true;
+                              }
+
                               LogsDosEquipamentos(context, ip, porta, usuario, Senha, modelo, wid, heig);
                             });
                           },
@@ -435,7 +451,7 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                               (){
                             setState((){
                               searchNumbrs = searchNumbrs + 24;
-                              Navigator.pop(context);
+                              primeira = false;
                               LogsDosEquipamentos(context, ip, porta, usuario, Senha, modelo, wid, heig);
                             });
                           },
@@ -453,12 +469,14 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
         );
       } else {
         searchNumbrs = 24;
+        primeira = true;
         print('Erro na requisição: ${response.statusCode}');
         Navigator.pop(context);
         throw Exception('Erro na requisição: ${response.statusCode}');
       }
     } else {
       searchNumbrs = 24;
+      primeira = true;
       print('Falha ao obter o header WWW-Authenticate');
       Navigator.pop(context);
       throw Exception('Falha ao obter o header WWW-Authenticate');
