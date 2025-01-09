@@ -82,16 +82,10 @@ controledeTags(var context, var wid , var heig){
 
                                                   String ip = documents["ip"];
                                                   int porta = documents["porta"];
-                                                  String modelo = documents["modelo"];
-                                                  int canal = documents["canal"];
                                                   String usuario = documents["usuario"];
                                                   String senha = documents["senha"];
                                                   String id = documents["id"];
                                                   String acionamentoID = id;
-                                                  String receptor = documents["receptor"];
-                                                  String can = documents["can"];
-                                                  String nome = documents["nome"];
-                                                  bool secbox = documents["secbox"];
 
                                                   showDialog(
                                                     context: context,
@@ -199,9 +193,6 @@ controledeTags(var context, var wid , var heig){
 
                                                                                         if(snapshotNome.docs.isNotEmpty){
                                                                                           for (var doc in snapshotNome.docs) {
-                                                                                            //Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-                                                                                            //print("Dados: $data");
-
                                                                                             setStates((){
                                                                                               pesquisando56 = true;
                                                                                               pesquisando55 = false;
@@ -271,8 +262,6 @@ controledeTags(var context, var wid , var heig){
                                                                                   }
 
                                                                                   Map<String, dynamic> usuarios = await controlidTags(context, ip, porta, usuario, senha);
-
-                                                                                  print(usuarios);
 
                                                                                   String ImageURL = "";
                                                                                   int lent = 0;
@@ -913,11 +902,13 @@ tagCadastro(var context, String ip, int porta, String usuario, String Senha, Str
     "password": Senha
   };
   try{
+
     final response = await http.post(
       ipog,
       headers: headerslog,
       body: jsonEncode(bodylog),
     );
+
     if(response.statusCode == 200){
       Map<String, dynamic> responseData = jsonDecode(response.body);
 
@@ -1198,6 +1189,7 @@ deleteUsers(var context, String ip, int porta, String usuario, String Senha, Str
 criarCard(var context, String ip, int porta, String usuario, String Senha, int tag) async {
 
   String wg = "${tag / 10000}".replaceAll(".", '');
+  int wgParsed = int.parse(wg);
 
   final ipog = Uri.parse('http://$ip:$porta/login.fcgi');
 
@@ -1215,6 +1207,7 @@ criarCard(var context, String ip, int porta, String usuario, String Senha, int t
       headers: headerslog,
       body: jsonEncode(bodylog),
     );
+
     if(response.statusCode == 200){
       Map<String, dynamic> responseData = jsonDecode(response.body);
 
@@ -1228,7 +1221,7 @@ criarCard(var context, String ip, int porta, String usuario, String Senha, int t
         "object": "cards",
         "values": [
           {
-            "value": wg,
+            "value": wgParsed,
             "user_id": tag
           }
         ]
@@ -1243,10 +1236,12 @@ criarCard(var context, String ip, int porta, String usuario, String Senha, int t
 
       } else {
         print("erro? ${response.body}");
+        print("erro? ${response.statusCode}");
         showToast("Erro com a comunicação, status: ${responsee.statusCode}", context: context);
       }
     }else{
       print("erro? ${response.body}");
+      print("erro? ${response.statusCode}");
       showToast("Erro com a comunicação, status: ${response.statusCode}", context: context);
     }
   }catch(e){
