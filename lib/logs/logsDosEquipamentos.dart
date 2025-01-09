@@ -88,19 +88,44 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
     barrierDismissible: false,
     context: context,
     builder: (BuildContext context) {
-      return const AlertDialog(
-        title: Text('Aguarde!'),
-        actions: [
+      return AlertDialog(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text('Aguarde... Como alguns equipamentos\nexistem muitos relatorios\nisso pode demorar mais do que o esperado.'),
+            SizedBox(
+              width: 50,
+              height: 50,
+              child: TextButton(onPressed: (){
+                try{
+                  Navigator.pop(context);
+                  searchNumbrs = 24;
+                  primeira = true;
+                  throw Exception("Task do script foi encerrada pelo usuario!");
+                }catch(e){
+                  showToast("$e",duration: const Duration(seconds: 7), context: context);
+                }
+              },
+                  child: const Center(
+                    child: Icon(
+                      Icons.close,
+                      size: 30,
+                    ),
+                  )
+              ),
+            )
+          ],
+        ),
+        actions: const [
           Center(
             child: CircularProgressIndicator(),
-          )
+          ),
         ],
       );
     },
   );
 
   try {
-
     if(modelo == "Control iD"){
       final ipog = Uri.parse('http://$ip:$porta/login.fcgi');
 
@@ -214,7 +239,7 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
     }
 
     if(modelo == "Intelbras"){
-      final url = Uri.parse('http://$ip:$porta/cgi-bin/recordFinder.cgi?action=find&name=AccessControlCardRec');
+      final url = Uri.parse('http://$ip:$porta/cgi-bin/recordFinder.cgi?action=find&name=AccessControlCardRec&StartTime=${GetTimmeStampComMeses()}');
 
       Map<String, String> headers = {
         'Accept': '*/*',
@@ -227,13 +252,14 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
 
       try {
         final response = await client.get(url, headers: headers);
-
         if (response.statusCode == 200) {
           List<Map<String, dynamic>> listadeUsuarios = intelbrasToMap(response.body);
           final List<dynamic> lista = listadeUsuarios;
 
-          final idsUnicos = lista.map((item) => item['id']).toSet().toList().reversed.toList();
-          final listaFiltrada = lista.where((item) => idsUnicos.contains(item['id'])).toList().reversed.toList();
+          final idsUnicos = lista.map((item) => item['id']).toSet().toList();
+          final listaFiltrada = lista.where((item) => idsUnicos.contains(item['id'])).toList();
+
+          print(listaFiltrada.length);
 
 
           Navigator.pop(context);
@@ -273,12 +299,18 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                           child: ListView.builder(
                             itemCount: listaFiltrada.length,
                             itemBuilder: (context, index) {
+                              listaFiltrada.sort((a, b) {
+                                DateTime dateA = DateTime.fromMillisecondsSinceEpoch(a['CreateTime'] * 1000);
+                                DateTime dateB = DateTime.fromMillisecondsSinceEpoch(b['CreateTime'] * 1000);
+                                return dateB.compareTo(dateA);
+                              });
+
                               final item = listaFiltrada[index];
                               return Card(
                                 margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                                 child: ListTile(
                                   title: Text('Acessado por: ${item['CardName'] == ''? "Liberado via API":  item['CardName']}'),
-                                  trailing: Text('Hora: ${DateTime.fromMillisecondsSinceEpoch(item['CreateTime'] * 1000)}'),
+                                  trailing: Text('Hora: ${DateTime.fromMillisecondsSinceEpoch(item['CreateTime'] * 1000).day}/${DateTime.fromMillisecondsSinceEpoch(item['CreateTime'] * 1000).month}/${DateTime.fromMillisecondsSinceEpoch(item['CreateTime'] * 1000).year} ${DateTime.fromMillisecondsSinceEpoch(item['CreateTime'] * 1000).hour}:${DateTime.fromMillisecondsSinceEpoch(item['CreateTime'] * 1000).minute}:${DateTime.fromMillisecondsSinceEpoch(item['CreateTime'] * 1000).second}')
                                 ),
                               );
                             },
@@ -499,4 +531,14 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
     showToast(duration: const Duration(seconds: 10), error, context: context);
     Navigator.pop(context);
   }
+}
+
+int GetTimmeStampComMeses() {
+  // Obtém a data atual
+  DateTime now = DateTime.now();
+
+  DateTime sixMonthsAgo = DateTime(now.year, now.month , now.day - 7, now.hour, now.minute, now.second);
+
+  // Converte a data para timestamp Unix (em segundos)
+  return sixMonthsAgo.millisecondsSinceEpoch ~/ 1000;
 }
