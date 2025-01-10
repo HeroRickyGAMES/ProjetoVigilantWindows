@@ -12,6 +12,9 @@ import 'package:vigilant/logs/verificacaoLogHikvision.dart';
 
 int searchNumbrs = 24;
 bool primeira = true;
+bool primeirapg = false;
+bool jarodei = false;
+
 Map<String, String> _parseDigestHeader(String header) {
   final Map<String, String> authData = {};
   final regExp = RegExp(r'(\w+)=["]?([^",]+)["]?');
@@ -101,6 +104,7 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                   Navigator.pop(context);
                   searchNumbrs = 24;
                   primeira = true;
+                  primeirapg = false;
                   throw Exception("Task do script foi encerrada pelo usuario!");
                 }catch(e){
                   showToast("$e",duration: const Duration(seconds: 7), context: context);
@@ -335,8 +339,6 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
 
     if(modelo == "Hikvision"){
       int maxNumbers = 00;
-      double multiplicador = 00;
-      List lista = [];
 
       // URL do endpoint
       String url = 'http://$ip:$porta/ISAPI/AccessControl/AcsEvent?format=json&devIndex=0';
@@ -347,6 +349,8 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
 
       // Realiza a primeira requisição para obter os dados do Digest Auth
       var response = await http.post(Uri.parse(url));
+      var responseeByNumber = await http.post(Uri.parse(url));
+
       if (response.statusCode == 401 && response.headers['www-authenticate'] != null) {
         final authHeader = response.headers['www-authenticate'];
 
@@ -360,157 +364,199 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
           'Content-Type': 'application/json',
         };
 
-        //print(searchNumbrs);
-        Map<String, dynamic> body = {
+        DateTime(DateTime.now().year, DateTime.now().month , DateTime.now().day, DateTime.now().hour, DateTime.now().minute, DateTime.now().second);
+
+        Map<String, dynamic> bodynum = {
           "AcsEventCond": {
             "searchID": "1",
-            "searchResultPosition": searchNumbrs,
+            "searchResultPosition": 24,
             "maxResults": 1000,
             "major": 0,
             "minor": 0,
             "startTime": "2023-01-01T01:00:00-07:00",
-            "endTime": "2030-08-29T23:59:59-07:00"
+            "endTime": "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}T01:00:00-07:00"
           }
         };
 
-        // Requisição POST com a autenticação Digest
-        response = await http.post(
+        responseeByNumber = await http.post(
             Uri.parse(url),
             headers: headers,
-            body: jsonEncode(body)
+            body: jsonEncode(bodynum)
         );
 
-        if (response.statusCode == 200) {
-          Map<String, dynamic> jsonMap = jsonDecode(response.body);
-          maxNumbers = jsonMap['AcsEvent']['totalMatches'];
-          multiplicador = maxNumbers / 24;
-          int arredondarUp = multiplicador.ceil();
+        if(responseeByNumber.statusCode == 200){
+          Map<String, dynamic> jsonMape = jsonDecode(responseeByNumber.body);
 
-          for(int i = 0; i < arredondarUp; i++){
-            lista.add(i);
+          if(jarodei == false){
+            searchNumbrs = 24;
+            searchNumbrs = jsonMape['AcsEvent']['totalMatches'];
+            jarodei = true;
           }
+          print(searchNumbrs);
+          Map<String, dynamic> body = {
+            "AcsEventCond": {
+              "searchID": "1",
+              "searchResultPosition": searchNumbrs,
+              "maxResults": 24,
+              "major": 0,
+              "minor": 0,
+              "startTime": "2023-01-01T01:00:00-07:00",
+              "endTime": "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}T23:59:59-07:00"
+            }
+          };
 
-          final List<dynamic> listaFiltrada = jsonMap['AcsEvent']['InfoList'];
+          // Requisição POST com a autenticação Digest
+          response = await http.post(
+              Uri.parse(url),
+              headers: headers,
+              body: jsonEncode(body)
+          );
+          if (response.statusCode == 200) {
+            Map<String, dynamic> jsonMap = jsonDecode(response.body);
+            maxNumbers = jsonMap['AcsEvent']['totalMatches'];
 
-          print(listaFiltrada[0]);
+            final List<dynamic> listaFiltrada = jsonMap['AcsEvent']['InfoList'].reversed.toList();
 
-          if(searchNumbrs > 25){
-            Navigator.pop(context);
-            Navigator.pop(context);
-          }else{
-            if(primeira == true){
+            if(searchNumbrs < 25){
+              print('1');
+              Navigator.pop(context);
               Navigator.pop(context);
             }else{
-              Navigator.pop(context);
-              Navigator.pop(context);
+              if(primeirapg == true){
+                Navigator.pop(context);
+                Navigator.pop(context);
+                print('2');
+              }else{
+                if(primeira == true){
+                  Navigator.pop(context);
+                  print('3');
+                }else{
+                  print('4');
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                }
+              }
             }
-          }
 
-          showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (BuildContext context) {
-              return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                return AlertDialog(
-                  scrollable: true,
-                  title: Column(
-                    children: [
-                      Container(
-                          padding: const EdgeInsets.all(16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Relatorio de eventos'),
-                              SizedBox(
-                                width: 50,
-                                height: 50,
-                                child: TextButton(onPressed: (){
-                                  setState((){
-                                    searchNumbrs = 24;
-                                    primeira = true;
-                                  });
-                                  Navigator.pop(context);
-                                },
-                                    child:const Center(
-                                      child: Icon(
-                                        Icons.close,
-                                        size: 30,
-                                      ),
-                                    )
-                                ),
-                              )
-                            ],
-                          )
-                      ),
-                      SizedBox(
-                          width: wid / 2,
-                          height: heig / 2,
-                          child: ListView.builder(
-                            itemCount: listaFiltrada.length,
-                            itemBuilder: (context, index) {
-                              final item = listaFiltrada[index];
-                              return Card(
-                                margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                                child: ListTile(
-                                  title: Text('${logtraduzido("${item['currentVerifyMode']}")}'),
-                                  subtitle: Text('Indíce: ${item['serialNo']}'),
-                                  trailing: Text('Hora: ${item['time']}'),
-                                ),
-                              );
-                            },
-                          )
-                      ),
-                      SizedBox(
-                        width: wid / 2,
-                        height: 100,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(onPressed:
-                              searchNumbrs == 24 ? null : (){
-                                setState((){
-                                  searchNumbrs = searchNumbrs - 24;
-
-                                  if(searchNumbrs == 24){
-                                    primeira = true;
-                                  }
-
-                                  LogsDosEquipamentos(context, ip, porta, usuario, Senha, modelo, wid, heig);
-                                });
-                              },
-                                  child: const Icon(Icons.navigate_before)
-                              ),
-                              ElevatedButton(onPressed: searchNumbrs > maxNumbers - 12?
-                              null:
-                                  (){
-                                setState((){
-                                  searchNumbrs = searchNumbrs + 24;
-                                  primeira = false;
-                                  LogsDosEquipamentos(context, ip, porta, usuario, Senha, modelo, wid, heig);
-                                });
-                              },
-                                  child: const Icon(Icons.navigate_next)
-                              )
-                            ]
+            showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (BuildContext context) {
+                return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                  return AlertDialog(
+                    scrollable: true,
+                    title: Column(
+                      children: [
+                        Container(
+                            padding: const EdgeInsets.all(16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('Relatorio de eventos'),
+                                SizedBox(
+                                  width: 50,
+                                  height: 50,
+                                  child: TextButton(onPressed: (){
+                                    setState((){
+                                      if(primeira == true){
+                                        Navigator.pop(context);
+                                        searchNumbrs = 24;
+                                        primeira = true;
+                                        primeirapg = false;
+                                        jarodei = false;
+                                      }else{
+                                        Navigator.pop(context);
+                                        searchNumbrs = 24;
+                                        primeira = true;
+                                        primeirapg = false;
+                                        jarodei = false;
+                                      }
+                                    });
+                                  },
+                                      child:const Center(
+                                        child: Icon(
+                                          Icons.close,
+                                          size: 30,
+                                        ),
+                                      )
+                                  ),
+                                )
+                              ],
+                            )
                         ),
-                      )
-                    ],
-                  ),
+                        SizedBox(
+                            width: wid / 2,
+                            height: heig / 2,
+                            child: ListView.builder(
+                              itemCount: listaFiltrada.length,
+                              itemBuilder: (context, index) {
+                                final item = listaFiltrada[index];
+                                return Card(
+                                  margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                  child: ListTile(
+                                    title: Text('${logtraduzido("${item['currentVerifyMode']}")}'),
+                                    subtitle: Text('Indíce: ${item['serialNo']}'),
+                                    trailing: Text('Hora: ${item['time']}'),
+                                  ),
+                                );
+                              },
+                            )
+                        ),
+                        SizedBox(
+                          width: wid / 2,
+                          height: 100,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(onPressed:primeira == true ? null : (){
+                                  setState((){
+                                    searchNumbrs = searchNumbrs + 24;
+
+                                    if(searchNumbrs > maxNumbers - 12){
+                                      primeira = true;
+                                      primeirapg = true;
+                                    }
+                                    LogsDosEquipamentos(context, ip, porta, usuario, Senha, modelo, wid, heig);
+                                  });
+                                },
+                                    child: const Icon(Icons.navigate_before)
+                                ),
+                                ElevatedButton(onPressed: (){
+                                  setState((){
+                                    searchNumbrs = searchNumbrs - 24;
+                                    primeira = false;
+                                    primeirapg = false;
+                                    LogsDosEquipamentos(context, ip, porta, usuario, Senha, modelo, wid, heig);
+                                  });
+                                },
+                                    child: const Icon(Icons.navigate_next)
+                                )
+                              ]
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
                 );
               },
-              );
-            },
-          );
-        } else {
-          searchNumbrs = 24;
-          primeira = true;
-          print('Erro na requisição: ${response.statusCode}');
-          Navigator.pop(context);
-          throw Exception('Erro na requisição: ${response.statusCode}');
+            );
+          } else {
+            searchNumbrs = 24;
+            primeira = true;
+            primeirapg = false;
+            jarodei = false;
+            print('Erro na requisição: ${response.statusCode}');
+            Navigator.pop(context);
+            throw Exception('Erro na requisição: ${response.statusCode}');
+          }
+
         }
       } else {
         searchNumbrs = 24;
         primeira = true;
+        primeirapg = false;
+        jarodei = false;
         print('Falha ao obter o header WWW-Authenticate');
         Navigator.pop(context);
         throw Exception('Falha ao obter o header WWW-Authenticate');
@@ -529,7 +575,6 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
     searchNumbrs = 24;
     primeira = false;
     showToast(duration: const Duration(seconds: 10), error, context: context);
-    Navigator.pop(context);
   }
 }
 
