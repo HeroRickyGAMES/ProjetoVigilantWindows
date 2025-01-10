@@ -401,7 +401,7 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
               "major": 0,
               "minor": 0,
               "startTime": "2023-01-01T01:00:00-07:00",
-              "endTime": "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}T23:59:59-07:00"
+              "endTime": "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}T23:59:59-00:00"
             }
           };
 
@@ -494,7 +494,7 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                                 return Card(
                                   margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                                   child: ListTile(
-                                    title: Text('${logtraduzido("${item['currentVerifyMode']}")}'),
+                                    title: Text('${item['name']}' == "null" ? '${logtraduzido("${item['currentVerifyMode']}")}' : '${item['name']}'),
                                     subtitle: Text('Indíce: ${item['serialNo']}'),
                                     trailing: Text('Hora: ${item['time']}'),
                                   ),
