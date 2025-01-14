@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:native_context_menu_ng/native_context_menu_widget.dart';
 import 'package:native_context_menu_ng/native_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smooth_list_view/smooth_list_view.dart';
 import 'package:vigilant/FirebaseHost.dart';
 import 'package:vigilant/HikvisionCommon/HikvisionCommon.dart';
 import 'package:vigilant/IntelbrasCommon/intelbrasCommon.dart';
@@ -402,7 +403,8 @@ class _homeAppState extends State<homeApp>{
                                                                   return SizedBox(
                                                                     width: double.infinity,
                                                                     height: heig / 2.2,
-                                                                    child: ListView(
+                                                                    child: SmoothListView(
+                                                                      duration: const Duration(seconds: 1),
                                                                       children: snapshot.data!.docs.map((documents){
 
                                                                         if("${documents["Codigo"]} ${documents["Nome"]}".length >= 20){
@@ -3928,7 +3930,8 @@ class _homeAppState extends State<homeApp>{
                                                             width: 1.0,
                                                           ),
                                                         ),
-                                                        child: ListView(
+                                                        child: SmoothListView(
+                                                          duration: const Duration(seconds: 1),
                                                           children: snapshot.data!.docs.map((documents){
                                                             double textSize = 16;
 
@@ -4392,7 +4395,8 @@ class _homeAppState extends State<homeApp>{
                                                                             width: Widet,
                                                                             height: Heigt,
                                                                             child: Center(
-                                                                              child: ListView(
+                                                                              child: SmoothListView(
+                                                                                duration: const Duration(seconds: 1),
                                                                                 children: snapshot.data!.docs.map((documents){
                                                                                   return SizedBox(
                                                                                     width: 100,
@@ -5417,7 +5421,8 @@ class _homeAppState extends State<homeApp>{
                                                                           width: double.infinity,
                                                                           height: heig / 7,
                                                                           padding: const EdgeInsets.all(10),
-                                                                          child: ListView(
+                                                                          child: SmoothListView(
+                                                                            duration: const Duration(seconds: 1),
                                                                             children: snapshot.data!.docs.map((documents){
                                                                               return Column(
                                                                                 children: [
@@ -5579,7 +5584,8 @@ class _homeAppState extends State<homeApp>{
                                                                   SizedBox(
                                                                     width: double.infinity,
                                                                     height: heig / 7,
-                                                                    child: ListView(
+                                                                    child: SmoothListView(
+                                                                      duration: const Duration(seconds: 1),
                                                                       children: snapshot.data!.docs.map((documents){
                                                                         double tamanhodoc = documents['Nome'].length/ 2;
                                                                         if(documents['Nome'].length <= 5){
@@ -10617,7 +10623,8 @@ class _homeAppState extends State<homeApp>{
                                                                     width: 1.0,
                                                                   ),
                                                                 ),
-                                                                child: ListView(
+                                                                child: SmoothListView(
+                                                                  duration: const Duration(seconds: 1),
                                                                   children: snapshot.data!.docs.map((documents){
                                                                     return Container(
                                                                         padding: const EdgeInsets.all(6),
@@ -11510,7 +11517,8 @@ class _homeAppState extends State<homeApp>{
                                                                           width: 1.0,
                                                                         ),
                                                                       ),
-                                                                      child: ListView(
+                                                                      child: SmoothListView(
+                                                                        duration: const Duration(seconds: 1),
                                                                         children: snapshot.data!.docs.map((documents){
                                                                           return Center(
                                                                             child: Container(

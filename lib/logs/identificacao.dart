@@ -7,7 +7,6 @@ identificacao(int logId) {
 
   if(logId == 0){
     log = "Liberado via API";
-    print(log);
     return log;
   }
   if(logId == 1651076864){

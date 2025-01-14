@@ -4,6 +4,8 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'package:smooth_list_view/smooth_list_view.dart';
 import 'package:vigilant/logs/identificacao.dart';
 import 'package:http_auth/http_auth.dart' as http_auth;
 import 'package:vigilant/logs/verificacaoLogHikvision.dart';
@@ -166,7 +168,6 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
             body: jsonEncode(body),
           );
           if (responsee.statusCode == 200) {
-
             Map<String, dynamic> jsonMap = jsonDecode(responsee.body);
             final List<dynamic> lista = jsonMap['access_logs'];
 
@@ -207,7 +208,7 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                         SizedBox(
                             width: wid / 2,
                             height: heig / 2,
-                            child: ListView.builder(
+                            child: SmoothListView.builder(
                               itemCount: listaFiltrada.length,
                               itemBuilder: (context, index) {
                                 final item = listaFiltrada[index];
@@ -216,10 +217,10 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                                   child: ListTile(
                                     title: Text('Identificação (Logs de Acesso): ${identificacao(item['identifier_id'])}'),
                                     subtitle: Text('ID: ${item['id']}'),
-                                    trailing: Text('Hora: ${DateTime.fromMillisecondsSinceEpoch(item['time'] * 1000)}'),
+                                    trailing: Text('Hora: ${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item['time'] * 1000))}'),
                                   ),
                                 );
-                              },
+                              }, duration: const Duration(seconds: 1),
                             )
                         )
                       ],
@@ -300,7 +301,7 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                       SizedBox(
                           width: wid / 2,
                           height: heig / 2,
-                          child: ListView.builder(
+                          child: SmoothListView.builder(
                             itemCount: listaFiltrada.length,
                             itemBuilder: (context, index) {
                               listaFiltrada.sort((a, b) {
@@ -314,10 +315,10 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                                 margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                                 child: ListTile(
                                   title: Text('Acessado por: ${item['CardName'] == ''? "Liberado via API":  item['CardName']}'),
-                                  trailing: Text('Hora: ${DateTime.fromMillisecondsSinceEpoch(item['CreateTime'] * 1000).day}/${DateTime.fromMillisecondsSinceEpoch(item['CreateTime'] * 1000).month}/${DateTime.fromMillisecondsSinceEpoch(item['CreateTime'] * 1000).year} ${DateTime.fromMillisecondsSinceEpoch(item['CreateTime'] * 1000).hour}:${DateTime.fromMillisecondsSinceEpoch(item['CreateTime'] * 1000).minute}:${DateTime.fromMillisecondsSinceEpoch(item['CreateTime'] * 1000).second}')
+                                  trailing: Text('Hora: ${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item['CreateTime'] * 1000))}'),
                                 ),
                               );
-                            },
+                            },duration: const Duration(seconds: 1),
                           )
                       )
                     ],
@@ -487,19 +488,20 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                         SizedBox(
                             width: wid / 2,
                             height: heig / 2,
-                            child: ListView.builder(
+                            child: SmoothListView.builder(
                               itemCount: listaFiltrada.length,
                               itemBuilder: (context, index) {
                                 final item = listaFiltrada[index];
+                                print(item['time']);
                                 return Card(
                                   margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                                   child: ListTile(
-                                    title: Text('${item['name']}' == "null" ? '${logtraduzido("${item['currentVerifyMode']}")}' : '${item['name']}'),
+                                    title: Text('${item['name']}' == "null" ? '${logtraduzido("${item['currentVerifyMode']}")}' : '${item['name']}' == ""? 'Sem nome' : "${item['name']}"),
                                     subtitle: Text('Indíce: ${item['serialNo']}'),
-                                    trailing: Text('Hora: ${item['time']}'),
-                                  ),
+                                    trailing: Text('Hora: ${DateFormat('dd/MM/yyyy').format(DateTime.parse(item['time']))}'),
+                                    ),
                                 );
-                              },
+                              },duration: const Duration(seconds: 1),
                             )
                         ),
                         SizedBox(

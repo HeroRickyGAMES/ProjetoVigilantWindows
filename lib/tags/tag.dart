@@ -1237,15 +1237,15 @@ criarCard(var context, String ip, int porta, String usuario, String Senha, int t
       } else {
         print("erro? ${response.body}");
         print("erro? ${response.statusCode}");
-        showToast("Erro com a comunicação, status: ${responsee.statusCode}", context: context);
+        showToast("Erro com a comunicação, status: ${responsee.statusCode}\nUma tag possivelmente está cadastrada com o mesmo ID", context: context);
       }
     }else{
       print("erro? ${response.body}");
       print("erro? ${response.statusCode}");
-      showToast("Erro com a comunicação, status: ${response.statusCode}", context: context);
+      showToast("Erro com a comunicação, status: ${response.statusCode}\nUma tag possivelmente está cadastrada com o mesmo ID", context: context);
     }
   }catch(e){
     print("erro? $e");
-    showToast("Erro ao executar a requisição: $e", context: context);
+    showToast("Erro ao executar a requisição: $e\nUma tag possivelmente está cadastrada com o mesmo ID", context: context);
   }
 }
