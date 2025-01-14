@@ -375,6 +375,25 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                               );
                             },duration: const Duration(seconds: 1),
                           )
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        child: ElevatedButton(
+                            onPressed: (){
+                              Map mapaTratado = {};
+                              for (int i = 1; i < listaFiltrada.length; i++) {
+                                mapaTratado.addAll({
+                                  "$i":{
+                                    "nome": '${listaFiltrada[i]['CardName'] == ''? "Liberado via API":  listaFiltrada[i]['CardName']}',
+                                    "data": DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.fromMillisecondsSinceEpoch(listaFiltrada[i]['CreateTime'] * 1000)),
+                                    "id": "$i"
+                                  }
+                                });
+                              }
+                              XmlExport(mapaTratado, context);
+                            },
+                            child: const Text('Exportar para XML')
+                        ),
                       )
                     ],
                   ),
@@ -588,6 +607,25 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                                     child: const Icon(Icons.navigate_next)
                                 )
                               ]
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(16),
+                          child: ElevatedButton(
+                              onPressed: (){
+                                Map mapaTratado = {};
+                                for (int i = 1; i < listaFiltrada.length; i++) {
+                                  mapaTratado.addAll({
+                                    "${listaFiltrada[i]['serialNo']}":{
+                                      "nome": '${listaFiltrada[i]['name']}' == "null" ? '${logtraduzido("${listaFiltrada[i]['currentVerifyMode']}")}' : '${listaFiltrada[i]['name']}' == ""? 'Sem nome' : "${listaFiltrada[i]['name']}",
+                                      "data": DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.parse(listaFiltrada[i]['time'])),
+                                      "id": "${listaFiltrada[i]['serialNo']}"
+                                    }
+                                  });
+                                }
+                                XmlExport(mapaTratado, context);
+                              },
+                              child: const Text('Exportar essa pagina para XML')
                           ),
                         )
                       ],
