@@ -280,6 +280,7 @@ controledeTags(var context, var wid , var heig){
                                                                                       FirebaseFirestore.instance.collection('tags').doc("${usuarios['users'][i]["id"]}$idCondominio").set({
                                                                                         "id": "${usuarios['users'][i]["id"]}$idCondominio",
                                                                                         "tagID": "${usuarios['users'][i]["id"]}",
+                                                                                        "WG": "",
                                                                                         "idCondominio": idCondominio,
                                                                                         "Nome": usuarios['users'][i]["name"],
                                                                                         "acionamentoID": id,
@@ -350,6 +351,7 @@ controledeTags(var context, var wid , var heig){
                                                                               onPressed: (){
                                                                                 String nome = "";
                                                                                 String TAG = "";
+                                                                                String WG = "";
 
                                                                                 showDialog(
                                                                                   context: context,
@@ -433,6 +435,43 @@ controledeTags(var context, var wid , var heig){
                                                                                                 ),
                                                                                               ),
                                                                                             ),
+                                                                                            Center(
+                                                                                              child: Container(
+                                                                                                padding: const EdgeInsets.all(16),
+                                                                                                child: TextField(
+                                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                                  enableSuggestions: false,
+                                                                                                  autocorrect: false,
+                                                                                                  onChanged: (value){
+                                                                                                    setStater(() {
+                                                                                                      WG = value;
+                                                                                                    });
+                                                                                                  },
+                                                                                                  decoration: InputDecoration(
+                                                                                                    filled: true,
+                                                                                                    fillColor: Colors.white,
+                                                                                                    labelStyle: TextStyle(
+                                                                                                        color: textAlertDialogColor,
+                                                                                                        backgroundColor: Colors.white
+                                                                                                    ),
+                                                                                                    border: const OutlineInputBorder(),
+                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                    ),
+                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                      borderSide: BorderSide(
+                                                                                                          width: 3,
+                                                                                                          color: Colors.black
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    labelText: 'WG',
+                                                                                                  ),
+                                                                                                  style: TextStyle(
+                                                                                                      color: textAlertDialogColor
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
                                                                                             ElevatedButton(
                                                                                                 onPressed: (){
                                                                                                   if(nome == ""){
@@ -441,7 +480,11 @@ controledeTags(var context, var wid , var heig){
                                                                                                     if(TAG == ""){
                                                                                                       showToast("O campo TAG está vazio!", context: context);
                                                                                                     }else{
-                                                                                                      tagCadastro(context,ip, porta, usuario, senha, acionamentoID, nome, TAG);
+                                                                                                      if(WG == ""){
+                                                                                                        showToast("O campo WG está vazio!", context: context);
+                                                                                                      }else{
+                                                                                                        tagCadastro(context,ip, porta, usuario, senha, acionamentoID, nome, TAG, WG);
+                                                                                                      }
                                                                                                     }
                                                                                                   }
                                                                                                 },
@@ -555,9 +598,11 @@ controledeTags(var context, var wid , var heig){
                                                                                                 String nome = documents['Nome'];
                                                                                                 String TAG = "${documents['tagID']}";
                                                                                                 String originaltag = "${documents['tagID']}";
+                                                                                                String WG = "${documents['wg']}";
 
                                                                                                 TextEditingController nomeControl = TextEditingController(text: nome);
                                                                                                 TextEditingController tagControl = TextEditingController(text: TAG);
+                                                                                                TextEditingController WGControl = TextEditingController(text: WG);
 
                                                                                                 showDialog(
                                                                                                   context: context,
@@ -643,6 +688,44 @@ controledeTags(var context, var wid , var heig){
                                                                                                                 ),
                                                                                                               ),
                                                                                                             ),
+                                                                                                            Center(
+                                                                                                              child: Container(
+                                                                                                                padding: const EdgeInsets.all(16),
+                                                                                                                child: TextField(
+                                                                                                                  controller: WGControl,
+                                                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                                                  enableSuggestions: false,
+                                                                                                                  autocorrect: false,
+                                                                                                                  onChanged: (value){
+                                                                                                                    setStater(() {
+                                                                                                                      WG = value;
+                                                                                                                    });
+                                                                                                                  },
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    filled: true,
+                                                                                                                    fillColor: Colors.white,
+                                                                                                                    labelStyle: TextStyle(
+                                                                                                                        color: textAlertDialogColor,
+                                                                                                                        backgroundColor: Colors.white
+                                                                                                                    ),
+                                                                                                                    border: const OutlineInputBorder(),
+                                                                                                                    enabledBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                    ),
+                                                                                                                    focusedBorder: const OutlineInputBorder(
+                                                                                                                      borderSide: BorderSide(
+                                                                                                                          width: 3,
+                                                                                                                          color: Colors.black
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                    labelText: 'WG',
+                                                                                                                  ),
+                                                                                                                  style: TextStyle(
+                                                                                                                      color: textAlertDialogColor
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
                                                                                                             ElevatedButton(
                                                                                                                 onPressed: (){
                                                                                                                   if(nome == ""){
@@ -651,7 +734,7 @@ controledeTags(var context, var wid , var heig){
                                                                                                                     if(TAG == ""){
                                                                                                                       showToast("O campo TAG está vazio!", context: context);
                                                                                                                     }else{
-                                                                                                                      tagEdicao(context,ip, porta, usuario, senha, acionamentoID, nome, TAG, documents['id'], originaltag);
+                                                                                                                      tagEdicao(context,ip, porta, usuario, senha, acionamentoID, nome, TAG, documents['id'], originaltag, WG);
                                                                                                                     }
                                                                                                                   }
                                                                                                                 },
@@ -873,7 +956,7 @@ Future<Map<String, dynamic>> controlidTags(var context, String ip, int porta, St
   }
 }
 
-tagCadastro(var context, String ip, int porta, String usuario, String Senha, String acionamentoID, String Nome, String tag) async {
+tagCadastro(var context, String ip, int porta, String usuario, String Senha, String acionamentoID, String Nome, String tag, String WG) async {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -946,7 +1029,9 @@ tagCadastro(var context, String ip, int porta, String usuario, String Senha, Str
       if (responsee.statusCode == 200) {
         FirebaseFirestore.instance.collection('tags').doc("$valur$idCondominio").set({
           "id": "$valur$idCondominio",
+          "wg": WG,
           "tagID": valur,
+          "originalTAG": tag,
           "idCondominio": idCondominio,
           "Nome": Nome,
           "acionamentoID": acionamentoID,
@@ -974,7 +1059,7 @@ tagCadastro(var context, String ip, int porta, String usuario, String Senha, Str
           "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}",
         });
 
-        criarCard(context, ip, porta, usuario, Senha, valur);
+        criarCard(context, ip, porta, usuario, Senha, valur, WG.replaceFirst("0", "").replaceAll(",", "."));
 
         showToast("Cadastrado no equipamento!", context: context);
         Navigator.pop(context);
@@ -994,7 +1079,7 @@ tagCadastro(var context, String ip, int porta, String usuario, String Senha, Str
   }
 }
 
-tagEdicao(var context, String ip, int porta, String usuario, String Senha, String acionamentoID, String Nome, String tag, String docID, String originalTag) async {
+tagEdicao(var context, String ip, int porta, String usuario, String Senha, String acionamentoID, String Nome, String tag, String docID, String originalTag, String WG) async {
 
   int valur = 0;
 
@@ -1014,7 +1099,7 @@ tagEdicao(var context, String ip, int porta, String usuario, String Senha, Strin
 
   if(originalTag != tag){
     valur = int.parse(tag.trim().toUpperCase(), radix: 16);
-    criarCard(context, ip, porta, usuario, Senha, valur);
+    criarCard(context, ip, porta, usuario, Senha, valur, WG);
   }else{
     valur = int.parse(tag);
   }
@@ -1186,10 +1271,20 @@ deleteUsers(var context, String ip, int porta, String usuario, String Senha, Str
   }
 }
 
-criarCard(var context, String ip, int porta, String usuario, String Senha, int tag) async {
+criarCard(var context, String ip, int porta, String usuario, String Senha, int tag, String WG) async {
+  double wgDouble = double.parse(WG);
+  List<String> partes = WG.split('.');
 
-  String wg = "${tag / 10000}".replaceAll(".", '');
-  int wgParsed = int.parse(wg);
+  int parte1 = int.parse(partes[0]);
+  int parte2 = int.parse(partes[1]);
+
+  double calcule = wgDouble*42804.83828823418;
+  int resultado = int.parse("$calcule".replaceAll(".", ''));
+
+  print(calcule);
+  print(WG);
+  print(parte1);
+  print(parte2);
 
   final ipog = Uri.parse('http://$ip:$porta/login.fcgi');
 
@@ -1221,7 +1316,7 @@ criarCard(var context, String ip, int porta, String usuario, String Senha, int t
         "object": "cards",
         "values": [
           {
-            "value": wgParsed,
+            "value": resultado,
             "user_id": tag
           }
         ]

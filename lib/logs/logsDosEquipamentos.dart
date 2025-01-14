@@ -9,6 +9,7 @@ import 'package:smooth_list_view/smooth_list_view.dart';
 import 'package:vigilant/logs/identificacao.dart';
 import 'package:http_auth/http_auth.dart' as http_auth;
 import 'package:vigilant/logs/verificacaoLogHikvision.dart';
+import 'package:vigilant/logs/xmlExport.dart';
 
 //Programado por HeroRickyGames com a ajuda de Deus!
 
@@ -155,7 +156,34 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
           final url = Uri.parse('http://$ip:$porta/load_objects.fcgi?session=${responseData["session"]}');
 
           Map<String, dynamic> body = {
-            "object": "access_logs"
+            "where": {
+              "users": {},
+              "groups": {},
+              "time_zones": {},
+              "access_logs": {
+                "time": {
+                  "<=": int.parse("${GetTimmeStampNow()}"),
+                  ">=": 1722470400,
+                },
+              },
+            },
+            "order": ["descending", "time"],
+            "object": "access_logs",
+            "delimiter": ";",
+            "line_break": "\r\n",
+            "header": "",
+            "file_name": "",
+            "join": "LEFT",
+            "columns": [
+              {"field": "id", "object": "access_logs", "type": "object_field"},
+              {"field": "time", "object": "access_logs", "type": "object_field"},
+              {"field": "event", "object": "access_logs", "type": "object_field"},
+              {"field": "id", "object": "users", "type": "object_field"},
+              {"field": "name", "object": "users", "type": "object_field"},
+              {"field": "registration", "object": "users", "type": "object_field"},
+              {"field": "name", "object": "portals", "type": "object_field"},
+              {"field": "name", "object": "time_zones", "type": "object_field"},
+            ]
           };
 
           Map<String, String> headers = {
@@ -171,8 +199,8 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
             Map<String, dynamic> jsonMap = jsonDecode(responsee.body);
             final List<dynamic> lista = jsonMap['access_logs'];
 
-            final idsUnicos = lista.map((item) => item['id']).toSet().toList().reversed.toList();
-            final listaFiltrada = lista.where((item) => idsUnicos.contains(item['id'])).toList().reversed.toList();
+            final idsUnicos = lista.map((item) => item['id']).toSet().toList();
+            final listaFiltrada = lista.where((item) => idsUnicos.contains(item['id'])).toList();
 
             Navigator.pop(context);
             showDialog(
@@ -210,18 +238,45 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                             height: heig / 2,
                             child: SmoothListView.builder(
                               itemCount: listaFiltrada.length,
+                              cacheExtent: 1,
                               itemBuilder: (context, index) {
                                 final item = listaFiltrada[index];
+                                // Armazenando resultados de funções pesadas antes da criação do widget
+                                final identificacaoValue = identificacao(item['identifier_id']);
+                                final idValue = '${item['id']}';
+                                final formattedTime = DateFormat('dd/MM/yyyy HH:mm:ss').format(
+                                  DateTime.fromMillisecondsSinceEpoch(item['time'] * 1000),
+                                );
+
                                 return Card(
                                   margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                                   child: ListTile(
-                                    title: Text('Identificação (Logs de Acesso): ${identificacao(item['identifier_id'])}'),
-                                    subtitle: Text('ID: ${item['id']}'),
-                                    trailing: Text('Hora: ${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item['time'] * 1000))}'),
+                                    title: Text('Identificação (Logs de Acesso): $identificacaoValue'),
+                                    subtitle: Text('ID: $idValue'),
+                                    trailing: Text('Hora: $formattedTime'),
                                   ),
                                 );
                               }, duration: const Duration(seconds: 1),
                             )
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(16),
+                          child: ElevatedButton(
+                              onPressed: (){
+                                Map mapaTratado = {};
+                                for (int i = 1; i < listaFiltrada.length; i++) {
+                                  mapaTratado.addAll({
+                                    "${listaFiltrada[i]['id']}":{
+                                      "nome": identificacao(listaFiltrada[i]['identifier_id']),
+                                      "data": DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.fromMillisecondsSinceEpoch(listaFiltrada[i]['time'] * 1000),),
+                                      "id": "${listaFiltrada[i]['id']}"
+                                    }
+                                  });
+                                  }
+                                XmlExport(mapaTratado, context);
+                              },
+                              child: const Text('Exportar para XML')
+                          ),
                         )
                       ],
                     ),
@@ -315,7 +370,7 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                                 margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                                 child: ListTile(
                                   title: Text('Acessado por: ${item['CardName'] == ''? "Liberado via API":  item['CardName']}'),
-                                  trailing: Text('Hora: ${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item['CreateTime'] * 1000))}'),
+                                  trailing: Text('Hora: ${DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.fromMillisecondsSinceEpoch(item['CreateTime'] * 1000))}'),
                                 ),
                               );
                             },duration: const Duration(seconds: 1),
@@ -492,13 +547,12 @@ LogsDosEquipamentos(var context, String ip, int porta, String usuario, String Se
                               itemCount: listaFiltrada.length,
                               itemBuilder: (context, index) {
                                 final item = listaFiltrada[index];
-                                print(item['time']);
                                 return Card(
                                   margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                                   child: ListTile(
                                     title: Text('${item['name']}' == "null" ? '${logtraduzido("${item['currentVerifyMode']}")}' : '${item['name']}' == ""? 'Sem nome' : "${item['name']}"),
                                     subtitle: Text('Indíce: ${item['serialNo']}'),
-                                    trailing: Text('Hora: ${DateFormat('dd/MM/yyyy').format(DateTime.parse(item['time']))}'),
+                                    trailing: Text('Hora: ${DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.parse(item['time']))}'),
                                     ),
                                 );
                               },duration: const Duration(seconds: 1),
@@ -585,6 +639,16 @@ int GetTimmeStampComMeses() {
   DateTime now = DateTime.now();
 
   DateTime sixMonthsAgo = DateTime(now.year, now.month , now.day - 7, now.hour, now.minute, now.second);
+
+  // Converte a data para timestamp Unix (em segundos)
+  return sixMonthsAgo.millisecondsSinceEpoch ~/ 1000;
+}
+
+int GetTimmeStampNow() {
+  // Obtém a data atual
+  DateTime now = DateTime.now();
+
+  DateTime sixMonthsAgo = DateTime(now.year, now.month , now.day, now.hour, now.minute, now.second);
 
   // Converte a data para timestamp Unix (em segundos)
   return sixMonthsAgo.millisecondsSinceEpoch ~/ 1000;
