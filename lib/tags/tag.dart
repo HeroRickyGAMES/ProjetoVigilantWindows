@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -427,7 +428,7 @@ controledeTags(var context, var wid , var heig){
                                                                                                           color: Colors.black
                                                                                                       ),
                                                                                                     ),
-                                                                                                    labelText: 'TAG ID',
+                                                                                                    labelText: 'TAG HEX',
                                                                                                   ),
                                                                                                   style: TextStyle(
                                                                                                       color: textAlertDialogColor
@@ -464,7 +465,7 @@ controledeTags(var context, var wid , var heig){
                                                                                                           color: Colors.black
                                                                                                       ),
                                                                                                     ),
-                                                                                                    labelText: 'WG',
+                                                                                                    labelText: 'TAG WG',
                                                                                                   ),
                                                                                                   style: TextStyle(
                                                                                                       color: textAlertDialogColor
@@ -642,7 +643,7 @@ controledeTags(var context, var wid , var heig){
                                                                                                                           color: Colors.black
                                                                                                                       ),
                                                                                                                     ),
-                                                                                                                    labelText: 'Nome',
+                                                                                                                    labelText: 'Nome da TAG',
                                                                                                                   ),
                                                                                                                   style: TextStyle(
                                                                                                                       color: textAlertDialogColor
@@ -680,7 +681,7 @@ controledeTags(var context, var wid , var heig){
                                                                                                                           color: Colors.black
                                                                                                                       ),
                                                                                                                     ),
-                                                                                                                    labelText: 'TAG ID',
+                                                                                                                    labelText: 'TAG HEX',
                                                                                                                   ),
                                                                                                                   style: TextStyle(
                                                                                                                       color: textAlertDialogColor
@@ -718,7 +719,7 @@ controledeTags(var context, var wid , var heig){
                                                                                                                           color: Colors.black
                                                                                                                       ),
                                                                                                                     ),
-                                                                                                                    labelText: 'WG',
+                                                                                                                    labelText: 'TAG WG',
                                                                                                                   ),
                                                                                                                   style: TextStyle(
                                                                                                                       color: textAlertDialogColor
@@ -1278,13 +1279,10 @@ criarCard(var context, String ip, int porta, String usuario, String Senha, int t
   int parte1 = int.parse(partes[0]);
   int parte2 = int.parse(partes[1]);
 
-  double calcule = wgDouble*42804.83828823418;
-  int resultado = int.parse("$calcule".replaceAll(".", ''));
+  //parte1 * 2^32 + parte2 = resultado.
+  int resultado = parte1 * pow(2, 32).toInt() + parte2;
 
-  print(calcule);
-  print(WG);
-  print(parte1);
-  print(parte2);
+  print(resultado);
 
   final ipog = Uri.parse('http://$ip:$porta/login.fcgi');
 
