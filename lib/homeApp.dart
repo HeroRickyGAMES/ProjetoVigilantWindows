@@ -5540,30 +5540,35 @@ class _homeAppState extends State<homeApp>{
                                                     .collection("Pessoas")
                                                     .where("idCondominio", isEqualTo: idCondominio)
                                                     .where("Nome", isGreaterThanOrEqualTo: pesquisa2.toUpperCase())
-                                                    .where("Nome", isLessThan: "$pesquisa2\uf8ff")
+                                                    .where("Nome", isLessThan: "${pesquisa2.toUpperCase()}z")
+                                                    .orderBy("Nome", descending: false)
                                                     .snapshots():
                                                 pesquisaCPF == true ?
                                                 FirebaseFirestore.instance
                                                     .collection("Pessoas")
                                                     .where("idCondominio", isEqualTo: idCondominio)
                                                     .where("CPF", isGreaterThanOrEqualTo: pesquisa2.toUpperCase())
-                                                    .where("CPF", isLessThan: "$pesquisa2\uf8ff")
+                                                    .where("CPF", isLessThan: "${pesquisa2.toUpperCase()}z")
+                                                    .orderBy("Nome", descending: false)
                                                     .snapshots():
                                                 pesquisaUnid == true ?
                                                 FirebaseFirestore.instance
                                                     .collection("Pessoas")
                                                     .where("Unidade", isGreaterThanOrEqualTo: pesquisa2.toUpperCase())
-                                                    .where("Unidade", isLessThan: "$pesquisa2\uf8ff")
+                                                    .where("Unidade", isLessThan: "${pesquisa2.toUpperCase()}z")
+                                                    .orderBy("Nome", descending: false)
                                                     .snapshots():
                                                 pesquisaBloc == true ?
                                                 FirebaseFirestore.instance
                                                     .collection("Pessoas")
                                                     .where("Bloco", isGreaterThanOrEqualTo: pesquisa2.toUpperCase())
-                                                    .where("Bloco", isLessThan: "$pesquisa2\uf8ff")
+                                                    .where("Bloco", isLessThan: "${pesquisa2.toUpperCase()}z")
+                                                    .orderBy("Nome", descending: false)
                                                     .snapshots():
                                                 FirebaseFirestore.instance
                                                     .collection("Pessoas")
                                                     .where("idCondominio", isEqualTo: idCondominio)
+                                                    .orderBy("Nome", descending: false)
                                                     .snapshots(),
                                                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
 
@@ -9649,6 +9654,13 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                   }
                                                                                                                                   if(documents['modelo'] == 'Hikvision'){
                                                                                                                                     isHikvision() async {
+                                                                                                                                      CollectionReference collectionRef = FirebaseFirestore.instance.collection("Pessoas");
+                                                                                                                                      QuerySnapshot querySnapshot = await collectionRef.where("idCondominio", isEqualTo: idCondominio).get();
+
+                                                                                                                                      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+                                                                                                                                        await doc.reference.delete();
+                                                                                                                                      }
+
                                                                                                                                       pushcomfoto(Map<dynamic, dynamic> userInfo, int i, String imageURL){
                                                                                                                                         String iddoc = uuid.v4();
                                                                                                                                         FirebaseFirestore.instance.collection('Pessoas').doc("${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$iddoc$idCondominio").set({
@@ -9679,7 +9691,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                         FirebaseFirestore.instance.collection('Pessoas').doc("${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$iddoc$idCondominio").set({
                                                                                                                                           "id": "${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$iddoc$idCondominio",
                                                                                                                                           "idCondominio": idCondominio,
-                                                                                                                                          "Nome": userInfo['UserInfoSearch']['UserInfo'][i]['name'],
+                                                                                                                                          "Nome": userInfo['UserInfoSearch']['UserInfo'][i]['name'].replaceAll('', ""),
                                                                                                                                           "CPF": "",
                                                                                                                                           "RG": "",
                                                                                                                                           "imageURI": '',
@@ -10630,31 +10642,36 @@ class _homeAppState extends State<homeApp>{
                                                             FirebaseFirestore.instance
                                                                 .collection("Visitantes")
                                                                 .where("idCondominio", isEqualTo: idCondominio)
-                                                                .where("Nome", isGreaterThanOrEqualTo: pesquisa7)
-                                                                .where("Nome", isLessThan: "${pesquisa7}z")
+                                                                .where("Nome", isGreaterThanOrEqualTo: pesquisa7.toUpperCase())
+                                                                .where("Nome", isLessThan: "${pesquisa7.toUpperCase()}z")
+                                                                .orderBy("Nome", descending: false)
                                                                 .snapshots() :
                                                             pesquisando8 == true?
                                                             FirebaseFirestore.instance
                                                                 .collection("Visitantes")
                                                                 .where("idCondominio", isEqualTo: idCondominio)
-                                                                .where("CPFVist", isGreaterThanOrEqualTo: pesquisa8)
-                                                                .where("CPFVist", isLessThan: "${pesquisa8}9")
+                                                                .where("CPFVist", isGreaterThanOrEqualTo: pesquisa8.toUpperCase())
+                                                                .where("CPFVist", isLessThan: "${pesquisa8.toUpperCase()}9")
+                                                                .orderBy("Nome", descending: false)
                                                                 .snapshots():
                                                             pesquisando9 == true ? FirebaseFirestore.instance
                                                                 .collection("Visitantes")
                                                                 .where("idCondominio", isEqualTo: idCondominio)
-                                                                .where("Unidade", isGreaterThanOrEqualTo: pesquisa9)
-                                                                .where("Unidade", isLessThan: "${pesquisa9}9")
+                                                                .where("Unidade", isGreaterThanOrEqualTo: pesquisa9.toUpperCase())
+                                                                .where("Unidade", isLessThan: "${pesquisa9.toUpperCase()}9")
+                                                                .orderBy("Nome", descending: false)
                                                                 .snapshots():
                                                             pesquisando10 == true ? FirebaseFirestore.instance
                                                                 .collection("Visitantes")
                                                                 .where("idCondominio", isEqualTo: idCondominio)
-                                                                .where("Placa", isGreaterThanOrEqualTo: pesquisa10)
-                                                                .where("Placa", isLessThan: "${pesquisa10}z")
+                                                                .where("Placa", isGreaterThanOrEqualTo: pesquisa10.toUpperCase())
+                                                                .where("Placa", isLessThan: "${pesquisa10.toUpperCase()}z")
+                                                                .orderBy("Nome", descending: false)
                                                                 .snapshots():
                                                             FirebaseFirestore.instance
                                                                 .collection("Visitantes")
                                                                 .where("idCondominio", isEqualTo: idCondominio)
+                                                                .orderBy("Nome", descending: false)
                                                                 .snapshots(),
                                                             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
 
@@ -11524,31 +11541,36 @@ class _homeAppState extends State<homeApp>{
                                                                   FirebaseFirestore.instance
                                                                       .collection("Veiculos")
                                                                       .where("idCondominio", isEqualTo: idCondominio)
-                                                                      .where("Unidade", isGreaterThanOrEqualTo: pesquisa3)
-                                                                      .where("Unidade", isLessThan: "${pesquisa3}9")
+                                                                      .where("Unidade", isGreaterThanOrEqualTo: pesquisa3.toUpperCase())
+                                                                      .where("Unidade", isLessThan: "${pesquisa3.toUpperCase()}9")
+                                                                      .orderBy("Nome", descending: false)
                                                                       .snapshots() :
                                                                   pesquisando4 == true ?
                                                                   FirebaseFirestore.instance
                                                                       .collection("Veiculos")
                                                                       .where("idCondominio", isEqualTo: idCondominio)
-                                                                      .where("blocoV", isGreaterThanOrEqualTo: pesquisa4)
-                                                                      .where("blocoV", isLessThan: "${pesquisa4}z")
+                                                                      .where("blocoV", isGreaterThanOrEqualTo: pesquisa4.toUpperCase())
+                                                                      .where("blocoV", isLessThan: "${pesquisa4.toUpperCase()}z")
+                                                                      .orderBy("Nome", descending: false)
                                                                       .snapshots() :
                                                                   pesquisando5 == true ? FirebaseFirestore.instance
                                                                       .collection("Veiculos")
                                                                       .where("idCondominio", isEqualTo: idCondominio)
-                                                                      .where("IdentificacaoModeloV", isGreaterThanOrEqualTo: pesquisa5)
-                                                                      .where("IdentificacaoModeloV", isLessThan: "${pesquisa5}z")
+                                                                      .where("IdentificacaoModeloV", isGreaterThanOrEqualTo: pesquisa5.toUpperCase())
+                                                                      .where("IdentificacaoModeloV", isLessThan: "${pesquisa5.toUpperCase()}z")
+                                                                      .orderBy("Nome", descending: false)
                                                                       .snapshots():
                                                                   pesquisando6 == true ? FirebaseFirestore.instance
                                                                       .collection("Veiculos")
                                                                       .where("idCondominio", isEqualTo: idCondominio)
-                                                                      .where("PlacaV", isGreaterThanOrEqualTo: pesquisa6)
-                                                                      .where("PlacaV", isLessThan: "${pesquisa6}z")
+                                                                      .where("PlacaV", isGreaterThanOrEqualTo: pesquisa6.toUpperCase())
+                                                                      .where("PlacaV", isLessThan: "${pesquisa6.toUpperCase()}z")
+                                                                      .orderBy("Nome", descending: false)
                                                                       .snapshots():
                                                                   FirebaseFirestore.instance
                                                                       .collection("Veiculos")
                                                                       .where("idCondominio", isEqualTo: idCondominio)
+                                                                      .orderBy("Nome", descending: false)
                                                                       .snapshots(),
                                                                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
 
