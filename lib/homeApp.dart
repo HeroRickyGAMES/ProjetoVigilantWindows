@@ -84,6 +84,7 @@ bool pesquisaNumeros = false;
 bool acionamento1clicado = false;
 bool inicializado = false;
 bool pesquisaCPF = false;
+bool done = false;
 
 //Booleanos de pesquisa
 bool pesquisando = false;
@@ -171,6 +172,10 @@ double topbot = 7.5;
 
 //Timers
 Timer? _inactivityTimer;
+
+//Inteiros
+int totalmetade = 0;
+int idselected = 0;
 
 class homeApp extends StatefulWidget {
   const homeApp({super.key});
@@ -5587,6 +5592,7 @@ class _homeAppState extends State<homeApp>{
                                                                     child: SmoothListView(
                                                                       duration: const Duration(seconds: 1),
                                                                       children: snapshot.data!.docs.map((documents){
+
                                                                         double tamanhodoc = documents['Nome'].length/ 2;
                                                                         if(documents['Nome'].length <= 5){
                                                                           tamanhodoc = documents['Nome'].length/ 1;
@@ -9529,7 +9535,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                     },
                                                                                                                                   );
                                                                                                                                   if(documents['modelo'] == 'Control iD'){
-                                                                                                                                    Map<String, dynamic> usuarios = await pushPessoas(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo']);
+                                                                                                                                    Map<String, dynamic> usuarios = await pushPessoas(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo'], 0);
 
                                                                                                                                     String ImageURL = "";
 
@@ -9642,81 +9648,125 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                     //print(listaExtraida);
                                                                                                                                   }
                                                                                                                                   if(documents['modelo'] == 'Hikvision'){
-                                                                                                                                    pushcomfoto(Map<dynamic, dynamic> userInfo, int i, String imageURL){
-                                                                                                                                      String iddoc = uuid.v4();
-                                                                                                                                      FirebaseFirestore.instance.collection('Pessoas').doc("${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$iddoc$idCondominio").set({
-                                                                                                                                        "id": "${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$iddoc$idCondominio",
-                                                                                                                                        "idCondominio": idCondominio,
-                                                                                                                                        "Nome": userInfo['UserInfoSearch']['UserInfo'][i]['name'],
-                                                                                                                                        "CPF": "",
-                                                                                                                                        "RG": "",
-                                                                                                                                        "imageURI": imageURL,
-                                                                                                                                        "placa": "",
-                                                                                                                                        "Unidade":"",
-                                                                                                                                        "Bloco": "",
-                                                                                                                                        "Telefone": "",
-                                                                                                                                        "Celular": "",
-                                                                                                                                        "anotacao": "",
-                                                                                                                                        "Qualificacao": '',
-                                                                                                                                        "modeloAcionamento": modelo,
-                                                                                                                                        "ipAcionamento": ip,
-                                                                                                                                        "portaAcionamento": porta,
-                                                                                                                                        "usuarioAcionamento": usuario,
-                                                                                                                                        "senhaAcionamento": senha,
-                                                                                                                                        "idEquipamento": userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']
-                                                                                                                                      });
-                                                                                                                                    }
-
-                                                                                                                                    pushsemfoto(Map<dynamic, dynamic> userInfo, int i){
-                                                                                                                                      String iddoc = uuid.v4();
-                                                                                                                                      FirebaseFirestore.instance.collection('Pessoas').doc("${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$iddoc$idCondominio").set({
-                                                                                                                                        "id": "${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$iddoc$idCondominio",
-                                                                                                                                        "idCondominio": idCondominio,
-                                                                                                                                        "Nome": userInfo['UserInfoSearch']['UserInfo'][i]['name'],
-                                                                                                                                        "CPF": "",
-                                                                                                                                        "RG": "",
-                                                                                                                                        "imageURI": '',
-                                                                                                                                        "placa": "",
-                                                                                                                                        "Unidade":"",
-                                                                                                                                        "Bloco": "",
-                                                                                                                                        "Telefone": "",
-                                                                                                                                        "Celular": "",
-                                                                                                                                        "anotacao": "",
-                                                                                                                                        "Qualificacao": '',
-                                                                                                                                        "modeloAcionamento": modelo,
-                                                                                                                                        "ipAcionamento": ip,
-                                                                                                                                        "portaAcionamento": porta,
-                                                                                                                                        "usuarioAcionamento": usuario,
-                                                                                                                                        "senhaAcionamento": senha,
-                                                                                                                                        "idEquipamento": userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']
-                                                                                                                                      });
-                                                                                                                                    }
-
-                                                                                                                                    Map userInfo = await pushPessoas(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo']);
-
-                                                                                                                                    List<dynamic> Tratado = userInfo['UserInfoSearch']['UserInfo'];
-
-                                                                                                                                    int lent = 0;
-                                                                                                                                    if(Tratado.length == 1){
-                                                                                                                                      lent = Tratado.length;
-                                                                                                                                    }else{
-                                                                                                                                      lent = Tratado.length;
-                                                                                                                                    }
-
-                                                                                                                                    for (int i = 0; i < lent; i++) {
-                                                                                                                                      var ImagemEquipamento = await ImagemEquipamentoHikvision(documents['ip'], documents['porta'], documents['usuario'], documents['senha'], i + 1, "${userInfo['UserInfoSearch']['UserInfo'][i]['numOfFace']}", '${userInfo['UserInfoSearch']['UserInfo'][i]['numOfFP']}', context);
-
-                                                                                                                                      if(ImagemEquipamento == null){
-                                                                                                                                        pushsemfoto(userInfo, i);
-                                                                                                                                      }else{
-                                                                                                                                        String ImageURL = await carregarImagem(context, ImagemEquipamento, "$i${uuid.v4()}", idCondominio);
-                                                                                                                                        pushcomfoto(userInfo, i, ImageURL);
+                                                                                                                                    isHikvision() async {
+                                                                                                                                      pushcomfoto(Map<dynamic, dynamic> userInfo, int i, String imageURL){
+                                                                                                                                        String iddoc = uuid.v4();
+                                                                                                                                        FirebaseFirestore.instance.collection('Pessoas').doc("${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$iddoc$idCondominio").set({
+                                                                                                                                          "id": "${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$iddoc$idCondominio",
+                                                                                                                                          "idCondominio": idCondominio,
+                                                                                                                                          "Nome": userInfo['UserInfoSearch']['UserInfo'][i]['name'].replaceAll('', ""),
+                                                                                                                                          "CPF": "",
+                                                                                                                                          "RG": "",
+                                                                                                                                          "imageURI": imageURL,
+                                                                                                                                          "placa": "",
+                                                                                                                                          "Unidade":"",
+                                                                                                                                          "Bloco": "",
+                                                                                                                                          "Telefone": "",
+                                                                                                                                          "Celular": "",
+                                                                                                                                          "anotacao": "",
+                                                                                                                                          "Qualificacao": '',
+                                                                                                                                          "modeloAcionamento": modelo,
+                                                                                                                                          "ipAcionamento": ip,
+                                                                                                                                          "portaAcionamento": porta,
+                                                                                                                                          "usuarioAcionamento": usuario,
+                                                                                                                                          "senhaAcionamento": senha,
+                                                                                                                                          "idEquipamento": userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']
+                                                                                                                                        });
                                                                                                                                       }
+
+                                                                                                                                      pushsemfoto(Map<dynamic, dynamic> userInfo, int i){
+                                                                                                                                        String iddoc = uuid.v4();
+                                                                                                                                        FirebaseFirestore.instance.collection('Pessoas').doc("${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$iddoc$idCondominio").set({
+                                                                                                                                          "id": "${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$iddoc$idCondominio",
+                                                                                                                                          "idCondominio": idCondominio,
+                                                                                                                                          "Nome": userInfo['UserInfoSearch']['UserInfo'][i]['name'],
+                                                                                                                                          "CPF": "",
+                                                                                                                                          "RG": "",
+                                                                                                                                          "imageURI": '',
+                                                                                                                                          "placa": "",
+                                                                                                                                          "Unidade":"",
+                                                                                                                                          "Bloco": "",
+                                                                                                                                          "Telefone": "",
+                                                                                                                                          "Celular": "",
+                                                                                                                                          "anotacao": "",
+                                                                                                                                          "Qualificacao": '',
+                                                                                                                                          "modeloAcionamento": modelo,
+                                                                                                                                          "ipAcionamento": ip,
+                                                                                                                                          "portaAcionamento": porta,
+                                                                                                                                          "usuarioAcionamento": usuario,
+                                                                                                                                          "senhaAcionamento": senha,
+                                                                                                                                          "idEquipamento": userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']
+                                                                                                                                        });
+                                                                                                                                      }
+
+                                                                                                                                      int paginaAtual = 0;
+                                                                                                                                      int totalMatches = 0;
+                                                                                                                                      bool temMaisPaginas = true;
+
+                                                                                                                                      while (temMaisPaginas) {
+                                                                                                                                        try {
+                                                                                                                                          // Faz a consulta na API para a página atual
+                                                                                                                                          Map userInfo = await pushPessoas(
+                                                                                                                                            context,
+                                                                                                                                            documents['ip'],
+                                                                                                                                            documents['porta'],
+                                                                                                                                            documents['usuario'],
+                                                                                                                                            documents['senha'],
+                                                                                                                                            documents['modelo'],
+                                                                                                                                            paginaAtual * 20, // Assume que cada página tem 20 resultados
+                                                                                                                                          );
+
+                                                                                                                                          // Verifica o total de resultados na primeira consulta
+                                                                                                                                          if (paginaAtual == 0) {
+                                                                                                                                            totalMatches = userInfo['UserInfoSearch']['totalMatches'];
+                                                                                                                                          }
+
+                                                                                                                                          // Obtém a lista de usuários retornada
+                                                                                                                                          List<dynamic> Tratado = userInfo['UserInfoSearch']['UserInfo'];
+
+                                                                                                                                          for (int i = 0; i < Tratado.length; i++) {
+                                                                                                                                            try {
+                                                                                                                                              var ImagemEquipamento = await ImagemEquipamentoHikvision(
+                                                                                                                                                documents['ip'],
+                                                                                                                                                documents['porta'],
+                                                                                                                                                documents['usuario'],
+                                                                                                                                                documents['senha'],
+                                                                                                                                                i + 1 + (paginaAtual * 20), // Índice ajustado para a página
+                                                                                                                                                "${Tratado[i]['employeeNo']}",
+                                                                                                                                                '${Tratado[i]['numOfFP']}',
+                                                                                                                                                context,
+                                                                                                                                              );
+
+                                                                                                                                              if (ImagemEquipamento == null) {
+                                                                                                                                                pushsemfoto(userInfo, i);
+                                                                                                                                              } else {
+                                                                                                                                                String ImageURL = await carregarImagem(context, ImagemEquipamento, "$i${uuid.v4()}", idCondominio);
+                                                                                                                                                pushcomfoto(userInfo, i, ImageURL);
+                                                                                                                                              }
+                                                                                                                                            } catch (e) {
+                                                                                                                                              String error =
+                                                                                                                                                  "Aviso! Algum cadastro não puxou a foto! Ele pode não ter foto! Erro: $e, o código de erro foi copiado para a área de transferência, encaminhe o erro para o desenvolvedor!";
+                                                                                                                                              FlutterClipboard.copy(error);
+                                                                                                                                              showToast(error, duration: const Duration(seconds: 10), context: context);
+                                                                                                                                              pushsemfoto(userInfo, i);
+                                                                                                                                            }
+                                                                                                                                          }
+
+                                                                                                                                          // Verifica se há mais páginas para importar
+                                                                                                                                          paginaAtual++;
+                                                                                                                                          temMaisPaginas = (paginaAtual * 20) < totalMatches;
+                                                                                                                                        } catch (e) {
+                                                                                                                                          showToast("Erro ao importar dados: $e", context: context);
+                                                                                                                                          break;
+                                                                                                                                        }
+                                                                                                                                      }
+
+                                                                                                                                      Navigator.pop(context);
+                                                                                                                                      Navigator.pop(context);
+                                                                                                                                      Navigator.pop(context);
+                                                                                                                                      showToast("Importado com sucesso!", context: context);
                                                                                                                                     }
-                                                                                                                                    Navigator.pop(context);
-                                                                                                                                    Navigator.pop(context);
-                                                                                                                                    Navigator.pop(context);
-                                                                                                                                    showToast("Importado com sucesso!", context: context);
+                                                                                                                                    isHikvision();
                                                                                                                                   }
                                                                                                                                 },
                                                                                                                                 child: Stack(

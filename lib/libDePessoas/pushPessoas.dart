@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http_auth/http_auth.dart' as http_auth;
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:http/http.dart' as http;
@@ -104,9 +105,9 @@ ImagemEquipamentoCotroliD(String host, int port, String Season, int id) async {
 }
 
 ImagemEquipamentoHikvision(String host, int port, String usuario, String senha, int id, String FPID, String FDID, var context) async {
+
   // URL do endpoint
   String url = 'http://$host:$port/ISAPI/Intelligent/FDLib/FDSearch?format=json&devIndex=0';
-
   // Credenciais
   String username = usuario;
   String password = senha;
@@ -126,14 +127,15 @@ ImagemEquipamentoHikvision(String host, int port, String usuario, String senha, 
       'Authorization': digestAuth,
       'Content-Type': 'application/json',
     };
-
     // Corpo da requisição
     final Map<String, dynamic> requestBody = {
-      "maxResults": 30,
+      "maxResults": 10,
       "searchResultPosition": 0,
       "faceLibType": "blackFD",
-      "FDID": FDID,
-      "FPID" : FPID
+      //APENAS IGNORA ISSO
+      "FDID": "1",
+      //UID DO USUARIO
+      "FPID": FPID
     };
 
     // Requisição POST com a autenticação Digest
@@ -153,27 +155,41 @@ ImagemEquipamentoHikvision(String host, int port, String usuario, String senha, 
 
       // Escreve os bytes da resposta (imagem) no arquivo
       Map js = jsonDecode(response.body);
-      final responsee = await http.get(
+      if(js['MatchList'][0]['faceURL'].contains(":8") || js['MatchList'][0]['faceURL'].contains(":9") || js['MatchList'][0]['faceURL'].contains(":7") || js['MatchList'][0]['faceURL'].contains(":5")){
+        final responsee = await http.get(
+          Uri.parse(js['MatchList'][0]['faceURL'].replaceFirst(":8", ":8191")),
+          headers: headerse,
+        );
+
+        if (responsee.statusCode == 200) {
+          return await file.writeAsBytes(responsee.bodyBytes);
+        } else {
+          throw Exception('Falha ao fazer o download do arquivo');
+        }
+      }else{
+        final responsee = await http.get(
           Uri.parse(js['MatchList'][0]['faceURL']),
           headers: headerse,
-      );
+        );
 
-      if (responsee.statusCode == 200) {
-        return await file.writeAsBytes(responsee.bodyBytes);
-      } else {
-        print(responsee.statusCode);
-        throw Exception('Falha ao fazer o download do arquivo');
+        if (responsee.statusCode == 200) {
+          return await file.writeAsBytes(responsee.bodyBytes);
+        } else {
+          throw Exception('Falha ao fazer o download do arquivo');
+        }
       }
-      //return jsonDecode(response.body);
+
     } else {
+      throw Exception('Falha ao fazer o download do arquivo');
       return null;
     }
   } else {
+    showToast("Erro com a comunicação, status: ${response.statusCode}!", context: context);
     return null;
   }
 }
 
-Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, String usuario, String Senha, String modelo) async {
+Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, String usuario, String Senha, String modelo, int hiktotalMatches) async {
   //ControlID
   if(modelo == "Control iD"){
     final ipog = Uri.parse('http://$ip:$porta/login.fcgi');
@@ -269,11 +285,12 @@ Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, Stri
       };
 
       // Corpo da requisição
+      print(hiktotalMatches);
       final Map<String, dynamic> requestBody = {
         "UserInfoSearchCond": {
           "searchID": "0",
-          "searchResultPosition": 0,
-          "maxResults": 30
+          "searchResultPosition": hiktotalMatches,
+          "maxResults": 1000
         }
       };
 
