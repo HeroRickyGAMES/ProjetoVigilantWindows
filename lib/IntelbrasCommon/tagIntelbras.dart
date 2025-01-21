@@ -96,6 +96,7 @@ intelbrasTagAlert(var context, String host, int porta, String user, String senha
 
                           if (response.statusCode == 200) {
                             FirebaseFirestore.instance.collection("TAG").doc(UUID).set({
+                              "identificacao": CardNo,
                               "modelo": "Intelbras",
                               "tagNumber": CardNo,
                               "UserID": "$userID",

@@ -21,6 +21,7 @@ import 'package:vigilant/IntelbrasCommon/tagIntelbras.dart';
 import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
 import 'package:vigilant/botaoDireito.dart';
 import 'package:vigilant/controlidCommon/ControlIDCommon.dart';
+import 'package:vigilant/controlidCommon/tagAlertDialog.dart';
 import 'package:vigilant/informacoesLogais/getIds.dart';
 import 'package:vigilant/informacoesLogais/getUserInformations.dart';
 import 'package:vigilant/infosdoPc/getCores.dart';
@@ -3242,16 +3243,27 @@ class _homeAppState extends State<homeApp>{
                                                                                                                 },
                                                                                                                   style: ElevatedButton.styleFrom(
                                                                                                                       backgroundColor: colorBtn
-                                                                                                                  ), child: const Text('Não'),
+                                                                                                                  ), child: const Text(
+                                                                                                                      'Não',
+                                                                                                                    style: TextStyle(
+                                                                                                                      color: Colors.white
+                                                                                                                    ),
+                                                                                                                  ),
                                                                                                                 ),
                                                                                                                 ElevatedButton(onPressed: (){
                                                                                                                   FirebaseFirestore.instance.collection("acionamentos").doc(documents["id"]).delete().whenComplete((){
                                                                                                                     showToast("Acionamento deletado!",context:context);
+                                                                                                                    Navigator.pop(context);
                                                                                                                   });
                                                                                                                 },
                                                                                                                   style: ElevatedButton.styleFrom(
                                                                                                                       backgroundColor: colorBtn
-                                                                                                                  ), child: const Text('Sim'),
+                                                                                                                  ), child: const Text(
+                                                                                                                      'Sim',
+                                                                                                                    style: TextStyle(
+                                                                                                                        color: Colors.white
+                                                                                                                    ),
+                                                                                                                  ),
                                                                                                                 ),
                                                                                                               ],
                                                                                                             ),
@@ -6208,60 +6220,71 @@ class _homeAppState extends State<homeApp>{
                                                                                 ),
                                                                                 Row(
                                                                                   children: [
-                                                                                    documents['modeloAcionamento'] == "Control iD" ? TextButton(
-                                                                                        onPressed: (){
-                                                                                          int docID = documents['idEquipamento'];
-                                                                                          String ip = documents['ipAcionamento'];
-                                                                                          int porta = documents['portaAcionamento'];
-                                                                                          String usuario = documents['usuarioAcionamento'];
-                                                                                          String senha = documents['senhaAcionamento'];
+                                                                                    documents['modeloAcionamento'] == "Control iD" ?
+                                                                                    Row(
+                                                                                      children: [
+                                                                                        TextButton(
+                                                                                          onPressed: (){
+                                                                                            tagAlertControlid(context, documents['ipAcionamento'], documents['portaAcionamento'], documents['usuarioAcionamento'], documents['senhaAcionamento'], documents['idEquipamento']);
+                                                                                          },
+                                                                                          child: const Icon(Icons.credit_card_outlined),
+                                                                                        ),
+                                                                                        TextButton(
+                                                                                            onPressed: (){
+                                                                                              int docID = documents['idEquipamento'];
+                                                                                              String ip = documents['ipAcionamento'];
+                                                                                              int porta = documents['portaAcionamento'];
+                                                                                              String usuario = documents['usuarioAcionamento'];
+                                                                                              String senha = documents['senhaAcionamento'];
 
-                                                                                          showDialog(
-                                                                                            context: context,
-                                                                                            builder: (BuildContext context) {
-                                                                                              return AlertDialog(
-                                                                                                title: const Text('Deseja enviar um comando para cadastro\nde uma nova Digital para esse usuario?'),
-                                                                                                actions: [
-                                                                                                  Row(
-                                                                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                    children: [
-                                                                                                      ElevatedButton(
-                                                                                                          onPressed: (){
-                                                                                                            Navigator.pop(context);
-                                                                                                          },
-                                                                                                          style: ElevatedButton.styleFrom(
-                                                                                                            backgroundColor: Colors.blue
+                                                                                              showDialog(
+                                                                                                context: context,
+                                                                                                builder: (BuildContext context) {
+                                                                                                  return AlertDialog(
+                                                                                                    title: const Text('Deseja enviar um comando para cadastro\nde uma nova Digital para esse usuario?'),
+                                                                                                    actions: [
+                                                                                                      Row(
+                                                                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                        children: [
+                                                                                                          ElevatedButton(
+                                                                                                              onPressed: (){
+                                                                                                                Navigator.pop(context);
+                                                                                                              },
+                                                                                                              style: ElevatedButton.styleFrom(
+                                                                                                                backgroundColor: Colors.blue
+                                                                                                              ),
+                                                                                                              child: const Text(
+                                                                                                                  'Não',
+                                                                                                              style: TextStyle(
+                                                                                                                  color: Colors.white
+                                                                                                                ),
+                                                                                                              )
                                                                                                           ),
-                                                                                                          child: const Text(
-                                                                                                              'Não',
-                                                                                                          style: TextStyle(
-                                                                                                              color: Colors.white
-                                                                                                            ),
-                                                                                                          )
-                                                                                                      ),
-                                                                                                      ElevatedButton(
-                                                                                                          onPressed: (){
-                                                                                                            mandarRequisicaoParaDigital(context, ip, porta, usuario, senha, docID, "pessoas");
-                                                                                                          },
-                                                                                                          style: ElevatedButton.styleFrom(
-                                                                                                              backgroundColor: Colors.blue
+                                                                                                          ElevatedButton(
+                                                                                                              onPressed: (){
+                                                                                                                mandarRequisicaoParaDigital(context, ip, porta, usuario, senha, docID, "pessoas");
+                                                                                                              },
+                                                                                                              style: ElevatedButton.styleFrom(
+                                                                                                                  backgroundColor: Colors.blue
+                                                                                                              ),
+                                                                                                              child: const Text(
+                                                                                                                'Sim',
+                                                                                                                style: TextStyle(
+                                                                                                                    color: Colors.white
+                                                                                                                ),
+                                                                                                              )
                                                                                                           ),
-                                                                                                          child: const Text(
-                                                                                                            'Sim',
-                                                                                                            style: TextStyle(
-                                                                                                                color: Colors.white
-                                                                                                            ),
-                                                                                                          )
+                                                                                                        ],
                                                                                                       ),
                                                                                                     ],
-                                                                                                  ),
-                                                                                                ],
+                                                                                                  );
+                                                                                                },
                                                                                               );
-                                                                                            },
-                                                                                          );
 
-                                                                                        },
-                                                                                        child: const Icon(Icons.fingerprint)
+                                                                                            },
+                                                                                            child: const Icon(Icons.fingerprint)
+                                                                                        ),
+                                                                                      ],
                                                                                     ):documents['modeloAcionamento'] == "Intelbras" ?
                                                                                     Row(
                                                                                       children: [

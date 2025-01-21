@@ -513,16 +513,6 @@ controledeTags(var context, var wid , var heig){
                                                                         ),
                                                                         Container(
                                                                           padding: const EdgeInsets.all(16),
-                                                                          child: const Row(
-                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              Text("Nome"),
-                                                                              Text("Tag")
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                        Container(
-                                                                          padding: const EdgeInsets.all(16),
                                                                           child: StreamBuilder(stream:
                                                                           pesquisando55 == true ?
                                                                           FirebaseFirestore.instance
@@ -1060,7 +1050,7 @@ tagCadastro(var context, String ip, int porta, String usuario, String Senha, Str
           "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}",
         });
 
-        criarCard(context, ip, porta, usuario, Senha, valur, WG.replaceFirst("0", "").replaceAll(",", "."));
+        criarCard(context, ip, porta, usuario, Senha, valur, WG.replaceFirst("0", "").replaceAll(",", "."), true, "");
 
         showToast("Cadastrado no equipamento!", context: context);
         Navigator.pop(context);
@@ -1100,7 +1090,7 @@ tagEdicao(var context, String ip, int porta, String usuario, String Senha, Strin
 
   if(originalTag != tag){
     valur = int.parse(tag.trim().toUpperCase(), radix: 16);
-    criarCard(context, ip, porta, usuario, Senha, valur, WG);
+    criarCard(context, ip, porta, usuario, Senha, valur, WG, true, "");
   }else{
     valur = int.parse(tag);
   }
@@ -1272,9 +1262,8 @@ deleteUsers(var context, String ip, int porta, String usuario, String Senha, Str
   }
 }
 
-criarCard(var context, String ip, int porta, String usuario, String Senha, int tag, String WG) async {
-  double wgDouble = double.parse(WG);
-  List<String> partes = WG.split('.');
+criarCard(var context, String ip, int porta, String usuario, String Senha, int tag, String WG, bool veiculos, String identificacao) async {
+  List<String> partes = WG.split(',');
 
   int parte1 = int.parse(partes[0]);
   int parte2 = int.parse(partes[1]);
@@ -1326,19 +1315,49 @@ criarCard(var context, String ip, int porta, String usuario, String Senha, int t
         body: jsonEncode(body),
       );
       if (responsee.statusCode == 200) {
-
+        if(veiculos == false){
+          FirebaseFirestore.instance.collection("TAG").doc(UUID).set({
+            "identificacao": identificacao,
+            "modelo": "Control iD",
+            "veiculos": veiculos,
+            "tagNumber": resultado,
+            "UserID": tag,
+            "id": UUID,
+            "ipAcionamento": ip,
+            "portAcionamento": porta,
+            "userAcionamento": usuario,
+            "passAcionamento": Senha,
+          }).whenComplete((){
+            Navigator.pop(context);
+            Navigator.pop(context);
+            showToast("Cadastrado!", context: context);
+          });
+        }
       } else {
         print("erro? ${response.body}");
         print("erro? ${response.statusCode}");
         showToast("Erro com a comunicação, status: ${responsee.statusCode}\nUma tag possivelmente está cadastrada com o mesmo ID", context: context);
+        if(veiculos == false){
+          Navigator.pop(context);
+          Navigator.pop(context);
+        }
       }
     }else{
       print("erro? ${response.body}");
       print("erro? ${response.statusCode}");
       showToast("Erro com a comunicação, status: ${response.statusCode}\nUma tag possivelmente está cadastrada com o mesmo ID", context: context);
+      if(veiculos == false){
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.pop(context);
+      }
     }
   }catch(e){
     print("erro? $e");
     showToast("Erro ao executar a requisição: $e\nUma tag possivelmente está cadastrada com o mesmo ID", context: context);
+    if(veiculos == false){
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }
   }
 }
