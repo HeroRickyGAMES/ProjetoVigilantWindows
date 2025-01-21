@@ -17,6 +17,7 @@ import 'package:smooth_list_view/smooth_list_view.dart';
 import 'package:vigilant/FirebaseHost.dart';
 import 'package:vigilant/HikvisionCommon/HikvisionCommon.dart';
 import 'package:vigilant/IntelbrasCommon/intelbrasCommon.dart';
+import 'package:vigilant/IntelbrasCommon/tagIntelbras.dart';
 import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
 import 'package:vigilant/botaoDireito.dart';
 import 'package:vigilant/controlidCommon/ControlIDCommon.dart';
@@ -6262,50 +6263,60 @@ class _homeAppState extends State<homeApp>{
                                                                                         },
                                                                                         child: const Icon(Icons.fingerprint)
                                                                                     ):documents['modeloAcionamento'] == "Intelbras" ?
-                                                                                    TextButton(
-                                                                                      onPressed: (){
-                                                                                        String docID = documents['id'];
-                                                                                        int idEquipamento = documents['idEquipamento'];
-                                                                                        String ip = documents['ipAcionamento'];
-                                                                                        int porta = documents['portaAcionamento'];
-                                                                                        String usuario = documents['usuarioAcionamento'];
-                                                                                        String senha = documents['senhaAcionamento'];
+                                                                                    Row(
+                                                                                      children: [
+                                                                                        TextButton(
+                                                                                          onPressed: (){
+                                                                                            intelbrasTagAlert(context, documents['ipAcionamento'], documents['portaAcionamento'], documents['usuarioAcionamento'], documents['senhaAcionamento'], documents['idEquipamento']);
+                                                                                          },
+                                                                                          child: const Icon(Icons.credit_card),
+                                                                                        ),
+                                                                                        TextButton(
+                                                                                          onPressed: (){
+                                                                                            String docID = documents['id'];
+                                                                                            int idEquipamento = documents['idEquipamento'];
+                                                                                            String ip = documents['ipAcionamento'];
+                                                                                            int porta = documents['portaAcionamento'];
+                                                                                            String usuario = documents['usuarioAcionamento'];
+                                                                                            String senha = documents['senhaAcionamento'];
 
-                                                                                        showDialog(
-                                                                                          context: context,
-                                                                                          builder: (BuildContext context) {
-                                                                                            return AlertDialog(
-                                                                                              title: const Text('Facial Intelbras'),
-                                                                                              actions: [
-                                                                                                Center(
-                                                                                                  child: Column(
-                                                                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                    children: [
-                                                                                                      Container(
-                                                                                                        padding: const EdgeInsets.all(10),
-                                                                                                        child: ElevatedButton(onPressed: (){
-                                                                                                          usarFacial(context, ip, porta, usuario, senha, idEquipamento);
-                                                                                                        },
-                                                                                                        child: const Text('Cadastrar uma nova facial para esse usuario'),
-                                                                                                        ),
+                                                                                            showDialog(
+                                                                                              context: context,
+                                                                                              builder: (BuildContext context) {
+                                                                                                return AlertDialog(
+                                                                                                  title: const Text('Facial Intelbras'),
+                                                                                                  actions: [
+                                                                                                    Center(
+                                                                                                      child: Column(
+                                                                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                        children: [
+                                                                                                          Container(
+                                                                                                            padding: const EdgeInsets.all(10),
+                                                                                                            child: ElevatedButton(onPressed: (){
+                                                                                                              usarFacial(context, ip, porta, usuario, senha, idEquipamento);
+                                                                                                            },
+                                                                                                            child: const Text('Cadastrar uma nova facial para esse usuario'),
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                          Container(
+                                                                                                            padding: const EdgeInsets.all(10),
+                                                                                                            child: ElevatedButton(onPressed: (){
+                                                                                                              deletarFacial(context, ip, porta, usuario, senha, idEquipamento);
+                                                                                                            },
+                                                                                                              child: const Text('Deletar facial'),
+                                                                                                            ),
+                                                                                                          )
+                                                                                                        ],
                                                                                                       ),
-                                                                                                      Container(
-                                                                                                        padding: const EdgeInsets.all(10),
-                                                                                                        child: ElevatedButton(onPressed: (){
-                                                                                                          deletarFacial(context, ip, porta, usuario, senha, idEquipamento);
-                                                                                                        },
-                                                                                                          child: const Text('Deletar facial'),
-                                                                                                        ),
-                                                                                                      )
-                                                                                                    ],
-                                                                                                  ),
-                                                                                                )
-                                                                                              ],
+                                                                                                    )
+                                                                                                  ],
+                                                                                                );
+                                                                                              },
                                                                                             );
                                                                                           },
-                                                                                        );
-                                                                                      },
-                                                                                      child: const Icon(Icons.face),
+                                                                                          child: const Icon(Icons.face),
+                                                                                        ),
+                                                                                      ],
                                                                                     ):
                                                                                     documents['modeloAcionamento'] == "Hikvision" ? TextButton(
                                                                                       onPressed: () {

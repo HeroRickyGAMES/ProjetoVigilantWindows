@@ -11,7 +11,6 @@ import 'package:vigilant/informacoesLogais/getUserInformations.dart';
 
 usarFacial(var context, String ip, int porta,String usuario, String senha, int userID) async {
   final url = Uri.parse('http://$ip:$porta/cgi-bin/accessControl.cgi?action=captureCmd&type=1&UserID=$userID&heartbeat=5&timeout=10');
-  print(url);
 
   Map<String, String> headers = {
     'Accept': '*/*',
