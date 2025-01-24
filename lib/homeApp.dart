@@ -10459,7 +10459,8 @@ class _homeAppState extends State<homeApp>{
                                                                                             "portaAcionamento": '',
                                                                                             "usuarioAcionamento": '',
                                                                                             "senhaAcionamento": '',
-                                                                                            "idEquipamento": ""
+                                                                                            "idEquipamento": "",
+                                                                                            "modeloAcionamento": '',
                                                                                           }).whenComplete(() {
                                                                                             print('completo!');
                                                                                             Navigator.of(context).pop();
