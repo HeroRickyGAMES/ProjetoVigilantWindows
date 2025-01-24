@@ -69,6 +69,8 @@ intelbrasTagAlert(var context, String host, int porta, String user, String senha
                         showToast("O campo da TAG estpa vazia!",context:context);
                       }else{
 
+                        String? hexadecimalConverter = int.tryParse(CardNo)?.toRadixString(16);
+
                         Map<String, String> headers = {
                           'Accept': '*/*',
                           'Accept-Encoding': 'gzip, deflate, br',
@@ -79,7 +81,7 @@ intelbrasTagAlert(var context, String host, int porta, String user, String senha
                           "CardList": [
                             {
                               "UserID": "$userID",
-                              "CardNo": CardNo,
+                              "CardNo": hexadecimalConverter,
                               "CardType": 0,
                               "CardStatus": 0,
                             }
@@ -96,7 +98,7 @@ intelbrasTagAlert(var context, String host, int porta, String user, String senha
 
                           if (response.statusCode == 200) {
                             FirebaseFirestore.instance.collection("TAG").doc(UUID).set({
-                              "identificacao": CardNo,
+                              "identificacao": hexadecimalConverter,
                               "modelo": "Intelbras",
                               "tagNumber": CardNo,
                               "UserID": "$userID",
