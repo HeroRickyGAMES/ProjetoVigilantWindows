@@ -121,7 +121,7 @@ Future<Map<String, dynamic>> cadastronoEquipamento(var context, String ip, int p
         "userType": "normal",
         "Valid": {
           "enable": true,
-          "beginTime": "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}T${DateTime.now().hour}:${DateTime.now().minute}:00",
+          "beginTime": "2017-01-01T00:00:00",
           "endTime": "2025-08-01T17:30:08"
         }
       }

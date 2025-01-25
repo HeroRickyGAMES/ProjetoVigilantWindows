@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_list_view/smooth_list_view.dart';
 import 'package:vigilant/FirebaseHost.dart';
 import 'package:vigilant/HikvisionCommon/HikvisionCommon.dart';
+import 'package:vigilant/HikvisionCommon/tagHikvision.dart';
 import 'package:vigilant/IntelbrasCommon/intelbrasCommon.dart';
 import 'package:vigilant/IntelbrasCommon/tagIntelbras.dart';
 import 'package:vigilant/IntelbrasCommon/userImport.dart';
@@ -6320,115 +6321,124 @@ class _homeAppState extends State<homeApp>{
                                                                                         ),
                                                                                       ],
                                                                                     ):
-                                                                                    documents['modeloAcionamento'] == "Hikvision" ? TextButton(
-                                                                                      onPressed: () {
-                                                                                        String docID = documents['id'];
-                                                                                        String idEquipamento = documents['idEquipamento'];
-                                                                                        String ip = documents['ipAcionamento'];
-                                                                                        int porta = documents['portaAcionamento'];
-                                                                                        String usuario = documents['usuarioAcionamento'];
-                                                                                        String senha = documents['senhaAcionamento'];
-
-
-                                                                                        showDialog(
-                                                                                          context: context,
-                                                                                          builder: (BuildContext context) {
-                                                                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                                                                              return AlertDialog(
-                                                                                                title: Center(
-                                                                                                    child: Column(
-                                                                                                      children: [
-                                                                                                        Image.asset(
-                                                                                                            "assets/facialReconotion.png",
-                                                                                                        scale: 5,
-                                                                                                        ),
-                                                                                                        const Text('Facial Hikvision'),
-                                                                                                        Container(
-                                                                                                          padding: const EdgeInsets.all(10),
-                                                                                                          child: Column(
-                                                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                                            children: [
-                                                                                                              ElevatedButton(onPressed: () async {
-                                                                                                                FilePickerResult? result = await FilePicker.platform.pickFiles(
-                                                                                                                  type: FileType.image,
-                                                                                                                );
-                                                                                                                if(result != null){
-
-                                                                                                                  showDialog(
-                                                                                                                    context: context,
-                                                                                                                    builder: (BuildContext context) {
-                                                                                                                      return const AlertDialog(
-                                                                                                                        title: Text('Aguarde!'),
-                                                                                                                        actions: [
-                                                                                                                          Center(
-                                                                                                                            child: CircularProgressIndicator(),
-                                                                                                                          )
-                                                                                                                        ],
-                                                                                                                      );
-                                                                                                                    },
-                                                                                                                  );
-
-                                                                                                                  deletarImagem(context, ip, porta, usuario, senha, idEquipamento, "inserirImagem");
-                                                                                                                  await Future.delayed(const Duration(seconds: 3));
-
-                                                                                                                  File file = File(result.files.single.path!);
-                                                                                                                  var imageURL = await carregarImagem(context, file, idEquipamento, idCondominio);
-
-                                                                                                                  var imagem = pegarImagem(context, ip, porta, usuario, senha, idEquipamento, imageURL);
-
-                                                                                                                  if(imagem != null){
-                                                                                                                    FirebaseFirestore.instance.collection('Pessoas').doc(docID).update({
-                                                                                                                      "imageURI": imageURL
-                                                                                                                    }).whenComplete((){
-                                                                                                                      showToast("Pronto!",context:context);
-                                                                                                                      Navigator.pop(context);
-                                                                                                                      Navigator.pop(context);
-                                                                                                                    });
-                                                                                                                  }else{
-                                                                                                                    Navigator.pop(context);
-                                                                                                                    Navigator.pop(context);
-                                                                                                                  }
-                                                                                                                }else{
-                                                                                                                  showToast("Nenhum arquivo selecionado.", context: context);
-                                                                                                                }
-                                                                                                              },
-                                                                                                              child: const Text('Cadastrar uma nova facial para esse usuario'),
-                                                                                                              ),
-                                                                                                              Container(
-                                                                                                                padding: const EdgeInsets.all(10),
-                                                                                                                child: ElevatedButton(onPressed: (){
-                                                                                                                  showDialog(
-                                                                                                                    context: context,
-                                                                                                                    builder: (BuildContext context) {
-                                                                                                                      return const AlertDialog(
-                                                                                                                        title: Text('Aguarde!'),
-                                                                                                                        actions: [
-                                                                                                                          Center(
-                                                                                                                            child: CircularProgressIndicator(),
-                                                                                                                          )
-                                                                                                                        ],
-                                                                                                                      );
-                                                                                                                    },
-                                                                                                                  );
-                                                                                                                  deletarImagem(context, ip, porta, usuario, senha, idEquipamento, "deletarImagem");
-                                                                                                                },
-                                                                                                                  child: const Text('Deletar facial'),
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                            ],
-                                                                                                          ),
-                                                                                                        )
-                                                                                                      ],
-                                                                                                    )
-                                                                                                ),
-                                                                                                scrollable: true,
-                                                                                              );
+                                                                                    documents['modeloAcionamento'] == "Hikvision" ?
+                                                                                    Row(
+                                                                                      children: [
+                                                                                        TextButton(
+                                                                                          onPressed: (){
+                                                                                              tagHikvision(context, documents['ipAcionamento'], documents['portaAcionamento'], documents['usuarioAcionamento'], documents['senhaAcionamento'], documents['idEquipamento']);
                                                                                             },
+                                                                                          child: const Icon(Icons.credit_card_outlined),
+                                                                                        ),
+                                                                                        TextButton(
+                                                                                          onPressed: () {
+                                                                                            String docID = documents['id'];
+                                                                                            int idEquipamento = documents['idEquipamento'];
+                                                                                            String ip = documents['ipAcionamento'];
+                                                                                            int porta = documents['portaAcionamento'];
+                                                                                            String usuario = documents['usuarioAcionamento'];
+                                                                                            String senha = documents['senhaAcionamento'];
+                                                                                            showDialog(
+                                                                                              context: context,
+                                                                                              builder: (BuildContext context) {
+                                                                                                return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                                  return AlertDialog(
+                                                                                                    title: Center(
+                                                                                                        child: Column(
+                                                                                                          children: [
+                                                                                                            Image.asset(
+                                                                                                                "assets/facialReconotion.png",
+                                                                                                            scale: 5,
+                                                                                                            ),
+                                                                                                            const Text('Facial Hikvision'),
+                                                                                                            Container(
+                                                                                                              padding: const EdgeInsets.all(10),
+                                                                                                              child: Column(
+                                                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                                children: [
+                                                                                                                  ElevatedButton(onPressed: () async {
+                                                                                                                    FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                                                                                                      type: FileType.image,
+                                                                                                                    );
+                                                                                                                    if(result != null){
+
+                                                                                                                      showDialog(
+                                                                                                                        context: context,
+                                                                                                                        builder: (BuildContext context) {
+                                                                                                                          return const AlertDialog(
+                                                                                                                            title: Text('Aguarde!'),
+                                                                                                                            actions: [
+                                                                                                                              Center(
+                                                                                                                                child: CircularProgressIndicator(),
+                                                                                                                              )
+                                                                                                                            ],
+                                                                                                                          );
+                                                                                                                        },
+                                                                                                                      );
+
+                                                                                                                      deletarImagem(context, ip, porta, usuario, senha, idEquipamento, "inserirImagem");
+                                                                                                                      await Future.delayed(const Duration(seconds: 3));
+
+                                                                                                                      File file = File(result.files.single.path!);
+                                                                                                                      var imageURL = await carregarImagem(context, file, "$idEquipamento", idCondominio);
+
+                                                                                                                      var imagem = pegarImagem(context, ip, porta, usuario, senha, idEquipamento, imageURL);
+
+                                                                                                                      if(imagem != null){
+                                                                                                                        FirebaseFirestore.instance.collection('Pessoas').doc(docID).update({
+                                                                                                                          "imageURI": imageURL
+                                                                                                                        }).whenComplete((){
+                                                                                                                          showToast("Pronto!",context:context);
+                                                                                                                          Navigator.pop(context);
+                                                                                                                          Navigator.pop(context);
+                                                                                                                        });
+                                                                                                                      }else{
+                                                                                                                        Navigator.pop(context);
+                                                                                                                        Navigator.pop(context);
+                                                                                                                      }
+                                                                                                                    }else{
+                                                                                                                      showToast("Nenhum arquivo selecionado.", context: context);
+                                                                                                                    }
+                                                                                                                  },
+                                                                                                                  child: const Text('Cadastrar uma nova facial para esse usuario'),
+                                                                                                                  ),
+                                                                                                                  Container(
+                                                                                                                    padding: const EdgeInsets.all(10),
+                                                                                                                    child: ElevatedButton(onPressed: (){
+                                                                                                                      showDialog(
+                                                                                                                        context: context,
+                                                                                                                        builder: (BuildContext context) {
+                                                                                                                          return const AlertDialog(
+                                                                                                                            title: Text('Aguarde!'),
+                                                                                                                            actions: [
+                                                                                                                              Center(
+                                                                                                                                child: CircularProgressIndicator(),
+                                                                                                                              )
+                                                                                                                            ],
+                                                                                                                          );
+                                                                                                                        },
+                                                                                                                      );
+                                                                                                                      deletarImagem(context, ip, porta, usuario, senha, idEquipamento, "deletarImagem");
+                                                                                                                    },
+                                                                                                                      child: const Text('Deletar facial'),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ],
+                                                                                                              ),
+                                                                                                            )
+                                                                                                          ],
+                                                                                                        )
+                                                                                                    ),
+                                                                                                    scrollable: true,
+                                                                                                  );
+                                                                                                },
+                                                                                                );
+                                                                                              },
                                                                                             );
                                                                                           },
-                                                                                        );
-                                                                                      },
-                                                                                      child: const Icon(Icons.face),
+                                                                                          child: const Icon(Icons.face),
+                                                                                        ),
+                                                                                      ],
                                                                                     ): Container(),
                                                                                     adicionarMoradores == true ?
                                                                                     Container(
@@ -9696,7 +9706,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                           "portaAcionamento": porta,
                                                                                                                                           "usuarioAcionamento": usuario,
                                                                                                                                           "senhaAcionamento": senha,
-                                                                                                                                          "idEquipamento": userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']
+                                                                                                                                          "idEquipamento": int.tryParse(userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo'])
                                                                                                                                         });
                                                                                                                                       }
 
@@ -9721,7 +9731,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                           "portaAcionamento": porta,
                                                                                                                                           "usuarioAcionamento": usuario,
                                                                                                                                           "senhaAcionamento": senha,
-                                                                                                                                          "idEquipamento": userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']
+                                                                                                                                          "idEquipamento": int.tryParse(userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo'])
                                                                                                                                         });
                                                                                                                                       }
 
@@ -10415,7 +10425,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         showToast("O bloco está vazio!!",context:context);
                                                                                       }else{
                                                                                         String ID = "";
-                                                                                        Cadastrar(String DocID) async {
+                                                                                        Cadastrar(String DocID, int idEquipamento) async {
                                                                                           String DownloadURL = '';
                                                                                           if(_imageFile != null){
                                                                                             DownloadURL = await carregarImagem(context, _imageFile!, DocID, idCondominio).getDownloadURL();
@@ -10435,12 +10445,12 @@ class _homeAppState extends State<homeApp>{
                                                                                             "Telefone": Telefone,
                                                                                             "Celular": Celular,
                                                                                             "Qualificacao": Qualificacao,
-                                                                                            "ipAcionamento": '',
-                                                                                            "portaAcionamento": '',
-                                                                                            "usuarioAcionamento": '',
-                                                                                            "senhaAcionamento": '',
-                                                                                            "idEquipamento": "",
-                                                                                            "modeloAcionamento": '',
+                                                                                            "ipAcionamento": ipAcionamento,
+                                                                                            "portaAcionamento": portaAc,
+                                                                                            "usuarioAcionamento": usuarioAc,
+                                                                                            "senhaAcionamento": senhAc,
+                                                                                            "idEquipamento": idEquipamento,
+                                                                                            "modeloAcionamento": modeloAcionamento,
                                                                                           }).whenComplete(() {
                                                                                             print('completo!');
                                                                                             Navigator.of(context).pop();
@@ -10472,7 +10482,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             setStater((){
                                                                                               ID = "${id["ids"][0]}$iddoc$idCondominio";
                                                                                             });
-                                                                                            Cadastrar(ID);
+                                                                                            Cadastrar(ID, id["ids"][0]);
                                                                                           }
                                                                                         }
 
@@ -10482,7 +10492,7 @@ class _homeAppState extends State<homeApp>{
                                                                                             ID = "$id$idCondominio";
                                                                                           });
                                                                                           await cadastronoEquipamento(context, ipAcionamento, portaAc, usuarioAc, senhAc, modeloAcionamento, NomeV, id);
-                                                                                          Cadastrar(ID);
+                                                                                          Cadastrar(ID, id);
                                                                                         }
                                                                                         if(modeloPikado == "Intelbras"){
                                                                                           int id = gerarNumero();
@@ -10502,7 +10512,7 @@ class _homeAppState extends State<homeApp>{
                                                                                           setStater((){
                                                                                             ID = "${uuid.v4()}$idCondominio";
                                                                                           });
-                                                                                          Cadastrar(ID);
+                                                                                          Cadastrar(ID, 0);
                                                                                         }
                                                                                       }
                                                                                     }

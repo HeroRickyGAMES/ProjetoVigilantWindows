@@ -7,14 +7,15 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 //Programado por HeroRickyGames com ajuda de Deus!
 
 //Produção
-String host = "spartaserver.ddns.net";
-int Authport = 4001;
-int Dbport = 4002;
+String hostauth = "spartaserver.ddns.net";
+//String host = "spartaserver.ddns.net";
+//int Authport = 4001;
+//int Dbport = 4002;
 
 //Homologação
-//String host = "192.168.1.102";
-//int Dbport = 8087;
-//int Authport = 9097;
+String host = "192.168.3.214";
+int Authport = 4001;
+int Dbport = 8002;
 
 initFirestore(){
   FirebaseFirestore.instance.settings = Settings(
@@ -25,7 +26,7 @@ initFirestore(){
 }
 
 initAuth(){
-  FirebaseAuth.instance.useAuthEmulator(host, Authport);
+  FirebaseAuth.instance.useAuthEmulator(hostauth, Authport);
 }
 
 carregarImagem(var context, File _imagefile, String ID, String idCondominio) async {

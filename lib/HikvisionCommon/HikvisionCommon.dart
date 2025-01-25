@@ -13,7 +13,7 @@ import 'package:vigilant/informacoesLogais/getUserInformations.dart';
 //Programado por HeroRickyGAMES com a ajuda de Deus!
 
 // Função para gerar o header de autenticação Digest Auth
-String _generateDigestAuth(Map<String, String> authData, String username, String password, String method, String uri) {
+String generateDigestAuth(Map<String, String> authData, String username, String password, String method, String uri) {
   final ha1 = md5.convert(utf8.encode('$username:${authData["realm"]}:$password')).toString();
   final ha2 = md5.convert(utf8.encode('$method:$uri')).toString();
   final response = md5.convert(utf8.encode('$ha1:${authData["nonce"]}:$ha2')).toString();
@@ -22,7 +22,7 @@ String _generateDigestAuth(Map<String, String> authData, String username, String
 }
 
 // Função para extrair dados do header WWW-Authenticate
-Map<String, String> _parseDigestHeader(String header) {
+Map<String, String> parseDigestHeader(String header) {
   final Map<String, String> authData = {};
   final regExp = RegExp(r'(\w+)=["]?([^",]+)["]?');
   regExp.allMatches(header).forEach((match) {
@@ -31,7 +31,7 @@ Map<String, String> _parseDigestHeader(String header) {
   return authData;
 }
 
-pegarImagem(var context, String ip, int porta, String usuario, String Senha, String userID, String ImageURL) async {
+pegarImagem(var context, String ip, int porta, String usuario, String Senha, int userID, String ImageURL) async {
 
   // URL do endpoint
   String url = 'http://$ip:$porta/ISAPI/Intelligent/FDLib/FaceDataRecord?format=json&devIndex=0';
@@ -46,8 +46,8 @@ pegarImagem(var context, String ip, int porta, String usuario, String Senha, Str
     final authHeader = response.headers['www-authenticate'];
 
     // Extrai os valores do header de autenticação
-    final authData = _parseDigestHeader(authHeader!);
-    final digestAuth = _generateDigestAuth(authData, username, password, 'POST', url);
+    final authData = parseDigestHeader(authHeader!);
+    final digestAuth = generateDigestAuth(authData, username, password, 'POST', url);
 
     // Cabeçalhos com autenticação Digest
     final headers = {
@@ -56,13 +56,13 @@ pegarImagem(var context, String ip, int porta, String usuario, String Senha, Str
     };
 
 
-    print(ImageURL);
+    print(userID);
     // Corpo da requisição
     final Map<String, dynamic> requestBody = {
       "faceURL": ImageURL,
       "faceLibType": "blackFD",
-      "FDID": userID,
-      "FPID": userID
+      "FDID": "1",
+      "FPID": "$userID"
     };
 
     // Requisição POST com a autenticação Digest
@@ -103,7 +103,7 @@ pegarImagem(var context, String ip, int porta, String usuario, String Senha, Str
   }
 }
 
-deletarImagem(var context, String ip, int porta, String usuario, String Senha, String userID, String veiode) async {
+deletarImagem(var context, String ip, int porta, String usuario, String Senha, int userID, String veiode) async {
   // URL do endpoint
   String url = 'http://$ip:$porta/ISAPI/Intelligent/FDLib/FDSetUp?format=json';
 
@@ -117,8 +117,8 @@ deletarImagem(var context, String ip, int porta, String usuario, String Senha, S
     final authHeader = response.headers['www-authenticate'];
 
     // Extrai os valores do header de autenticação
-    final authData = _parseDigestHeader(authHeader!);
-    final digestAuth = _generateDigestAuth(authData, username, password, 'PUT', url);
+    final authData = parseDigestHeader(authHeader!);
+    final digestAuth = generateDigestAuth(authData, username, password, 'PUT', url);
 
     // Cabeçalhos com autenticação Digest
     final headers = {
@@ -129,8 +129,8 @@ deletarImagem(var context, String ip, int porta, String usuario, String Senha, S
     // Corpo da requisição
     final Map<String, dynamic> requestBody = {
       "faceLibType":"blackFD",
-      "FDID":"1",
-      "FPID":"1",
+      "FDID": "1",
+      "FPID": "$userID",
       "deleteFP":true
     };
 
