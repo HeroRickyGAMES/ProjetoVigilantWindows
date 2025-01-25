@@ -8,14 +8,14 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 //Produção
 String hostauth = "spartaserver.ddns.net";
-//String host = "spartaserver.ddns.net";
-//int Authport = 4001;
-//int Dbport = 4002;
+String host = "spartaserver.ddns.net";
+int Authport = 4001;
+int Dbport = 4002;
 
 //Homologação
-String host = "192.168.3.214";
-int Authport = 4001;
-int Dbport = 8002;
+//String host = "192.168.3.214";
+//int Authport = 4001;
+//int Dbport = 8002;
 
 initFirestore(){
   FirebaseFirestore.instance.settings = Settings(
