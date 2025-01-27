@@ -9563,6 +9563,14 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                       );
                                                                                                                                     },
                                                                                                                                   );
+
+                                                                                                                                  CollectionReference collectionRef = FirebaseFirestore.instance.collection("Pessoas");
+                                                                                                                                  QuerySnapshot querySnapshot = await collectionRef.where("idCondominio", isEqualTo: idCondominio).get();
+
+                                                                                                                                  for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+                                                                                                                                    await doc.reference.delete();
+                                                                                                                                  }
+
                                                                                                                                   if(documents['modelo'] == 'Control iD'){
                                                                                                                                     Map<String, dynamic> usuarios = await pushPessoas(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo'], 0);
 
@@ -9678,13 +9686,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                   }
                                                                                                                                   if(documents['modelo'] == 'Hikvision'){
                                                                                                                                     isHikvision() async {
-                                                                                                                                      CollectionReference collectionRef = FirebaseFirestore.instance.collection("Pessoas");
-                                                                                                                                      QuerySnapshot querySnapshot = await collectionRef.where("idCondominio", isEqualTo: idCondominio).get();
-
-                                                                                                                                      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-                                                                                                                                        await doc.reference.delete();
-                                                                                                                                      }
-
                                                                                                                                       pushcomfoto(Map<dynamic, dynamic> userInfo, int i, String imageURL){
                                                                                                                                         String iddoc = uuid.v4();
                                                                                                                                         FirebaseFirestore.instance.collection('Pessoas').doc("${userInfo['UserInfoSearch']['UserInfo'][i]['employeeNo']}$iddoc$idCondominio").set({
@@ -9767,7 +9768,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                                 documents['porta'],
                                                                                                                                                 documents['usuario'],
                                                                                                                                                 documents['senha'],
-                                                                                                                                                i + 1 + (paginaAtual * 20), // Índice ajustado para a página
+                                                                                                                                                i + 1 + (paginaAtual * 20),
                                                                                                                                                 "${Tratado[i]['employeeNo']}",
                                                                                                                                                 '${Tratado[i]['numOfFP']}',
                                                                                                                                                 context,

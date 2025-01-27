@@ -490,7 +490,7 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                                                     autocorrect: false,
                                                                     onChanged: (value){
                                                                       setStates(() {
-                                                                        IP = value;
+                                                                        porta = value;
                                                                       });
                                                                     },
                                                                     decoration: InputDecoration(
@@ -674,6 +674,8 @@ class _VideoStreamWidgetState extends State<VideoStreamWidget> {
                                                               ),
                                                               ElevatedButton(
                                                                   onPressed: (){
+                                                                    print(IP);
+                                                                    print(porta);
                                                                       FirebaseFirestore.instance.collection("CFTV").doc(documents['id']).update({
                                                                         "ip": IP,
                                                                         "porta": int.parse(porta),

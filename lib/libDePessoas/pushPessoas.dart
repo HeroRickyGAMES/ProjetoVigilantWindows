@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:http_auth/http_auth.dart' as http_auth;
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:http/http.dart' as http;
@@ -105,7 +104,6 @@ ImagemEquipamentoCotroliD(String host, int port, String Season, int id) async {
 }
 
 ImagemEquipamentoHikvision(String host, int port, String usuario, String senha, int id, String FPID, String FDID, var context) async {
-
   // URL do endpoint
   String url = 'http://$host:$port/ISAPI/Intelligent/FDLib/FDSearch?format=json&devIndex=0';
   // Credenciais
@@ -146,7 +144,6 @@ ImagemEquipamentoHikvision(String host, int port, String usuario, String senha, 
     );
 
     if (response.statusCode == 200) {
-
       final headerse = {
         'Authorization': digestAuthe,
         'Content-Type': 'application/json',
@@ -155,7 +152,7 @@ ImagemEquipamentoHikvision(String host, int port, String usuario, String senha, 
 
       // Escreve os bytes da resposta (imagem) no arquivo
       Map js = jsonDecode(response.body);
-      if(js['MatchList'][0]['faceURL'].contains(":8") || js['MatchList'][0]['faceURL'].contains(":9") || js['MatchList'][0]['faceURL'].contains(":7") || js['MatchList'][0]['faceURL'].contains(":5")){
+      if(idCondominio == "efc282a2-34d3-467e-81f9-ee51c9bcb010"){
         final responsee = await http.get(
           Uri.parse(js['MatchList'][0]['faceURL'].replaceFirst(":8", ":8191")),
           headers: headerse,
@@ -181,7 +178,6 @@ ImagemEquipamentoHikvision(String host, int port, String usuario, String senha, 
 
     } else {
       throw Exception('Falha ao fazer o download do arquivo');
-      return null;
     }
   } else {
     showToast("Erro com a comunicação, status: ${response.statusCode}!", context: context);
@@ -285,7 +281,6 @@ Future<Map<String, dynamic>> pushPessoas(var context, String ip, int porta, Stri
       };
 
       // Corpo da requisição
-      print(hiktotalMatches);
       final Map<String, dynamic> requestBody = {
         "UserInfoSearchCond": {
           "searchID": "0",

@@ -274,9 +274,28 @@ controledeTags(var context, var wid , var heig){
                                                                                     lent = usuarios['users'].length;
                                                                                   }
 
-                                                                                  print(usuarios['users'].length);
-
                                                                                   for (int i = 0; i < lent; i++) {
+                                                                                    //TODO REQUEST PARA VERIFICAR O CARD ID;
+                                                                                    int valor = await controlIDCards(context, ip, porta, usuario, senha, usuarios['users'][i]["id"]);
+                                                                                    String WG = "";
+
+                                                                                    print(valor);
+
+                                                                                    if(valor != 00){
+                                                                                      // Calcular o código de área (parte inteira da divisão)
+                                                                                      int codigoArea = valor ~/ pow(2, 32).toInt();
+
+                                                                                      // Calcular o número do cartão (valor restante)
+                                                                                      int numeroCartao = valor - codigoArea * pow(2, 32).toInt();
+
+                                                                                      // Exibir o resultado formatado
+                                                                                      print('Código de área: $codigoArea');
+                                                                                      print('Número do cartão: $numeroCartao');
+
+                                                                                      // Exibir o valor do cartão no formato desejado
+                                                                                      WG = '$codigoArea,0$numeroCartao';
+                                                                                    }
+
                                                                                     cadastrarPs(){
                                                                                       FirebaseFirestore.instance.collection('tags').doc("${usuarios['users'][i]["id"]}$idCondominio").set({
                                                                                         "id": "${usuarios['users'][i]["id"]}$idCondominio",
@@ -295,11 +314,11 @@ controledeTags(var context, var wid , var heig){
                                                                                         "anotacao": "",
                                                                                         "Telefone": '',
                                                                                         "Qualificacao": '',
+                                                                                        "wg": WG,
                                                                                       });
                                                                                     }
 
                                                                                     cadastrarSemFoto(){
-
                                                                                       FirebaseFirestore.instance.collection('tags').doc("${usuarios['users'][i]["id"]}$idCondominio").set({
                                                                                         "id": "${usuarios['users'][i]["id"]}$idCondominio",
                                                                                         "idCondominio": idCondominio,
@@ -316,19 +335,23 @@ controledeTags(var context, var wid , var heig){
                                                                                         "Celular": "",
                                                                                         "anotacao": "",
                                                                                         "Qualificacao": '',
+                                                                                        "wg": WG,
                                                                                       });
                                                                                     }
 
                                                                                     File image;
 
-                                                                                    if(await ImagemEquipamentoCotroliD(ip, porta, usuarios['Season'], usuarios['users'][i]["id"]) == null){
-                                                                                      cadastrarSemFoto();
-                                                                                    }else{
-                                                                                      print('passei por aqui');
-                                                                                      image = await ImagemEquipamentoCotroliD(ip, porta, usuarios['Season'], usuarios['users'][i]["id"]);
+                                                                                    if(valor == 00){
 
-                                                                                      ImageURL = await carregarImagem(context, image, "$i", idCondominio);
-                                                                                      cadastrarPs();
+                                                                                    }else{
+                                                                                      if(await ImagemEquipamentoCotroliD(ip, porta, usuarios['Season'], usuarios['users'][i]["id"]) == null){
+                                                                                        cadastrarSemFoto();
+                                                                                      }else{
+                                                                                        image = await ImagemEquipamentoCotroliD(ip, porta, usuarios['Season'], usuarios['users'][i]["id"]);
+
+                                                                                        ImageURL = await carregarImagem(context, image, "$i", idCondominio);
+                                                                                        cadastrarPs();
+                                                                                      }
                                                                                     }
                                                                                   }
                                                                                   Navigator.pop(context);
@@ -947,6 +970,71 @@ Future<Map<String, dynamic>> controlidTags(var context, String ip, int porta, St
   }
 }
 
+controlIDCards(var context, String ip, int porta, String usuario, String Senha, int id) async {
+  final ipog = Uri.parse('http://$ip:$porta/login.fcgi');
+
+  Map<String, String> headerslog = {
+    "Content-Type": "application/json"
+  };
+
+  Map<String, dynamic> bodylog = {
+    "login": usuario,
+    "password": Senha
+  };
+  try{
+    final response = await http.post(
+      ipog,
+      headers: headerslog,
+      body: jsonEncode(bodylog),
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> responseData = jsonDecode(response.body);
+
+      final url = Uri.parse('http://$ip:$porta/load_objects.fcgi?session=${responseData["session"]}');
+
+      Map<String, String> headers = {
+        "Content-Type": "application/json"
+      };
+
+      Map<String, dynamic> body = {
+        "object": "cards",
+        "where": {
+          "cards": {
+            "user_id": id
+          }
+        }
+      };
+
+      try {
+        final responsee = await http.post(
+          url,
+          headers: headers,
+          body: jsonEncode(body),
+        );
+
+        if (responsee.statusCode == 200) {
+          Map<String, dynamic> users = jsonDecode(responsee.body);
+
+          return users['cards'][0]['id'];
+        } else {
+          print("Erro com a comunicação, status: ${response.statusCode} 1");
+          return 00;
+        }
+      } catch (e) {
+        return 00;
+      }
+
+    } else {
+      print("Erro com a comunicação, status: ${response.statusCode} 2");
+      return 00;
+    }
+  }catch(e){
+    print("Erro ao executar a requisição: $e");
+    return 00;
+  }
+}
+
 tagCadastro(var context, String ip, int porta, String usuario, String Senha, String acionamentoID, String Nome, String tag, String WG) async {
   showDialog(
     context: context,
@@ -1270,8 +1358,6 @@ criarCard(var context, String ip, int porta, String usuario, String Senha, int t
 
   //parte1 * 2^32 + parte2 = resultado.
   int resultado = parte1 * pow(2, 32).toInt() + parte2;
-
-  print(resultado);
 
   final ipog = Uri.parse('http://$ip:$porta/login.fcgi');
 
