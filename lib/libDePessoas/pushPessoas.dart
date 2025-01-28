@@ -10,6 +10,7 @@ import 'package:vigilant/homeApp.dart';
 import 'package:vigilant/informacoesLogais/getIds.dart';
 import 'package:vigilant/informacoesLogais/getUserInformations.dart';
 import 'package:vigilant/infosdoPc/checkUser.dart';
+import 'package:vigilant/tags/tag.dart';
 
 //Programado por HeroRickyGames com a ajuda de Deus!
 
@@ -152,28 +153,19 @@ ImagemEquipamentoHikvision(String host, int port, String usuario, String senha, 
 
       // Escreve os bytes da resposta (imagem) no arquivo
       Map js = jsonDecode(response.body);
-      if(idCondominio == "efc282a2-34d3-467e-81f9-ee51c9bcb010"){
-        final responsee = await http.get(
-          Uri.parse(js['MatchList'][0]['faceURL'].replaceFirst(":8", ":8191")),
-          headers: headerse,
-        );
+      Uri https = Uri.parse(js['MatchList'][0]['faceURL']);
 
-        if (responsee.statusCode == 200) {
-          return await file.writeAsBytes(responsee.bodyBytes);
-        } else {
-          throw Exception('Falha ao fazer o download do arquivo');
-        }
-      }else{
-        final responsee = await http.get(
-          Uri.parse(js['MatchList'][0]['faceURL']),
-          headers: headerse,
-        );
+      String hoster  = "http://$host:$port${https.path}";
 
-        if (responsee.statusCode == 200) {
-          return await file.writeAsBytes(responsee.bodyBytes);
-        } else {
-          throw Exception('Falha ao fazer o download do arquivo');
-        }
+      final responsee = await http.get(
+        Uri.parse(hoster),
+        headers: headerse,
+      );
+
+      if (responsee.statusCode == 200) {
+        return await file.writeAsBytes(responsee.bodyBytes);
+      } else {
+        throw Exception('Falha ao fazer o download do arquivo');
       }
 
     } else {

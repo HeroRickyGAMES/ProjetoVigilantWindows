@@ -279,8 +279,6 @@ controledeTags(var context, var wid , var heig){
                                                                                     int valor = await controlIDCards(context, ip, porta, usuario, senha, usuarios['users'][i]["id"]);
                                                                                     String WG = "";
 
-                                                                                    print(valor);
-
                                                                                     if(valor != 00){
                                                                                       // Calcular o código de área (parte inteira da divisão)
                                                                                       int codigoArea = valor ~/ pow(2, 32).toInt();
