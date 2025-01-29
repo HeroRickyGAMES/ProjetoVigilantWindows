@@ -10,7 +10,6 @@ import 'package:vigilant/homeApp.dart';
 import 'package:vigilant/informacoesLogais/getIds.dart';
 import 'package:vigilant/informacoesLogais/getUserInformations.dart';
 import 'package:vigilant/infosdoPc/checkUser.dart';
-import 'package:vigilant/tags/tag.dart';
 
 //Programado por HeroRickyGames com a ajuda de Deus!
 
@@ -92,7 +91,7 @@ ImagemEquipamentoCotroliD(String host, int port, String Season, int id) async {
   var response = await http.post(url);
 
   if (response.statusCode == 200) {
-    var file = File('C:\\Users\\${await getUsername()}\\AppData\\Local\\Temp$id.jpg');
+    var file = File('C:\\Users\\${await getUsername()}\\AppData\\Local\\Temp\\$id.jpg');
 
     // Escreve os bytes da resposta (imagem) no arquivo
     await file.writeAsBytes(response.bodyBytes);

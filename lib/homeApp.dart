@@ -381,13 +381,15 @@ class _homeAppState extends State<homeApp>{
                                                                   .where("idEmpresaPertence", isEqualTo: EmpresaPertence)
                                                                   .where("Nome", isGreaterThanOrEqualTo: pesquisa)
                                                                   .where("Nome", isLessThan: "${pesquisa}z")
+                                                                  .orderBy("Nome")
                                                                   .snapshots()
                                                                   :
                                                               FirebaseFirestore.instance
                                                                   .collection("Condominios")
                                                                   .where("idEmpresaPertence", isEqualTo: EmpresaPertence)
-                                                                  .where("Codigo", isGreaterThanOrEqualTo: pesquisa)
+                                                                  .where("Codigo", arrayContainsAny: [pesquisa])
                                                                   .where("Codigo", isLessThan: "${pesquisa}9")
+                                                                  .orderBy("Nome")
                                                                   .snapshots()
                                                                   :
                                                               FirebaseFirestore.instance
@@ -5529,7 +5531,8 @@ class _homeAppState extends State<homeApp>{
                                             idCondominio != "" ?
                                             SingleChildScrollView(
                                               child: StreamBuilder(
-                                                stream: pesquisando2 == true ? FirebaseFirestore.instance
+                                                stream: pesquisando2 == true ?
+                                                FirebaseFirestore.instance
                                                     .collection("Pessoas")
                                                     .where("idCondominio", isEqualTo: idCondominio)
                                                     .where("Nome", isGreaterThanOrEqualTo: pesquisa2.toUpperCase())
@@ -9661,14 +9664,19 @@ class _homeAppState extends State<homeApp>{
 
                                                                                                                                             var listaExtraida = await intelbrasUsersImport(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo']);
                                                                                                                                             for (int i = 0; i < listaExtraida.length; i++) {
+                                                                                                                                              var fotoIntelbras = await FacialFotoIntelbras(context, documents['ip'],documents['porta'], documents['usuario'], documents['senha'], listaExtraida[i]['UserID']);
+                                                                                                                                              var uploadedimage = await carregarImagem(context, fotoIntelbras, '${listaExtraida[i]['UserID']}', idCondominio);
+
+                                                                                                                                              print(uploadedimage);
                                                                                                                                               String iddoc = uuid.v4();
+
                                                                                                                                               FirebaseFirestore.instance.collection('Pessoas').doc("${listaExtraida[i]['UserID']}$iddoc$idCondominio").set({
                                                                                                                                                 "id": "${listaExtraida[i]['UserID']}$iddoc$idCondominio",
                                                                                                                                                 "idCondominio": idCondominio,
                                                                                                                                                 "Nome": listaExtraida[i]['CardName'].trim(),
                                                                                                                                                 "CPF": "",
                                                                                                                                                 "RG": "",
-                                                                                                                                                "imageURI": '',
+                                                                                                                                                "imageURI": uploadedimage,
                                                                                                                                                 "placa": "",
                                                                                                                                                 "Unidade":"",
                                                                                                                                                 "Bloco": "",
