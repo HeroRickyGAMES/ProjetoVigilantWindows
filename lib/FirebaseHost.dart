@@ -7,16 +7,14 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 //Programado por HeroRickyGames com ajuda de Deus!
 
 //Produção
-//String host = "spartaserver.ddns.net";
-//int Authport = 4001;
-//int Dbport = 4002;
-//int Storageport = 4006;
-
-//Homologação
-String host = "192.168.3.214";
+String host = "spartaserver.ddns.net";
 int Authport = 4001;
 int Dbport = 4002;
-//int Storageport = 4006;
+
+//Homologação
+//String host = "192.168.3.214";
+//int Authport = 4001;
+//int Dbport = 4002;
 
 initFirestore(){
   FirebaseFirestore.instance.settings = Settings(
