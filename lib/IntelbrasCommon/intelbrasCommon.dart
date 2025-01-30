@@ -178,16 +178,14 @@ Future<File> FacialFotoIntelbras(var context, String ip, int porta,String usuari
 
       return file;
     } else {
-      showToast("Erro com a comunicação, status: ${response.statusCode}",context:context);
+      File file = File('C:\\Users\\${await getUsername()}\\AppData\\Local\\Temp\\jailsonTester.jpg');
+      return file;
     }
   } catch (e) {
     File file = File('C:\\Users\\${await getUsername()}\\AppData\\Local\\Temp\\jailsonTester.jpg');
-    showToast("O usuario não tem uma imagem valida em base64! Pulando a foto dele!",context:context);
     print(e);
     return file;
   }
-  File file = File('C:\\Users\\${await getUsername()}\\AppData\\Local\\Temp\\jailsonTester.jpg');
-  return file;
 }
 
 String removeMetadata(String base64String) {

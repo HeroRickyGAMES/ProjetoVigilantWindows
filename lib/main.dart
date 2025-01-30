@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vigilant/FirebaseHost.dart';
 import 'package:vigilant/infosdoPc/checkUser.dart';
@@ -81,6 +83,7 @@ class _mainAppState extends State<mainApp> {
 
     //Vai para a tela de login
     GoToLoginScreen(){
+      limparCache();
       maximizar();
       iniciado = true;
       Get.to(const login());
@@ -89,6 +92,7 @@ class _mainAppState extends State<mainApp> {
 
     //Vai para a homeApp
     GoToHome(){
+      limparCache();
       maximizar();
       iniciado = true;
       Get.to(const homeApp());
@@ -174,5 +178,27 @@ class _mainAppState extends State<mainApp> {
         ),
       ),
     );
+  }
+}
+
+limparCache() async {
+  if(kProfileMode == true){
+    try {
+      Directory tempDir = await getTemporaryDirectory();
+      if (tempDir.existsSync()) {
+        tempDir.listSync().forEach((file) {
+          try {
+            file.deleteSync(recursive: true);
+          } catch (e) {
+            //print("Erro ao deletar ${file.path}: $e");
+          }
+        });
+        //print("Pasta %temp% limpa com sucesso!");
+      } else {
+        //print("A pasta %temp% não existe.");
+      }
+    } catch (e) {
+      //print("Erro ao acessar a pasta %temp%: $e");
+    }
   }
 }

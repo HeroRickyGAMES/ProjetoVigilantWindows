@@ -26,6 +26,7 @@ import 'package:vigilant/controlidCommon/ControlIDCommon.dart';
 import 'package:vigilant/controlidCommon/tagAlertDialog.dart';
 import 'package:vigilant/informacoesLogais/getIds.dart';
 import 'package:vigilant/informacoesLogais/getUserInformations.dart';
+import 'package:vigilant/infosdoPc/checkUser.dart';
 import 'package:vigilant/infosdoPc/getCores.dart';
 import 'package:vigilant/intRamdom/intRamdom.dart';
 import 'package:vigilant/libDePessoas/ExelImport.dart';
@@ -9665,9 +9666,14 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                             var listaExtraida = await intelbrasUsersImport(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo']);
                                                                                                                                             for (int i = 0; i < listaExtraida.length; i++) {
                                                                                                                                               var fotoIntelbras = await FacialFotoIntelbras(context, documents['ip'],documents['porta'], documents['usuario'], documents['senha'], listaExtraida[i]['UserID']);
-                                                                                                                                              var uploadedimage = await carregarImagem(context, fotoIntelbras, '${listaExtraida[i]['UserID']}', idCondominio);
+                                                                                                                                              var uploadedimage;
 
-                                                                                                                                              print(uploadedimage);
+                                                                                                                                              if(fotoIntelbras.path == "C:\\Users\\${await getUsername()}\\AppData\\Local\\Temp\\jailsonTester.jpg"){
+                                                                                                                                                uploadedimage = '';
+                                                                                                                                              }else{
+                                                                                                                                                print(uploadedimage);
+                                                                                                                                                uploadedimage = await carregarImagem(context, fotoIntelbras, '${listaExtraida[i]['UserID']}', idCondominio);
+                                                                                                                                              }
                                                                                                                                               String iddoc = uuid.v4();
 
                                                                                                                                               FirebaseFirestore.instance.collection('Pessoas').doc("${listaExtraida[i]['UserID']}$iddoc$idCondominio").set({
