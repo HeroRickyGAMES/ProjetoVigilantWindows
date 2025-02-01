@@ -9555,7 +9555,12 @@ class _homeAppState extends State<homeApp>{
                                                                                                                             child: TextButton(
                                                                                                                                 onPressed: () async {
                                                                                                                                   bool rodou = false;
-                                                                                                                                  bool primeira = false;
+                                                                                                                                  bool primeira = true;
+                                                                                                                                  int processo = 0;
+                                                                                                                                  int processo2 = 0;
+                                                                                                                                  int valorMaximo1 = 100;
+                                                                                                                                  int valorMaximo2 = 100;
+
                                                                                                                                   showDialog(
                                                                                                                                     context: context,
                                                                                                                                     builder: (BuildContext context) {
@@ -9564,20 +9569,21 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                         doDeleteandInsert() async {
                                                                                                                                           CollectionReference collectionRef = FirebaseFirestore.instance.collection("Pessoas");
                                                                                                                                           QuerySnapshot querySnapshot = await collectionRef.where("idCondominio", isEqualTo: idCondominio).get();
+                                                                                                                                          setState((){
+                                                                                                                                            valorMaximo1 = querySnapshot.docs.length;
+                                                                                                                                          });
+
                                                                                                                                           for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-                                                                                                                                            setState((){
-                                                                                                                                              primeira = true;
-                                                                                                                                            });
                                                                                                                                             await doc.reference.delete();
-                                                                                                                                            print('deletado!');
-                                                                                                                                            print(doc.id);
+                                                                                                                                            //print('deletado!');
+                                                                                                                                            //print(doc.id);
+                                                                                                                                            setState((){
+                                                                                                                                              processo = processo+1;
+                                                                                                                                            });
                                                                                                                                           }
 
 
                                                                                                                                           if(documents['modelo'] == 'Control iD'){
-                                                                                                                                            setState((){
-                                                                                                                                              primeira = false;
-                                                                                                                                            });
                                                                                                                                             Map<String, dynamic> usuarios = await pushPessoas(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo'], 0);
 
                                                                                                                                             String ImageURL = "";
@@ -9589,9 +9595,16 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                             }else{
                                                                                                                                               lent = usuarios['users'].length;
                                                                                                                                             }
-
+                                                                                                                                            setState((){
+                                                                                                                                              valorMaximo2 = lent;
+                                                                                                                                            });
 
                                                                                                                                             for (int i = 0; i < lent; i++) {
+                                                                                                                                              setState((){
+                                                                                                                                                processo2 = processo2+1;
+                                                                                                                                                primeira = false;
+                                                                                                                                              });
+
                                                                                                                                               cadastrarPs(){
                                                                                                                                                 String iddoc = uuid.v4();
                                                                                                                                                 FirebaseFirestore.instance.collection('Pessoas').doc("${usuarios['users'][i]["id"]}$iddoc$idCondominio").set({
@@ -9659,17 +9672,26 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                             showToast("Importado com sucesso!", context: context);
                                                                                                                                           }
                                                                                                                                           if(documents['modelo'] == "Intelbras"){
+                                                                                                                                            var listaExtraida = await intelbrasUsersImport(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo']);
+
                                                                                                                                             setState((){
-                                                                                                                                              primeira = false;
+                                                                                                                                              valorMaximo2 = listaExtraida.length;
                                                                                                                                             });
 
-                                                                                                                                            var listaExtraida = await intelbrasUsersImport(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo']);
+
                                                                                                                                             for (int i = 0; i < listaExtraida.length; i++) {
+                                                                                                                                              setState((){
+                                                                                                                                                processo2 = processo2+1;
+                                                                                                                                                primeira = false;
+                                                                                                                                              });
                                                                                                                                               var fotoIntelbras = await FacialFotoIntelbras(context, documents['ip'],documents['porta'], documents['usuario'], documents['senha'], listaExtraida[i]['UserID']);
                                                                                                                                               String uploadedimage = "";
 
+
                                                                                                                                               if(fotoIntelbras.path == "C:\\Users\\${await getUsername()}\\AppData\\Local\\Temp\\jailsonTester.jpg"){
                                                                                                                                                 uploadedimage = '';
+                                                                                                                                              }else{
+                                                                                                                                                uploadedimage = await carregarImagem(context, fotoIntelbras, "$i${uuid.v4()}", idCondominio);
                                                                                                                                               }
 
                                                                                                                                               String iddoc = uuid.v4();
@@ -9703,9 +9725,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                             //print(listaExtraida);
                                                                                                                                           }
                                                                                                                                           if(documents['modelo'] == 'Hikvision'){
-                                                                                                                                            setState((){
-                                                                                                                                              primeira = false;
-                                                                                                                                            });
+
                                                                                                                                             isHikvision() async {
                                                                                                                                               pushcomfoto(Map<dynamic, dynamic> userInfo, int i, String imageURL){
                                                                                                                                                 String iddoc = uuid.v4();
@@ -9777,12 +9797,19 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                                   // Verifica o total de resultados na primeira consulta
                                                                                                                                                   if (paginaAtual == 0) {
                                                                                                                                                     totalMatches = userInfo['UserInfoSearch']['totalMatches'];
+                                                                                                                                                    setState((){
+                                                                                                                                                      valorMaximo2 = totalMatches;
+                                                                                                                                                    });
                                                                                                                                                   }
 
                                                                                                                                                   // Obtém a lista de usuários retornada
                                                                                                                                                   List<dynamic> Tratado = userInfo['UserInfoSearch']['UserInfo'];
 
                                                                                                                                                   for (int i = 0; i < Tratado.length; i++) {
+                                                                                                                                                    setState((){
+                                                                                                                                                      processo2 = processo2+1;
+                                                                                                                                                      primeira = false;
+                                                                                                                                                    });
                                                                                                                                                     try {
                                                                                                                                                       var ImagemEquipamento = await ImagemEquipamentoHikvision(
                                                                                                                                                         documents['ip'],
@@ -9838,8 +9865,18 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                             Center(
                                                                                                                                               child: Column(
                                                                                                                                                 children: [
-                                                                                                                                                  const CircularProgressIndicator(color: Colors.white,),
-                                                                                                                                                  Text(primeira == true ? '1° estágio...': 'Cadastrando usuarios...'),
+                                                                                                                                                  CircularProgressIndicator(
+                                                                                                                                                    value: primeira == true ? processo / valorMaximo1 : processo2 / valorMaximo2,
+                                                                                                                                                    color: Colors.white,
+                                                                                                                                                  ),
+                                                                                                                                                  Container(
+                                                                                                                                                  padding: const EdgeInsets.all(16),
+                                                                                                                                                    child: Text(
+                                                                                                                                                        primeira == true ? 'Limpando o processo para iniciar o 2° estágio: $processo/$valorMaximo1': '$processo2/$valorMaximo2',
+                                                                                                                                                    style: const TextStyle(
+                                                                                                                                                      fontWeight: FontWeight.bold
+                                                                                                                                                    ),),
+                                                                                                                                                  ),
                                                                                                                                                 ],
                                                                                                                                               ),
                                                                                                                                             )
