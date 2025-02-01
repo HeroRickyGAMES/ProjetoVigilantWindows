@@ -9666,14 +9666,12 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                             var listaExtraida = await intelbrasUsersImport(context, documents['ip'], documents['porta'], documents['usuario'], documents['senha'], documents['modelo']);
                                                                                                                                             for (int i = 0; i < listaExtraida.length; i++) {
                                                                                                                                               var fotoIntelbras = await FacialFotoIntelbras(context, documents['ip'],documents['porta'], documents['usuario'], documents['senha'], listaExtraida[i]['UserID']);
-                                                                                                                                              var uploadedimage;
+                                                                                                                                              String uploadedimage = "";
 
                                                                                                                                               if(fotoIntelbras.path == "C:\\Users\\${await getUsername()}\\AppData\\Local\\Temp\\jailsonTester.jpg"){
                                                                                                                                                 uploadedimage = '';
-                                                                                                                                              }else{
-                                                                                                                                                print(uploadedimage);
-                                                                                                                                                uploadedimage = await carregarImagem(context, fotoIntelbras, '${listaExtraida[i]['UserID']}', idCondominio);
                                                                                                                                               }
+
                                                                                                                                               String iddoc = uuid.v4();
 
                                                                                                                                               FirebaseFirestore.instance.collection('Pessoas').doc("${listaExtraida[i]['UserID']}$iddoc$idCondominio").set({
@@ -10475,7 +10473,7 @@ class _homeAppState extends State<homeApp>{
                                                                                         Cadastrar(String DocID, int idEquipamento) async {
                                                                                           String DownloadURL = '';
                                                                                           if(_imageFile != null){
-                                                                                            DownloadURL = await carregarImagem(context, _imageFile!, DocID, idCondominio).getDownloadURL();
+                                                                                            DownloadURL = await carregarImagem(context, _imageFile!, DocID, idCondominio);
                                                                                           }else{
                                                                                             DownloadURL = '';
                                                                                           }
