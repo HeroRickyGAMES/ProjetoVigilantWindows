@@ -21,6 +21,7 @@ import 'package:vigilant/IntelbrasCommon/intelbrasCommon.dart';
 import 'package:vigilant/IntelbrasCommon/tagIntelbras.dart';
 import 'package:vigilant/IntelbrasCommon/userImport.dart';
 import 'package:vigilant/acionamento_de_portas/acionamento_de_portas.dart';
+import 'package:vigilant/baixaImagemViaURL.dart';
 import 'package:vigilant/botaoDireito.dart';
 import 'package:vigilant/controlidCommon/ControlIDCommon.dart';
 import 'package:vigilant/controlidCommon/tagAlertDialog.dart';
@@ -2145,7 +2146,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                 },
                                                                                               );
 
-                                                                                              Uuid uuid = const Uuid();
                                                                                               String UUID = uuid.v4();
                                                                                               FirebaseFirestore.instance.collection('Condominios').doc(UUID).set({
                                                                                                 "idCondominio": UUID,
@@ -5594,7 +5594,7 @@ class _homeAppState extends State<homeApp>{
                                                                     child: SmoothListView(
                                                                       duration: const Duration(seconds: 1),
                                                                       children: snapshot.data!.docs.map((documents){
-
+                                                                        bool started = false;
                                                                         double tamanhodoc = documents['Nome'].length/ 2;
                                                                         if(documents['Nome'].length <= 5){
                                                                           tamanhodoc = documents['Nome'].length/ 1;
@@ -5612,6 +5612,8 @@ class _homeAppState extends State<homeApp>{
                                                                             showDialog(
                                                                               context: context,
                                                                               builder: (BuildContext context) {
+                                                                                final picker = ImagePicker();
+
                                                                                 String anotacaoMorador = documents["anotacao"];
                                                                                 String nomeMorador = documents["Nome"];
                                                                                 String RGMorador = documents["RG"];
@@ -5631,6 +5633,8 @@ class _homeAppState extends State<homeApp>{
                                                                                 TextEditingController TelefoneMoradorController = TextEditingController(text: TelefoneMorador);
                                                                                 TextEditingController CelularMoradorController = TextEditingController(text: CelularMorador);
                                                                                 TextEditingController QualificacaoMoradorController = TextEditingController(text: QualificacaoMorador);
+                                                                                
+                                                                                File? _imageFile;
 
                                                                                 bool editarInfosMorador = false;
 
@@ -5638,6 +5642,22 @@ class _homeAppState extends State<homeApp>{
                                                                                 double heighte = 660;
 
                                                                                 return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
+                                                                                  getImage() async {
+                                                                                    if(documents["imageURI"] == ""){
+                                                                                      String iddoc = uuid.v4();
+                                                                                      String imageUrl = 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg';
+                                                                                      _imageFile = await downloadImage(imageUrl, iddoc);
+                                                                                    }else{
+                                                                                      String iddoc = uuid.v4();
+                                                                                      _imageFile = await downloadImage(documents["imageURI"], iddoc);
+                                                                                    }
+                                                                                  }
+
+                                                                                  if(started == false){
+                                                                                    getImage();
+                                                                                    started = true;
+                                                                                  }
+
                                                                                   if(editarInfosMorador == true){
                                                                                     widthe = 600;
                                                                                     heighte = 1000;
@@ -5681,6 +5701,8 @@ class _homeAppState extends State<homeApp>{
                                                                                                             width: 100,
                                                                                                             height: 100,
                                                                                                             child: TextButton(onPressed: (){
+                                                                                                              _imageFile = null;
+                                                                                                              started = false;
                                                                                                               Navigator.pop(context);
                                                                                                             }, child: const Center(
                                                                                                               child: Icon(
@@ -5697,7 +5719,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                         Fluidable(
                                                                                                           fluid: 1,
                                                                                                           minWidth: 100,
-                                                                                                          child: documents["imageURI"] != ""?
+                                                                                                          child: editarInfosMorador == false ? documents["imageURI"] != ""?
                                                                                                           Container(
                                                                                                               padding: const EdgeInsets.all(25),
                                                                                                               child: Image.network(
@@ -5712,6 +5734,52 @@ class _homeAppState extends State<homeApp>{
                                                                                                                 "Nenhuma imagem encontrada!",
                                                                                                                 textAlign: TextAlign.center,
                                                                                                               )
+                                                                                                          ):
+                                                                                                          Column(
+                                                                                                            children: [
+                                                                                                              _imageFile != null ?
+                                                                                                              Container(
+                                                                                                                padding: const EdgeInsets.all(25),
+                                                                                                                child: Center(
+                                                                                                                  child: SizedBox(
+                                                                                                                    height: 200,
+                                                                                                                    width: 200,
+                                                                                                                    child: Image.file(_imageFile!),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ): Container(),
+                                                                                                              Container(
+                                                                                                                padding: const EdgeInsets.all(5),
+                                                                                                                child: Center(
+                                                                                                                  child: ElevatedButton(
+                                                                                                                    onPressed: () async {
+                                                                                                                      FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
+                                                                                                                        type: FileType.image
+                                                                                                                      );
+//
+                                                                                                                      setStater(() {
+                                                                                                                        if (pickedFile != null) {
+                                                                                                                          setStater((){
+                                                                                                                            _imageFile = File(pickedFile.files.single.path!);
+                                                                                                                          });
+                                                                                                                        } else {
+                                                                                                                          showToast("Imagem não selecionada!",context:context);
+                                                                                                                        }
+                                                                                                                      });
+                                                                                                                    },
+                                                                                                                    style: ElevatedButton.styleFrom(
+                                                                                                                        backgroundColor: colorBtn
+                                                                                                                    ),
+                                                                                                                    child: Text(
+                                                                                                                      'Selecione uma Imagem de perfil',
+                                                                                                                      style: TextStyle(
+                                                                                                                          color: textColor
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ],
                                                                                                           ),
                                                                                                         ),
                                                                                                         Fluidable(
@@ -6065,7 +6133,27 @@ class _homeAppState extends State<homeApp>{
                                                                                                                   ),
                                                                                                                 ),
                                                                                                                 ElevatedButton(
-                                                                                                                    onPressed: (){
+                                                                                                                    onPressed: () async {
+                                                                                                                      showDialog(
+                                                                                                                        context: context,
+                                                                                                                        builder: (BuildContext context) {
+                                                                                                                          return const AlertDialog(
+                                                                                                                            title: Text('Aguarde!'),
+                                                                                                                            actions: [
+                                                                                                                              Center(
+                                                                                                                                child: CircularProgressIndicator(),
+                                                                                                                              )
+                                                                                                                            ],
+                                                                                                                          );
+                                                                                                                        },
+                                                                                                                      );
+
+                                                                                                                      String downloadedURL = "";
+
+                                                                                                                      if(_imageFile != null){
+                                                                                                                        String UUID = uuid.v4();
+                                                                                                                        downloadedURL = await carregarImagem(context, _imageFile!, UUID, idCondominio);
+                                                                                                                      }
                                                                                                                       FirebaseFirestore.instance.collection('Pessoas').doc(documents['id']).update({
                                                                                                                         'Nome': nomeMorador,
                                                                                                                         'RG': RGMorador,
@@ -6075,9 +6163,14 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         'Telefone': TelefoneMorador,
                                                                                                                         'Celular': CelularMorador,
                                                                                                                         'Qualificacao': QualificacaoMorador,
+                                                                                                                        'imageURI': downloadedURL
                                                                                                                       }).whenComplete((){
                                                                                                                         setStater((){
+                                                                                                                          _imageFile = null;
                                                                                                                           editarInfosMorador = false;
+                                                                                                                          started = false;
+                                                                                                                          Navigator.pop(context);
+                                                                                                                          Navigator.pop(context);
                                                                                                                         });
                                                                                                                         showToast("Informações salvas com sucesso!", context: context);
                                                                                                                       });
@@ -9866,7 +9959,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                               child: Column(
                                                                                                                                                 children: [
                                                                                                                                                   CircularProgressIndicator(
-                                                                                                                                                    value: primeira == true ? processo / valorMaximo1 : processo2 / valorMaximo2,
+                                                                                                                                                    value: primeira == true ? double.tryParse('$processo')! / valorMaximo1 : double.tryParse('$processo2')! / valorMaximo2,
                                                                                                                                                     color: Colors.white,
                                                                                                                                                   ),
                                                                                                                                                   Container(
