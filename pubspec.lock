@@ -466,6 +466,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  flex_responsive:
+    dependency: "direct main"
+    description:
+      name: flex_responsive
+      sha256: "04d0b5781e5a1a93475f0237f07f677a2c3937e7f75f31af67573f22a4662779"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   fluid_kit:
     dependency: "direct main"
     description:

@@ -72,6 +72,7 @@ dependencies:
   path: ^1.9.0
   mime: ^1.0.6
   dio: ^5.8.0+1
+  flex_responsive: ^0.0.2
 
 dependency_overrides:
   dart_vlc_ffi:
@@ -104,7 +105,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/barradePesquisa.webp
+    - assets/barradePesquisa.png
     - assets/botton 1.png
     - assets/botton 2.png
     - assets/botton 3.jpg
