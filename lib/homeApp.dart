@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/route_manager.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:native_context_menu_ng/native_context_menu_widget.dart';
 import 'package:native_context_menu_ng/native_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -5546,7 +5547,7 @@ class _homeAppState extends State<homeApp>{
                                                         stream: FirebaseFirestore.instance
                                                             .collection("notasAP")
                                                             .where("idCondominio", isEqualTo: idCondominio)
-                                                            .orderBy("Nome", descending: false)
+                                                            .orderBy("nota", descending: false)
                                                             .snapshots(),
                                                         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
                                                           if (!snapshot.hasData) {
@@ -5564,7 +5565,63 @@ class _homeAppState extends State<homeApp>{
                                                                   return SizedBox(
                                                                     width: double.infinity,
                                                                     height: 50,
-                                                                    child: Text(documents['nota']),
+                                                                    child: Container(
+                                                                        padding: const EdgeInsets.all(16),
+                                                                        child: Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Text(
+                                                                                "${documents['nota']} - ${documents['tempo']} - ${documents['unidade']} ${documents['bloco']}",
+                                                                                style: TextStyle(
+                                                                                    color: textColorInitBlue,
+                                                                                    fontSize: 14
+                                                                                ),
+                                                                            ),
+                                                                            TextButton(
+                                                                              onPressed: (){
+                                                                                showDialog(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) {
+                                                                                    return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                                      return AlertDialog(
+                                                                                        title: const Text('Deseja deletar essa nota?'),
+                                                                                        actions: [
+                                                                                          Row(
+                                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                            children: [
+                                                                                              TextButton(
+                                                                                                  onPressed: (){
+                                                                                                    Navigator.pop(context);
+                                                                                                  },
+                                                                                                  child: const Text('Não')
+                                                                                              ),
+                                                                                              TextButton(
+                                                                                                  onPressed: (){
+                                                                                                    FirebaseFirestore.instance.collection("notasAP")
+                                                                                                        .doc(documents['id']).delete()
+                                                                                                        .whenComplete((){
+                                                                                                      showToast("Pronto!", context: context);
+                                                                                                      Navigator.pop(context);
+                                                                                                    });
+                                                                                                  },
+                                                                                                  child: const Text('Sim')
+                                                                                              ),
+                                                                                            ],
+                                                                                          )
+                                                                                        ],
+                                                                                      );
+                                                                                    },);
+                                                                                  },
+                                                                                );
+                                                                              },
+                                                                              child: const Icon(
+                                                                                  Icons.delete,
+                                                                                  color: Colors.red
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        )
+                                                                    ),
                                                                   );
                                                                 }
                                                               ).toList(),
@@ -5590,6 +5647,170 @@ class _homeAppState extends State<homeApp>{
                                                       )
                                                   ),
                                                 ),
+                                                Container(
+                                                  padding: const EdgeInsets.all(16),
+                                                  alignment: Alignment.bottomRight,
+                                                  child: TextButton(
+                                                    onPressed: idCondominio == '' ? null : (){
+
+                                                      String anotacaoAP = "";
+                                                      String unidadeAP = "";
+                                                      String blocoAP = "";
+
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                            return AlertDialog(
+                                                              title: const Text('Notas do apartamento'),
+                                                              actions: [
+                                                                Center(
+                                                                  child: Column(
+                                                                    children: [
+                                                                      Center(
+                                                                        child: Container(
+                                                                          padding: const EdgeInsets.all(16),
+                                                                          child: TextField(
+                                                                            keyboardType: TextInputType.emailAddress,
+                                                                            enableSuggestions: false,
+                                                                            autocorrect: false,
+                                                                            onChanged: (value){
+                                                                              setStater(() {
+                                                                                anotacaoAP = value;
+                                                                              });
+                                                                            },
+                                                                            decoration: InputDecoration(
+                                                                              filled: true,
+                                                                              fillColor: Colors.white,
+                                                                              labelStyle: TextStyle(
+                                                                                  color: textAlertDialogColor,
+                                                                                  backgroundColor: Colors.white
+                                                                              ),
+                                                                              border: const OutlineInputBorder(),
+                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                              ),
+                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                borderSide: BorderSide(
+                                                                                    width: 3,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                              ),
+                                                                              labelText: 'Anotação',
+                                                                            ),
+                                                                            style: TextStyle(
+                                                                                color: textAlertDialogColor
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Center(
+                                                                        child: Container(
+                                                                          padding: const EdgeInsets.all(16),
+                                                                          child: TextField(
+                                                                            keyboardType: TextInputType.emailAddress,
+                                                                            enableSuggestions: false,
+                                                                            autocorrect: false,
+                                                                            onChanged: (value){
+                                                                              setStater(() {
+                                                                                unidadeAP = value;
+                                                                              });
+                                                                            },
+                                                                            decoration: InputDecoration(
+                                                                              filled: true,
+                                                                              fillColor: Colors.white,
+                                                                              labelStyle: TextStyle(
+                                                                                  color: textAlertDialogColor,
+                                                                                  backgroundColor: Colors.white
+                                                                              ),
+                                                                              border: const OutlineInputBorder(),
+                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                              ),
+                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                borderSide: BorderSide(
+                                                                                    width: 3,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                              ),
+                                                                              labelText: 'Unidade',
+                                                                            ),
+                                                                            style: TextStyle(
+                                                                                color: textAlertDialogColor
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Center(
+                                                                        child: Container(
+                                                                          padding: const EdgeInsets.all(16),
+                                                                          child: TextField(
+                                                                            keyboardType: TextInputType.emailAddress,
+                                                                            enableSuggestions: false,
+                                                                            autocorrect: false,
+                                                                            onChanged: (value){
+                                                                              setStater(() {
+                                                                                blocoAP = value;
+                                                                              });
+                                                                            },
+                                                                            decoration: InputDecoration(
+                                                                              filled: true,
+                                                                              fillColor: Colors.white,
+                                                                              labelStyle: TextStyle(
+                                                                                  color: textAlertDialogColor,
+                                                                                  backgroundColor: Colors.white
+                                                                              ),
+                                                                              border: const OutlineInputBorder(),
+                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                              ),
+                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                borderSide: BorderSide(
+                                                                                    width: 3,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                              ),
+                                                                              labelText: 'Bloco',
+                                                                            ),
+                                                                            style: TextStyle(
+                                                                                color: textAlertDialogColor
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      ElevatedButton(
+                                                                      onPressed: (){
+                                                                        String uid = uuid.v4();
+                                                                        FirebaseFirestore.instance.collection('notasAP').doc(uid).set({
+                                                                          "id": uid,
+                                                                          "idCondominio": idCondominio,
+                                                                          'nota': anotacaoAP,
+                                                                          'unidade': unidadeAP,
+                                                                          'bloco': blocoAP,
+                                                                          "tempo": DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.now())
+                                                                        }).whenComplete((){
+                                                                          showToast("Pronto!",context:context);
+                                                                          Navigator.pop(context);
+                                                                        });
+                                                                      },
+                                                                      child: const Text('Salvar'),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            );
+                                                          },
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                    child: Image.asset(
+                                                        "assets/fab.png",
+                                                        scale: 45
+                                                    ),
+                                                  ),
+                                                )
                                               ]
                                           );
                                         });
@@ -12683,9 +12904,11 @@ class _homeAppState extends State<homeApp>{
                                           ),
                                         ),
                                       );
-                                    });
-
-                                  }),),
+                                      }
+                                     );
+                                    }
+                                   ),
+                                  ),
                                 ],
                               ),
                             ),
