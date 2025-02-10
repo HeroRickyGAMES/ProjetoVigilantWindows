@@ -303,42 +303,8 @@ class _homeAppState extends State<homeApp>{
                                                           children: [
                                                             Container(
                                                               padding: const EdgeInsets.all(10),
-                                                              child: Stack(
+                                                              child: Row(
                                                                 children: [
-                                                                  TextField(
-                                                                    cursorColor: Colors.black,
-                                                                    keyboardType: TextInputType.name,
-                                                                    enableSuggestions: true,
-                                                                    autocorrect: true,
-                                                                    onChanged: (value){
-                                                                      pesquisa = value.toUpperCase();
-
-                                                                      if(value == ""){
-                                                                        setStater((){
-                                                                          pesquisa = value;
-                                                                          pesquisando = false;
-                                                                          pesquisaNumeros = false;
-                                                                        });
-                                                                      }
-                                                                    },
-                                                                    decoration: const InputDecoration(
-                                                                      filled: true,
-                                                                      fillColor: Colors.white,
-                                                                      border: OutlineInputBorder(),
-                                                                      enabledBorder: OutlineInputBorder(
-                                                                        borderSide: BorderSide(width: 3, color: Colors.white), //<-- SEE HERE
-                                                                      ),
-                                                                      focusedBorder: OutlineInputBorder(
-                                                                        borderSide: BorderSide(
-                                                                            width: 3,
-                                                                            color: Colors.black
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    style: const TextStyle(
-                                                                        color: Colors.black
-                                                                    ),
-                                                                  ),
                                                                   Container(
                                                                     alignment: AlignmentDirectional.centerEnd,
                                                                     child: TextButton(
@@ -371,7 +337,52 @@ class _homeAppState extends State<homeApp>{
                                                                           scale: 14
                                                                       ),
                                                                     ),
-                                                                  )
+                                                                  ),
+                                                                  Container(
+                                                                    width: heig / 2.9,
+                                                                    //height: constrain.maxHeight / 1.5,
+                                                                    child: Stack(
+                                                                        children: [
+                                                                          Positioned.fill(
+                                                                            child: Image.asset(
+                                                                              'assets/barradePesquisa.png', // Caminho da imagem
+                                                                              fit: BoxFit.fill,
+                                                                            ),
+                                                                          ),
+                                                                          Container(
+                                                                            padding: EdgeInsets.only(left: 16),
+                                                                            child: TextField(
+                                                                              cursorColor: Colors.black,
+                                                                              keyboardType: TextInputType.name,
+                                                                              enableSuggestions: true,
+                                                                              autocorrect: true,
+                                                                              onChanged: (value){
+                                                                                pesquisa = value.toUpperCase();
+                                                                            
+                                                                                if(value == ""){
+                                                                                  setStater((){
+                                                                                    pesquisa = value;
+                                                                                    pesquisando = false;
+                                                                                    pesquisaNumeros = false;
+                                                                                  });
+                                                                                }
+                                                                              },
+                                                                              decoration: const InputDecoration(
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              style: const TextStyle(
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                    )
+                                                                  ),
                                                                 ],
                                                               ),
                                                             ),
@@ -12165,7 +12176,7 @@ class _homeAppState extends State<homeApp>{
                                                               });
                                                             }
                                                           },
-                                                          child: Row(
+                                                          child: showSearchBar == false ? Row(
                                                             children: [
                                                               Container(
                                                                 alignment: Alignment.centerRight,
@@ -12176,17 +12187,14 @@ class _homeAppState extends State<homeApp>{
                                                                     )
                                                                 ),
                                                               ),
-                                                              Positioned.fill(
-                                                                //aqui!!!!!!
-                                                                child: Image.asset(
-                                                                  width: constrain.maxWidth - 150,
-                                                                  //height: constrain.maxHeight / 1.5,
-                                                                  'assets/barradePesquisa.png', // Caminho da imagem
-                                                                  fit: BoxFit.fill,
-                                                                ),
+                                                              Image.asset(
+                                                                width: constrain.maxWidth - 150,
+                                                                //height: constrain.maxHeight / 1.5,
+                                                                'assets/barradePesquisa.png', // Caminho da imagem
+                                                                fit: BoxFit.fill,
                                                               ),
                                                             ],
-                                                          ),
+                                                          ) : Container(),
                                                         ),
                                                       ),
                                                       showSearchBar == true ? SingleChildScrollView(
