@@ -376,29 +376,35 @@ class _homeAppState extends State<homeApp>{
                                                               ),
                                                             ),
                                                             StreamBuilder(
-                                                              stream: pesquisando == true ?
-                                                              pesquisaNumeros == false ? FirebaseFirestore.instance
-                                                                  .collection("Condominios")
-                                                                  .where("idEmpresaPertence", isEqualTo: EmpresaPertence)
-                                                                  .where("Nome", isGreaterThanOrEqualTo: pesquisa)
-                                                                  .where("Nome", isLessThan: "${pesquisa}z")
-                                                                  .orderBy("Nome")
-                                                                  .snapshots()
-                                                                  :
-                                                              FirebaseFirestore.instance
-                                                                  .collection("Condominios")
-                                                                  .where("idEmpresaPertence", isEqualTo: EmpresaPertence)
-                                                                  .where("Codigo", arrayContainsAny: [pesquisa])
-                                                                  .where("Codigo", isLessThan: "${pesquisa}9")
-                                                                  .orderBy("Nome")
-                                                                  .snapshots()
-                                                                  :
-                                                              FirebaseFirestore.instance
+                                                              stream: FirebaseFirestore.instance
                                                                   .collection("Condominios")
                                                                   .where("idEmpresaPertence", isEqualTo: EmpresaPertence)
                                                                   .orderBy("Nome")
                                                                   .snapshots(),
                                                               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                                                                var allDocs = snapshot.data!.docs;
+
+                                                                var filteredDocs = allDocs.where((doc) {
+                                                                  var nome;
+                                                                  RegExp numeros = RegExp(r'[0-9]');
+
+                                                                  if(numeros.hasMatch(pesquisa)){
+                                                                    nome = doc['Codigo'].toString().toUpperCase(); // Certifique-se de acessar o campo correto
+                                                                    return nome.contains(pesquisa);
+                                                                  }
+
+                                                                  if(pesquisa != ""){
+                                                                    nome = doc['Nome'].toString().toUpperCase(); // Certifique-se de acessar o campo correto
+                                                                    return nome.contains(pesquisa);
+                                                                  }
+
+                                                                  if(pesquisa == ""){
+                                                                    nome = doc['Nome'].toString().toUpperCase(); // Certifique-se de acessar o campo correto
+                                                                  }
+                                                                  return nome.contains(pesquisa);
+                                                                }).toList();
+
+
                                                                 double textSizeCond = 16;
 
                                                                 if (!snapshot.hasData) {
@@ -409,17 +415,11 @@ class _homeAppState extends State<homeApp>{
                                                                 return SizedBox(
                                                                   width: double.infinity,
                                                                   height: heig / 2.2,
-                                                                  child: SmoothListView(
+                                                                  child: SmoothListView.builder(
+                                                                    itemCount: filteredDocs.length,
                                                                     duration: const Duration(seconds: 1),
-                                                                    children: snapshot.data!.docs.map((documents){
-
-                                                                      if("${documents["Codigo"]} ${documents["Nome"]}".length >= 20){
-                                                                        textSizeCond = 13;
-                                                                      }
-
-                                                                      if("${documents["Codigo"]} ${documents["Nome"]}".length <= 20){
-                                                                        textSizeCond = 16;
-                                                                      }
+                                                                    itemBuilder: (context, index){
+                                                                      var documents = filteredDocs[index];
 
                                                                       return SizedBox(
                                                                         width: wid / 4,
@@ -551,7 +551,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                                               child: Icon(
                                                                                                                                 Icons.close,
                                                                                                                                 size: 40,
-                                                                                                                                color: Colors.red
                                                                                                                               ),
                                                                                                                             )
                                                                                                                             ),
@@ -1258,7 +1257,6 @@ class _homeAppState extends State<homeApp>{
                                                                                                                           child: Icon(
                                                                                                                             Icons.close,
                                                                                                                             size: 40,
-                                                                                                                            color: Colors.red
                                                                                                                           ),
                                                                                                                         )
                                                                                                                         )
@@ -1311,7 +1309,7 @@ class _homeAppState extends State<homeApp>{
                                                                           ),
                                                                         ),
                                                                       );
-                                                                    }).toList(),
+                                                                    }
                                                                   ),
                                                                 );
                                                               },
@@ -4249,17 +4247,7 @@ class _homeAppState extends State<homeApp>{
                             width: wid / 4,
                             height: heig,
                             child: FlexResponsiveLayout(
-                              // Mobile layout (required)
-                              mobile: const SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    Text('Mobile View'),
-                                    // Your mobile content
-                                  ],
-                                ),
-                              ),
-                              // Desktop layout (optional)
-                              desktop: Column(
+                              mobile: Column(
                                 children: [
                                   Container(
                                     padding: EdgeInsets.only(bottom: topbot, top: topbot, left: 200),
