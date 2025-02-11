@@ -284,276 +284,983 @@ class _homeAppState extends State<homeApp>{
                                         scale: 20
                                     ),
                                   ),
-                                  Column(
-                                    children: [
-                                      SizedBox(
-                                        width: wid / 4,
-                                        height: heig / 1.7,
-                                        child: Stack(
-                                            children: [
-                                              Center(
-                                                child: Column(
-                                                  children: [
-                                                    SizedBox(
-                                                      width: double.infinity,
-                                                      height: heig / 1.7,
-                                                      
-                                                      child: SingleChildScrollView(
-                                                        child: Column(
-                                                          children: [
-                                                            Container(
-                                                              padding: const EdgeInsets.all(10),
-                                                              child: Row(
-                                                                children: [
-                                                                  Container(
-                                                                    alignment: AlignmentDirectional.centerEnd,
-                                                                    child: TextButton(
-                                                                      onPressed: (){
+                                  LayoutBuilder(builder: (context, constrains){
+                                    return Column(
+                                      children: [
+                                        SizedBox(
+                                          width: wid / 4,
+                                          height: heig / 1.7,
+                                          child: Stack(
+                                              children: [
+                                                Center(
+                                                  child: Column(
+                                                    children: [
+                                                      SizedBox(
+                                                        width: double.infinity,
+                                                        height: heig / 1.7,
 
-                                                                        RegExp numeros = RegExp(r'[0-9]');
+                                                        child: SingleChildScrollView(
+                                                          child: Column(
+                                                            children: [
+                                                              Container(
+                                                                padding: const EdgeInsets.all(10),
+                                                                child: Row(
+                                                                  children: [
+                                                                    Container(
+                                                                      alignment: AlignmentDirectional.centerEnd,
+                                                                      child: TextButton(
+                                                                        onPressed: (){
 
-                                                                        if(numeros.hasMatch(pesquisa)){
-                                                                          setStater(() {
-                                                                            pesquisaNumeros = true;
-                                                                          });
-                                                                        }else{
-                                                                          setStater(() {
-                                                                            pesquisaNumeros = false;
-                                                                          });
-                                                                        }
+                                                                          RegExp numeros = RegExp(r'[0-9]');
 
-                                                                        if(pesquisa == ""){
-                                                                          setStater(() {
-                                                                            pesquisando = false;
-                                                                          });
-                                                                        }else{
-                                                                          setStater(() {
-                                                                            pesquisando = true;
-                                                                          });
-                                                                        }
-                                                                      },
-                                                                      child: Image.asset(
-                                                                          "assets/search.png",
-                                                                          scale: 14
+                                                                          if(numeros.hasMatch(pesquisa)){
+                                                                            setStater(() {
+                                                                              pesquisaNumeros = true;
+                                                                            });
+                                                                          }else{
+                                                                            setStater(() {
+                                                                              pesquisaNumeros = false;
+                                                                            });
+                                                                          }
+
+                                                                          if(pesquisa == ""){
+                                                                            setStater(() {
+                                                                              pesquisando = false;
+                                                                            });
+                                                                          }else{
+                                                                            setStater(() {
+                                                                              pesquisando = true;
+                                                                            });
+                                                                          }
+                                                                        },
+                                                                        child: Image.asset(
+                                                                            "assets/search.png",
+                                                                            scale: 14
+                                                                        ),
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                  Container(
-                                                                    width: heig / 2.9,
-                                                                    //height: constrain.maxHeight / 1.5,
-                                                                    child: Stack(
-                                                                        children: [
-                                                                          Positioned.fill(
-                                                                            child: Image.asset(
-                                                                              'assets/barradePesquisa.png', // Caminho da imagem
-                                                                              fit: BoxFit.fill,
+                                                                    Container(
+                                                                        width: constrains.maxWidth / 1.5,
+                                                                        //height: constrain.maxHeight / 1.5,
+                                                                        child: Stack(
+                                                                          children: [
+                                                                            Positioned.fill(
+                                                                              child: Image.asset(
+                                                                                'assets/barradePesquisa.png', // Caminho da imagem
+                                                                                fit: BoxFit.fill,
+                                                                              ),
                                                                             ),
-                                                                          ),
-                                                                          Container(
-                                                                            padding: EdgeInsets.only(left: 16),
-                                                                            child: TextField(
-                                                                              cursorColor: Colors.black,
-                                                                              keyboardType: TextInputType.name,
-                                                                              enableSuggestions: true,
-                                                                              autocorrect: true,
-                                                                              onChanged: (value){
-                                                                                pesquisa = value.toUpperCase();
-                                                                            
-                                                                                if(value == ""){
-                                                                                  setStater((){
-                                                                                    pesquisa = value;
-                                                                                    pesquisando = false;
-                                                                                    pesquisaNumeros = false;
-                                                                                  });
-                                                                                }
-                                                                              },
-                                                                              decoration: const InputDecoration(
-                                                                                focusedBorder: OutlineInputBorder(
-                                                                                  borderSide: BorderSide(
-                                                                                      width: 3,
-                                                                                      color: Colors.black
+                                                                            Container(
+                                                                              padding: EdgeInsets.only(left: 16),
+                                                                              child: TextField(
+                                                                                cursorColor: Colors.black,
+                                                                                keyboardType: TextInputType.name,
+                                                                                enableSuggestions: true,
+                                                                                autocorrect: true,
+                                                                                onChanged: (value){
+                                                                                  pesquisa = value.toUpperCase();
+
+                                                                                  if(value == ""){
+                                                                                    setStater((){
+                                                                                      pesquisa = value;
+                                                                                      pesquisando = false;
+                                                                                      pesquisaNumeros = false;
+                                                                                    });
+                                                                                  }
+                                                                                },
+                                                                                decoration: const InputDecoration(
+                                                                                  focusedBorder: OutlineInputBorder(
+                                                                                    borderSide: BorderSide(
+                                                                                        width: 3,
+                                                                                        color: Colors.black
+                                                                                    ),
                                                                                   ),
                                                                                 ),
-                                                                              ),
-                                                                              style: const TextStyle(
-                                                                                  color: Colors.black
+                                                                                style: const TextStyle(
+                                                                                    color: Colors.black
+                                                                                ),
                                                                               ),
                                                                             ),
-                                                                          ),
-                                                                        ],
-                                                                    )
-                                                                  ),
-                                                                ],
+                                                                          ],
+                                                                        )
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ),
-                                                            ),
-                                                            StreamBuilder(
-                                                              stream: FirebaseFirestore.instance
-                                                                  .collection("Condominios")
-                                                                  .where("idEmpresaPertence", isEqualTo: EmpresaPertence)
-                                                                  .orderBy("Nome")
-                                                                  .snapshots(),
-                                                              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-                                                                var allDocs = snapshot.data!.docs;
+                                                              StreamBuilder(
+                                                                stream: FirebaseFirestore.instance
+                                                                    .collection("Condominios")
+                                                                    .where("idEmpresaPertence", isEqualTo: EmpresaPertence)
+                                                                    .orderBy("Nome")
+                                                                    .snapshots(),
+                                                                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                                                                  var allDocs = snapshot.data!.docs;
 
-                                                                var filteredDocs = allDocs.where((doc) {
-                                                                  var nome;
-                                                                  RegExp numeros = RegExp(r'[0-9]');
+                                                                  var filteredDocs = allDocs.where((doc) {
+                                                                    var nome;
+                                                                    RegExp numeros = RegExp(r'[0-9]');
 
-                                                                  if(numeros.hasMatch(pesquisa)){
-                                                                    nome = doc['Codigo'].toString().toUpperCase(); // Certifique-se de acessar o campo correto
+                                                                    if(numeros.hasMatch(pesquisa)){
+                                                                      nome = doc['Codigo'].toString().toUpperCase(); // Certifique-se de acessar o campo correto
+                                                                      return nome.contains(pesquisa);
+                                                                    }
+
+                                                                    if(pesquisa != ""){
+                                                                      nome = doc['Nome'].toString().toUpperCase(); // Certifique-se de acessar o campo correto
+                                                                      return nome.contains(pesquisa);
+                                                                    }
+
+                                                                    if(pesquisa == ""){
+                                                                      nome = doc['Nome'].toString().toUpperCase(); // Certifique-se de acessar o campo correto
+                                                                    }
                                                                     return nome.contains(pesquisa);
+                                                                  }).toList();
+
+
+                                                                  double textSizeCond = 16;
+
+                                                                  if (!snapshot.hasData) {
+                                                                    return const Center(
+                                                                      child: CircularProgressIndicator(color: Colors.white,),
+                                                                    );
                                                                   }
+                                                                  return SizedBox(
+                                                                    width: double.infinity,
+                                                                    height: heig / 2.2,
+                                                                    child: SmoothListView.builder(
+                                                                        itemCount: filteredDocs.length,
+                                                                        duration: const Duration(seconds: 1),
+                                                                        itemBuilder: (context, index){
+                                                                          var documents = filteredDocs[index];
 
-                                                                  if(pesquisa != ""){
-                                                                    nome = doc['Nome'].toString().toUpperCase(); // Certifique-se de acessar o campo correto
-                                                                    return nome.contains(pesquisa);
-                                                                  }
+                                                                          return SizedBox(
+                                                                            width: wid / 4,
+                                                                            height: 70,
 
-                                                                  if(pesquisa == ""){
-                                                                    nome = doc['Nome'].toString().toUpperCase(); // Certifique-se de acessar o campo correto
-                                                                  }
-                                                                  return nome.contains(pesquisa);
-                                                                }).toList();
+                                                                            child: InkWell(
+                                                                              onTap: () async {
+                                                                                setState(() {
+                                                                                  idCondominio = documents["idCondominio"];
+                                                                                  anotacao = documents["Aviso"];
+                                                                                  ModeloDoCFTV = documents['ipCameraModelo'];
+                                                                                  idCondominioAnt = documents["idCondominio"];
+                                                                                  anotacao = documents["Aviso"];
+                                                                                  anotacaoControlCondominio.text = anotacao;
+                                                                                });
+                                                                              },
+                                                                              child: Stack(
+                                                                                children: [
+                                                                                  FutureBuilder<NativeMenu>(
+                                                                                    future: initMenuCondominio(),
+                                                                                    builder: (BuildContext context, AsyncSnapshot<NativeMenu> snapshot){
+                                                                                      if (!snapshot.hasData) {
+                                                                                        return const Center(
+                                                                                          child: CircularProgressIndicator(color: Colors.white,),
+                                                                                        );
+                                                                                      }
 
+                                                                                      return SizedBox(
+                                                                                        width: wid / 4,
+                                                                                        child: NativeContextMenuWidget(
+                                                                                          actionCallback: (action) {
+                                                                                            if(action == "addCFTV"){
+                                                                                              //for (int i = 1; i < 37; i++) {
+                                                                                              //  print('Número na posição $i é $i');
+                                                                                              //  FirebaseFirestore.instance.collection("CFTV").doc("$i$idCondominio").set({
+                                                                                              //    "ip": documents['IpCamera'],
+                                                                                              //    "porta": documents['PortaCameras'],
+                                                                                              //    "user": documents['UserAccess'],
+                                                                                              //    "pass": documents['PassAccess'],
+                                                                                              //    "canal": i,
+                                                                                              //    "modelo": "Intelbras",
+                                                                                              //    "idCondominio": idCondominio,
+                                                                                              //    "id": "$i$idCondominio",
+                                                                                              //    "Ordem": i
+                                                                                              //  });
+                                                                                              //}
+                                                                                            }
+                                                                                            if(action == "editCondominio"){
 
-                                                                double textSizeCond = 16;
+                                                                                              String NomeCondominio = documents["Nome"];
+                                                                                              String Cidade = documents["Cidade"];
+                                                                                              String Endereco = documents["Endereco"];
+                                                                                              String bairro = documents["bairro"];
+                                                                                              String cep = documents["cep"];
+                                                                                              String Sindico = documents["Sindico"];
+                                                                                              String Telefone = documents["Telefone"];
+                                                                                              String CNPJ = documents["CNPJ"];
+                                                                                              String Zelador = documents["Zelador"];
+                                                                                              String SIPUrl = documents["SIPUrl"];
+                                                                                              String Porta = documents["PortaSIP"];
+                                                                                              String AuthUser = documents["authUserSIP"];
+                                                                                              String Pass = documents["authSenhaSIP"];
+                                                                                              String codigo = documents["Codigo"];
 
-                                                                if (!snapshot.hasData) {
-                                                                  return const Center(
-                                                                    child: CircularProgressIndicator(color: Colors.white,),
-                                                                  );
-                                                                }
-                                                                return SizedBox(
-                                                                  width: double.infinity,
-                                                                  height: heig / 2.2,
-                                                                  child: SmoothListView.builder(
-                                                                    itemCount: filteredDocs.length,
-                                                                    duration: const Duration(seconds: 1),
-                                                                    itemBuilder: (context, index){
-                                                                      var documents = filteredDocs[index];
+                                                                                              //Controladores
+                                                                                              TextEditingController NomeCondominioControl = TextEditingController(text: NomeCondominio);
+                                                                                              TextEditingController CidadeControl = TextEditingController(text: Cidade);
+                                                                                              TextEditingController EnderecoControl = TextEditingController(text: Endereco);
+                                                                                              TextEditingController bairroControl = TextEditingController(text: bairro);
+                                                                                              TextEditingController cepControl = TextEditingController(text: cep);
+                                                                                              TextEditingController SindicoControl = TextEditingController(text: Sindico);
+                                                                                              TextEditingController TelefoneControl = TextEditingController(text: Telefone);
+                                                                                              TextEditingController CNPJControl = TextEditingController(text: CNPJ);
+                                                                                              TextEditingController ZeladorControl = TextEditingController(text: Zelador);
+                                                                                              TextEditingController SIPUrlControl = TextEditingController(text: SIPUrl);
+                                                                                              TextEditingController PortaSIPControl = TextEditingController(text: Porta);
+                                                                                              TextEditingController AuthUserSIPControl = TextEditingController(text: AuthUser);
+                                                                                              TextEditingController PassSIPControl = TextEditingController(text: Pass);
+                                                                                              TextEditingController codigoControl = TextEditingController(text: codigo);
 
-                                                                      return SizedBox(
-                                                                        width: wid / 4,
-                                                                        height: 70,
-
-                                                                        child: InkWell(
-                                                                          onTap: () async {
-                                                                            setState(() {
-                                                                              idCondominio = documents["idCondominio"];
-                                                                              anotacao = documents["Aviso"];
-                                                                              ModeloDoCFTV = documents['ipCameraModelo'];
-                                                                              idCondominioAnt = documents["idCondominio"];
-                                                                              anotacao = documents["Aviso"];
-                                                                              anotacaoControlCondominio.text = anotacao;
-                                                                            });
-                                                                          },
-                                                                          child: Stack(
-                                                                            children: [
-                                                                              FutureBuilder<NativeMenu>(
-                                                                                future: initMenuCondominio(),
-                                                                                builder: (BuildContext context, AsyncSnapshot<NativeMenu> snapshot){
-                                                                                  if (!snapshot.hasData) {
-                                                                                    return const Center(
-                                                                                      child: CircularProgressIndicator(color: Colors.white,),
-                                                                                    );
-                                                                                  }
-
-                                                                                  return SizedBox(
-                                                                                    width: wid / 4,
-                                                                                    child: NativeContextMenuWidget(
-                                                                                      actionCallback: (action) {
-                                                                                        if(action == "addCFTV"){
-                                                                                          //for (int i = 1; i < 37; i++) {
-                                                                                          //  print('Número na posição $i é $i');
-                                                                                          //  FirebaseFirestore.instance.collection("CFTV").doc("$i$idCondominio").set({
-                                                                                          //    "ip": documents['IpCamera'],
-                                                                                          //    "porta": documents['PortaCameras'],
-                                                                                          //    "user": documents['UserAccess'],
-                                                                                          //    "pass": documents['PassAccess'],
-                                                                                          //    "canal": i,
-                                                                                          //    "modelo": "Intelbras",
-                                                                                          //    "idCondominio": idCondominio,
-                                                                                          //    "id": "$i$idCondominio",
-                                                                                          //    "Ordem": i
-                                                                                          //  });
-                                                                                          //}
-                                                                                        }
-                                                                                        if(action == "editCondominio"){
-
-                                                                                          String NomeCondominio = documents["Nome"];
-                                                                                          String Cidade = documents["Cidade"];
-                                                                                          String Endereco = documents["Endereco"];
-                                                                                          String bairro = documents["bairro"];
-                                                                                          String cep = documents["cep"];
-                                                                                          String Sindico = documents["Sindico"];
-                                                                                          String Telefone = documents["Telefone"];
-                                                                                          String CNPJ = documents["CNPJ"];
-                                                                                          String Zelador = documents["Zelador"];
-                                                                                          String SIPUrl = documents["SIPUrl"];
-                                                                                          String Porta = documents["PortaSIP"];
-                                                                                          String AuthUser = documents["authUserSIP"];
-                                                                                          String Pass = documents["authSenhaSIP"];
-                                                                                          String codigo = documents["Codigo"];
-
-                                                                                          //Controladores
-                                                                                          TextEditingController NomeCondominioControl = TextEditingController(text: NomeCondominio);
-                                                                                          TextEditingController CidadeControl = TextEditingController(text: Cidade);
-                                                                                          TextEditingController EnderecoControl = TextEditingController(text: Endereco);
-                                                                                          TextEditingController bairroControl = TextEditingController(text: bairro);
-                                                                                          TextEditingController cepControl = TextEditingController(text: cep);
-                                                                                          TextEditingController SindicoControl = TextEditingController(text: Sindico);
-                                                                                          TextEditingController TelefoneControl = TextEditingController(text: Telefone);
-                                                                                          TextEditingController CNPJControl = TextEditingController(text: CNPJ);
-                                                                                          TextEditingController ZeladorControl = TextEditingController(text: Zelador);
-                                                                                          TextEditingController SIPUrlControl = TextEditingController(text: SIPUrl);
-                                                                                          TextEditingController PortaSIPControl = TextEditingController(text: Porta);
-                                                                                          TextEditingController AuthUserSIPControl = TextEditingController(text: AuthUser);
-                                                                                          TextEditingController PassSIPControl = TextEditingController(text: Pass);
-                                                                                          TextEditingController codigoControl = TextEditingController(text: codigo);
-
-                                                                                          showDialog(
-                                                                                            context: context,
-                                                                                            builder: (BuildContext context) {
-                                                                                              return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
-                                                                                                return SingleChildScrollView(
-                                                                                                  child: Dialog(
-                                                                                                    shape: RoundedRectangleBorder(
-                                                                                                      borderRadius: BorderRadius.circular(10),
-                                                                                                    ),
-                                                                                                    child: Stack(
-                                                                                                      children: [
-                                                                                                        // Imagem de fundo
-                                                                                                        Positioned.fill(
-                                                                                                          child: ClipRRect(
-                                                                                                            borderRadius: BorderRadius.circular(10),
-                                                                                                            child: Image.asset(
-                                                                                                              "assets/FundoMetalPreto.jpg",
-                                                                                                              fit: BoxFit.fill,
-                                                                                                            ),
-                                                                                                          ),
+                                                                                              showDialog(
+                                                                                                context: context,
+                                                                                                builder: (BuildContext context) {
+                                                                                                  return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
+                                                                                                    return SingleChildScrollView(
+                                                                                                      child: Dialog(
+                                                                                                        shape: RoundedRectangleBorder(
+                                                                                                          borderRadius: BorderRadius.circular(10),
                                                                                                         ),
-                                                                                                        Container(
-                                                                                                          width: 700,
-                                                                                                          padding: const EdgeInsets.all(30),
-                                                                                                          child: Column(
-                                                                                                            children: [
-                                                                                                              Column(
-                                                                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                                                        child: Stack(
+                                                                                                          children: [
+                                                                                                            // Imagem de fundo
+                                                                                                            Positioned.fill(
+                                                                                                              child: ClipRRect(
+                                                                                                                borderRadius: BorderRadius.circular(10),
+                                                                                                                child: Image.asset(
+                                                                                                                  "assets/FundoMetalPreto.jpg",
+                                                                                                                  fit: BoxFit.fill,
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            Container(
+                                                                                                              width: 700,
+                                                                                                              padding: const EdgeInsets.all(30),
+                                                                                                              child: Column(
                                                                                                                 children: [
-                                                                                                                  SizedBox(
-                                                                                                                    //width: 200,
-                                                                                                                    height: 50,
-                                                                                                                    child: Center(
-                                                                                                                      child: Row(
-                                                                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                                                        children: [
-                                                                                                                          const Text(
-                                                                                                                            'Editar Cliente',
+                                                                                                                  Column(
+                                                                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                                                                    children: [
+                                                                                                                      SizedBox(
+                                                                                                                        //width: 200,
+                                                                                                                        height: 50,
+                                                                                                                        child: Center(
+                                                                                                                          child: Row(
+                                                                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                                            children: [
+                                                                                                                              const Text(
+                                                                                                                                'Editar Cliente',
+                                                                                                                                style: TextStyle(
+                                                                                                                                  fontSize: 30,
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                              SizedBox(
+                                                                                                                                width: 100,
+                                                                                                                                height: 100,
+                                                                                                                                child: TextButton(onPressed: (){
+                                                                                                                                  Navigator.pop(context);
+                                                                                                                                }, child: const Center(
+                                                                                                                                  child: Icon(
+                                                                                                                                    Icons.close,
+                                                                                                                                    size: 40,
+                                                                                                                                  ),
+                                                                                                                                )
+                                                                                                                                ),
+                                                                                                                              )
+                                                                                                                            ],
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      const Padding(
+                                                                                                                        padding: EdgeInsets.only(bottom: 16),
+                                                                                                                      ),
+                                                                                                                      Center(
+                                                                                                                        child: Container(
+                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                          child: TextField(
+                                                                                                                            controller: NomeCondominioControl,
+                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                            enableSuggestions: false,
+                                                                                                                            autocorrect: false,
+                                                                                                                            onChanged: (value){
+                                                                                                                              setStater(() {
+                                                                                                                                NomeCondominio = value;
+                                                                                                                              });
+                                                                                                                            },
+                                                                                                                            decoration: InputDecoration(
+                                                                                                                              filled: true,
+                                                                                                                              fillColor: Colors.white,
+                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                              ),
+                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(
+                                                                                                                                    width: 3,
+                                                                                                                                    color: Colors.black
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                              ),
+                                                                                                                              labelText: 'Nome do Condominio',
+                                                                                                                            ),
                                                                                                                             style: TextStyle(
-                                                                                                                              fontSize: 30,
+                                                                                                                                color: textAlertDialogColor
                                                                                                                             ),
                                                                                                                           ),
-                                                                                                                          SizedBox(
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      Center(
+                                                                                                                        child: Container(
+                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                          child: TextField(
+                                                                                                                            controller: codigoControl,
+                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                            enableSuggestions: false,
+                                                                                                                            autocorrect: false,
+                                                                                                                            onChanged: (value){
+                                                                                                                              setStater(() {
+                                                                                                                                codigo = value;
+                                                                                                                              });
+                                                                                                                            },
+                                                                                                                            decoration: InputDecoration(
+                                                                                                                              filled: true,
+                                                                                                                              fillColor: Colors.white,
+                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                              ),
+                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(
+                                                                                                                                    width: 3,
+                                                                                                                                    color: Colors.black
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                              ),
+                                                                                                                              labelText: 'Codigo do Condominio (4 caracteres Ex: 2402)',
+                                                                                                                            ),
+                                                                                                                            style: TextStyle(
+                                                                                                                                color: textAlertDialogColor
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      Center(
+                                                                                                                        child: Container(
+                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                          child: TextField(
+                                                                                                                            controller: CidadeControl,
+                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                            enableSuggestions: false,
+                                                                                                                            autocorrect: false,
+                                                                                                                            onChanged: (value){
+                                                                                                                              setStater(() {
+                                                                                                                                Cidade = value;
+                                                                                                                              });
+                                                                                                                            },
+                                                                                                                            decoration: InputDecoration(
+                                                                                                                              filled: true,
+                                                                                                                              fillColor: Colors.white,
+                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                              ),
+                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(
+                                                                                                                                    width: 3,
+                                                                                                                                    color: Colors.black
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                              ),
+                                                                                                                              labelText: 'Cidade',
+                                                                                                                            ),
+                                                                                                                            style: TextStyle(
+                                                                                                                                color: textAlertDialogColor
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      Center(
+                                                                                                                        child: Container(
+                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                          child: TextField(
+                                                                                                                            controller: EnderecoControl,
+                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                            enableSuggestions: false,
+                                                                                                                            autocorrect: false,
+                                                                                                                            onChanged: (value){
+                                                                                                                              setStater(() {
+                                                                                                                                Endereco = value;
+                                                                                                                              });
+                                                                                                                            },
+                                                                                                                            decoration: InputDecoration(
+                                                                                                                              filled: true,
+                                                                                                                              fillColor: Colors.white,
+                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                              ),
+                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(
+                                                                                                                                    width: 3,
+                                                                                                                                    color: Colors.black
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                              ),
+                                                                                                                              labelText: 'Endereco',
+                                                                                                                            ),
+                                                                                                                            style: TextStyle(
+                                                                                                                                color: textAlertDialogColor
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      Center(
+                                                                                                                        child: Container(
+                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                          child: TextField(
+                                                                                                                            controller: bairroControl,
+                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                            enableSuggestions: false,
+                                                                                                                            autocorrect: false,
+                                                                                                                            onChanged: (value){
+                                                                                                                              setStater(() {
+                                                                                                                                bairro = value;
+                                                                                                                              });
+                                                                                                                            },
+                                                                                                                            decoration: InputDecoration(
+                                                                                                                              filled: true,
+                                                                                                                              fillColor: Colors.white,
+                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                              ),
+                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(
+                                                                                                                                    width: 3,
+                                                                                                                                    color: Colors.black
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                              ),
+                                                                                                                              labelText: 'Bairro',
+                                                                                                                            ),
+                                                                                                                            style: TextStyle(
+                                                                                                                                color: textAlertDialogColor
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      Center(
+                                                                                                                        child: Container(
+                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                          child: TextField(
+                                                                                                                            controller: cepControl,
+                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                            enableSuggestions: false,
+                                                                                                                            autocorrect: false,
+                                                                                                                            onChanged: (value){
+                                                                                                                              setStater(() {
+                                                                                                                                cep = value;
+                                                                                                                              });
+                                                                                                                            },
+                                                                                                                            decoration: InputDecoration(
+                                                                                                                              filled: true,
+                                                                                                                              fillColor: Colors.white,
+                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                              ),
+                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(
+                                                                                                                                    width: 3,
+                                                                                                                                    color: Colors.black
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                              ),
+                                                                                                                              labelText: 'CEP',
+                                                                                                                            ),
+                                                                                                                            style: TextStyle(
+                                                                                                                                color: textAlertDialogColor
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      Center(
+                                                                                                                        child: Container(
+                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                          child: TextField(
+                                                                                                                            controller: SindicoControl,
+                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                            enableSuggestions: false,
+                                                                                                                            autocorrect: false,
+                                                                                                                            onChanged: (value){
+                                                                                                                              setStater(() {
+                                                                                                                                Sindico = value;
+                                                                                                                              });
+                                                                                                                            },
+                                                                                                                            decoration: InputDecoration(
+                                                                                                                              filled: true,
+                                                                                                                              fillColor: Colors.white,
+                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                              ),
+                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(
+                                                                                                                                    width: 3,
+                                                                                                                                    color: Colors.black
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                              ),
+                                                                                                                              labelText: 'Sindico',
+                                                                                                                            ),
+                                                                                                                            style: TextStyle(
+                                                                                                                                color: textAlertDialogColor
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      Center(
+                                                                                                                        child: Container(
+                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                          child: TextField(
+                                                                                                                            controller: TelefoneControl,
+                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                            enableSuggestions: false,
+                                                                                                                            autocorrect: false,
+                                                                                                                            onChanged: (value){
+                                                                                                                              setStater(() {
+                                                                                                                                Telefone = value;
+                                                                                                                              });
+                                                                                                                            },
+                                                                                                                            decoration: InputDecoration(
+                                                                                                                              filled: true,
+                                                                                                                              fillColor: Colors.white,
+                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                              ),
+                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(
+                                                                                                                                    width: 3,
+                                                                                                                                    color: Colors.black
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                              ),
+                                                                                                                              labelText: 'Telefone',
+                                                                                                                            ),
+                                                                                                                            style: TextStyle(
+                                                                                                                                color: textAlertDialogColor
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      Center(
+                                                                                                                        child: Container(
+                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                          child: TextField(
+                                                                                                                            controller: CNPJControl,
+                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                            enableSuggestions: false,
+                                                                                                                            autocorrect: false,
+                                                                                                                            onChanged: (value){
+                                                                                                                              setStater(() {
+                                                                                                                                CNPJ = value;
+                                                                                                                              });
+                                                                                                                            },
+                                                                                                                            decoration: InputDecoration(
+                                                                                                                              filled: true,
+                                                                                                                              fillColor: Colors.white,
+                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                              ),
+                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(
+                                                                                                                                    width: 3,
+                                                                                                                                    color: Colors.black
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                              ),
+                                                                                                                              labelText: 'CNPJ',
+                                                                                                                            ),
+                                                                                                                            style: TextStyle(
+                                                                                                                                color: textAlertDialogColor
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      Center(
+                                                                                                                        child: Container(
+                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                          child: TextField(
+                                                                                                                            controller: ZeladorControl,
+                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                            enableSuggestions: false,
+                                                                                                                            autocorrect: false,
+                                                                                                                            onChanged: (value){
+                                                                                                                              setStater(() {
+                                                                                                                                Zelador = value;
+                                                                                                                              });
+                                                                                                                            },
+                                                                                                                            decoration: InputDecoration(
+                                                                                                                              filled: true,
+                                                                                                                              fillColor: Colors.white,
+                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                              ),
+                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(
+                                                                                                                                    width: 3,
+                                                                                                                                    color: Colors.black
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                              ),
+                                                                                                                              labelText: 'Zelador',
+                                                                                                                            ),
+                                                                                                                            style: TextStyle(
+                                                                                                                                color: textAlertDialogColor
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      Center(
+                                                                                                                        child: Container(
+                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                          child: TextField(
+                                                                                                                            controller: SIPUrlControl,
+                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                            enableSuggestions: false,
+                                                                                                                            autocorrect: false,
+                                                                                                                            onChanged: (value){
+                                                                                                                              setStater(() {
+                                                                                                                                SIPUrl = value;
+                                                                                                                              });
+                                                                                                                            },
+                                                                                                                            decoration: InputDecoration(
+                                                                                                                              filled: true,
+                                                                                                                              fillColor: Colors.white,
+                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                              ),
+                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                              ),
+                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(
+                                                                                                                                    width: 3,
+                                                                                                                                    color: Colors.black
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                              labelText: 'SIP Url (sip2.chamada.com.br), para ambientes não suportado é recomendado deixar (*) apenas.',
+                                                                                                                            ),
+                                                                                                                            style: TextStyle(
+                                                                                                                                color: textAlertDialogColor
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      Center(
+                                                                                                                        child: Container(
+                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                          child: TextField(
+                                                                                                                            controller: PortaSIPControl,
+                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                            enableSuggestions: false,
+                                                                                                                            autocorrect: false,
+                                                                                                                            onChanged: (value){
+                                                                                                                              setStater(() {
+                                                                                                                                Porta = value;
+                                                                                                                              });
+                                                                                                                            },
+                                                                                                                            decoration: InputDecoration(
+                                                                                                                              filled: true,
+                                                                                                                              fillColor: Colors.white,
+                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                              ),
+                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                              ),
+                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(
+                                                                                                                                    width: 3,
+                                                                                                                                    color: Colors.black
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                              labelText: 'SIP Porta (5060)',
+                                                                                                                            ),
+                                                                                                                            style: TextStyle(
+                                                                                                                                color: textAlertDialogColor
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      Center(
+                                                                                                                        child: Container(
+                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                          child: TextField(
+                                                                                                                            controller: AuthUserSIPControl,
+                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                            enableSuggestions: false,
+                                                                                                                            autocorrect: false,
+                                                                                                                            onChanged: (value){
+                                                                                                                              setStater(() {
+                                                                                                                                AuthUser = value;
+                                                                                                                              });
+                                                                                                                            },
+                                                                                                                            decoration: InputDecoration(
+                                                                                                                              filled: true,
+                                                                                                                              fillColor: Colors.white,
+                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                              ),
+                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                              ),
+                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(
+                                                                                                                                    width: 3,
+                                                                                                                                    color: Colors.black
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                              labelText: 'Usuario de acesso do SIP',
+                                                                                                                            ),
+                                                                                                                            style: TextStyle(
+                                                                                                                                color: textAlertDialogColor
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      Center(
+                                                                                                                        child: Container(
+                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                          child: TextField(
+                                                                                                                            controller: PassSIPControl,
+                                                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                                                            enableSuggestions: false,
+                                                                                                                            autocorrect: false,
+                                                                                                                            onChanged: (value){
+                                                                                                                              setStater(() {
+                                                                                                                                Pass = value;
+                                                                                                                              });
+                                                                                                                            },
+                                                                                                                            decoration: InputDecoration(
+                                                                                                                              filled: true,
+                                                                                                                              fillColor: Colors.white,
+                                                                                                                              labelStyle: TextStyle(
+                                                                                                                                  color: textAlertDialogColor,
+                                                                                                                                  backgroundColor: Colors.white
+                                                                                                                              ),
+                                                                                                                              border: const OutlineInputBorder(),
+                                                                                                                              enabledBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                                                              ),
+                                                                                                                              focusedBorder: const OutlineInputBorder(
+                                                                                                                                borderSide: BorderSide(
+                                                                                                                                    width: 3,
+                                                                                                                                    color: Colors.black
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                              labelText: 'Senha de acesso do SIP',
+                                                                                                                            ),
+                                                                                                                            style: TextStyle(
+                                                                                                                                color: textAlertDialogColor
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      ElevatedButton(onPressed: (){
+                                                                                                                        if(NomeCondominio == ""){
+                                                                                                                          showToast("O nome do Condominio está vazio!",context:context);
+                                                                                                                        }else{
+                                                                                                                          if(codigo == ""){
+                                                                                                                            showToast("O codigo está vazio!",context:context);
+                                                                                                                          }else{
+                                                                                                                            if(codigo.length == 4){
+                                                                                                                              FirebaseFirestore.instance.collection('Condominios').doc(documents["idCondominio"]).update({
+                                                                                                                                "Nome": NomeCondominio,
+                                                                                                                                "SIPUrl": SIPUrl,
+                                                                                                                                "PortaSIP": Porta,
+                                                                                                                                "authUserSIP": AuthUser,
+                                                                                                                                "authSenhaSIP": Pass,
+                                                                                                                                "Codigo" : codigo,
+                                                                                                                                "Cidade": Cidade,
+                                                                                                                                "Endereco": Endereco,
+                                                                                                                                "bairro": bairro,
+                                                                                                                                "cep": cep,
+                                                                                                                                "Sindico": Sindico,
+                                                                                                                                "Telefone": Telefone,
+                                                                                                                                "CNPJ": CNPJ,
+                                                                                                                                "Zelador": Zelador,
+                                                                                                                              }).whenComplete(() async {
+                                                                                                                                FirebaseFirestore.instance.collection("logs").doc(UUID).set({
+                                                                                                                                  "text" : 'Um condominio foi editado',
+                                                                                                                                  "codigoDeResposta" : NomeCondominio,
+                                                                                                                                  'acionamentoID': "",
+                                                                                                                                  'acionamentoNome': "",
+                                                                                                                                  'Condominio': idCondominio,
+                                                                                                                                  "id": UUID,
+                                                                                                                                  'QuemFez': await getUserName(),
+                                                                                                                                  "idAcionou": UID,
+                                                                                                                                  "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
+                                                                                                                                });
+                                                                                                                                showToast('Sucesso!', context: context);
+                                                                                                                                Navigator.pop(context);
+                                                                                                                              });
+                                                                                                                            }else{
+                                                                                                                              if(codigo.length > 4){
+                                                                                                                                showToast("Existem mais caracteres do que o permitido no codigo do condominio!",context:context);
+                                                                                                                              }
+                                                                                                                              if(codigo.length < 4){
+                                                                                                                                showToast("Existem menos caracteres do que o permitido no codigo do condominio!",context:context);
+                                                                                                                              }
+                                                                                                                            }
+                                                                                                                          }
+                                                                                                                        }
+                                                                                                                      },
+                                                                                                                          style: ElevatedButton.styleFrom(
+                                                                                                                              backgroundColor: colorBtn
+                                                                                                                          ),
+                                                                                                                          child: Text(
+                                                                                                                            'Salvar',
+                                                                                                                            style: TextStyle(
+                                                                                                                                color: textColor
+                                                                                                                            ),
+                                                                                                                          )
+                                                                                                                      )
+                                                                                                                    ],
+                                                                                                                  )
+                                                                                                                ],
+                                                                                                              ),
+                                                                                                            )
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    );
+                                                                                                  }
+                                                                                                  );
+                                                                                                },
+                                                                                              );
+                                                                                            }
+                                                                                            if(action == "remover_condominio"){
+                                                                                              FirebaseFirestore.instance.collection("Condominios").doc(documents["idCondominio"]).delete().whenComplete((){
+                                                                                                if(idCondominio == documents["idCondominio"]){
+                                                                                                  setStater((){
+                                                                                                    idCondominio = "";
+                                                                                                  });
+                                                                                                }
+                                                                                                showToast("Cliente deletado!",context:context);
+                                                                                              });
+                                                                                            }
+                                                                                          },
+                                                                                          menu: snapshot.requireData,
+                                                                                          otherCallback: (method) {
+                                                                                          },
+                                                                                          child: const Text(
+                                                                                            "abc",
+                                                                                            style: TextStyle(
+                                                                                                color: Colors.transparent
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      );
+                                                                                    },
+                                                                                  ),
+                                                                                  Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: Row(
+                                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                      children: [
+                                                                                        Stack(
+                                                                                          children: [
+
+                                                                                            //Texto normal
+                                                                                            Text(
+                                                                                              "${documents["Codigo"]} ${documents['Nome']}",
+                                                                                              style: TextStyle(
+                                                                                                fontSize: textSizeCond,
+                                                                                                fontWeight: FontWeight.bold,
+                                                                                                color: idCondominio == documents['idCondominio']? Colors.blue : textColorInitBlue,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                        Row(
+                                                                                          children: [
+                                                                                            IconButton(onPressed: (){
+                                                                                              showDialog(
+                                                                                                context: context,
+                                                                                                builder: (BuildContext context) {
+                                                                                                  return Center(
+                                                                                                    child: Dialog(
+                                                                                                      child: Stack(
+                                                                                                        children: [
+                                                                                                          Positioned.fill(
+                                                                                                            child: ClipRRect(
+                                                                                                              borderRadius: BorderRadius.circular(10),
+                                                                                                              child: Image.asset(
+                                                                                                                "assets/FundoMetalPreto.jpg",
+                                                                                                                fit: BoxFit.fill,
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                          SizedBox(
+                                                                                                              width: 550,
+                                                                                                              height: 350,
+                                                                                                              child: SingleChildScrollView(
+                                                                                                                child: Column(
+                                                                                                                  children: [
+                                                                                                                    Row(
+                                                                                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                                      children: [
+                                                                                                                        Container(
+                                                                                                                          padding: const EdgeInsets.all(16),
+                                                                                                                          child: const Text(
+                                                                                                                            'Informações sobre o condominio',
+                                                                                                                            style: TextStyle(
+                                                                                                                                fontSize: 25,
+                                                                                                                                fontWeight: FontWeight.bold
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        SizedBox(
                                                                                                                             width: 100,
                                                                                                                             height: 100,
                                                                                                                             child: TextButton(onPressed: (){
@@ -564,1843 +1271,1138 @@ class _homeAppState extends State<homeApp>{
                                                                                                                                 size: 40,
                                                                                                                               ),
                                                                                                                             )
-                                                                                                                            ),
-                                                                                                                          )
-                                                                                                                        ],
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  const Padding(
-                                                                                                                    padding: EdgeInsets.only(bottom: 16),
-                                                                                                                  ),
-                                                                                                                  Center(
-                                                                                                                    child: Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: TextField(
-                                                                                                                        controller: NomeCondominioControl,
-                                                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                                                        enableSuggestions: false,
-                                                                                                                        autocorrect: false,
-                                                                                                                        onChanged: (value){
-                                                                                                                          setStater(() {
-                                                                                                                            NomeCondominio = value;
-                                                                                                                          });
-                                                                                                                        },
-                                                                                                                        decoration: InputDecoration(
-                                                                                                                          filled: true,
-                                                                                                                          fillColor: Colors.white,
-                                                                                                                          border: const OutlineInputBorder(),
-                                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                          ),
-                                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(
-                                                                                                                                width: 3,
-                                                                                                                                color: Colors.black
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor,
-                                                                                                                              backgroundColor: Colors.white
-                                                                                                                          ),
-                                                                                                                          labelText: 'Nome do Condominio',
-                                                                                                                        ),
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textAlertDialogColor
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  Center(
-                                                                                                                    child: Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: TextField(
-                                                                                                                        controller: codigoControl,
-                                                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                                                        enableSuggestions: false,
-                                                                                                                        autocorrect: false,
-                                                                                                                        onChanged: (value){
-                                                                                                                          setStater(() {
-                                                                                                                            codigo = value;
-                                                                                                                          });
-                                                                                                                        },
-                                                                                                                        decoration: InputDecoration(
-                                                                                                                          filled: true,
-                                                                                                                          fillColor: Colors.white,
-                                                                                                                          border: const OutlineInputBorder(),
-                                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                          ),
-                                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(
-                                                                                                                                width: 3,
-                                                                                                                                color: Colors.black
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor,
-                                                                                                                              backgroundColor: Colors.white
-                                                                                                                          ),
-                                                                                                                          labelText: 'Codigo do Condominio (4 caracteres Ex: 2402)',
-                                                                                                                        ),
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textAlertDialogColor
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  Center(
-                                                                                                                    child: Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: TextField(
-                                                                                                                        controller: CidadeControl,
-                                                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                                                        enableSuggestions: false,
-                                                                                                                        autocorrect: false,
-                                                                                                                        onChanged: (value){
-                                                                                                                          setStater(() {
-                                                                                                                            Cidade = value;
-                                                                                                                          });
-                                                                                                                        },
-                                                                                                                        decoration: InputDecoration(
-                                                                                                                          filled: true,
-                                                                                                                          fillColor: Colors.white,
-                                                                                                                          border: const OutlineInputBorder(),
-                                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                          ),
-                                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(
-                                                                                                                                width: 3,
-                                                                                                                                color: Colors.black
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor,
-                                                                                                                              backgroundColor: Colors.white
-                                                                                                                          ),
-                                                                                                                          labelText: 'Cidade',
-                                                                                                                        ),
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textAlertDialogColor
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  Center(
-                                                                                                                    child: Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: TextField(
-                                                                                                                        controller: EnderecoControl,
-                                                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                                                        enableSuggestions: false,
-                                                                                                                        autocorrect: false,
-                                                                                                                        onChanged: (value){
-                                                                                                                          setStater(() {
-                                                                                                                            Endereco = value;
-                                                                                                                          });
-                                                                                                                        },
-                                                                                                                        decoration: InputDecoration(
-                                                                                                                          filled: true,
-                                                                                                                          fillColor: Colors.white,
-                                                                                                                          border: const OutlineInputBorder(),
-                                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                          ),
-                                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(
-                                                                                                                                width: 3,
-                                                                                                                                color: Colors.black
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor,
-                                                                                                                              backgroundColor: Colors.white
-                                                                                                                          ),
-                                                                                                                          labelText: 'Endereco',
-                                                                                                                        ),
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textAlertDialogColor
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  Center(
-                                                                                                                    child: Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: TextField(
-                                                                                                                        controller: bairroControl,
-                                                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                                                        enableSuggestions: false,
-                                                                                                                        autocorrect: false,
-                                                                                                                        onChanged: (value){
-                                                                                                                          setStater(() {
-                                                                                                                            bairro = value;
-                                                                                                                          });
-                                                                                                                        },
-                                                                                                                        decoration: InputDecoration(
-                                                                                                                          filled: true,
-                                                                                                                          fillColor: Colors.white,
-                                                                                                                          border: const OutlineInputBorder(),
-                                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                          ),
-                                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(
-                                                                                                                                width: 3,
-                                                                                                                                color: Colors.black
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor,
-                                                                                                                              backgroundColor: Colors.white
-                                                                                                                          ),
-                                                                                                                          labelText: 'Bairro',
-                                                                                                                        ),
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textAlertDialogColor
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  Center(
-                                                                                                                    child: Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: TextField(
-                                                                                                                        controller: cepControl,
-                                                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                                                        enableSuggestions: false,
-                                                                                                                        autocorrect: false,
-                                                                                                                        onChanged: (value){
-                                                                                                                          setStater(() {
-                                                                                                                            cep = value;
-                                                                                                                          });
-                                                                                                                        },
-                                                                                                                        decoration: InputDecoration(
-                                                                                                                          filled: true,
-                                                                                                                          fillColor: Colors.white,
-                                                                                                                          border: const OutlineInputBorder(),
-                                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                          ),
-                                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(
-                                                                                                                                width: 3,
-                                                                                                                                color: Colors.black
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor,
-                                                                                                                              backgroundColor: Colors.white
-                                                                                                                          ),
-                                                                                                                          labelText: 'CEP',
-                                                                                                                        ),
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textAlertDialogColor
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  Center(
-                                                                                                                    child: Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: TextField(
-                                                                                                                        controller: SindicoControl,
-                                                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                                                        enableSuggestions: false,
-                                                                                                                        autocorrect: false,
-                                                                                                                        onChanged: (value){
-                                                                                                                          setStater(() {
-                                                                                                                            Sindico = value;
-                                                                                                                          });
-                                                                                                                        },
-                                                                                                                        decoration: InputDecoration(
-                                                                                                                          filled: true,
-                                                                                                                          fillColor: Colors.white,
-                                                                                                                          border: const OutlineInputBorder(),
-                                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                          ),
-                                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(
-                                                                                                                                width: 3,
-                                                                                                                                color: Colors.black
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor,
-                                                                                                                              backgroundColor: Colors.white
-                                                                                                                          ),
-                                                                                                                          labelText: 'Sindico',
-                                                                                                                        ),
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textAlertDialogColor
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  Center(
-                                                                                                                    child: Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: TextField(
-                                                                                                                        controller: TelefoneControl,
-                                                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                                                        enableSuggestions: false,
-                                                                                                                        autocorrect: false,
-                                                                                                                        onChanged: (value){
-                                                                                                                          setStater(() {
-                                                                                                                            Telefone = value;
-                                                                                                                          });
-                                                                                                                        },
-                                                                                                                        decoration: InputDecoration(
-                                                                                                                          filled: true,
-                                                                                                                          fillColor: Colors.white,
-                                                                                                                          border: const OutlineInputBorder(),
-                                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                          ),
-                                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(
-                                                                                                                                width: 3,
-                                                                                                                                color: Colors.black
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor,
-                                                                                                                              backgroundColor: Colors.white
-                                                                                                                          ),
-                                                                                                                          labelText: 'Telefone',
-                                                                                                                        ),
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textAlertDialogColor
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  Center(
-                                                                                                                    child: Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: TextField(
-                                                                                                                        controller: CNPJControl,
-                                                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                                                        enableSuggestions: false,
-                                                                                                                        autocorrect: false,
-                                                                                                                        onChanged: (value){
-                                                                                                                          setStater(() {
-                                                                                                                            CNPJ = value;
-                                                                                                                          });
-                                                                                                                        },
-                                                                                                                        decoration: InputDecoration(
-                                                                                                                          filled: true,
-                                                                                                                          fillColor: Colors.white,
-                                                                                                                          border: const OutlineInputBorder(),
-                                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                          ),
-                                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(
-                                                                                                                                width: 3,
-                                                                                                                                color: Colors.black
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor,
-                                                                                                                              backgroundColor: Colors.white
-                                                                                                                          ),
-                                                                                                                          labelText: 'CNPJ',
-                                                                                                                        ),
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textAlertDialogColor
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  Center(
-                                                                                                                    child: Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: TextField(
-                                                                                                                        controller: ZeladorControl,
-                                                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                                                        enableSuggestions: false,
-                                                                                                                        autocorrect: false,
-                                                                                                                        onChanged: (value){
-                                                                                                                          setStater(() {
-                                                                                                                            Zelador = value;
-                                                                                                                          });
-                                                                                                                        },
-                                                                                                                        decoration: InputDecoration(
-                                                                                                                          filled: true,
-                                                                                                                          fillColor: Colors.white,
-                                                                                                                          border: const OutlineInputBorder(),
-                                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                          ),
-                                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(
-                                                                                                                                width: 3,
-                                                                                                                                color: Colors.black
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor,
-                                                                                                                              backgroundColor: Colors.white
-                                                                                                                          ),
-                                                                                                                          labelText: 'Zelador',
-                                                                                                                        ),
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textAlertDialogColor
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  Center(
-                                                                                                                    child: Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: TextField(
-                                                                                                                        controller: SIPUrlControl,
-                                                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                                                        enableSuggestions: false,
-                                                                                                                        autocorrect: false,
-                                                                                                                        onChanged: (value){
-                                                                                                                          setStater(() {
-                                                                                                                            SIPUrl = value;
-                                                                                                                          });
-                                                                                                                        },
-                                                                                                                        decoration: InputDecoration(
-                                                                                                                          filled: true,
-                                                                                                                          fillColor: Colors.white,
-                                                                                                                          labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor,
-                                                                                                                              backgroundColor: Colors.white
-                                                                                                                          ),
-                                                                                                                          border: const OutlineInputBorder(),
-                                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                          ),
-                                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(
-                                                                                                                                width: 3,
-                                                                                                                                color: Colors.black
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          labelText: 'SIP Url (sip2.chamada.com.br), para ambientes não suportado é recomendado deixar (*) apenas.',
-                                                                                                                        ),
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textAlertDialogColor
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  Center(
-                                                                                                                    child: Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: TextField(
-                                                                                                                        controller: PortaSIPControl,
-                                                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                                                        enableSuggestions: false,
-                                                                                                                        autocorrect: false,
-                                                                                                                        onChanged: (value){
-                                                                                                                          setStater(() {
-                                                                                                                            Porta = value;
-                                                                                                                          });
-                                                                                                                        },
-                                                                                                                        decoration: InputDecoration(
-                                                                                                                          filled: true,
-                                                                                                                          fillColor: Colors.white,
-                                                                                                                          labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor,
-                                                                                                                              backgroundColor: Colors.white
-                                                                                                                          ),
-                                                                                                                          border: const OutlineInputBorder(),
-                                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                          ),
-                                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(
-                                                                                                                                width: 3,
-                                                                                                                                color: Colors.black
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          labelText: 'SIP Porta (5060)',
-                                                                                                                        ),
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textAlertDialogColor
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  Center(
-                                                                                                                    child: Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: TextField(
-                                                                                                                        controller: AuthUserSIPControl,
-                                                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                                                        enableSuggestions: false,
-                                                                                                                        autocorrect: false,
-                                                                                                                        onChanged: (value){
-                                                                                                                          setStater(() {
-                                                                                                                            AuthUser = value;
-                                                                                                                          });
-                                                                                                                        },
-                                                                                                                        decoration: InputDecoration(
-                                                                                                                          filled: true,
-                                                                                                                          fillColor: Colors.white,
-                                                                                                                          labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor,
-                                                                                                                              backgroundColor: Colors.white
-                                                                                                                          ),
-                                                                                                                          border: const OutlineInputBorder(),
-                                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                          ),
-                                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(
-                                                                                                                                width: 3,
-                                                                                                                                color: Colors.black
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          labelText: 'Usuario de acesso do SIP',
-                                                                                                                        ),
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textAlertDialogColor
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  Center(
-                                                                                                                    child: Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: TextField(
-                                                                                                                        controller: PassSIPControl,
-                                                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                                                        enableSuggestions: false,
-                                                                                                                        autocorrect: false,
-                                                                                                                        onChanged: (value){
-                                                                                                                          setStater(() {
-                                                                                                                            Pass = value;
-                                                                                                                          });
-                                                                                                                        },
-                                                                                                                        decoration: InputDecoration(
-                                                                                                                          filled: true,
-                                                                                                                          fillColor: Colors.white,
-                                                                                                                          labelStyle: TextStyle(
-                                                                                                                              color: textAlertDialogColor,
-                                                                                                                              backgroundColor: Colors.white
-                                                                                                                          ),
-                                                                                                                          border: const OutlineInputBorder(),
-                                                                                                                          enabledBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                                                          ),
-                                                                                                                          focusedBorder: const OutlineInputBorder(
-                                                                                                                            borderSide: BorderSide(
-                                                                                                                                width: 3,
-                                                                                                                                color: Colors.black
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          labelText: 'Senha de acesso do SIP',
-                                                                                                                        ),
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textAlertDialogColor
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  ElevatedButton(onPressed: (){
-                                                                                                                    if(NomeCondominio == ""){
-                                                                                                                      showToast("O nome do Condominio está vazio!",context:context);
-                                                                                                                    }else{
-                                                                                                                      if(codigo == ""){
-                                                                                                                        showToast("O codigo está vazio!",context:context);
-                                                                                                                      }else{
-                                                                                                                        if(codigo.length == 4){
-                                                                                                                          FirebaseFirestore.instance.collection('Condominios').doc(documents["idCondominio"]).update({
-                                                                                                                            "Nome": NomeCondominio,
-                                                                                                                            "SIPUrl": SIPUrl,
-                                                                                                                            "PortaSIP": Porta,
-                                                                                                                            "authUserSIP": AuthUser,
-                                                                                                                            "authSenhaSIP": Pass,
-                                                                                                                            "Codigo" : codigo,
-                                                                                                                            "Cidade": Cidade,
-                                                                                                                            "Endereco": Endereco,
-                                                                                                                            "bairro": bairro,
-                                                                                                                            "cep": cep,
-                                                                                                                            "Sindico": Sindico,
-                                                                                                                            "Telefone": Telefone,
-                                                                                                                            "CNPJ": CNPJ,
-                                                                                                                            "Zelador": Zelador,
-                                                                                                                          }).whenComplete(() async {
-                                                                                                                            FirebaseFirestore.instance.collection("logs").doc(UUID).set({
-                                                                                                                              "text" : 'Um condominio foi editado',
-                                                                                                                              "codigoDeResposta" : NomeCondominio,
-                                                                                                                              'acionamentoID': "",
-                                                                                                                              'acionamentoNome': "",
-                                                                                                                              'Condominio': idCondominio,
-                                                                                                                              "id": UUID,
-                                                                                                                              'QuemFez': await getUserName(),
-                                                                                                                              "idAcionou": UID,
-                                                                                                                              "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
-                                                                                                                            });
-                                                                                                                            showToast('Sucesso!', context: context);
-                                                                                                                            Navigator.pop(context);
-                                                                                                                          });
-                                                                                                                        }else{
-                                                                                                                          if(codigo.length > 4){
-                                                                                                                            showToast("Existem mais caracteres do que o permitido no codigo do condominio!",context:context);
-                                                                                                                          }
-                                                                                                                          if(codigo.length < 4){
-                                                                                                                            showToast("Existem menos caracteres do que o permitido no codigo do condominio!",context:context);
-                                                                                                                          }
-                                                                                                                        }
-                                                                                                                      }
-                                                                                                                    }
-                                                                                                                  },
-                                                                                                                      style: ElevatedButton.styleFrom(
-                                                                                                                          backgroundColor: colorBtn
-                                                                                                                      ),
-                                                                                                                      child: Text(
-                                                                                                                        'Salvar',
-                                                                                                                        style: TextStyle(
-                                                                                                                            color: textColor
-                                                                                                                        ),
-                                                                                                                      )
-                                                                                                                  )
-                                                                                                                ],
-                                                                                                              )
-                                                                                                            ],
-                                                                                                          ),
-                                                                                                        )
-                                                                                                      ],
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                );
-                                                                                              }
-                                                                                              );
-                                                                                            },
-                                                                                          );
-                                                                                        }
-                                                                                        if(action == "remover_condominio"){
-                                                                                          FirebaseFirestore.instance.collection("Condominios").doc(documents["idCondominio"]).delete().whenComplete((){
-                                                                                            if(idCondominio == documents["idCondominio"]){
-                                                                                              setStater((){
-                                                                                                idCondominio = "";
-                                                                                              });
-                                                                                            }
-                                                                                            showToast("Cliente deletado!",context:context);
-                                                                                          });
-                                                                                        }
-                                                                                      },
-                                                                                      menu: snapshot.requireData,
-                                                                                      otherCallback: (method) {
-                                                                                      },
-                                                                                      child: const Text(
-                                                                                        "abc",
-                                                                                        style: TextStyle(
-                                                                                            color: Colors.transparent
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  );
-                                                                                },
-                                                                              ),
-                                                                              Container(
-                                                                                padding: const EdgeInsets.all(16),
-                                                                                child: Row(
-                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                  children: [
-                                                                                    Stack(
-                                                                                      children: [
-
-                                                                                        //Texto normal
-                                                                                        Text(
-                                                                                          "${documents["Codigo"]} ${documents['Nome']}",
-                                                                                          style: TextStyle(
-                                                                                            fontSize: textSizeCond,
-                                                                                            fontWeight: FontWeight.bold,
-                                                                                            color: idCondominio == documents['idCondominio']? Colors.blue : textColorInitBlue,
-                                                                                          ),
-                                                                                        ),
-                                                                                      ],
-                                                                                    ),
-                                                                                    Row(
-                                                                                      children: [
-                                                                                        IconButton(onPressed: (){
-                                                                                          showDialog(
-                                                                                            context: context,
-                                                                                            builder: (BuildContext context) {
-                                                                                              return Center(
-                                                                                                child: Dialog(
-                                                                                                  child: Stack(
-                                                                                                    children: [
-                                                                                                      Positioned.fill(
-                                                                                                        child: ClipRRect(
-                                                                                                          borderRadius: BorderRadius.circular(10),
-                                                                                                          child: Image.asset(
-                                                                                                            "assets/FundoMetalPreto.jpg",
-                                                                                                            fit: BoxFit.fill,
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                      SizedBox(
-                                                                                                          width: 550,
-                                                                                                          height: 350,
-                                                                                                          child: SingleChildScrollView(
-                                                                                                            child: Column(
-                                                                                                              children: [
-                                                                                                                Row(
-                                                                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                                  children: [
-                                                                                                                    Container(
-                                                                                                                      padding: const EdgeInsets.all(16),
-                                                                                                                      child: const Text(
-                                                                                                                        'Informações sobre o condominio',
-                                                                                                                        style: TextStyle(
-                                                                                                                            fontSize: 25,
-                                                                                                                            fontWeight: FontWeight.bold
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                    SizedBox(
-                                                                                                                        width: 100,
-                                                                                                                        height: 100,
-                                                                                                                        child: TextButton(onPressed: (){
-                                                                                                                          Navigator.pop(context);
-                                                                                                                        }, child: const Center(
-                                                                                                                          child: Icon(
-                                                                                                                            Icons.close,
-                                                                                                                            size: 40,
-                                                                                                                          ),
+                                                                                                                            )
                                                                                                                         )
-                                                                                                                        )
-                                                                                                                    )
+                                                                                                                      ],
+                                                                                                                    ),
+                                                                                                                    Text("Nome do Condominio: ${documents["Nome"]}"),
+                                                                                                                    Text("Cidade: ${documents["Cidade"]}"),
+                                                                                                                    Text("Endereço: ${documents["Endereco"]}"),
+                                                                                                                    Text("Bairro: ${documents["bairro"]}"),
+                                                                                                                    Text("CEP: ${documents["cep"]}"),
+                                                                                                                    Text("Sindico: ${documents["Sindico"]}"),
+                                                                                                                    Text("Telefone: ${documents["Telefone"]}"),
+                                                                                                                    Text("CNPJ: ${documents["CNPJ"]}"),
+                                                                                                                    Text("Zelador: ${documents["Zelador"]}"),
                                                                                                                   ],
                                                                                                                 ),
-                                                                                                                Text("Nome do Condominio: ${documents["Nome"]}"),
-                                                                                                                Text("Cidade: ${documents["Cidade"]}"),
-                                                                                                                Text("Endereço: ${documents["Endereco"]}"),
-                                                                                                                Text("Bairro: ${documents["bairro"]}"),
-                                                                                                                Text("CEP: ${documents["cep"]}"),
-                                                                                                                Text("Sindico: ${documents["Sindico"]}"),
-                                                                                                                Text("Telefone: ${documents["Telefone"]}"),
-                                                                                                                Text("CNPJ: ${documents["CNPJ"]}"),
-                                                                                                                Text("Zelador: ${documents["Zelador"]}"),
-                                                                                                              ],
-                                                                                                            ),
-                                                                                                          )
+                                                                                                              )
+                                                                                                          ),
+                                                                                                        ],
                                                                                                       ),
-                                                                                                    ],
-                                                                                                  ),
-                                                                                                ),
+                                                                                                    ),
+                                                                                                  );
+                                                                                                },
                                                                                               );
                                                                                             },
-                                                                                          );
-                                                                                        },
-                                                                                            icon: const Icon(
-                                                                                                color: Colors.white,
-                                                                                                Icons.info
-                                                                                            )
-                                                                                        ),
-                                                                                        IconButton(onPressed: (){
-                                                                                          setStater(() {
-                                                                                            idCondominioAnt = documents["idCondominio"];
-                                                                                            anotacao = documents["Aviso"];
-                                                                                            anotacaoControlCondominio.text = anotacao;
-                                                                                          });
-                                                                                        },
-                                                                                            icon: Icon(
-                                                                                                color: documents["Aviso"] == "" ? Colors.red : Colors.green,
-                                                                                                Icons.edit_note
-                                                                                            )
-                                                                                        ),
+                                                                                                icon: const Icon(
+                                                                                                    color: Colors.white,
+                                                                                                    Icons.info
+                                                                                                )
+                                                                                            ),
+                                                                                            IconButton(onPressed: (){
+                                                                                              setStater(() {
+                                                                                                idCondominioAnt = documents["idCondominio"];
+                                                                                                anotacao = documents["Aviso"];
+                                                                                                anotacaoControlCondominio.text = anotacao;
+                                                                                              });
+                                                                                            },
+                                                                                                icon: Icon(
+                                                                                                    color: documents["Aviso"] == "" ? Colors.red : Colors.green,
+                                                                                                    Icons.edit_note
+                                                                                                )
+                                                                                            ),
+                                                                                          ],
+                                                                                        )
                                                                                       ],
-                                                                                    )
-                                                                                  ],
-                                                                                ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
                                                                               ),
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    }
-                                                                  ),
-                                                                );
-                                                              },
-                                                            ),
-                                                          ],
+                                                                            ),
+                                                                          );
+                                                                        }
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              AdicionarCondominios == true ? Container(
-                                                alignment: Alignment.bottomRight,
-                                                padding: const EdgeInsets.all(16),
-                                                child: TextButton(
-                                                    onPressed: (){
-                                                      String NomeCondominio = "";
-                                                      String IPCameras = "";
-                                                      int? PortaCameras;
-                                                      String Cidade = "";
-                                                      String Endereco = "";
-                                                      String bairro = "";
-                                                      String cep = "";
-                                                      String Sindico = "";
-                                                      String Telefone = "";
-                                                      String CNPJ = "";
-                                                      String Zelador = "";
-                                                      String UserAccess = "";
-                                                      String PassAccess = "";
-                                                      String SIPUrl = "";
-                                                      String Porta = "";
-                                                      String AuthUser = "";
-                                                      String Pass = "";
-                                                      String codigo = "";
-                                                      String modeloselecionado = "Intelbras";
-                                                      var dropValue2 = ValueNotifier('Intelbras');
+                                                AdicionarCondominios == true ? Container(
+                                                  alignment: Alignment.bottomRight,
+                                                  padding: const EdgeInsets.all(16),
+                                                  child: TextButton(
+                                                      onPressed: (){
+                                                        String NomeCondominio = "";
+                                                        String IPCameras = "";
+                                                        int? PortaCameras;
+                                                        String Cidade = "";
+                                                        String Endereco = "";
+                                                        String bairro = "";
+                                                        String cep = "";
+                                                        String Sindico = "";
+                                                        String Telefone = "";
+                                                        String CNPJ = "";
+                                                        String Zelador = "";
+                                                        String UserAccess = "";
+                                                        String PassAccess = "";
+                                                        String SIPUrl = "";
+                                                        String Porta = "";
+                                                        String AuthUser = "";
+                                                        String Pass = "";
+                                                        String codigo = "";
+                                                        String modeloselecionado = "Intelbras";
+                                                        var dropValue2 = ValueNotifier('Intelbras');
 
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext context) {
-                                                          return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
-                                                            return SingleChildScrollView(
-                                                              child: Dialog(
-                                                                shape: RoundedRectangleBorder(
-                                                                  borderRadius: BorderRadius.circular(10),
-                                                                ),
-                                                                child: Stack(
-                                                                  children: [
-                                                                    // Imagem de fundo
-                                                                    Positioned.fill(
-                                                                      child: ClipRRect(
-                                                                        borderRadius: BorderRadius.circular(10),
-                                                                        child: Image.asset(
-                                                                          "assets/FundoMetalPreto.jpg",
-                                                                          fit: BoxFit.fill,
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext context) {
+                                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setStater){
+                                                              return SingleChildScrollView(
+                                                                child: Dialog(
+                                                                  shape: RoundedRectangleBorder(
+                                                                    borderRadius: BorderRadius.circular(10),
+                                                                  ),
+                                                                  child: Stack(
+                                                                    children: [
+                                                                      // Imagem de fundo
+                                                                      Positioned.fill(
+                                                                        child: ClipRRect(
+                                                                          borderRadius: BorderRadius.circular(10),
+                                                                          child: Image.asset(
+                                                                            "assets/FundoMetalPreto.jpg",
+                                                                            fit: BoxFit.fill,
+                                                                          ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                    Container(
-                                                                      width: 700,
-                                                                      padding: const EdgeInsets.all(30),
-                                                                      child: Column(
-                                                                        children: [
-                                                                          Column(
-                                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                                            children: [
-                                                                              SizedBox(
-                                                                                //width: 200,
-                                                                                height: 50,
-                                                                                child: Center(
-                                                                                  child: Row(
-                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                    children: [
-                                                                                      const Text(
-                                                                                        'Cadastro de Cliente',
-                                                                                        style: TextStyle(
-                                                                                          fontSize: 30,
+                                                                      Container(
+                                                                        width: 700,
+                                                                        padding: const EdgeInsets.all(30),
+                                                                        child: Column(
+                                                                          children: [
+                                                                            Column(
+                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              children: [
+                                                                                SizedBox(
+                                                                                  //width: 200,
+                                                                                  height: 50,
+                                                                                  child: Center(
+                                                                                    child: Row(
+                                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                      children: [
+                                                                                        const Text(
+                                                                                          'Cadastro de Cliente',
+                                                                                          style: TextStyle(
+                                                                                            fontSize: 30,
+                                                                                          ),
                                                                                         ),
-                                                                                      ),
-                                                                                      SizedBox(
-                                                                                        width: 100,
-                                                                                        height: 100,
-                                                                                        child: TextButton(onPressed: (){
-                                                                                          Navigator.pop(context);
-                                                                                        }, child: const Center(
-                                                                                          child: Icon(
-                                                                                            Icons.close,
-                                                                                            size: 40,
-                                                                                            color: Colors.red
+                                                                                        SizedBox(
+                                                                                          width: 100,
+                                                                                          height: 100,
+                                                                                          child: TextButton(onPressed: (){
+                                                                                            Navigator.pop(context);
+                                                                                          }, child: const Center(
+                                                                                            child: Icon(
+                                                                                                Icons.close,
+                                                                                                size: 40,
+                                                                                                color: Colors.red
+                                                                                            ),
+                                                                                          )
                                                                                           ),
                                                                                         )
-                                                                                        ),
-                                                                                      )
-                                                                                    ],
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              const Padding(
-                                                                                padding: EdgeInsets.only(bottom: 16),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        NomeCondominio = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
-                                                                                        ),
-                                                                                      ),
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
-                                                                                      ),
-                                                                                      labelText: 'Nome do Condominio',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
+                                                                                      ],
                                                                                     ),
                                                                                   ),
                                                                                 ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        codigo = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
-                                                                                        ),
-                                                                                      ),
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
-                                                                                      ),
-                                                                                      labelText: 'Codigo do Condominio (4 caracteres Ex: 2402)',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
-                                                                                    ),
-                                                                                  ),
+                                                                                const Padding(
+                                                                                  padding: EdgeInsets.only(bottom: 16),
                                                                                 ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        Cidade = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          NomeCondominio = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                         ),
-                                                                                      ),
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
-                                                                                      ),
-                                                                                      labelText: 'Cidade',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        Endereco = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
-                                                                                        ),
-                                                                                      ),
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
-                                                                                      ),
-                                                                                      labelText: 'Endereco',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        bairro = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
-                                                                                        ),
-                                                                                      ),
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
-                                                                                      ),
-                                                                                      labelText: 'Bairro',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        cep = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
-                                                                                        ),
-                                                                                      ),
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
-                                                                                      ),
-                                                                                      labelText: 'CEP',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        Sindico = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
-                                                                                        ),
-                                                                                      ),
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
-                                                                                      ),
-                                                                                      labelText: 'Sindico',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        Telefone = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
-                                                                                        ),
-                                                                                      ),
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
-                                                                                      ),
-                                                                                      labelText: 'Telefone',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        CNPJ = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
-                                                                                        ),
-                                                                                      ),
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
-                                                                                      ),
-                                                                                      labelText: 'CNPJ',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        Zelador = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
-                                                                                        ),
-                                                                                      ),
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
-                                                                                      ),
-                                                                                      labelText: 'Zelador',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Column(
-                                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                                  children: [
-                                                                                    const Text('Modelo do CFTV:'),
-                                                                                    ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
-                                                                                      return DropdownButton(
-                                                                                        hint: Text(
-                                                                                          'Selecione o modelo',
-                                                                                          style: TextStyle(
-                                                                                              color: textColorDrop
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
                                                                                           ),
                                                                                         ),
-                                                                                        value: (value.isEmpty)? null : value,
-                                                                                        onChanged: (escolha) async {
-                                                                                          dropValue2.value = escolha.toString();
-                                                                                          setStater(() {
-                                                                                            modeloselecionado = escolha.toString();
-                                                                                          });
-                                                                                        },
-                                                                                        items: ModelosdeCFTV.map((opcao) => DropdownMenuItem(
-                                                                                          value: opcao,
-                                                                                          child:
-                                                                                          Text(
-                                                                                            opcao,
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
+                                                                                        ),
+                                                                                        labelText: 'Nome do Condominio',
+                                                                                      ),
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          codigo = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                        ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
+                                                                                        ),
+                                                                                        labelText: 'Codigo do Condominio (4 caracteres Ex: 2402)',
+                                                                                      ),
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          Cidade = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                        ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
+                                                                                        ),
+                                                                                        labelText: 'Cidade',
+                                                                                      ),
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          Endereco = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                        ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
+                                                                                        ),
+                                                                                        labelText: 'Endereco',
+                                                                                      ),
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          bairro = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                        ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
+                                                                                        ),
+                                                                                        labelText: 'Bairro',
+                                                                                      ),
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          cep = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                        ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
+                                                                                        ),
+                                                                                        labelText: 'CEP',
+                                                                                      ),
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          Sindico = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                        ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
+                                                                                        ),
+                                                                                        labelText: 'Sindico',
+                                                                                      ),
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          Telefone = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                        ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
+                                                                                        ),
+                                                                                        labelText: 'Telefone',
+                                                                                      ),
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          CNPJ = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                        ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
+                                                                                        ),
+                                                                                        labelText: 'CNPJ',
+                                                                                      ),
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          Zelador = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                        ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
+                                                                                        ),
+                                                                                        labelText: 'Zelador',
+                                                                                      ),
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Center(
+                                                                                  child: Column(
+                                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                                    children: [
+                                                                                      const Text('Modelo do CFTV:'),
+                                                                                      ValueListenableBuilder(valueListenable: dropValue2, builder: (context, String value, _){
+                                                                                        return DropdownButton(
+                                                                                          hint: Text(
+                                                                                            'Selecione o modelo',
                                                                                             style: TextStyle(
                                                                                                 color: textColorDrop
                                                                                             ),
                                                                                           ),
-                                                                                        ),
-                                                                                        ).toList(),
-                                                                                      );
-                                                                                    }),
-                                                                                  ],
+                                                                                          value: (value.isEmpty)? null : value,
+                                                                                          onChanged: (escolha) async {
+                                                                                            dropValue2.value = escolha.toString();
+                                                                                            setStater(() {
+                                                                                              modeloselecionado = escolha.toString();
+                                                                                            });
+                                                                                          },
+                                                                                          items: ModelosdeCFTV.map((opcao) => DropdownMenuItem(
+                                                                                            value: opcao,
+                                                                                            child:
+                                                                                            Text(
+                                                                                              opcao,
+                                                                                              style: TextStyle(
+                                                                                                  color: textColorDrop
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                          ).toList(),
+                                                                                        );
+                                                                                      }),
+                                                                                    ],
+                                                                                  ),
                                                                                 ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        IPCameras = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          IPCameras = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                         ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
+                                                                                        ),
+                                                                                        labelText: 'URL do CFTV (RTSP)',
                                                                                       ),
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
                                                                                       ),
-                                                                                      labelText: 'URL do CFTV (RTSP)',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
                                                                                     ),
                                                                                   ),
                                                                                 ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        PortaCameras = int.parse(value);
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          PortaCameras = int.parse(value);
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                         ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
+                                                                                        ),
+                                                                                        labelText: 'Porta do CFTV (RTSP) (Normalmente é 554, mas pode variar dependendo do CFTV)',
                                                                                       ),
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
                                                                                       ),
-                                                                                      labelText: 'Porta do CFTV (RTSP) (Normalmente é 554, mas pode variar dependendo do CFTV)',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
                                                                                     ),
                                                                                   ),
                                                                                 ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        UserAccess = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          UserAccess = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                         ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
+                                                                                        ),
+                                                                                        labelText: 'Usuario para acesso das cameras',
                                                                                       ),
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
                                                                                       ),
-                                                                                      labelText: 'Usuario para acesso das cameras',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
                                                                                     ),
                                                                                   ),
                                                                                 ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        PassAccess = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          PassAccess = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
                                                                                         ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
+                                                                                        ),
+                                                                                        labelText: 'Senha para acesso das cameras',
                                                                                       ),
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
                                                                                       ),
-                                                                                      labelText: 'Senha para acesso das cameras',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
                                                                                     ),
                                                                                   ),
                                                                                 ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        SIPUrl = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
-                                                                                      ),
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          SIPUrl = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
                                                                                         ),
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                        ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelText: 'SIP Url (sip2.chamada.com.br), para ambientes não suportado é recomendado deixar (*) apenas.',
                                                                                       ),
-                                                                                      labelText: 'SIP Url (sip2.chamada.com.br), para ambientes não suportado é recomendado deixar (*) apenas.',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
                                                                                     ),
                                                                                   ),
                                                                                 ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        Porta = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
-                                                                                      ),
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          Porta = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
                                                                                         ),
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                        ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelText: 'SIP Porta (5060)',
                                                                                       ),
-                                                                                      labelText: 'SIP Porta (5060)',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
                                                                                     ),
                                                                                   ),
                                                                                 ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        AuthUser = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
-                                                                                      ),
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          AuthUser = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
                                                                                         ),
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                        ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelText: 'Usuario de acesso do SIP',
                                                                                       ),
-                                                                                      labelText: 'Usuario de acesso do SIP',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
                                                                                     ),
                                                                                   ),
                                                                                 ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(16),
-                                                                                  child: TextField(
-                                                                                    keyboardType: TextInputType.emailAddress,
-                                                                                    enableSuggestions: false,
-                                                                                    autocorrect: false,
-                                                                                    onChanged: (value){
-                                                                                      setStater(() {
-                                                                                        Pass = value;
-                                                                                      });
-                                                                                    },
-                                                                                    decoration: InputDecoration(
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      labelStyle: TextStyle(
-                                                                                          color: textAlertDialogColor,
-                                                                                          backgroundColor: Colors.white
-                                                                                      ),
-                                                                                      border: const OutlineInputBorder(),
-                                                                                      enabledBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                                      ),
-                                                                                      focusedBorder: const OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                            width: 3,
-                                                                                            color: Colors.black
+                                                                                Center(
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.all(16),
+                                                                                    child: TextField(
+                                                                                      keyboardType: TextInputType.emailAddress,
+                                                                                      enableSuggestions: false,
+                                                                                      autocorrect: false,
+                                                                                      onChanged: (value){
+                                                                                        setStater(() {
+                                                                                          Pass = value;
+                                                                                        });
+                                                                                      },
+                                                                                      decoration: InputDecoration(
+                                                                                        filled: true,
+                                                                                        fillColor: Colors.white,
+                                                                                        labelStyle: TextStyle(
+                                                                                            color: textAlertDialogColor,
+                                                                                            backgroundColor: Colors.white
                                                                                         ),
+                                                                                        border: const OutlineInputBorder(),
+                                                                                        enabledBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                        ),
+                                                                                        focusedBorder: const OutlineInputBorder(
+                                                                                          borderSide: BorderSide(
+                                                                                              width: 3,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                        ),
+                                                                                        labelText: 'Senha de acesso do SIP',
                                                                                       ),
-                                                                                      labelText: 'Senha de acesso do SIP',
-                                                                                    ),
-                                                                                    style: TextStyle(
-                                                                                        color: textAlertDialogColor
+                                                                                      style: TextStyle(
+                                                                                          color: textAlertDialogColor
+                                                                                      ),
                                                                                     ),
                                                                                   ),
                                                                                 ),
-                                                                              ),
-                                                                              ElevatedButton(onPressed: (){
-                                                                                if(NomeCondominio == ""){
-                                                                                  showToast("O nome do Condominio está vazio!",context:context);
-                                                                                }else{
-                                                                                  if(codigo == ""){
-                                                                                    showToast("O codigo está vazio!",context:context);
+                                                                                ElevatedButton(onPressed: (){
+                                                                                  if(NomeCondominio == ""){
+                                                                                    showToast("O nome do Condominio está vazio!",context:context);
                                                                                   }else{
-                                                                                    if(codigo.length == 4){
-                                                                                      if(IPCameras == ""){
-                                                                                        showToast("A URL das Cameras está vazia!",context:context);
-                                                                                      }else{
-                                                                                        if(PortaCameras == null){
-                                                                                          showToast("A Porta em RTSP das Cameras está vazia!",context:context);
+                                                                                    if(codigo == ""){
+                                                                                      showToast("O codigo está vazio!",context:context);
+                                                                                    }else{
+                                                                                      if(codigo.length == 4){
+                                                                                        if(IPCameras == ""){
+                                                                                          showToast("A URL das Cameras está vazia!",context:context);
                                                                                         }else{
-                                                                                          if(UserAccess == ""){
-                                                                                            showToast("O Usuario para acesso das cameras está vazio!",context:context);
+                                                                                          if(PortaCameras == null){
+                                                                                            showToast("A Porta em RTSP das Cameras está vazia!",context:context);
                                                                                           }else{
-                                                                                            if(PassAccess == ""){
-                                                                                              showToast("A Senha para acesso das cameras está vazia!",context:context);
+                                                                                            if(UserAccess == ""){
+                                                                                              showToast("O Usuario para acesso das cameras está vazio!",context:context);
                                                                                             }else{
-                                                                                              showDialog(
-                                                                                                context: context,
-                                                                                                builder: (BuildContext context) {
-                                                                                                  return const AlertDialog(
-                                                                                                    title: Text('Aguarde!'),
-                                                                                                    actions: [
-                                                                                                      Center(
-                                                                                                        child: CircularProgressIndicator(color: Colors.white,),
-                                                                                                      )
-                                                                                                    ],
-                                                                                                  );
-                                                                                                },
-                                                                                              );
+                                                                                              if(PassAccess == ""){
+                                                                                                showToast("A Senha para acesso das cameras está vazia!",context:context);
+                                                                                              }else{
+                                                                                                showDialog(
+                                                                                                  context: context,
+                                                                                                  builder: (BuildContext context) {
+                                                                                                    return const AlertDialog(
+                                                                                                      title: Text('Aguarde!'),
+                                                                                                      actions: [
+                                                                                                        Center(
+                                                                                                          child: CircularProgressIndicator(color: Colors.white,),
+                                                                                                        )
+                                                                                                      ],
+                                                                                                    );
+                                                                                                  },
+                                                                                                );
 
-                                                                                              String UUID = uuid.v4();
-                                                                                              FirebaseFirestore.instance.collection('Condominios').doc(UUID).set({
-                                                                                                "idCondominio": UUID,
-                                                                                                "Nome": NomeCondominio,
-                                                                                                "Aviso": "",
-                                                                                                "SIPUrl": SIPUrl,
-                                                                                                "PortaSIP": Porta,
-                                                                                                "authUserSIP": AuthUser,
-                                                                                                "authSenhaSIP": Pass,
-                                                                                                "Codigo" : codigo,
-                                                                                                'idEmpresaPertence' : EmpresaPertence,
-                                                                                                "ipCameraModelo": modeloselecionado,
-                                                                                                "Cidade": Cidade,
-                                                                                                "Endereco": Endereco,
-                                                                                                "bairro": bairro,
-                                                                                                "cep": cep,
-                                                                                                "Sindico": Sindico,
-                                                                                                "Telefone": Telefone,
-                                                                                                "CNPJ": CNPJ,
-                                                                                                "Zelador": Zelador,
-                                                                                                "ipCamera1": 1,
-                                                                                                "ipCamera2": 2,
-                                                                                                "ipCamera3": 3,
-                                                                                                "ipCamera4": 4,
-                                                                                                "ipCamera5": 5,
-                                                                                                "ipCamera6": 6,
-                                                                                                "ipCamera7": 7,
-                                                                                                "ipCamera8": 8,
-                                                                                                "ipCamera9": 9,
-                                                                                                "ipCamera10": 10,
-                                                                                                "ipCamera11": 11,
-                                                                                                "ipCamera12": 12,
-                                                                                                "ipCamera13": 13,
-                                                                                                "ipCamera14": 14,
-                                                                                                "ipCamera15": 15,
-                                                                                                "ipCamera16": 16,
-                                                                                                "ipCamera17": 17,
-                                                                                                "ipCamera18": 18,
-                                                                                                "ipCamera19": 19,
-                                                                                                "ipCamera20": 20,
-                                                                                                "ipCamera21": 21,
-                                                                                                "ipCamera22": 22,
-                                                                                                "ipCamera23": 23,
-                                                                                                "ipCamera24": 24,
-                                                                                                "ipCamera25": 25,
-                                                                                                "ipCamera26": 26,
-                                                                                                "ipCamera27": 27,
-                                                                                                "ipCamera28": 28,
-                                                                                                "ipCamera29": 29,
-                                                                                                "ipCamera30": 30,
-                                                                                                "ipCamera31": 31,
-                                                                                                "ipCamera32": 32,
-                                                                                                "ipCamera33": 33,
-                                                                                                "ipCamera34": 34,
-                                                                                                "ipCamera35": 35,
-                                                                                                "ipCamera36": 36,
-                                                                                              }).whenComplete(() async {
-                                                                                                for (int i = 1; i < 37; i++) {
-                                                                                                  FirebaseFirestore.instance.collection("CFTV").doc("$i$UUID").set({
-                                                                                                    "ip": IPCameras,
-                                                                                                    "porta": PortaCameras,
-                                                                                                    "user": UserAccess,
-                                                                                                    "pass": PassAccess,
-                                                                                                    "canal": i,
-                                                                                                    "modelo": modeloselecionado,
-                                                                                                    "idCondominio": UUID,
-                                                                                                    "id": "$i$UUID",
-                                                                                                    "Ordem": i
-                                                                                                  });
-                                                                                                  if(i == 36){
-                                                                                                    showToast('Sucesso!', context: context);
-                                                                                                    Navigator.pop(context);
-                                                                                                    Navigator.pop(context);
-
-                                                                                                    FirebaseFirestore.instance.collection("logs").doc(UUID).set({
-                                                                                                      "text" : 'Houve um cadastro de novo cliente',
-                                                                                                      "codigoDeResposta" : 013,
-                                                                                                      'acionamentoID': "",
-                                                                                                      'acionamentoNome': "",
-                                                                                                      'Condominio': "$i$UUID",
-                                                                                                      "id": UUID,
-                                                                                                      'QuemFez': await getUserName(),
-                                                                                                      "idAcionou": UID,
-                                                                                                      "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
+                                                                                                String UUID = uuid.v4();
+                                                                                                FirebaseFirestore.instance.collection('Condominios').doc(UUID).set({
+                                                                                                  "idCondominio": UUID,
+                                                                                                  "Nome": NomeCondominio,
+                                                                                                  "Aviso": "",
+                                                                                                  "SIPUrl": SIPUrl,
+                                                                                                  "PortaSIP": Porta,
+                                                                                                  "authUserSIP": AuthUser,
+                                                                                                  "authSenhaSIP": Pass,
+                                                                                                  "Codigo" : codigo,
+                                                                                                  'idEmpresaPertence' : EmpresaPertence,
+                                                                                                  "ipCameraModelo": modeloselecionado,
+                                                                                                  "Cidade": Cidade,
+                                                                                                  "Endereco": Endereco,
+                                                                                                  "bairro": bairro,
+                                                                                                  "cep": cep,
+                                                                                                  "Sindico": Sindico,
+                                                                                                  "Telefone": Telefone,
+                                                                                                  "CNPJ": CNPJ,
+                                                                                                  "Zelador": Zelador,
+                                                                                                  "ipCamera1": 1,
+                                                                                                  "ipCamera2": 2,
+                                                                                                  "ipCamera3": 3,
+                                                                                                  "ipCamera4": 4,
+                                                                                                  "ipCamera5": 5,
+                                                                                                  "ipCamera6": 6,
+                                                                                                  "ipCamera7": 7,
+                                                                                                  "ipCamera8": 8,
+                                                                                                  "ipCamera9": 9,
+                                                                                                  "ipCamera10": 10,
+                                                                                                  "ipCamera11": 11,
+                                                                                                  "ipCamera12": 12,
+                                                                                                  "ipCamera13": 13,
+                                                                                                  "ipCamera14": 14,
+                                                                                                  "ipCamera15": 15,
+                                                                                                  "ipCamera16": 16,
+                                                                                                  "ipCamera17": 17,
+                                                                                                  "ipCamera18": 18,
+                                                                                                  "ipCamera19": 19,
+                                                                                                  "ipCamera20": 20,
+                                                                                                  "ipCamera21": 21,
+                                                                                                  "ipCamera22": 22,
+                                                                                                  "ipCamera23": 23,
+                                                                                                  "ipCamera24": 24,
+                                                                                                  "ipCamera25": 25,
+                                                                                                  "ipCamera26": 26,
+                                                                                                  "ipCamera27": 27,
+                                                                                                  "ipCamera28": 28,
+                                                                                                  "ipCamera29": 29,
+                                                                                                  "ipCamera30": 30,
+                                                                                                  "ipCamera31": 31,
+                                                                                                  "ipCamera32": 32,
+                                                                                                  "ipCamera33": 33,
+                                                                                                  "ipCamera34": 34,
+                                                                                                  "ipCamera35": 35,
+                                                                                                  "ipCamera36": 36,
+                                                                                                }).whenComplete(() async {
+                                                                                                  for (int i = 1; i < 37; i++) {
+                                                                                                    FirebaseFirestore.instance.collection("CFTV").doc("$i$UUID").set({
+                                                                                                      "ip": IPCameras,
+                                                                                                      "porta": PortaCameras,
+                                                                                                      "user": UserAccess,
+                                                                                                      "pass": PassAccess,
+                                                                                                      "canal": i,
+                                                                                                      "modelo": modeloselecionado,
+                                                                                                      "idCondominio": UUID,
+                                                                                                      "id": "$i$UUID",
+                                                                                                      "Ordem": i
                                                                                                     });
+                                                                                                    if(i == 36){
+                                                                                                      showToast('Sucesso!', context: context);
+                                                                                                      Navigator.pop(context);
+                                                                                                      Navigator.pop(context);
+
+                                                                                                      FirebaseFirestore.instance.collection("logs").doc(UUID).set({
+                                                                                                        "text" : 'Houve um cadastro de novo cliente',
+                                                                                                        "codigoDeResposta" : 013,
+                                                                                                        'acionamentoID': "",
+                                                                                                        'acionamentoNome': "",
+                                                                                                        'Condominio': "$i$UUID",
+                                                                                                        "id": UUID,
+                                                                                                        'QuemFez': await getUserName(),
+                                                                                                        "idAcionou": UID,
+                                                                                                        "data": "${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
+                                                                                                      });
+                                                                                                    }
                                                                                                   }
-                                                                                                }
-                                                                                              });
+                                                                                                });
+                                                                                              }
                                                                                             }
                                                                                           }
                                                                                         }
-                                                                                      }
-                                                                                    }else{
-                                                                                      if(codigo.length > 4){
-                                                                                        showToast("Existem mais caracteres do que o permitido no codigo do condominio!",context:context);
-                                                                                      }
-                                                                                      if(codigo.length < 4){
-                                                                                        showToast("Existem menos caracteres do que o permitido no codigo do condominio!",context:context);
+                                                                                      }else{
+                                                                                        if(codigo.length > 4){
+                                                                                          showToast("Existem mais caracteres do que o permitido no codigo do condominio!",context:context);
+                                                                                        }
+                                                                                        if(codigo.length < 4){
+                                                                                          showToast("Existem menos caracteres do que o permitido no codigo do condominio!",context:context);
+                                                                                        }
                                                                                       }
                                                                                     }
                                                                                   }
-                                                                                }
-                                                                              },
-                                                                                  style: ElevatedButton.styleFrom(
-                                                                                      backgroundColor: colorBtn
-                                                                                  ),
-                                                                                  child: Text(
-                                                                                    'Registrar novo Cliente',
-                                                                                    style: TextStyle(
-                                                                                        color: textColor
+                                                                                },
+                                                                                    style: ElevatedButton.styleFrom(
+                                                                                        backgroundColor: colorBtn
                                                                                     ),
-                                                                                  )
-                                                                              )
-                                                                            ],
-                                                                          )
-                                                                        ],
-                                                                      ),
-                                                                    )
-                                                                  ],
+                                                                                    child: Text(
+                                                                                      'Registrar novo Cliente',
+                                                                                      style: TextStyle(
+                                                                                          color: textColor
+                                                                                      ),
+                                                                                    )
+                                                                                )
+                                                                              ],
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            }
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                      child: Image.asset(
+                                                          "assets/fab.png",
+                                                          scale: 45
+                                                      )
+                                                  ),
+                                                ):
+                                                Container(),
+                                              ]
+                                          ),
+                                        ),
+                                        Container(
+                                          width: wid / 4,
+                                          height: heig / 3.3,
+                                          decoration: const BoxDecoration(
+                                          ),
+                                          child: Stack(
+                                            children: [
+                                              SizedBox(
+                                                width: wid / 4,
+                                                height: heig / 3.3,
+                                                child: Center(
+                                                  child: SingleChildScrollView(
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: [
+                                                        idCondominioAnt == "" ?
+                                                        const Center(
+                                                          child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              Text(''
+                                                                  'Clique no icone ',
+                                                                  style: TextStyle(
+                                                                      color: Colors.black
+                                                                  )
+                                                              ),
+                                                              Icon(
+                                                                Icons.edit_note,
+                                                                color: Colors.black,
+                                                              ),
+                                                              Text(
+                                                                  ' para editar a anotação',
+                                                                  style: TextStyle(
+                                                                      color: Colors.black
+                                                                  )
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        )
+                                                            :
+                                                        Container(
+                                                          padding: const EdgeInsets.all(16),
+                                                          child: TextField(
+                                                            controller: anotacaoControlCondominio,
+                                                            keyboardType: TextInputType.multiline,
+                                                            enableSuggestions: true,
+                                                            autocorrect: true,
+                                                            minLines: 5,
+                                                            maxLines: null,
+                                                            onChanged: (value){
+                                                              anotacao = value;
+                                                            },
+                                                            style: const TextStyle(
+                                                                color: Colors.black
+                                                            ),
+                                                            decoration: const InputDecoration(
+                                                              filled: true,
+                                                              fillColor: Colors.white,
+                                                              border: OutlineInputBorder(),
+                                                              focusedBorder: OutlineInputBorder(
+                                                                borderSide: BorderSide(
+                                                                    width: 3,
+                                                                    color: Colors.black
                                                                 ),
                                                               ),
-                                                            );
-                                                          }
-                                                          );
-                                                        },
-                                                      );
-                                                    },
-                                                    child: Image.asset(
-                                                        "assets/fab.png",
-                                                        scale: 45
-                                                    )
-                                                ),
-                                              ):
-                                              Container(),
-                                            ]
-                                        ),
-                                      ),
-                                      Container(
-                                        width: wid / 4,
-                                        height: heig / 3.3,
-                                        decoration: const BoxDecoration(
-                                        ),
-                                        child: Stack(
-                                          children: [
-                                            SizedBox(
-                                              width: wid / 4,
-                                              height: heig / 3.3,
-                                              child: Center(
-                                                child: SingleChildScrollView(
-                                                  child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: [
-                                                      idCondominioAnt == "" ?
-                                                      const Center(
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-                                                            Text(''
-                                                                'Clique no icone ',
-                                                                style: TextStyle(
-                                                                    color: Colors.black
-                                                                )
-                                                            ),
-                                                            Icon(
-                                                              Icons.edit_note,
-                                                              color: Colors.black,
-                                                            ),
-                                                            Text(
-                                                                ' para editar a anotação',
-                                                                style: TextStyle(
-                                                                    color: Colors.black
-                                                                )
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      )
-                                                          :
-                                                      Container(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: TextField(
-                                                          controller: anotacaoControlCondominio,
-                                                          keyboardType: TextInputType.multiline,
-                                                          enableSuggestions: true,
-                                                          autocorrect: true,
-                                                          minLines: 5,
-                                                          maxLines: null,
-                                                          onChanged: (value){
-                                                            anotacao = value;
-                                                          },
-                                                          style: const TextStyle(
-                                                              color: Colors.black
-                                                          ),
-                                                          decoration: const InputDecoration(
-                                                            filled: true,
-                                                            fillColor: Colors.white,
-                                                            border: OutlineInputBorder(),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                  width: 3,
-                                                                  color: Colors.black
+                                                              labelStyle: TextStyle(
+                                                                  color: Colors.black,
+                                                                  backgroundColor: Colors.white
                                                               ),
+                                                              labelText: "Anotações sobre o condominio",
                                                             ),
-                                                            labelStyle: TextStyle(
-                                                                color: Colors.black,
-                                                                backgroundColor: Colors.white
-                                                            ),
-                                                            labelText: "Anotações sobre o condominio",
                                                           ),
                                                         ),
-                                                      ),
 
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            Container(
-                                              width: wid / 4,
-                                              height: heig / 3.3,
-                                              padding: const EdgeInsets.all(10),
-                                              alignment: Alignment.bottomRight,
-                                              child:  idCondominioAnt == "" || editarAnotacao == false ?
-                                              Container():
-                                              FloatingActionButton(
-                                                  onPressed:idCondominioAnt == "" ? null : (){
-                                                    FirebaseFirestore.instance.collection('Condominios').doc(idCondominioAnt).update({
-                                                      "Aviso": anotacao,
-                                                    }).whenComplete(() {
-                                                      showToast("Anotação salva com sucesso!",context:context);
-                                                    });
-                                                  },
-                                                  backgroundColor: colorBtnFab,
-                                                  child: Icon(
-                                                      Icons.done,
-                                                      color: textColor
-                                                  )
+                                              Container(
+                                                width: wid / 4,
+                                                height: heig / 3.3,
+                                                padding: const EdgeInsets.all(10),
+                                                alignment: Alignment.bottomRight,
+                                                child:  idCondominioAnt == "" || editarAnotacao == false ?
+                                                Container():
+                                                FloatingActionButton(
+                                                    onPressed:idCondominioAnt == "" ? null : (){
+                                                      FirebaseFirestore.instance.collection('Condominios').doc(idCondominioAnt).update({
+                                                        "Aviso": anotacao,
+                                                      }).whenComplete(() {
+                                                        showToast("Anotação salva com sucesso!",context:context);
+                                                      });
+                                                    },
+                                                    backgroundColor: colorBtnFab,
+                                                    child: Icon(
+                                                        Icons.done,
+                                                        color: textColor
+                                                    )
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  }),
                                 ],
                               ),
                             ),
@@ -5661,143 +5663,148 @@ class _homeAppState extends State<homeApp>{
                                                         builder: (BuildContext context) {
                                                           return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
                                                             return AlertDialog(
-                                                              title: const Text('Notas do apartamento'),
-                                                              actions: [
-                                                                Center(
-                                                                  child: Column(
-                                                                    children: [
-                                                                      Center(
-                                                                        child: Container(
-                                                                          padding: const EdgeInsets.all(16),
-                                                                          child: TextField(
-                                                                            keyboardType: TextInputType.emailAddress,
-                                                                            enableSuggestions: false,
-                                                                            autocorrect: false,
-                                                                            onChanged: (value){
-                                                                              setStater(() {
-                                                                                anotacaoAP = value;
-                                                                              });
-                                                                            },
-                                                                            decoration: InputDecoration(
-                                                                              filled: true,
-                                                                              fillColor: Colors.white,
-                                                                              labelStyle: TextStyle(
-                                                                                  color: textAlertDialogColor,
-                                                                                  backgroundColor: Colors.white
-                                                                              ),
-                                                                              border: const OutlineInputBorder(),
-                                                                              enabledBorder: const OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                              ),
-                                                                              focusedBorder: const OutlineInputBorder(
-                                                                                borderSide: BorderSide(
-                                                                                    width: 3,
-                                                                                    color: Colors.black
+                                                              scrollable: true,
+                                                              title: Column(
+                                                                children: [
+                                                                  const Text('Notas do apartamento'),
+                                                                  Center(
+                                                                    child: Column(
+                                                                      children: [
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.multiline,
+                                                                              enableSuggestions: true,
+                                                                              autocorrect: true,
+                                                                              minLines: 5,
+                                                                              maxLines: null,
+                                                                              onChanged: (value){
+                                                                                setStater(() {
+                                                                                  anotacaoAP = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                labelStyle: TextStyle(
+                                                                                    color: textAlertDialogColor,
+                                                                                    backgroundColor: Colors.white
                                                                                 ),
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Anotação',
                                                                               ),
-                                                                              labelText: 'Anotação',
-                                                                            ),
-                                                                            style: TextStyle(
-                                                                                color: textAlertDialogColor
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                      Center(
-                                                                        child: Container(
-                                                                          padding: const EdgeInsets.all(16),
-                                                                          child: TextField(
-                                                                            keyboardType: TextInputType.emailAddress,
-                                                                            enableSuggestions: false,
-                                                                            autocorrect: false,
-                                                                            onChanged: (value){
-                                                                              setStater(() {
-                                                                                unidadeAP = value;
-                                                                              });
-                                                                            },
-                                                                            decoration: InputDecoration(
-                                                                              filled: true,
-                                                                              fillColor: Colors.white,
-                                                                              labelStyle: TextStyle(
-                                                                                  color: textAlertDialogColor,
-                                                                                  backgroundColor: Colors.white
-                                                                              ),
-                                                                              border: const OutlineInputBorder(),
-                                                                              enabledBorder: const OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                              ),
-                                                                              focusedBorder: const OutlineInputBorder(
-                                                                                borderSide: BorderSide(
-                                                                                    width: 3,
-                                                                                    color: Colors.black
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setStater(() {
+                                                                                  unidadeAP = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                labelStyle: TextStyle(
+                                                                                    color: textAlertDialogColor,
+                                                                                    backgroundColor: Colors.white
                                                                                 ),
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Unidade',
                                                                               ),
-                                                                              labelText: 'Unidade',
-                                                                            ),
-                                                                            style: TextStyle(
-                                                                                color: textAlertDialogColor
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                      Center(
-                                                                        child: Container(
-                                                                          padding: const EdgeInsets.all(16),
-                                                                          child: TextField(
-                                                                            keyboardType: TextInputType.emailAddress,
-                                                                            enableSuggestions: false,
-                                                                            autocorrect: false,
-                                                                            onChanged: (value){
-                                                                              setStater(() {
-                                                                                blocoAP = value;
-                                                                              });
-                                                                            },
-                                                                            decoration: InputDecoration(
-                                                                              filled: true,
-                                                                              fillColor: Colors.white,
-                                                                              labelStyle: TextStyle(
-                                                                                  color: textAlertDialogColor,
-                                                                                  backgroundColor: Colors.white
-                                                                              ),
-                                                                              border: const OutlineInputBorder(),
-                                                                              enabledBorder: const OutlineInputBorder(
-                                                                                borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-                                                                              ),
-                                                                              focusedBorder: const OutlineInputBorder(
-                                                                                borderSide: BorderSide(
-                                                                                    width: 3,
-                                                                                    color: Colors.black
+                                                                        Center(
+                                                                          child: Container(
+                                                                            padding: const EdgeInsets.all(16),
+                                                                            child: TextField(
+                                                                              keyboardType: TextInputType.emailAddress,
+                                                                              enableSuggestions: false,
+                                                                              autocorrect: false,
+                                                                              onChanged: (value){
+                                                                                setStater(() {
+                                                                                  blocoAP = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                filled: true,
+                                                                                fillColor: Colors.white,
+                                                                                labelStyle: TextStyle(
+                                                                                    color: textAlertDialogColor,
+                                                                                    backgroundColor: Colors.white
                                                                                 ),
+                                                                                border: const OutlineInputBorder(),
+                                                                                enabledBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+                                                                                ),
+                                                                                focusedBorder: const OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                      width: 3,
+                                                                                      color: Colors.black
+                                                                                  ),
+                                                                                ),
+                                                                                labelText: 'Bloco',
                                                                               ),
-                                                                              labelText: 'Bloco',
-                                                                            ),
-                                                                            style: TextStyle(
-                                                                                color: textAlertDialogColor
+                                                                              style: TextStyle(
+                                                                                  color: textAlertDialogColor
+                                                                              ),
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                      ElevatedButton(
-                                                                      onPressed: (){
-                                                                        String uid = uuid.v4();
-                                                                        FirebaseFirestore.instance.collection('notasAP').doc(uid).set({
-                                                                          "id": uid,
-                                                                          "idCondominio": idCondominio,
-                                                                          'nota': anotacaoAP,
-                                                                          'unidade': unidadeAP,
-                                                                          'bloco': blocoAP,
-                                                                          "tempo": DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.now())
-                                                                        }).whenComplete((){
-                                                                          showToast("Pronto!",context:context);
-                                                                          Navigator.pop(context);
-                                                                        });
-                                                                      },
-                                                                      child: const Text('Salvar'),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                )
-                                                              ],
+                                                                        ElevatedButton(
+                                                                          onPressed: (){
+                                                                            String uid = uuid.v4();
+                                                                            FirebaseFirestore.instance.collection('notasAP').doc(uid).set({
+                                                                              "id": uid,
+                                                                              "idCondominio": idCondominio,
+                                                                              'nota': anotacaoAP,
+                                                                              'unidade': unidadeAP,
+                                                                              'bloco': blocoAP,
+                                                                              "tempo": DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.now())
+                                                                            }).whenComplete((){
+                                                                              showToast("Pronto!",context:context);
+                                                                              Navigator.pop(context);
+                                                                            });
+                                                                          },
+                                                                          child: const Text('Salvar'),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
                                                             );
                                                           },
                                                           );
