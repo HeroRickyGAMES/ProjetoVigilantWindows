@@ -5838,7 +5838,7 @@ class _homeAppState extends State<homeApp>{
                                                     .collection("Pessoas")
                                                     .where("idCondominio", isEqualTo: idCondominio)
                                                     .where("Nome", isGreaterThanOrEqualTo: pesquisa2.toUpperCase())
-                                                    .where("Nome", isLessThan: "${pesquisa2.toUpperCase()}z")
+                                                    .where("Nome", isLessThanOrEqualTo: "${pesquisa2.toUpperCase()}z")
                                                     .orderBy("Nome", descending: false)
                                                     .snapshots():
                                                 pesquisaCPF == true ?
@@ -5851,12 +5851,14 @@ class _homeAppState extends State<homeApp>{
                                                 pesquisaUnid == true ?
                                                 FirebaseFirestore.instance
                                                     .collection("Pessoas")
+                                                    .where("idCondominio", isEqualTo: idCondominio)
                                                     .where("Unidade", isEqualTo: pesquisa2.toUpperCase())
                                                     .orderBy("Nome", descending: false)
                                                     .snapshots():
                                                 pesquisaBloc == true ?
                                                 FirebaseFirestore.instance
                                                     .collection("Pessoas")
+                                                    .where("idCondominio", isEqualTo: idCondominio)
                                                     .where("Bloco", isEqualTo: pesquisa2.toUpperCase())
                                                     .orderBy("Nome", descending: false)
                                                     .snapshots():
@@ -7043,7 +7045,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                   QuerySnapshot snapshotNome = await FirebaseFirestore.instance.collection("Pessoas")
                                                                                                       .where("idCondominio", isEqualTo: idCondominio)
                                                                                                       .where("Nome", isGreaterThanOrEqualTo: pesquisa2.toUpperCase())
-                                                                                                      .where("Nome", isLessThan: "${pesquisa2.toUpperCase()}z")
+                                                                                                      .where("Nome", isLessThanOrEqualTo: "${pesquisa2.toUpperCase()}z")
                                                                                                       .get();
 
                                                                                                   if(snapshotNome.docs.isNotEmpty){
@@ -7139,7 +7141,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                 QuerySnapshot snapshotCPF = await FirebaseFirestore.instance.collection("Pessoas")
                                                                                                     .where("idCondominio", isEqualTo: idCondominio)
                                                                                                     .where("CPF", isGreaterThanOrEqualTo: pesquisa2.toUpperCase())
-                                                                                                    .where("CPF", isLessThan: "${pesquisa2.toUpperCase()}z")
+                                                                                                    .where("CPF", isLessThanOrEqualTo: "${pesquisa2.toUpperCase()}z")
                                                                                                     .get();
 
                                                                                                 if(snapshotCPF.docs.isNotEmpty){
@@ -7236,7 +7238,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                 QuerySnapshot snapshotCPF = await FirebaseFirestore.instance.collection("Pessoas")
                                                                                                     .where("idCondominio", isEqualTo: idCondominio)
                                                                                                     .where("Unidade", isGreaterThanOrEqualTo: pesquisa2.toUpperCase())
-                                                                                                    .where("Unidade", isLessThan: "${pesquisa2.toUpperCase()}z")
+                                                                                                    .where("Unidade", isLessThanOrEqualTo: "${pesquisa2.toUpperCase()}z")
                                                                                                     .get();
 
                                                                                                 if(snapshotCPF.docs.isNotEmpty){
@@ -7332,7 +7334,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                 QuerySnapshot snapshotCPF = await FirebaseFirestore.instance.collection("Pessoas")
                                                                                                     .where("idCondominio", isEqualTo: idCondominio)
                                                                                                     .where("Bloco", isGreaterThanOrEqualTo: pesquisa2.toUpperCase())
-                                                                                                    .where("Bloco", isLessThan: "${pesquisa2.toUpperCase()}z")
+                                                                                                    .where("Bloco", isLessThanOrEqualTo: "${pesquisa2.toUpperCase()}z")
                                                                                                     .get();
 
                                                                                                 if(snapshotCPF.docs.isNotEmpty){
@@ -8512,7 +8514,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                 .collection("Controles")
                                                                                                                 .where("idCondominio", isEqualTo: idCondominio)
                                                                                                                 .where("Identificacao", isGreaterThanOrEqualTo: pesquisa6)
-                                                                                                                .where("Identificacao", isLessThan: "${pesquisa6}z")
+                                                                                                                .where("Identificacao", isLessThanOrEqualTo: "${pesquisa6}z")
                                                                                                                 .get();
 
                                                                                                             if(snapshotNome.docs.isNotEmpty){
@@ -8555,7 +8557,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                         .collection('Controles')
                                                                                                         .where("idCondominio", isEqualTo: idCondominio)
                                                                                                         .where("Identificacao", isGreaterThanOrEqualTo: pesquisa3)
-                                                                                                        .where("Identificacao", isLessThan: "${pesquisa3}z")
+                                                                                                        .where("Identificacao", isLessThanOrEqualTo: "${pesquisa3}z")
                                                                                                         .snapshots():
                                                                                                     FirebaseFirestore.instance
                                                                                                         .collection('Controles')
@@ -11097,7 +11099,7 @@ class _homeAppState extends State<homeApp>{
                                                                     .collection("Visitantes")
                                                                     .where("idCondominio", isEqualTo: idCondominio)
                                                                     .where("Nome", isGreaterThanOrEqualTo: pesquisa7)
-                                                                    .where("Nome", isLessThan: "${pesquisa7}z")
+                                                                    .where("Nome", isLessThanOrEqualTo: "${pesquisa7}z")
                                                                     .get();
 
                                                                 if(snapshotNome.docs.isNotEmpty){
@@ -11121,7 +11123,7 @@ class _homeAppState extends State<homeApp>{
                                                                     .collection("Visitantes")
                                                                     .where("idCondominio", isEqualTo: idCondominio)
                                                                     .where("CPFVist", isGreaterThanOrEqualTo: pesquisa8)
-                                                                    .where("CPFVist", isLessThan: "${pesquisa8}9")
+                                                                    .where("CPFVist", isLessThanOrEqualTo: "${pesquisa8}9")
                                                                     .get();
 
                                                                 if(snapshotCPF.docs.isNotEmpty){
@@ -11156,7 +11158,7 @@ class _homeAppState extends State<homeApp>{
                                                           .collection("Visitantes")
                                                           .where("idCondominio", isEqualTo: idCondominio)
                                                           .where("Nome", isGreaterThanOrEqualTo: pesquisa7.toUpperCase())
-                                                          .where("Nome", isLessThan: "${pesquisa7.toUpperCase()}z")
+                                                          .where("Nome", isLessThanOrEqualTo: "${pesquisa7.toUpperCase()}z")
                                                           .orderBy("Nome", descending: false)
                                                           .snapshots() :
                                                       pesquisando8 == true?
@@ -11164,21 +11166,21 @@ class _homeAppState extends State<homeApp>{
                                                           .collection("Visitantes")
                                                           .where("idCondominio", isEqualTo: idCondominio)
                                                           .where("CPFVist", isGreaterThanOrEqualTo: pesquisa8.toUpperCase())
-                                                          .where("CPFVist", isLessThan: "${pesquisa8.toUpperCase()}9")
+                                                          .where("CPFVist", isLessThanOrEqualTo: "${pesquisa8.toUpperCase()}9")
                                                           .orderBy("Nome", descending: false)
                                                           .snapshots():
                                                       pesquisando9 == true ? FirebaseFirestore.instance
                                                           .collection("Visitantes")
                                                           .where("idCondominio", isEqualTo: idCondominio)
                                                           .where("Unidade", isGreaterThanOrEqualTo: pesquisa9.toUpperCase())
-                                                          .where("Unidade", isLessThan: "${pesquisa9.toUpperCase()}9")
+                                                          .where("Unidade", isLessThanOrEqualTo: "${pesquisa9.toUpperCase()}9")
                                                           .orderBy("Nome", descending: false)
                                                           .snapshots():
                                                       pesquisando10 == true ? FirebaseFirestore.instance
                                                           .collection("Visitantes")
                                                           .where("idCondominio", isEqualTo: idCondominio)
                                                           .where("Placa", isGreaterThanOrEqualTo: pesquisa10.toUpperCase())
-                                                          .where("Placa", isLessThan: "${pesquisa10.toUpperCase()}z")
+                                                          .where("Placa", isLessThanOrEqualTo: "${pesquisa10.toUpperCase()}z")
                                                           .orderBy("Nome", descending: false)
                                                           .snapshots():
                                                       FirebaseFirestore.instance
@@ -12048,26 +12050,26 @@ class _homeAppState extends State<homeApp>{
                                                               .collection("Veiculos")
                                                               .where("idCondominio", isEqualTo: idCondominio)
                                                               .where("Unidade", isGreaterThanOrEqualTo: pesquisa3.toUpperCase())
-                                                              .where("Unidade", isLessThan: "${pesquisa3.toUpperCase()}9")
+                                                              .where("Unidade", isLessThanOrEqualTo: "${pesquisa3.toUpperCase()}9")
                                                               .snapshots() :
                                                           pesquisando4 == true ?
                                                           FirebaseFirestore.instance
                                                               .collection("Veiculos")
                                                               .where("idCondominio", isEqualTo: idCondominio)
                                                               .where("blocoV", isGreaterThanOrEqualTo: pesquisa3.toUpperCase())
-                                                              .where("blocoV", isLessThan: "${pesquisa3.toUpperCase()}z")
+                                                              .where("blocoV", isLessThanOrEqualTo: "${pesquisa3.toUpperCase()}z")
                                                               .snapshots() :
                                                           pesquisando5 == true ? FirebaseFirestore.instance
                                                               .collection("Veiculos")
                                                               .where("idCondominio", isEqualTo: idCondominio)
                                                               .where("IdentificacaoModeloV", isGreaterThanOrEqualTo: pesquisa3.toUpperCase())
-                                                              .where("IdentificacaoModeloV", isLessThan: "${pesquisa3.toUpperCase()}z")
+                                                              .where("IdentificacaoModeloV", isLessThanOrEqualTo: "${pesquisa3.toUpperCase()}z")
                                                               .snapshots():
                                                           pesquisando6 == true ? FirebaseFirestore.instance
                                                               .collection("Veiculos")
                                                               .where("idCondominio", isEqualTo: idCondominio)
                                                               .where("PlacaV", isGreaterThanOrEqualTo: pesquisa3.toUpperCase())
-                                                              .where("PlacaV", isLessThan: "${pesquisa3.toUpperCase()}z")
+                                                              .where("PlacaV", isLessThanOrEqualTo: "${pesquisa3.toUpperCase()}z")
                                                               .snapshots():
                                                           FirebaseFirestore.instance
                                                               .collection("Veiculos")
@@ -12229,7 +12231,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       .collection("Veiculos")
                                                                                       .where("idCondominio", isEqualTo: idCondominio)
                                                                                       .where("PlacaV", isGreaterThanOrEqualTo: pesquisa3)
-                                                                                      .where("PlacaV", isLessThan: "${pesquisa3}z")
+                                                                                      .where("PlacaV", isLessThanOrEqualTo: "${pesquisa3}z")
                                                                                       .get();
 
                                                                                   if(snapshotNome.docs.isNotEmpty){
@@ -12326,7 +12328,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       .collection("Veiculos")
                                                                                       .where("idCondominio", isEqualTo: idCondominio)
                                                                                       .where("blocoV", isGreaterThanOrEqualTo: pesquisa3)
-                                                                                      .where("blocoV", isLessThan: "${pesquisa3}z")
+                                                                                      .where("blocoV", isLessThanOrEqualTo: "${pesquisa3}z")
                                                                                       .get();
 
                                                                                   if(snapshotNome.docs.isNotEmpty){
@@ -12428,7 +12430,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       .collection("Veiculos")
                                                                                       .where("idCondominio", isEqualTo: idCondominio)
                                                                                       .where("Unidade", isGreaterThanOrEqualTo: pesquisa3)
-                                                                                      .where("Unidade", isLessThan: "${pesquisa3}z")
+                                                                                      .where("Unidade", isLessThanOrEqualTo: "${pesquisa3}z")
                                                                                       .get();
 
                                                                                   if(snapshotNome.docs.isNotEmpty){
