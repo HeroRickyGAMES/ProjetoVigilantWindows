@@ -2444,6 +2444,7 @@ class _homeAppState extends State<homeApp>{
                                                     stream: FirebaseFirestore.instance
                                                         .collection('acionamentos')
                                                         .where("idCondominio", isEqualTo: idCondominio)
+                                                        .orderBy("nome", descending: false)
                                                         .snapshots(),
                                                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                                       if (snapshot.hasError) {
@@ -2596,6 +2597,7 @@ class _homeAppState extends State<homeApp>{
                                                                                       "assets/door.png",
                                                                                       "assets/garagem.png",
                                                                                     ];
+
                                                                                     var dropValue3 = ValueNotifier(modeloselecionado);
 
                                                                                     String receptorSelecionado = documents["receptor"];
@@ -5843,22 +5845,19 @@ class _homeAppState extends State<homeApp>{
                                                 FirebaseFirestore.instance
                                                     .collection("Pessoas")
                                                     .where("idCondominio", isEqualTo: idCondominio)
-                                                    .where("CPF", isGreaterThanOrEqualTo: pesquisa2.toUpperCase())
-                                                    .where("CPF", isLessThan: "${pesquisa2.toUpperCase()}z")
+                                                    .where("CPF", isEqualTo: pesquisa2.toUpperCase())
                                                     .orderBy("Nome", descending: false)
                                                     .snapshots():
                                                 pesquisaUnid == true ?
                                                 FirebaseFirestore.instance
                                                     .collection("Pessoas")
-                                                    .where("Unidade", isGreaterThanOrEqualTo: pesquisa2.toUpperCase())
-                                                    .where("Unidade", isLessThan: "${pesquisa2.toUpperCase()}z")
+                                                    .where("Unidade", isEqualTo: pesquisa2.toUpperCase())
                                                     .orderBy("Nome", descending: false)
                                                     .snapshots():
                                                 pesquisaBloc == true ?
                                                 FirebaseFirestore.instance
                                                     .collection("Pessoas")
-                                                    .where("Bloco", isGreaterThanOrEqualTo: pesquisa2.toUpperCase())
-                                                    .where("Bloco", isLessThan: "${pesquisa2.toUpperCase()}z")
+                                                    .where("Bloco", isEqualTo: pesquisa2.toUpperCase())
                                                     .orderBy("Nome", descending: false)
                                                     .snapshots():
                                                 FirebaseFirestore.instance
@@ -7826,6 +7825,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                         .collection('acionamentos')
                                                                                                                         .where("idCondominio", isEqualTo: idCondominio)
                                                                                                                         .where("modelo", isEqualTo: "Modulo Guarita (Nice)")
+                                                                                                                        .orderBy("nome", descending: false)
                                                                                                                         .snapshots(),
                                                                                                                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                                                                                                       if (snapshot.hasError) {
@@ -9616,6 +9616,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                                   .collection('acionamentos')
                                                                                                                   .where("idCondominio", isEqualTo: idCondominio)
                                                                                                                   .where("modelo", whereIn: ["Control iD", "Hikvision"])
+                                                                                                                  .orderBy("nome", descending: false)
                                                                                                                   .get();
 
                                                                                                               for (var doc in querySnapshot.docs) {
@@ -9656,6 +9657,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                               .collection('acionamentos')
                                                                                                               .where("idCondominio", isEqualTo: idCondominio)
                                                                                                               .where("modelo", whereIn: ["Control iD", "Hikvision"])
+                                                                                                              .orderBy("nome", descending: false)
                                                                                                               .snapshots(),
                                                                                                           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                                                                                             if (snapshot.hasError) {
@@ -9897,6 +9899,7 @@ class _homeAppState extends State<homeApp>{
                                                                                                               .collection('acionamentos')
                                                                                                               .where("idCondominio", isEqualTo: idCondominio)
                                                                                                               .where("modelo", whereIn: ["Control iD", "Hikvision", "Intelbras"])
+                                                                                                              .orderBy("nome", descending: false)
                                                                                                               .snapshots(),
                                                                                                           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                                                                                             if (snapshot.hasError) {
@@ -10748,6 +10751,7 @@ class _homeAppState extends State<homeApp>{
                                                                                   .collection('acionamentos')
                                                                                   .where("idCondominio", isEqualTo: idCondominio)
                                                                                   .where("modelo", isEqualTo: modeloPikado)
+                                                                                  .orderBy("nome", descending: false)
                                                                                   .snapshots(),
                                                                               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                                                                 if (snapshot.hasError) {
